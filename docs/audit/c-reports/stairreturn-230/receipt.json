@@ -1,0 +1,174 @@
+{
+  "cbug": "stairreturn-230",
+  "issue": 230,
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "db0d342ecf9fae2e129740d50d3bb42498f7ac0e",
+  "fixtures_ref": "484c534d59c47a4a84273b7651b0c483cf8b5b67",
+  "cases": {
+    "before": {
+      "stairs-dead-torch": {
+        "exit": 0,
+        "passed": false,
+        "setup": {
+          "torchtimeout": 0,
+          "onstairs": 1
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 1
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 1,
+          "stairkey": 1
+        },
+        "sequence": "<"
+      },
+      "lit": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 2000,
+          "onstairs": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "stairkey": 0
+        },
+        "sequence": ""
+      },
+      "dead-no-stairs": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 0,
+          "onstairs": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "stairkey": 0
+        },
+        "sequence": ""
+      }
+    },
+    "after": {
+      "stairs-dead-torch": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 0,
+          "onstairs": 1
+        },
+        "decision": {
+          "acted": 1,
+          "keys": 1
+        },
+        "outcome": {
+          "acted": 1,
+          "keys": 1,
+          "stairkey": 1
+        },
+        "sequence": "<"
+      },
+      "lit": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 2000,
+          "onstairs": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "stairkey": 0
+        },
+        "sequence": ""
+      },
+      "dead-no-stairs": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 0,
+          "onstairs": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "stairkey": 0
+        },
+        "sequence": ""
+      }
+    }
+  },
+  "identical_full_logs": [
+    "lit",
+    "dead-no-stairs"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fail_before": {
+    "stairs-dead-torch": "scenario asserts the corrected report; the original queues '<' while reporting nothing done (acted=0) and fails the suite"
+  },
+  "controls": "lit and dead-no-stairs full logs byte-identical before/after",
+  "fixture_interventions": "spare torches and the recall scroll zeroed out of the pack so the wear-stuff and recall branches have nothing to act on; the worn torch's timeout set per situation",
+  "render_check": {
+    "tool": "Chrome for Testing headless (--headless=new --dump-dom --virtual-time-budget)",
+    "checks": 15,
+    "asserted_against": "rendered DOM per scenario: explanation, both routine reports, raw logs; plus node --check on the generated replay script"
+  },
+  "compiler": "gcc 15.2.0",
+  "cmake": "4.2.3",
+  "browser": "Chrome for Testing chromium-1248",
+  "sha256": {
+    "README.md": "57ab7a396472690db0298b0b732e5a3df204d62f4440540a44f24268defca78c",
+    "after-alltests.log": "8ded5b95a9f4f0963c00ffdc0636422091bc00e34b4e383481d792154ea99dff",
+    "after-build.log": "c3d7fff8cc66329b0d7810c2605218d75b321a59fcb8c3777c26f71db2ca6421",
+    "after-dead-no-stairs.log": "5bf2d437cc558573d85f3d0f7a8e958013c3e636eb7f0daf892e825c1ca413fc",
+    "after-lit.log": "bee0cf489d2150f7dab5ec4712ea7ecbba9198bbd81a6971789dfa91c8e34c56",
+    "after-results.json": "51b16dc2ff613dfe272e12aa375bc317fdac350873c72fb130298d3cdb9d8e82",
+    "after-scenarios.log": "61fcf945a0ccf8151f004eed487b32521f96cf4b1e415275da581dfff8843430",
+    "after-stairs-dead-torch.log": "e95cd777e31821b9662361eb1d879c1699135c27064be8d73aa51ace0e5e9263",
+    "before-alltests.log": "168520af42be21d576bc5125f5a34bf4facfe39f7d23e4404b327220e2b4c264",
+    "before-build.log": "a1cc2dc490f794561cd2233b41e3aea2f72753724e2368aa8910529d2cbdefb7",
+    "before-dead-no-stairs.log": "5bf2d437cc558573d85f3d0f7a8e958013c3e636eb7f0daf892e825c1ca413fc",
+    "before-lit.log": "bee0cf489d2150f7dab5ec4712ea7ecbba9198bbd81a6971789dfa91c8e34c56",
+    "before-results.json": "bf344fe17e73c5d35d7c23e74e606cb03b6eebc9da1e6b14daabc7b353bc06d0",
+    "before-scenarios.log": "216c83e0cb22825b4fe736befba9ce6d4bf82b9d777419dcbbe17c5a89e9be47",
+    "before-stairs-dead-torch.log": "57f969101514a96c70e0694b6981d5e5fec1327a125250f97bc0809a30b2be6b",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "configure.log": "0aea2d40bac483d63e94a301683dc3bf0e571b8ff783db6eb8741519ad8aa7ef",
+    "make_replay.py": "3d20ffec81327940d5ff68351bad1cece36703022a9674f50d981d0ab5a81e71",
+    "replay-data.json": "fc154aa927ad9995fb8af09832e93f4e5d729cea55e161effda8adc510d28676",
+    "replay.html": "88978093f3ecc796a1c974d0b7d42446c58545da3b57316f728a8ddcaf359d04",
+    "reproduce.py": "e9f5b9b85b62540e60c4c7a9021851de0d3324d2ad3fabe241766ba280631d93",
+    "result.json": "9748d6015081861d181ff6f20851e58231bd2d05676b516b4d6a79e8a18b951b",
+    "run-cases.py": "d6db0dc7d1c7b5eed41dabaf38a1d1aa80b3f195df14c2096975f193b3e8a42f",
+    "scenario.c": "4652253c1fcc1932a6b2457c5fe60aa0aec47f1bfe81a3130d7fb04bc54e45b7"
+  }
+}
