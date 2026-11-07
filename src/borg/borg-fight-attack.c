@@ -89,7 +89,7 @@ int borg_mon_blow_effect(const char *name)
         { "EXP_80", MONBLOW_EXP_80 }, { "HALLU", MONBLOW_HALLU },
         { "BLACK_BREATH", MONBLOW_BLACK_BREATH }, { NULL, MONBLOW_NONE } };
     unsigned long i;
-    for (i = 0; i < sizeof(monblow) / sizeof(monblow[0]); ++i)
+    for (i = 0; i + 1 < sizeof(monblow) / sizeof(monblow[0]); ++i)
         if (!strcmp(name, monblow[i].name))
             return monblow[i].val;
     return MONBLOW_NONE;
