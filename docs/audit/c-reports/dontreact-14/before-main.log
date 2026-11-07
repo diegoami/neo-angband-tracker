@@ -1,0 +1,10 @@
+native-c/dontreact-14: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior
+  knockout_flag_clears_on_pump  STATE after_baseline=1
+STATE after_ko=1
+STATE after_recovery=1
+OUTCOME recovered=0
+Failed
+    native-c/dontreact-14:83: requirement 'after_recovery > after_ko' failed
+native-c/dontreact-14 finished: 0/1 passed
