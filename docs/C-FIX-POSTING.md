@@ -15,6 +15,13 @@ slug, `docs/audit/c-reports/<slug>-<issue>/`): `staletarget-322` (full-game
 arena fixture: warrior, `borg_update` entrypoint, keypress drain) and
 `vampire-257` (`borg_attack(false)` acting mode with `known_item()`).
 
+When an upstream-side change lands after posting (an adopted review shape,
+a re-pinned evidence head, an upstream merge), the posting work is not
+done at the source push: every duplicate section, pinned blob link, CI
+snapshot and drafted upstream reply must be re-pinned too. That inventory
+is [C-UPSTREAM-CHANGE.md](C-UPSTREAM-CHANGE.md); run it before declaring
+the cycle done.
+
 ## 1. Branches
 
 - **Source branch** `task/c-borg-<slug>` from pristine `c-borg-reference`
