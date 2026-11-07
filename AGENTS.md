@@ -4,7 +4,13 @@ This session owns **diegoami/neo-angband-tracker**. Start here, then read [RULES
 [PLAN.md](PLAN.md), [session.json](session.json), [the session map](docs/SESSION.md)
 and the latest comments on [Neo engine checkpoint #25](https://github.com/diegoami/neo-angband-tracker/issues/25).
 Native C uses its separately owned [checkpoint #207](https://github.com/diegoami/neo-angband-tracker/issues/207)
-(`checkpoint` + `session:c`); do not select a lane by the generic checkpoint label alone:
+(`checkpoint` + `session:c`); do not select a lane by the generic checkpoint label alone.
+When an upstream-side change lands (adopted review shape, re-pinned evidence head,
+upstream merge), run the update inventory in the C lane's
+[C-UPSTREAM-CHANGE.md](.worktrees/angband-c/docs/C-UPSTREAM-CHANGE.md) — duplicated
+issue/PR sections, pinned blob links (short and long SHA forms), CI snapshots and
+drafted upstream replies all go stale, and a byte-identical replay hides the change
+unless its narration is updated too:
 
 ```sh
 git status --short
