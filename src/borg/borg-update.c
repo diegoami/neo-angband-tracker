@@ -2140,6 +2140,7 @@ void borg_update(void)
                 borg_detect_trap[y][x] = false;
                 borg_detect_door[y][x] = false;
                 borg_detect_evil[y][x] = false;
+                borg_detect_obj[y][x] = false;
             }
         }
 
