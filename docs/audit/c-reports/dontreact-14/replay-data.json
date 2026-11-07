@@ -1,0 +1,30 @@
+{
+  "main": {
+    "label": "Knockout, then recovery",
+    "explanation": "A Warrior is knocked out (\"You have been knocked out.\"), then recovers. The production pump clears the ignore flag. The original keeps ignoring all combat messages forever after the knockout: the recovery message queues nothing (buffer count stays 1). The corrected version, using the borg's own dont_react field (cleared by the pump, as upstream intended), resumes reacting: the recovery message queues (count 2).",
+    "before": {
+      "raw": "native-c/dontreact-14: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior\n  knockout_flag_clears_on_pump  STATE after_baseline=1\nSTATE after_ko=1\nSTATE after_recovery=1\nOUTCOME recovered=0\nFailed\n    native-c/dontreact-14:83: requirement 'after_recovery > after_ko' failed\nnative-c/dontreact-14 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "after_baseline": 1,
+        "after_ko": 1,
+        "after_recovery": 1
+      },
+      "outcome": {
+        "recovered": 0
+      }
+    },
+    "after": {
+      "raw": "native-c/dontreact-14: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior\n  knockout_flag_clears_on_pump  STATE after_baseline=1\nSTATE after_ko=1\nSTATE after_recovery=2\nOUTCOME recovered=1\nPassed\nnative-c/dontreact-14 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "after_baseline": 1,
+        "after_ko": 1,
+        "after_recovery": 2
+      },
+      "outcome": {
+        "recovered": 1
+      }
+    }
+  }
+}

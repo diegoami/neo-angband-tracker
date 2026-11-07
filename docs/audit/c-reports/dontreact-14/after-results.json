@@ -1,0 +1,14 @@
+{
+  "main": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "after_baseline": 1,
+      "after_ko": 1,
+      "after_recovery": 2
+    },
+    "outcome": {
+      "recovered": 1
+    }
+  }
+}

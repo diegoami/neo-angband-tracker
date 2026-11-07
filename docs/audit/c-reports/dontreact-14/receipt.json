@@ -1,0 +1,27 @@
+{
+  "issue": "diegoami/neo-angband-tracker#14",
+  "report": "dontreact-14",
+  "upstream_counterpart": "angband/angband#6808",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "13590ee6ea748c4bae8f6ed86df041efe810993a",
+  "fix_branch": "task/dontreact-14",
+  "fixtures_ref": "1006af0916d95a6ebd6c415326afd77f7d828d03",
+  "cases": {
+    "before": {"passed": false, "state": {"after_baseline": 1, "after_ko": 1, "after_recovery": 1}, "outcome": {"recovered": 0}},
+    "after": {"passed": true, "state": {"after_baseline": 1, "after_ko": 1, "after_recovery": 2}, "outcome": {"recovered": 1}}
+  },
+  "claim": "The original static knockout flag never clears, so the borg stays deaf after recovery (no message queued: 1). The corrected borg.dont_react field is cleared by the production pump, so reactions resume (2). During-knockout gating is identical in both versions.",
+  "full_tests": {
+    "before": {"unit_checks": "965/965", "frontend_tests": "5/5"},
+    "after": {"unit_checks": "965/965", "frontend_tests": "5/5"}
+  },
+  "fixed_sources": [
+    "src/borg/borg-messages-react.c",
+    "src/borg/borg-messages-react.h",
+    "src/borg/borg-messages.c",
+    "src/borg/borg-caution.c"
+  ],
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected rename applied; source scope must be exactly those four files.",
+  "render_check": "Chrome headless dump-dom: both cards render (Original 1, Corrected 2); no page errors.",
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+}
