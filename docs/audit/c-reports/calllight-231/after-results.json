@@ -1,0 +1,30 @@
+{
+  "own-open-door": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+      "ownglow_before": 0,
+      "isglow": 1
+    },
+    "state": {
+      "ownglow": 1
+    },
+    "outcome": {
+      "ownglow": 1
+    }
+  },
+  "floor": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+      "ownglow_before": 1,
+      "isglow": 1
+    },
+    "state": {
+      "ownglow": 1
+    },
+    "outcome": {
+      "ownglow": 1
+    }
+  }
+}

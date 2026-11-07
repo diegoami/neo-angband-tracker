@@ -1,0 +1,119 @@
+{
+  "cbug": "calllight-231",
+  "issue": 231,
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "cda4fb662cabee8a49fbdbcaf4383dc7be1fff1c",
+  "fixtures_ref": "f7058cd56f58938d68c37523816a99020efd8f75",
+  "cases": {
+    "before": {
+      "own-open-door": {
+        "exit": 0,
+        "passed": false,
+        "setup": {
+          "ownglow_before": 0,
+          "isglow": 1
+        },
+        "state": {
+          "ownglow": 0
+        },
+        "outcome": {
+          "ownglow": 0
+        }
+      },
+      "floor": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "ownglow_before": 1,
+          "isglow": 1
+        },
+        "state": {
+          "ownglow": 1
+        },
+        "outcome": {
+          "ownglow": 1
+        }
+      }
+    },
+    "after": {
+      "own-open-door": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "ownglow_before": 0,
+          "isglow": 1
+        },
+        "state": {
+          "ownglow": 1
+        },
+        "outcome": {
+          "ownglow": 1
+        }
+      },
+      "floor": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "ownglow_before": 1,
+          "isglow": 1
+        },
+        "state": {
+          "ownglow": 1
+        },
+        "outcome": {
+          "ownglow": 1
+        }
+      }
+    }
+  },
+  "identical_full_logs": [
+    "floor"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fail_before": {
+    "own-open-door": "scenario asserts the repaired mark; the original never visits the own grid (ownglow=0) and fails the suite"
+  },
+  "controls": "floor full logs byte-identical before/after",
+  "fixture_interventions": "own grid planted without BORG_GLOW (the repair state the door case exists for); spare torches and the recall scroll zeroed out of the pack so wear-stuff, refuel and recall branches do not act first; the worn torch set burned-out",
+  "render_check": {
+    "tool": "Chrome for Testing headless (--headless=new --dump-dom --virtual-time-budget)",
+    "checks": 10,
+    "asserted_against": "rendered DOM per scenario: explanation, both tracked marks, raw logs; plus node --check on the generated replay script"
+  },
+  "compiler": "gcc 15.2.0",
+  "cmake": "4.2.3",
+  "browser": "Chrome for Testing chromium-1248",
+  "sha256": {
+    "README.md": "98f88d072037def2e798dab57b51e6dab44b79356b35c9447408a6408a62a2ea",
+    "after-alltests.log": "4ec9afd833452cf282f5be4440998241cb99e02f09c71fb50d1da5cfe778adf1",
+    "after-build.log": "9c06caf64c7cfa1277328925edb456b9a58c8bc64c9043159767e173cee4ef5a",
+    "after-floor.log": "959f03341e6259b2d8a3ccaccd7911e45bf5eae219b59e79a6a4a766bad06e5a",
+    "after-own-open-door.log": "c0f583ec7ae41ec72d6d083530ec85c014752396d9abd4ac3b7b2d83f4f769bc",
+    "after-results.json": "23a8dd6dca320ffef0ea1186d6275aa8ed4c898142b72e0b5144ce47b959cce1",
+    "after-scenarios.log": "07408965e074a94747c32ebca3e80bc135fb07a4b3fd8e891f9f73c1c090b790",
+    "before-alltests.log": "b1c994e4b4a77072db66ff563f5c24ca11c504b32040d9f1c4b16b26994fd889",
+    "before-build.log": "f9a0df0fdf09364154271238dee829f7bb36db22e8e503a7fe9b5ecfb9212300",
+    "before-floor.log": "959f03341e6259b2d8a3ccaccd7911e45bf5eae219b59e79a6a4a766bad06e5a",
+    "before-own-open-door.log": "c3b5785da84c49957ad76d9d50644c8d38902a43bef4edf94ff6de2bcd43db56",
+    "before-results.json": "899a909fdd34818f4177c265a84caa8fd245309c309111ac1757ad1970239829",
+    "before-scenarios.log": "781383dde3dd556cafe0e1794c4e899bb69c3fa6562026c1787f81831140b9be",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "configure.log": "80e11a84705a9a7786ce04a328552f5518438e9d102e3665cfa64d6132410a81",
+    "make_replay.py": "7ae8bfc88f987bf3ddc2d48ebe9722ccf0630d667d987c159236d4aea45582de",
+    "replay-data.json": "3568fa0633c09b2e7f7d5d42ae9f25a7b10f3106d383a5cb7d7ac9feb55cabc3",
+    "replay.html": "c98c187a8e42d50e2743a52a71dc95405253a079b351f209eb2972d5b7cb9578",
+    "reproduce.py": "1def2339d70e79ca078069a250cd2f8fab45b12dee5cea93d4d0f3f79148b1bd",
+    "result.json": "4a3d1760753824f61fa21b6900261fb08b27e704f468aaccce65d2aae4942214",
+    "run-cases.py": "67d0c69a11b19396bcbc9aacf6a5cf7dd244de8418d75b9ee67147136c760ffa",
+    "scenario.c": "e665e5ba7526eebe58a11f3c0d3c51fca39bd0197df6bf43744669d3b5606831"
+  }
+}
