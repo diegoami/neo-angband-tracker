@@ -1,0 +1,89 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "3d104a8b82aafeb421869c62736c8046b6272d82",
+  "fixtures_ref": "55e00023674b9e7634713f2117b5c8c47802ca5f",
+  "cases": {
+    "before": {
+      "new-level": {
+        "exit": 0,
+        "passed": false,
+        "setup": {
+          "curdepth": 31,
+          "panels": 1
+        },
+        "state": {
+          "obj": 1,
+          "wall": 0
+        },
+        "outcome": {
+          "obj_cleared": 0,
+          "wall_cleared": 1
+        }
+      },
+      "same-level": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "curdepth": 30,
+          "panels": 1
+        },
+        "state": {
+          "obj": 1,
+          "wall": 1
+        },
+        "outcome": {
+          "obj_cleared": 0,
+          "wall_cleared": 0
+        }
+      }
+    },
+    "after": {
+      "new-level": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "curdepth": 31,
+          "panels": 1
+        },
+        "state": {
+          "obj": 0,
+          "wall": 0
+        },
+        "outcome": {
+          "obj_cleared": 1,
+          "wall_cleared": 1
+        }
+      },
+      "same-level": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "curdepth": 30,
+          "panels": 1
+        },
+        "state": {
+          "obj": 1,
+          "wall": 1
+        },
+        "outcome": {
+          "obj_cleared": 0,
+          "wall_cleared": 0
+        }
+      }
+    }
+  },
+  "identical_full_logs": [
+    "same-level"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": "598c93ff68e5215f95a5e968b85f51351663aba1c44aef786e2dc7295304e9b4"
+}

@@ -1,0 +1,127 @@
+{
+  "cbug": "detectcarry-219",
+  "issue": 219,
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "3d104a8b82aafeb421869c62736c8046b6272d82",
+  "fixtures_ref": "55e00023674b9e7634713f2117b5c8c47802ca5f",
+  "cases": {
+    "before": {
+      "new-level": {
+        "exit": 0,
+        "passed": false,
+        "setup": {
+          "curdepth": 31,
+          "panels": 1
+        },
+        "state": {
+          "obj": 1,
+          "wall": 0
+        },
+        "outcome": {
+          "obj_cleared": 0,
+          "wall_cleared": 1
+        }
+      },
+      "same-level": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "curdepth": 30,
+          "panels": 1
+        },
+        "state": {
+          "obj": 1,
+          "wall": 1
+        },
+        "outcome": {
+          "obj_cleared": 0,
+          "wall_cleared": 0
+        }
+      }
+    },
+    "after": {
+      "new-level": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "curdepth": 31,
+          "panels": 1
+        },
+        "state": {
+          "obj": 0,
+          "wall": 0
+        },
+        "outcome": {
+          "obj_cleared": 1,
+          "wall_cleared": 1
+        }
+      },
+      "same-level": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "curdepth": 30,
+          "panels": 1
+        },
+        "state": {
+          "obj": 1,
+          "wall": 1
+        },
+        "outcome": {
+          "obj_cleared": 0,
+          "wall_cleared": 0
+        }
+      }
+    }
+  },
+  "identical_full_logs": [
+    "same-level"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fail_before": {
+    "new-level": "scenario asserts the corrected clearing; the original keeps the object flag (obj=1) while the wall witness is cleared and fails the suite"
+  },
+  "controls": "same-level full logs byte-identical before/after",
+  "fixture_interventions": "borg_detect_obj[0][0] and borg_detect_wall[0][0] planted true before the pass, in the state a detect-objects cast on the previous level would have left",
+  "render_check": {
+    "tool": "Chrome for Testing headless (--headless=new --dump-dom --virtual-time-budget)",
+    "checks": 10,
+    "asserted_against": "rendered DOM per scenario: explanation, both tracked states, raw logs; plus node --check on the generated replay script"
+  },
+  "compiler": "gcc 15.2.0",
+  "cmake": "4.2.3",
+  "browser": "Chrome for Testing chromium-1248",
+  "sha256": {
+    "README.md": "26f49245909a129870a8b7b268efe5823345043e306f85e3b7300eecb3cd660a",
+    "after-alltests.log": "6ff81962637a27e59bd6baf286554da3c4455579546a1866a07ad9acccccdabb",
+    "after-build.log": "321b414be0e48b09e9d44b289685af4e7961232acaa83db0c816e12769ccc48f",
+    "after-new-level.log": "ae7af8e417197b6509ea146d98e1d636ac056591919c2ec2773d5e8b8a926359",
+    "after-results.json": "ce17d1319bb0c2073202ddd93d8d1b6e4231a38ea786d4fb7437f6550a4ef34b",
+    "after-same-level.log": "ddef0ee464561cc298e7e5cb1b8e261fb946c65f9763e65bee65a8356bc7d3a1",
+    "after-scenarios.log": "c72a06661ceee0175b4d9ff295ed01e7ee3965855414ed6506832fda9a3f3b84",
+    "before-alltests.log": "9003f12aff8745e7883219aaf7998bb6d614eb386d60ca0a2e73bb185c18294b",
+    "before-build.log": "797ec28d626d67cddc6ddfe77a7fdb9ce1f0046eb9adb5c7fb50f5de34967568",
+    "before-new-level.log": "736d3a8e1915c2b8a029e4cd8115f6f909ba5572238303e6887b2bd14c35eef8",
+    "before-results.json": "d93a042d462e3038804ec38e65572ee38a1c3c437748b59725f79c5ce874739f",
+    "before-same-level.log": "ddef0ee464561cc298e7e5cb1b8e261fb946c65f9763e65bee65a8356bc7d3a1",
+    "before-scenarios.log": "4446042eccd3ad3aa797a120d99969a6c65f423d51a1d6a96e4250652e82f79f",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "configure.log": "0f9473b2d3d9fd73b3a96e302d00f1f587eb258b523d4c06c46084717736a9df",
+    "make_replay.py": "712f0e82659a888f8f286c159773b50ac0e51389ed92eb4307ce41e5cc1ffd75",
+    "replay-data.json": "7c1c7b6ec9081200bff3a9a80cd70b9b2daa59fd7deddb824aad502b4011412e",
+    "replay.html": "3568d7e2b2591d848d53a6d33f7ceb78fa7c5a0ef5d37be08c061fbf88437d87",
+    "reproduce.py": "a380554dba8fd24cc37a5f06178afcdab184637f33faf4436627bf23f61aaa66",
+    "result.json": "aa75c7520667ca63fedceab4f4b74314461bdc79502fe7a43cff0cf68e86116f",
+    "run-cases.py": "d78e312d9e0b4fc69ba6d69c3ea18573aff89b65ab78686e141fdb53656792c6",
+    "scenario.c": "0eec01c09e09addfc43ff44a64e7baf6a738acf9dba26e0f0fc4950c53d81aaa"
+  }
+}
