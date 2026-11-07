@@ -191,6 +191,9 @@ bool borg_think_dungeon_light(void)
                 borg_note("# Testing for stairs .");
 
                 borg_keypress('<');
+
+                /* Done */
+                return true;
             }
         }
 
