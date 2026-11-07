@@ -249,8 +249,9 @@ bool borg_think_dungeon_light(void)
          */
         if (borg.time.call_light == 0
             || (borg_timer(borg.time.call_light) > 7)) {
-            /* Scan grids adjacent to me */
-            for (ii = 0; ii < 8; ii++) {
+            /* Scan the grids adjacent to me and my own grid (an open
+             * door underfoot is handled below) */
+            for (ii = 0; ii <= 8; ii++) {
                 x = borg.c.x + ddx_ddd[ii];
                 y = borg.c.y + ddy_ddd[ii];
 
