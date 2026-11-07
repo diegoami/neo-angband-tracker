@@ -1,0 +1,144 @@
+{
+  "cbug": "maimfoe-256",
+  "issue": 256,
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "91822d82ab394afc70d2640d1c2cc735af328056",
+  "fixtures_ref": "ea1443bd6a98d4dcbb40c7d7224d2ce224f3bbca",
+  "cases": {
+    "before": {
+      "wrong-return": {
+        "exit": 0,
+        "passed": false,
+        "setup": {
+          "power_maim": 6
+        },
+        "realcall": {
+          "value": 30
+        },
+        "outcome": {
+          "value": 30
+        }
+      },
+      "single": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "power_maim": 6
+        },
+        "realcall": {
+          "value": 234
+        },
+        "outcome": {
+          "value": 234
+        }
+      },
+      "none": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "power_maim": 6
+        },
+        "realcall": {
+          "value": 0
+        },
+        "outcome": {
+          "value": 0
+        }
+      }
+    },
+    "after": {
+      "wrong-return": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "power_maim": 6
+        },
+        "realcall": {
+          "value": 234
+        },
+        "outcome": {
+          "value": 234
+        }
+      },
+      "single": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "power_maim": 6
+        },
+        "realcall": {
+          "value": 234
+        },
+        "outcome": {
+          "value": 234
+        }
+      },
+      "none": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "power_maim": 6
+        },
+        "realcall": {
+          "value": 0
+        },
+        "outcome": {
+          "value": 0
+        }
+      }
+    }
+  },
+  "identical_full_logs": [
+    "single",
+    "none"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fail_before": {
+    "wrong-return": "scenario asserts the corrected score; the original returns the last monster's 30 and fails the suite"
+  },
+  "controls": "single and none full logs byte-identical before/after",
+  "consequence_note": "the chooser currently discards the real-path return; the measured wrongness is the reported score itself",
+  "render_check": {
+    "tool": "Chrome for Testing headless (--headless=new --dump-dom --virtual-time-budget)",
+    "checks": 15,
+    "asserted_against": "rendered DOM per scenario: explanation, both reported scores, raw logs; plus node --check on the generated replay script"
+  },
+  "compiler": "gcc 15.2.0",
+  "cmake": "4.2.3",
+  "browser": "Chrome for Testing chromium-1248",
+  "sha256": {
+    "README.md": "36abd7c82cdb90ff8f00f47f8b1ba14585761d6c6cfe8ff1612174bf4602b815",
+    "after-alltests.log": "6e8b11dab30899080b6f4b7241cce381286a23cbeb1e913a4cc21e61a3d5001f",
+    "after-build.log": "2b22f18b2b0d8f31f00c86a8dc80535d58b8f11e68aa63bdaca7862e4eb971f5",
+    "after-none.log": "f1318ad36b021b3bc54a852ce51728b529343d534817f79318b6afea50614fb9",
+    "after-results.json": "4cba5c837bf8ac4eed7c489e20bca24d41b402d9efd9b9a763e9fe41fcac13df",
+    "after-scenarios.log": "9658ee303a2b5131c6e0b4892dc8d8bd3bea12405ed59b90e6d927e03637bb8a",
+    "after-single.log": "26b4487c2af74b35329562a393d89bc8569876dbd8f91553ef92ee6074795761",
+    "after-wrong-return.log": "bb89a6ac40ff77dd5917c073fb4c08d34d1d64c3d5df0330824c4e617810d76a",
+    "before-alltests.log": "0417a9ec52fae135aad56900a9e4e06b51f0e4d18484b0ab39e6ad8072fd80af",
+    "before-build.log": "f63f52977e4dcc224439694b5ba8f3229e4865814e93fc2e0783136e74ecaee7",
+    "before-none.log": "f1318ad36b021b3bc54a852ce51728b529343d534817f79318b6afea50614fb9",
+    "before-results.json": "e7cb0969b9553754a358ca30ef6eb3bae887d4aaf44efe68b5046deba86a4c69",
+    "before-scenarios.log": "ae7358272884bc7836bbbb7cfd9207bc8558556fda8dc91af3b7ddd9e35a138c",
+    "before-single.log": "26b4487c2af74b35329562a393d89bc8569876dbd8f91553ef92ee6074795761",
+    "before-wrong-return.log": "9aa9be4fedebcc4fc045aee841f0f800bc724032b47232760c4c25cb10bb60aa",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "configure.log": "0755f1dcfea1b3061cdd07fb7d73281a80697f093e21b62f459c591ebc21e97a",
+    "make_replay.py": "cbc2eb432c1633de1d88a1f3fc0a9d76deb96c6bc7f0b73859a702d556d4933a",
+    "replay-data.json": "8aadc320368d612e4c7484cdbe34a9f772b548ac957aebce6be6f8d066814e93",
+    "replay.html": "9c280cafe691a058a66312759a5d17b4340b3242216b160e9081ba84a24c00de",
+    "reproduce.py": "03e61bcefb6c116ffd50da4c397912f52ef6d46a1c5ac7c4a872addaa274968a",
+    "result.json": "615d91a67c1164b3f18ab109fa43e0efed46e653dad8f8f8df2b7eacb5bfbe23",
+    "run-cases.py": "c8a92a8e4df09a07d7a5b68c139df5d322c6276d85b2e6e4cbd7b0a03fc889b0",
+    "scenario.c": "550d8618f2ed167f73eb8dde13bb97500db87f98ac0955ae3cd0794e720e7c39"
+  }
+}

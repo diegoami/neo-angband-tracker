@@ -1,0 +1,92 @@
+{
+  "wrong-return": {
+    "label": "Two adjacent monsters, the dangerous one examined first",
+    "explanation": "A level-30 Blackguard stands between an adjacent master lich (examined first, scoring 234 with the danger bonus) and an adjacent kobold (examined second, scoring 30). The chooser's real call re-runs the attack to execute it and reports the value; the original returns the last monster's 30, the correction returns the best one's 234.",
+    "before": {
+      "raw": "native-c/maimfoe-256: starting...\nSETUPSTEP profile\nSETUP lich kill=1 power=1699\nSETUP kobold kill=2 power=8\nSETUP blows=2 power_maim=6\nSETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125\n  maim_foe_returns_best_score  MODE wrong-return\nREALCALL value=30\nOUTCOME value=30\nFailed\n    native-c/maimfoe-256:171: requirement 'v >= 100' failed\nnative-c/maimfoe-256 finished: 0/1 passed\n",
+      "passed": false,
+      "setup": {
+        "power_maim": 6
+      },
+      "realcall": {
+        "value": 30
+      },
+      "outcome": {
+        "value": 30
+      }
+    },
+    "after": {
+      "raw": "native-c/maimfoe-256: starting...\nSETUPSTEP profile\nSETUP lich kill=1 power=1699\nSETUP kobold kill=2 power=8\nSETUP blows=2 power_maim=6\nSETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125\n  maim_foe_returns_best_score  MODE wrong-return\nREALCALL value=234\nOUTCOME value=234\nPassed\nnative-c/maimfoe-256 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "power_maim": 6
+      },
+      "realcall": {
+        "value": 234
+      },
+      "outcome": {
+        "value": 234
+      }
+    }
+  },
+  "single": {
+    "label": "Control: only the lich",
+    "explanation": "With one monster the last examined and the best are the same. The complete logs are byte-identical.",
+    "before": {
+      "raw": "native-c/maimfoe-256: starting...\nSETUPSTEP profile\nSETUP lich kill=1 power=1699\nSETUP blows=2 power_maim=6\nSETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125\n  maim_foe_returns_best_score  MODE single\nREALCALL value=234\nOUTCOME value=234\nPassed\nnative-c/maimfoe-256 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "power_maim": 6
+      },
+      "realcall": {
+        "value": 234
+      },
+      "outcome": {
+        "value": 234
+      }
+    },
+    "after": {
+      "raw": "native-c/maimfoe-256: starting...\nSETUPSTEP profile\nSETUP lich kill=1 power=1699\nSETUP blows=2 power_maim=6\nSETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125\n  maim_foe_returns_best_score  MODE single\nREALCALL value=234\nOUTCOME value=234\nPassed\nnative-c/maimfoe-256 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "power_maim": 6
+      },
+      "realcall": {
+        "value": 234
+      },
+      "outcome": {
+        "value": 234
+      }
+    }
+  },
+  "none": {
+    "label": "Control: nothing adjacent",
+    "explanation": "With no monsters both versions return nothing. The complete logs are byte-identical.",
+    "before": {
+      "raw": "native-c/maimfoe-256: starting...\nSETUPSTEP profile\nSETUP blows=2 power_maim=6\nSETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125\n  maim_foe_returns_best_score  MODE none\nREALCALL value=0\nOUTCOME value=0\nPassed\nnative-c/maimfoe-256 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "power_maim": 6
+      },
+      "realcall": {
+        "value": 0
+      },
+      "outcome": {
+        "value": 0
+      }
+    },
+    "after": {
+      "raw": "native-c/maimfoe-256: starting...\nSETUPSTEP profile\nSETUP blows=2 power_maim=6\nSETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125\n  maim_foe_returns_best_score  MODE none\nREALCALL value=0\nOUTCOME value=0\nPassed\nnative-c/maimfoe-256 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "power_maim": 6
+      },
+      "realcall": {
+        "value": 0
+      },
+      "outcome": {
+        "value": 0
+      }
+    }
+  }
+}
