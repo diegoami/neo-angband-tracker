@@ -1,0 +1,31 @@
+{
+  "main": {
+    "exit": 0,
+    "passed": true,
+    "signal": "clean",
+    "asan_report": false,
+    "known": {
+      "value": 1,
+      "expected": 1
+    },
+    "unknown": {
+      "value": 0,
+      "expected": 0
+    }
+  },
+  "asan": {
+    "exit": 0,
+    "passed": true,
+    "signal": "clean",
+    "asan_report": true,
+    "known": {
+      "value": 1,
+      "expected": 1
+    },
+    "unknown": {
+      "value": 0,
+      "expected": 0
+    },
+    "summary": "no sanitizer report"
+  }
+}

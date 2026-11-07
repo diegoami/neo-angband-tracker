@@ -1,0 +1,28 @@
+{
+  "main": {
+    "label": "An unknown blow name is looked up",
+    "explanation": "A modded blow_effects.txt can supply a blow name that is not in the Borg's lookup table. The lookup loop visits every table entry including the NULL end marker, so the original crashes (strcmp against NULL); the corrected loop stops before the marker and returns NONE. The in-table name HURT keeps resolving.",
+    "before": {
+      "raw": "native-c/blowname-247: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior\n  unknown_blow_name_returns_none  ",
+      "passed": false,
+      "exit": "clean",
+      "asan_crash": true,
+      "asan_snippet": "AddressSanitizer: heap-buffer-overflow on address 0x6fcf8fe9685f at pc 0x73af90ce9e38 bp 0x7ffc9bcb78e0 sp 0x7ffc9bcb7088"
+    },
+    "after": {
+      "raw": "native-c/blowname-247: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior\n  unknown_blow_name_returns_none  KNOWN value=1 expected=1\nUNKNOWN value=0 expected=0\nPassed\nnative-c/blowname-247 finished: 1/1 passed\n",
+      "passed": true,
+      "exit": "clean",
+      "known": {
+        "value": 1,
+        "expected": 1
+      },
+      "unknown": {
+        "value": 0,
+        "expected": 0
+      },
+      "asan_crash": true,
+      "asan_snippet": "AddressSanitizer: heap-buffer-overflow on address 0x79262229685f at pc 0x7d06230e9e38 bp 0x7fff5855d310 sp 0x7fff5855cab8"
+    }
+  }
+}

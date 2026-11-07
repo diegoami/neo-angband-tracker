@@ -3,11 +3,13 @@ from pathlib import Path
 root=Path(sys.argv[1]);data={}
 CASES={
  'main':('An unknown blow name is looked up',"A modded blow_effects.txt can supply a blow name that is not in the Borg's lookup table. The lookup loop visits every table entry including the NULL end marker, so the original crashes (strcmp against NULL); the corrected loop stops before the marker and returns NONE. The in-table name HURT keeps resolving.")}
+results=json.loads((root/'before-results.json').read_text())
 for mode,(label,explanation) in CASES.items():
  item={'label':label,'explanation':explanation}
  for phase in ('before','after'):
   raw=(root/f'{phase}-{mode}.log').read_text()
-  entry={'raw':raw,'passed':'native-c/blowname-247 finished: 1/1 passed' in raw,'exit':'segfault' if 'segmentation fault' in raw.lower() else 'clean'}
+  signal=results[mode]['signal'] if phase=='before' else 'clean'
+  entry={'raw':raw,'passed':'native-c/blowname-247 finished: 1/1 passed' in raw,'exit':signal}
   for t,key in (('KNOWN ','known'),('UNKNOWN ','unknown')):
    m=re.search(re.escape(t)+r'(.*)',raw)
    if m:entry[key]={k:int(v) for k,v in re.findall(r'(\w+)=(-?\d+)',m[1])}

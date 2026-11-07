@@ -1,0 +1,15 @@
+{
+  "main": {
+    "exit": -11,
+    "passed": false,
+    "signal": "segfault",
+    "asan_report": false
+  },
+  "asan": {
+    "exit": 1,
+    "passed": false,
+    "signal": "clean",
+    "asan_report": true,
+    "summary": "failed without sanitizer report"
+  }
+}
