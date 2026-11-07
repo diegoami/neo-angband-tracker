@@ -1,0 +1,112 @@
+# The excavated vault grid was remembered as glowing
+
+A level-12 Druid with Stone to Mud digs a quartz grid beside a
+permanent vault wall. When the dig succeeds, `borg_excavate_vault()`
+updates the Borg's map of that grid — clear the glow flag, then set
+the flag the comment calls "Dark".
+
+**The original set the glow flag again under the "Dark" comment** —
+`BORG_GLOW` was almost certainly meant to be `BORG_DARK` — so the
+freshly dug, actually-dark grid was remembered as glowing. Glow-driven
+decisions could treat a dark excavation pocket as safe light (resting
+there, flowing there while out of light). Measured on the exact
+situation (seed 1000, production `borg_excavate_vault(9)`, the
+stone-to-mud cast queued): the original ends with `glow=1 dark=0`; the
+corrected version ends with `glow=0 dark=1`, matching the comment. A
+no-dig-site control stays byte-identical (nothing touched in either
+variant). No damage or survival claim beyond the tracked flags is
+made.
+
+Canonical report: [issue236](https://github.com/diegoami/neo-angband-tracker/issues/236).
+Lead supplied by borg-rs; independently validated and reproduced
+natively here. Source proposal: PR (see the issue).
+
+## Verification
+
+### Reproduce and watch the comparison
+
+From a clone of `diegoami/neo-angband-tracker`, copy these three commands:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/excavate-236-evidence
+git show be69260bfcf7c51ce762ccf75282b18fbb5f7ad2:docs/audit/c-reports/excavate-236/reproduce.py > /tmp/reproduce-excavate-236.py
+python3 /tmp/reproduce-excavate-236.py --fixtures-ref be69260bfcf7c51ce762ccf75282b18fbb5f7ad2 --full-tests
+```
+
+The runner builds two variants (original, corrected) from pristine C
+`e473720` in fresh temporary directories, verifies the source diff is
+exactly the `BORG_GLOW` → `BORG_DARK` flag change, runs two recorded
+situations on each, compares controls and gates, and writes
+`replay.html` for offline review. Your checkout and character/profile
+are not used or edited. The disposable source and binary finish on the
+correction.
+
+The native run recorded in this directory's logs executed at fixtures
+pin `be69260bfcf7c51ce762ccf75282b18fbb5f7ad2`. The captured replay,
+its data and this guide were then added on top; no generator change of
+any kind followed the run (commit list: pin, then one artifact commit).
+
+Open [replay.html](replay.html) (download raw and open locally).
+Choose **Excavating a vault dig site**, then **The dig site** and
+**The tracked flags**: the original shows glow 1, dark 0; the
+corrected shows glow 0, dark 1. Choose **Control: no dig site beside a
+permanent wall**: the logs match byte for byte between versions.
+
+Actual recorded output, original (`before-excavate.log`; the scenario
+asserts the corrected flags, so the original fails it — that is the
+fail-before contract):
+
+```text
+SETUP vault=1 spelllegal=1 wallfeat=18 perma_adjacent=1
+DECISION acted=1 keys=9 sequence=* p 3 6 5 m b c 5
+STATE glow=1 dark=0
+native-c/excavate-236 finished: 0/1 passed
+```
+
+Corrected (`after-excavate.log`):
+
+```text
+STATE glow=0 dark=1
+native-c/excavate-236 finished: 1/1 passed
+```
+
+Control (`before-no-target.log` / `after-no-target.log` —
+byte-identical pair):
+
+```text
+DECISION acted=0 keys=0 sequence=
+STATE glow=0 dark=0
+```
+
+Full native gates on both variants: 965/965 unit checks and 5/5
+frontend tests (`before-alltests.log`, `after-alltests.log`).
+
+### Conditions and limits
+
+Native Human Druid level 13, depth 30, seed 1000, glowing constructed
+arena, the Gifts of Nature book carried, Turn Stone to Mud learned,
+full mana. The vault flag is set directly and a quartz grid is planted
+beside a permanent wall — recorded as a fixture intervention, the
+state a vault wall run would present. The production excavation
+routine runs directly; the cast keys are shown, not executed. This
+isolates the flag marking, not full autonomous play.
+
+### File inventory
+
+- `scenario.c` — the native observer (two modes via `EV236_MODE`).
+- `run-cases.py` — runs each mode, strips ANSI, writes per-mode logs
+  and `*-results.json`.
+- `make_replay.py` — builds `replay.html` + `replay-data.json`.
+- `reproduce.py` — the pinned runner described above.
+- `borg.txt` — Borg config for the disposable profile.
+- `before-excavate.log`, `after-excavate.log`, `before-no-target.log`,
+  `after-no-target.log` — captured scenario logs (the control pair is
+  byte-identical).
+- `before-results.json`, `after-results.json` — parsed per-mode rows.
+- `configure.log`, `before-build.log`, `after-build.log`,
+  `before-scenarios.log`, `after-scenarios.log`,
+  `before-alltests.log`, `after-alltests.log` — run-root logs.
+- `result.json` — pins, per-case results, identical controls, gates,
+  fixed-source sha256.
+- `replay.html`, `replay-data.json` — the offline demo.
+- `receipt.json` — sha256 map of every file in this directory.

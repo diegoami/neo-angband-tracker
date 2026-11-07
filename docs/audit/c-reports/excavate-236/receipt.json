@@ -1,0 +1,151 @@
+{
+  "cbug": "excavate-236",
+  "issue": 236,
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "8e0f8448e9ebc6d164e4e621840acb0005094f81",
+  "fixtures_ref": "be69260bfcf7c51ce762ccf75282b18fbb5f7ad2",
+  "cases": {
+    "before": {
+      "excavate": {
+        "exit": 0,
+        "passed": false,
+        "setup": {
+          "spelllegal": 1,
+          "wallfeat": 18,
+          "perma_adjacent": 1
+        },
+        "decision": {
+          "acted": 1,
+          "keys": 9
+        },
+        "state": {
+          "glow": 1,
+          "dark": 0
+        },
+        "outcome": {
+          "acted": 1,
+          "dark_marked": 0
+        },
+        "sequence": "* p 3 6 5 m b c 5"
+      },
+      "no-target": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "spelllegal": 1,
+          "wallfeat": 18,
+          "perma_adjacent": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "state": {
+          "glow": 0,
+          "dark": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "dark_marked": 0
+        },
+        "sequence": ""
+      }
+    },
+    "after": {
+      "excavate": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "spelllegal": 1,
+          "wallfeat": 18,
+          "perma_adjacent": 1
+        },
+        "decision": {
+          "acted": 1,
+          "keys": 9
+        },
+        "state": {
+          "glow": 0,
+          "dark": 1
+        },
+        "outcome": {
+          "acted": 1,
+          "dark_marked": 1
+        },
+        "sequence": "* p 3 6 5 m b c 5"
+      },
+      "no-target": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "spelllegal": 1,
+          "wallfeat": 18,
+          "perma_adjacent": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "state": {
+          "glow": 0,
+          "dark": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "dark_marked": 0
+        },
+        "sequence": ""
+      }
+    }
+  },
+  "identical_full_logs": [
+    "no-target"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fail_before": {
+    "excavate": "scenario asserts the corrected flags; the original leaves glow=1 dark=0 (marked glowing where the comment says Dark) and fails the suite"
+  },
+  "controls": "no-target full logs byte-identical before/after",
+  "fixture_interventions": "quartz grid planted beside a permanent wall (the vault dig-site pairing the scan tracks); borg.status.vault set directly; the dig grid two grids from the Borg with clear LOS",
+  "render_check": {
+    "tool": "Chrome for Testing headless (--headless=new --dump-dom --virtual-time-budget)",
+    "checks": 5,
+    "asserted_against": "rendered DOM: title, both tracked-flag states, raw logs; plus node --check on the generated replay script"
+  },
+  "compiler": "gcc 15.2.0",
+  "cmake": "4.2.3",
+  "browser": "Chrome for Testing chromium-1248",
+  "sha256": {
+    "README.md": "77b4c798cf07642dfe5cc0e226320abdcddcc72efb1454b5697f205cdbbea812",
+    "after-alltests.log": "dde0619515223c8e881bfaaf0668c98ffb38337492105b2fdba2fe17f0fb666a",
+    "after-build.log": "927a1e8549b1e7686ec57590cbf1b501dc23c676ca6a1fe5e64233b22cd3d512",
+    "after-excavate.log": "ca5eb43c1f56bc85dac34ba757064769b9bdecc45dfbd82965577b74942af71e",
+    "after-no-target.log": "1955f21b2417c596113ca23dbb628dacee772852299b8fed3a42afca992725fd",
+    "after-results.json": "8d9a04b568ec00f694275757b13da577f19de0379bed16471b0eee733b31766b",
+    "after-scenarios.log": "2a616eaf10e176749b3e3e9161b70b392fdb887329f498367468073056526292",
+    "before-alltests.log": "f99b68fe335590a37aa0950fc9adb6ff58ce2b4c63e761e5a331b10074338844",
+    "before-build.log": "79ec231e52fcb183fb76cfcba5ac78f4e0deb73bb1aca77bfb6e6cc6cc76c0e1",
+    "before-excavate.log": "722529817ef5d8fba61f3a326f31049bd41ff4d9dc614f9e17bfd0d7a8fbfb76",
+    "before-no-target.log": "1955f21b2417c596113ca23dbb628dacee772852299b8fed3a42afca992725fd",
+    "before-results.json": "613b529ca9911d1d1953f16cd8988d040b6a2b60c24c8f01fae193dcfbc7cd66",
+    "before-scenarios.log": "f74527767eb2349156b2975ba168081499d2eaab9e456d907820b64ced61a9ee",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "configure.log": "bc8c6153962fab5f3209a105dca6f9d31fddca52669c04a242a271e73cf43449",
+    "make_replay.py": "ddf31571f9cb86b4eb1b4a33c316bc943f6a5279cbc64c93715639670dfd7a0f",
+    "replay-data.json": "ce1ad9e32ec1f9eb3fbd36f3995f20482d36fb91ab4f10070c0a719c516e64fd",
+    "replay.html": "bf936dcc2f5dc28168d2bf3db1fc4fe7477ed45cd505b757707fee1601892c63",
+    "reproduce.py": "579ba7f78febef195dd2ae42389283c8a2923c6bc32e9e78086d8c7162b2cdb1",
+    "result.json": "6a4794df22ec10006539c4795fe2f0effb36c44ca7fc28f0f28d45312c85d3f9",
+    "run-cases.py": "1a501d6194f218e35195203c8f42a3d7e89a95dd102ac1181afca71b758d795f",
+    "scenario.c": "3223d4ea13eaceff8f3ae16a2b8a955700c80b2bdc4ceeca495ec0bbc7d942ce"
+  }
+}
