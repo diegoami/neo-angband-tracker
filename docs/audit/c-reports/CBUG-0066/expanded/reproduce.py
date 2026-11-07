@@ -16,18 +16,39 @@ import sys
 import tempfile
 
 BASE = "e473720ed88a0f0c7ca66815cef3000eb4a38bc3"
-FIXED_SOURCE_SHA256 = "96dd28c786e73ddf211a94f1d73b288225c182caa5ca68cdcd746c33d96dd40e"
+FIXED_SOURCE_SHA256 = "3a9219e11f4de32a070652a326ffc67def6100d094d7eff78939879922c2f25b"
 DIRECTORY = "docs/audit/c-reports/CBUG-0066/expanded/"
 FIX = (
     'diff --git a/src/borg/borg-item-wear.c b/src/borg/borg-item-wear.c\n'
     '--- a/src/borg/borg-item-wear.c\n'
     '+++ b/src/borg/borg-item-wear.c\n'
-    '@@ -700,7 +700,7 @@\n'
+    '@@ -537,8 +537,8 @@ bool borg_backup_swap(int p)\n'
+    '     int swap;\n'
+    ' \n'
+    '     int32_t b_p  = 0L;\n'
+    '-    int32_t b_p1 = 0L;\n'
+    '-    int32_t b_p2 = 0L;\n'
+    '+    int32_t b_p1 = 9999L;\n'
+    '+    int32_t b_p2 = 9999L;\n'
+    ' \n'
+    '     int i;\n'
+    ' \n'
+    '@@ -559,9 +559,6 @@ bool borg_backup_swap(int p)\n'
+    '     if (borg.antibounce_count > 300)\n'
+    '         return false;\n'
+    ' \n'
+    '-    /* make sure we have an appropriate swap */\n'
+    '-    if (!armour_swap && !weapon_swap)\n'
+    '-        return false;\n'
+    ' \n'
+    '     if (armour_swap) {\n'
+    '         /* Save our normal condition */\n'
+    '@@ -700,7 +697,7 @@ bool borg_backup_swap(int p)\n'
     '     }\n'
     ' \n'
     '     /* Pass on the swap which yields the best result */\n'
     '-    if (b_p1 <= b_p2) {\n'
-    '+    if (weapon_swap && (!armour_swap || b_p2 <= b_p1)) {\n'
+    '+    if (b_p2 <= b_p1) {\n'
     '         b_p  = b_p2;\n'
     '         swap = weapon_swap - 1;\n'
     '     } else {\n'

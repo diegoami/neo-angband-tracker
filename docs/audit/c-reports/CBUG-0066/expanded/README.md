@@ -82,12 +82,29 @@ checks actual case summaries, completed outcomes and damage differences.
 
 The original C pin remains `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`;
 the corrected source matches clean proposal head
-`017ba47ebc8731fa0a61361a6f6777759a748d2a`. Only its selection condition changes:
+`b6bdf554a7ca401018912ad951846efdf2f9c56f` (the sentinel shape upstream
+review preferred; see [SOURCE-UPDATE.md](../SOURCE-UPDATE.md)). Its complete
+diff against the pristine base:
 
 ```diff
+-    int32_t b_p1 = 0L;
+-    int32_t b_p2 = 0L;
++    int32_t b_p1 = 9999L;
++    int32_t b_p2 = 9999L;
+
+-    /* make sure we have an appropriate swap */
+-    if (!armour_swap && !weapon_swap)
+-        return false;
+
 -    if (b_p1 <= b_p2) {
-+    if (weapon_swap && (!armour_swap || b_p2 <= b_p1)) {
++    if (b_p2 <= b_p1) {
 ```
+
+Danger is capped at 2000 (`borg_danger`), so 9999 is an out-of-range sentinel:
+an unavailable candidate can never win the pick, and with both unavailable the
+acceptance gate rejects. This shape is natively equivalent to the previously
+validated guarded form (`ebcd255ba`): all nine case logs byte-identical —
+[measured in the comparison experiment](SIMPLE-COMPARISON.md).
 
 The first six modes retain the original scenario's construction and measured
 results. The fire and lightning cases use the corresponding real dragon,
@@ -131,8 +148,9 @@ no JavaScript errors. The C proposal itself is unchanged.
 
 ## Why not simply reverse the comparison?
 
-[The same native tests run against all three conditions](SIMPLE-COMPARISON.md)
+[The same native tests run against all four conditions](SIMPLE-COMPARISON.md)
 show that a simple reversal passes7/9 but selects an absent item in both
-single-backup cases. The guarded version passes9/9. Use `--compare-simple`
-to repeat that additional check; the disposable source/binary are restored
-to the guarded version afterwards.
+single-backup cases, while the guarded fix and the accepted sentinel fix both
+pass9/9 with byte-identical logs. Use `--compare-simple` to repeat that
+comparison; the disposable source/binary are restored to the corrected version
+afterwards.
