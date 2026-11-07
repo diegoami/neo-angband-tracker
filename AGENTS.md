@@ -7,7 +7,7 @@ Native C uses its separately owned [checkpoint #207](https://github.com/diegoami
 (`checkpoint` + `session:c`); do not select a lane by the generic checkpoint label alone.
 When an upstream-side change lands (adopted review shape, re-pinned evidence head,
 upstream merge), run the update inventory in the C lane's
-[C-UPSTREAM-CHANGE.md](.worktrees/angband-c/docs/C-UPSTREAM-CHANGE.md) — duplicated
+[C-UPSTREAM-CHANGE.md](https://github.com/diegoami/neo-angband-tracker/blob/a624f057b0ee12ffae2d6ce2395ee66dc838da2c/docs/C-UPSTREAM-CHANGE.md) — duplicated
 issue/PR sections, pinned blob links (short and long SHA forms), CI snapshots and
 drafted upstream replies all go stale, and a byte-identical replay hides the change
 unless its narration is updated too:
