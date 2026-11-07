@@ -1,5 +1,5 @@
 {
-  "binary_sha256": "b050b9999ed5e0bbacdcda9725d62e9e90611e639f51e4bcd4553ad6b36fab0d",
+  "binary_sha256": "7909e28a70235e8899070bd31f7faa41056dd9c351d68dc6afe96e727200ce20",
   "cases": {
     "armour-better": {
       "exit": 0,
