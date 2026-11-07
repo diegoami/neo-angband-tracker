@@ -1,0 +1,98 @@
+{
+  "excavate": {
+    "label": "Excavating a vault dig site",
+    "explanation": "A level-12 Druid with Stone to Mud digs a quartz grid beside a permanent vault wall. The original clears the grid's glow flag and then sets the glow again under a comment reading \"Dark\" \u2014 the freshly dug grid is remembered as glowing. The correction sets the dark flag as the comment says.",
+    "before": {
+      "raw": "native-c/excavate-236: starting...\nSETUPSTEP profile\nSETUP vault=1 spelllegal=1 wallfeat=18 perma_adjacent=1\nSETUP seed=1000 class=Druid level=13 depth=30 mana=72/72\n  excavated_grid_marked_dark  MODE excavate\nDECISION acted=1 keys=9 sequence=* p 3 6 5 m b c 5\nSTATE glow=1 dark=0\nOUTCOME acted=1 dark_marked=0\nFailed\n    native-c/excavate-236:168: requirement 'dark == 1' failed\nnative-c/excavate-236 finished: 0/1 passed\n",
+      "passed": false,
+      "setup": {
+        "spelllegal": 1,
+        "wallfeat": 18,
+        "perma_adjacent": 1
+      },
+      "decision": {
+        "acted": 1,
+        "keys": 9
+      },
+      "state": {
+        "glow": 1,
+        "dark": 0
+      },
+      "outcome": {
+        "acted": 1,
+        "dark_marked": 0
+      },
+      "sequence": "* p 3 6 5 m b c 5"
+    },
+    "after": {
+      "raw": "native-c/excavate-236: starting...\nSETUPSTEP profile\nSETUP vault=1 spelllegal=1 wallfeat=18 perma_adjacent=1\nSETUP seed=1000 class=Druid level=13 depth=30 mana=72/72\n  excavated_grid_marked_dark  MODE excavate\nDECISION acted=1 keys=9 sequence=* p 3 6 5 m b c 5\nSTATE glow=0 dark=1\nOUTCOME acted=1 dark_marked=1\nPassed\nnative-c/excavate-236 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "spelllegal": 1,
+        "wallfeat": 18,
+        "perma_adjacent": 1
+      },
+      "decision": {
+        "acted": 1,
+        "keys": 9
+      },
+      "state": {
+        "glow": 0,
+        "dark": 1
+      },
+      "outcome": {
+        "acted": 1,
+        "dark_marked": 1
+      },
+      "sequence": "* p 3 6 5 m b c 5"
+    }
+  },
+  "no-target": {
+    "label": "Control: no dig site beside a permanent wall",
+    "explanation": "With no excavatable grid adjacent to a permanent wall the routine finds nothing and no flags are touched. The complete logs are byte-identical.",
+    "before": {
+      "raw": "native-c/excavate-236: starting...\nSETUPSTEP profile\nSETUP vault=1 spelllegal=1 wallfeat=18 perma_adjacent=0\nSETUP seed=1000 class=Druid level=13 depth=30 mana=72/72\n  excavated_grid_marked_dark  MODE no-target\nDECISION acted=0 keys=0 sequence=\nSTATE glow=0 dark=0\nOUTCOME acted=0 dark_marked=0\nPassed\nnative-c/excavate-236 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "spelllegal": 1,
+        "wallfeat": 18,
+        "perma_adjacent": 0
+      },
+      "decision": {
+        "acted": 0,
+        "keys": 0
+      },
+      "state": {
+        "glow": 0,
+        "dark": 0
+      },
+      "outcome": {
+        "acted": 0,
+        "dark_marked": 0
+      },
+      "sequence": ""
+    },
+    "after": {
+      "raw": "native-c/excavate-236: starting...\nSETUPSTEP profile\nSETUP vault=1 spelllegal=1 wallfeat=18 perma_adjacent=0\nSETUP seed=1000 class=Druid level=13 depth=30 mana=72/72\n  excavated_grid_marked_dark  MODE no-target\nDECISION acted=0 keys=0 sequence=\nSTATE glow=0 dark=0\nOUTCOME acted=0 dark_marked=0\nPassed\nnative-c/excavate-236 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "spelllegal": 1,
+        "wallfeat": 18,
+        "perma_adjacent": 0
+      },
+      "decision": {
+        "acted": 0,
+        "keys": 0
+      },
+      "state": {
+        "glow": 0,
+        "dark": 0
+      },
+      "outcome": {
+        "acted": 0,
+        "dark_marked": 0
+      },
+      "sequence": ""
+    }
+  }
+}
