@@ -1,0 +1,18 @@
+{
+  "comparison": "if (weapon_swap && (!armour_swap || b_p2 <= b_p1)) {",
+  "passes": 9,
+  "failures": 0,
+  "failed_cases": [],
+  "source_sha256": "96dd28c786e73ddf211a94f1d73b288225c182caa5ca68cdcd746c33d96dd40e",
+  "cases": {
+    "armour-better": true,
+    "weapon-better": true,
+    "armour-only": true,
+    "weapon-only": true,
+    "tie": true,
+    "no-benefit": true,
+    "fire-armour": true,
+    "electric-weapon": true,
+    "both-helpful": true
+  }
+}

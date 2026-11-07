@@ -1,0 +1,29 @@
+{
+  "comparison": "if (b_p2 <= b_p1) with b_p1/b_p2 initialized to 9999 and no early return",
+  "passes": 9,
+  "failures": 0,
+  "failed_cases": [],
+  "source_sha256": "3a9219e11f4de32a070652a326ffc67def6100d094d7eff78939879922c2f25b",
+  "byte_identical_to_guarded": [
+    "armour-better",
+    "armour-only",
+    "both-helpful",
+    "electric-weapon",
+    "fire-armour",
+    "no-benefit",
+    "tie",
+    "weapon-better",
+    "weapon-only"
+  ],
+  "cases": {
+    "armour-better": true,
+    "weapon-better": true,
+    "armour-only": true,
+    "weapon-only": true,
+    "tie": true,
+    "no-benefit": true,
+    "fire-armour": true,
+    "electric-weapon": true,
+    "both-helpful": true
+  }
+}

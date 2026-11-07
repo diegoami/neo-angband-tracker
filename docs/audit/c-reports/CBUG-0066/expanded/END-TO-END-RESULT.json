@@ -1,0 +1,44 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fixtures_ref": "8ccae3859e1d0fa59424dfca58020afc8b533c4e",
+  "fixed_source_sha256": "3a9219e11f4de32a070652a326ffc67def6100d094d7eff78939879922c2f25b",
+  "affected": {
+    "armour-better": {
+      "before_hp_lost": 79,
+      "after_hp_lost": 26
+    },
+    "weapon-better": {
+      "before_hp_lost": 79,
+      "after_hp_lost": 26
+    },
+    "fire-armour": {
+      "before_hp_lost": 88,
+      "after_hp_lost": 29
+    },
+    "electric-weapon": {
+      "before_hp_lost": 79,
+      "after_hp_lost": 26
+    },
+    "both-helpful": {
+      "before_hp_lost": 113,
+      "after_hp_lost": 59
+    }
+  },
+  "identical_controls": [
+    "armour-only",
+    "weapon-only",
+    "tie",
+    "no-benefit"
+  ],
+  "native_full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "replay": "/tmp/angband-cbug0066-ng5go9st/evidence/replay.html"
+}
