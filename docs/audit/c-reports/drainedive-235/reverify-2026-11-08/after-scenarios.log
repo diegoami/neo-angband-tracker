@@ -1,0 +1,2 @@
+main {'exit': 0, 'passed': True, 'outcome': {'dive_notes': 0, 'drained': 1}}
+not-drained {'exit': 0, 'passed': True, 'outcome': {'dive_notes': 1, 'drained': 0}}

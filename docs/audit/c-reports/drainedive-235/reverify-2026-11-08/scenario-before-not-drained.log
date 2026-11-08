@@ -1,0 +1,19 @@
+native-c/drainedive-235: starting...
+SETUP seed=235 class=Warrior depth=15 clevel=49
+  undrained_borg_still_power_dives  NOTE 00 # power dive, playing too shallow.
+NOTE 01 # Ready...
+NOTE 02 Initializing the Borg... done.
+NOTE 03 Initializing the Borg... (various)
+NOTE 04 Initializing the Borg... (options)
+NOTE 05 Initializing the Borg... (borg.txt)
+NOTE 06 Initializing the Borg... (memory)
+NOTE 07 You are wearing a Ring of Free Action {??} (d).
+NOTE 08 You combine some items in your pack.
+NOTE 09 You are wearing a Ring of See Invisible (c).
+NOTE 10 You have learned the rune of see invisible.
+NOTE 11 You combine some items in your pack.
+NOTE 12 Your light source is a Lantern (2000 turns) (f).
+NOTE 13  
+OUTCOME dive_notes=1 drained=0
+Passed
+native-c/drainedive-235 finished: 1/1 passed
