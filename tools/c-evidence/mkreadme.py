@@ -31,7 +31,7 @@ python3 /tmp/reproduce-{slug}.py --full-tests --fixtures-ref {fixtures} --fix-re
 
 text = f"""# {spec['title']}
 
-This is **{slug} / issue{issue}**, a C Borg defect
+This is **{slug} / issue #{issue}**, a C Borg defect
 (diegoami/neo-angband-tracker#{issue}).
 
 {spec['intro']}
