@@ -1,0 +1,10 @@
+native-c/backaway-155: starting...
+SETUP seed=155 mode=trap class=Warrior clevel=20 hp=40 depth=5 
+  back_away_to_a_safe_grid  KILL k=1 r=140 pos=(9,14) awake=1 power=36
+STATE danger=20 avoidance=40 hp=40 fleeing=0
+DECISION rc=1 key=55
+TRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20
+TRACK # Backing up to 9,11 (20 > 0)
+OUTCOME backed_away=1
+Passed
+native-c/backaway-155 finished: 1/1 passed

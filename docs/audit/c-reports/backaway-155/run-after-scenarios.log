@@ -1,0 +1,3 @@
+monster {'exit': 0, 'passed': True, 'state': {'danger': 20, 'avoidance': 40, 'hp': 40, 'fleeing': 0}, 'outcome': {'backed_away': 1}}
+trap {'exit': 0, 'passed': True, 'state': {'danger': 20, 'avoidance': 40, 'hp': 40, 'fleeing': 0}, 'outcome': {'backed_away': 1}}
+healthy {'exit': 0, 'passed': True, 'state': {'danger': 20, 'avoidance': 245, 'hp': 245, 'fleeing': 0}, 'outcome': {'backed_away': 0}}

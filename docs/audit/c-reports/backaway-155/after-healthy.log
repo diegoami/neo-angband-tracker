@@ -1,0 +1,9 @@
+native-c/backaway-155: starting...
+SETUP seed=155 mode=healthy class=Warrior clevel=20 hp=245 depth=5 
+  back_away_to_a_safe_grid  KILL k=1 r=140 pos=(11,14) awake=1 power=36
+STATE danger=20 avoidance=245 hp=245 fleeing=0
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:5 Lev:20 HP:245/245 SP:0/0 Danger:p=20
+OUTCOME backed_away=0
+Passed
+native-c/backaway-155 finished: 1/1 passed
