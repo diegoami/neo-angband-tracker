@@ -91,9 +91,9 @@
     "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
     "configure-asan.log": "8b1462bac79a5be9ec93b72432da43da6e2ad358eae1076293fb68e2d73bf525",
     "configure.log": "365ccbbe756f4fd2d89196260069868830771be5af274b951cd7eb015a54af03",
-    "make_replay.py": "77a4ebdcd23d1872fef23982827b706957638af95d49fea219b71b04028fd582",
-    "replay-data.json": "5f81ed68b0e5e2fd878534433c3c377a1a78a14e463ab86c5c42080425bd4219",
-    "replay.html": "7fe634dd66ee14504581c43bda71528ed606fb43de14258dc61a33d3c655963f",
+    "make_replay.py": "92c697bcd285627f477b2027c013f58ede1ff0fa5a1e9624dd659e33880c0b8a",
+    "replay-data.json": "9794fe27308428617f73f27c2f157d6fbe0c7a9cc9dfd2ff2cbf0d94a55bb90d",
+    "replay.html": "08421d51270bb75e78f8eaf1056ff1ee556f6b3d61f7ffa0d88a1918abd47b21",
     "reproduce.py": "8c5c467624b523d576af1c164ae82c03f9782513c8cb241f97530787c5032f3f",
     "result.json": "a730056662a61bc42ddbf1aeeb760e279167444b95e391d5cdafe7cf6e9748ca",
     "run-cases.py": "ee806768016bb7ab717be41e970347033024d2cd20e8bfb46a1e45a654276bb6",
@@ -101,9 +101,9 @@
   },
   "render_check": {
     "date": "2026-11-08",
-    "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button)",
-    "result": "RENDER-SMOKE actions=2 errors=0 FAILED: rendered text contains \"undefined\"",
-    "exit": 1,
-    "note": "added by the 2026-11-08 re-verification; the original run's browser record is under 'browser'"
+    "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button) + node --check on the generated script",
+    "result": "RENDER-SMOKE actions=2 errors=0 OK",
+    "exit": 0,
+    "note": "regenerated replay after the make_replay.py fix; the first 2026-11-08 smoke of the original page failed (Control view showed 'undefined')"
   }
 }

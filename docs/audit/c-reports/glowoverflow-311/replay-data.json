@@ -1,7 +1,7 @@
 {
   "glow": {
     "label": "The light list that outgrew its shelf",
-    "explanation": "The out-of-light flow lists every perma-lit grid on the panel into two arrays of 1536 - with no bound. A fully lit arena panel holds 1600 glowing grids: the original collects all 1600, and AddressSanitizer catches the 1537th write - a global-buffer-overflow in the scan itself, the later swapped-coordinate corruption the report describes follows from it. The correction stops collecting at the bound: 1536, no overflow, and the flow still runs.",
+    "explanation": "The out-of-light flow lists every perma-lit grid on the panel into two arrays of 1536 - with no bound. A fully lit arena panel holds 1600 glowing grids: the original collects all 1600, and AddressSanitizer catches the 1537th write - a global-buffer-overflow in the scan itself. What the overflowing write then corrupts depends on the memory layout of the build (for one analysed build: wrong x coordinates, none off the panel); that is not measured here. The correction stops collecting at the bound: 1536, no overflow, and the flow still runs.",
     "before": {
       "raw": "native-c/glowoverflow-311: starting...\nSETUPSTEP profile\nSETUP seed=1000 glowing=1600 limit=1536 panel=41x40\n  glow_arrays_are_bounded  MODE glow\nGEOMETRY glow_n=1600 limit=1536\nRATING glow_n=1600 overflow=64\nOUTCOME glow_n=1600 overflow=64\nFailed\n    native-c/glowoverflow-311:131: requirement 'borg_glow_n <= (int)AUTO_LIGHT_MAX' failed\nnative-c/glowoverflow-311 finished: 0/1 passed\n",
       "passed": false,

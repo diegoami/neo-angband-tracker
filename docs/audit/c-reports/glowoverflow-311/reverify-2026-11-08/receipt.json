@@ -165,6 +165,47 @@
       "old": "84de21f4393b1881ab14546bd9722bee8f0569be8676385c48541bb60263f90d",
       "new": "8e4d72da13b7bde584e8ef61e5d767dbf24a057d9a3cc97af55e82aaa32febcd",
       "reason": "README.md source-proposal placeholder link corrected in place to #346 (2026-11-08)"
+    },
+    {
+      "file": "receipt.json",
+      "field": "sha256.make_replay.py",
+      "old": "77a4ebdcd23d1872fef23982827b706957638af95d49fea219b71b04028fd582",
+      "new": "92c697bcd285627f477b2027c013f58ede1ff0fa5a1e9624dd659e33880c0b8a",
+      "reason": "replay generator fixed (control case without a sanitizer run showed 'undefined'; retracted swapped-coordinate wording replaced) and replay regenerated from the committed logs"
+    },
+    {
+      "file": "receipt.json",
+      "field": "sha256.replay.html",
+      "old": "7fe634dd66ee14504581c43bda71528ed606fb43de14258dc61a33d3c655963f",
+      "new": "08421d51270bb75e78f8eaf1056ff1ee556f6b3d61f7ffa0d88a1918abd47b21",
+      "reason": "replay generator fixed (control case without a sanitizer run showed 'undefined'; retracted swapped-coordinate wording replaced) and replay regenerated from the committed logs"
+    },
+    {
+      "file": "receipt.json",
+      "field": "sha256.replay-data.json",
+      "old": "5f81ed68b0e5e2fd878534433c3c377a1a78a14e463ab86c5c42080425bd4219",
+      "new": "9794fe27308428617f73f27c2f157d6fbe0c7a9cc9dfd2ff2cbf0d94a55bb90d",
+      "reason": "replay generator fixed (control case without a sanitizer run showed 'undefined'; retracted swapped-coordinate wording replaced) and replay regenerated from the committed logs"
+    },
+    {
+      "file": "receipt.json",
+      "field": "render_check",
+      "old": {
+        "date": "2026-11-08",
+        "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button)",
+        "result": "RENDER-SMOKE actions=2 errors=0 FAILED: rendered text contains \"undefined\"",
+        "exit": 1,
+        "note": "added by the 2026-11-08 re-verification; the original run's browser record is under 'browser'"
+      },
+      "new": {
+        "date": "2026-11-08",
+        "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button) + node --check on the generated script",
+        "result": "RENDER-SMOKE actions=2 errors=0 OK",
+        "exit": 0,
+        "note": "regenerated replay after the make_replay.py fix; the first 2026-11-08 smoke of the original page failed (Control view showed 'undefined')"
+      },
+      "reason": "render smoke re-run on the regenerated replay"
     }
-  ]
+  ],
+  "before_asan_glow_log": "The re-run's before-asan-glow.log differs from the original by sanitizer addresses and temporary paths, which change per run, so it cannot be byte-reproduced. The original file was recovered byte-exact from the committed replay-data.json (glow.before.asan_raw, sha256 matches the original receipt) and committed at the receipt path on 2026-11-08; the re-run copy stays here."
 }
