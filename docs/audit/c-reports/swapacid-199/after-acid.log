@@ -1,0 +1,10 @@
+native-c/swapacid-199: starting...
+SETUP seed=199 mode=acid class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger 'Angrist' (2d7) (+18,+16) [+5] <+4>
+STATE swap=1 swap_acid=1 swap_elec=0 swap_fire=0
+STATE sracid=1 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=ready
+OUTCOME prepared30=1 acid_counted=1
+Passed
+native-c/swapacid-199 finished: 1/1 passed

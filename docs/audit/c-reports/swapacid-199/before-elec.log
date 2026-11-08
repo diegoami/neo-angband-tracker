@@ -1,0 +1,11 @@
+native-c/swapacid-199: starting...
+SETUP seed=199 mode=elec class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger 'Dethanc' (1d4) (+9,+12) [+10]
+STATE swap=1 swap_acid=1 swap_elec=1 swap_fire=0
+STATE sracid=1 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=ready
+OUTCOME prepared30=1 acid_counted=1
+Failed
+    native-c/swapacid-199:191: requirement '!borg.trait[BI_SRACID]' failed
+native-c/swapacid-199 finished: 0/1 passed

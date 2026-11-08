@@ -1,0 +1,246 @@
+{
+  "issue": "diegoami/neo-angband-tracker#199",
+  "report": "swapacid-199",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "eddbf5b82293ea70a76fae960bc9f8debf1579c6",
+  "fix_branch": "task/swapacid-199",
+  "fixtures_ref": "9eca003a5896403b9810806b4fc656446a34cf9a",
+  "cases": {
+    "elec": {
+      "before": {
+        "passed": false,
+        "state": {
+          "base_racid": 0,
+          "base_relec": 1,
+          "base_rfire": 1,
+          "base_rcold": 1,
+          "swap": 1,
+          "swap_acid": 1,
+          "swap_elec": 1,
+          "swap_fire": 0,
+          "sracid": 1,
+          "srelec": 1,
+          "srfire": 1,
+          "srcold": 1
+        },
+        "outcome": {
+          "prepared30": 1,
+          "acid_counted": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "base_racid": 0,
+          "base_relec": 1,
+          "base_rfire": 1,
+          "base_rcold": 1,
+          "swap": 1,
+          "swap_acid": 0,
+          "swap_elec": 1,
+          "swap_fire": 0,
+          "sracid": 0,
+          "srelec": 1,
+          "srfire": 1,
+          "srcold": 1
+        },
+        "outcome": {
+          "prepared30": 0,
+          "acid_counted": 0
+        }
+      }
+    },
+    "acid": {
+      "before": {
+        "passed": false,
+        "state": {
+          "base_racid": 0,
+          "base_relec": 1,
+          "base_rfire": 1,
+          "base_rcold": 1,
+          "swap": 1,
+          "swap_acid": 0,
+          "swap_elec": 0,
+          "swap_fire": 0,
+          "sracid": 0,
+          "srelec": 1,
+          "srfire": 1,
+          "srcold": 1
+        },
+        "outcome": {
+          "prepared30": 0,
+          "acid_counted": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "base_racid": 0,
+          "base_relec": 1,
+          "base_rfire": 1,
+          "base_rcold": 1,
+          "swap": 1,
+          "swap_acid": 1,
+          "swap_elec": 0,
+          "swap_fire": 0,
+          "sracid": 1,
+          "srelec": 1,
+          "srfire": 1,
+          "srcold": 1
+        },
+        "outcome": {
+          "prepared30": 1,
+          "acid_counted": 1
+        }
+      }
+    },
+    "fire": {
+      "before": {
+        "passed": true,
+        "state": {
+          "base_racid": 0,
+          "base_relec": 1,
+          "base_rfire": 1,
+          "base_rcold": 1,
+          "swap": 1,
+          "swap_acid": 0,
+          "swap_elec": 0,
+          "swap_fire": 1,
+          "sracid": 0,
+          "srelec": 1,
+          "srfire": 1,
+          "srcold": 1
+        },
+        "outcome": {
+          "prepared30": 0,
+          "acid_counted": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "base_racid": 0,
+          "base_relec": 1,
+          "base_rfire": 1,
+          "base_rcold": 1,
+          "swap": 1,
+          "swap_acid": 0,
+          "swap_elec": 0,
+          "swap_fire": 1,
+          "sracid": 0,
+          "srelec": 1,
+          "srfire": 1,
+          "srcold": 1
+        },
+        "outcome": {
+          "prepared30": 0,
+          "acid_counted": 0
+        }
+      }
+    },
+    "none": {
+      "before": {
+        "passed": true,
+        "state": {
+          "base_racid": 0,
+          "base_relec": 1,
+          "base_rfire": 1,
+          "base_rcold": 1,
+          "swap": 0,
+          "swap_acid": 0,
+          "swap_elec": 0,
+          "swap_fire": 0,
+          "sracid": 0,
+          "srelec": 1,
+          "srfire": 1,
+          "srcold": 1
+        },
+        "outcome": {
+          "prepared30": 0,
+          "acid_counted": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "base_racid": 0,
+          "base_relec": 1,
+          "base_rfire": 1,
+          "base_rcold": 1,
+          "swap": 0,
+          "swap_acid": 0,
+          "swap_elec": 0,
+          "swap_fire": 0,
+          "sracid": 0,
+          "srelec": 1,
+          "srfire": 1,
+          "srcold": 1
+        },
+        "outcome": {
+          "prepared30": 0,
+          "acid_counted": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "fire",
+    "none"
+  ],
+  "claim": "When the Borg records its chosen swap weapon's protections, the acid-resistance flag is read from the weapon's lightning resistance. A lightning-only swap weapon therefore counts as acid resistance (the depth-30 readiness check answers ready with no acid protection) and an acid-resisting swap weapon is not counted. Reading the acid element corrects both; fire-only and no-swap controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-trait-swap.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-trait-swap.c": "b87f1f9839827a4db433d4fd6bd86c32c8ca727598d5914e8290dd74e4d3f75c"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "4cc63f896093a7b91f26665c3f3d665d1299fc995b09e6c0f9d7e070f76dd77a",
+    "after-acid.log": "150e5560e3ee1112cd24f7a404f49f538248d1bb96de6a6cb89338b20f2e347b",
+    "after-elec.log": "723898517dfe18758de395b2fdc92299cd23c147616568a1c6ce3c2df9c57aed",
+    "after-fire.log": "f78e34dafff376de0c5ab1b04ad7b6e33995ebc90854b26367e398f873b59f3b",
+    "after-none.log": "01d59e8bb8bf25787f841e0839a1ba93214e0ceab3fd19db28f3a27cc0b82d8a",
+    "after-results.json": "40715d1ec0ca45b415d6dee8676b765f2aaf11d6245f785c7e03faa1bdee512b",
+    "before-acid.log": "ecc2dd993cd26c754607861291cc39661a10d54dbb738786ab241e8e67ffd859",
+    "before-elec.log": "4f4a1a0069496891063a42df0be274d1cdfba4dc07fb880d7a1acbe1a58d1254",
+    "before-fire.log": "f78e34dafff376de0c5ab1b04ad7b6e33995ebc90854b26367e398f873b59f3b",
+    "before-none.log": "01d59e8bb8bf25787f841e0839a1ba93214e0ceab3fd19db28f3a27cc0b82d8a",
+    "before-results.json": "0ebbde0d3bcb1f08f669a2edd2574182199048a797a13b22a257a38a8d05d735",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "ff2102fb9576dcf4134bbc049b1a7a13e662668fddc3ec16e9300dafddbe2662",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "01f4ad5ade02c38a10afc6a4feb61391aa84e9b7b1fabde00b6c1430b3ce84b4",
+    "replay.html": "bbee98374b4c22b9b6a4748fcde154966c2e16503ea8d2c7c1497da0c7feda6f",
+    "reproduce.py": "520c433413ac33e810d366256cbdc6082a105067c1b44290516ae2b6526ca422",
+    "result.json": "593dd7b2f165d7f97734bb123ab8c4901e813cc30582949e07bb658095b83c4d",
+    "run-after-alltests.log": "a8ceec745bc041ac79965a9e99e24ed23d07c65ca831365a78e81a8244ecfda0",
+    "run-after-build.log": "687a3778b66f0ddf29fe611e98a5bbb42b05af6026a05ee50d15000ee7b5712c",
+    "run-after-scenarios.log": "ec34daa0b4d7c2dc3c5c74544cc25b4cca7d875d2033f7845eeb53c51cb856f9",
+    "run-before-alltests.log": "798b09b3f5c91a8eddff6a027c2634d82b4da935020ffe559b14857d8139fc8f",
+    "run-before-build.log": "61a8b83499316ff9fa422f84093b5c7e3de9277b8f48940ea7277eb9193ab6d2",
+    "run-before-scenarios.log": "52cc6b09d25a4b39d9cbbc83e908f353e3861e52294250b9a628d3187c7f23cd",
+    "run-cases.py": "ac96ff4c3a32957c6abe5dd30083b003da144329c2874c76cacbdcc081b32842",
+    "run-configure.log": "3416ad6e593bc4ca1e69247bdb075a103e064ae3c20a92e6f7572bef8a5124aa",
+    "scenario.c": "ecd840b9e4b71d701b84e252bc1fe1819ebaf31f669508a652bd45bf67537309"
+  }
+}
