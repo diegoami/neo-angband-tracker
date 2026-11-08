@@ -223,7 +223,8 @@ def main():
                     body = pr.get("body") or ""
                     m = (re.search(r"neo-angband-tracker#(\d+)", body)
                          or re.search(r"\bissue\s*#?(\d+)", body, re.I)
-                         or re.search(r"-(\d+)$", (d or "").rstrip("/")))
+                         or (None if re.search(r"CBUG-\d+$", (d or "").rstrip("/"))
+                             else re.search(r"-(\d+)$", (d or "").rstrip("/"))))
                     issue_no = int(m.group(1)) if m else None
                 if not args.no_github:
                     check_github(issue_no, src_no, ev, rep)
