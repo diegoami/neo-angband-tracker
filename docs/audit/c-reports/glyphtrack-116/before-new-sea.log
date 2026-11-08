@@ -1,0 +1,12 @@
+native-c/glyphtrack-116: starting...
+SETUP seed=116 mode=new-sea class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+STATE tracked_runes=1 needs_new_sea=0
+OUTCOME first_rc=1
+Passed
+native-c/glyphtrack-116 finished: 1/1 passed
