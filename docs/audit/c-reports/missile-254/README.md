@@ -172,4 +172,4 @@ python3 /tmp/reproduce-missile-254.py --full-tests --fixtures-ref 8b30eb5845ae54
 
 ## Errata (2026-11-08)
 
-- `receipt.json` hashes `README.md` as it stood when the receipt was last written; this appended section changes the README, so that one hash no longer matches by design.
+- `receipt.json` was amended on 2026-11-08 for this section only: its `README.md` hash now covers the README with these sections, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
