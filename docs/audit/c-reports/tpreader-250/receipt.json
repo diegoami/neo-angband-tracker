@@ -4,7 +4,7 @@
   "aspect": "reader (borg-danger.c one-past-the-count); the writer side is tracked on the same issue",
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
   "fix": "e890819a6b5ac6e7f7135dcc2b234fcc520b9752",
-  "fixtures_ref": "6cc5ae14af46a8c269bb5ca22609f882791aa485",
+  "fixtures_ref": "6f6710ccc3a3dc1b035544338444048b2f7cbced",
   "cases": {
     "before": {
       "stale-hit": {
@@ -122,7 +122,7 @@
   "cmake": "4.2.3",
   "browser": "Chrome for Testing chromium-1248",
   "sha256": {
-    "README.md": "23f48dc0a9a82441e3f8488023b7d9933f894c1a3da27635213ca0da8112640d",
+    "README.md": "ebb8df92dd267450a2d7a723f4b1acacfd9810c07b3628eb5769a81cdc1194ca",
     "after-alltests.log": "8718eabba45d8b4c863f775a263678ed3550222a55a99678020e8a20d7364efb",
     "after-build.log": "de80be678bb3122f22baf5085bbbcc66f4522682d96c8182d41558a471db1ed4",
     "after-empty.log": "2c6c99077fab9c1c936ab164d39dd2c62263305f7d5548862b89b3e864f2d836",

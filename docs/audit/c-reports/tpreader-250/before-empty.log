@@ -1,0 +1,10 @@
+native-c/tpreader-250: starting...
+SETUPSTEP profile
+SETUP giant kill=1 power=226
+SETUP n=0 idx0=0 idx1=0
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20
+  stale_tp_other_entry_does_not_exclude_danger  MODE empty
+DANGER danger=179
+OUTCOME danger=1
+Passed
+native-c/tpreader-250 finished: 1/1 passed
