@@ -1,0 +1,9 @@
+native-c/stairtrack-232: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior depth=2 track_less=0
+  known_stair_is_not_retracked  MODE fresh
+GEOMETRY before=0 after=1
+RATING before=0 after=1
+OUTCOME before=0 after=1
+Passed
+native-c/stairtrack-232 finished: 1/1 passed
