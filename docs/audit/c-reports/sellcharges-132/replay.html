@@ -1,0 +1,116 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Home-sell trials drained staff charges and the Borg emptied its home</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Home-sell trials drained staff charges and the Borg emptied its home</h1><p>In town the Borg decides what to keep in its home by trying each pack item in each home slot and scoring the result. For a staff it moves one staff&#x27;s share of the charges into the trial slot and takes them off the pack stack, but after each trial it put back only the staff, not the charges. Every later trial in the same scan saw a staff with fewer charges. A level-26 Mage with two Staffs of Teleportation (10 charges) and a Word of Recall scroll in the home scored &#x27;replace the scroll with a staff&#x27; at full charges but &#x27;add a staff beside the scroll&#x27; at a drained share, so it decided to take the scroll out of the home. The correction puts the charges back with the staff; the Borg then stores a staff and keeps the scroll at home.</p><p><label>Scenario: <select id="scenario"><option value="stack">Two teleport staves, recall scroll at home</option><option value="stack-emptyhome">Control: two teleport staves, empty home</option><option value="single">Control: one teleport staff</option><option value="none">Control: no staff or wand</option></select></label></p><section class="scenario" data-mode="stack"><p class="summary">Original: by the second trial (adding a staff beside the scroll) the pack stack has lost 5 of its 10 charges, so the trial staff gets a 2-charge share (5/2) instead of 5; that addition scores below the first trial (replacing the scroll, home power 9,914), and the Borg sets out to buy the Word of Recall back out of the home. Corrected: the addition keeps its 5-charge share (home power 10,014) and the Borg stores a staff instead.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>takes the recall scroll out of the home (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK power_now=1156394
+DECISION acts=1 best_home_power=9914 goal_item=-1 goal_ware=0 what=[Scroll of Word of Recall]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>takes the recall scroll out of the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1156394
+DECISION acts=1 best_home_power=10014 goal_item=3 goal_ware=-1 what=[Staves of Teleportation (10 charges)]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/sellcharges-132: starting...
+SETUP seed=132 mode=stack class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=2 pval=10 desc=[Staves of Teleportation (10 charges)]
+PACK 4 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+HOME 0 qty=1 desc=[Scroll of Word of Recall]
+TRACK power_now=1156394
+DECISION acts=1 best_home_power=9914 goal_item=-1 goal_ware=0 what=[Scroll of Word of Recall]
+STATE device_charges_after_scan=10
+OUTCOME takes_recall_out=1 stores_device=0
+Failed
+    native-c/sellcharges-132:189: requirement &#x27;stores_item &amp;&amp; !takes_ware&#x27; failed
+native-c/sellcharges-132 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/sellcharges-132: starting...
+SETUP seed=132 mode=stack class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=2 pval=10 desc=[Staves of Teleportation (10 charges)]
+PACK 4 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+HOME 0 qty=1 desc=[Scroll of Word of Recall]
+TRACK power_now=1156394
+DECISION acts=1 best_home_power=10014 goal_item=3 goal_ware=-1 what=[Staves of Teleportation (10 charges)]
+STATE device_charges_after_scan=10
+OUTCOME takes_recall_out=0 stores_device=1
+Passed
+native-c/sellcharges-132 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="stack-emptyhome"><p class="summary">Only one home slot to try, so the drain happens after the last trial and the caller&#x27;s restore hides it. Both versions store a staff; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>takes the recall scroll out of the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1156394
+DECISION acts=1 best_home_power=9914 goal_item=3 goal_ware=-1 what=[Staves of Teleportation (10 charges)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>takes the recall scroll out of the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1156394
+DECISION acts=1 best_home_power=9914 goal_item=3 goal_ware=-1 what=[Staves of Teleportation (10 charges)]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/sellcharges-132: starting...
+SETUP seed=132 mode=stack-emptyhome class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=2 pval=10 desc=[Staves of Teleportation (10 charges)]
+PACK 4 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+TRACK power_now=1156394
+DECISION acts=1 best_home_power=9914 goal_item=3 goal_ware=-1 what=[Staves of Teleportation (10 charges)]
+STATE device_charges_after_scan=10
+OUTCOME takes_recall_out=0 stores_device=1
+Passed
+native-c/sellcharges-132 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/sellcharges-132: starting...
+SETUP seed=132 mode=stack-emptyhome class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=2 pval=10 desc=[Staves of Teleportation (10 charges)]
+PACK 4 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+TRACK power_now=1156394
+DECISION acts=1 best_home_power=9914 goal_item=3 goal_ware=-1 what=[Staves of Teleportation (10 charges)]
+STATE device_charges_after_scan=10
+OUTCOME takes_recall_out=0 stores_device=1
+Passed
+native-c/sellcharges-132 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="single"><p class="summary">Giving up its only staff would lower the Borg&#x27;s own power, so the item is never tried. Both versions leave the home alone; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>takes the recall scroll out of the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1156394
+DECISION acts=0 best_home_power=114 goal_item=-1 goal_ware=-1 what=[(nothing)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>takes the recall scroll out of the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1156394
+DECISION acts=0 best_home_power=114 goal_item=-1 goal_ware=-1 what=[(nothing)]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/sellcharges-132: starting...
+SETUP seed=132 mode=single class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=1 pval=5 desc=[Staff of Teleportation (5 charges)]
+PACK 4 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+HOME 0 qty=1 desc=[Scroll of Word of Recall]
+TRACK power_now=1156394
+DECISION acts=0 best_home_power=114 goal_item=-1 goal_ware=-1 what=[(nothing)]
+STATE device_charges_after_scan=5
+OUTCOME takes_recall_out=0 stores_device=0
+Passed
+native-c/sellcharges-132 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/sellcharges-132: starting...
+SETUP seed=132 mode=single class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=1 pval=5 desc=[Staff of Teleportation (5 charges)]
+PACK 4 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+HOME 0 qty=1 desc=[Scroll of Word of Recall]
+TRACK power_now=1156394
+DECISION acts=0 best_home_power=114 goal_item=-1 goal_ware=-1 what=[(nothing)]
+STATE device_charges_after_scan=5
+OUTCOME takes_recall_out=0 stores_device=0
+Passed
+native-c/sellcharges-132 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="none"><p class="summary">No charged device in the pack. Both versions leave the home alone; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>takes the recall scroll out of the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1136394
+DECISION acts=0 best_home_power=114 goal_item=-1 goal_ware=-1 what=[(nothing)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>takes the recall scroll out of the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1136394
+DECISION acts=0 best_home_power=114 goal_item=-1 goal_ware=-1 what=[(nothing)]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/sellcharges-132: starting...
+SETUP seed=132 mode=none class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+HOME 0 qty=1 desc=[Scroll of Word of Recall]
+TRACK power_now=1136394
+DECISION acts=0 best_home_power=114 goal_item=-1 goal_ware=-1 what=[(nothing)]
+OUTCOME takes_recall_out=0 stores_device=0
+Passed
+native-c/sellcharges-132 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/sellcharges-132: starting...
+SETUP seed=132 mode=none class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+HOME 0 qty=1 desc=[Scroll of Word of Recall]
+TRACK power_now=1136394
+DECISION acts=0 best_home_power=114 goal_item=-1 goal_ware=-1 what=[(nothing)]
+OUTCOME takes_recall_out=0 stores_device=0
+Passed
+native-c/sellcharges-132 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Mage, seed 132, character level 26, 5000 gold, in town (depth 0) with its starting kit plus fixture items, all runes known. Every store is emptied. &#x27;stack&#x27;: two Staffs of Teleportation stacked in one pack slot with 10 charges set by the fixture (5 each), and one Scroll of Word of Recall in the home. &#x27;stack-emptyhome&#x27;: the same staves, home empty. &#x27;single&#x27;: one staff with 5 charges, recall scroll at home. &#x27;none&#x27;: no staff or wand, recall scroll at home. The Borg&#x27;s items and stores are loaded with the production borg_find_all_items(); then the production borg_think_home_sell_useful() (step 1 of the store logic) runs once and its goal is read back. This isolates the home-sell decision; it does not walk to the home or carry out the transfer.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/132">issue 132</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

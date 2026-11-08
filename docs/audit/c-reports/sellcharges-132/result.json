@@ -1,0 +1,111 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "58a2638c7acc7c684fc7e6fca6df3921e93b0d9a",
+  "fixtures_ref": "93253cd7250235f2f7ac0d9b878086f638dbea01",
+  "cases": {
+    "before": {
+      "stack": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "device_charges_after_scan": 10
+        },
+        "outcome": {
+          "takes_recall_out": 1,
+          "stores_device": 0
+        }
+      },
+      "stack-emptyhome": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 10
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 1
+        }
+      },
+      "single": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 5
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 0
+        }
+      },
+      "none": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 0
+        }
+      }
+    },
+    "after": {
+      "stack": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 10
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 1
+        }
+      },
+      "stack-emptyhome": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 10
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 1
+        }
+      },
+      "single": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 5
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 0
+        }
+      },
+      "none": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "stack-emptyhome",
+    "single",
+    "none"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-store-sell.c": "85b6090b111d13c8d8ef79ece8c9a1b3722c59e7f0c8b32a9ba956e9de7df18b"
+  }
+}
