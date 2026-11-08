@@ -1278,13 +1278,11 @@ bool borg_think_dungeon(void)
         return true;
     }
 
-    /* Prevent clock wrapping Step 2 */
+    /* Prevent clock wrapping Step 2: reset the clock and keep playing.
+     * The overflow check in borg_think() remains as a failsafe. */
     if (borg.time.now >= BORG_TIME_MAX - 3000) {
-        /* Panic */
-        borg_oops("clock overflow");
-
-        /* Oops */
-        return true;
+        borg.time.now = 1;
+        borg_warning("*****WARNING***** Borg Clock Overflow");
     }
 
     /* no longer trying an unknown object */
