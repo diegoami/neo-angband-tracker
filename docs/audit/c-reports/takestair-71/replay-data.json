@@ -1,0 +1,115 @@
+{
+  "take": {
+    "label": "borg_flow_take(true, 250): up staircases 2 and 55 steps away",
+    "explanation": "Original: the staircase 55 steps away is the reference, the flask is 52 flow steps from it (over the 12-step leash) and is skipped; the flow returns false. Corrected: the staircase two steps away is the reference (flask 5 steps from it); 'Flowing toward item at cost 3', key 6 (east).",
+    "control": false,
+    "before": {
+      "raw": "native-c/takestair-71: starting...\nSETUP seed=71 mode=take class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12\n  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3\nDECISION fn=borg_flow_take(true, 250) rc=0 key=0 goal=0\nOUTCOME goes_for_item=0\nFailed\n    native-c/takestair-71:170: requirement 'go' failed\nnative-c/takestair-71 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "goes_for_item": 0
+      },
+      "notes": [
+        "DECISION fn=borg_flow_take(true, 250) rc=0 key=0 goal=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/takestair-71: starting...\nSETUP seed=71 mode=take class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12\n  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3\nDECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2\nTRACK # Flowing toward item at cost 3\nOUTCOME goes_for_item=1\nPassed\nnative-c/takestair-71 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "goes_for_item": 1
+      },
+      "notes": [
+        "DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2",
+        "TRACK # Flowing toward item at cost 3"
+      ],
+      "value": 1
+    }
+  },
+  "scum": {
+    "label": "borg_flow_take_scum(true, 6): same layout",
+    "explanation": "Original: borg_flow_far_from_stairs() measures from the far staircase and the flask is skipped. Corrected: 'Flowing toward Scum item at cost 3', key 6.",
+    "control": false,
+    "before": {
+      "raw": "native-c/takestair-71: starting...\nSETUP seed=71 mode=scum class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12\n  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3\nDECISION fn=borg_flow_take_scum(true, 6) rc=0 key=0 goal=0\nOUTCOME goes_for_item=0\nFailed\n    native-c/takestair-71:170: requirement 'go' failed\nnative-c/takestair-71 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "goes_for_item": 0
+      },
+      "notes": [
+        "DECISION fn=borg_flow_take_scum(true, 6) rc=0 key=0 goal=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/takestair-71: starting...\nSETUP seed=71 mode=scum class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12\n  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3\nDECISION fn=borg_flow_take_scum(true, 6) rc=1 key=54 goal=2\nTRACK # Flowing toward Scum item at cost 3\nOUTCOME goes_for_item=1\nPassed\nnative-c/takestair-71 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "goes_for_item": 1
+      },
+      "notes": [
+        "DECISION fn=borg_flow_take_scum(true, 6) rc=1 key=54 goal=2",
+        "TRACK # Flowing toward Scum item at cost 3"
+      ],
+      "value": 1
+    }
+  },
+  "lunal": {
+    "label": "borg_flow_take_lunal(true, 4): same layout",
+    "explanation": "Original: the flask is skipped as too far from the (far) staircase. Corrected: 'Flowing toward munchkin item at cost 3', key 6.",
+    "control": false,
+    "before": {
+      "raw": "native-c/takestair-71: starting...\nSETUP seed=71 mode=lunal class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12\n  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3\nDECISION fn=borg_flow_take_lunal(true, 4) rc=0 key=0 goal=0\nOUTCOME goes_for_item=0\nFailed\n    native-c/takestair-71:170: requirement 'go' failed\nnative-c/takestair-71 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "goes_for_item": 0
+      },
+      "notes": [
+        "DECISION fn=borg_flow_take_lunal(true, 4) rc=0 key=0 goal=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/takestair-71: starting...\nSETUP seed=71 mode=lunal class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12\n  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3\nDECISION fn=borg_flow_take_lunal(true, 4) rc=1 key=54 goal=2\nTRACK # Flowing toward munchkin item at cost 3\nOUTCOME goes_for_item=1\nPassed\nnative-c/takestair-71 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "goes_for_item": 1
+      },
+      "notes": [
+        "DECISION fn=borg_flow_take_lunal(true, 4) rc=1 key=54 goal=2",
+        "TRACK # Flowing toward munchkin item at cost 3"
+      ],
+      "value": 1
+    }
+  },
+  "control": {
+    "label": "Control: only the near up staircase (borg_flow_take)",
+    "explanation": "With a single staircase nearest and farthest are the same; both versions step toward the flask and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/takestair-71: starting...\nSETUP seed=71 mode=control class=Warrior clevel=1 depth=1 up=1 takes=1 leash_take=12 leash_explore=12\n  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3\nDECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2\nTRACK # Flowing toward item at cost 3\nOUTCOME goes_for_item=1\nPassed\nnative-c/takestair-71 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "goes_for_item": 1
+      },
+      "notes": [
+        "DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2",
+        "TRACK # Flowing toward item at cost 3"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/takestair-71: starting...\nSETUP seed=71 mode=control class=Warrior clevel=1 depth=1 up=1 takes=1 leash_take=12 leash_explore=12\n  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3\nDECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2\nTRACK # Flowing toward item at cost 3\nOUTCOME goes_for_item=1\nPassed\nnative-c/takestair-71 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "goes_for_item": 1
+      },
+      "notes": [
+        "DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2",
+        "TRACK # Flowing toward item at cost 3"
+      ],
+      "value": 1
+    }
+  }
+}

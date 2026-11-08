@@ -1,0 +1,4 @@
+take {'exit': 0, 'passed': True, 'outcome': {'goes_for_item': 1}}
+scum {'exit': 0, 'passed': True, 'outcome': {'goes_for_item': 1}}
+lunal {'exit': 0, 'passed': True, 'outcome': {'goes_for_item': 1}}
+control {'exit': 0, 'passed': True, 'outcome': {'goes_for_item': 1}}

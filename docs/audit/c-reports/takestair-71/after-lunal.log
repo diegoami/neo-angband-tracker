@@ -1,0 +1,8 @@
+native-c/takestair-71: starting...
+SETUP seed=71 mode=lunal class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take_lunal(true, 4) rc=1 key=54 goal=2
+TRACK # Flowing toward munchkin item at cost 3
+OUTCOME goes_for_item=1
+Passed
+native-c/takestair-71 finished: 1/1 passed

@@ -1,0 +1,125 @@
+{
+  "issue": "diegoami/neo-angband-tracker#71",
+  "report": "takestair-71",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "97c42489220d39e029568717686acf488c5ad56a",
+  "fix_branch": "task/takestair-71",
+  "fixtures_ref": "50e97a3cef4d309fd459352de421aee670f86e3a",
+  "cases": {
+    "take": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "goes_for_item": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "goes_for_item": 1
+        }
+      }
+    },
+    "scum": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "goes_for_item": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "goes_for_item": 1
+        }
+      }
+    },
+    "lunal": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "goes_for_item": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "goes_for_item": 1
+        }
+      }
+    },
+    "control": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "goes_for_item": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "goes_for_item": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "claim": "The 'nearest up stairs' scans in borg_flow_take(), borg_flow_take_scum() and borg_flow_take_lunal() keep the farthest known up staircase ('skip the closer ones'), so the leash tests measure items against a distant staircase. A level-1 Warrior standing by an up staircase ignores a Flask of Oil three steps away in all three pickup flows because a second up staircase is known 55 steps away. Keeping the nearest staircase restores the pickup; the single-staircase control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-take.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-take.c": "b96adc547dffb8871766cd66168d1150603cf1fc6e43929d8a00671204fd977e"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "9187709955e70d438e74a51d01e1bd939c5dfa6e8267be03fa2d156d3862b7fb",
+    "after-control.log": "e337ea33a5c26b0087975d0e92bd1663071c293888c38b370faf7897c80e7cf6",
+    "after-lunal.log": "5bfd7d362a8255691028ee5dd79388eaa2363351db8518dfc55a7d0c59a2b210",
+    "after-results.json": "745c0af85c2e929d1eb7dd985030689efcfb2f4efcf6e2a61586f552546a728b",
+    "after-scum.log": "978cdf7a22c1369a311c260263dc9da544255882efa634af7f2197bd608a71a6",
+    "after-take.log": "1c2019cd9d159f36ed9343d7ca08e1f5dfd07dd165b63f99cfb23ba2185a7a2c",
+    "before-control.log": "e337ea33a5c26b0087975d0e92bd1663071c293888c38b370faf7897c80e7cf6",
+    "before-lunal.log": "494a82c439a4148053ad77d1c22cf0ed29918a98f2684c17c0931702e455a843",
+    "before-results.json": "62ddb4a27b8d64206a570dd90c5fd192047a649a76e12dac767add0460bd22ab",
+    "before-scum.log": "d5945432ac027ce57000149a79ba8e85e7f4c848c72311f1a6d07b6cf8865253",
+    "before-take.log": "57c76a455d0050cf4d3ac683597f7ce362ffcd9fc61d26ab011aa01d22b98715",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "aefebd5e52d72f9e50dd80649a2a4ce1578de20d747725986426ec26032ec232",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "db52d9c92fa24aba6071d5ba8e60806c2b79f87bdb1c3b6045f74fed87d4b7d7",
+    "replay.html": "755804fa897c68cb3264673d6b08fe8af147a9366d39b633480adceff7be173b",
+    "reproduce.py": "558b489355cac24f350526f01dff1cbda101e0067616cbb26a77db8d4af9c038",
+    "result.json": "0e26574fbe533ea39957f280868d806c5f4494ab2c275171781008833113d501",
+    "run-after-alltests.log": "cc128c9a7cf022e90550a06e5ae410f98db2a7963d858530f8cc5a85ec6c3f5c",
+    "run-after-build.log": "4a8eb9fb25a4bc37f7e363621ed917c659ea064966a8aa93913f89434bad876c",
+    "run-after-scenarios.log": "450277c38ec5908277d2eb6c5bbe6e0f9e9ee1213176322e4b7908bf1b701e37",
+    "run-before-alltests.log": "8c811bc4805c4f1799c0eef76bb301b2f0cfd2b63a37fe3ef333c03a0a51d1fb",
+    "run-before-build.log": "b0032ada0f49290c59853c1631a38670dd13c7e51fb1076ab574215ddef4c080",
+    "run-before-scenarios.log": "82ba15c12a88a15be4dcc75a92802c0eb2fe8bbb090d45873e7324becd9fe056",
+    "run-cases.py": "321df35a3ee30ded799a45182e35a4bc863138fa8344027a1e60b550f48680c9",
+    "run-configure.log": "2c31d4bc51829bc0912ce282d19a66c21aeb2c6c9d1b80eb419d83602fcaa570",
+    "scenario.c": "40af6046cd5f4d77bb511c4e0685607e60cd0075bc4b00b72cd388339263239b"
+  }
+}

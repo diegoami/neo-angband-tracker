@@ -1,0 +1,70 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A far staircase put an item next to the Borg off its leash</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A far staircase put an item next to the Borg off its leash</h1><p>A low-level Borg keeps item hunts within a leash of its escape staircase. borg_flow_take(), borg_flow_take_scum() and borg_flow_take_lunal() each look up the nearest known up staircase for that test, but the scan kept the farthest one. When the Borg knew a second up staircase far away, a Flask of Oil three steps from the Borg (five from the staircase it was standing by) was measured against the far staircase, judged too far from the stairs, and ignored by all three pickup flows. The correction keeps the nearest up staircase, and the Borg steps toward the flask.</p><p><label>Scenario: <select id="scenario"><option value="take">borg_flow_take(true, 250): up staircases 2 and 55 steps away</option><option value="scum">borg_flow_take_scum(true, 6): same layout</option><option value="lunal">borg_flow_take_lunal(true, 4): same layout</option><option value="control">Control: only the near up staircase (borg_flow_take)</option></select></label></p><section class="scenario" data-mode="take"><p class="summary">Original: the staircase 55 steps away is the reference, the flask is 52 flow steps from it (over the 12-step leash) and is skipped; the flow returns false. Corrected: the staircase two steps away is the reference (flask 5 steps from it); &#x27;Flowing toward item at cost 3&#x27;, key 6 (east).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>steps toward the flask (1 = key 6, east)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION fn=borg_flow_take(true, 250) rc=0 key=0 goal=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>steps toward the flask (1 = key 6, east)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2
+TRACK # Flowing toward item at cost 3</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/takestair-71: starting...
+SETUP seed=71 mode=take class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=&amp; Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take(true, 250) rc=0 key=0 goal=0
+OUTCOME goes_for_item=0
+Failed
+    native-c/takestair-71:170: requirement &#x27;go&#x27; failed
+native-c/takestair-71 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/takestair-71: starting...
+SETUP seed=71 mode=take class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=&amp; Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2
+TRACK # Flowing toward item at cost 3
+OUTCOME goes_for_item=1
+Passed
+native-c/takestair-71 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="scum"><p class="summary">Original: borg_flow_far_from_stairs() measures from the far staircase and the flask is skipped. Corrected: &#x27;Flowing toward Scum item at cost 3&#x27;, key 6.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>steps toward the flask (1 = key 6, east)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION fn=borg_flow_take_scum(true, 6) rc=0 key=0 goal=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>steps toward the flask (1 = key 6, east)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION fn=borg_flow_take_scum(true, 6) rc=1 key=54 goal=2
+TRACK # Flowing toward Scum item at cost 3</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/takestair-71: starting...
+SETUP seed=71 mode=scum class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=&amp; Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take_scum(true, 6) rc=0 key=0 goal=0
+OUTCOME goes_for_item=0
+Failed
+    native-c/takestair-71:170: requirement &#x27;go&#x27; failed
+native-c/takestair-71 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/takestair-71: starting...
+SETUP seed=71 mode=scum class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=&amp; Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take_scum(true, 6) rc=1 key=54 goal=2
+TRACK # Flowing toward Scum item at cost 3
+OUTCOME goes_for_item=1
+Passed
+native-c/takestair-71 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="lunal"><p class="summary">Original: the flask is skipped as too far from the (far) staircase. Corrected: &#x27;Flowing toward munchkin item at cost 3&#x27;, key 6.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>steps toward the flask (1 = key 6, east)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION fn=borg_flow_take_lunal(true, 4) rc=0 key=0 goal=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>steps toward the flask (1 = key 6, east)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION fn=borg_flow_take_lunal(true, 4) rc=1 key=54 goal=2
+TRACK # Flowing toward munchkin item at cost 3</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/takestair-71: starting...
+SETUP seed=71 mode=lunal class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=&amp; Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take_lunal(true, 4) rc=0 key=0 goal=0
+OUTCOME goes_for_item=0
+Failed
+    native-c/takestair-71:170: requirement &#x27;go&#x27; failed
+native-c/takestair-71 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/takestair-71: starting...
+SETUP seed=71 mode=lunal class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=&amp; Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take_lunal(true, 4) rc=1 key=54 goal=2
+TRACK # Flowing toward munchkin item at cost 3
+OUTCOME goes_for_item=1
+Passed
+native-c/takestair-71 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="control"><p class="summary">With a single staircase nearest and farthest are the same; both versions step toward the flask and the logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>steps toward the flask (1 = key 6, east)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2
+TRACK # Flowing toward item at cost 3</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>steps toward the flask (1 = key 6, east)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2
+TRACK # Flowing toward item at cost 3</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/takestair-71: starting...
+SETUP seed=71 mode=control class=Warrior clevel=1 depth=1 up=1 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=&amp; Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2
+TRACK # Flowing toward item at cost 3
+OUTCOME goes_for_item=1
+Passed
+native-c/takestair-71 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/takestair-71: starting...
+SETUP seed=71 mode=control class=Warrior clevel=1 depth=1 up=1 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=&amp; Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take(true, 250) rc=1 key=54 goal=2
+TRACK # Flowing toward item at cost 3
+OUTCOME goes_for_item=1
+Passed
+native-c/takestair-71 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 71, character level 1, depth 1 (pickup and explore leash both 12), starting kit plus a lit torch, a lit 70x22 arena. An up staircase two steps west of the Borg; in the main cases a second up staircase 55 steps east, both tracked by the Borg. A real Flask of Oil lies on the floor three steps east and is registered through the production observe_take_diff(). Fixture interventions: the Borg&#x27;s map is copied from the game map and marked viewed, the staircases are written to track_less, and borg.panels is set to 1x1 (what borg_update() derives for a one-panel arena) before the detection arrays are allocated. The production pickup flow runs once and the first queued key is read back. This isolates the pickup decision; it does not play out the walk or the pickup.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/71">issue 71</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
