@@ -1,0 +1,119 @@
+{
+  "slug": "clockreset-246",
+  "date": "2026-11-08",
+  "kind": "newrun",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "7cc0ebbd2016afeaaf57c5e976251b67f7c0e147",
+  "fixtures_ref": "526c82044ee91bbbb531c25edd07f63bed7cd88c",
+  "command": "python3 reproduce.py --full-tests --fixtures-ref 526c82044ee91bbbb531c25edd07f63bed7cd88c --fix-ref 7cc0ebbd2016afeaaf57c5e976251b67f7c0e147",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "time_after": 2147480647,
+          "active": 0
+        },
+        "outcome": {
+          "kept_playing": 0,
+          "time_reset": 0
+        }
+      },
+      "below-threshold": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "time_after": 2147480646,
+          "active": 1
+        },
+        "outcome": {
+          "kept_playing": 1,
+          "time_reset": 0
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "time_after": 1,
+          "active": 1
+        },
+        "outcome": {
+          "kept_playing": 1,
+          "time_reset": 1
+        }
+      },
+      "below-threshold": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "time_after": 2147480646,
+          "active": 1
+        },
+        "outcome": {
+          "kept_playing": 1,
+          "time_reset": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "below-threshold"
+  ],
+  "diagnostics": [],
+  "full_tests_parsed_from_alltests_logs": {
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    },
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    }
+  },
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "render_smoke": {
+    "replay.html": {
+      "output": "RENDER-SMOKE actions=0 errors=0 OK",
+      "exit": 0,
+      "sha256": "26b6fcfd407aeb2b769929c65398b8a05550b8345cc62db04a3aece1f5e12541"
+    }
+  },
+  "run_root": "/tmp/angband-clockreset-246-0jpuqyxq",
+  "sha256": {
+    "after-alltests.log": "d6a3f626de7c86c6e2b6f368ecc3b80ae24bd2d716c1da738dca00e131898e4b",
+    "after-build.log": "d34c06a4fd8171d18500632f648267b66926351c758d34b8c40c182e2ca7479b",
+    "after-scenarios.log": "3e8db30a881e319d7ba236c19f6ebf37560d7a840fc4d3a1b39959179b2615aa",
+    "before-alltests.log": "9e369e3cae4d9eb9e7fa17fce2ba3f42bd7413a15bf713b6c1c1f3d7fabc9a4e",
+    "before-build.log": "903777939a9fa138a309e70e2693bc774f690cfd9a66176f898f2f32369b1700",
+    "before-scenarios.log": "94eb37089f9f2f5b742ab5f224d812b736be4a8be70010f1ae9fd35e842abbf2",
+    "configure.log": "2da5ea2fa8c47f73643a4321397e82df0e4edb1c1b609c34d17cc2cacc9ffe24",
+    "result.json": "a765f9e3838ec9d79c0ce55db89cb1a5beabcabaf2b7eefd47491e80f90f1a60",
+    "scenario-after-below-threshold.log": "0f72efdb7fdbe9f584e6d89cda6dc270c065dfbe767a814de30ba6d022173893",
+    "scenario-after-main.log": "cea16502a1308f5edd7ed214c5929de609603b8e5830670b820f752ad83ab6ab",
+    "scenario-after-results.json": "f9c54d724d39dd1ce0437d0216348370237a05c75411625c83c8e1b0355965eb",
+    "scenario-before-below-threshold.log": "0f72efdb7fdbe9f584e6d89cda6dc270c065dfbe767a814de30ba6d022173893",
+    "scenario-before-main.log": "cfb694b7ea1a63e730baf6686dbdb7476c0fa8e86811f0b100efb67ef2f812db",
+    "scenario-before-results.json": "4b0a0e8e29b148ee095bcc44b57945f2968f16539a74dcb8f872f250ca76629e"
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "change": "fixtures_ref, cases, full_tests, render_check, run_log, claim updated to this run; identical_controls, toolchain, sha256 added; previous values kept under superseded_run. The original receipt had no sha256 map."
+    },
+    {
+      "file": "README.md",
+      "old_sha256": "faf1e10b21081fd77b9d0e537c3d955059aa5b296e4a62d5db8e2945fed18ae6",
+      "new_sha256": "312f23a9d1cc108699c24409d30e3e5c980aa490b5c44ac61fdc5f93b67987d4",
+      "change": "appended \"Re-verification with a control (2026-11-08)\""
+    }
+  ]
+}

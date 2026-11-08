@@ -61,3 +61,47 @@ pass. It does not measure autonomous play across the following thousands of
 turns. The reset semantics (`borg.time.now = 1`) are identical to the
 original `borg_think()` overflow handler, moved to the point where they can
 actually run.
+
+
+## Re-verification with a control (2026-11-08)
+
+Why: the original run's phase logs (configure, builds, full gates) were not
+committed (the repository's `*.log` ignore rule dropped them), the receipt had
+no sha256 map, the replay render check was only planned, and there was no unchanged-situation control.
+
+A control mode was added (`CR246_MODE=below-threshold`): the clock one turn below the threshold (`BORG_TIME_MAX - 3001`). Neither the original abort nor the corrected reset applies; both versions keep the clock (2147480646), stay active and take the same ordinary decision, with a byte-identical log. This bounds the change to the threshold itself.
+
+**New fixtures pin `526c82044ee91bbbb531c25edd07f63bed7cd88c` supersedes `85ff225404d99acfdf22568b4bc5ec64afd4218b`** for
+every repeat command. It adds only the mode selection and the new case(s); the
+main case's code path is unchanged, and the run at the new pin reproduced the
+recorded main outcome exactly (the `Failed` line of the original's main log
+now cites a later source line, the only difference in that log). Fix
+`7cc0ebbd2016afeaaf57c5e976251b67f7c0e147`, base `e473720ed`.
+
+| Case | Original (base) | Corrected (fix) | Logs |
+| --- | --- | --- | --- |
+| `main`: clock at `BORG_TIME_MAX - 3000` | clock frozen at 2147480647, **aborted** ("Aborting (clock overflow)."), 0/1 | clock **reset to 1**, still active, 1/1 | `before-main.log`, `after-main.log` |
+| `below-threshold` (control): `BORG_TIME_MAX - 3001` | clock 2147480646, active, 1/1 | identical, 1/1 | **byte-identical** `before-below-threshold.log` / `after-below-threshold.log` |
+
+Full native gates on both variants: 965/965 unit checks and 5/5 frontend tests
+(parsed from `reverify-2026-11-08/before-alltests.log` and `after-alltests.log`,
+no failed lines). Toolchain: GNU 13.3.0, cmake version 3.28.3.
+Render check: `node tools/c-evidence/render-smoke.js` (Playwright headless) on
+the committed `replay.html`: `RENDER-SMOKE actions=0 errors=0 OK` (no console errors, no
+`undefined`/`NaN`); the page now has a section per extra case with both raw logs.
+
+The top-level `before-*.log`, `after-*.log`, results files, `replay.html` and
+`replay-data.json` are from this run. Configure, build, scenario-runner and
+full-gate logs and `result.json` are in [reverify-2026-11-08/](reverify-2026-11-08/)
+with their own [receipt](reverify-2026-11-08/receipt.json). The root
+`receipt.json` now records this run (the earlier pin and outcomes are kept
+under `superseded_run`) and a sha256 map of every file in this directory.
+
+Repeat, with both shas pinned:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/clockreset-246
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/clockreset-246-evidence
+git show 526c82044ee91bbbb531c25edd07f63bed7cd88c:docs/audit/c-reports/clockreset-246/reproduce.py > /tmp/reproduce-clockreset-246.py
+python3 /tmp/reproduce-clockreset-246.py --full-tests --fixtures-ref 526c82044ee91bbbb531c25edd07f63bed7cd88c --fix-ref 7cc0ebbd2016afeaaf57c5e976251b67f7c0e147
+```
