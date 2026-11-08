@@ -100,3 +100,54 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+**Why.** The original run's phase logs were never committed: the repository's
+`*.log` ignore rule dropped them although `receipt.json` above lists and hashes
+them. This section records a second native run at the same pins; the earlier
+text of this guide is unchanged.
+
+Pins: base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `3e7fe8a8399352c4fe67f5de2d8d48b5e0bd04c1` (draft PR #335), fixtures
+`b4f23f90723a46ad155d92127fdcad7c561cf65c` (the original receipt's `fixtures_ref`). The generators (`scenario.c`, `run-cases.py`, `make_replay.py`, `reproduce.py`, `borg.txt`) are byte-identical between the run pin `b4f23f907` and every later commit of this branch, so the earlier commands that pin a later evidence commit run the same fixture.
+
+Every case reproduced the recorded result (pass/fail and every recorded
+outcome field are equal to the original receipt):
+
+| Case | Original: recorded → re-run | Corrected: recorded → re-run |
+| --- | --- | --- |
+| `multibyte` | passed=False `terminated=0 strnlen=1024` → passed=False, same | passed=True `terminated=1 strnlen=81` → passed=True, same |
+| `control` | passed=True `terminated=1 strnlen=80` → passed=True, same | passed=True `terminated=1 strnlen=80` → passed=True, same |
+
+- Controls: `control` byte-identical.
+- Full native gates, parsed from the committed alltests logs: before: 965/965 and 5/5 (0 failed lines); after: 965/965 and 5/5 (0 failed lines).
+- Byte identity with the original receipt's hashes: 9 of 14 re-run files are byte-identical
+  to the hashes the original receipt recorded (`after-control.log`, `after-multibyte.log`, `after-results.json`, `after-scenarios.log`, `before-control.log`, `before-multibyte.log`, `before-results.json`, `before-scenarios.log`, `result.json`).
+  The others (`after-alltests.log`, `after-build.log`, `before-alltests.log`, `before-build.log`, `configure.log`) carry build paths, timings and toolchain output:
+  this run used gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0 and cmake version 3.28.3; the original used gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0 and cmake version 4.2.3.
+- Render check of the committed `replay.html` (sha256 `bdb409d755e8…`) with
+  `tools/c-evidence/render-smoke.js` (headless Chromium, clicks every scenario option and button):
+  `RENDER-SMOKE actions=4 errors=0 OK`.
+
+The logs, both results JSONs and `result.json` of this run are in
+[`reverify-2026-11-08/`](reverify-2026-11-08/); its
+[`receipt.json`](reverify-2026-11-08/receipt.json) records the pins, per-case results,
+gate totals, toolchain, render result and the sha256 of every file there.
+
+Repeat (fixtures and fix pinned; `reproduce.py` hard-codes the base and fix
+commits and refuses any other source hunk, so it has no `--fix-ref` flag):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/text-287-evidence
+git show b4f23f90723a46ad155d92127fdcad7c561cf65c:docs/audit/c-reports/text-287/reproduce.py > /tmp/reproduce-text-287.py
+python3 /tmp/reproduce-text-287.py --full-tests --fixtures-ref b4f23f90723a46ad155d92127fdcad7c561cf65c
+```
+
+## Errata (2026-11-08)
+
+- The "Source proposal" link near the top labelled `PR-SOURCE` points at an unfilled placeholder URL. The source proposal is draft PR [#335](https://github.com/diegoami/neo-angband-tracker/pull/335); this evidence is draft PR [#336](https://github.com/diegoami/neo-angband-tracker/pull/336).
+- The repeat commands above pin `c3c980b3462773810c560931e3ae51b4996c9316` while `receipt.json` records `fixtures_ref` `b4f23f90723a46ad155d92127fdcad7c561cf65c`, the commit the native run actually executed at. Both carry the same generators (see the re-verification note); prefer the `b4f23f90723a46ad155d92127fdcad7c561cf65c` pin given in the Re-verification section.
+- `receipt.json` hashes phase logs that were never committed (the `*.log` ignore rule). The re-verification run's logs, under `reverify-2026-11-08/`, replace them; where the original hash is reproduced byte for byte, that is listed above. Its `browser` entry records the original Chrome-for-Testing render check; the re-verification adds the render-smoke result above.
+- **AddressSanitizer variant (manual, 2026-11-08).** This is a memory-safety defect but the package had no asan variant, and `reproduce.py` at this pin cannot build one. A manual ASAN build of the same disposable tree (both variants, full tree, `-fsanitize=address -g`, leak detection on) ran both cases with the unchanged `run-cases.py`: the outcomes equal the normal build (`multibyte`: original `terminated=0 strnlen=1024`, fails; corrected `terminated=1 strnlen=81`, passes; `control` 80/80 with byte-identical logs) and **AddressSanitizer reported nothing in either variant**. That is expected and is a limit, not a clean bill: the fixture measures the text with `strnlen` bounded by its 1024-byte buffer, so the original's missing terminator shows in the measurement but is not an out-of-bounds access inside the fixture; the unbounded read happens in the production caller (`strlen` in `borg_get_messages()`), which this fixture does not exercise. Logs: `reverify-2026-11-08/asan-{before,after}-{multibyte,control}.log`, build logs `*-build-asan.log`, details under `asan_manual` in `reverify-2026-11-08/receipt.json`.
+- **The bound claim under "Source explanation" is not correct as written.** The text says the new limit `ABS(n) * MB_CUR_MAX` stays "within the callers' 1024-byte buffers for every reachable `n`". The limit is not tied to the destination size: `borg_get_messages()` passes `char buffer[1024]` with `n = (Term->wid - 1) / tile_width`, so a terminal about 256 columns wide or more showing a line of 4-byte UTF-8 characters can make `wcstombs` write past the buffer. A standalone model of the corrected line (`reverify-2026-11-08/bound-model-wide.c`, not the game) under ASAN reports `stack-buffer-overflow` for n=256 (WRITE of size 1025) and n=300 (WRITE of size 1201). Not measured in the native game. The source fix is unchanged pending an owner decision between passing the buffer size and clamping to size-1 with forced termination (issue #287).
