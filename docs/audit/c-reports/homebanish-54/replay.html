@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg&#x27;s home score ignored Scrolls of Banishment</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg&#x27;s home score ignored Scrolls of Banishment</h1><p>The home score rewards stocked Scrolls of Banishment (genocide) and Mass Banishment, &#x27;mainly used for Morgoth&#x27;. The scan that counts the home&#x27;s scrolls only counted Mass Banishment, so the Banishment reward was always zero and the Borg never offered a Banishment scroll to the home. The correction counts them.</p><p><label>Scenario: <select id="scenario"><option value="banish">Pack holds a Scroll of Banishment</option><option value="mass">Control: pack holds a Scroll of Mass Banishment</option></select></label></p><section class="scenario" data-mode="banish"><p class="summary">A level-26 Mage with an empty home carries a Scroll of Banishment, a Scroll of Word of Recall, a ration and a spell book. The production home-store routine decides what to put in the home. Original: the home score gives a Banishment scroll nothing, so the Borg leaves it in the pack. Corrected: the scroll is worth the same as other stocked scrolls and the Borg offers it to the home.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg offers a Banishment scroll to the home (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION acts=0 goal_item=-1 what=[(nothing)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg offers a Banishment scroll to the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION acts=1 goal_item=2 what=[Scroll of Banishment]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/homebanish-54: starting...
+SETUP seed=54 mode=banish class=Mage clevel=26 gold=5000
+  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 desc=[Ration of Food]
+PACK 2 qty=1 desc=[Scroll of Banishment]
+PACK 3 qty=1 desc=[Scroll of Word of Recall]
+DECISION acts=0 goal_item=-1 what=[(nothing)]
+OUTCOME stores_banishment_scroll=0
+Failed
+    native-c/homebanish-54:147: requirement &#x27;stores_scroll&#x27; failed
+native-c/homebanish-54 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/homebanish-54: starting...
+SETUP seed=54 mode=banish class=Mage clevel=26 gold=5000
+  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 desc=[Ration of Food]
+PACK 2 qty=1 desc=[Scroll of Banishment]
+PACK 3 qty=1 desc=[Scroll of Word of Recall]
+DECISION acts=1 goal_item=2 what=[Scroll of Banishment]
+OUTCOME stores_banishment_scroll=1
+Passed
+native-c/homebanish-54 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="mass"><p class="summary">The same Mage with a Scroll of Mass Banishment, which the home score already counted. The Borg offers it to the home before and after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg offers a Banishment scroll to the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg offers a Banishment scroll to the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/homebanish-54: starting...
+SETUP seed=54 mode=mass class=Mage clevel=26 gold=5000
+  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 desc=[Ration of Food]
+PACK 2 qty=1 desc=[Scroll of Mass Banishment]
+PACK 3 qty=1 desc=[Scroll of Word of Recall]
+DECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]
+OUTCOME stores_banishment_scroll=1
+Passed
+native-c/homebanish-54 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/homebanish-54: starting...
+SETUP seed=54 mode=mass class=Mage clevel=26 gold=5000
+  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 desc=[Ration of Food]
+PACK 2 qty=1 desc=[Scroll of Mass Banishment]
+PACK 3 qty=1 desc=[Scroll of Word of Recall]
+DECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]
+OUTCOME stores_banishment_scroll=1
+Passed
+native-c/homebanish-54 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Mage, seed 54, character level 26, 5000 gold, depth 0, a lit open arena. All shops and the home are emptied; the pack holds the starting spell book, a ration, a Scroll of Word of Recall and one scroll under test. The production borg_think_home_sell_useful() decides; nothing is walked or stored. Fixture interventions: the stores are emptied and the item runes are known.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/54">issue 54</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

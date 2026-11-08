@@ -1,0 +1,10 @@
+native-c/homebanish-54: starting...
+SETUP seed=54 mode=mass class=Mage clevel=26 gold=5000
+  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 desc=[Ration of Food]
+PACK 2 qty=1 desc=[Scroll of Mass Banishment]
+PACK 3 qty=1 desc=[Scroll of Word of Recall]
+DECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]
+OUTCOME stores_banishment_scroll=1
+Passed
+native-c/homebanish-54 finished: 1/1 passed

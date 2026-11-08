@@ -1,0 +1,56 @@
+{
+  "banish": {
+    "label": "Pack holds a Scroll of Banishment",
+    "explanation": "A level-26 Mage with an empty home carries a Scroll of Banishment, a Scroll of Word of Recall, a ration and a spell book. The production home-store routine decides what to put in the home. Original: the home score gives a Banishment scroll nothing, so the Borg leaves it in the pack. Corrected: the scroll is worth the same as other stocked scrolls and the Borg offers it to the home.",
+    "control": false,
+    "before": {
+      "raw": "native-c/homebanish-54: starting...\nSETUP seed=54 mode=banish class=Mage clevel=26 gold=5000\n  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]\nPACK 1 qty=1 desc=[Ration of Food]\nPACK 2 qty=1 desc=[Scroll of Banishment]\nPACK 3 qty=1 desc=[Scroll of Word of Recall]\nDECISION acts=0 goal_item=-1 what=[(nothing)]\nOUTCOME stores_banishment_scroll=0\nFailed\n    native-c/homebanish-54:147: requirement 'stores_scroll' failed\nnative-c/homebanish-54 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "stores_banishment_scroll": 0
+      },
+      "notes": [
+        "DECISION acts=0 goal_item=-1 what=[(nothing)]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/homebanish-54: starting...\nSETUP seed=54 mode=banish class=Mage clevel=26 gold=5000\n  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]\nPACK 1 qty=1 desc=[Ration of Food]\nPACK 2 qty=1 desc=[Scroll of Banishment]\nPACK 3 qty=1 desc=[Scroll of Word of Recall]\nDECISION acts=1 goal_item=2 what=[Scroll of Banishment]\nOUTCOME stores_banishment_scroll=1\nPassed\nnative-c/homebanish-54 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "stores_banishment_scroll": 1
+      },
+      "notes": [
+        "DECISION acts=1 goal_item=2 what=[Scroll of Banishment]"
+      ],
+      "value": 1
+    }
+  },
+  "mass": {
+    "label": "Control: pack holds a Scroll of Mass Banishment",
+    "explanation": "The same Mage with a Scroll of Mass Banishment, which the home score already counted. The Borg offers it to the home before and after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/homebanish-54: starting...\nSETUP seed=54 mode=mass class=Mage clevel=26 gold=5000\n  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]\nPACK 1 qty=1 desc=[Ration of Food]\nPACK 2 qty=1 desc=[Scroll of Mass Banishment]\nPACK 3 qty=1 desc=[Scroll of Word of Recall]\nDECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]\nOUTCOME stores_banishment_scroll=1\nPassed\nnative-c/homebanish-54 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "stores_banishment_scroll": 1
+      },
+      "notes": [
+        "DECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/homebanish-54: starting...\nSETUP seed=54 mode=mass class=Mage clevel=26 gold=5000\n  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]\nPACK 1 qty=1 desc=[Ration of Food]\nPACK 2 qty=1 desc=[Scroll of Mass Banishment]\nPACK 3 qty=1 desc=[Scroll of Word of Recall]\nDECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]\nOUTCOME stores_banishment_scroll=1\nPassed\nnative-c/homebanish-54 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "stores_banishment_scroll": 1
+      },
+      "notes": [
+        "DECISION acts=1 goal_item=2 what=[Scroll of Mass Banishment]"
+      ],
+      "value": 1
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "banish": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "stores_banishment_scroll": 0
+    }
+  },
+  "mass": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "stores_banishment_scroll": 1
+    }
+  }
+}

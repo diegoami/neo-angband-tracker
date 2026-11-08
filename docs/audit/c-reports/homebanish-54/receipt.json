@@ -1,0 +1,93 @@
+{
+  "issue": "diegoami/neo-angband-tracker#54",
+  "report": "homebanish-54",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "e49ab94809d6f18d0b1d155ff2b1bc6ba8d3db78",
+  "fix_branch": "task/homebanish-54",
+  "fixtures_ref": "8484955b27f253e0d9c99526be334fe7346888e9",
+  "cases": {
+    "banish": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "stores_banishment_scroll": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "stores_banishment_scroll": 1
+        }
+      }
+    },
+    "mass": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "stores_banishment_scroll": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "stores_banishment_scroll": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "mass"
+  ],
+  "claim": "With an empty home, the original Borg left a Scroll of Banishment in its pack because the home score gave it no value, while it offered a Scroll of Mass Banishment. With the scroll counted it offers the Banishment scroll too. The Mass Banishment control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-home-notice.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-home-notice.c": "2f8851ad50a0eb2bae55ceaab96311389312912b9cbb71b4948d63bb8f0b4f23"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "ef552d79b791d051093334778a382cb67a46967072270fe0e5770240dcc670d6",
+    "after-banish.log": "4f017aa829d72a44906a0f600f24ac4633a30a3718931fcdaac4ff703cfaf0c2",
+    "after-mass.log": "b802c59937d700f95276c9691df1360edebe50078090e5cdf5c17ba11b12796e",
+    "after-results.json": "c482f7d96e7a52f50d03f52b7696a46c42b8792c2e23949b334f7c5a1c8472a5",
+    "before-banish.log": "4739011da280e7239f8e4f8f8605aa6837cdddba3d148a9985a6b46aa4d168f4",
+    "before-mass.log": "b802c59937d700f95276c9691df1360edebe50078090e5cdf5c17ba11b12796e",
+    "before-results.json": "56638fd893df9a9f972232170fe64c0d093ed11ba88e2664c11018a53ccbc29c",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "ccf72f6fbfaa7d759369d679ed172a92c2350955b1c0485809dcba7ba2b9fa51",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "3c30c16ca0f8406188940bcdc9452eec546f88576ae3dc589b12368f27915d2b",
+    "replay.html": "ac21cf4c748203c149ab674c02560d6563fa45d64e89af4e757c88f97c4e4fdc",
+    "reproduce.py": "68792f21b2a95c084e7ce5872b8c3fb4c0313fa48d41cf6a99a7f1c46ed7810b",
+    "result.json": "c5c9f57c6ea73fc0fde0e5df2396de12e0e56f74cfc698cf9d4c8fe6f1e65de2",
+    "run-after-alltests.log": "46c0f33f695c321c4909f5f00e07662ac7a11d788aff99f390813fd5e6b320e5",
+    "run-after-build.log": "98fe9960390dfcdfe74ade7aed7c49bc97ed9b10f6b325bc247aeb2227a21890",
+    "run-after-scenarios.log": "b9834bfb5a902a56e8fe3ef2d3e775f26d1cf7b089b020ee785b69991a69f463",
+    "run-before-alltests.log": "e2bbe5b4814e52348f047b1b552136b4b6a6717d6a32f54891f1be79ad226b31",
+    "run-before-build.log": "9cfe928fbd8baaa1a99569a78619e0b6fdb5be50735dedb19bf6dcb5b3758d0d",
+    "run-before-scenarios.log": "1fae904f64f70690ed3fa293d63537305521023ea5bd75fcee7bd2c00b3f4226",
+    "run-cases.py": "063ed98d536268a723e3a269c83777b9d34075b5de9bec2dea114b56de2d2004",
+    "run-configure.log": "7ac32b65ece581ff177c2ba03a9bef9a7fc246d49f12806173184ca4c133f8c4",
+    "scenario.c": "d35bce49f4f39cd625f38957aac68032bf57d66caa5678c615c3524cdbf69142"
+  }
+}

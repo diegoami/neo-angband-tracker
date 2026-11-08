@@ -1,0 +1,11 @@
+native-c/homebanish-54: starting...
+SETUP seed=54 mode=banish class=Mage clevel=26 gold=5000
+  home_stores_a_banishment_scroll  PACK 0 qty=1 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 desc=[Ration of Food]
+PACK 2 qty=1 desc=[Scroll of Banishment]
+PACK 3 qty=1 desc=[Scroll of Word of Recall]
+DECISION acts=0 goal_item=-1 what=[(nothing)]
+OUTCOME stores_banishment_scroll=0
+Failed
+    native-c/homebanish-54:147: requirement 'stores_scroll' failed
+native-c/homebanish-54 finished: 0/1 passed
