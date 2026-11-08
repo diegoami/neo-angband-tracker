@@ -1,0 +1,9 @@
+native-c/reserve-258: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Mage level=14 depth=5 avoidance=4
+  reserve_bolt_checks_near_monsters  MODE veto
+GEOMETRY player=(11,11) weakling=(11,13) bully=(11,25) danger=544 avoidance=4 temp_n=2
+RATING value=40 danger_gate=1
+OUTCOME value=40
+Passed
+native-c/reserve-258 finished: 1/1 passed

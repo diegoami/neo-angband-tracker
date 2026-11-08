@@ -1,0 +1,108 @@
+{
+  "purpose": "Re-verification at the original pins: the original run's logs were dropped by the repository's *.log ignore rule although the original receipt hashed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "7b4ecd6b888a1d87b526f273c769449eb013ad9b",
+  "fixtures_ref": "756cff926941cdb69526818724eba359cc4074f3",
+  "original_fixtures_ref": "756cff926941cdb69526818724eba359cc4074f3",
+  "command": "git show 756cff926941cdb69526818724eba359cc4074f3:docs/audit/c-reports/reserve-258/reproduce.py > /tmp/reproduce-reserve-258.py && python3 /tmp/reproduce-reserve-258.py --full-tests --fixtures-ref 756cff926941cdb69526818724eba359cc4074f3",
+  "fix_pin_note": "reproduce.py hard-codes BASE and FIX and asserts the exact source hunk; it has no --fix-ref flag.",
+  "cases": {
+    "before": {
+      "veto": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "player=(11,11) weakling=(11,13) bully=(11,25) danger=544 avoidance=4 temp_n=2",
+        "rating": "value=0 danger_gate=1",
+        "outcome": "value=0"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(11,11) weakling=(11,13) bully=none danger=8 avoidance=4 temp_n=1",
+        "rating": "value=50 danger_gate=1",
+        "outcome": "value=50"
+      }
+    },
+    "after": {
+      "veto": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(11,11) weakling=(11,13) bully=(11,25) danger=544 avoidance=4 temp_n=2",
+        "rating": "value=40 danger_gate=1",
+        "outcome": "value=40"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(11,11) weakling=(11,13) bully=none danger=8 avoidance=4 temp_n=1",
+        "rating": "value=50 danger_gate=1",
+        "outcome": "value=50"
+      }
+    }
+  },
+  "matches_original_receipt_cases": true,
+  "case_differences": [],
+  "identical_controls": {
+    "control": true
+  },
+  "byte_identical_to_original_hash": {
+    "after-alltests.log": false,
+    "after-build.log": false,
+    "after-scenarios.log": true,
+    "before-alltests.log": false,
+    "before-build.log": false,
+    "before-scenarios.log": true,
+    "configure.log": false,
+    "result.json": true,
+    "after-control.log": true,
+    "after-results.json": true,
+    "after-veto.log": true,
+    "before-control.log": true,
+    "before-results.json": true,
+    "before-veto.log": true
+  },
+  "full_tests": {
+    "before": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "original_compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "original_cmake": "cmake version 4.2.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "target": "committed replay.html",
+    "replay_sha256": "4c09ba5a6a2abe0ac78cde773f0439ac0bc7b27a8c3609b71bc9b630f7f65f79",
+    "result": "RENDER-SMOKE actions=4 errors=0 OK",
+    "exit": 0
+  },
+  "sha256": {
+    "after-alltests.log": "7ed1ff3dc9eac400a7ca3055d5e0398870a4bd4b7bf3918f531837b6fd65a6a9",
+    "after-build.log": "6e779bf610af071274d3fe0843f690892dbcc9dba05cfcbec980997f17273b1d",
+    "after-control.log": "f79510db70398ace43fa845015b05d57654e247f2a69acf7660145fa1035d9a2",
+    "after-results.json": "84d63ac9fa877677889a080e212ebe0f95ea55871647a3dbb75c7e951e89e946",
+    "after-scenarios.log": "b6f0236ed250b507ebd1919cab66c046b806e7c4226d9697c58ba45b0336b138",
+    "after-veto.log": "2d1c393d684cfe53092578f969837b30696eced8b3f236b951b88f9243dd5cdf",
+    "before-alltests.log": "30ff237a7aaf5d192f3a36b4af8d2c71886b3b6e6005c479977ed368810523c4",
+    "before-build.log": "8bef0930aa24964f30e1586c7f5b5639fdf6f428f91294c47603de160e693f21",
+    "before-control.log": "f79510db70398ace43fa845015b05d57654e247f2a69acf7660145fa1035d9a2",
+    "before-results.json": "9e1c3de531e868d6dd9e1a9d09e2322bc5440c22a6d22d9f62a3488f805ebecf",
+    "before-scenarios.log": "bc96f0d48f5b47f72f8f08d6c0cc2688d49e83fc8858b003a9a67b05e680e5dd",
+    "before-veto.log": "800a6f129785616bf8f2f771f2838246cba86ce741ecb4d390edf229a326049f",
+    "configure.log": "89a8efd02a876282d288511d6137066a6dd2baef8f3d10b1842de6152fca32f9",
+    "result.json": "8f57065f8f4f3d3a0fa2e86d9b559a3556bf563fa853405ee6d9357cf835ba83"
+  }
+}
