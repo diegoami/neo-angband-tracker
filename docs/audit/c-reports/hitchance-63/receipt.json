@@ -2,9 +2,9 @@
   "issue": "diegoami/neo-angband-tracker#63",
   "report": "hitchance-63",
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
-  "fix": "5c7950a25e7fb62eec1987f0fe8a4f43f4bf3984",
+  "fix": "fa5b7e15a8995c969a0f9e103b65644c83de356b",
   "fix_branch": "task/hitchance-63",
-  "fixtures_ref": "d1ac3dce6c21906d049d8589e16ab43b1afe8390",
+  "fixtures_ref": "c8714f404db5aef367377b77cdec1efa1c3b9b76",
   "cases": {
     "brute": {
       "before": {
@@ -16,7 +16,10 @@
           "ac": 10
         },
         "outcome": {
-          "shoots": 1
+          "shoots": 1,
+          "partial_danger": 0,
+          "full_danger": 162,
+          "partial_le_full": 1
         }
       },
       "after": {
@@ -28,7 +31,10 @@
           "ac": 10
         },
         "outcome": {
-          "shoots": 0
+          "shoots": 0,
+          "partial_danger": 162,
+          "full_danger": 162,
+          "partial_le_full": 1
         }
       }
     },
@@ -42,7 +48,10 @@
           "ac": 10
         },
         "outcome": {
-          "shoots": 1
+          "shoots": 1,
+          "partial_danger": 0,
+          "full_danger": 0,
+          "partial_le_full": 1
         }
       },
       "after": {
@@ -54,7 +63,10 @@
           "ac": 10
         },
         "outcome": {
-          "shoots": 1
+          "shoots": 1,
+          "partial_danger": 0,
+          "full_danger": 0,
+          "partial_le_full": 1
         }
       }
     }
@@ -62,7 +74,7 @@
   "identical_controls": [
     "wretch"
   ],
-  "claim": "The original partial melee estimate gave the sleeping cave troll a danger of 0, so a level-15 Warrior's ranged-attack scorer rated a bolt at it at 12 and the troll would be woken. With armour divided by the monster's to-hit the estimate is 234, above half the Borg's avoidance, and the scorer refuses the attack. A control with a harmless sleeping monster is byte-identical.",
+  "claim": "The original partial melee estimate gave the sleeping cave troll a danger of 0, so a level-15 Warrior's ranged-attack scorer rated a bolt at it at 12 and the troll would be woken. With armour divided by the monster's to-hit and the hit chance capped at 100%, the estimate is 162, equal to the full-damage figure and above half the Borg's avoidance, and the scorer refuses the attack. In every case the partial estimate does not exceed the full-damage figure. A control with a harmless sleeping monster is byte-identical.",
   "full_tests": {
     "before": {
       "unit_checks": "965/965",
@@ -77,11 +89,11 @@
     "src/borg/borg-danger.c"
   ],
   "fixed_source_sha256": {
-    "src/borg/borg-danger.c": "cea893f08a04c8cacfa80a3615ffd9eb59d51c5af498fe8f7fb009c954b8b81c"
+    "src/borg/borg-danger.c": "22b429c1687125c5847e44a1a9681adb87bf6058cbaffa06beeeffa23fb311ce"
   },
-  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
-  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
-  "cmake": "cmake version 4.2.3",
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical. Every case in both phases must report a partial danger estimate not above the full-damage figure.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
   "browser_verification": {
     "tool": "Playwright Chromium headless on the committed replay.html",
     "checks": 12,
@@ -90,28 +102,65 @@
   },
   "run_log": "matrix exit 0; VERIFIED line in reproduce output",
   "sha256": {
-    "README.md": "2eece36c2deef907c3e0fd916fa3c6bb0579774cc6a5cf6f9381d1bf5fee8d6c",
-    "after-brute.log": "912a8ff84490b7b1f249ab700b92bf8c81f574b2c81778d749e42a04d4a641db",
-    "after-results.json": "8558beb4b9d413d106b58253cb4a58b9656c736e4c6dce3ab997c0c99ec7f8a8",
-    "after-wretch.log": "228d91a3e4687ffb74b771e04debdec115a028a679df63d8486447b45f68fa08",
-    "before-brute.log": "138e5a85fdf7bf2f6ba4f105422d554769c71f4fe432ac2e5f233e082f9191cb",
-    "before-results.json": "5fe8e856991d0db2f310fbd28985050252b653f3850c1f5ef5c25f97717ef755",
-    "before-wretch.log": "228d91a3e4687ffb74b771e04debdec115a028a679df63d8486447b45f68fa08",
+    "README.md": "8660a9c4fd3db31f3fe8121e2cd4c69bf82c5a0528bc870cca7a024c8d1cffb7",
+    "after-brute.log": "0cf817281bfa1ef93c963664975ab100f134e7d6245db71207f79f5d1ebe6388",
+    "after-results.json": "bc137e189261ee5f11e1a36ee691cdfbd09131541834ee3b47111608353d75c0",
+    "after-wretch.log": "3b1762a85744c9039b3f9e52cfb9561198428c0cc717b28194eef454aa2f1047",
+    "before-brute.log": "c09cff0be26f0c7ff1c9fb751a0128d889c7d26d3f297acceaa12ac583128663",
+    "before-results.json": "231c28c5671675030eb0ff1aa49d36afadc57e115f330d2df60361e173f7d119",
+    "before-wretch.log": "3b1762a85744c9039b3f9e52cfb9561198428c0cc717b28194eef454aa2f1047",
     "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
-    "make_replay.py": "f8dd7ba78eafcb4bf65c27fa93c1e398e8b72b26a7e59b30ac88af1284f561d3",
+    "make_replay.py": "663c01f5cc95ccf68f319df9a6739e9a4372b6e5f9aa5a140efb1c916bcf9ccb",
     "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
-    "replay-data.json": "cc4697bef6296e08b7d553da36504777a4b1d660ac86132e1a4c5daa6659a218",
-    "replay.html": "38851ed4d279134f120da74c6c5c0005c9c59a8bdbe0658d736a746d6d841e6f",
-    "reproduce.py": "2bea90e2d84fec081a6523c31d88fbdaaf568cb1a23f3ef5b8ec09c5aad2ace2",
-    "result.json": "908a561b6dc7998a4211659caba135840fc637d8ed02e8af5ffbf1b80e8ca266",
-    "run-after-alltests.log": "3d5b46cd171e58c7c6de02f1c0dcb6b43fc96353e1b1d8b7c9f66e013987ed6f",
-    "run-after-build.log": "4a1a51f85719a4119a8fc8a8d84c44acf060bbe0cc438b0104d9a5cad5e5e86f",
-    "run-after-scenarios.log": "268e2e436c0250897aafbf11411e5f5a16e10d085a84a0d834a2281d8e1f3bd7",
-    "run-before-alltests.log": "169c28b503f23885505623f4ec68dd17f508b9060176cf3d767ec3a50dd49183",
-    "run-before-build.log": "88027b786f72dc7c67c9cc9f48598b75fcec088d97a30e79fade566c92db71eb",
-    "run-before-scenarios.log": "b0b641c71f6ddf55264d9c58cfdfa4bb735b649827cf809158147565a7022f5f",
+    "replay-data.json": "63c5a45072bb1c2df775b1cf8950e39e4bd1048bf20fc985dee5ed5b8295bcb1",
+    "replay.html": "0cabe3ba44e9340876aa1183c0b83a7638175af97668f96fba83e3f57f4c6a5f",
+    "reproduce.py": "be2b6f3b03d58e3966be2dccc40129780a762289c30dee416f97cee57565abf2",
+    "result.json": "3ad3dd6c7b6632576b801ae667fdca891d5e1d1510cf4d7f7a3faedce5a54d3f",
+    "run-after-alltests.log": "458327e628ea52a59ebfbadd39df24d99cffa670043b37a36b4aecfdb76ac0e1",
+    "run-after-build.log": "7f7d35b8f832e11da1aef37243ba385d53b3eba486784e1066f2ccbe2cf4ef96",
+    "run-after-scenarios.log": "241a36138db2a074357420ec7bf3a0fb51516aa10ed44d3d0f31ef0ad5ba0228",
+    "run-before-alltests.log": "7a430bb7492fea7b1e22b4cb71616fe22df211a88a031115182c923aa292bd4d",
+    "run-before-build.log": "ad761aacf4449731889f3c4a00251112f522c7c3102ab90e1cca1b2bbe8d0704",
+    "run-before-scenarios.log": "da1140da6d2550f8facc23dfc62a2d61161d627fca0ba3aa6cea818d6179e94a",
     "run-cases.py": "1aa922403737a2988f7bac01331500b9d54f5e58690793639ec508f26ab15da8",
-    "run-configure.log": "8979897f1a4ac3c819a0996faa8040231e3760805b2463f3b9a86f9cfdaad9f8",
-    "scenario.c": "64d121d50646aeaa9aa9242e133853487a0bcae28f50ac1cfd4a02f8848e9649"
+    "run-configure.log": "7d388146bf18d487641a81aec058f79ca1517873b41009144c3da93bdba46c52",
+    "scenario.c": "6084370e3d7065192c1e3cfe04518d66125cbb9727abc28e07ba6773215330eb"
+  },
+  "render_check": {
+    "tool": "render-smoke.js (Playwright Chromium headless) on the committed replay.html",
+    "actions": 6,
+    "errors": 0,
+    "result": "OK"
+  },
+  "revision": {
+    "date": "2026-11-08",
+    "reason": "Owner decision on #63: the partial melee estimate must never exceed the full-damage figure for the same blow; the source adds a 100% cap on the hit chance.",
+    "supersedes": {
+      "fixtures_ref": "d1ac3dce6c21906d049d8589e16ab43b1afe8390",
+      "fix": "5c7950a25e7fb62eec1987f0fe8a4f43f4bf3984",
+      "receipt_commit": "48e448e48da86242fe188ca90363609345830f5b"
+    },
+    "partial_le_full": {
+      "brute": {
+        "before": [
+          0,
+          162
+        ],
+        "after": [
+          162,
+          162
+        ]
+      },
+      "wretch": {
+        "before": [
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0
+        ]
+      }
+    }
   }
 }

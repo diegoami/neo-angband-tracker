@@ -16,10 +16,6 @@ Copying needed files
 [  5%] Building C object CMakeFiles/OurCoreLib.dir/src/cmd-spoil.c.o
 [  5%] Building C object CMakeFiles/OurCoreLib.dir/src/cmd-wizard.c.o
 [  5%] Building C object CMakeFiles/OurCoreLib.dir/src/datafile.c.o
-/tmp/angband-hitchance-63-48mb3sn4/source/src/datafile.c: In function ‘grab_int_range’:
-/tmp/angband-hitchance-63-48mb3sn4/source/src/datafile.c:339:20: warning: assignment discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
-  339 |                 pe = strstr(range, sep);
-      |                    ^
 [  7%] Building C object CMakeFiles/OurCoreLib.dir/src/debug.c.o
 [  7%] Building C object CMakeFiles/OurCoreLib.dir/src/effect-handler-attack.c.o
 [  7%] Building C object CMakeFiles/OurCoreLib.dir/src/effect-handler-general.c.o
@@ -59,12 +55,8 @@ Copying needed files
 [ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-desc.c.o
 [ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-gear.c.o
 [ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-ignore.c.o
-[ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-init.c.o
 [ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-info.c.o
-/tmp/angband-hitchance-63-48mb3sn4/source/src/obj-init.c: In function ‘grab_element_flag’:
-/tmp/angband-hitchance-63-48mb3sn4/source/src/obj-init.c:90:23: warning: initialization discards ‘const’ qualifier from pointer target type [-Wdiscarded-qualifiers]
-   90 |         char *under = strchr(flag_name, '_');
-      |                       ^~~~~~
+[ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-init.c.o
 [ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-knowledge.c.o
 [ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-list.c.o
 [ 27%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-make.c.o
@@ -221,12 +213,12 @@ Copying needed files
 [ 96%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-util.c.o
 [ 98%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg.c.o
 [ 98%] Built target OurCoreLib
-[ 98%] Building C object CMakeFiles/HC63Observer.dir/tmp/angband-hitchance-63-48mb3sn4/evidence/scenario.c.o
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-x11.c.o
+[ 98%] Building C object CMakeFiles/HC63Observer.dir/tmp/angband-hitchance-63-ds89ckj_/evidence/scenario.c.o
 [ 98%] Linking C executable game/HC63Observer
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-spoil.c.o
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-test.c.o
+[ 98%] Built target HC63Observer
 [100%] Building C object CMakeFiles/OurExecutable.dir/src/main.c.o
 [100%] Linking C executable game/angband
-[100%] Built target HC63Observer
 [100%] Built target OurExecutable

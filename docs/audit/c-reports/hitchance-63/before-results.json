@@ -9,7 +9,10 @@
       "ac": 10
     },
     "outcome": {
-      "shoots": 1
+      "shoots": 1,
+      "partial_danger": 0,
+      "full_danger": 162,
+      "partial_le_full": 1
     }
   },
   "wretch": {
@@ -22,7 +25,10 @@
       "ac": 10
     },
     "outcome": {
-      "shoots": 1
+      "shoots": 1,
+      "partial_danger": 0,
+      "full_danger": 0,
+      "partial_le_full": 1
     }
   }
 }

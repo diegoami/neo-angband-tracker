@@ -1,7 +1,7 @@
 {
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
-  "fix": "5c7950a25e7fb62eec1987f0fe8a4f43f4bf3984",
-  "fixtures_ref": "d1ac3dce6c21906d049d8589e16ab43b1afe8390",
+  "fix": "fa5b7e15a8995c969a0f9e103b65644c83de356b",
+  "fixtures_ref": "c8714f404db5aef367377b77cdec1efa1c3b9b76",
   "cases": {
     "before": {
       "brute": {
@@ -14,7 +14,10 @@
           "ac": 10
         },
         "outcome": {
-          "shoots": 1
+          "shoots": 1,
+          "partial_danger": 0,
+          "full_danger": 162,
+          "partial_le_full": 1
         }
       },
       "wretch": {
@@ -27,7 +30,10 @@
           "ac": 10
         },
         "outcome": {
-          "shoots": 1
+          "shoots": 1,
+          "partial_danger": 0,
+          "full_danger": 0,
+          "partial_le_full": 1
         }
       }
     },
@@ -42,7 +48,10 @@
           "ac": 10
         },
         "outcome": {
-          "shoots": 0
+          "shoots": 0,
+          "partial_danger": 162,
+          "full_danger": 162,
+          "partial_le_full": 1
         }
       },
       "wretch": {
@@ -55,7 +64,10 @@
           "ac": 10
         },
         "outcome": {
-          "shoots": 1
+          "shoots": 1,
+          "partial_danger": 0,
+          "full_danger": 0,
+          "partial_le_full": 1
         }
       }
     }
@@ -74,6 +86,6 @@
     }
   },
   "fixed_source_sha256": {
-    "src/borg/borg-danger.c": "cea893f08a04c8cacfa80a3615ffd9eb59d51c5af498fe8f7fb009c954b8b81c"
+    "src/borg/borg-danger.c": "22b429c1687125c5847e44a1a9681adb87bf6058cbaffa06beeeffa23fb311ce"
   }
 }

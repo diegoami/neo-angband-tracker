@@ -71,3 +71,50 @@ scenario), `before-results.json`, `after-results.json`, `result.json`,
 `run-{before,after}-scenarios.log`, `run-{before,after}-alltests.log`,
 `replay.html`, `replay-data.json` and `receipt.json` (sha256 of every other
 file) are the captured run.
+
+## Revision (2026-11-08): owner-decided shape
+
+**What changed.** The owner decided (on #63) that the corrected partial melee
+estimate must never exceed the full-damage figure for the same blow. With
+armour divided by the monster's to-hit, the original 50% allowance for bad luck
+let the hit chance go above 100%, so the first fix gave the sleeping cave troll
+a partial danger of 234 against a full-damage danger of 162. A second source
+commit, `fa5b7e15a` on `task/hitchance-63`, caps the chance at 100%. The
+"unique nearby" clause stays removed from the guard (it would divide by zero
+for a blow with no level or power). The whole branch is still one file,
+`src/borg/borg-danger.c`, 7 lines added and 4 removed against `e473720ed`.
+
+**Fixtures.** `c8714f404` asserts both hunks exactly and the one-file scope,
+and adds a check to every case: the scenario prints
+`OUTCOME partial_danger=... full_danger=... partial_le_full=...` and requires
+partial <= full, and `reproduce.py` fails if either phase of any case breaks
+it. The harmless sleeping wretch stays as the byte-identical control.
+
+**Result at the new pins** (`--full-tests`, fixtures `c8714f404`, fix `fa5b7e15a`):
+
+| Scenario | Original (base `e473720ed`) | Corrected (fix `fa5b7e15a`) |
+| --- | --- | --- |
+| Sleeping cave troll six grids away | failed: partial 0, full 162, bolt scores 12 (shoots) | passed: partial 162, full 162, bolt -1 (attack refused) |
+| Control: sleeping boil-covered wretch | passed: partial 0, full 0, bolt 12 | byte-identical log |
+
+At 10 armour every one of the troll's blows reaches the cap, so the partial
+estimate equals the full-damage figure here; it is still well above half the
+Borg's avoidance (88) and the decision is the same as with the first fix.
+Partial <= full holds in all four runs. Full native gates: 965/965 unit checks and 5/5 frontend tests before and after. Replay
+regenerated; `node --check`, Playwright headless render check (12 checks) and render smoke (6 actions), no console errors.
+
+**These pins supersede** fixtures `d1ac3dce6` and fix `5c7950a25` above; the
+earlier sections describe that first run and are kept as recorded. The values
+234 and "exceeds the full-damage figure" in them no longer apply. The top-level
+logs, results, `replay.html`, `replay-data.json`, `result.json` and
+`receipt.json` are now this run's.
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/hitchance-63
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/hitchance-63-evidence
+git show c8714f404db5aef367377b77cdec1efa1c3b9b76:docs/audit/c-reports/hitchance-63/reproduce.py > /tmp/reproduce-hitchance-63.py
+python3 /tmp/reproduce-hitchance-63.py --full-tests --fixtures-ref c8714f404db5aef367377b77cdec1efa1c3b9b76 --fix-ref fa5b7e15a8995c969a0f9e103b65644c83de356b
+```
+
+Not measured, as before: a fight, a death, whole-game survival, or the other
+partial-damage callers (defence and flow).
