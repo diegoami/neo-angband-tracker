@@ -1,0 +1,108 @@
+{
+  "purpose": "Re-verification at the original pins: the original run's logs were dropped by the repository's *.log ignore rule although the original receipt hashed them.",
+  "date": "2026-11-08",
+  "base": "53ef84c743768fdde9abaebc27bd8526b4423de9",
+  "fix": "fe34f38d0c998cf34ace02d09bf97774f38e65df",
+  "fixtures_ref": "cf783dd629f2ee016ebb0ac2395d7b891f588e42",
+  "original_fixtures_ref": "cf783dd629f2ee016ebb0ac2395d7b891f588e42",
+  "command": "git show cf783dd629f2ee016ebb0ac2395d7b891f588e42:docs/audit/c-reports/staff-262/reproduce.py > /tmp/reproduce-staff-262.py && python3 /tmp/reproduce-staff-262.py --full-tests --fixtures-ref cf783dd629f2ee016ebb0ac2395d7b891f588e42",
+  "fix_pin_note": "reproduce.py hard-codes BASE and FIX and asserts the exact source hunk; it has no --fix-ref flag.",
+  "cases": {
+    "before": {
+      "holy": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "player=(5,20) harpies=(10,20)(11,19)(11,21) temp_n=3",
+        "rating": "holy=28",
+        "outcome": "holy=28"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) harpies=(10,20)(11,19)(11,21) temp_n=3",
+        "rating": "bolt2=28",
+        "outcome": "bolt2=28"
+      }
+    },
+    "after": {
+      "holy": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) harpies=(10,20)(11,19)(11,21) temp_n=3",
+        "rating": "holy=60",
+        "outcome": "holy=60"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) harpies=(10,20)(11,19)(11,21) temp_n=3",
+        "rating": "bolt2=28",
+        "outcome": "bolt2=28"
+      }
+    }
+  },
+  "matches_original_receipt_cases": true,
+  "case_differences": [],
+  "identical_controls": {
+    "control": true
+  },
+  "byte_identical_to_original_hash": {
+    "after-alltests.log": false,
+    "after-build.log": true,
+    "after-scenarios.log": true,
+    "before-alltests.log": false,
+    "before-build.log": false,
+    "before-scenarios.log": true,
+    "configure.log": false,
+    "result.json": true,
+    "after-control.log": true,
+    "after-holy.log": true,
+    "after-results.json": true,
+    "before-control.log": true,
+    "before-holy.log": true,
+    "before-results.json": true
+  },
+  "full_tests": {
+    "before": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "original_compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "original_cmake": "cmake version 4.2.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "target": "committed replay.html",
+    "replay_sha256": "f99d644e36adbcccb976918760ddb64803c1e3e0929aede663fffe8d2ccfe92d",
+    "result": "RENDER-SMOKE actions=4 errors=0 OK",
+    "exit": 0
+  },
+  "sha256": {
+    "after-alltests.log": "1d600003cb27e30ba1d79191aef4f3606be07c5ed12d0a053940204800ace868",
+    "after-build.log": "ead55c4023d088f88f71e98d30c0f72271fcebaaefc519bf26a8187926dd5e02",
+    "after-control.log": "2cc161ffd8caf27ac93432b39ef5f603afb1838b230075a1e2463ae4925971f4",
+    "after-holy.log": "f31cafb7a8b911911f5b63aef3821d048530eeda2119eb8cfbbf1f90fbbfca3f",
+    "after-results.json": "74d159a35490ff2b4d9fba0b502ece7bb9f39009554f65352fd6e81ef24d28e1",
+    "after-scenarios.log": "7597a2a79c0db4e01d8fbe3751950ac1422decf177590dcc39af38fe948bc596",
+    "before-alltests.log": "f525272ef73fa9cc840fa0fc745f38bb3dfe65d8c8fb57c1a760be97869ec3e7",
+    "before-build.log": "e544e1f3ff774b83244941a03ec213f9e9ed72d973110a0cad136539f125ad0d",
+    "before-control.log": "2cc161ffd8caf27ac93432b39ef5f603afb1838b230075a1e2463ae4925971f4",
+    "before-holy.log": "7d518a251187db732fb37c543e54a5244e771fb30585b9ac72d8977c7129b77e",
+    "before-results.json": "fb3df9584b9ba60dd45df180770bf45c55828bacff59f25d320c65bd6afd180a",
+    "before-scenarios.log": "1b6882e08835e414007bbf59377891795a97e408ad040eaabcba0587ed2564d9",
+    "configure.log": "c3e366a183394ff11997b44aa319569853a410f9748f9b28ab9f405a54b793cb",
+    "result.json": "c84b0decdfaba88c23bff00db47c764d2b048c17add6b7939532b0cb1d22f3f9"
+  }
+}

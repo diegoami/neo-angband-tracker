@@ -1,0 +1,9 @@
+native-c/staff-262: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Priest level=50 depth=30 sp=276/276
+  los_dispel_reaches_its_blast  MODE control
+GEOMETRY player=(5,20) harpies=(10,20)(11,19)(11,21) temp_n=3
+RATING bolt2=28
+OUTCOME bolt2=28
+Passed
+native-c/staff-262 finished: 1/1 passed
