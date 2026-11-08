@@ -521,7 +521,7 @@ static int borg_perma_aux_smite_evil(void)
  */
 static int borg_perma_aux_venom(void)
 {
-    int fail_allowed = 5, cost;
+    int fail_allowed = 5;
 
     /* increase the threshold */
     if (borg.mon.unique)
@@ -538,14 +538,6 @@ static int borg_perma_aux_venom(void)
         return 0;
 
     if (!borg_spell_okay_fail(VENOM, fail_allowed))
-        return 0;
-
-    /* Obtain the cost of the spell */
-    cost = borg_get_spell_power(SMITE_EVIL);
-
-    /* If its cheap, go ahead */
-    if (cost >= ((borg.mon.unique) ? borg.trait[BI_CURSP] / 7
-                                   : borg.trait[BI_CURSP] / 10))
         return 0;
 
     /* Simulation */
