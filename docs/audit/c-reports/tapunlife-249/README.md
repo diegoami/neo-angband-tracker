@@ -159,3 +159,51 @@ differ only by the defect under test.
   fixed-source sha256.
 - `replay.html`, `replay-data.json` — the offline demo.
 - `receipt.json` — sha256 map of every file in this directory.
+
+
+## Re-verification (2026-11-08)
+
+Why: the receipt above hashes the original run's phase logs, but they were
+never committed (the repository's `*.log` ignore rule dropped them), so the
+package could not be checked against its own receipt. The run was repeated
+at the same pins (base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `21a1b9079e612adaf8108390e5ec2379ffce33b7`, fixtures
+`91eedca363182fe4aa4dfdea5cc16860cd106ca5`) with `--full-tests`, and every case reproduced the recorded
+outcome exactly (the `cases` block of the new `result.json` equals the
+original receipt's):
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `undead` | fail: `* p 2 2 2 2 2 2 5 m c a`; `acted=1 keys=12 tap_cast=1` | pass: `* p 6 6 6 6 5 m c a`; `acted=1 keys=10 tap_cast=1` |
+| `non-undead` (control) | pass: `* p 2 2 2 2 2 5 m b a 5`; `acted=1 keys=12 tap_cast=0` | pass: `* p 2 2 2 2 2 5 m b a 5`; `acted=1 keys=12 tap_cast=0` |
+| `bat` (control) | pass: `* p 6 6 6 6 5 m c a`; `acted=1 keys=10 tap_cast=1` | pass: `* p 6 6 6 6 5 m c a`; `acted=1 keys=10 tap_cast=1` |
+
+Controls byte-identical before/after: `non-undead`, `bat`. Full native gates from the
+`*-alltests.log` summaries: before: Total: 965/965 passed (100.0%), Total: 5/5; after: Total: 965/965 passed (100.0%), Total: 5/5. Toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0; cmake version 3.28.3.
+
+These re-run files have the same sha256 as the original receipt lists, i.e.
+they are byte-identical to the original run's: `after-build.log`, `after-scenarios.log`, `before-scenarios.log`, `result.json`, `before-bat.log`, `before-non-undead.log`, `before-results.json`, `before-undead.log`, `after-bat.log`, `after-non-undead.log`, `after-results.json`, `after-undead.log`. Files that differ
+only by the run's temporary paths and build timing: `after-alltests.log`, `before-alltests.log`, `before-build.log`, `configure.log`.
+
+Render check: `node tools/c-evidence/render-smoke.js replay.html` on the
+committed page (every scenario option and visible button):
+`RENDER-SMOKE actions=9 errors=0 OK`.
+
+Logs, `result.json` and a receipt with the sha256 of every re-run file are
+in [`reverify-2026-11-08/`](reverify-2026-11-08/). Repeat, both pins fixed
+(the fix sha is the runner's built-in `FIX` constant, checked against the
+branch diff before building):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/tapunlife-249-evidence
+git show 91eedca363182fe4aa4dfdea5cc16860cd106ca5:docs/audit/c-reports/tapunlife-249/reproduce.py > /tmp/reproduce-tapunlife-249.py
+python3 /tmp/reproduce-tapunlife-249.py --full-tests --fixtures-ref 91eedca363182fe4aa4dfdea5cc16860cd106ca5
+```
+
+The earlier text of this guide is left as written.
+
+## Errata (2026-11-08)
+
+- **Links.** Source proposal: [#362](https://github.com/diegoami/neo-angband-tracker/pull/362) (branch `task/tapunlife-249`, fix `21a1b9079e612adaf8108390e5ec2379ffce33b7`); evidence PR: [#363](https://github.com/diegoami/neo-angband-tracker/pull/363); canonical issue: [#249](https://github.com/diegoami/neo-angband-tracker/issues/249).
+- **README hash in the receipt.** `receipt.json` lists `README.md` sha256 `1603240646e5…`, which is the guide as committed in `3f3cebf76`. Commit `98a12bdd0` then changed one sentence of the guide (the commit-list wording "pin, artifact commit, receipt-head fix"), so the guide at `fc592e4f5` hashes to `e307549f4972…` and no longer matched the receipt; this section changes it again. No other hashed file changed. The re-verification receipt in `reverify-2026-11-08/` hashes only the re-run files.
+- **Missing logs.** The file inventory lists phase logs that were not committed with the original package; see the re-verification section above.
+- **Restored original logs.** The re-run files whose sha256 equals the value in the original `receipt.json` (`after-build.log`, `after-scenarios.log`, `before-scenarios.log`, `before-bat.log`, `before-non-undead.log`, `before-undead.log`, `after-bat.log`, `after-non-undead.log`, `after-undead.log`) are byte-for-byte the original run's files, so they are also committed here at the paths the receipt names. `after-alltests.log`, `before-alltests.log`, `before-build.log`, `configure.log` differ by temporary paths and timing and stay only in `reverify-2026-11-08/`.

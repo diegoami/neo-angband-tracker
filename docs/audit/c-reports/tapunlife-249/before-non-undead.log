@@ -1,0 +1,11 @@
+native-c/tapunlife-249: starting...
+SETUPSTEP profile
+SETUP level=14 maxsp=78 failtap=2 failbolt=2 maxrange=20
+SETUP giant kill=1 power=225 level=25 injury=0 undead=0
+SETUP seed=1000 class=Necromancer level=14 depth=30 hp=74/74 sp=78/78
+  tap_unlife_rated_at_real_damage  MODE non-undead
+DECISION acted=1 keys=12 sequence=* p 2 2 2 2 2 5 m b a 5
+SEQSTRING * p 2 2 2 2 2 5 m b a 5
+OUTCOME acted=1 keys=12 tap_cast=0
+Passed
+native-c/tapunlife-249 finished: 1/1 passed
