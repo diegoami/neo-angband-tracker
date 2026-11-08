@@ -25,5 +25,11 @@
     "replay-data.json": "be72335dbd389dad876684e068801fe458c144f8b99dbe710cb876873edaa493",
     "make_replay.py": "5e86c595d25f39c39ee3adb1dc87c906f41ac2301763756d864b086474c10b3f",
     "review/make_replay.py": "5e86c595d25f39c39ee3adb1dc87c906f41ac2301763756d864b086474c10b3f"
+  },
+  "readme_hash_update": {
+    "reason": "README.md gained the appended 'Re-verification (2026-11-08)' section; earlier text unchanged",
+    "sha256_before": "81815efb5a0bb28256b68a86df0145eba8ed15fcd7939db0b0e0a86efe59db62",
+    "sha256_after": "2c4ce79262dd88edd861c8a9d15d5cf6e74452b6d14da27333f6c1ff0ba3a0b3",
+    "earlier_bytes_at": "2aa35a90c88a3ac72d8eda34fae9948e0adb13c6"
   }
 }
