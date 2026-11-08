@@ -17,6 +17,8 @@ priest back next to a grey mold five times in a row.
 
 The correction writes "already checked" only when the check was really made.
 
+**Play it:** download [play.html](play.html) (one self-contained file; open it in any browser, no network needed). It steps through frames recorded from the real game code, original and corrected side by side, for the retreat-then-explore walk (mold visible, remembered or forgotten) and for each of the four emergency modes.
+
 ## What this evidence shows, and what it does not
 
 Shown, in native C, from the original game code:
@@ -45,9 +47,11 @@ git fetch https://github.com/diegoami/neo-angband-tracker.git task/c-borg-flow-d
 git fetch https://github.com/diegoami/neo-angband-tracker.git task/flowcache-404-evidence
 git show FETCH_HEAD:docs/audit/c-reports/flowcache-404/reproduce.py > /tmp/reproduce-flowcache-404.py
 python3 /tmp/reproduce-flowcache-404.py --full-tests \
-  --fixtures-ref 89326f5216148ab47a18585236678c391bb4e559 \
+  --fixtures-ref 7f903a9a52172a943c8afabbda1311a2f1adb4d1 \
   --fix-ref b71b32c152e272886cb46bb8f253e8c4f5130711
 ```
+
+`record-play.py` (same `--fixtures-ref` and `--fix-ref`, no `--full-tests`) records the frames behind `play.html`.
 
 It builds the native game five ways from the pristine base, runs 30 native cases against each,
 asserts the whole outcome matrix, runs both full regression gates (before and after), and writes
@@ -57,7 +61,7 @@ Prerequisites: Git, Python 3, CMake, a C toolchain, `flock`, X11 development hea
 ## What was built and run (recorded receipt)
 
 - base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`; correction `b71b32c152e272886cb46bb8f253e8c4f5130711`
-  (one file, `src/borg/borg-flow.c`, +19 −7); fixtures `89326f5216148ab47a18585236678c391bb4e559`
+  (one file, `src/borg/borg-flow.c`, +19 −7); fixtures `7f903a9a52172a943c8afabbda1311a2f1adb4d1`
 - Debug build, `-DSUPPORT_BORG=ON -DSUPPORT_TEST_FRONTEND=ON`. Fixture: Human Priest level 1, depth 1, seed 1000,
   one-wide corridor, up staircase at (13,7), grey mold in a niche at (15,8), Borg HP 6 (so the bravery limit
   is `6*3/10 = 1`); `borg_danger` of the corridor grids beside the mold is **16** (the same figure the D0008 trace logged).
@@ -113,8 +117,8 @@ Recomputation is **not** assumed to see the mold. Three states, using the produc
 So a recomputation does see a remembered stationary monster, and the fault bites exactly when the set of remembered monsters is unchanged
 (any kill creation or deletion already wipes the cache). Once the record is forgotten nothing remains to detect and both builds agree; the
 correction does not and cannot restore a forgotten monster. A first attempt that let `borg_update()` re-observe the visible mold, or that
-declared a spurious new level, wiped the cache for unrelated reasons; the fixture now hides the monster in the game state and sets the level
-as unchanged, and the notes in `*-cases.log` show what the update did.
+declared a spurious new level, wiped the cache for unrelated reasons; the fixture now hides the monster in the game state, sets the level
+as unchanged, and clears the Borg's previous grid when it moves it (otherwise the game map marks two grids as the player's and `borg_update()` puts the Borg back beside the mold), and the notes in `*-cases.log` show what the update did.
 
 ### 5. Cost: extra danger evaluations
 
@@ -154,13 +158,6 @@ goes through `borg_flow_spread`/`borg_flow_direct`, so it needs no change: with 
 See [d0008-diagnostic/README.md](d0008-diagnostic/README.md). In short: the unmodified rebuild reproduces the recorded life with no difference
 (replay verified; live trace byte-identical); the corrected engine diverges at turn 10837, the first command after the first retreat, and, run live, is alive at the
 200000-turn cap. A 10-seed smoke check shows no stall or new death. None of that establishes a survival benefit.
-
-### 8. Independent review
-
-[review-kimi-k3.txt](review-kimi-k3.txt): a reviewer of a different model family found no unintended behaviour change, no cache writer missed
-(visible scope; the full-tree search above covers the rest), nothing lost by dropping the discarded `borg_danger()` call, no loop or cliff; it
-questioned whether a contract case could pass because the exploring flow failed for another reason. That led to the fix recorded in the fixtures
-(the expired-mold case now requires the east step, so the flow is shown to work in this geometry).
 
 ## Limits
 

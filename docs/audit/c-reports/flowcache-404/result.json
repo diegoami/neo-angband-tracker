@@ -717,7 +717,7 @@
           "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
         ],
         "notes": [
-          "# Flowing toward dark-3 at cost 3"
+          "# Flowing toward dark-3 at cost 4"
         ],
         "outcome": {
           "mold_remembered": 0,
@@ -787,7 +787,9 @@
           "update_wiped_cache": 0,
           "wipe_pending": 0
         },
-        "update_notes": []
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
       },
       "prod-visible": {
         "calls": [],
@@ -1759,7 +1761,7 @@
           "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
         ],
         "notes": [
-          "# Flowing toward dark-3 at cost 3"
+          "# Flowing toward dark-3 at cost 4"
         ],
         "outcome": {
           "mold_remembered": 0,
@@ -1829,7 +1831,9 @@
           "update_wiped_cache": 1,
           "wipe_pending": 1
         },
-        "update_notes": []
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
       },
       "prod-visible": {
         "calls": [],
@@ -2802,7 +2806,7 @@
           "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
         ],
         "notes": [
-          "# Flowing toward dark-3 at cost 3"
+          "# Flowing toward dark-3 at cost 4"
         ],
         "outcome": {
           "mold_remembered": 0,
@@ -2844,7 +2848,7 @@
           "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
         ],
         "notes": [
-          "# Flowing toward dark-3 at cost 3"
+          "# Flowing toward dark-3 at cost 4"
         ],
         "outcome": {
           "mold_remembered": 1,
@@ -2874,7 +2878,9 @@
           "update_wiped_cache": 0,
           "wipe_pending": 0
         },
-        "update_notes": []
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
       },
       "prod-visible": {
         "calls": [],
@@ -3849,7 +3855,7 @@
           "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
         ],
         "notes": [
-          "# Flowing toward dark-3 at cost 3"
+          "# Flowing toward dark-3 at cost 4"
         ],
         "outcome": {
           "mold_remembered": 0,
@@ -3891,7 +3897,7 @@
           "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
         ],
         "notes": [
-          "# Flowing toward dark-3 at cost 3"
+          "# Flowing toward dark-3 at cost 4"
         ],
         "outcome": {
           "mold_remembered": 1,
@@ -3921,7 +3927,9 @@
           "update_wiped_cache": 0,
           "wipe_pending": 0
         },
-        "update_notes": []
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
       },
       "prod-visible": {
         "calls": [],
@@ -4895,7 +4903,7 @@
           "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
         ],
         "notes": [
-          "# Flowing toward dark-3 at cost 3"
+          "# Flowing toward dark-3 at cost 4"
         ],
         "outcome": {
           "mold_remembered": 0,
@@ -4965,7 +4973,9 @@
           "update_wiped_cache": 0,
           "wipe_pending": 0
         },
-        "update_notes": []
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
       },
       "prod-visible": {
         "calls": [],
@@ -5255,7 +5265,7 @@
     ]
   },
   "fix": "b71b32c152e272886cb46bb8f253e8c4f5130711",
-  "fixtures_ref": "89326f5216148ab47a18585236678c391bb4e559",
+  "fixtures_ref": "7f903a9a52172a943c8afabbda1311a2f1adb4d1",
   "full_tests": {
     "after": {
       "frontends": "5/5",

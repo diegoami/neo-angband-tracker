@@ -714,7 +714,7 @@
       "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
     ],
     "notes": [
-      "# Flowing toward dark-3 at cost 3"
+      "# Flowing toward dark-3 at cost 4"
     ],
     "outcome": {
       "mold_remembered": 0,
@@ -784,7 +784,9 @@
       "update_wiped_cache": 1,
       "wipe_pending": 1
     },
-    "update_notes": []
+    "update_notes": [
+      "# There was a monster 'grey mold' at (8,15)"
+    ]
   },
   "prod-visible": {
     "calls": [],

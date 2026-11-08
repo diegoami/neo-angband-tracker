@@ -32,7 +32,7 @@ CALLS phase2 total=0 corridor:
 STATE p2_danger_calls=0 p2_danger_calls_G=0 p2_calls_on_p1_grids=0 rng_touched=0
 OUTCOME entered=1 p1_icky_G=0 p2_icky_G=0
 Failed
-    native-c/flowcache-404:384: requirement '!entered' failed
+    native-c/flowcache-404:388: requirement '!entered' failed
 native-c/flowcache-404 finished: 0/1 passed
 
 ===== neg-spread-only cache-lunal-spread (exit 0) =====
@@ -69,7 +69,7 @@ CALLS phase2 total=0 corridor:
 STATE p2_danger_calls=0 p2_danger_calls_G=0 p2_calls_on_p1_grids=0 rng_touched=0
 OUTCOME entered=1 p1_icky_G=0 p2_icky_G=0
 Failed
-    native-c/flowcache-404:384: requirement '!entered' failed
+    native-c/flowcache-404:388: requirement '!entered' failed
 native-c/flowcache-404 finished: 0/1 passed
 
 ===== neg-spread-only cache-munchkin-spread (exit 0) =====
@@ -106,7 +106,7 @@ CALLS phase2 total=0 corridor:
 STATE p2_danger_calls=0 p2_danger_calls_G=0 p2_calls_on_p1_grids=0 rng_touched=0
 OUTCOME entered=1 p1_icky_G=0 p2_icky_G=0
 Failed
-    native-c/flowcache-404:384: requirement '!entered' failed
+    native-c/flowcache-404:388: requirement '!entered' failed
 native-c/flowcache-404 finished: 0/1 passed
 
 ===== neg-spread-only cache-digging-spread (exit 0) =====
@@ -143,7 +143,7 @@ CALLS phase2 total=0 corridor:
 STATE p2_danger_calls=0 p2_danger_calls_G=0 p2_calls_on_p1_grids=0 rng_touched=0
 OUTCOME entered=1 p1_icky_G=0 p2_icky_G=0
 Failed
-    native-c/flowcache-404:384: requirement '!entered' failed
+    native-c/flowcache-404:388: requirement '!entered' failed
 native-c/flowcache-404 finished: 0/1 passed
 
 ===== neg-spread-only caution (exit 0) =====
@@ -181,6 +181,7 @@ SETUP seed=1000 class=Priest mhp=13 light=2
 GEOMETRY stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17
 RATING chp=6 limit=1 danger_G=16 kills=1
 STATE retreat_ok=1 retreat_key=52 retreat_danger_calls=1 know_G=0 icky_G=0
+UPDATENOTE # There was a monster 'grey mold' at (8,15)
 STATE update_wiped_cache=0
 STATE mold_remembered=1 wipe_pending=0 danger_G_now=16
 STATE explore_ok=0 explore_key=0 explore_danger_calls=10 explore_danger_calls_G=1 rng_touched=0 know_G=1 icky_G=1
@@ -201,7 +202,7 @@ UPDATENOTE # Forgetting a monster 'grey mold' at (8,15)
 STATE update_wiped_cache=1
 STATE mold_remembered=0 wipe_pending=1 danger_G_now=0
 STATE explore_ok=1 explore_key=54 explore_danger_calls=19 explore_danger_calls_G=1 rng_touched=0 know_G=1 icky_G=0
-NOTE # Flowing toward dark-3 at cost 3
+NOTE # Flowing toward dark-3 at cost 4
 OUTCOME stepped_east=1 mold_remembered=0
 Passed
 native-c/flowcache-404 finished: 1/1 passed
