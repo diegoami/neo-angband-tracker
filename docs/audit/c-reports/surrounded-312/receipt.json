@@ -58,7 +58,7 @@
   },
   "maintenance_base": "f186aa1fce2e590eb9bbcb91dc369f3f8b6af688",
   "sha256": {
-    "README.md": "6f0823d64de11947950b581086b12426e293a5e70f348dd056d740f6d48d6b0b",
+    "README.md": "91fc65768fa4502ebb82833b56da505f5bef25c6e722a561fd45047d902575ed",
     "after-alltests.log": "65ba6b4d9ad24a55c95823e492a0eff91cd14a28580a076bfde34afb9a7dc342",
     "after-build.log": "e2b87e1cd58a1fe99727314f232efa554105e4f92f8aefdd6f299b396e48fb2b",
     "after-results.json": "d89832cd4be3d0b3906529749809e914c43243d5680e4ff8d35963eee4faa27f",
@@ -80,5 +80,12 @@
     "result.json": "26184b507dc91d4e72205b5b561800727b58d91d924c1cbad5635161568720ea",
     "run-cases.py": "142ad683fbb16e46409b30b9f064010fa084612467d3408d2f6ffc199ab3bfbc",
     "scenario.c": "98e0b5176037e344e206d68fcc83665a30003401cbb7246f1522f425849cbbac"
+  },
+  "render_check": {
+    "date": "2026-11-08",
+    "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button)",
+    "result": "RENDER-SMOKE actions=2 errors=0 OK",
+    "exit": 0,
+    "note": "added by the 2026-11-08 re-verification; the original run's browser record is under 'browser'"
   }
 }
