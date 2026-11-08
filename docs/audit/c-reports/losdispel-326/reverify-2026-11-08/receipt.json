@@ -104,5 +104,23 @@
     "before-storm.log": "5c6ae09c998699a6e9fb5f4a24cbf615c566971a4aaef00e7fa0264d992b0fed",
     "configure.log": "33873338533713603ebd43338087cca8ee72491cc0791e7f9770b472d64b5742",
     "result.json": "47299ef2802de7650a9f735559cfa8b55b665f153bf814bde20ede965f61b943"
+  },
+  "receipt_amendments": {
+    "date": "2026-11-08",
+    "receipt.json sha256.README.md": {
+      "old": "9abdd0aaa4636cbc9a98e00e75cba3cfd39b72b121af32f56f55d8ee3515067e",
+      "new": "ef13acbde528b8faee607e4d10e79fd2cb126a1291a2b2f504b85492a5a1f7e1",
+      "why": "README gained the Re-verification and Errata sections"
+    },
+    "receipt.json render_check": "added (original receipt only had a 'browser' entry); points at this receipt's render_check",
+    "README placeholder link": "PR-SOURCE -> #327",
+    "restored_at_original_paths": [
+      "after-control.log",
+      "after-scenarios.log",
+      "after-storm.log",
+      "before-control.log",
+      "before-scenarios.log",
+      "before-storm.log"
+    ]
   }
 }

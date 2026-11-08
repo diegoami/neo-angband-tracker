@@ -37,7 +37,7 @@ miscued. No death or survival claim is made.
 
 Canonical report: [issue326](https://github.com/diegoami/neo-angband-tracker/issues/326)
 (native finding, discovered and measured during the dispel-259 and
-activ-260 work on this board). Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+activ-260 work on this board). Source proposal [#327](https://github.com/diegoami/neo-angband-tracker/pull/327).
 
 ## Verification
 
@@ -162,6 +162,8 @@ python3 /tmp/reproduce-losdispel-326.py --full-tests --fixtures-ref d414ea1c8525
 
 ## Errata (2026-11-08)
 
-- The "Source proposal" link near the top labelled `PR-SOURCE` points at an unfilled placeholder URL. The source proposal is draft PR [#327](https://github.com/diegoami/neo-angband-tracker/pull/327); this evidence is draft PR [#328](https://github.com/diegoami/neo-angband-tracker/pull/328).
+- The "Source proposal" link near the top was labelled `PR-SOURCE` and pointed at an unfilled placeholder URL; on 2026-11-08 it was corrected in place to the real link. The source proposal is draft PR [#327](https://github.com/diegoami/neo-angband-tracker/pull/327); this evidence is draft PR [#328](https://github.com/diegoami/neo-angband-tracker/pull/328).
 - The repeat commands above pin `6a46c46bd29192e1ccc17c5212748ed29be04020` while `receipt.json` records `fixtures_ref` `d414ea1c85259fc20465527ca39a33c88dd1d282`, the commit the native run actually executed at. Both carry the same generators (see the re-verification note); prefer the `d414ea1c85259fc20465527ca39a33c88dd1d282` pin given in the Re-verification section.
 - `receipt.json` hashes phase logs that were never committed (the `*.log` ignore rule). The re-verification run's logs, under `reverify-2026-11-08/`, replace them; where the original hash is reproduced byte for byte, that is listed above. Its `browser` entry records the original Chrome-for-Testing render check; the re-verification adds the render-smoke result above.
+- Re-run files whose bytes reproduce the original receipt's sha256 exactly are also committed at their original paths in this directory, so the original receipt's hashes check against them: `after-control.log`, `after-scenarios.log`, `after-storm.log`, `before-control.log`, `before-scenarios.log`, `before-storm.log`. The original run's build, configure and gate logs cannot be reproduced byte for byte; the complete re-run set is under `reverify-2026-11-08/`.
+- `receipt.json` was amended on 2026-11-08 for this append: its `README.md` hash now matches this README, and a `render_check` entry points at the re-verification render result. The old and new values are recorded under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
