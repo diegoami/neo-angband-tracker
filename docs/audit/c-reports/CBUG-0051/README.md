@@ -161,5 +161,5 @@ python3 /tmp/reproduce-cbug-0051.py --full-tests --fixtures-ref 6c1dfa3d53d26057
 ## Errata (2026-11-08)
 
 - `make_replay.py` changed after the run pin `6c1dfa3d5`: commit `83cedb3fe` edits one step-label string. The committed `replay.html` comes from that later generator; no native log, source variant, scenario, runner or gate differs (`git diff 6c1dfa3d5 546f964b3 -- docs/audit/c-reports/CBUG-0051` touches only `make_replay.py` among the generators). The guide and issue commands pin `83cedb3fe`; the receipt pins `6c1dfa3d5`. Both produce the same native run; this re-verification used the receipt pin.
-- `receipt.json` hashes `README.md` as it stood when the receipt was written; the later "Pin the guide commands" commit `546f964b3` and this appended section change the README, so that one hash no longer matches by design.
+- `receipt.json` hashes `README.md` as it stood at `546f964b3` (that commit re-hashed it); this appended section changes the README, so that one hash no longer matches by design.
 - The canonical issue for CBUG-0051 is diegoami/neo-angband-tracker#67 (not #51, which is CBUG-0035). Source PR #285, evidence PR #286.
