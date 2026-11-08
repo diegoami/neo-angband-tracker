@@ -1,0 +1,12 @@
+native-c/staff-262: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Priest level=50 depth=30 sp=276/276
+  los_dispel_reaches_its_blast  MODE holy
+GEOMETRY player=(5,20) harpies=(10,20)(11,19)(11,21) temp_n=3
+RATING holy=28
+OUTCOME holy=28
+Failed
+    native-c/staff-262:224: requirement 'v_holy' == '60' failed
+      v_holy:               28
+      60:               60
+native-c/staff-262 finished: 0/1 passed
