@@ -28,6 +28,8 @@
 #include <string.h>
 
 static term screen;
+static int want_clevel = 5;
+static int scenario_clevel11(void *state);
 
 int setup_tests(void **state)
 {
@@ -49,13 +51,21 @@ int setup_tests(void **state)
     player->cave = cave_new(24, 24);
     player_place(cave, player, loc(12, 12));
     player->depth = player->max_depth = cave->depth = player->cave->depth = 10;
-    player->lev = 5;
+    /* SR245_MODE=clevel11: the unchanged control. Munchkin mode only runs
+     * below max clevel 12, so 11 is the one level above the gate. There the
+     * adjustment really increases the range, 8 + (11 - 10) + (10 - 10) = 9,
+     * and the staircase is placed 8 grids away: only the grown range (8 < 9)
+     * lets the borg count it as close, so both versions must climb. */
+    if (getenv("SR245_MODE") && streq(getenv("SR245_MODE"), "clevel11"))
+        want_clevel = 11;
+    int stair_y = want_clevel == 11 ? 4 : 7;
+    player->lev = want_clevel;
     character_dungeon = true;
     for (int y = 1; y < 23; ++y) for (int x = 1; x < 23; ++x)
         sqinfo_on(square(cave, loc(x, y))->info, SQUARE_GLOW);
     /* A known up staircase five grids north: outside the shrunk range of a
      * level-5 borg (3) but inside the base range (8). */
-    square_set_feat(cave, loc(12, 7), FEAT_LESS);
+    square_set_feat(cave, loc(12, stair_y), FEAT_LESS);
     player->upkeep->update |= PU_BONUS | PU_HP | PU_TORCH; update_stuff(player);
     player->chp = player->mhp;
     borg_rand_local = 1000; borg_init();
@@ -70,13 +80,17 @@ int setup_tests(void **state)
     for (int y = 0; y < 24; ++y) for (int x = 0; x < 24; ++x)
         square_set_feat(player->cave, loc(x, y), square(cave, loc(x, y))->feat);
     /* The borg has tracked the up staircase. */
-    track_less.x[0] = 12; track_less.y[0] = 7; track_less.num = 1;
+    track_less.x[0] = 12; track_less.y[0] = stair_y; track_less.num = 1;
     borg.c = player->grid; borg.avoidance = player->chp; borg.ready_morgoth = 0;
     borg.status.active = true;
     borg_update_entrypoint(true);
     borg_cfg[BORG_MUNCHKIN_START] = true;
     printf("SETUP seed=245 class=%s depth=%d clevel=%d\n",
            player->class->name, player->depth, player->lev);
+    if (want_clevel == 11) {
+        tests[0].name = "clevel11_range_growth_unchanged";
+        tests[0].func = scenario_clevel11;
+    }
     return 0;
 }
 
@@ -93,6 +107,44 @@ static void print_notes(void)
     uint16_t show = total < 12 ? total : 12;
     for (uint16_t i = 0; i < show; ++i)
         printf("NOTE %02d %s\n", (int)i, message_str(i));
+}
+
+static bool run_decision(void)
+{
+    borg_flush();
+    memset(&borg.goal, 0, sizeof(borg.goal));
+    borg.munchkin_mode = false;
+    borg.times_twitch = 0;
+    borg.no_retreat = 0;
+    borg.c = player->grid;
+    borg.panels.x = 1;
+    borg.panels.y = 2;
+    borg_alloc_detection();
+    borg.power = borg_power();
+    {
+        uint16_t total = messages_num();
+        for (uint16_t i = 0; i < total; ++i) (void)message_str(i);
+    }
+    return borg_think_dungeon();
+}
+
+/* Control: a level-11 borg at depth 10 with the known up staircase 8
+ * grids away. The adjustment adds (11 - 10) + (10 - 10) = 1 in both
+ * versions (range 9), so the stair counts as close (8 < 9) and the borg
+ * power-climbs; the decision and its complete log must be identical. */
+static int scenario_clevel11(void *state)
+{
+    bool rc = run_decision();
+    printf("STATE clevel=%d depth=%d goal_less=%d fleeing=%d munchkin_mode=%d rc=%d\n",
+           borg.trait[BI_CLEVEL], borg.trait[BI_CDEPTH],
+           borg.goal.less ? 1 : 0, borg.goal.fleeing ? 1 : 0,
+           borg.munchkin_mode ? 1 : 0, rc ? 1 : 0);
+    print_notes();
+    printf("OUTCOME climb_decision=%d\n", borg.goal.less ? 1 : 0);
+    require(borg.trait[BI_CLEVEL] == 11);
+    require(borg.trait[BI_CDEPTH] == 10);
+    require(borg.goal.less);
+    ok;
 }
 
 static int scenario_range(void *state)
