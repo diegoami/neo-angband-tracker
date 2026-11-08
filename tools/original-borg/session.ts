@@ -230,14 +230,25 @@ export async function run(o: any) {
 		installStorage: { get: () => memory, set: (v: any) => (memory = v) },
 	});
 	const gear = () =>
-		state.gear.pack.map((h) => ({
-			handle: h,
+		[...state.gear.store.entries()].map(([handle, obj]) => ({
+			handle,
+			location: p.equipment.includes(handle)
+				? "equipped"
+				: state.gear.quiver?.includes(handle)
+					? "quiver"
+					: "pack",
+			slot: p.equipment.indexOf(handle),
 			description: core.describeObject(
 				state,
-				core.gearGet(state.gear, h)!,
+				obj,
 				core.ODESC.PREFIX | core.ODESC.FULL,
 			),
+			tval: obj.tval,
+			sval: obj.sval,
+			number: obj.number,
+			weight: obj.weight,
 		}));
+
 	const birth = {
 		race: p.race.name,
 		class: p.cls.name,
