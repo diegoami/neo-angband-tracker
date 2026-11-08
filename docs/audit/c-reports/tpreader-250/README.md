@@ -135,9 +135,9 @@ Runner verdict: `VERIFIED: the original lets a stale entry erase the giant's dan
 
 | Mode | Original (base) | Corrected (fix) |
 | --- | --- | --- |
-| `stale-hit` | FAIL: idx0=0 idx1=1; danger=0 | pass: idx0=0 idx1=1; danger=1 |
-| `in-list` (control, byte-identical) | pass: idx0=1 idx1=0; danger=0 | pass: idx0=1 idx1=0; danger=0 |
-| `empty` (control, byte-identical) | pass: idx0=0 idx1=0; danger=1 | pass: idx0=0 idx1=0; danger=1 |
+| `stale-hit` | FAIL: list idx0=0 idx1=1 (stale slot names the giant); DANGER danger=0 | pass: same list; DANGER danger=179 |
+| `in-list` (control, byte-identical) | pass: list idx0=1 idx1=0; DANGER danger=0 | pass: DANGER danger=0 |
+| `empty` (control, byte-identical) | pass: empty list; DANGER danger=179 | pass: DANGER danger=179 |
 
 Full native gates, parsed from the committed alltests logs: original
 965/965 unit checks and 5/5 frontend tests; corrected
