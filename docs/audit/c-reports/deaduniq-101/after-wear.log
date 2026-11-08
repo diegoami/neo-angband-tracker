@@ -1,0 +1,9 @@
+native-c/deaduniq-101: starting...
+SETUP seed=101 mode=wear class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=1 mass_banishment=5
+  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=1 table_after_update=1 baseline_power=1526179 same_gear_power_now=1526179 mass_banishment=5 prep_big_fight=0
+DECISION wear=0 item=<none>
+ENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0
+STATE baseline_power=1526179 power_after_decision=1526179 sauron_dead_trait=1
+OUTCOME acts=0 baseline_stale=0
+Passed
+native-c/deaduniq-101 finished: 1/1 passed

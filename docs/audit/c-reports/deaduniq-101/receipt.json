@@ -1,0 +1,230 @@
+{
+  "issue": "diegoami/neo-angband-tracker#101",
+  "report": "deaduniq-101",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "35d4ff3f43ad839952466d7d8580320adba95b8c",
+  "fix_branch": "task/deaduniq-101",
+  "fixtures_ref": "b70349d7da21677c27a879fae79fa6ba1f97996a",
+  "cases": {
+    "wear": {
+      "before": {
+        "passed": false,
+        "state": {
+          "baseline_power": 1513679,
+          "power_after_decision": 1524179,
+          "sauron_dead_trait": 1
+        },
+        "outcome": {
+          "acts": 1,
+          "baseline_stale": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1526179,
+          "power_after_decision": 1526179,
+          "sauron_dead_trait": 1
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      }
+    },
+    "junk": {
+      "before": {
+        "passed": false,
+        "state": {
+          "baseline_power": 1598679,
+          "power_after_decision": 1611179,
+          "sauron_dead_trait": 1
+        },
+        "outcome": {
+          "acts": 1,
+          "baseline_stale": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1611179,
+          "power_after_decision": 1611179,
+          "sauron_dead_trait": 1
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      }
+    },
+    "junk-nokitpotion": {
+      "before": {
+        "passed": false,
+        "state": {
+          "baseline_power": 1598679,
+          "power_after_decision": 1608679,
+          "sauron_dead_trait": 1
+        },
+        "outcome": {
+          "acts": 1,
+          "baseline_stale": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1611179,
+          "power_after_decision": 1611179,
+          "sauron_dead_trait": 1
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      }
+    },
+    "alive-wear": {
+      "before": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1513679,
+          "power_after_decision": 1513679,
+          "sauron_dead_trait": 0
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1513679,
+          "power_after_decision": 1513679,
+          "sauron_dead_trait": 0
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      }
+    },
+    "alive-junk": {
+      "before": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1598679,
+          "power_after_decision": 1598679,
+          "sauron_dead_trait": 0
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1598679,
+          "power_after_decision": 1598679,
+          "sauron_dead_trait": 0
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      }
+    },
+    "wear-noscrolls": {
+      "before": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1513679,
+          "power_after_decision": 1513679,
+          "sauron_dead_trait": 1
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "baseline_power": 1513679,
+          "power_after_decision": 1513679,
+          "sauron_dead_trait": 1
+        },
+        "outcome": {
+          "acts": 0,
+          "baseline_stale": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "alive-wear",
+    "alive-junk"
+  ],
+  "claim": "borg_init_flow_kill() (borg-flow-kill.c:3321-3335) skips uniques and tests non-uniques, whose max_num is never 0 (load.c:516-520, player-birth.c:421-427), so borg_race_death[] starts empty. borg_update() refills it on its first new-level pass (borg-update.c:2273-2287; borg.status.old_depth starts at 128, borg-init.c:519), but borg_think() runs borg_notice() first (borg-think.c:211) and sets borg.power after the update from that examination (borg-think.c:217), so BI_SAURON_DEAD (borg-trait.c:3131) is 0 in the reference and 1 in every candidate scored later in the pass (borg-power.c:1454 adds 2,500 per Mass Banishment scroll). borg_wear_stuff() (borg-item-wear.c:767, 995) and borg_drop_junk() (borg-junk.c:254, 449) compare candidates against that reference. Skipping non-uniques seeds the table at start-up, as the comment and borg_update()'s scan do.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-kill.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "fe9769912e5c29771e37a867ec6cbc7fe0e4835720a55a8e2eeee4873466185e"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 32,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "61a497f144752ac84853f156e297807fafddfdce330014e4b9b7d5615a209503",
+    "after-alive-junk.log": "e66c00db8d2cc6ef58c9e273ff07d2876bc791b6cd6e970a9f5dacd3d9c74ad3",
+    "after-alive-wear.log": "a696526303528fdcf321d9d1b22e0d8f8ae8dbdaefa743549658a73a7287fc45",
+    "after-junk-nokitpotion.log": "01d9d65f92dd09bd799e7856bf5162d2e5dc05dcb0d67d8244694066232f405d",
+    "after-junk.log": "4ce0b0fca9b993b613b5330c89fd5116a71be5e4904268818010a1242869a428",
+    "after-results.json": "9c8bdfaa109dacf07b2cc9dd5b93d7cde998c202d4cc4bf0ef7698107b345742",
+    "after-wear-noscrolls.log": "e9971d4e4080fa2626471e6b7bfc36e8141ef0aa65461f7586f88a1ed63d316e",
+    "after-wear.log": "78b776529fd0157163da23e83cf518dd62b2c475882d7a17de87bcac75c61e4f",
+    "before-alive-junk.log": "e66c00db8d2cc6ef58c9e273ff07d2876bc791b6cd6e970a9f5dacd3d9c74ad3",
+    "before-alive-wear.log": "a696526303528fdcf321d9d1b22e0d8f8ae8dbdaefa743549658a73a7287fc45",
+    "before-junk-nokitpotion.log": "3d1012cfc46eac10f7d44aa06940c1cadda3c0414cefd74b1d2175bad2111906",
+    "before-junk.log": "28a4a6fabe70dd2ffb58702798d81651df6e9e59e6133a0ccd838841d5027788",
+    "before-results.json": "180c757d461ee957b3c4d5cac087b6ca4ad0e5118d07cdedc59533d7a28d3d23",
+    "before-wear-noscrolls.log": "c17350f6689b4be603d70aeb2e130e29501680dc2c9ab88aa99165d62f1c3b55",
+    "before-wear.log": "8f35003009dc487a4c4fbccac2e8bc9849ed28d531ec65e67bb351c4aa87ff90",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "1d97f93cb36479e759007bd2a70132cedf7e2c2b28ab547ee23927308265f957",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "cf248b7abade298adb8a377a2bdffb59e0b72cc165be21ca24dda66e4077febf",
+    "replay.html": "45fce8c8c43e3d64a1889957f08a13dac1ab11dec4316f51a739d0f5576fc5d2",
+    "reproduce.py": "8b2683c5acf2e4db6b9d74c1e600f5fc65282e2ff9abe13e6caf32befed88f92",
+    "result.json": "337e79c8f0b0e9af1abcf6fc556afee2797c00f6ae49dafb80b628f39f2d3169",
+    "run-after-alltests.log": "13e1f8d6a7068e94112004dc9fca2bfdd84d8fb14f8f53fe0f3d27c55090fbfb",
+    "run-after-build.log": "16f3ebe181759e5e4ba79d07920a5b5b0b9e06c13ecef9a5af8105093c2967fb",
+    "run-after-scenarios.log": "ccaba7f4138b574d8f42c191f493c807cda1379b1a699aad1558540269e5527e",
+    "run-before-alltests.log": "ffc6dc74a513697089a44b630ae403c520e394fee048398ba54389322b2ce440",
+    "run-before-build.log": "406c0b389e6c6b38ffbf5ba1bfa503a521d0798bbec1871125bf557a98a76f83",
+    "run-before-scenarios.log": "35fb75edb44aab82fb482375fc1601d14db65eacc8841389741ba9b94b5d8d81",
+    "run-cases.py": "5975e683eb4479ad8cc9d7dce495ddd0ce53709d5a11b310eebfccfe8b4f5c59",
+    "run-configure.log": "cf03555104e5d375ccd61ba6ffe96a53f084acadc8e50aa6881be48ad05befba",
+    "scenario.c": "75f69a5519ab1efd883b89488376a8969d6cd077dd86ca34c0b2246000d90a6b"
+  }
+}

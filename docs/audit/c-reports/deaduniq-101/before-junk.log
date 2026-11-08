@@ -1,0 +1,11 @@
+native-c/deaduniq-101: starting...
+SETUP seed=101 mode=junk class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=0 mass_banishment=5
+  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=1 baseline_power=1598679 same_gear_power_now=1611179 mass_banishment=5 prep_big_fight=0
+TRACK keys=<{fborg ignore.df>
+DECISION junk=1 item=<Potion of Berserk Strength>
+ENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=1
+STATE baseline_power=1598679 power_after_decision=1611179 sauron_dead_trait=1
+OUTCOME acts=1 baseline_stale=1
+Failed
+    native-c/deaduniq-101:244: requirement 'baseline == consistent' failed
+native-c/deaduniq-101 finished: 0/1 passed

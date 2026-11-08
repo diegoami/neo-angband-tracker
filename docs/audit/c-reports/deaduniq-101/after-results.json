@@ -1,0 +1,80 @@
+{
+  "wear": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "baseline_power": 1526179,
+      "power_after_decision": 1526179,
+      "sauron_dead_trait": 1
+    },
+    "outcome": {
+      "acts": 0,
+      "baseline_stale": 0
+    }
+  },
+  "junk": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "baseline_power": 1611179,
+      "power_after_decision": 1611179,
+      "sauron_dead_trait": 1
+    },
+    "outcome": {
+      "acts": 0,
+      "baseline_stale": 0
+    }
+  },
+  "junk-nokitpotion": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "baseline_power": 1611179,
+      "power_after_decision": 1611179,
+      "sauron_dead_trait": 1
+    },
+    "outcome": {
+      "acts": 0,
+      "baseline_stale": 0
+    }
+  },
+  "alive-wear": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "baseline_power": 1513679,
+      "power_after_decision": 1513679,
+      "sauron_dead_trait": 0
+    },
+    "outcome": {
+      "acts": 0,
+      "baseline_stale": 0
+    }
+  },
+  "alive-junk": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "baseline_power": 1598679,
+      "power_after_decision": 1598679,
+      "sauron_dead_trait": 0
+    },
+    "outcome": {
+      "acts": 0,
+      "baseline_stale": 0
+    }
+  },
+  "wear-noscrolls": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "baseline_power": 1513679,
+      "power_after_decision": 1513679,
+      "sauron_dead_trait": 1
+    },
+    "outcome": {
+      "acts": 0,
+      "baseline_stale": 0
+    }
+  }
+}
