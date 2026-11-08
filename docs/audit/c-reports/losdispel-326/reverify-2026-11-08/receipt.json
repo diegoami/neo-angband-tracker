@@ -1,0 +1,108 @@
+{
+  "purpose": "Re-verification at the original pins: the original run's logs were dropped by the repository's *.log ignore rule although the original receipt hashed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "53ef84c743768fdde9abaebc27bd8526b4423de9",
+  "fixtures_ref": "d414ea1c85259fc20465527ca39a33c88dd1d282",
+  "original_fixtures_ref": "d414ea1c85259fc20465527ca39a33c88dd1d282",
+  "command": "git show d414ea1c85259fc20465527ca39a33c88dd1d282:docs/audit/c-reports/losdispel-326/reproduce.py > /tmp/reproduce-losdispel-326.py && python3 /tmp/reproduce-losdispel-326.py --full-tests --fixtures-ref d414ea1c85259fc20465527ca39a33c88dd1d282",
+  "fix_pin_note": "reproduce.py hard-codes BASE and FIX and asserts the exact source hunk; it has no --fix-ref flag.",
+  "cases": {
+    "before": {
+      "storm": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "player=(5,20) bats=(10,20)(11,19)(11,21) temp_n=3",
+        "rating": "dispel=-15",
+        "outcome": "dispel=-15"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) bats=(10,20)(11,19)(11,21) temp_n=3",
+        "rating": "orb=540",
+        "outcome": "orb=540"
+      }
+    },
+    "after": {
+      "storm": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) bats=(10,20)(11,19)(11,21) temp_n=3",
+        "rating": "dispel=534",
+        "outcome": "dispel=534"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) bats=(10,20)(11,19)(11,21) temp_n=3",
+        "rating": "orb=540",
+        "outcome": "orb=540"
+      }
+    }
+  },
+  "matches_original_receipt_cases": true,
+  "case_differences": [],
+  "identical_controls": {
+    "control": true
+  },
+  "byte_identical_to_original_hash": {
+    "after-alltests.log": false,
+    "after-build.log": false,
+    "after-scenarios.log": true,
+    "before-alltests.log": false,
+    "before-build.log": false,
+    "before-scenarios.log": true,
+    "configure.log": false,
+    "result.json": true,
+    "after-control.log": true,
+    "after-results.json": true,
+    "after-storm.log": true,
+    "before-control.log": true,
+    "before-results.json": true,
+    "before-storm.log": true
+  },
+  "full_tests": {
+    "before": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "original_compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "original_cmake": "cmake version 4.2.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "target": "committed replay.html",
+    "replay_sha256": "40641038857778d89ce799b1b08e3878b2f4b8f7d5f4b81608a5dc0fe21fb4c7",
+    "result": "RENDER-SMOKE actions=4 errors=0 OK",
+    "exit": 0
+  },
+  "sha256": {
+    "after-alltests.log": "34b7064f91b79f12885af8deb16b6eb8b36b8802c9121e7529d62e2002cd73a5",
+    "after-build.log": "ba94be92329b53b8d3937e4efe534d71017f033df77b03e2212be3b9746a2aef",
+    "after-control.log": "2fc891e8594eb1d74ed7f31075b141564592ff2c2115ac7aad5b3a9900dde311",
+    "after-results.json": "b05146285b3a7479f840535c273f52caafcfa349a0bda7c18bcf978cd4b2cdd6",
+    "after-scenarios.log": "eacfeb244a55fe5949eec49fc09f658a8fba63b41a0c703e9f797574fe87727c",
+    "after-storm.log": "4c21f5f44a88c097dc5b660684d042b20fa1192b9a291afe64bdd38ebf81cfbc",
+    "before-alltests.log": "c9b4942cc2ac79f0589d9cf938a94c483bb355aec8b6b9865b08f5f403c16ccc",
+    "before-build.log": "305272c476c8b842d8ef130f3c92658e9610123d93e806b3d9501773f698c74a",
+    "before-control.log": "2fc891e8594eb1d74ed7f31075b141564592ff2c2115ac7aad5b3a9900dde311",
+    "before-results.json": "8acde0b9fb65670b0428d2f009b5cdbb10013b99a9162780e76f9afca21d6aa3",
+    "before-scenarios.log": "b75836139a3fcceb8c3d669f6759858385729e776341180967b3ec54ab75ff12",
+    "before-storm.log": "5c6ae09c998699a6e9fb5f4a24cbf615c566971a4aaef00e7fa0264d992b0fed",
+    "configure.log": "33873338533713603ebd43338087cca8ee72491cc0791e7f9770b472d64b5742",
+    "result.json": "47299ef2802de7650a9f735559cfa8b55b665f153bf814bde20ede965f61b943"
+  }
+}
