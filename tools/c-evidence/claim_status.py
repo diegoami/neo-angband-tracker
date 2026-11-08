@@ -49,9 +49,11 @@ def gh(path, pages=True):
 
 def parse_time(s):
     try:
-        return dt.datetime.fromisoformat(s.rstrip(".,").replace("Z", "+00:00"))
+        t = dt.datetime.fromisoformat(s.rstrip(".,").replace("Z", "+00:00"))
     except ValueError:
         return None
+    # a time written without a zone is taken as UTC (the protocol writes UTC)
+    return t if t.tzinfo else t.replace(tzinfo=dt.timezone.utc)
 
 
 def status(issue_no, now, open_prs):
