@@ -256,12 +256,14 @@ int borg_first_empty_inventory_slot(void)
 {
     int i;
 
+    /* Find the last used slot (-1 when the pack is empty) */
     for (i = PACK_SLOTS - 1; i >= 0; i--)
-        if (borg_items[i].iqty) {
-            if ((i + 1) < PACK_SLOTS)
-                return i + 1;
+        if (borg_items[i].iqty)
             break;
-        }
+
+    /* The slot after it is the first empty one, if the pack has room */
+    if ((i + 1) < PACK_SLOTS)
+        return i + 1;
 
     return -1;
 }
