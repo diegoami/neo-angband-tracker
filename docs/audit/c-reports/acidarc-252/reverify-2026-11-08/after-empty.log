@@ -1,0 +1,9 @@
+native-c/acidarc-252: starting...
+SETUPSTEP profile
+SETUP maxsp=20 csp=20 failacid=2 poweracid=5 dist=10
+SETUP seed=1000 class=Mage level=50 depth=30 hp=258/258 sp=276/276
+  arc_counts_radius_edge  MODE empty
+DECISION acted=0 keys=0 sequence=
+OUTCOME acted=0 keys=0 cast=0
+Passed
+native-c/acidarc-252 finished: 1/1 passed
