@@ -138,6 +138,34 @@
         "page": "replay.html (committed)",
         "note": "The original run's own headless check is recorded under the 'browser' key; this key adds the 2026-11-08 smoke check."
       }
+    },
+    {
+      "file": "../receipt.json",
+      "key": "sha256.scenario.c",
+      "old": "c0f9c7263cec124698c9cb943c5c58711f2120d6034a5268b8459ee4313e650c",
+      "new": "17c45f6aecf29cafa54e72b9f4ea01704d16894374de0cfff8fc240983a1f37b",
+      "why": "generator updated by fixtures commit cafe3462c (kill-undead case); the original run used the generators at fixtures_ref 65fa24e6c (git show 65fa24e6c:<path>), whose bytes match 'old'; the new generators' run is reverify-2026-11-08-kill-undead/"
+    },
+    {
+      "file": "../receipt.json",
+      "key": "sha256.run-cases.py",
+      "old": "ab0a73d3bd2d2a348996d05f2ebdcc3a1d4c53e44047dc2210e13b53d36488fe",
+      "new": "99f74eeac98e0c0eeae7ecfffbac68441b8bcb824521ee30ab10dacb76bcc5f3",
+      "why": "generator updated by fixtures commit cafe3462c (kill-undead case); the original run used the generators at fixtures_ref 65fa24e6c (git show 65fa24e6c:<path>), whose bytes match 'old'; the new generators' run is reverify-2026-11-08-kill-undead/"
+    },
+    {
+      "file": "../receipt.json",
+      "key": "sha256.make_replay.py",
+      "old": "12e033b51495fc76adbcd275424b049e327bd7f647bf0803429337de66eadb36",
+      "new": "ab12298544aa971d77192b91142a2fdf0d622025db2bd9ba5a5be494ae26f941",
+      "why": "generator updated by fixtures commit cafe3462c (kill-undead case); the original run used the generators at fixtures_ref 65fa24e6c (git show 65fa24e6c:<path>), whose bytes match 'old'; the new generators' run is reverify-2026-11-08-kill-undead/"
+    },
+    {
+      "file": "../receipt.json",
+      "key": "sha256.reproduce.py",
+      "old": "0f5e6dc1b3e854dc4b3c7f25b26002ec413ec3049f74038724054f777d21cc99",
+      "new": "7e6b9f60d92b7279d3b7b6d4e53b7a330cb949471ad2014c8a96db1fa6b78430",
+      "why": "generator updated by fixtures commit cafe3462c (kill-undead case); the original run used the generators at fixtures_ref 65fa24e6c (git show 65fa24e6c:<path>), whose bytes match 'old'; the new generators' run is reverify-2026-11-08-kill-undead/"
     }
   ]
 }
