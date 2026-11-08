@@ -1,0 +1,140 @@
+{
+  "issue": "diegoami/neo-angband-tracker#85",
+  "report": "wearskip-85",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "5d73e0c2120b450428f2417db325041c1b6d3da9",
+  "fix_branch": "task/wearskip-85",
+  "fixtures_ref": "620235082d9faf6644d496f52fbc177a970fe266",
+  "cases": {
+    "tight": {
+      "before": {
+        "passed": false,
+        "state": {
+          "pack_used": 23
+        },
+        "outcome": {
+          "actions": 2,
+          "wears_scale_mail": 0,
+          "wears_cloak": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "pack_used": 22
+        },
+        "outcome": {
+          "actions": 5,
+          "wears_scale_mail": 1,
+          "wears_cloak": 1
+        }
+      }
+    },
+    "roomy": {
+      "before": {
+        "passed": true,
+        "state": {
+          "pack_used": 20
+        },
+        "outcome": {
+          "actions": 5,
+          "wears_scale_mail": 1,
+          "wears_cloak": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "pack_used": 20
+        },
+        "outcome": {
+          "actions": 5,
+          "wears_scale_mail": 1,
+          "wears_cloak": 1
+        }
+      }
+    },
+    "nocloak": {
+      "before": {
+        "passed": true,
+        "state": {
+          "pack_used": 23
+        },
+        "outcome": {
+          "actions": 2,
+          "wears_scale_mail": 0,
+          "wears_cloak": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "pack_used": 23
+        },
+        "outcome": {
+          "actions": 2,
+          "wears_scale_mail": 0,
+          "wears_cloak": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "roomy",
+    "nocloak"
+  ],
+  "claim": "borg_one_step_wearing_best() reset its skip counter on every pass, so with skip > 0 it skipped every remaining planned change instead of only the blocked ones. A level-21 Warrior at home with one free pack slot stopped after switching to a Tulwar and never wore the Cloak or the Metal Scale Mail it had planned; corrected, it makes all five planned changes. A control with room in the pack and a control where the skip happens but nothing else can be done are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-item-wear.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-item-wear.c": "58a6c7b877225f034ea1f477ffa1f8b3d8b27461d4e06ce9fcbe2a3a4e305537"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "b49bdeef2cd1b658a854724100777aa432df30cd85be58ea885fcf6590e13d89",
+    "after-nocloak.log": "ea86f8b1579e97b8ac648c29e3d195cd948927c60942999a5637b0f5a886208a",
+    "after-results.json": "cca35588d3ba04581197b68b95a58b354c9fe46b8b021c4c8d7f9505fc7a229e",
+    "after-roomy.log": "36bed66898fb39022f0ce8852c341c51d0d51576bc19aa1767f2aa5da5a6b0e1",
+    "after-tight.log": "dbabe4a723f7bd772803686d5a162ec72f6ad1fffcc21aa1e0af888ee5230eba",
+    "before-nocloak.log": "ea86f8b1579e97b8ac648c29e3d195cd948927c60942999a5637b0f5a886208a",
+    "before-results.json": "51c1a625675e7054cde0202d4ca66269fe713dcd66a1fcd00af9abe074afd347",
+    "before-roomy.log": "36bed66898fb39022f0ce8852c341c51d0d51576bc19aa1767f2aa5da5a6b0e1",
+    "before-tight.log": "10c645846a188060816e36790c08246e38330bc516ac04fe6500300fcb905e98",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "79ed7711cf10511da5c6e63c58d55b2bda1d1cdcd9159616e0d49860f3aeebd8",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "957272944f5fbdf83f357a9be9835b8562583ef0d3c98d08743269ec45dfec8b",
+    "replay.html": "13aace2ee5965f26970268f1ea8d313d1a7f9268517f89b17d4f7b73a9190986",
+    "reproduce.py": "97bb1f3783a90acd2c63e1fba4e83231c7fb0cd5f2731cb762ed57d6a547ce69",
+    "result.json": "44589000e45323ee121d0bdc1bcf9efb892fada545a4a79451ee33cc0c440a63",
+    "run-after-alltests.log": "8fcc78deecac8f710d119a365814af2aefd3562b5baabd65ebdae1b2bce645cb",
+    "run-after-build.log": "a9f373ee1c974cef5dc4d104a8fa76056d3ff38eda8ffe12b7f806849efc20a6",
+    "run-after-scenarios.log": "ffdf0d85e504aa1d110b8a1f1f16c8ae5f0fa6959696a699befc91bb4d0d393c",
+    "run-before-alltests.log": "8354ad6bf90a548c95e838765ddcc4349cdc3576a93ef3474d3dedad06f63989",
+    "run-before-build.log": "356e01a88f92100756b80774366ca4b9641546ce5615f9fb7025b8dfc383b2d0",
+    "run-before-scenarios.log": "a81c23294dd1a7ab5f37996ae343bd3c9c18a29894741073334e0f7c28399d3b",
+    "run-cases.py": "2400f45d77eee1be8c185d1dd9f39aa41e4979358f5878610be4c0eeaaa79913",
+    "run-configure.log": "d6948f4d760f4059b38d6101fba373b815ab88a0cb1b92102e08d1e290a1e566",
+    "scenario.c": "5c9c1e95ac96273f03af986598d9437246a97b87c1d44d1e201458d5cdaa8a44"
+  }
+}

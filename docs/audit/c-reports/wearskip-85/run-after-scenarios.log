@@ -1,0 +1,3 @@
+tight {'exit': 0, 'passed': True, 'state': {'pack_used': 22}, 'outcome': {'actions': 5, 'wears_scale_mail': 1, 'wears_cloak': 1}}
+roomy {'exit': 0, 'passed': True, 'state': {'pack_used': 20}, 'outcome': {'actions': 5, 'wears_scale_mail': 1, 'wears_cloak': 1}}
+nocloak {'exit': 0, 'passed': True, 'state': {'pack_used': 23}, 'outcome': {'actions': 2, 'wears_scale_mail': 0, 'wears_cloak': 0}}
