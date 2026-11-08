@@ -1,0 +1,8 @@
+native-c/lightwest-40: starting...
+SETUP seed=40 mode=west class=Warrior clevel=20 hp=231 depth=5 
+  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(8,13) grid_lit=0
+DECISION kill_before=1 kill_after=1
+OUTCOME ghost_kept=1
+Failed
+    native-c/lightwest-40:178: requirement '!r_after' failed
+native-c/lightwest-40 finished: 0/1 passed

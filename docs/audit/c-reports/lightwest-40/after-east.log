@@ -1,0 +1,9 @@
+native-c/lightwest-40: starting...
+SETUP seed=40 mode=east class=Warrior clevel=20 hp=231 depth=5 
+  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(12,13) grid_lit=1
+DECISION kill_before=1 kill_after=0
+TRACK # There was a monster 'cave bear' at (13,12)
+TRACK # Forgetting a monster 'cave bear' at (13,12)
+OUTCOME ghost_kept=0
+Passed
+native-c/lightwest-40 finished: 1/1 passed
