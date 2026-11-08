@@ -26,6 +26,7 @@
 #include <string.h>
 
 static term screen;
+static int scenario_below(void *state);
 
 int setup_tests(void **state)
 {
@@ -68,6 +69,12 @@ int setup_tests(void **state)
     borg_update_entrypoint(true);
     printf("SETUP seed=246 class=%s depth=%d hp=%d\n",
            player->class->name, player->depth, player->chp);
+    /* CR246_MODE=below-threshold: the unchanged control, one turn below
+     * the threshold, where neither version resets or aborts. */
+    if (getenv("CR246_MODE") && streq(getenv("CR246_MODE"), "below-threshold")) {
+        tests[0].name = "below_threshold_unchanged";
+        tests[0].func = scenario_below;
+    }
     return 0;
 }
 
@@ -107,6 +114,30 @@ static int scenario_threshold(void *state)
            borg.status.active ? 1 : 0,
            borg.time.now < 1000 ? 1 : 0);
     require(borg.time.now < 1000);
+    require(borg.status.active);
+    ok;
+}
+
+/* Control: the clock one turn below the threshold (BORG_TIME_MAX - 3001).
+ * Neither the original panic nor the corrected reset applies; the borg
+ * keeps its clock and stays active in both versions. */
+static int scenario_below(void *state)
+{
+    borg.time.now = BORG_TIME_MAX - 3001;
+    {
+        uint16_t total = messages_num();
+        for (uint16_t i = 0; i < total; ++i) (void)message_str(i);
+    }
+
+    borg_think_dungeon();
+
+    printf("STATE time_after=%d active=%d\n", (int)borg.time.now,
+           borg.status.active ? 1 : 0);
+    print_notes();
+    printf("OUTCOME kept_playing=%d time_reset=%d\n",
+           borg.status.active ? 1 : 0,
+           borg.time.now < 1000 ? 1 : 0);
+    require(borg.time.now >= BORG_TIME_MAX - 3001);
     require(borg.status.active);
     ok;
 }
