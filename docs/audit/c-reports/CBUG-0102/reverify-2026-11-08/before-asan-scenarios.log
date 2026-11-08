@@ -1,0 +1,3 @@
+stairs {'exit': 1, 'passed': False, 'asan': True, 'underflow': True, 'defend_site': True}
+clear-floor {'exit': 0, 'passed': True, 'asan': False, 'underflow': False, 'defend_site': False, 'phaseA': {'num': 0}, 'phaseB': {'num': 1}, 'message': {'failed_floor': 0, 'total_new': 4}, 'outcome': {'glyph_created': 1, 'hp': 8, 'num_final': 1}, 'decisionA': {'acted': 1, 'keys': 3}, 'decisionB': {'acted': 1, 'keys': 4}}
+pairing {'exit': 0, 'passed': True, 'asan': False, 'underflow': False, 'defend_site': False, 'phaseB': {'num': 1}, 'outcome': {'glyph_created': 1, 'hp': 8, 'num_final': 1}, 'decisionB': {'acted': 1, 'keys': 4}}
