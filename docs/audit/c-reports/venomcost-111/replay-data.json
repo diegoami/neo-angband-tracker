@@ -1,0 +1,198 @@
+{
+  "unique": {
+    "label": "Control: unique 3 grids away, clevel 42 (cast)",
+    "explanation": "Venom fails 12% of the time, within the 15% allowed near a unique. The original passes the dead cost test (cost read as -1 against 38 spell points) and casts; the changed version casts the same way (keys m b d, no_rest_prep 19000). Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/venomcost-111: starting...\nSETUP seed=111 mode=unique class=Blackguard clevel=42 depth=20 sp=38/38 monster=Bullroarer the Hobbit\n  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38\nDECISION perma=1 keys=3 sequence=mbd\nOUTCOME cast=1 keys=3 no_rest_prep=19000\nPassed\nnative-c/venomcost-111 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "near_unique": 1,
+        "mon_unique": 1,
+        "venom_active": 0,
+        "venom_fail": 12,
+        "venom_cost": 18,
+        "smite_cost": -1,
+        "cursp": 38
+      },
+      "outcome": {
+        "cast": 1,
+        "keys": 3,
+        "no_rest_prep": 19000
+      },
+      "notes": [
+        "DECISION perma=1 keys=3 sequence=mbd"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/venomcost-111: starting...\nSETUP seed=111 mode=unique class=Blackguard clevel=42 depth=20 sp=38/38 monster=Bullroarer the Hobbit\n  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38\nDECISION perma=1 keys=3 sequence=mbd\nOUTCOME cast=1 keys=3 no_rest_prep=19000\nPassed\nnative-c/venomcost-111 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "near_unique": 1,
+        "mon_unique": 1,
+        "venom_active": 0,
+        "venom_fail": 12,
+        "venom_cost": 18,
+        "smite_cost": -1,
+        "cursp": 38
+      },
+      "outcome": {
+        "cast": 1,
+        "keys": 3,
+        "no_rest_prep": 19000
+      },
+      "notes": [
+        "DECISION perma=1 keys=3 sequence=mbd"
+      ],
+      "value": 1
+    }
+  },
+  "unique50": {
+    "label": "Control: unique 3 grids away, clevel 50 (cast)",
+    "explanation": "Same as 'unique' with 46 spell points: both versions cast Venom. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/venomcost-111: starting...\nSETUP seed=111 mode=unique50 class=Blackguard clevel=50 depth=20 sp=46/46 monster=Bullroarer the Hobbit\n  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=46\nDECISION perma=1 keys=3 sequence=mbd\nOUTCOME cast=1 keys=3 no_rest_prep=19000\nPassed\nnative-c/venomcost-111 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "near_unique": 1,
+        "mon_unique": 1,
+        "venom_active": 0,
+        "venom_fail": 12,
+        "venom_cost": 18,
+        "smite_cost": -1,
+        "cursp": 46
+      },
+      "outcome": {
+        "cast": 1,
+        "keys": 3,
+        "no_rest_prep": 19000
+      },
+      "notes": [
+        "DECISION perma=1 keys=3 sequence=mbd"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/venomcost-111: starting...\nSETUP seed=111 mode=unique50 class=Blackguard clevel=50 depth=20 sp=46/46 monster=Bullroarer the Hobbit\n  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=46\nDECISION perma=1 keys=3 sequence=mbd\nOUTCOME cast=1 keys=3 no_rest_prep=19000\nPassed\nnative-c/venomcost-111 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "near_unique": 1,
+        "mon_unique": 1,
+        "venom_active": 0,
+        "venom_fail": 12,
+        "venom_cost": 18,
+        "smite_cost": -1,
+        "cursp": 46
+      },
+      "outcome": {
+        "cast": 1,
+        "keys": 3,
+        "no_rest_prep": 19000
+      },
+      "notes": [
+        "DECISION perma=1 keys=3 sequence=mbd"
+      ],
+      "value": 1
+    }
+  },
+  "nounique": {
+    "label": "Control: a cave orc, no unique (not cast)",
+    "explanation": "Without a unique the failure allowance is 5%, below Venom's 12%, so both versions stop before the cost test and cast nothing. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/venomcost-111: starting...\nSETUP seed=111 mode=nounique class=Blackguard clevel=42 depth=20 sp=38/38 monster=cave orc\n  perma_venom       STATE near_unique=0 mon_unique=0 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38\nDECISION perma=0 keys=0 sequence=\nOUTCOME cast=0 keys=0 no_rest_prep=0\nPassed\nnative-c/venomcost-111 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "near_unique": 0,
+        "mon_unique": 0,
+        "venom_active": 0,
+        "venom_fail": 12,
+        "venom_cost": 18,
+        "smite_cost": -1,
+        "cursp": 38
+      },
+      "outcome": {
+        "cast": 0,
+        "keys": 0,
+        "no_rest_prep": 0
+      },
+      "notes": [
+        "DECISION perma=0 keys=0 sequence="
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/venomcost-111: starting...\nSETUP seed=111 mode=nounique class=Blackguard clevel=42 depth=20 sp=38/38 monster=cave orc\n  perma_venom       STATE near_unique=0 mon_unique=0 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38\nDECISION perma=0 keys=0 sequence=\nOUTCOME cast=0 keys=0 no_rest_prep=0\nPassed\nnative-c/venomcost-111 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "near_unique": 0,
+        "mon_unique": 0,
+        "venom_active": 0,
+        "venom_fail": 12,
+        "venom_cost": 18,
+        "smite_cost": -1,
+        "cursp": 38
+      },
+      "outcome": {
+        "cast": 0,
+        "keys": 0,
+        "no_rest_prep": 0
+      },
+      "notes": [
+        "DECISION perma=0 keys=0 sequence="
+      ],
+      "value": 0
+    }
+  },
+  "poisoned": {
+    "label": "Control: unique near, weapon already poisoned (not cast)",
+    "explanation": "The weapon is already poisoned, so both versions return before the cost test and cast nothing. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/venomcost-111: starting...\nSETUP seed=111 mode=poisoned class=Blackguard clevel=42 depth=20 sp=38/38 monster=Bullroarer the Hobbit\n  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=1 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38\nDECISION perma=0 keys=0 sequence=\nOUTCOME cast=0 keys=0 no_rest_prep=0\nPassed\nnative-c/venomcost-111 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "near_unique": 1,
+        "mon_unique": 1,
+        "venom_active": 1,
+        "venom_fail": 12,
+        "venom_cost": 18,
+        "smite_cost": -1,
+        "cursp": 38
+      },
+      "outcome": {
+        "cast": 0,
+        "keys": 0,
+        "no_rest_prep": 0
+      },
+      "notes": [
+        "DECISION perma=0 keys=0 sequence="
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/venomcost-111: starting...\nSETUP seed=111 mode=poisoned class=Blackguard clevel=42 depth=20 sp=38/38 monster=Bullroarer the Hobbit\n  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=1 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38\nDECISION perma=0 keys=0 sequence=\nOUTCOME cast=0 keys=0 no_rest_prep=0\nPassed\nnative-c/venomcost-111 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "near_unique": 1,
+        "mon_unique": 1,
+        "venom_active": 1,
+        "venom_fail": 12,
+        "venom_cost": 18,
+        "smite_cost": -1,
+        "cursp": 38
+      },
+      "outcome": {
+        "cast": 0,
+        "keys": 0,
+        "no_rest_prep": 0
+      },
+      "notes": [
+        "DECISION perma=0 keys=0 sequence="
+      ],
+      "value": 0
+    }
+  }
+}

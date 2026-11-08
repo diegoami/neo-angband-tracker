@@ -1,0 +1,74 @@
+{
+  "unique": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "near_unique": 1,
+      "mon_unique": 1,
+      "venom_active": 0,
+      "venom_fail": 12,
+      "venom_cost": 18,
+      "smite_cost": -1,
+      "cursp": 38
+    },
+    "outcome": {
+      "cast": 1,
+      "keys": 3,
+      "no_rest_prep": 19000
+    }
+  },
+  "unique50": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "near_unique": 1,
+      "mon_unique": 1,
+      "venom_active": 0,
+      "venom_fail": 12,
+      "venom_cost": 18,
+      "smite_cost": -1,
+      "cursp": 46
+    },
+    "outcome": {
+      "cast": 1,
+      "keys": 3,
+      "no_rest_prep": 19000
+    }
+  },
+  "nounique": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "near_unique": 0,
+      "mon_unique": 0,
+      "venom_active": 0,
+      "venom_fail": 12,
+      "venom_cost": 18,
+      "smite_cost": -1,
+      "cursp": 38
+    },
+    "outcome": {
+      "cast": 0,
+      "keys": 0,
+      "no_rest_prep": 0
+    }
+  },
+  "poisoned": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "near_unique": 1,
+      "mon_unique": 1,
+      "venom_active": 1,
+      "venom_fail": 12,
+      "venom_cost": 18,
+      "smite_cost": -1,
+      "cursp": 38
+    },
+    "outcome": {
+      "cast": 0,
+      "keys": 0,
+      "no_rest_prep": 0
+    }
+  }
+}

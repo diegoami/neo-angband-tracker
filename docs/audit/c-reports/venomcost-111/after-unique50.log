@@ -1,0 +1,7 @@
+native-c/venomcost-111: starting...
+SETUP seed=111 mode=unique50 class=Blackguard clevel=50 depth=20 sp=46/46 monster=Bullroarer the Hobbit
+  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=46
+DECISION perma=1 keys=3 sequence=mbd
+OUTCOME cast=1 keys=3 no_rest_prep=19000
+Passed
+native-c/venomcost-111 finished: 1/1 passed
