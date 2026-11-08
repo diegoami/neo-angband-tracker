@@ -86,3 +86,10 @@
     This prohibition includes indirect monitor follows. Keep Rust provenance
     in Source/discovery fields, not watched Threads status references; verify
     monitor scope before running inherited tooling (see docs/BORG-RS-INTAKE.md).
+16. Do not copy third parties' messages into this repository without their
+    consent. When recording an external outcome (an upstream review verdict, a
+    forum post, a chat reply), summarize or paraphrase the relevant point in
+    neutral wording instead of quoting it verbatim, and attribute the source
+    discussion by link — for upstream conversations, link the upstream issue
+    or PR so readers can consult the original wording there. This applies to
+    issue bodies, comments, PR descriptions and documentation alike.
