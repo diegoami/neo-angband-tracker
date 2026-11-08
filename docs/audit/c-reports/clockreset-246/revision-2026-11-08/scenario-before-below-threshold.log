@@ -1,0 +1,16 @@
+native-c/clockreset-246: starting...
+SETUP seed=246 class=Warrior depth=9 hp=20
+  below_threshold_unchanged  STATE time_after=2147480646 active=1
+NOTE 00 # Fleeing the level (recall)
+NOTE 01 # Reading Scroll of Word of Recall.
+NOTE 02 # Fleeing (boredom)
+NOTE 03 # Leaving (boredom)
+NOTE 04 # Ready...
+NOTE 05 Initializing the Borg... done.
+NOTE 06 Initializing the Borg... (various)
+NOTE 07 Initializing the Borg... (options)
+NOTE 08 Initializing the Borg... (borg.txt)
+NOTE 09 Initializing the Borg... (memory)
+OUTCOME kept_playing=1 time_reset=0
+Passed
+native-c/clockreset-246 finished: 1/1 passed

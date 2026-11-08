@@ -1,0 +1,9 @@
+Copying needed files
+[  0%] Built target TransferLib
+[  0%] Built target OurUnitTestLib
+[  0%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-dungeon.c.o
+[ 98%] Built target OurCoreLib
+[ 98%] Linking C executable game/angband
+[ 98%] Linking C executable game/CR246Observer
+[ 98%] Built target CR246Observer
+[100%] Built target OurExecutable
