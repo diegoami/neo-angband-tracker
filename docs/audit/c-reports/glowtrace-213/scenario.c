@@ -31,6 +31,7 @@ static term screen;
 static const char *glow_mode = "main";
 static int scenario_door(void *state);
 static int scenario_torchlit(void *state);
+static int scenario_unlit(void *state);
 
 int setup_tests(void **state)
 {
@@ -57,10 +58,12 @@ int setup_tests(void **state)
      * game reports as lit (LIGHTING via SQUARE_GLOW) regardless of the
      * borg's own torch. */
     /* GLOW213_MODE: "main" (default), "door" (unchanged control: an open
-     * door in the same glowing arena), "torchlit" (diagnostic: an unlit
-     * arena, so only the Borg's own light source lights nearby floors). */
+     * door in the same glowing arena), "torchlit" (unchanged control: an
+     * arena with no permanent glow, so only the Borg's own light source
+     * lights nearby floors), "unlit" (the same arena: a floor outside the
+     * Borg's light radius). */
     if (getenv("GLOW213_MODE")) glow_mode = getenv("GLOW213_MODE");
-    if (!streq(glow_mode, "torchlit"))
+    if (!streq(glow_mode, "torchlit") && !streq(glow_mode, "unlit"))
         for (int y = 1; y < 23; ++y) for (int x = 1; x < 23; ++x)
             sqinfo_on(square(cave, loc(x, y))->info, SQUARE_GLOW);
     if (streq(glow_mode, "door"))
@@ -92,6 +95,9 @@ int setup_tests(void **state)
     } else if (streq(glow_mode, "torchlit")) {
         tests[0].name = "torchlit_floor_flags";
         tests[0].func = scenario_torchlit;
+    } else if (streq(glow_mode, "unlit")) {
+        tests[0].name = "unlit_floor_marked_dark";
+        tests[0].func = scenario_unlit;
     }
     return 0;
 }
@@ -153,28 +159,45 @@ static int scenario_door(void *state)
     ok;
 }
 
-/* Diagnostic, not a control: an arena with no permanent glow. Floors next
- * to the Borg are lit only by its own light source. Prints the game's
- * permanent-glow flag (square_isglow), the current light level
- * (square_light / square_islit) and the Borg's flags, so the corrected
- * branch's use of square_islit() can be compared with a CAVE_GLOW-style
- * test. No requirement: the outcome is recorded, not asserted. */
+/* Control: an arena with no permanent glow. The floor next to the Borg
+ * is lit only by its own light source (square_light 1, no SQUARE_GLOW).
+ * A torch-lit floor is not a glowing floor: it must not be flagged
+ * BORG_GLOW, and the flow toward light, which takes its targets only
+ * from BORG_GLOW grids, must find none. Only the torch-lit grid and the
+ * flow-toward-light list are printed; the log must be identical before
+ * and after. */
 static int scenario_torchlit(void *state)
 {
     borg_update();
-    struct loc nearg = loc(11, 12), farg = loc(3, 3);
-    unsigned ni = borg_grids[12][11].info, fi = borg_grids[3][3].info;
+    struct loc nearg = loc(11, 12);
+    unsigned ni = borg_grids[12][11].info;
     printf("STATE near_isglow=%d near_light=%d near_islit=%d near_glow=%d near_dark=%d near_light_flag=%d\n",
            square_isglow(cave, nearg) ? 1 : 0, square_light(cave, nearg),
            square_islit(cave, nearg) ? 1 : 0, (ni & BORG_GLOW) != 0,
            (ni & BORG_DARK) != 0, (ni & BORG_LIGHT) != 0);
+    borg_flow_light(GOAL_XTRA);
+    printf("OUTCOME torchlit_marked_glow=%d glow_n=%d\n",
+           (ni & BORG_GLOW) != 0, (int)borg_glow_n);
+    require(!(ni & BORG_GLOW));
+    require(borg_glow_n == 0);
+    ok;
+}
+
+/* The same arena with no permanent glow: a known floor far outside the
+ * Borg's light radius is neither glowing nor lit, so the Floors branch
+ * marks it BORG_DARK. The original never ran that branch. */
+static int scenario_unlit(void *state)
+{
+    borg_update();
+    struct loc farg = loc(3, 3);
+    unsigned fi = borg_grids[3][3].info;
     printf("STATE far_isglow=%d far_light=%d far_islit=%d far_glow=%d far_dark=%d\n",
            square_isglow(cave, farg) ? 1 : 0, square_light(cave, farg),
            square_islit(cave, farg) ? 1 : 0, (fi & BORG_GLOW) != 0,
            (fi & BORG_DARK) != 0);
-    borg_flow_light(GOAL_XTRA);
-    printf("OUTCOME torchlit_marked_glow=%d glow_n=%d\n",
-           (ni & BORG_GLOW) != 0, (int)borg_glow_n);
+    printf("OUTCOME far_dark=%d\n", (fi & BORG_DARK) != 0);
+    require(!(fi & BORG_GLOW));
+    require(fi & BORG_DARK);
     ok;
 }
 

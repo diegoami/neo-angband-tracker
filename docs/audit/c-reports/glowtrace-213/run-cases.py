@@ -2,7 +2,7 @@ import json,os,re,subprocess,sys
 from pathlib import Path
 phase,binary,directory=sys.argv[1:];root=Path(directory)
 rows={}
-MODES=('main', 'door', 'torchlit')
+MODES=('main', 'door', 'torchlit', 'unlit')
 for mode in MODES:
  env=os.environ|{'GLOW213_PROFILE':str(root/'profile'),'GLOW213_MODE':mode}
  result=subprocess.run([str(Path(binary).resolve()),"-v"],env=env,cwd=Path(binary).resolve().parent,timeout=300,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)

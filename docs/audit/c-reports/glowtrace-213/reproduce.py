@@ -19,8 +19,8 @@ import tempfile
 BASE = "e473720ed88a0f0c7ca66815cef3000eb4a38bc3"
 DIRECTORY = "docs/audit/c-reports/glowtrace-213/"
 SOURCE = "src/borg/borg-update.c"
-CONTROLS = ('door',)  # unchanged-situation controls: complete logs must be byte-identical
-DIAGNOSTICS = ('torchlit',)  # recorded, not asserted
+CONTROLS = ('door', 'torchlit')  # unchanged-situation controls: complete logs must be byte-identical
+DIAGNOSTICS = ()  # none at this pin
 PHASES = ("before", "after")
 
 FLOORS_OLD = '''            /* Floors */
@@ -54,34 +54,11 @@ FLOORS_OLD = '''            /* Floors */
                     ag->info &= ~BORG_DARK;
                 }
             }'''
-FLOORS_NEW = '''            /* Floors */
-            else if (g.f_idx == FEAT_FLOOR) {
-                /* Handle "blind" */
-                if (borg.trait[BI_ISBLIND]) {
-                    /* Nothing */
-                }
-
-                /* Handle "dark" floors.  square_islit() is the grid's
-                 * permanent-glow flag, matching the CAVE_GLOW test this
-                 * branch transcribed from the original borg; the lighting
-                 * enum in grid_data cannot express it (LIGHTING_LIT is
-                 * map_info's default for grids whose lighting is not
-                 * otherwise established). */
-                if (!square_islit(cave, l)) {
-                    /* Dark floor grid */
-                    ag->info |= BORG_DARK;
-                    ag->info &= ~BORG_GLOW;
-                }
-
-                /* Handle Glowing floors */
-                else {
-                    /* Perma Glowing Grid */
-                    ag->info |= BORG_GLOW;
-
-                    /* Assume not dark */
-                    ag->info &= ~BORG_DARK;
-                }
-            }'''
+FLOORS_NEW = FLOORS_OLD.replace(
+    'else if (g.f_idx == FEAT_NONE) {', 'else if (g.f_idx == FEAT_FLOOR) {').replace(
+    'if (g.lighting == LIGHTING_DARK) {', 'if (!square_isglow(cave, l) && !square_islit(cave, l)) {').replace(
+    'else if (g.lighting == LIGHTING_LIT) {', 'else if (square_isglow(cave, l)) {')
+assert FLOORS_NEW.count('FEAT_FLOOR') == 1 and FLOORS_NEW.count('square_isglow') == 2
 
 
 def main():
@@ -177,6 +154,16 @@ add_compile_definitions(PRIVATE_USER_PATH="{root / 'test-user'}")
     if after["state"].get("distant_glow") != 1 or after["state"].get("near_glow") != 1 \
             or after["state"].get("wall_glow") != 0 or after["outcome"].get("glow_n", 0) <= 0:
         raise RuntimeError("Corrected variant must flag glowing floors, spare walls and fill the light-flow list")
+    for phase in PHASES:
+        torch = rows[phase]["torchlit"]
+        if torch["state"].get("near_isglow") != 0 or torch["state"].get("near_islit") != 1 \
+                or torch["state"].get("near_glow") != 0 or torch["outcome"].get("glow_n") != 0:
+            raise RuntimeError(f"{phase}: a floor lit only by the Borg's light must not be flagged glowing or become a light-flow target")
+    unlit_before, unlit_after = rows["before"]["unlit"], rows["after"]["unlit"]
+    if unlit_before["passed"] or unlit_before["state"].get("far_dark") != 0:
+        raise RuntimeError("Original unexpectedly marked the unlit floor dark")
+    if not unlit_after["passed"] or unlit_after["state"].get("far_dark") != 1 or unlit_after["state"].get("far_glow") != 0:
+        raise RuntimeError("Corrected variant must mark the unlit floor dark and not glowing")
     if (source / SOURCE).read_text() != fixed:
         raise RuntimeError("Disposable source not restored to the correction")
     for control in CONTROLS:
@@ -189,7 +176,7 @@ add_compile_definitions(PRIVATE_USER_PATH="{root / 'test-user'}")
                "fixed_source_sha256": {SOURCE: hashlib.sha256((source / SOURCE).read_bytes()).hexdigest()}}
     (root / "result.json").write_text(json.dumps(summary, indent=2) + "\n")
     subprocess.run([sys.executable, str(evidence / "make_replay.py"), str(evidence)], check=True)
-    print("VERIFIED: glowing floors are flagged to the borg and the flow-toward-light consumer finds its targets on the correction; the original flagged nothing.", flush=True)
+    print("VERIFIED: permanently glowing floors are flagged to the borg and the flow-toward-light consumer finds its targets on the correction; unlit floors are marked dark; torch-lit floors and doors are unchanged; the original flagged nothing.", flush=True)
     print(f"Logs and result.json: {root}", flush=True)
 
 
