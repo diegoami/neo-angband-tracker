@@ -167,3 +167,51 @@ See [d0008-diagnostic/README.md](d0008-diagnostic/README.md). In short: the unmo
 - The cost figures are evaluation counts in one geometry, not a measured whole-game cost.
 - One recorded life and a ten-seed smoke check do not measure survival. Source #156 (low-HP flee guard) and #152 (staircase flags) are separate and not changed here.
 
+
+## Re-verification (2026-11-08)
+
+Why: the original run's phase logs (configure, builds, full gates) were not
+committed: the repository's `*.log` ignore rule dropped them, and the receipt
+carried no sha256 map or recorded render check. The runner was repeated at the
+same pins (fixtures `7f903a9a52172a943c8afabbda1311a2f1adb4d1`, fix
+`b71b32c152e272886cb46bb8f253e8c4f5130711`, base `e473720ed`):
+
+| Variant | Cases failing (of 30) | Same as the recorded receipt |
+| --- | --- | --- |
+| `before` (original) | 11: the 8 `cache-*` cases, `caution`, `prod-visible`, `prod-remembered` | yes |
+| `after` (correction) | 0 | yes |
+| `neg-spread-only`, `neg-enqueue-only`, `alt-wipe` | as recorded | yes |
+
+Every case log, results JSON, `replay.html` and `replay-data.json` the runner
+regenerated is byte-identical to the committed copy; the variant source
+digests match. Full native gates: 965/965 unit checks and 5/5 frontend tests in
+both gated phases (parsed from `before-alltests.log`/`after-alltests.log`).
+Toolchain: GNU 13.3.0, cmake 3.28.3.
+
+Byte-identical controls: the per-case sections of `control-safe`,
+`control-dangerous`, `control-blocked`, `control-reuse` and
+`retreat-after-normal` were split out of the committed case logs into
+`before-<case>.log` / `after-<case>.log` (only the `=====` header line, which
+names the phase, is removed); each pair is identical. `control-retreat`
+differs only in its danger-evaluation count (`danger_calls=1` vs `0`), as
+section 3 says, so it is not listed as byte-identical.
+
+Render check: `node tools/c-evidence/render-smoke.js` (Playwright headless) on
+the committed pages: `replay.html` `RENDER-SMOKE actions=0 errors=0 OK`,
+`play.html` `RENDER-SMOKE actions=3 errors=0 OK` (no console errors, no
+`undefined`/`NaN`).
+
+The run's logs and `result.json` are in
+[reverify-2026-11-08/](reverify-2026-11-08/) with their own
+[receipt](reverify-2026-11-08/receipt.json) (per-variant failing cases, gate
+totals, toolchain, render result, sha256 of every file). The root
+`receipt.json` now carries a sha256 map of every file in this directory.
+
+Repeat, with both shas pinned:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/c-borg-flow-danger-cache
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/flowcache-404-evidence
+git show 7f903a9a52172a943c8afabbda1311a2f1adb4d1:docs/audit/c-reports/flowcache-404/reproduce.py > /tmp/reproduce-flowcache-404.py
+python3 /tmp/reproduce-flowcache-404.py --full-tests --fixtures-ref 7f903a9a52172a943c8afabbda1311a2f1adb4d1 --fix-ref b71b32c152e272886cb46bb8f253e8c4f5130711
+```

@@ -1,0 +1,5336 @@
+{
+  "slug": "flowcache-404",
+  "date": "2026-11-08",
+  "kind": "reverify",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "b71b32c152e272886cb46bb8f253e8c4f5130711",
+  "fixtures_ref": "7f903a9a52172a943c8afabbda1311a2f1adb4d1",
+  "command": "python3 reproduce.py --full-tests --fixtures-ref 7f903a9a52172a943c8afabbda1311a2f1adb4d1 --fix-ref b71b32c152e272886cb46bb8f253e8c4f5130711",
+  "cases": {
+    "after": {
+      "cache-desperate-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-desperate-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "caution": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [
+          "# Flowing toward up-stairs at cost 1",
+          "# Desperate for Stairs (two)"
+        ],
+        "outcome": {
+          "stepped_east": 0
+        },
+        "passed": true,
+        "role": "contract",
+        "state": {
+          "caution_acted": 1,
+          "caution_key": 52,
+          "desperate_after": 0,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 0,
+          "know_G": 0
+        },
+        "update_notes": []
+      },
+      "control-blocked": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=16"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 9,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 0,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-dangerous": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 1,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 10,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 1,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 1,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-retreat": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "reaches": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "danger_calls": 0,
+          "retreat_cost_G": 1,
+          "retreat_reaches_G": 1
+        },
+        "update_notes": []
+      },
+      "control-reuse": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "second_calls": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "second_normal_danger_calls": 0
+        },
+        "update_notes": []
+      },
+      "control-safe": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 3,
+          "danger_calls": 19,
+          "danger_calls_G": 1,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 1,
+          "n_know_16": 1,
+          "n_know_G": 1,
+          "rng_touched": 0,
+          "route_to_stair": 1
+        },
+        "update_notes": []
+      },
+      "cost-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "prod-expired": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 0,
+          "stepped_east": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "limit",
+        "state": {
+          "danger_G_now": 0,
+          "explore_danger_calls": 19,
+          "explore_danger_calls_G": 1,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 0,
+          "retreat_danger_calls": 0,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 1,
+          "wipe_pending": 1
+        },
+        "update_notes": [
+          "# Expiring a monster 'grey mold' (17) at (8,15)",
+          "# Forgetting a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-remembered": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 11,
+          "explore_danger_calls_G": 1,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 1,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 0,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 0,
+          "wipe_pending": 0
+        },
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-visible": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 11,
+          "explore_danger_calls_G": 1,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 1,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 0,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "wipe_pending": 0
+        },
+        "update_notes": []
+      },
+      "retreat-after-normal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "reaches_16": 0
+        },
+        "passed": true,
+        "role": "control",
+        "state": {
+          "later_retreat_reaches_16": 0,
+          "later_retreat_reaches_G": 1,
+          "normal_icky_16": 1
+        },
+        "update_notes": []
+      },
+      "safe-desperate-spread": {
+        "calls": [
+          "phase2 total=19 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (13,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 19,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-digging-spread": {
+        "calls": [
+          "phase2 total=19 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (13,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 19,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-lunal-spread": {
+        "calls": [
+          "phase2 total=19 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (13,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 19,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-munchkin-spread": {
+        "calls": [
+          "phase2 total=19 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (13,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 19,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      }
+    },
+    "alt-wipe": {
+      "cache-desperate-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 1,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-desperate-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 1,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 1,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 10,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 1,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 10,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 1,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 10,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "caution": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [
+          "# Flowing toward up-stairs at cost 1",
+          "# Desperate for Stairs (two)"
+        ],
+        "outcome": {
+          "stepped_east": 0
+        },
+        "passed": true,
+        "role": "contract",
+        "state": {
+          "caution_acted": 1,
+          "caution_key": 52,
+          "desperate_after": 0,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 0,
+          "know_G": 1
+        },
+        "update_notes": []
+      },
+      "control-blocked": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=16"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 9,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 0,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-dangerous": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 1,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 10,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 1,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 1,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-retreat": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "reaches": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "danger_calls": 1,
+          "retreat_cost_G": 1,
+          "retreat_reaches_G": 1
+        },
+        "update_notes": []
+      },
+      "control-reuse": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "second_calls": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "second_normal_danger_calls": 0
+        },
+        "update_notes": []
+      },
+      "control-safe": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 3,
+          "danger_calls": 19,
+          "danger_calls_G": 1,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 1,
+          "n_know_16": 1,
+          "n_know_G": 1,
+          "rng_touched": 0,
+          "route_to_stair": 1
+        },
+        "update_notes": []
+      },
+      "cost-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 15
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 15
+        },
+        "update_notes": []
+      },
+      "costmixed-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 15
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 15
+        },
+        "update_notes": []
+      },
+      "costmixed-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 15
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 15
+        },
+        "update_notes": []
+      },
+      "costmixed-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 15
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 15
+        },
+        "update_notes": []
+      },
+      "prod-expired": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 0,
+          "stepped_east": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "limit",
+        "state": {
+          "danger_G_now": 0,
+          "explore_danger_calls": 19,
+          "explore_danger_calls_G": 1,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 0,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 1,
+          "wipe_pending": 1
+        },
+        "update_notes": [
+          "# Expiring a monster 'grey mold' (17) at (8,15)",
+          "# Forgetting a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-remembered": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 11,
+          "explore_danger_calls_G": 1,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 1,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 1,
+          "wipe_pending": 1
+        },
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-visible": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 11,
+          "explore_danger_calls_G": 1,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 1,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "wipe_pending": 1
+        },
+        "update_notes": []
+      },
+      "retreat-after-normal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "reaches_16": 0
+        },
+        "passed": true,
+        "role": "control",
+        "state": {
+          "later_retreat_reaches_16": 0,
+          "later_retreat_reaches_G": 1,
+          "normal_icky_16": 1
+        },
+        "update_notes": []
+      },
+      "safe-desperate-spread": {
+        "calls": [
+          "phase2 total=19 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (13,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 10,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 19,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-digging-spread": {
+        "calls": [
+          "phase2 total=19 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (13,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 19,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 19,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-lunal-spread": {
+        "calls": [
+          "phase2 total=19 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (13,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 19,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 19,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-munchkin-spread": {
+        "calls": [
+          "phase2 total=19 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (13,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 1,
+          "p2_calls_on_p1_grids": 19,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 19,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      }
+    },
+    "before": {
+      "cache-desperate-enqueue": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_enqueued_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-desperate-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-enqueue": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_enqueued_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-spread": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-enqueue": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_enqueued_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-spread": {
+        "calls": [
+          "phase2 total=1 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-enqueue": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_enqueued_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-spread": {
+        "calls": [
+          "phase2 total=1 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "caution": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [
+          "# Flowing toward up-stairs at cost 1",
+          "# Desperate for Stairs (two)",
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "stepped_east": 1
+        },
+        "passed": false,
+        "role": "contract",
+        "state": {
+          "caution_acted": 1,
+          "caution_key": 52,
+          "desperate_after": 0,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1
+        },
+        "update_notes": []
+      },
+      "control-blocked": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=16"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 9,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 0,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-dangerous": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 1,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 10,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 1,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 1,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-retreat": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "reaches": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "danger_calls": 1,
+          "retreat_cost_G": 1,
+          "retreat_reaches_G": 1
+        },
+        "update_notes": []
+      },
+      "control-reuse": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "second_calls": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "second_normal_danger_calls": 0
+        },
+        "update_notes": []
+      },
+      "control-safe": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 3,
+          "danger_calls": 19,
+          "danger_calls_G": 1,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 1,
+          "n_know_16": 1,
+          "n_know_G": 1,
+          "rng_touched": 0,
+          "route_to_stair": 1
+        },
+        "update_notes": []
+      },
+      "cost-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "prod-expired": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 0,
+          "stepped_east": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "limit",
+        "state": {
+          "danger_G_now": 0,
+          "explore_danger_calls": 19,
+          "explore_danger_calls_G": 1,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 0,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 1,
+          "wipe_pending": 1
+        },
+        "update_notes": [
+          "# Expiring a monster 'grey mold' (17) at (8,15)",
+          "# Forgetting a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-remembered": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 1
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 10,
+          "explore_danger_calls_G": 0,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 0,
+          "wipe_pending": 0
+        },
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-visible": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 1
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 10,
+          "explore_danger_calls_G": 0,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "wipe_pending": 0
+        },
+        "update_notes": []
+      },
+      "retreat-after-normal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "reaches_16": 0
+        },
+        "passed": true,
+        "role": "control",
+        "state": {
+          "later_retreat_reaches_16": 0,
+          "later_retreat_reaches_G": 1,
+          "normal_icky_16": 1
+        },
+        "update_notes": []
+      },
+      "safe-desperate-spread": {
+        "calls": [
+          "phase2 total=9 corridor: (17,7)=0 (18,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 9,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-digging-spread": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-lunal-spread": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-munchkin-spread": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      }
+    },
+    "neg-enqueue-only": {
+      "cache-desperate-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-desperate-spread": {
+        "calls": [
+          "phase2 total=11 corridor: (17,7)=0 (18,7)=0 (13,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 11,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-spread": {
+        "calls": [
+          "phase2 total=1 corridor: (13,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-spread": {
+        "calls": [
+          "phase2 total=2 corridor: (13,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 2,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-enqueue": {
+        "calls": [
+          "phase2 total=1 corridor: (14,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 1,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 1,
+          "p2_enqueued_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 1,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-spread": {
+        "calls": [
+          "phase2 total=2 corridor: (13,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 2,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "caution": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [
+          "# Flowing toward up-stairs at cost 1",
+          "# Desperate for Stairs (two)",
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "stepped_east": 1
+        },
+        "passed": false,
+        "role": "contract",
+        "state": {
+          "caution_acted": 1,
+          "caution_key": 52,
+          "desperate_after": 0,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1
+        },
+        "update_notes": []
+      },
+      "control-blocked": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=16"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 9,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 0,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-dangerous": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 1,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 10,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 1,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 1,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-retreat": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "reaches": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "danger_calls": 0,
+          "retreat_cost_G": 1,
+          "retreat_reaches_G": 1
+        },
+        "update_notes": []
+      },
+      "control-reuse": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "second_calls": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "second_normal_danger_calls": 0
+        },
+        "update_notes": []
+      },
+      "control-safe": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 3,
+          "danger_calls": 19,
+          "danger_calls_G": 1,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 1,
+          "n_know_16": 1,
+          "n_know_G": 1,
+          "rng_touched": 0,
+          "route_to_stair": 1
+        },
+        "update_notes": []
+      },
+      "cost-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "prod-expired": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 0,
+          "stepped_east": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "limit",
+        "state": {
+          "danger_G_now": 0,
+          "explore_danger_calls": 19,
+          "explore_danger_calls_G": 1,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 0,
+          "retreat_danger_calls": 0,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 1,
+          "wipe_pending": 1
+        },
+        "update_notes": [
+          "# Expiring a monster 'grey mold' (17) at (8,15)",
+          "# Forgetting a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-remembered": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 1
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 11,
+          "explore_danger_calls_G": 0,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 0,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 0,
+          "wipe_pending": 0
+        },
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-visible": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 1
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 11,
+          "explore_danger_calls_G": 0,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 0,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "wipe_pending": 0
+        },
+        "update_notes": []
+      },
+      "retreat-after-normal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "reaches_16": 0
+        },
+        "passed": true,
+        "role": "control",
+        "state": {
+          "later_retreat_reaches_16": 0,
+          "later_retreat_reaches_G": 1,
+          "normal_icky_16": 1
+        },
+        "update_notes": []
+      },
+      "safe-desperate-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (13,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-digging-spread": {
+        "calls": [
+          "phase2 total=1 corridor: (13,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-lunal-spread": {
+        "calls": [
+          "phase2 total=1 corridor: (13,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-munchkin-spread": {
+        "calls": [
+          "phase2 total=1 corridor: (13,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 0,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 1,
+          "p1_know_16": 1,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 1,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      }
+    },
+    "neg-spread-only": {
+      "cache-desperate-enqueue": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_enqueued_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-desperate-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-enqueue": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_enqueued_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-digging-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-enqueue": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_enqueued_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-lunal-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-enqueue": {
+        "calls": [
+          "phase2 total=0 corridor:"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": false,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 0,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 1,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_danger_calls": 0,
+          "p2_danger_calls_G": 0,
+          "p2_enqueued_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 0,
+          "p2_know_G": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "cache-munchkin-spread": {
+        "calls": [
+          "phase2 total=10 corridor: (17,7)=0 (18,7)=0 (16,7)=16"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 0,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 16,
+          "danger_16": 16,
+          "danger_G": 16,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 255,
+          "p2_cost_G": 255,
+          "p2_danger_calls": 10,
+          "p2_danger_calls_G": 0,
+          "p2_icky_15": 0,
+          "p2_icky_16": 1,
+          "p2_icky_G": 0,
+          "p2_know_15": 0,
+          "p2_know_16": 1,
+          "p2_know_G": 0,
+          "p2_route_to_stair": 0,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "caution": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [
+          "# Flowing toward up-stairs at cost 1",
+          "# Desperate for Stairs (two)"
+        ],
+        "outcome": {
+          "stepped_east": 0
+        },
+        "passed": true,
+        "role": "contract",
+        "state": {
+          "caution_acted": 1,
+          "caution_key": 52,
+          "desperate_after": 0,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 0,
+          "know_G": 0
+        },
+        "update_notes": []
+      },
+      "control-blocked": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=16"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 9,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 0,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-dangerous": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 1,
+          "icky_G": 0,
+          "route": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 255,
+          "danger_calls": 10,
+          "danger_calls_G": 0,
+          "n_icky_15": 0,
+          "n_icky_16": 1,
+          "n_icky_G": 0,
+          "n_know_15": 0,
+          "n_know_16": 1,
+          "n_know_G": 0,
+          "rng_touched": 0,
+          "route_to_stair": 0
+        },
+        "update_notes": []
+      },
+      "control-retreat": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "reaches": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "danger_calls": 1,
+          "retreat_cost_G": 1,
+          "retreat_reaches_G": 1
+        },
+        "update_notes": []
+      },
+      "control-reuse": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=yes wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "second_calls": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "second_normal_danger_calls": 0
+        },
+        "update_notes": []
+      },
+      "control-safe": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=no wall=-1"
+        ],
+        "notes": [],
+        "outcome": {
+          "icky_16": 0,
+          "icky_G": 0,
+          "route": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 0,
+          "limit": 1
+        },
+        "role": "control",
+        "state": {
+          "cost_G": 3,
+          "danger_calls": 19,
+          "danger_calls_G": 1,
+          "n_icky_15": 0,
+          "n_icky_16": 0,
+          "n_icky_G": 0,
+          "n_know_15": 1,
+          "n_know_16": 1,
+          "n_know_G": 1,
+          "rng_touched": 0,
+          "route_to_stair": 1
+        },
+        "update_notes": []
+      },
+      "cost-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "cost-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 19,
+          "route": 1,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-desperate": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-digging": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-lunal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "costmixed-munchkin": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "second_normal_calls": 0
+        },
+        "passed": true,
+        "role": "cost",
+        "state": {
+          "emergency_calls": 0,
+          "first_normal_calls": 15,
+          "second_normal_calls": 0
+        },
+        "update_notes": []
+      },
+      "prod-expired": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [
+          "# Flowing toward dark-3 at cost 4"
+        ],
+        "outcome": {
+          "mold_remembered": 0,
+          "stepped_east": 1
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "limit",
+        "state": {
+          "danger_G_now": 0,
+          "explore_danger_calls": 19,
+          "explore_danger_calls_G": 1,
+          "explore_key": 54,
+          "explore_ok": 1,
+          "icky_G": 0,
+          "know_G": 1,
+          "mold_remembered": 0,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 1,
+          "wipe_pending": 1
+        },
+        "update_notes": [
+          "# Expiring a monster 'grey mold' (17) at (8,15)",
+          "# Forgetting a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-remembered": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 10,
+          "explore_danger_calls_G": 1,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 1,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "update_wiped_cache": 0,
+          "wipe_pending": 0
+        },
+        "update_notes": [
+          "# There was a monster 'grey mold' at (8,15)"
+        ]
+      },
+      "prod-visible": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) frontier_x=17"
+        ],
+        "notes": [],
+        "outcome": {
+          "mold_remembered": 1,
+          "stepped_east": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_G": 16,
+          "kills": 1,
+          "limit": 1
+        },
+        "role": "contract",
+        "state": {
+          "danger_G_now": 16,
+          "explore_danger_calls": 10,
+          "explore_danger_calls_G": 1,
+          "explore_key": 0,
+          "explore_ok": 0,
+          "icky_G": 1,
+          "know_G": 1,
+          "mold_remembered": 1,
+          "retreat_danger_calls": 1,
+          "retreat_key": 52,
+          "retreat_ok": 1,
+          "rng_touched": 0,
+          "wipe_pending": 0
+        },
+        "update_notes": []
+      },
+      "retreat-after-normal": {
+        "calls": [],
+        "exit": 0,
+        "geometry": [],
+        "notes": [],
+        "outcome": {
+          "reaches_16": 0
+        },
+        "passed": true,
+        "role": "control",
+        "state": {
+          "later_retreat_reaches_16": 0,
+          "later_retreat_reaches_G": 1,
+          "normal_icky_16": 1
+        },
+        "update_notes": []
+      },
+      "safe-desperate-spread": {
+        "calls": [
+          "phase2 total=18 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 18,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-digging-spread": {
+        "calls": [
+          "phase2 total=18 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 18,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-lunal-spread": {
+        "calls": [
+          "phase2 total=18 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 18,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      },
+      "safe-munchkin-spread": {
+        "calls": [
+          "phase2 total=18 corridor: (17,7)=0 (18,7)=0 (16,7)=0 (15,7)=0 (14,7)=0 (12,7)=0"
+        ],
+        "exit": 0,
+        "geometry": [
+          "stair=(13,7) G=(14,7) mold=(15,8) target=(17,7)"
+        ],
+        "notes": [],
+        "outcome": {
+          "entered": 1,
+          "p1_icky_G": 0,
+          "p2_icky_G": 0
+        },
+        "passed": true,
+        "rating": {
+          "chp": 6,
+          "danger_15": 0,
+          "danger_16": 0,
+          "danger_G": 0,
+          "danger_target": 0,
+          "limit": 1
+        },
+        "role": "cost",
+        "state": {
+          "p1_cost_G": 1,
+          "p1_danger_calls": 1,
+          "p1_icky_15": 0,
+          "p1_icky_16": 0,
+          "p1_icky_G": 0,
+          "p1_know_15": 0,
+          "p1_know_16": 0,
+          "p1_know_G": 0,
+          "p1_wipe_pending": 0,
+          "p2_calls_on_p1_grids": 0,
+          "p2_cost_15": 2,
+          "p2_cost_G": 3,
+          "p2_danger_calls": 18,
+          "p2_danger_calls_G": 1,
+          "p2_icky_15": 0,
+          "p2_icky_16": 0,
+          "p2_icky_G": 0,
+          "p2_know_15": 1,
+          "p2_know_16": 1,
+          "p2_know_G": 1,
+          "p2_route_to_stair": 1,
+          "rng_touched": 0
+        },
+        "update_notes": []
+      }
+    }
+  },
+  "identical_controls": [
+    "control-safe",
+    "control-dangerous",
+    "control-blocked",
+    "control-reuse",
+    "retreat-after-normal"
+  ],
+  "diagnostics": [],
+  "full_tests_parsed_from_alltests_logs": {
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    },
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    }
+  },
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "render_smoke": {
+    "replay.html": {
+      "output": "RENDER-SMOKE actions=0 errors=0 OK",
+      "exit": 0,
+      "sha256": "adc8e63828315c17c26d1903975bef615deb4c080f86e5a314326533705f4a90"
+    },
+    "play.html": {
+      "output": "RENDER-SMOKE actions=3 errors=0 OK",
+      "exit": 0,
+      "sha256": "b35781d639ac2511c2e0d9445324ff4ec4f12814bd3f628034f17c3e510a5c66"
+    }
+  },
+  "run_root": "/tmp/angband-flowcache-404-3t6x7ttw",
+  "failed_cases": {
+    "after": [],
+    "alt-wipe": [],
+    "before": [
+      "cache-desperate-enqueue",
+      "cache-desperate-spread",
+      "cache-digging-enqueue",
+      "cache-digging-spread",
+      "cache-lunal-enqueue",
+      "cache-lunal-spread",
+      "cache-munchkin-enqueue",
+      "cache-munchkin-spread",
+      "caution",
+      "prod-remembered",
+      "prod-visible"
+    ],
+    "neg-enqueue-only": [
+      "cache-desperate-spread",
+      "cache-digging-spread",
+      "cache-lunal-spread",
+      "cache-munchkin-spread",
+      "caution",
+      "prod-remembered",
+      "prod-visible"
+    ],
+    "neg-spread-only": [
+      "cache-desperate-enqueue",
+      "cache-digging-enqueue",
+      "cache-lunal-enqueue",
+      "cache-munchkin-enqueue"
+    ]
+  },
+  "sha256": {
+    "after-alltests.log": "3a729e81ad698f1c4fbbdb122aef4df52bf6476bf71060c498173c0ec1b4e28e",
+    "after-build.log": "c4b6b5850b878025f097e95ba52abaac39234228d96ef52a10f629ea147c9be8",
+    "after-cases.log": "5c8867b2a5e7f15589527af6e4d98c1c8cdfcdeca7302daeff8e233f3f5f55bf",
+    "alt-wipe-build.log": "d379f98bea9f4a4c6da5092b077235431a0337b8242732fa4779ec3bcda094cb",
+    "alt-wipe-cases.log": "652d1be7d7ef6e760672bf30762c6c0c24d4f7910e13615ff9cd13b34c0cada9",
+    "before-alltests.log": "638c80a12810d7c0a3002babaf30c7f8fa49d35b19b4f6989dde3340b7769140",
+    "before-build.log": "bacd35db76890582b946fce342328b1d3191ffc24645e572949bcbb9d9556aa2",
+    "before-cases.log": "44b254a0721784c6a70647c821288cdf9727b304133ef6918a339368e278a5e9",
+    "configure.log": "ad2b0215b19e8993fddfd55faeae9795b69ad454b1605e1a500c9f8aa2fb8b14",
+    "neg-enqueue-only-build.log": "d379f98bea9f4a4c6da5092b077235431a0337b8242732fa4779ec3bcda094cb",
+    "neg-enqueue-only-cases.log": "e9a3e2ee511cba1fc8545327ae1b0c5ac552312105ff7d41c17e5fba3030df77",
+    "neg-spread-only-build.log": "d379f98bea9f4a4c6da5092b077235431a0337b8242732fa4779ec3bcda094cb",
+    "neg-spread-only-cases.log": "924d3abef6395ba1a3b6160b5723e856b559b74165c8e3c08d37efe7ed269a0e",
+    "result.json": "d0c6dd857cd3f5c6495f26ceaa9d44ae8fd6fa6221e4217516419fc9bbdce2b0",
+    "scenario-after-cases.log": "8b4e6013dd3592cb2a6dd313310fd923414f68176de77759e5a01239201ef75e",
+    "scenario-after-results.json": "875bbb45eeffe810e068213e38998ff5ebedcce497df5535bbc30135dd5c7ad4",
+    "scenario-alt-wipe-cases.log": "422e20c378bd9a8bb66b0a4c8fd387d64ff2a56e9cbdf463e7b023860046af73",
+    "scenario-alt-wipe-results.json": "2ab2950a59af26e8dea71135c9f31250c2d563cd570359d4f2dedb53d325354f",
+    "scenario-before-cases.log": "6173feec912caf9146ab35a428f0276e9b3acbcaf98c9d4375730d4f9a153ab2",
+    "scenario-before-results.json": "ea5f1c187dfd8dec822d093348830d7afaf79dd452cdb9468a6bacc8e94b34cd",
+    "scenario-neg-enqueue-only-cases.log": "8449f8a3e97df054d1572a0f4893a69430d3a6f8c4308a90175a6f9ff83d146a",
+    "scenario-neg-enqueue-only-results.json": "6c08900b20ec2af3ccee4c4a9df95290ef45bc214b55c3770b70f7440861a7be",
+    "scenario-neg-spread-only-cases.log": "2ac06b5a2c74ef7bb575ad78919a13b698472748f77960dec037f542a2d02ad7",
+    "scenario-neg-spread-only-results.json": "ca34e13f9c5538da9cccb20b1ee34e36dfeb021a0feda45d0c3b832baf0154d6"
+  }
+}

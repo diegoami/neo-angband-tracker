@@ -1,0 +1,11 @@
+native-c/flowcache-404: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Priest mhp=13 light=2
+  danger_cache_survives_emergency_mode  CASE control-safe
+GEOMETRY stair=(13,7) G=(14,7) mold=no wall=-1
+RATING chp=6 limit=1 danger_G=0
+STATE n_know_G=1 n_icky_G=0 n_know_15=1 n_icky_15=0 n_know_16=1 n_icky_16=0
+STATE route_to_stair=1 cost_G=3 danger_calls=19 danger_calls_G=1 rng_touched=0
+OUTCOME route=1 icky_G=0 icky_16=0
+Passed
+native-c/flowcache-404 finished: 1/1 passed
