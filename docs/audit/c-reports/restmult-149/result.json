@@ -1,0 +1,83 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "e66740cc4563224ca5dddab5d7bd543d8c8f1342",
+  "fixtures_ref": "e76b239b3882a1f63ac88516cf380eeae2a0ccd1",
+  "cases": {
+    "before": {
+      "sameturn": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "now": 1000,
+          "last_kill_mult": 1000,
+          "food": 6,
+          "light": 2,
+          "monsters": 0
+        },
+        "outcome": {
+          "rests_one_turn_after_the_kill": 1
+        }
+      },
+      "recent": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "now": 1000,
+          "last_kill_mult": 998,
+          "food": 6,
+          "light": 2,
+          "monsters": 0
+        },
+        "outcome": {
+          "rests_one_turn_after_the_kill": 0
+        }
+      }
+    },
+    "after": {
+      "sameturn": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "now": 1000,
+          "last_kill_mult": 1000,
+          "food": 6,
+          "light": 2,
+          "monsters": 0
+        },
+        "outcome": {
+          "rests_one_turn_after_the_kill": 0
+        }
+      },
+      "recent": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "now": 1000,
+          "last_kill_mult": 998,
+          "food": 6,
+          "light": 2,
+          "monsters": 0
+        },
+        "outcome": {
+          "rests_one_turn_after_the_kill": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "recent"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "25c70fc207987d6f3dcecc51a2dfae593ede8a6bb1cd9cfad05b9408a6f3ff49"
+  }
+}

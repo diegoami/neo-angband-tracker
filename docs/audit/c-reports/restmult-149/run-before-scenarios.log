@@ -1,0 +1,2 @@
+sameturn {'exit': 0, 'passed': False, 'state': {'now': 1000, 'last_kill_mult': 1000, 'food': 6, 'light': 2, 'monsters': 0}, 'outcome': {'rests_one_turn_after_the_kill': 1}}
+recent {'exit': 0, 'passed': True, 'state': {'now': 1000, 'last_kill_mult': 998, 'food': 6, 'light': 2, 'monsters': 0}, 'outcome': {'rests_one_turn_after_the_kill': 0}}

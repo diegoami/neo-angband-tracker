@@ -1,0 +1,88 @@
+{
+  "sameturn": {
+    "label": "A multiplier was killed this very game turn",
+    "explanation": "A level-12 Warrior with full food, light and hit points checks whether it may rest on the game turn it killed a multiplying monster, then again one game turn later. Original: the first check passes the 'recent multiplier kill' test (the timer is exactly 0) and clears the timer, so the second check, one turn after the kill, finds no recent kill and allows resting. Corrected: the timer is kept and the second check refuses.",
+    "control": false,
+    "before": {
+      "raw": "native-c/restmult-149: starting...\nSETUP seed=149 mode=sameturn class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5\n  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=1000 food=6 light=2 monsters=0\nDECISION call=first may_rest=1 last_kill_mult=0\nDECISION call=second may_rest=1 last_kill_mult=0\nOUTCOME rests_one_turn_after_the_kill=1\nFailed\n    native-c/restmult-149:157: requirement '!second' failed\nnative-c/restmult-149 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "now": 1000,
+        "last_kill_mult": 1000,
+        "food": 6,
+        "light": 2,
+        "monsters": 0
+      },
+      "outcome": {
+        "rests_one_turn_after_the_kill": 1
+      },
+      "notes": [
+        "DECISION call=first may_rest=1 last_kill_mult=0",
+        "DECISION call=second may_rest=1 last_kill_mult=0"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/restmult-149: starting...\nSETUP seed=149 mode=sameturn class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5\n  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=1000 food=6 light=2 monsters=0\nDECISION call=first may_rest=1 last_kill_mult=1000\nDECISION call=second may_rest=0 last_kill_mult=1000\nOUTCOME rests_one_turn_after_the_kill=0\nPassed\nnative-c/restmult-149 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "now": 1000,
+        "last_kill_mult": 1000,
+        "food": 6,
+        "light": 2,
+        "monsters": 0
+      },
+      "outcome": {
+        "rests_one_turn_after_the_kill": 0
+      },
+      "notes": [
+        "DECISION call=first may_rest=1 last_kill_mult=1000",
+        "DECISION call=second may_rest=0 last_kill_mult=1000"
+      ],
+      "value": 0
+    }
+  },
+  "recent": {
+    "label": "Control: a multiplier was killed two game turns ago",
+    "explanation": "The same Warrior with the kill two game turns earlier. The test refuses at once, before the line that was removed, so both checks refuse before and after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/restmult-149: starting...\nSETUP seed=149 mode=recent class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5\n  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=998 food=6 light=2 monsters=0\nDECISION call=first may_rest=0 last_kill_mult=998\nDECISION call=second may_rest=0 last_kill_mult=998\nOUTCOME rests_one_turn_after_the_kill=0\nPassed\nnative-c/restmult-149 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "now": 1000,
+        "last_kill_mult": 998,
+        "food": 6,
+        "light": 2,
+        "monsters": 0
+      },
+      "outcome": {
+        "rests_one_turn_after_the_kill": 0
+      },
+      "notes": [
+        "DECISION call=first may_rest=0 last_kill_mult=998",
+        "DECISION call=second may_rest=0 last_kill_mult=998"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/restmult-149: starting...\nSETUP seed=149 mode=recent class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5\n  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=998 food=6 light=2 monsters=0\nDECISION call=first may_rest=0 last_kill_mult=998\nDECISION call=second may_rest=0 last_kill_mult=998\nOUTCOME rests_one_turn_after_the_kill=0\nPassed\nnative-c/restmult-149 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "now": 1000,
+        "last_kill_mult": 998,
+        "food": 6,
+        "light": 2,
+        "monsters": 0
+      },
+      "outcome": {
+        "rests_one_turn_after_the_kill": 0
+      },
+      "notes": [
+        "DECISION call=first may_rest=0 last_kill_mult=998",
+        "DECISION call=second may_rest=0 last_kill_mult=998"
+      ],
+      "value": 0
+    }
+  }
+}

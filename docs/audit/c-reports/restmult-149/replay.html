@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg could rest a turn after killing a breeder because its check cleared the timer</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg could rest a turn after killing a breeder because its check cleared the timer</h1><p>After killing a multiplying monster the Borg should not rest for a few turns, in case unseen breeders are nearby. borg_check_rest() tests this with a timer, but the test only holds when the timer is above zero, which excludes the turn of the kill itself, and the function then cleared the timer. So a check made on the turn of the kill erased the memory of the kill, and the check one turn later allowed resting. The correction stops clearing the timer.</p><p><label>Scenario: <select id="scenario"><option value="sameturn">A multiplier was killed this very game turn</option><option value="recent">Control: a multiplier was killed two game turns ago</option></select></label></p><section class="scenario" data-mode="sameturn"><p class="summary">A level-12 Warrior with full food, light and hit points checks whether it may rest on the game turn it killed a multiplying monster, then again one game turn later. Original: the first check passes the &#x27;recent multiplier kill&#x27; test (the timer is exactly 0) and clears the timer, so the second check, one turn after the kill, finds no recent kill and allows resting. Corrected: the timer is kept and the second check refuses.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg may rest one game turn after killing a multiplier (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION call=first may_rest=1 last_kill_mult=0
+DECISION call=second may_rest=1 last_kill_mult=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg may rest one game turn after killing a multiplier (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION call=first may_rest=1 last_kill_mult=1000
+DECISION call=second may_rest=0 last_kill_mult=1000</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/restmult-149: starting...
+SETUP seed=149 mode=sameturn class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5
+  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=1000 food=6 light=2 monsters=0
+DECISION call=first may_rest=1 last_kill_mult=0
+DECISION call=second may_rest=1 last_kill_mult=0
+OUTCOME rests_one_turn_after_the_kill=1
+Failed
+    native-c/restmult-149:157: requirement &#x27;!second&#x27; failed
+native-c/restmult-149 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/restmult-149: starting...
+SETUP seed=149 mode=sameturn class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5
+  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=1000 food=6 light=2 monsters=0
+DECISION call=first may_rest=1 last_kill_mult=1000
+DECISION call=second may_rest=0 last_kill_mult=1000
+OUTCOME rests_one_turn_after_the_kill=0
+Passed
+native-c/restmult-149 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="recent"><p class="summary">The same Warrior with the kill two game turns earlier. The test refuses at once, before the line that was removed, so both checks refuse before and after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg may rest one game turn after killing a multiplier (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION call=first may_rest=0 last_kill_mult=998
+DECISION call=second may_rest=0 last_kill_mult=998</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg may rest one game turn after killing a multiplier (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION call=first may_rest=0 last_kill_mult=998
+DECISION call=second may_rest=0 last_kill_mult=998</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/restmult-149: starting...
+SETUP seed=149 mode=recent class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5
+  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=998 food=6 light=2 monsters=0
+DECISION call=first may_rest=0 last_kill_mult=998
+DECISION call=second may_rest=0 last_kill_mult=998
+OUTCOME rests_one_turn_after_the_kill=0
+Passed
+native-c/restmult-149 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/restmult-149: starting...
+SETUP seed=149 mode=recent class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5
+  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=998 food=6 light=2 monsters=0
+DECISION call=first may_rest=0 last_kill_mult=998
+DECISION call=second may_rest=0 last_kill_mult=998
+OUTCOME rests_one_turn_after_the_kill=0
+Passed
+native-c/restmult-149 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 149, character level 12, full hit points, food and light, depth 5, a lit open arena with no monsters. Fixture interventions: the game-turn counter is set to 1000 and the timer of the last multiplier kill is set by the fixture (this turn, or two turns ago); the second check follows an increase of the counter by one. The production borg_check_rest() answers both checks.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/149">issue 149</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

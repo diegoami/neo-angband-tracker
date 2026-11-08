@@ -1,0 +1,8 @@
+native-c/restmult-149: starting...
+SETUP seed=149 mode=sameturn class=Warrior clevel=12 hp=140/140 sp=0/0 food=8999 depth=5
+  no_rest_just_after_killing_a_multiplier  STATE now=1000 last_kill_mult=1000 food=6 light=2 monsters=0
+DECISION call=first may_rest=1 last_kill_mult=1000
+DECISION call=second may_rest=0 last_kill_mult=1000
+OUTCOME rests_one_turn_after_the_kill=0
+Passed
+native-c/restmult-149 finished: 1/1 passed
