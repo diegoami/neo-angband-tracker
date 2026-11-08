@@ -1,0 +1,4 @@
+main {'exit': 0, 'passed': False, 'state': {'distant_glow': 0, 'near_glow': 0, 'wall_glow': 0, 'marked': 1, 'lit': 1, 'pcmem': 1, 'info33': 41, 'info1211': 57}}
+door {'exit': 0, 'passed': True, 'state': {'door_feat': 3, 'door_info': 57, 'door_glow': 0, 'door_dark': 0, 'wall_info': 41, 'wall_glow': 0}, 'outcome': {'door_is_open': 1, 'wall_glow': 0}}
+torchlit {'exit': 0, 'passed': True, 'state': {'near_isglow': 0, 'near_light': 1, 'near_islit': 1, 'near_glow': 0, 'near_dark': 0, 'near_light_flag': 1}, 'outcome': {'torchlit_marked_glow': 0, 'glow_n': 0}}
+unlit {'exit': 0, 'passed': False, 'state': {'far_isglow': 0, 'far_light': 0, 'far_islit': 0, 'far_glow': 0, 'far_dark': 0}, 'outcome': {'far_dark': 0}}

@@ -1,0 +1,6 @@
+native-c/glowtrace-213: starting...
+SETUP seed=213 class=Warrior depth=9 hp=20 mode=door
+  door_and_wall_flags_unchanged  STATE door_feat=3 door_info=57 door_glow=0 door_dark=0 wall_info=41 wall_glow=0
+OUTCOME door_is_open=1 wall_glow=0
+Passed
+native-c/glowtrace-213 finished: 1/1 passed
