@@ -1,0 +1,6 @@
+native-c/glowtrace-213: starting...
+SETUP seed=213 class=Warrior depth=9 hp=20 mode=unlit
+  unlit_floor_marked_dark  STATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=1
+OUTCOME far_dark=1
+Passed
+native-c/glowtrace-213 finished: 1/1 passed

@@ -10,18 +10,29 @@ SETUP seed=213 class=Warrior depth=9 hp=20 mode=door
 OUTCOME door_is_open=1 wall_glow=0
 Passed
 native-c/glowtrace-213 finished: 1/1 passed
-</pre></details></section><section class="card" id="case-torchlit"><h3>Diagnostic: floors lit only by the Borg's torch</h3><p>An arena with no permanent glow. The floor next to the Borg is lit only by its own light source (light 1, no SQUARE_GLOW). The corrected branch uses square_islit() (current light level), so it marks that torch-lit floor BORG_GLOW and the flow-toward-light list gains the torch-lit grids. Recorded for the owner decision on square_islit() versus square_isglow(); not a control.</p><p class="summary">Diagnostic: the logs differ (recorded, not asserted).</p><details><summary>Original log</summary><pre>native-c/glowtrace-213: starting...
+</pre></details></section><section class="card" id="case-torchlit"><h3>Control: floors lit only by the Borg's torch</h3><p>An arena with no permanent glow. The floor next to the Borg is lit only by its own light source (light 1, no SQUARE_GLOW). A torch-lit floor is not a glowing floor: it is not flagged BORG_GLOW and the flow-toward-light list stays empty in both versions.</p><p class="summary">Control: the original and corrected logs are byte-identical.</p><details><summary>Original log</summary><pre>native-c/glowtrace-213: starting...
 SETUP seed=213 class=Warrior depth=9 hp=20 mode=torchlit
   torchlit_floor_flags  STATE near_isglow=0 near_light=1 near_islit=1 near_glow=0 near_dark=0 near_light_flag=1
-STATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=0
 OUTCOME torchlit_marked_glow=0 glow_n=0
 Passed
 native-c/glowtrace-213 finished: 1/1 passed
 </pre></details><details><summary>Corrected log</summary><pre>native-c/glowtrace-213: starting...
 SETUP seed=213 class=Warrior depth=9 hp=20 mode=torchlit
-  torchlit_floor_flags  STATE near_isglow=0 near_light=1 near_islit=1 near_glow=1 near_dark=0 near_light_flag=1
-STATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=1
-OUTCOME torchlit_marked_glow=1 glow_n=9
+  torchlit_floor_flags  STATE near_isglow=0 near_light=1 near_islit=1 near_glow=0 near_dark=0 near_light_flag=1
+OUTCOME torchlit_marked_glow=0 glow_n=0
 Passed
 native-c/glowtrace-213 finished: 1/1 passed
-</pre></details></section><details><summary>Recorded native output</summary><h3>Original</h3><pre id="original-log"></pre><h3>Corrected</h3><pre id="compared-log"></pre></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/213">issue213</a>.</p></main><script>document.getElementById("original-log").textContent="native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=main\n  glow_marked_and_flow_light_works  STATE distant_glow=0 near_glow=0 wall_glow=0 marked=1 lit=1 pcmem=1 info33=41 info1211=57\nFailed\n    native-c/glowtrace-213:125: requirement 'near' failed\nnative-c/glowtrace-213 finished: 0/1 passed\n";document.getElementById("compared-log").textContent="native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=main\n  glow_marked_and_flow_light_works  STATE distant_glow=1 near_glow=1 wall_glow=0 marked=1 lit=1 pcmem=1 info33=43 info1211=59\nOUTCOME glow_n=484\nPassed\nnative-c/glowtrace-213 finished: 1/1 passed\n";</script></html>
+</pre></details></section><section class="card" id="case-unlit"><h3>Unlit floor marked dark</h3><p>The same arena with no permanent glow: a known floor outside the Borg's light radius is neither glowing nor lit. The corrected Floors branch marks it BORG_DARK; the original never ran that branch and left it unflagged.</p><p class="summary">Expected change: the logs differ; the runner asserts the original and corrected outcomes.</p><details><summary>Original log</summary><pre>native-c/glowtrace-213: starting...
+SETUP seed=213 class=Warrior depth=9 hp=20 mode=unlit
+  unlit_floor_marked_dark  STATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=0
+OUTCOME far_dark=0
+Failed
+    native-c/glowtrace-213:200: requirement 'fi &amp; BORG_DARK' failed
+native-c/glowtrace-213 finished: 0/1 passed
+</pre></details><details><summary>Corrected log</summary><pre>native-c/glowtrace-213: starting...
+SETUP seed=213 class=Warrior depth=9 hp=20 mode=unlit
+  unlit_floor_marked_dark  STATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=1
+OUTCOME far_dark=1
+Passed
+native-c/glowtrace-213 finished: 1/1 passed
+</pre></details></section><details><summary>Recorded native output</summary><h3>Original</h3><pre id="original-log"></pre><h3>Corrected</h3><pre id="compared-log"></pre></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/213">issue213</a>.</p></main><script>document.getElementById("original-log").textContent="native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=main\n  glow_marked_and_flow_light_works  STATE distant_glow=0 near_glow=0 wall_glow=0 marked=1 lit=1 pcmem=1 info33=41 info1211=57\nFailed\n    native-c/glowtrace-213:131: requirement 'near' failed\nnative-c/glowtrace-213 finished: 0/1 passed\n";document.getElementById("compared-log").textContent="native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=main\n  glow_marked_and_flow_light_works  STATE distant_glow=1 near_glow=1 wall_glow=0 marked=1 lit=1 pcmem=1 info33=43 info1211=59\nOUTCOME glow_n=484\nPassed\nnative-c/glowtrace-213 finished: 1/1 passed\n";</script></html>

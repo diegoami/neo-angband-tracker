@@ -120,3 +120,92 @@ git fetch https://github.com/diegoami/neo-angband-tracker.git task/glowtrace-213
 git show 50d4911e0bdfdcc980c5de287b9e90247aed2d0f:docs/audit/c-reports/glowtrace-213/reproduce.py > /tmp/reproduce-glowtrace-213.py
 python3 /tmp/reproduce-glowtrace-213.py --full-tests --fixtures-ref 50d4911e0bdfdcc980c5de287b9e90247aed2d0f --fix-ref da9934216eb15d421220050b374c72b65b9cd680
 ```
+
+## Revision (2026-11-08): owner-decided shape
+
+**Owner decision: use `square_isglow()`** (option (b) above; recorded on
+issue #213). The previous shape read "lit" from `square_islit()`, the grid's
+*current* light level, which includes the Borg's own torch. It also dropped
+the torch-lit `BORG_LIGHT` branch. The source branch now has one more commit,
+`c316a65b248c4372ff3b686eafaa0477c3117eeb`. Measured against base
+`e473720ed`, the whole branch is a three-line change to the dead Floors
+branch in `src/borg/borg-update.c`:
+
+```diff
+-            else if (g.f_idx == FEAT_NONE) {
++            else if (g.f_idx == FEAT_FLOOR) {
+...
+-                if (g.lighting == LIGHTING_DARK) {
++                if (!square_isglow(cave, l) && !square_islit(cave, l)) {
+...
+-                else if (g.lighting == LIGHTING_LIT) {
++                else if (square_isglow(cave, l)) {
+```
+
+A floor is marked `BORG_GLOW` only when the game flags it `SQUARE_GLOW`. It
+is marked `BORG_DARK` when it is neither glowing nor lit. The existing
+torch-lit branch still marks a floor that is lit but not glowing as
+`BORG_LIGHT`. The comments are unchanged from the base.
+
+The fixtures changed in commit `8934edd4e26dfa0b73aec5d9f4ab89ecdc5aee36`:
+
+- `reproduce.py` asserts the hunk above. It also checks that the source scope
+  is that single file.
+- **`torchlit` is now an unchanged control** (it was a diagnostic). It prints
+  only the floor next to the Borg and the flow-toward-light list, and it
+  requires that this torch-lit floor is not `BORG_GLOW` and that the list is
+  empty. The runner checks that its logs are byte-identical.
+- The torch-lit case's far unlit floor had been on the same log. The
+  corrected branch does mark that floor `BORG_DARK`, so it moved to its own
+  mode, `unlit`. That mode has an asserted change: `far_dark` must be 0
+  before and 1 after.
+
+**New pins supersede the earlier ones** for every repeat command: fixtures
+`8934edd4e26dfa0b73aec5d9f4ab89ecdc5aee36` (was `50d4911e0`) and fix
+`c316a65b248c4372ff3b686eafaa0477c3117eeb` (was `da9934216`).
+
+| Case | Original (base) | Corrected (fix `c316a65b2`) | Logs |
+| --- | --- | --- | --- |
+| `main`: permanently glowing arena | distant/near glow **0/0**, flow-light targets **0**, 0/1 | distant/near glow **1/1**, targets **484**, wall unflagged, 1/1 | `before-main.log`, `after-main.log` |
+| `door` (control) | door_info=57, no glow; wall unflagged; 1/1 | identical | **byte-identical** |
+| `torchlit` (control): floor lit only by the Borg's light | isglow 0, light 1, BORG_GLOW 0, BORG_LIGHT 1; targets 0; 1/1 | identical | **byte-identical** |
+| `unlit`: known floor outside the light radius, no glow | far_dark **0**, 0/1 | far_dark **1**, far_glow 0, 1/1 | `before-unlit.log`, `after-unlit.log` |
+
+The main case is unchanged from the previous run: the after log is
+byte-identical (including `info33=43 info1211=59`). The before log differs
+only in the source line cited by `Failed`, because `scenario.c` grew. Under
+the previous shape the torch-lit floor became `BORG_GLOW` and the list had 9
+targets. Under this shape both match the original.
+
+Both full native gates pass on each variant: 965/965 unit checks and 5/5
+frontend tests, with no failed lines. The figures are parsed from
+`revision-2026-11-08/before-alltests.log` and `after-alltests.log`. The full
+build of the corrected tree reports no warnings. Toolchain: GNU 13.3.0, cmake
+version 3.28.3. Render check: `node tools/c-evidence/render-smoke.js`
+(Playwright headless) on the committed `replay.html` printed
+`RENDER-SMOKE actions=0 errors=0 OK`.
+
+These files are from this run: the top-level `before-*.log`, `after-*.log`,
+results files, `replay.html` and `replay-data.json`. The configure, build,
+scenario-runner and full-gate logs and `result.json` are in
+[revision-2026-11-08/](revision-2026-11-08/), with their own
+[receipt](revision-2026-11-08/receipt.json). The root `receipt.json` records
+this run and keeps earlier runs under `superseded_runs`. It also holds a
+sha256 map of every file in this directory. The `reverify-2026-11-08/`
+directory still holds the previous shape's run.
+
+What this proves: restoring the dead Floors branch lets the game's permanent
+lighting reach the Borg's map and its walk-toward-light targets. Unlit floors
+are marked dark. Torch-lit floors, doors and walls are unchanged. What it
+does not prove: any effect on autonomous play or survival. The other readers
+of these flags (the unlit-Borg defence checks and the rest-site choice) were
+not exercised.
+
+Repeat, with both shas pinned:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/glowtrace-213
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/glowtrace-213-evidence
+git show 8934edd4e26dfa0b73aec5d9f4ab89ecdc5aee36:docs/audit/c-reports/glowtrace-213/reproduce.py > /tmp/reproduce-glowtrace-213.py
+python3 /tmp/reproduce-glowtrace-213.py --full-tests --fixtures-ref 8934edd4e26dfa0b73aec5d9f4ab89ecdc5aee36 --fix-ref c316a65b248c4372ff3b686eafaa0477c3117eeb
+```

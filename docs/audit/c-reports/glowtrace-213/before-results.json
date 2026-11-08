@@ -38,7 +38,17 @@
       "near_islit": 1,
       "near_glow": 0,
       "near_dark": 0,
-      "near_light_flag": 1,
+      "near_light_flag": 1
+    },
+    "outcome": {
+      "torchlit_marked_glow": 0,
+      "glow_n": 0
+    }
+  },
+  "unlit": {
+    "exit": 0,
+    "passed": false,
+    "state": {
       "far_isglow": 0,
       "far_light": 0,
       "far_islit": 0,
@@ -46,8 +56,7 @@
       "far_dark": 0
     },
     "outcome": {
-      "torchlit_marked_glow": 0,
-      "glow_n": 0
+      "far_dark": 0
     }
   }
 }

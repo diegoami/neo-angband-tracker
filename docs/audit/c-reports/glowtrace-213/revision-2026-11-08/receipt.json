@@ -1,0 +1,186 @@
+{
+  "slug": "glowtrace-213",
+  "date": "2026-11-08",
+  "kind": "owner-decided revision",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "c316a65b248c4372ff3b686eafaa0477c3117eeb",
+  "fixtures_ref": "8934edd4e26dfa0b73aec5d9f4ab89ecdc5aee36",
+  "command": "python3 reproduce.py --full-tests --fixtures-ref 8934edd4e26dfa0b73aec5d9f4ab89ecdc5aee36 --fix-ref c316a65b248c4372ff3b686eafaa0477c3117eeb",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "distant_glow": 0,
+          "near_glow": 0,
+          "wall_glow": 0,
+          "marked": 1,
+          "lit": 1,
+          "pcmem": 1,
+          "info33": 41,
+          "info1211": 57
+        }
+      },
+      "door": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "door_feat": 3,
+          "door_info": 57,
+          "door_glow": 0,
+          "door_dark": 0,
+          "wall_info": 41,
+          "wall_glow": 0
+        },
+        "outcome": {
+          "door_is_open": 1,
+          "wall_glow": 0
+        }
+      },
+      "torchlit": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_isglow": 0,
+          "near_light": 1,
+          "near_islit": 1,
+          "near_glow": 0,
+          "near_dark": 0,
+          "near_light_flag": 1
+        },
+        "outcome": {
+          "torchlit_marked_glow": 0,
+          "glow_n": 0
+        }
+      },
+      "unlit": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "far_isglow": 0,
+          "far_light": 0,
+          "far_islit": 0,
+          "far_glow": 0,
+          "far_dark": 0
+        },
+        "outcome": {
+          "far_dark": 0
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "distant_glow": 1,
+          "near_glow": 1,
+          "wall_glow": 0,
+          "marked": 1,
+          "lit": 1,
+          "pcmem": 1,
+          "info33": 43,
+          "info1211": 59
+        },
+        "outcome": {
+          "glow_n": 484
+        }
+      },
+      "door": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "door_feat": 3,
+          "door_info": 57,
+          "door_glow": 0,
+          "door_dark": 0,
+          "wall_info": 41,
+          "wall_glow": 0
+        },
+        "outcome": {
+          "door_is_open": 1,
+          "wall_glow": 0
+        }
+      },
+      "torchlit": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_isglow": 0,
+          "near_light": 1,
+          "near_islit": 1,
+          "near_glow": 0,
+          "near_dark": 0,
+          "near_light_flag": 1
+        },
+        "outcome": {
+          "torchlit_marked_glow": 0,
+          "glow_n": 0
+        }
+      },
+      "unlit": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "far_isglow": 0,
+          "far_light": 0,
+          "far_islit": 0,
+          "far_glow": 0,
+          "far_dark": 1
+        },
+        "outcome": {
+          "far_dark": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "door",
+    "torchlit"
+  ],
+  "full_tests_parsed_from_alltests_logs": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    }
+  },
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "render_smoke": {
+    "replay.html": {
+      "output": "RENDER-SMOKE actions=0 errors=0 OK",
+      "exit": 0,
+      "sha256": "2030f31c938e60025e1996c3c95216117a3284af2c3c74791e0d3beada2bc5ff"
+    }
+  },
+  "run_root": "/tmp/angband-glowtrace-213-7y6bncuz",
+  "sha256": {
+    "after-alltests.log": "f8ee576448bf4cba2ae519b756a56cba51bf8110ef251d335e7cc7f4a08daa36",
+    "after-build.log": "44c89335c072d10560e9d6c74043e87f032fd4161cbf7cecd7259ae2ee1dea24",
+    "after-scenarios.log": "bae07bdc26fed430128043b2dcf71293d8fc01e4b8c13292ce6d7a4bc717d9df",
+    "before-alltests.log": "d52a46ca12c15be038b6265ad758f0aca52d3e7193592b2e220b49ada351f3e8",
+    "before-build.log": "03cef136a7b557922a3d97851952a04b0e30f5ceb6679e498c615fa4182892b1",
+    "before-scenarios.log": "93a4a25c50b4621c14fef93ed99ed3e0bcd3bed0a9b49a5111d90466d64dc0da",
+    "configure.log": "890bb23cb65891854ddf12bfbaf762a8e1f6855112731cbf706adc0246e70522",
+    "result.json": "e634bee1f3c6afbe455b85d5287adf5146402ce282fa502bc2d9ee1c462ae1fa",
+    "scenario-after-door.log": "2620cdb7fc0550e035f9da958834003bac762def8a2a5dac45dc74d9fcf57ac4",
+    "scenario-after-main.log": "699d45d7078bbdaeb71346784116adc606de0e510c9248027e9284f9c9e668c2",
+    "scenario-after-results.json": "52abf623172fbd8559455edf6d8d0b81068791856b22e24315f4d50b1c28e6cf",
+    "scenario-after-torchlit.log": "7081108308e524185b6f3ce5ab579f2a34a15e672a0ebc0654e54215c3037672",
+    "scenario-after-unlit.log": "91acbecece22b7eefb5f5c21ec72572471e2bac297febc1f95c9a73b4bcfec93",
+    "scenario-before-door.log": "2620cdb7fc0550e035f9da958834003bac762def8a2a5dac45dc74d9fcf57ac4",
+    "scenario-before-main.log": "53d9b3d8bd9eb04b14fb06ea900bb156372934aa39ecd375f4e4d79fcd1ecb01",
+    "scenario-before-results.json": "43a63065e23ab6b3dcb27606ea814abcc8b97f792a654bb91f4230c5eb016f0c",
+    "scenario-before-torchlit.log": "7081108308e524185b6f3ce5ab579f2a34a15e672a0ebc0654e54215c3037672",
+    "scenario-before-unlit.log": "b318765418eb865cf1459c9f898db83df251ae5649f5d37aefc8d6550a3512a5"
+  }
+}

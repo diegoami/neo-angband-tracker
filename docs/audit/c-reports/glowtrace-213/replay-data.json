@@ -1,9 +1,9 @@
 {
   "main": {
     "label": "Glowing floors never reached the borg grid flags",
-    "explanation": "A permanently glowing arena floor is shown to a munchkin-configured Warrior through the production map update. The original map update's Floors branch tested the same condition as the Darkness branch before it and was never taken: no grid anywhere was ever flagged BORG_GLOW, and the flow-toward-light consumer found an empty target list. The corrected branch (restored FEAT_FLOOR condition, glow read from square_islit) flags the glowing floors, walls stay unflagged, and the consumer's list fills.",
+    "explanation": "A permanently glowing arena floor is shown to a munchkin-configured Warrior through the production map update. The original map update's Floors branch tested the same condition as the Darkness branch before it and was never taken: no grid anywhere was ever flagged BORG_GLOW, and the flow-toward-light consumer found an empty target list. The corrected branch (restored FEAT_FLOOR condition, glow read from the permanent-glow flag square_isglow) flags the glowing floors, walls stay unflagged, and the consumer's list fills.",
     "before": {
-      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=main\n  glow_marked_and_flow_light_works  STATE distant_glow=0 near_glow=0 wall_glow=0 marked=1 lit=1 pcmem=1 info33=41 info1211=57\nFailed\n    native-c/glowtrace-213:125: requirement 'near' failed\nnative-c/glowtrace-213 finished: 0/1 passed\n",
+      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=main\n  glow_marked_and_flow_light_works  STATE distant_glow=0 near_glow=0 wall_glow=0 marked=1 lit=1 pcmem=1 info33=41 info1211=57\nFailed\n    native-c/glowtrace-213:131: requirement 'near' failed\nnative-c/glowtrace-213 finished: 0/1 passed\n",
       "passed": false,
       "state": {
         "distant_glow": 0,
@@ -71,10 +71,10 @@
     }
   },
   "torchlit": {
-    "label": "Diagnostic: floors lit only by the Borg's torch",
-    "explanation": "An arena with no permanent glow. The floor next to the Borg is lit only by its own light source (light 1, no SQUARE_GLOW). The corrected branch uses square_islit() (current light level), so it marks that torch-lit floor BORG_GLOW and the flow-toward-light list gains the torch-lit grids. Recorded for the owner decision on square_islit() versus square_isglow(); not a control.",
+    "label": "Control: floors lit only by the Borg's torch",
+    "explanation": "An arena with no permanent glow. The floor next to the Borg is lit only by its own light source (light 1, no SQUARE_GLOW). A torch-lit floor is not a glowing floor: it is not flagged BORG_GLOW and the flow-toward-light list stays empty in both versions.",
     "before": {
-      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=torchlit\n  torchlit_floor_flags  STATE near_isglow=0 near_light=1 near_islit=1 near_glow=0 near_dark=0 near_light_flag=1\nSTATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=0\nOUTCOME torchlit_marked_glow=0 glow_n=0\nPassed\nnative-c/glowtrace-213 finished: 1/1 passed\n",
+      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=torchlit\n  torchlit_floor_flags  STATE near_isglow=0 near_light=1 near_islit=1 near_glow=0 near_dark=0 near_light_flag=1\nOUTCOME torchlit_marked_glow=0 glow_n=0\nPassed\nnative-c/glowtrace-213 finished: 1/1 passed\n",
       "passed": true,
       "state": {
         "near_isglow": 0,
@@ -82,12 +82,7 @@
         "near_islit": 1,
         "near_glow": 0,
         "near_dark": 0,
-        "near_light_flag": 1,
-        "far_isglow": 0,
-        "far_light": 0,
-        "far_islit": 0,
-        "far_glow": 0,
-        "far_dark": 0
+        "near_light_flag": 1
       },
       "outcome": {
         "torchlit_marked_glow": 0,
@@ -95,15 +90,43 @@
       }
     },
     "after": {
-      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=torchlit\n  torchlit_floor_flags  STATE near_isglow=0 near_light=1 near_islit=1 near_glow=1 near_dark=0 near_light_flag=1\nSTATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=1\nOUTCOME torchlit_marked_glow=1 glow_n=9\nPassed\nnative-c/glowtrace-213 finished: 1/1 passed\n",
+      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=torchlit\n  torchlit_floor_flags  STATE near_isglow=0 near_light=1 near_islit=1 near_glow=0 near_dark=0 near_light_flag=1\nOUTCOME torchlit_marked_glow=0 glow_n=0\nPassed\nnative-c/glowtrace-213 finished: 1/1 passed\n",
       "passed": true,
       "state": {
         "near_isglow": 0,
         "near_light": 1,
         "near_islit": 1,
-        "near_glow": 1,
+        "near_glow": 0,
         "near_dark": 0,
-        "near_light_flag": 1,
+        "near_light_flag": 1
+      },
+      "outcome": {
+        "torchlit_marked_glow": 0,
+        "glow_n": 0
+      }
+    }
+  },
+  "unlit": {
+    "label": "Unlit floor marked dark",
+    "explanation": "The same arena with no permanent glow: a known floor outside the Borg's light radius is neither glowing nor lit. The corrected Floors branch marks it BORG_DARK; the original never ran that branch and left it unflagged.",
+    "before": {
+      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=unlit\n  unlit_floor_marked_dark  STATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=0\nOUTCOME far_dark=0\nFailed\n    native-c/glowtrace-213:200: requirement 'fi & BORG_DARK' failed\nnative-c/glowtrace-213 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "far_isglow": 0,
+        "far_light": 0,
+        "far_islit": 0,
+        "far_glow": 0,
+        "far_dark": 0
+      },
+      "outcome": {
+        "far_dark": 0
+      }
+    },
+    "after": {
+      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20 mode=unlit\n  unlit_floor_marked_dark  STATE far_isglow=0 far_light=0 far_islit=0 far_glow=0 far_dark=1\nOUTCOME far_dark=1\nPassed\nnative-c/glowtrace-213 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
         "far_isglow": 0,
         "far_light": 0,
         "far_islit": 0,
@@ -111,8 +134,7 @@
         "far_dark": 1
       },
       "outcome": {
-        "torchlit_marked_glow": 1,
-        "glow_n": 9
+        "far_dark": 1
       }
     }
   }

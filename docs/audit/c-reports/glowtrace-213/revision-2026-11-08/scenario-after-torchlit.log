@@ -1,0 +1,6 @@
+native-c/glowtrace-213: starting...
+SETUP seed=213 class=Warrior depth=9 hp=20 mode=torchlit
+  torchlit_floor_flags  STATE near_isglow=0 near_light=1 near_islit=1 near_glow=0 near_dark=0 near_light_flag=1
+OUTCOME torchlit_marked_glow=0 glow_n=0
+Passed
+native-c/glowtrace-213 finished: 1/1 passed
