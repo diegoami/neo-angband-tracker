@@ -1,0 +1,11 @@
+native-c/deskstair-153: starting...
+SETUP seed=153 mode=twodown class=Warrior clevel=5 hp=15 depth=5 up=0 down=2
+  desperate_dash_to_the_near_stair  KILL k=1 r=140 pos=(11,13) awake=1 power=43
+STATE danger=20 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward down-stairs at cost 2
+TRACK # Desperate for Stairs (four)
+OUTCOME desperate_stairs=1
+Passed
+native-c/deskstair-153 finished: 1/1 passed
