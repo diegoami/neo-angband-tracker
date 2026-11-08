@@ -32,14 +32,16 @@ the correction changes only the post-recovery behaviour.
 From a clone of `diegoami/neo-angband-tracker`:
 
 ```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/dontreact-14
 git fetch https://github.com/diegoami/neo-angband-tracker.git task/dontreact-14-evidence
 git show FETCH_HEAD:docs/audit/c-reports/dontreact-14/reproduce.py > /tmp/reproduce-dontreact-14.py
-python3 /tmp/reproduce-dontreact-14.py --full-tests
+python3 /tmp/reproduce-dontreact-14.py --full-tests --fix-ref 13590ee6ea748c4bae8f6ed86df041efe810993a
 ```
 
-The script extracts the fixture from the fetched revision, builds the
-native C game before and after the correction (fix reference
-`13590ee6ea748c4bae8f6ed86df041efe810993a`), runs the knockout case for
+The first fetch brings the fix commit; the second sets `FETCH_HEAD` to the
+evidence revision the script is extracted from. `--fix-ref` is required: the
+runner pins the corrected source by that commit. The script builds the
+native C game before and after the correction, runs the knockout case for
 both, checks the recorded flip, runs both full native regression gates,
 and generates `replay.html`. It prints the path to open. Heavy commands
 wait on the shared validation lock and print their log paths.
