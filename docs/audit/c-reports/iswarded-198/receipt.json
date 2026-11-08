@@ -1,0 +1,381 @@
+{
+  "issue": "diegoami/neo-angband-tracker#198",
+  "report": "iswarded-198",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "62242ac26bab4f128793d767f0f502bf4ca4d820",
+  "fix_branch": "task/iswarded-198",
+  "fixtures_ref": "563a26167a52131d3b8ab387af4fbfd4b5b7226b",
+  "cases": {
+    "rune-town": {
+      "before": {
+        "passed": false,
+        "state": {
+          "on_rune": 1,
+          "tracked": 25,
+          "visible": 1,
+          "monster_rounds": 5,
+          "broken": 1,
+          "bites": 0,
+          "hp": 354,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 0
+        },
+        "assert_abort": true
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "on_rune": 1,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 5,
+          "broken": 1,
+          "bites": 0,
+          "hp": 354,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false
+      }
+    },
+    "hit-town": {
+      "before": {
+        "passed": false,
+        "state": {
+          "on_rune": 0,
+          "tracked": 1,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 350,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 0
+        },
+        "assert_abort": true
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 350,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false
+      }
+    },
+    "rune-inside": {
+      "before": {
+        "passed": true,
+        "state": {
+          "on_rune": 1,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 5,
+          "broken": 1,
+          "bites": 0,
+          "hp": 354,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "on_rune": 1,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 5,
+          "broken": 1,
+          "bites": 0,
+          "hp": 354,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false
+      }
+    },
+    "hit-inside": {
+      "before": {
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 350,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 350,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false
+      }
+    },
+    "hit-noglyph": {
+      "before": {
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 351,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 351,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false
+      }
+    }
+  },
+  "identical_controls": [
+    "rune-inside",
+    "hit-inside",
+    "hit-noglyph"
+  ],
+  "claim": "The Borg parses a message stored at the last -more- prompt of the old level at the first keypress of the new level, before borg_update() moves borg.c. Both rune checks in borg_parse_aux() (the hit-by branch with runes tracked, and 'The rune of protection is broken!') then call square_iswarded(cave, borg.c) with the old level's position. When that position is outside the new level, a debug build aborts on square_istrap()'s bounds assertion and a release-style build reads outside the level's row array (AddressSanitizer: heap-buffer-overflow READ in square_istrap). Guarding both checks with square_in_bounds() removes the read; the rune list is still cleared, and inside-level and no-rune controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-messages.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-messages.c": "2e4b471582406e7419216be98fe041494b3cee072233aa33149e574726346fea"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 27,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "e045ba2d5902ea63d689e1c3dbbae5001173f0ff9cd6abc58dab3e4660aa243b",
+    "after-hit-inside.log": "8e7326052d30f235b949ee1133d350c3cdc608dc9f456f8970bfdee22f462e5a",
+    "after-hit-noglyph.log": "2407dc8deb482d6dc9b9fb35460b51186f01579ae54ade2b06d75d1435e5ea7e",
+    "after-hit-town.log": "8393577cbdf5bbbc80150a9e8a51d6acbea4734462b67c22937f6cab7d8306ac",
+    "after-results.json": "a4877ebeddb91765bb07b88fbce8e6e0301d6cdccfaee476b8811f2ff44107f7",
+    "after-rune-inside.log": "2925cac634265c81904d4af215cf8d38db748b734af0f3dc2ad8b5d2824a1fa1",
+    "after-rune-town.log": "f2faa68c74c98775c05b97d21057e94df31b0e7d6adb6f13ace2538d73054333",
+    "asan-after-hit-inside.log": "8e7326052d30f235b949ee1133d350c3cdc608dc9f456f8970bfdee22f462e5a",
+    "asan-after-hit-noglyph.log": "2407dc8deb482d6dc9b9fb35460b51186f01579ae54ade2b06d75d1435e5ea7e",
+    "asan-after-hit-town.log": "8393577cbdf5bbbc80150a9e8a51d6acbea4734462b67c22937f6cab7d8306ac",
+    "asan-after-results.json": "a4877ebeddb91765bb07b88fbce8e6e0301d6cdccfaee476b8811f2ff44107f7",
+    "asan-after-rune-inside.log": "2925cac634265c81904d4af215cf8d38db748b734af0f3dc2ad8b5d2824a1fa1",
+    "asan-after-rune-town.log": "f2faa68c74c98775c05b97d21057e94df31b0e7d6adb6f13ace2538d73054333",
+    "asan-before-hit-inside.log": "8e7326052d30f235b949ee1133d350c3cdc608dc9f456f8970bfdee22f462e5a",
+    "asan-before-hit-noglyph.log": "2407dc8deb482d6dc9b9fb35460b51186f01579ae54ade2b06d75d1435e5ea7e",
+    "asan-before-hit-town.log": "7c0bfadf0ddf2b5e33299273d139c0975b14ddccc8ddab3bd08ccb28f923bb09",
+    "asan-before-results.json": "bab7f67cf025cfe5f022aaa84a25876a3b3c9ec6cba0bd6e26e0531c22d505d7",
+    "asan-before-rune-inside.log": "2925cac634265c81904d4af215cf8d38db748b734af0f3dc2ad8b5d2824a1fa1",
+    "asan-before-rune-town.log": "bf56ca4505af70bc4f6d77be72ddb6045131e6f1d401028326cb98c60e45eab2",
+    "before-hit-inside.log": "8e7326052d30f235b949ee1133d350c3cdc608dc9f456f8970bfdee22f462e5a",
+    "before-hit-noglyph.log": "2407dc8deb482d6dc9b9fb35460b51186f01579ae54ade2b06d75d1435e5ea7e",
+    "before-hit-town.log": "6b3ec461584d6e191a3413211f2a57fe27fbe3bfac5954a3db7f93e510bdbdd8",
+    "before-results.json": "b384ab7e7fbe4f5e65316083b2b0612ee95e5adf053b654a3f63a5919116c3b6",
+    "before-rune-inside.log": "2925cac634265c81904d4af215cf8d38db748b734af0f3dc2ad8b5d2824a1fa1",
+    "before-rune-town.log": "9da5b63f43b567c2710e449e65220d5d61efc7c23e86913ec9668da47f2b44c7",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "c1bd9d75afce34105f805bc96a9710aec426ee3a8e1b810ea6b16c221e979785",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "ff18bd9ca4797aa36cb9fb985ba925135cefd431b6fe6f1e98c11649c3a50276",
+    "replay.html": "e1e81ebc397826adec96ae1ba35a781c290ce3f05c8d44c274a6956ee9ae7bf8",
+    "reproduce.py": "4ab6511b23ea5751a10ff439284812ad6144f0c1ef503029c50e5420e507629d",
+    "result.json": "f2ead7fc9e28f033248cb3c5ed145ebb05894351607b343d5d13fe37a5f09189",
+    "run-after-alltests.log": "6ab40eb25c0145ab4c790143c3c76bcd2f685f1f35b23322b13c8940874f8c21",
+    "run-after-build.log": "681df3e3cd055e412379d23697ef1e75d3312db2a5981a298460e3e16e74be6c",
+    "run-after-scenarios.log": "e326e361f0e3bf71bc7b5926a95113670813e5d84948fd095312b2d737ccba0a",
+    "run-asan-after-build.log": "fcae998cbd4b9327313ce15c65acea7aa61f75032a6afc02450b7b5fb3238b71",
+    "run-asan-after-scenarios.log": "e326e361f0e3bf71bc7b5926a95113670813e5d84948fd095312b2d737ccba0a",
+    "run-asan-before-build.log": "5123d23403c47bda0a3ab9cb34528b942ab9dfa738fda7c8d188fbbde9f16b59",
+    "run-asan-before-scenarios.log": "d8e3613d2ddb91bc3c4c68d3e36124cd02638850b262d6ecbfd47327b8bddfc1",
+    "run-before-alltests.log": "f9a832f274f603d993ecac21f8baad2ceeefcc232a0a5211bcdae0233a9235d2",
+    "run-before-build.log": "3e34941502918acb749dc260767c9a013eb40f3acdc5f94df2fe00d4d8916a6f",
+    "run-before-scenarios.log": "2088ba0281e65403999b2a4cc7691fb2f1830b7e0f640932f74d3f245c45639c",
+    "run-cases.py": "4ded0c83be4fd23aed454fbe3bb227cee6c57e482a659752715e855844304c20",
+    "run-configure-asan.log": "656c4a0098e18d1672b0b64ec1597f4de07f6695afc2ca19c8fc2c6083c65ba8",
+    "run-configure.log": "12300c3b63b7554129e9411e01314d4e1116e0bd87c51993fc9467219ec17c36",
+    "scenario.c": "daafb4822f9139159a84e76d55825e65b1b098b60674758570af2052007e5173"
+  },
+  "asan": {
+    "flags": "-fsanitize=address -fno-omit-frame-pointer -g -DNDEBUG",
+    "options": "detect_leaks=0:intercept_strcmp=0",
+    "expected_sites": {
+      "rune-town": "square_istrap <- borg_parse_aux borg-messages.c:1188",
+      "hit-town": "square_istrap <- borg_parse_aux borg-messages.c:625"
+    },
+    "cases": {
+      "rune-town": {
+        "before": {
+          "passed": false,
+          "asan": true,
+          "asan_read": true,
+          "asan_site": "square_istrap <- borg_parse_aux borg-messages.c:1188"
+        },
+        "after": {
+          "passed": true,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        }
+      },
+      "hit-town": {
+        "before": {
+          "passed": false,
+          "asan": true,
+          "asan_read": true,
+          "asan_site": "square_istrap <- borg_parse_aux borg-messages.c:625"
+        },
+        "after": {
+          "passed": true,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        }
+      },
+      "rune-inside": {
+        "before": {
+          "passed": true,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "after": {
+          "passed": true,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        }
+      },
+      "hit-inside": {
+        "before": {
+          "passed": true,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "after": {
+          "passed": true,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        }
+      },
+      "hit-noglyph": {
+        "before": {
+          "passed": true,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "after": {
+          "passed": true,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        }
+      }
+    },
+    "identical_controls": [
+      "rune-inside",
+      "hit-inside",
+      "hit-noglyph"
+    ],
+    "logs": "asan-{before,after}-<mode>.log; build/scenario logs run-asan-*.log"
+  },
+  "debug_build_abort": "square_istrap: Assertion `square_in_bounds(c, grid)' failed (rune-town, hit-town, original only)"
+}

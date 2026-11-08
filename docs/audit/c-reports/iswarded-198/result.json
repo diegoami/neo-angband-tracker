@@ -1,0 +1,511 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "62242ac26bab4f128793d767f0f502bf4ca4d820",
+  "fixtures_ref": "563a26167a52131d3b8ab387af4fbfd4b5b7226b",
+  "cases": {
+    "before": {
+      "rune-town": {
+        "exit": -6,
+        "passed": false,
+        "state": {
+          "on_rune": 1,
+          "tracked": 25,
+          "visible": 1,
+          "monster_rounds": 5,
+          "broken": 1,
+          "bites": 0,
+          "hp": 354,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 0
+        },
+        "assert_abort": true,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      },
+      "hit-town": {
+        "exit": -6,
+        "passed": false,
+        "state": {
+          "on_rune": 0,
+          "tracked": 1,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 350,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 0
+        },
+        "assert_abort": true,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      },
+      "rune-inside": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "on_rune": 1,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 5,
+          "broken": 1,
+          "bites": 0,
+          "hp": 354,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      },
+      "hit-inside": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 350,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      },
+      "hit-noglyph": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 351,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      }
+    },
+    "after": {
+      "rune-town": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "on_rune": 1,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 5,
+          "broken": 1,
+          "bites": 0,
+          "hp": 354,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      },
+      "hit-town": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 350,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      },
+      "rune-inside": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "on_rune": 1,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 5,
+          "broken": 1,
+          "bites": 0,
+          "hp": 354,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      },
+      "hit-inside": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 350,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      },
+      "hit-noglyph": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "on_rune": 0,
+          "tracked": 0,
+          "visible": 1,
+          "monster_rounds": 1,
+          "broken": 0,
+          "bites": 1,
+          "hp": 351,
+          "generate_level": 1,
+          "depth": 0,
+          "level": 66,
+          "borg_in_bounds": 1
+        },
+        "outcome": {
+          "survived": 1
+        },
+        "assert_abort": false,
+        "asan": false,
+        "asan_read": false,
+        "asan_site": null
+      }
+    }
+  },
+  "identical_controls": [
+    "rune-inside",
+    "hit-inside",
+    "hit-noglyph"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "asan": {
+    "flags": "-fsanitize=address -fno-omit-frame-pointer -g -DNDEBUG",
+    "options": "detect_leaks=0:intercept_strcmp=0",
+    "cases": {
+      "before": {
+        "rune-town": {
+          "exit": 1,
+          "passed": false,
+          "state": {
+            "on_rune": 1,
+            "tracked": 25,
+            "visible": 1,
+            "monster_rounds": 5,
+            "broken": 1,
+            "bites": 0,
+            "hp": 354,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 0
+          },
+          "assert_abort": false,
+          "asan": true,
+          "asan_read": true,
+          "asan_site": "square_istrap <- borg_parse_aux borg-messages.c:1188"
+        },
+        "hit-town": {
+          "exit": 1,
+          "passed": false,
+          "state": {
+            "on_rune": 0,
+            "tracked": 1,
+            "visible": 1,
+            "monster_rounds": 1,
+            "broken": 0,
+            "bites": 1,
+            "hp": 350,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 0
+          },
+          "assert_abort": false,
+          "asan": true,
+          "asan_read": true,
+          "asan_site": "square_istrap <- borg_parse_aux borg-messages.c:625"
+        },
+        "rune-inside": {
+          "exit": 0,
+          "passed": true,
+          "state": {
+            "on_rune": 1,
+            "tracked": 0,
+            "visible": 1,
+            "monster_rounds": 5,
+            "broken": 1,
+            "bites": 0,
+            "hp": 354,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 1
+          },
+          "outcome": {
+            "survived": 1
+          },
+          "assert_abort": false,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "hit-inside": {
+          "exit": 0,
+          "passed": true,
+          "state": {
+            "on_rune": 0,
+            "tracked": 0,
+            "visible": 1,
+            "monster_rounds": 1,
+            "broken": 0,
+            "bites": 1,
+            "hp": 350,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 1
+          },
+          "outcome": {
+            "survived": 1
+          },
+          "assert_abort": false,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "hit-noglyph": {
+          "exit": 0,
+          "passed": true,
+          "state": {
+            "on_rune": 0,
+            "tracked": 0,
+            "visible": 1,
+            "monster_rounds": 1,
+            "broken": 0,
+            "bites": 1,
+            "hp": 351,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 1
+          },
+          "outcome": {
+            "survived": 1
+          },
+          "assert_abort": false,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        }
+      },
+      "after": {
+        "rune-town": {
+          "exit": 0,
+          "passed": true,
+          "state": {
+            "on_rune": 1,
+            "tracked": 0,
+            "visible": 1,
+            "monster_rounds": 5,
+            "broken": 1,
+            "bites": 0,
+            "hp": 354,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 1
+          },
+          "outcome": {
+            "survived": 1
+          },
+          "assert_abort": false,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "hit-town": {
+          "exit": 0,
+          "passed": true,
+          "state": {
+            "on_rune": 0,
+            "tracked": 0,
+            "visible": 1,
+            "monster_rounds": 1,
+            "broken": 0,
+            "bites": 1,
+            "hp": 350,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 1
+          },
+          "outcome": {
+            "survived": 1
+          },
+          "assert_abort": false,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "rune-inside": {
+          "exit": 0,
+          "passed": true,
+          "state": {
+            "on_rune": 1,
+            "tracked": 0,
+            "visible": 1,
+            "monster_rounds": 5,
+            "broken": 1,
+            "bites": 0,
+            "hp": 354,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 1
+          },
+          "outcome": {
+            "survived": 1
+          },
+          "assert_abort": false,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "hit-inside": {
+          "exit": 0,
+          "passed": true,
+          "state": {
+            "on_rune": 0,
+            "tracked": 0,
+            "visible": 1,
+            "monster_rounds": 1,
+            "broken": 0,
+            "bites": 1,
+            "hp": 350,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 1
+          },
+          "outcome": {
+            "survived": 1
+          },
+          "assert_abort": false,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        },
+        "hit-noglyph": {
+          "exit": 0,
+          "passed": true,
+          "state": {
+            "on_rune": 0,
+            "tracked": 0,
+            "visible": 1,
+            "monster_rounds": 1,
+            "broken": 0,
+            "bites": 1,
+            "hp": 351,
+            "generate_level": 1,
+            "depth": 0,
+            "level": 66,
+            "borg_in_bounds": 1
+          },
+          "outcome": {
+            "survived": 1
+          },
+          "assert_abort": false,
+          "asan": false,
+          "asan_read": false,
+          "asan_site": null
+        }
+      }
+    },
+    "expected_sites": {
+      "rune-town": "square_istrap <- borg_parse_aux borg-messages.c:1188",
+      "hit-town": "square_istrap <- borg_parse_aux borg-messages.c:625"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-messages.c": "2e4b471582406e7419216be98fe041494b3cee072233aa33149e574726346fea"
+  }
+}

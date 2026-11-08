@@ -1,0 +1,18 @@
+native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-noglyph class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=0 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-noglyph
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=351/354 tracked=0
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top="The skeleton human hits you. You feel yourself yanked upwards! -more-"
+KEY 32
+STATE new level=66x22 depth=0 player=(27,4) borg=(113,48) borg_in_bounds=0 tracked=0
+SCREEN level=66x22 prompt=command top=""
+KEY 54
+DECISION first_key=54
+STATE after borg=(27,4) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed

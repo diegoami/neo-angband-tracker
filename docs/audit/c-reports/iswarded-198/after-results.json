@@ -1,0 +1,122 @@
+{
+  "rune-town": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "on_rune": 1,
+      "tracked": 0,
+      "visible": 1,
+      "monster_rounds": 5,
+      "broken": 1,
+      "bites": 0,
+      "hp": 354,
+      "generate_level": 1,
+      "depth": 0,
+      "level": 66,
+      "borg_in_bounds": 1
+    },
+    "outcome": {
+      "survived": 1
+    },
+    "assert_abort": false,
+    "asan": false,
+    "asan_read": false,
+    "asan_site": null
+  },
+  "hit-town": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "on_rune": 0,
+      "tracked": 0,
+      "visible": 1,
+      "monster_rounds": 1,
+      "broken": 0,
+      "bites": 1,
+      "hp": 350,
+      "generate_level": 1,
+      "depth": 0,
+      "level": 66,
+      "borg_in_bounds": 1
+    },
+    "outcome": {
+      "survived": 1
+    },
+    "assert_abort": false,
+    "asan": false,
+    "asan_read": false,
+    "asan_site": null
+  },
+  "rune-inside": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "on_rune": 1,
+      "tracked": 0,
+      "visible": 1,
+      "monster_rounds": 5,
+      "broken": 1,
+      "bites": 0,
+      "hp": 354,
+      "generate_level": 1,
+      "depth": 0,
+      "level": 66,
+      "borg_in_bounds": 1
+    },
+    "outcome": {
+      "survived": 1
+    },
+    "assert_abort": false,
+    "asan": false,
+    "asan_read": false,
+    "asan_site": null
+  },
+  "hit-inside": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "on_rune": 0,
+      "tracked": 0,
+      "visible": 1,
+      "monster_rounds": 1,
+      "broken": 0,
+      "bites": 1,
+      "hp": 350,
+      "generate_level": 1,
+      "depth": 0,
+      "level": 66,
+      "borg_in_bounds": 1
+    },
+    "outcome": {
+      "survived": 1
+    },
+    "assert_abort": false,
+    "asan": false,
+    "asan_read": false,
+    "asan_site": null
+  },
+  "hit-noglyph": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "on_rune": 0,
+      "tracked": 0,
+      "visible": 1,
+      "monster_rounds": 1,
+      "broken": 0,
+      "bites": 1,
+      "hp": 351,
+      "generate_level": 1,
+      "depth": 0,
+      "level": 66,
+      "borg_in_bounds": 1
+    },
+    "outcome": {
+      "survived": 1
+    },
+    "assert_abort": false,
+    "asan": false,
+    "asan_read": false,
+    "asan_site": null
+  }
+}

@@ -1,0 +1,76 @@
+native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=1 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-town
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top="The skeleton human hits you. You feel yourself yanked upwards! -more-"
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(113,48) borg_in_bounds=0 tracked=1
+SCREEN level=66x22 prompt=command top=""
+=================================================================
+==22479==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x50d000029230 at pc 0x56239288d23f bp 0x7ffceaccf390 sp 0x7ffceaccf380
+READ of size 8 at 0x50d000029230 thread T0
+    #0 0x56239288d23e in square_istrap /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:491
+    #1 0x562392adae58 in square_trap_specific /tmp/angband-iswarded-198-w4l6xu9o/source/src/trap.c:73
+    #2 0x56239288debe in square_iswarded /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:753
+    #3 0x562392d0fb29 in borg_parse_aux /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg-messages.c:625
+    #4 0x562392d13e8f in borg_parse /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg-messages.c:1342
+    #5 0x562392da7550 in generate_keypress /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg.c:311
+    #6 0x562392da66ef in borg_entry_point /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg.c:78
+    #7 0x562392884667 in observed_hook /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:90
+    #8 0x5623928871c1 in scenario /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:286
+    #9 0x562392da89dc in main /tmp/angband-iswarded-198-w4l6xu9o/source/src/tests/unit-test.c:53
+    #10 0x7fe558a2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #11 0x7fe558a2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #12 0x562392883e44 in _start (/tmp/angband-iswarded-198-w4l6xu9o/build-asan/game/ISW198Observer+0x120e44) (BuildId: 80796b2855e69ec65bee2b8a2cc0ce55c1ff811d)
+
+0x50d000029230 is located 28 bytes after 132-byte region [0x50d000029190,0x50d000029214)
+allocated by thread T0 here:
+    #0 0x7fe558efd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x562392c01aaf in mem_alloc /tmp/angband-iswarded-198-w4l6xu9o/source/src/z-virt.c:38
+    #2 0x562392c01aeb in mem_zalloc /tmp/angband-iswarded-198-w4l6xu9o/source/src/z-virt.c:46
+    #3 0x562392898057 in cave_new /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave.c:361
+    #4 0x56239295449a in cave_generate /tmp/angband-iswarded-198-w4l6xu9o/source/src/generate.c:1249
+    #5 0x562392956d0d in prepare_next_level /tmp/angband-iswarded-198-w4l6xu9o/source/src/generate.c:1617
+    #6 0x562392886c56 in scenario /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:271
+    #7 0x562392da89dc in main /tmp/angband-iswarded-198-w4l6xu9o/source/src/tests/unit-test.c:53
+    #8 0x7fe558a2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #9 0x7fe558a2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #10 0x562392883e44 in _start (/tmp/angband-iswarded-198-w4l6xu9o/build-asan/game/ISW198Observer+0x120e44) (BuildId: 80796b2855e69ec65bee2b8a2cc0ce55c1ff811d)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:491 in square_istrap
+Shadow bytes around the buggy address:
+  0x50d000028f80: 00 00 00 00 04 fa fa fa fa fa fa fa fa fa 00 00
+  0x50d000029000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 04 fa
+  0x50d000029080: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+  0x50d000029100: 00 00 00 00 00 00 00 00 04 fa fa fa fa fa fa fa
+  0x50d000029180: fa fa 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x50d000029200: 00 00 04 fa fa fa[fa]fa fa fa fa fa 00 00 00 00
+  0x50d000029280: 00 00 00 00 00 00 00 00 00 00 00 00 04 fa fa fa
+  0x50d000029300: fa fa fa fa fa fa 00 00 00 00 00 00 00 00 00 00
+  0x50d000029380: 00 00 00 00 00 00 04 fa fa fa fa fa fa fa fa fa
+  0x50d000029400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x50d000029480: 04 fa fa fa fa fa fa fa fa fa 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==22479==ABORTING
