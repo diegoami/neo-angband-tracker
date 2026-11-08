@@ -171,6 +171,11 @@ static int scenario_wake(void *state)
     int score = borg_launch_bolt(0, 12, BORG_ATTACK_MISSILE, 10, 0);
     printf("DECISION bolt_score=%d\n", score);
     printf("OUTCOME shoots=%d\n", score > 0 ? 1 : 0);
+    /* The partial estimate scales each blow by a hit chance; it must never
+     * exceed the full-damage figure for the same monster and grid. */
+    printf("OUTCOME partial_danger=%d full_danger=%d partial_le_full=%d\n",
+           partial, full, partial <= full ? 1 : 0);
+    require(partial <= full);
     if (streq(mode, "wretch"))
         require(score > 0);
     else

@@ -26,6 +26,8 @@ CHANGES = {
     'src/borg/borg-danger.c': [
         ('            if (borg.near.unique || (r_ptr->level + power) > 0)\n                chance\n                    = 150\n                      - (((ac * 300) / 4) / 1 + ((r_ptr->level + power) * 3));\n            else',
          '            if ((r_ptr->level + power) > 0)\n                chance = 150\n                         - (((ac * 300) / 4) / ((r_ptr->level + power) * 3));\n            else'),
+        ('            if (chance < 5)\n                chance = 5;\n\n            /* Modify the damage',
+         '            if (chance < 5)\n                chance = 5;\n\n            /* never estimate more than the full damage of the blow. */\n            if (chance > 100)\n                chance = 100;\n\n            /* Modify the damage'),
     ],
 }
 # Per mode: (expected pass before, expected pass after, byte-identical control).
@@ -135,6 +137,10 @@ add_compile_definitions(PRIVATE_USER_PATH="{root / 'test-user'}")
             if (evidence / f"before-{mode}.log").read_bytes() != (evidence / f"after-{mode}.log").read_bytes():
                 raise RuntimeError(f"{mode}: control logs are not byte-identical")
             controls.append(mode)
+        for phase, row in (("original", before), ("corrected", after)):
+            outcome = row.get("outcome", {})
+            if "partial_danger" not in outcome or outcome["partial_danger"] > outcome["full_danger"]:
+                raise RuntimeError(f"{mode}: {phase} partial estimate exceeds the full-damage figure")
     for path, text in fixed.items():
         if (source / path).read_text() != text:
             raise RuntimeError("Disposable source not restored to the correction")
@@ -143,7 +149,7 @@ add_compile_definitions(PRIVATE_USER_PATH="{root / 'test-user'}")
                "fixed_source_sha256": {p: hashlib.sha256((source / p).read_bytes()).hexdigest() for p in fixed}}
     (root / "result.json").write_text(json.dumps(summary, indent=2) + "\n")
     subprocess.run([sys.executable, str(evidence / "make_replay.py"), str(evidence)], check=True)
-    print("VERIFIED: the partial melee estimate now divides armour by the monster's to-hit: the corrected Borg no longer shoots at the sleeping cave troll, and the harmless-monster control is byte-identical.", flush=True)
+    print("VERIFIED: the partial melee estimate now divides armour by the monster's to-hit and never exceeds the full-damage figure: the corrected Borg no longer shoots at the sleeping cave troll, and the harmless-monster control is byte-identical.", flush=True)
     print(f"Logs and result.json: {root}", flush=True)
 
 
