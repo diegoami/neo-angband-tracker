@@ -1,0 +1,8 @@
+native-c/hurtstun-62: starting...
+SETUP seed=62 mode=orc class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=cave orc
+  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=1d8
+STATE blows=1 low_sides=0 live_kick=0 avoidance=371
+DECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8
+OUTCOME danger=8 full=8
+Passed
+native-c/hurtstun-62 finished: 1/1 passed

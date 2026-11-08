@@ -1,0 +1,166 @@
+{
+  "mystic": {
+    "label": "Control: mystic, 4 x KICK:HURT:10d2 (kept +400 test fires)",
+    "explanation": "Each 10d2 kick has fewer than 3 sides, so the original evaluates the removed test (false: z equals dice x sides) and then takes the kept +400. Danger 1604 partial / 1680 full (4 x 400 plus the kick damage) in both versions. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/hurtstun-62: starting...\nSETUP seed=62 mode=mystic class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=mystic\n  hurt_blow_danger  BLOW 0 method=KICK effect=HURT dice=10d2\nBLOW 1 method=KICK effect=HURT dice=10d2\nBLOW 2 method=KICK effect=HURT dice=10d2\nBLOW 3 method=KICK effect=HURT dice=10d2\nSTATE blows=4 low_sides=4 live_kick=4 avoidance=371\nDECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680\nOUTCOME danger=1680 full=1680\nPassed\nnative-c/hurtstun-62 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "blows": 4,
+        "low_sides": 4,
+        "live_kick": 4,
+        "avoidance": 371
+      },
+      "outcome": {
+        "danger": 1680,
+        "full": 1680
+      },
+      "notes": [
+        "DECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680"
+      ],
+      "value": 1680
+    },
+    "after": {
+      "raw": "native-c/hurtstun-62: starting...\nSETUP seed=62 mode=mystic class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=mystic\n  hurt_blow_danger  BLOW 0 method=KICK effect=HURT dice=10d2\nBLOW 1 method=KICK effect=HURT dice=10d2\nBLOW 2 method=KICK effect=HURT dice=10d2\nBLOW 3 method=KICK effect=HURT dice=10d2\nSTATE blows=4 low_sides=4 live_kick=4 avoidance=371\nDECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680\nOUTCOME danger=1680 full=1680\nPassed\nnative-c/hurtstun-62 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "blows": 4,
+        "low_sides": 4,
+        "live_kick": 4,
+        "avoidance": 371
+      },
+      "outcome": {
+        "danger": 1680,
+        "full": 1680
+      },
+      "notes": [
+        "DECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680"
+      ],
+      "value": 1680
+    }
+  },
+  "ant": {
+    "label": "Control: soldier ant, BITE:HURT:1d2 (removed test evaluated, +400 not taken)",
+    "explanation": "A 1d2 bite has fewer than 3 sides, so the original evaluates the removed test (false); with one die the +400 test is not taken either. Danger 2 in both versions. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/hurtstun-62: starting...\nSETUP seed=62 mode=ant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=soldier ant\n  hurt_blow_danger  BLOW 0 method=BITE effect=HURT dice=1d2\nSTATE blows=1 low_sides=1 live_kick=0 avoidance=371\nDECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2\nOUTCOME danger=2 full=2\nPassed\nnative-c/hurtstun-62 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "blows": 1,
+        "low_sides": 1,
+        "live_kick": 0,
+        "avoidance": 371
+      },
+      "outcome": {
+        "danger": 2,
+        "full": 2
+      },
+      "notes": [
+        "DECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2"
+      ],
+      "value": 2
+    },
+    "after": {
+      "raw": "native-c/hurtstun-62: starting...\nSETUP seed=62 mode=ant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=soldier ant\n  hurt_blow_danger  BLOW 0 method=BITE effect=HURT dice=1d2\nSTATE blows=1 low_sides=1 live_kick=0 avoidance=371\nDECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2\nOUTCOME danger=2 full=2\nPassed\nnative-c/hurtstun-62 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "blows": 1,
+        "low_sides": 1,
+        "live_kick": 0,
+        "avoidance": 371
+      },
+      "outcome": {
+        "danger": 2,
+        "full": 2
+      },
+      "notes": [
+        "DECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2"
+      ],
+      "value": 2
+    }
+  },
+  "orc": {
+    "label": "Control: cave orc, HIT:HURT:1d8 (ordinary HURT blow)",
+    "explanation": "An ordinary HURT blow: the removed test short-circuits on d_side < 3. Danger 8 in both versions. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/hurtstun-62: starting...\nSETUP seed=62 mode=orc class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=cave orc\n  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=1d8\nSTATE blows=1 low_sides=0 live_kick=0 avoidance=371\nDECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8\nOUTCOME danger=8 full=8\nPassed\nnative-c/hurtstun-62 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "blows": 1,
+        "low_sides": 0,
+        "live_kick": 0,
+        "avoidance": 371
+      },
+      "outcome": {
+        "danger": 8,
+        "full": 8
+      },
+      "notes": [
+        "DECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8"
+      ],
+      "value": 8
+    },
+    "after": {
+      "raw": "native-c/hurtstun-62: starting...\nSETUP seed=62 mode=orc class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=cave orc\n  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=1d8\nSTATE blows=1 low_sides=0 live_kick=0 avoidance=371\nDECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8\nOUTCOME danger=8 full=8\nPassed\nnative-c/hurtstun-62 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "blows": 1,
+        "low_sides": 0,
+        "live_kick": 0,
+        "avoidance": 371
+      },
+      "outcome": {
+        "danger": 8,
+        "full": 8
+      },
+      "notes": [
+        "DECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8"
+      ],
+      "value": 8
+    }
+  },
+  "giant": {
+    "label": "Control: hill giant, 2 x HIT:HURT:4d8 (ordinary HURT blows)",
+    "explanation": "Two ordinary HURT blows. Danger 64 in both versions. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/hurtstun-62: starting...\nSETUP seed=62 mode=giant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=hill giant\n  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=4d8\nBLOW 1 method=HIT effect=HURT dice=4d8\nSTATE blows=2 low_sides=0 live_kick=0 avoidance=371\nDECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64\nOUTCOME danger=64 full=64\nPassed\nnative-c/hurtstun-62 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "blows": 2,
+        "low_sides": 0,
+        "live_kick": 0,
+        "avoidance": 371
+      },
+      "outcome": {
+        "danger": 64,
+        "full": 64
+      },
+      "notes": [
+        "DECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64"
+      ],
+      "value": 64
+    },
+    "after": {
+      "raw": "native-c/hurtstun-62: starting...\nSETUP seed=62 mode=giant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=hill giant\n  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=4d8\nBLOW 1 method=HIT effect=HURT dice=4d8\nSTATE blows=2 low_sides=0 live_kick=0 avoidance=371\nDECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64\nOUTCOME danger=64 full=64\nPassed\nnative-c/hurtstun-62 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "blows": 2,
+        "low_sides": 0,
+        "live_kick": 0,
+        "avoidance": 371
+      },
+      "outcome": {
+        "danger": 64,
+        "full": 64
+      },
+      "notes": [
+        "DECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64"
+      ],
+      "value": 64
+    }
+  }
+}

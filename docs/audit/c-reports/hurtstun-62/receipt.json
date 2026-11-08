@@ -1,0 +1,184 @@
+{
+  "issue": "diegoami/neo-angband-tracker#62",
+  "report": "hurtstun-62",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "f1aca2e9a3d4e6ffe7e301c9aa750173dd3883bd",
+  "fix_branch": "task/hurtstun-62",
+  "fixtures_ref": "2cb17f80146015dc9fc162f45b50cf5ba88ae11f",
+  "cases": {
+    "mystic": {
+      "before": {
+        "passed": true,
+        "state": {
+          "blows": 4,
+          "low_sides": 4,
+          "live_kick": 4,
+          "avoidance": 371
+        },
+        "outcome": {
+          "danger": 1680,
+          "full": 1680
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "blows": 4,
+          "low_sides": 4,
+          "live_kick": 4,
+          "avoidance": 371
+        },
+        "outcome": {
+          "danger": 1680,
+          "full": 1680
+        }
+      }
+    },
+    "ant": {
+      "before": {
+        "passed": true,
+        "state": {
+          "blows": 1,
+          "low_sides": 1,
+          "live_kick": 0,
+          "avoidance": 371
+        },
+        "outcome": {
+          "danger": 2,
+          "full": 2
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "blows": 1,
+          "low_sides": 1,
+          "live_kick": 0,
+          "avoidance": 371
+        },
+        "outcome": {
+          "danger": 2,
+          "full": 2
+        }
+      }
+    },
+    "orc": {
+      "before": {
+        "passed": true,
+        "state": {
+          "blows": 1,
+          "low_sides": 0,
+          "live_kick": 0,
+          "avoidance": 371
+        },
+        "outcome": {
+          "danger": 8,
+          "full": 8
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "blows": 1,
+          "low_sides": 0,
+          "live_kick": 0,
+          "avoidance": 371
+        },
+        "outcome": {
+          "danger": 8,
+          "full": 8
+        }
+      }
+    },
+    "giant": {
+      "before": {
+        "passed": true,
+        "state": {
+          "blows": 2,
+          "low_sides": 0,
+          "live_kick": 0,
+          "avoidance": 371
+        },
+        "outcome": {
+          "danger": 64,
+          "full": 64
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "blows": 2,
+          "low_sides": 0,
+          "live_kick": 0,
+          "avoidance": 371
+        },
+        "outcome": {
+          "danger": 64,
+          "full": 64
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "mystic",
+    "ant",
+    "orc",
+    "giant"
+  ],
+  "claim": "The deleted test in the HURT case of borg_danger_physical() compares z with d_dice * d_side immediately after z = d_dice * d_side, with no change to either in between, so it is never true and its +200 never runs. Four native scenarios with production borg_danger_one_kill() and borg_danger(), one with many-dice low-sides kicks (mystic, where the kept +400 test fires and the removed test is evaluated), one with a 1d2 bite (removed test evaluated, +400 not taken) and two with ordinary HURT blows, give byte-identical logs before and after, and both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-danger.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "6a3c094c649c37f351fe09cd7c7c35067195086d1924f219f2970e08b9e3a58e"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "ab24c62880815223c4dbf313a8c12edb53c20c57a48d093080bce600cc3606c9",
+    "after-ant.log": "018399ac08df38990077bb95e08250bf406f73bf46fcfc76acab3058f097c879",
+    "after-giant.log": "13fa75020ae23a4261c8862f2ca8910fa1768170e46e759a5461f8d3cf656f60",
+    "after-mystic.log": "3477ef82c03e14d63cd819b6a9f19c50e37a4115833e69350a46b3148ab9ed4a",
+    "after-orc.log": "1ad24c5d98db0664da7d9f412232dbff3cd2f434ecb97b51f8275d862568148e",
+    "after-results.json": "31c4642cc3947239169a4f9ecf6cda3f85dc150bc44342c041a18ecb6e605890",
+    "before-ant.log": "018399ac08df38990077bb95e08250bf406f73bf46fcfc76acab3058f097c879",
+    "before-giant.log": "13fa75020ae23a4261c8862f2ca8910fa1768170e46e759a5461f8d3cf656f60",
+    "before-mystic.log": "3477ef82c03e14d63cd819b6a9f19c50e37a4115833e69350a46b3148ab9ed4a",
+    "before-orc.log": "1ad24c5d98db0664da7d9f412232dbff3cd2f434ecb97b51f8275d862568148e",
+    "before-results.json": "31c4642cc3947239169a4f9ecf6cda3f85dc150bc44342c041a18ecb6e605890",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "175b4fbac86a29ffec6f85fb714714ea3148574e6006c560310aee3b6427ff0b",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "5d5ba1680d096ce6160eaf11628fadfb2c184e86c513c37022e86facbba494b4",
+    "replay.html": "87a4db296d32ed575811eae187788942d0800c0177750d7f50fd3bb429e80caf",
+    "reproduce.py": "b0488e7d8dea42ff0dd3f1bcbcfeeda82bb8ecdf0f7475acd29eace2e2b635b0",
+    "result.json": "9e82ea612353ad114327ae0e83dcb0adeb8f063735063813e57d2b2e3f6747d1",
+    "run-after-alltests.log": "a710ae8d8d83159d44e8336bbbcafaf2a0c219c7e546bf01690713b62e626a99",
+    "run-after-build.log": "a991bd9c6d05699b3fb384b972809fe16a98efc22969a0b29af318d11e78ce47",
+    "run-after-scenarios.log": "3c80cfb634dd6c2e51f7393e32b61cb88d9363feb7c421560b771cea01fefcfb",
+    "run-before-alltests.log": "2d85cc554232c84e9b6e5a51fb5f1c9e6bd490ff840472afad84c72d637d4bd6",
+    "run-before-build.log": "25825400a94c95d5ec55347af96a43092b62ddac1e5fac76107e2c56c5f89dee",
+    "run-before-scenarios.log": "3c80cfb634dd6c2e51f7393e32b61cb88d9363feb7c421560b771cea01fefcfb",
+    "run-cases.py": "7bbd4e59571b0516b9eae89eba3d646a0cc4eb4267b641d87287649debc0bb16",
+    "run-configure.log": "e30d15e5389824fcee84548b214b1ccb836241b3191f7c77abfc1291393b841c",
+    "scenario.c": "b4b22b5692b9e2ac160284df43e4fc25ec43d1659b5acf38bffc43c583b3ca6d"
+  }
+}

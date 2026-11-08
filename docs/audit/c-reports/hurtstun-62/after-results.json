@@ -1,0 +1,58 @@
+{
+  "mystic": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "blows": 4,
+      "low_sides": 4,
+      "live_kick": 4,
+      "avoidance": 371
+    },
+    "outcome": {
+      "danger": 1680,
+      "full": 1680
+    }
+  },
+  "ant": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "blows": 1,
+      "low_sides": 1,
+      "live_kick": 0,
+      "avoidance": 371
+    },
+    "outcome": {
+      "danger": 2,
+      "full": 2
+    }
+  },
+  "orc": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "blows": 1,
+      "low_sides": 0,
+      "live_kick": 0,
+      "avoidance": 371
+    },
+    "outcome": {
+      "danger": 8,
+      "full": 8
+    }
+  },
+  "giant": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "blows": 2,
+      "low_sides": 0,
+      "live_kick": 0,
+      "avoidance": 371
+    },
+    "outcome": {
+      "danger": 64,
+      "full": 64
+    }
+  }
+}

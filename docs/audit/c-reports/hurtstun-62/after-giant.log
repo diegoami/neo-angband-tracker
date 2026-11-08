@@ -1,0 +1,9 @@
+native-c/hurtstun-62: starting...
+SETUP seed=62 mode=giant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=hill giant
+  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=4d8
+BLOW 1 method=HIT effect=HURT dice=4d8
+STATE blows=2 low_sides=0 live_kick=0 avoidance=371
+DECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64
+OUTCOME danger=64 full=64
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
