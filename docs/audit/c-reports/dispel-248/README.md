@@ -121,7 +121,7 @@ Every case reproduced the recorded outcome; the runner's per-case results
 | Case | Original (before) | Corrected (after) |
 | --- | --- | --- |
 | `living` (hill giant) | rating `value=-21` (expected average 39), launch `direct=-1`; native cast removes 66 HP; 0/1 | `value=19`, `direct=39`; same 66 HP cast; 1/1 |
-| `undead` (control of the game's own rule) | `value=-21`, cast removes 0 HP; 1/1 | same values, 1/1 |
+| `undead` (unchanged case) | `value=-21`, cast removes 0 HP; 1/1 | same values, 1/1 |
 | `bolt` (control) | `bolt_control=11`; 1/1 | byte-identical log |
 
 Gates from the re-run's alltests logs: before Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines); after Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines).
