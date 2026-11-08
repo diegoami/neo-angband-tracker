@@ -1,0 +1,65 @@
+{
+  "plain-worn": {
+    "label": "Plain Cloak worn, unidentified Cloak of Aman carried",
+    "explanation": "Original: the random-power check asks about the worn plain Cloak (no ego, no random power), so the Cloak of Aman counts as safe to sell; the Borg picks it for the Black Market (shop 6, item a) and the real sale hands it over ('You had a Cloak of Aman [1,+14] <+1> (a).'), learning the nether rune only as it goes. Corrected: the check asks about the Cloak of Aman itself and the Borg sells nothing.",
+    "control": false,
+    "before": {
+      "raw": "native-c/egosell-133: starting...\nSETUP seed=133 mode=plain-worn class=Warrior clevel=21 maxdepth=20 no_selling=1\n  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] <+1> {??}]\nWORN cloak ego=- desc=[Cloak [1,+0]]\nTRACK hidden_rune=nether power_now=293381\nDECISION sell=1 shop=6 item=0 what=[Cloak of Aman [1,+14] <+1> {??}]\nTRACK You have learned the rune of resist nether.\nTRACK You had a Cloak of Aman [1,+14] <+1> (a).\nOUTCOME sold_unidentified_aman=1\nFailed\n    native-c/egosell-133:210: requirement '!sold' failed\nnative-c/egosell-133 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "sold_unidentified_aman": 1
+      },
+      "notes": [
+        "TRACK hidden_rune=nether power_now=293381",
+        "DECISION sell=1 shop=6 item=0 what=[Cloak of Aman [1,+14] <+1> {??}]",
+        "TRACK You have learned the rune of resist nether.",
+        "TRACK You had a Cloak of Aman [1,+14] <+1> (a)."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/egosell-133: starting...\nSETUP seed=133 mode=plain-worn class=Warrior clevel=21 maxdepth=20 no_selling=1\n  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] <+1> {??}]\nWORN cloak ego=- desc=[Cloak [1,+0]]\nTRACK hidden_rune=nether power_now=293381\nDECISION sell=0 shop=-1 item=-1 what=[(nothing)]\nTRACK still carried: a Cloak of Aman [1,+14] <+1> {??}\nOUTCOME sold_unidentified_aman=0\nPassed\nnative-c/egosell-133 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "sold_unidentified_aman": 0
+      },
+      "notes": [
+        "TRACK hidden_rune=nether power_now=293381",
+        "DECISION sell=0 shop=-1 item=-1 what=[(nothing)]",
+        "TRACK still carried: a Cloak of Aman [1,+14] <+1> {??}"
+      ],
+      "value": 0
+    }
+  },
+  "aman-worn": {
+    "label": "Control: Cloak of Aman worn, unidentified Cloak of Aman carried",
+    "explanation": "The worn cloak and the carried one have the same random-power ego, so both versions give the same answer: nothing is sold. The changed check runs in both versions; the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/egosell-133: starting...\nSETUP seed=133 mode=aman-worn class=Warrior clevel=21 maxdepth=20 no_selling=1\n  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] <+1> {??}]\nWORN cloak ego=of Aman desc=[Cloak of Aman [1,+18] <+2>]\nTRACK hidden_rune=nether power_now=319235\nDECISION sell=0 shop=-1 item=-1 what=[(nothing)]\nTRACK still carried: a Cloak of Aman [1,+14] <+1> {??}\nOUTCOME sold_unidentified_aman=0\nPassed\nnative-c/egosell-133 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "sold_unidentified_aman": 0
+      },
+      "notes": [
+        "TRACK hidden_rune=nether power_now=319235",
+        "DECISION sell=0 shop=-1 item=-1 what=[(nothing)]",
+        "TRACK still carried: a Cloak of Aman [1,+14] <+1> {??}"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/egosell-133: starting...\nSETUP seed=133 mode=aman-worn class=Warrior clevel=21 maxdepth=20 no_selling=1\n  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] <+1> {??}]\nWORN cloak ego=of Aman desc=[Cloak of Aman [1,+18] <+2>]\nTRACK hidden_rune=nether power_now=319235\nDECISION sell=0 shop=-1 item=-1 what=[(nothing)]\nTRACK still carried: a Cloak of Aman [1,+14] <+1> {??}\nOUTCOME sold_unidentified_aman=0\nPassed\nnative-c/egosell-133 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "sold_unidentified_aman": 0
+      },
+      "notes": [
+        "TRACK hidden_rune=nether power_now=319235",
+        "DECISION sell=0 shop=-1 item=-1 what=[(nothing)]",
+        "TRACK still carried: a Cloak of Aman [1,+14] <+1> {??}"
+      ],
+      "value": 0
+    }
+  }
+}

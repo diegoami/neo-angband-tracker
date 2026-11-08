@@ -1,0 +1,10 @@
+native-c/egosell-133: starting...
+SETUP seed=133 mode=plain-worn class=Warrior clevel=21 maxdepth=20 no_selling=1
+  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] <+1> {??}]
+WORN cloak ego=- desc=[Cloak [1,+0]]
+TRACK hidden_rune=nether power_now=293381
+DECISION sell=0 shop=-1 item=-1 what=[(nothing)]
+TRACK still carried: a Cloak of Aman [1,+14] <+1> {??}
+OUTCOME sold_unidentified_aman=0
+Passed
+native-c/egosell-133 finished: 1/1 passed

@@ -1,0 +1,16 @@
+{
+  "plain-worn": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "sold_unidentified_aman": 0
+    }
+  },
+  "aman-worn": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "sold_unidentified_aman": 0
+    }
+  }
+}
