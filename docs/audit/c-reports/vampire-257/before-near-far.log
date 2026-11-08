@@ -1,0 +1,12 @@
+native-c/vampire-257: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Necromancer level=26 depth=30 hp=158/158 sp=144/144
+  vampire_strike_uses_chosen_distance  MODE near-far
+GEOMETRY near=5 far=20 max_range=20
+DECISION acted=0 keys=0 sequence=
+OUTCOME acted=0 keys=0 cast_spell=0
+Failed
+    native-c/vampire-257:191: requirement 'acted ? 1 : 0' == '1' failed
+      acted ? 1 : 0:                0
+      1:                1
+native-c/vampire-257 finished: 0/1 passed

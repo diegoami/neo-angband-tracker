@@ -28,7 +28,7 @@ the recorded decision.
 Canonical report: [issue257](https://github.com/diegoami/neo-angband-tracker/issues/257).
 Lead supplied by borg-rs; independently validated and reproduced
 natively here through the full production attack chooser. Source
-proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+proposal [#293](https://github.com/diegoami/neo-angband-tracker/pull/293).
 
 ## Verification
 
@@ -105,3 +105,55 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the original run's phase, build and gate logs were listed and hashed in
+`receipt.json` but never committed (the repository's `*.log` ignore rule
+dropped them), so the receipt could not be checked against published bytes.
+The same pinned runner was run again on 2026-11-08 at the receipt's own pins
+(base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `0119d5daee9b8a07a8096331eea78dbbb6c26050`, fixtures `545213726d6d0156ea1cea931b212a9895c5b77b`) with `--full-tests`.
+Every case reproduced the recorded outcome; the runner's per-case results
+(`result.json` `cases`) are identical to the committed original.
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `near-far` (chosen monster 5 grids, last scanned 20) | `acted=0`, no Vampire Strike; 0/1 | `acted=1 keys=3`, native cast; 1/1 |
+| `near-near` (control) | `acted=1 keys=3`; 1/1 | byte-identical log |
+| `far` (control) | `acted=0`; 1/1 | byte-identical log |
+
+Gates from the re-run's alltests logs: before Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines); after Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines).
+Re-run toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, cmake version 3.28.3 (the original receipt records
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, cmake version 4.2.3; the toolchain differs, and the files listed
+below as byte-identical are identical nonetheless).
+Corrected source sha256 matches the original receipt.
+Render check of the committed `replay.html` with `tools/c-evidence/render-smoke.js`
+(Playwright Chromium, every option and button clicked): `RENDER-SMOKE actions=9 errors=0 OK`.
+The original receipt records its own headless check under the `browser` key.
+At the receipt pin `545213726` the runner finished every native step, assertion and gate and wrote `result.json`, then stopped with exit 1 in the last step because `make_replay.py` at that pin does not parse (see Errata and `reverify-2026-11-08/runner-stdout.txt`). The fixed generator from the guide pin `e41e44d96` regenerates the committed `replay.html` and `replay-data.json` byte-identically from this re-run's logs, so the repeat command below pins `e41e44d96`.
+
+Where the logs are: [`reverify-2026-11-08/`](reverify-2026-11-08/) holds every log,
+`result.json` and per-mode results of the re-run, with
+[`reverify-2026-11-08/receipt.json`](reverify-2026-11-08/receipt.json) (pins, per-case
+results, gate lines, toolchain, render result, sha256 of every file there).
+12 re-run files are byte-identical to the hashes in the original
+`receipt.json`; those not already committed were also placed at their original paths in this directory, so the original receipt now resolves for them: `after-build.log`, `after-far.log`, `after-near-far.log`, `after-near-near.log`, `after-scenarios.log`, `before-far.log`, `before-near-far.log`, `before-near-near.log`, `before-scenarios.log`.
+The rest (`after-alltests.log`, `before-alltests.log`, `before-build.log`, `configure.log`) differ in
+run-specific content (temporary paths, timings, build output of the different toolchain) and are
+published only under `reverify-2026-11-08/`.
+
+Repeat (fixtures pinned by sha; the fix sha is fixed inside `reproduce.py` at that pin, and the runner
+refuses any other source diff):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/vampire-257-evidence
+git show e41e44d9652c38266dcee5e9e5b4b363f3813212:docs/audit/c-reports/vampire-257/reproduce.py > /tmp/reproduce-vampire-257.py
+python3 /tmp/reproduce-vampire-257.py --full-tests --fixtures-ref e41e44d9652c38266dcee5e9e5b4b363f3813212
+```
+
+## Errata (2026-11-08)
+
+- `make_replay.py` at the receipt's `fixtures_ref` `545213726` does not parse, so a run at that pin ends with exit 1 after all native checks and gates. The capture commit `746e63c85` fixed it; it is the only generator change up to the guide pin `e41e44d96`.
+- The source-proposal link near the top of this README was a placeholder; it now points to the source PR [#293](https://github.com/diegoami/neo-angband-tracker/pull/293) (evidence PR #294, canonical issue #257).
+- `receipt.json` was amended on 2026-11-08 for this only: its `README.md` hash now covers the README with these sections and the link fix, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.

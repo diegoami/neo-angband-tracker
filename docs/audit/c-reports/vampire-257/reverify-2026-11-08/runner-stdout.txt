@@ -1,0 +1,16 @@
+Native evidence directory: /tmp/angband-vampire-257-9wjlfms3
+Preparing worktree (detached HEAD e473720ed)
+HEAD is now at e473720ed Term_clear() and loop over height calling Term_erase() are not synonyms
+configure: shared validation lock; log /tmp/angband-vampire-257-9wjlfms3/configure.log
+before-build: shared validation lock; log /tmp/angband-vampire-257-9wjlfms3/before-build.log
+before-scenarios: shared validation lock; log /tmp/angband-vampire-257-9wjlfms3/before-scenarios.log
+before-alltests: shared validation lock; log /tmp/angband-vampire-257-9wjlfms3/before-alltests.log
+after-build: shared validation lock; log /tmp/angband-vampire-257-9wjlfms3/after-build.log
+after-scenarios: shared validation lock; log /tmp/angband-vampire-257-9wjlfms3/after-scenarios.log
+after-alltests: shared validation lock; log /tmp/angband-vampire-257-9wjlfms3/after-alltests.log
+  File "/tmp/angband-vampire-257-9wjlfms3/evidence/make_replay.py", line 7
+    'far':('Control: only a distant monster','With only the far hill giant in the list both versions refuse the cast: the chosen distance really is twenty-five. The logs are identical before and after the correction.'}
+                                                                                                                                                                                                                         ^
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '('
+Reproduction failed: Command '['/usr/local/bin/python3', '/tmp/angband-vampire-257-9wjlfms3/evidence/make_replay.py', '/tmp/angband-vampire-257-9wjlfms3/evidence']' returned non-zero exit status 1.
+EXIT 1
