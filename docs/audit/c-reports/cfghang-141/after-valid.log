@@ -1,0 +1,6 @@
+native-c/cfghang-141: starting...
+SETUP seed=141 mode=valid line="borg_stop_dlevel = 7"
+  borg_init_reads_borg_txt  STATE init_failure=0 stop_dlevel=7
+OUTCOME init_completed=1 hung=0
+Passed
+native-c/cfghang-141 finished: 1/1 passed

@@ -1,0 +1,3 @@
+word {'exit': 0, 'passed': True, 'state': {'init_failure': 0, 'stop_dlevel': 128}, 'outcome': {'init_completed': 1, 'hung': 0}}
+suffix {'exit': 0, 'passed': True, 'state': {'init_failure': 0, 'stop_dlevel': 128}, 'outcome': {'init_completed': 1, 'hung': 0}}
+valid {'exit': 0, 'passed': True, 'state': {'init_failure': 0, 'stop_dlevel': 7}, 'outcome': {'init_completed': 1, 'hung': 0}}
