@@ -33,10 +33,10 @@ html=('<!doctype html><html lang="en"><meta charset="utf-8">'
  '<p>The map update&#8217;s Floors branch tested the same condition as the Darkness branch before it, so it never ran: the game&#8217;s permanent lighting never reached the borg&#8217;s grid flags, and the flow-toward-light consumer always found an empty target list. The correction restores the original floor condition and reads the glow state from the grid&#8217;s permanent-glow flag.</p>'
  '<div class="cards">'
  '<section id="original" class="card"><h2>Original</h2><div class="num">'
- + str(d['before']['outcome'].get('glow_n')) +
+ + str(d['before'].get('outcome', {}).get('glow_n', 0)) +
  '</div><p class="state">glow targets found by the flow-toward-light consumer</p></section>'
  '<section id="compared" class="card"><h2>Corrected</h2><div class="num">'
- + str(d['after']['outcome'].get('glow_n')) +
+ + str(d['after'].get('outcome', {}).get('glow_n', 0)) +
  '</div><p class="state">glow targets found by the flow-toward-light consumer</p></section>'
  '</div>'
  '<p class="summary">Distant glowing floor flagged BORG_GLOW: original ' + str(d['before']['state'].get('distant_glow')) + ', corrected ' + str(d['after']['state'].get('distant_glow')) + '. Walls remain unflagged in both. Full native regression gates pass for both builds.</p>'
