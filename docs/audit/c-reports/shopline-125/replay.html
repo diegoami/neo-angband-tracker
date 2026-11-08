@@ -1,0 +1,40 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg walked onto the door of the wrong shop on its way to another</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg walked onto the door of the wrong shop on its way to another</h1><p>Stepping onto a shop&#x27;s entrance enters that shop, so when the Borg flows to a shop it is meant to keep off every other shop&#x27;s entrance. The flow skipped such an entrance only when it was in neither the Borg&#x27;s row nor its column (the test joined the two comparisons with &#x27;and&#x27; where &#x27;or&#x27; was meant), so an entrance in line with the Borg stayed on the path. The correction skips every other shop entrance except the grid the Borg stands on.</p><p><label>Scenario: <select id="scenario"><option value="inline">Another shop&#x27;s door lies next to the Borg, in its row</option><option value="offrow">Control: the other shop&#x27;s door is off the Borg&#x27;s row and column</option></select></label></p><section class="scenario" data-mode="inline"><p class="summary">A level-12 Warrior in town heads for the General Store 20 grids east in its row. The Armoury door is the next grid east, also in the row. The production shop-entry flow takes the first step. Original: the flow keeps the Armoury door on its path and the first step is east, onto it, entering the Armoury. Corrected: the door is avoided and the first step is south-east, around it, at the same total cost.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the first step is onto the other shop&#x27;s door (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=54
+TRACK # Flowing toward General Store at cost 20
+TRACK # Entering a &#x27;1&#x27; shop</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the first step is onto the other shop&#x27;s door (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=51
+TRACK # Flowing toward General Store at cost 20</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/shopline-125: starting...
+SETUP seed=125 mode=inline class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0
+  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,12) depth=0
+DECISION rc=1 key=54
+TRACK # Flowing toward General Store at cost 20
+TRACK # Entering a &#x27;1&#x27; shop
+OUTCOME steps_onto_other_shop=1
+Failed
+    native-c/shopline-125:183: requirement &#x27;key != &#x27;6&#x27;&#x27; failed
+native-c/shopline-125 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/shopline-125: starting...
+SETUP seed=125 mode=inline class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0
+  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,12) depth=0
+DECISION rc=1 key=51
+TRACK # Flowing toward General Store at cost 20
+OUTCOME steps_onto_other_shop=0
+Passed
+native-c/shopline-125 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="offrow"><p class="summary">The same Warrior with the Armoury door two rows above the line. The old test already skipped it, so the first step is east, before and after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the first step is onto the other shop&#x27;s door (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54
+TRACK # Flowing toward General Store at cost 20</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the first step is onto the other shop&#x27;s door (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54
+TRACK # Flowing toward General Store at cost 20</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/shopline-125: starting...
+SETUP seed=125 mode=offrow class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0
+  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,10) depth=0
+DECISION rc=1 key=54
+TRACK # Flowing toward General Store at cost 20
+OUTCOME steps_onto_other_shop=0
+Passed
+native-c/shopline-125 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/shopline-125: starting...
+SETUP seed=125 mode=offrow class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0
+  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,10) depth=0
+DECISION rc=1 key=54
+TRACK # Flowing toward General Store at cost 20
+OUTCOME steps_onto_other_shop=0
+Passed
+native-c/shopline-125 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 125, character level 12, town (depth 0), a lit open arena. The General Store entrance is the goal, 20 grids east of the Borg in its row; the Armoury entrance is next to the Borg in the same row (&#x27;inline&#x27;) or two rows above (&#x27;offrow&#x27;). Fixture interventions: the two shop entrances are placed by the fixture in the game map and in the Borg&#x27;s map entries and shop-location tables; the Borg&#x27;s map update is not run. The production borg_flow_shop_entry() takes the step; the keypress is read, not played.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/125">issue 125</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

@@ -1,0 +1,81 @@
+{
+  "inline": {
+    "label": "Another shop's door lies next to the Borg, in its row",
+    "explanation": "A level-12 Warrior in town heads for the General Store 20 grids east in its row. The Armoury door is the next grid east, also in the row. The production shop-entry flow takes the first step. Original: the flow keeps the Armoury door on its path and the first step is east, onto it, entering the Armoury. Corrected: the door is avoided and the first step is south-east, around it, at the same total cost.",
+    "control": false,
+    "before": {
+      "raw": "native-c/shopline-125: starting...\nSETUP seed=125 mode=inline class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0\n  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,12) depth=0\nDECISION rc=1 key=54\nTRACK # Flowing toward General Store at cost 20\nTRACK # Entering a '1' shop\nOUTCOME steps_onto_other_shop=1\nFailed\n    native-c/shopline-125:183: requirement 'key != '6'' failed\nnative-c/shopline-125 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "goal_shop": 0,
+        "other_shop": 1,
+        "depth": 0
+      },
+      "outcome": {
+        "steps_onto_other_shop": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=54",
+        "TRACK # Flowing toward General Store at cost 20",
+        "TRACK # Entering a '1' shop"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/shopline-125: starting...\nSETUP seed=125 mode=inline class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0\n  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,12) depth=0\nDECISION rc=1 key=51\nTRACK # Flowing toward General Store at cost 20\nOUTCOME steps_onto_other_shop=0\nPassed\nnative-c/shopline-125 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "goal_shop": 0,
+        "other_shop": 1,
+        "depth": 0
+      },
+      "outcome": {
+        "steps_onto_other_shop": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=51",
+        "TRACK # Flowing toward General Store at cost 20"
+      ],
+      "value": 0
+    }
+  },
+  "offrow": {
+    "label": "Control: the other shop's door is off the Borg's row and column",
+    "explanation": "The same Warrior with the Armoury door two rows above the line. The old test already skipped it, so the first step is east, before and after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/shopline-125: starting...\nSETUP seed=125 mode=offrow class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0\n  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,10) depth=0\nDECISION rc=1 key=54\nTRACK # Flowing toward General Store at cost 20\nOUTCOME steps_onto_other_shop=0\nPassed\nnative-c/shopline-125 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "goal_shop": 0,
+        "other_shop": 1,
+        "depth": 0
+      },
+      "outcome": {
+        "steps_onto_other_shop": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=54",
+        "TRACK # Flowing toward General Store at cost 20"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/shopline-125: starting...\nSETUP seed=125 mode=offrow class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0\n  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,10) depth=0\nDECISION rc=1 key=54\nTRACK # Flowing toward General Store at cost 20\nOUTCOME steps_onto_other_shop=0\nPassed\nnative-c/shopline-125 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "goal_shop": 0,
+        "other_shop": 1,
+        "depth": 0
+      },
+      "outcome": {
+        "steps_onto_other_shop": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=54",
+        "TRACK # Flowing toward General Store at cost 20"
+      ],
+      "value": 0
+    }
+  }
+}

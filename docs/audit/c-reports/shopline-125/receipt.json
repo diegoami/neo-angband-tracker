@@ -1,0 +1,113 @@
+{
+  "issue": "diegoami/neo-angband-tracker#125",
+  "report": "shopline-125",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "9d35babe8bd8e38b2d522e00ce159d740919718f",
+  "fix_branch": "task/shopline-125",
+  "fixtures_ref": "330deefd6caa6e7fe194d5a00c8d05fc2dd0afeb",
+  "cases": {
+    "inline": {
+      "before": {
+        "passed": false,
+        "state": {
+          "goal_shop": 0,
+          "other_shop": 1,
+          "depth": 0
+        },
+        "outcome": {
+          "steps_onto_other_shop": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "goal_shop": 0,
+          "other_shop": 1,
+          "depth": 0
+        },
+        "outcome": {
+          "steps_onto_other_shop": 0
+        }
+      }
+    },
+    "offrow": {
+      "before": {
+        "passed": true,
+        "state": {
+          "goal_shop": 0,
+          "other_shop": 1,
+          "depth": 0
+        },
+        "outcome": {
+          "steps_onto_other_shop": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "goal_shop": 0,
+          "other_shop": 1,
+          "depth": 0
+        },
+        "outcome": {
+          "steps_onto_other_shop": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "offrow"
+  ],
+  "claim": "With another shop's door next to the Borg in its row, the original flow stepped east onto it and entered the wrong shop; with every other door avoided the first step goes round it (south-east) at the same path cost. A control with the door off the Borg's row is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow.c": "99b5c7bb97a2f7ea0420b92ce1bdc8ed9da836a56b06e166b3ba07683ef15394"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "d0252b54222ce2ea2513873c934fe78e4d21b76cfe7ddbf7ee51141a0ed12939",
+    "after-inline.log": "c2abb9c09674dd16a651649da2d9b38d04a6001245faca7ad575beddb1a23eaf",
+    "after-offrow.log": "a4b2221725558e03e77ef98a11fb1a338898068aaf1dcdab2336bfcfe1241fb2",
+    "after-results.json": "86861d9f71d50e19cf4766fff26b0958d740a79f9c01b694be6ba1b42eaf3801",
+    "before-inline.log": "889984e2a33bc18d5c7a35b53f42289219319e0ad8f554dbfda65d0cfaea0705",
+    "before-offrow.log": "a4b2221725558e03e77ef98a11fb1a338898068aaf1dcdab2336bfcfe1241fb2",
+    "before-results.json": "1d1abcbc6534b6fefeec3129190b1da9869211835ddb43573fe7d77334fda49e",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "aa78f1d77aeeae2214b8390ab911d6085118d0eb68c67d664387320ba1002a46",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "fd08b139716b204347ca30f97293efa4e4a5c75d7019ae9ee3ff9498c264277f",
+    "replay.html": "d21256bfd79455df5a76eb69cf02d09d62e74f265c57db3aa38d935e81f735b4",
+    "reproduce.py": "6c2c7cfc6f96ef193a4087fe9fdb6a30ae38452417df3fd83e4939b008452018",
+    "result.json": "5120c5e8852821d80e431d418966ac86a5f799b7df414c51d13ef01fad894847",
+    "run-after-alltests.log": "7486ce6520960843f4cd17bfea05d70da5e5731ab54dc3af209c7c8d1b02c755",
+    "run-after-build.log": "e76762140921a69250c5135964d6c3d481be701df8bf2e94945dff2c42784861",
+    "run-after-scenarios.log": "96ddfc0064e37a04d7a2b5423dab6b513a7d98a2ec60e0f1d7aa121d0f303b55",
+    "run-before-alltests.log": "dfbf60071e3c0952fcb4e104b34d5bd30664a58904b59e3465e60d5d2b9c323f",
+    "run-before-build.log": "68b5d0511419014a5c8e51b2a58a2e029aa55c23cd90881fc5036232460574b9",
+    "run-before-scenarios.log": "a6c6f88cc547dab8104c6106068620b35a14adb56f01866b7a1c5a74f12b5248",
+    "run-cases.py": "8e6b6a4f7593526b4db97200260308cfa44da8d2b93e071bcdf531d10a5cb06a",
+    "run-configure.log": "64e99f4a49de6a10f821fb4635f4257d947e3e9c663a46fe59e5afd99af74c05",
+    "scenario.c": "6c6dbad7e41fe1fed9fc8f7a1cf6a2acf08fea7d425d61c2efaf006429483f4b"
+  }
+}
