@@ -1,0 +1,11 @@
+native-c/regensim-516: starting...
+SETUP seed=516 mode=haste_wins class=Druid clevel=50 hp=986/986 sp=401/401 depth=20
+  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=0
+DECISION acted=1 keys=6 key_sequence="m e d m e b"
+TRACK # Casting Rapid Regeneration (4,3).
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).
+OUTCOME casts_queued=2
+Failed
+    native-c/regensim-516:179: requirement 'keys == 3' failed
+native-c/regensim-516 finished: 0/1 passed

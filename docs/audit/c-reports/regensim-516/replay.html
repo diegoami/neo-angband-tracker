@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg queued a Rapid Regeneration cast while only scoring its perma-spell options</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg queued a Rapid Regeneration cast while only scoring its perma-spell options</h1><p>Between fights a high-level caster can cast long-lasting preparatory spells. The Borg first scores each candidate with a simulation flag set, then runs only the best one for real. The Rapid Regeneration routine did not check the flag. While scoring it queued the cast and set the no-rest timer, so a cast was queued even when another spell won, and queued twice when Rapid Regeneration itself won. The correction returns a low score while simulating, as the Heroism and Bless routines do.</p><p><label>Scenario: <select id="scenario"><option value="haste_active">Rapid Regeneration is the only choice (Haste Self already active)</option><option value="haste_wins">Haste Self is the best choice; Rapid Regeneration is also available</option><option value="regen_active">Control: Rapid Regeneration already active</option></select></label></p><section class="scenario" data-mode="haste_active"><p class="summary">A level-50 Druid at full spell points, 20 levels down, with Haste Self already on. Rapid Regeneration is the only perma spell left, so it wins. Original: the scoring pass queues the cast and the real pass queues it again, six keys, two casts. Corrected: one cast, three keys.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">2</div><p>spell casts queued by one perma-spell call</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION acted=1 keys=6 key_sequence=&quot;m e d m e d&quot;
+TRACK # Casting Rapid Regeneration (4,3).
+TRACK # Performing perma-spell type 12 with value 1
+TRACK # Casting Rapid Regeneration (4,3).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>spell casts queued by one perma-spell call</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION acted=1 keys=3 key_sequence=&quot;m e d&quot;
+TRACK # Performing perma-spell type 12 with value 1
+TRACK # Casting Rapid Regeneration (4,3).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/regensim-516: starting...
+SETUP seed=516 mode=haste_active class=Druid clevel=50 hp=986/986 sp=401/401 depth=20
+  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=1 regen_on=0
+DECISION acted=1 keys=6 key_sequence=&quot;m e d m e d&quot;
+TRACK # Casting Rapid Regeneration (4,3).
+TRACK # Performing perma-spell type 12 with value 1
+TRACK # Casting Rapid Regeneration (4,3).
+OUTCOME casts_queued=2
+Failed
+    native-c/regensim-516:179: requirement &#x27;keys == 3&#x27; failed
+native-c/regensim-516 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/regensim-516: starting...
+SETUP seed=516 mode=haste_active class=Druid clevel=50 hp=986/986 sp=401/401 depth=20
+  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=1 regen_on=0
+DECISION acted=1 keys=3 key_sequence=&quot;m e d&quot;
+TRACK # Performing perma-spell type 12 with value 1
+TRACK # Casting Rapid Regeneration (4,3).
+OUTCOME casts_queued=1
+Passed
+native-c/regensim-516 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="haste_wins"><p class="summary">The same Druid with no spell active. Haste Self scores 5 and Rapid Regeneration 1, so Haste Self should be the only cast. Original: the scoring pass has already queued Rapid Regeneration, so the keys are Rapid Regeneration then Haste Self, two casts. Corrected: Haste Self only.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">2</div><p>spell casts queued by one perma-spell call</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION acted=1 keys=6 key_sequence=&quot;m e d m e b&quot;
+TRACK # Casting Rapid Regeneration (4,3).
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>spell casts queued by one perma-spell call</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION acted=1 keys=3 key_sequence=&quot;m e b&quot;
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/regensim-516: starting...
+SETUP seed=516 mode=haste_wins class=Druid clevel=50 hp=986/986 sp=401/401 depth=20
+  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=0
+DECISION acted=1 keys=6 key_sequence=&quot;m e d m e b&quot;
+TRACK # Casting Rapid Regeneration (4,3).
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).
+OUTCOME casts_queued=2
+Failed
+    native-c/regensim-516:179: requirement &#x27;keys == 3&#x27; failed
+native-c/regensim-516 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/regensim-516: starting...
+SETUP seed=516 mode=haste_wins class=Druid clevel=50 hp=986/986 sp=401/401 depth=20
+  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=0
+DECISION acted=1 keys=3 key_sequence=&quot;m e b&quot;
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).
+OUTCOME casts_queued=1
+Passed
+native-c/regensim-516 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="regen_active"><p class="summary">The same Druid with Rapid Regeneration already running. The routine returns before the changed lines, so only Haste Self is queued, before and after. This control only shows that the rest of the perma-spell choice is unchanged; every path that reaches the changed lines changes its output.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>spell casts queued by one perma-spell call</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION acted=1 keys=3 key_sequence=&quot;m e b&quot;
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>spell casts queued by one perma-spell call</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION acted=1 keys=3 key_sequence=&quot;m e b&quot;
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/regensim-516: starting...
+SETUP seed=516 mode=regen_active class=Druid clevel=50 hp=986/986 sp=401/401 depth=20
+  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=1
+DECISION acted=1 keys=3 key_sequence=&quot;m e b&quot;
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).
+OUTCOME casts_queued=1
+Passed
+native-c/regensim-516 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/regensim-516: starting...
+SETUP seed=516 mode=regen_active class=Druid clevel=50 hp=986/986 sp=401/401 depth=20
+  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=1
+DECISION acted=1 keys=3 key_sequence=&quot;m e b&quot;
+TRACK # Performing perma-spell type 0 with value 5
+TRACK # Casting Haste Self (4,1).
+OUTCOME casts_queued=1
+Passed
+native-c/regensim-516 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Druid, seed 516, character level 50, stats raised to the maximum, full hit points and spell points (401), depth 20, a lit open arena, no monsters, a lit torch, rations and every Druid book. Fixture interventions: the Druid is marked as having learned and cast Haste Self and Rapid Regeneration; stats are set by the fixture so the 20-point cost passes the Borg&#x27;s one-tenth-of-spell-points test; the Borg&#x27;s map update is not run, so the casts are queued, not played. The production borg_perma_spell() chooses and queues the spells.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/516">issue 516</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
