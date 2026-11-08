@@ -1,0 +1,18 @@
+native-c/stairrange-245: starting...
+SETUP seed=245 class=Warrior depth=10 clevel=5
+  shrunk_range_blocks_climb  STATE clevel=5 depth=10 goal_less=1 fleeing=1 munchkin_mode=1 rc=1
+NOTE 00 # Looking for stairs. Munchkin Mode.
+NOTE 01 # Flowing toward up-stairs at cost 5
+NOTE 02 # Munchkin Mode.  Power Climb. 
+NOTE 03 # Fleeing level. Munchkin Mode
+NOTE 04 # Ready...
+NOTE 05 Initializing the Borg... done.
+NOTE 06 Initializing the Borg... (various)
+NOTE 07 Initializing the Borg... (options)
+NOTE 08 Initializing the Borg... (borg.txt)
+NOTE 09 Initializing the Borg... (memory)
+NOTE 10  
+NOTE 11   
+OUTCOME climb_decision=1
+Passed
+native-c/stairrange-245 finished: 1/1 passed

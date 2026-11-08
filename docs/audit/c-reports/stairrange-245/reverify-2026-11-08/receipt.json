@@ -1,0 +1,131 @@
+{
+  "slug": "stairrange-245",
+  "date": "2026-11-08",
+  "kind": "newrun",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "c16b3e9d14470dd19ef884f37f9eca2f7cc7d37f",
+  "fixtures_ref": "4a93196b26631b1a36a6468226a26d2ccb3d25b0",
+  "command": "python3 reproduce.py --full-tests --fixtures-ref 4a93196b26631b1a36a6468226a26d2ccb3d25b0 --fix-ref c16b3e9d14470dd19ef884f37f9eca2f7cc7d37f",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "clevel": 5,
+          "depth": 10,
+          "goal_less": 0,
+          "fleeing": 1,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "climb_decision": 0
+        }
+      },
+      "clevel11": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "clevel": 11,
+          "depth": 10,
+          "goal_less": 1,
+          "fleeing": 1,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "climb_decision": 1
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "clevel": 5,
+          "depth": 10,
+          "goal_less": 1,
+          "fleeing": 1,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "climb_decision": 1
+        }
+      },
+      "clevel11": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "clevel": 11,
+          "depth": 10,
+          "goal_less": 1,
+          "fleeing": 1,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "climb_decision": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "clevel11"
+  ],
+  "diagnostics": [],
+  "full_tests_parsed_from_alltests_logs": {
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    },
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    }
+  },
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "render_smoke": {
+    "replay.html": {
+      "output": "RENDER-SMOKE actions=0 errors=0 OK",
+      "exit": 0,
+      "sha256": "760724211700627a0c9a5997544273656f36d6f639980260ed7012c45eac7036"
+    }
+  },
+  "run_root": "/tmp/angband-stairrange-245-sndu8e78",
+  "sha256": {
+    "after-alltests.log": "0f12f6537c3d427cf0fb9db5489cebe2569bcf30050d435d715cf897b7cc202a",
+    "after-build.log": "be89535f68c0170e751c353108d2c652a458601a784b6eb180dc537ac024e38f",
+    "after-scenarios.log": "344eacaf311b23b59c1856352ca8f0c383413540ccb543a8fafb9735a3f16a11",
+    "before-alltests.log": "cbc4929f08838cfcf1b49a1c10b4e1418331fc33b92ed3064ee4067c3198acee",
+    "before-build.log": "26f415e99e4b9370273d5de8284e2be9f0092f13b6eccd45a85f5aa373946e55",
+    "before-scenarios.log": "aa9933e0475c668345f4773ad7bbdfee92152346e368de40c715ac3d236daed7",
+    "configure.log": "9cbadc3d73b214f036d10690d2a6f18042d84ec2f719763eb758853e0e7afeb8",
+    "result.json": "c63f45a74e6c55c4ef0dbac923459d73cc9ea43297973978232ddfa66a7c47ac",
+    "scenario-after-clevel11.log": "69e2d198d1677dd95b32a923e79dbef7a4a5c92c9da3821b459c9eb7286bcd69",
+    "scenario-after-main.log": "dc8fb7afccf3a288803c0b555c6abafcc0ee03c921347aea7ac43fc48cd9a2cf",
+    "scenario-after-results.json": "2ca2bbd1bb22f73065b82fdbd1ea7528357d13d757b3228682a5b46e982ed220",
+    "scenario-before-clevel11.log": "69e2d198d1677dd95b32a923e79dbef7a4a5c92c9da3821b459c9eb7286bcd69",
+    "scenario-before-main.log": "7f164927e57db4e0fa36db3891d50a0dc634af47a9eaa8ba1fabf16e89303abf",
+    "scenario-before-results.json": "8997309e8f86feaa8510da2f85f18d51af6c6ea61071877253709ba70e31f018"
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "change": "fixtures_ref, cases, full_tests, render_check, run_log, claim updated to this run; identical_controls, toolchain, sha256 added; previous values kept under superseded_run. The original receipt had no sha256 map."
+    },
+    {
+      "file": "README.md",
+      "old_sha256": "af312e325421badf77f0d9d62bca7104760937f6d17e5dfc0b8d0e96cb41fd87",
+      "new_sha256": "8de51e635cf3304069ace6af5bae1a1ba4942fcb46aa3a7a7348585830322260",
+      "change": "appended \"Re-verification with a control (2026-11-08)\""
+    }
+  ]
+}

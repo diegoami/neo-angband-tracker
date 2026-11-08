@@ -1,0 +1,70 @@
+{
+  "main": {
+    "label": "The shrunk stair range stopped the munchkin climb",
+    "explanation": "A level-5 munchkin Warrior at depth 10 has a known up staircase five grids away. The base stair-search range is 8, but the \"increase the range\" adjustment adds (clevel - 10) + (10 - depth), which is negative below level 10: the range shrinks to 3, no staircase counts as close, and the borg never power-climbs toward the stairs it can see - it falls back to the generic any-stair flow. The correction gates the adjustment on clevel > 10, restoring the base range, and the climb decision fires.",
+    "before": {
+      "raw": "native-c/stairrange-245: starting...\nSETUP seed=245 class=Warrior depth=10 clevel=5\n  shrunk_range_blocks_climb  STATE clevel=5 depth=10 goal_less=0 fleeing=1 munchkin_mode=1 rc=1\nNOTE 00 # Flowing toward stairs at cost 5\nNOTE 01 # Munchkin Mode.  Any Stair. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Ready...\nNOTE 04 Initializing the Borg... done.\nNOTE 05 Initializing the Borg... (various)\nNOTE 06 Initializing the Borg... (options)\nNOTE 07 Initializing the Borg... (borg.txt)\nNOTE 08 Initializing the Borg... (memory)\nNOTE 09  \nNOTE 10   \nNOTE 11 ====================\nOUTCOME climb_decision=0\nFailed\n    native-c/stairrange-245:182: requirement 'borg.goal.less' failed\nnative-c/stairrange-245 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "clevel": 5,
+        "depth": 10,
+        "goal_less": 0,
+        "fleeing": 1,
+        "munchkin_mode": 1,
+        "rc": 1
+      },
+      "outcome": {
+        "climb_decision": 0
+      }
+    },
+    "after": {
+      "raw": "native-c/stairrange-245: starting...\nSETUP seed=245 class=Warrior depth=10 clevel=5\n  shrunk_range_blocks_climb  STATE clevel=5 depth=10 goal_less=1 fleeing=1 munchkin_mode=1 rc=1\nNOTE 00 # Looking for stairs. Munchkin Mode.\nNOTE 01 # Flowing toward up-stairs at cost 5\nNOTE 02 # Munchkin Mode.  Power Climb. \nNOTE 03 # Fleeing level. Munchkin Mode\nNOTE 04 # Ready...\nNOTE 05 Initializing the Borg... done.\nNOTE 06 Initializing the Borg... (various)\nNOTE 07 Initializing the Borg... (options)\nNOTE 08 Initializing the Borg... (borg.txt)\nNOTE 09 Initializing the Borg... (memory)\nNOTE 10  \nNOTE 11   \nOUTCOME climb_decision=1\nPassed\nnative-c/stairrange-245 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 5,
+        "depth": 10,
+        "goal_less": 1,
+        "fleeing": 1,
+        "munchkin_mode": 1,
+        "rc": 1
+      },
+      "outcome": {
+        "climb_decision": 1
+      }
+    }
+  },
+  "clevel11": {
+    "label": "Control: level-11 Borg, range really grows",
+    "explanation": "Munchkin mode only runs below maximum level 12, so level 11 is the one level above the gate. The adjustment adds (11-10)+(10-10)=1 (range 9) in both versions, and the staircase is 8 grids away: only the grown range counts it as close (8 < 9), so both versions power-climb.",
+    "before": {
+      "raw": "native-c/stairrange-245: starting...\nSETUP seed=245 class=Warrior depth=10 clevel=11\n  clevel11_range_growth_unchanged  STATE clevel=11 depth=10 goal_less=1 fleeing=1 munchkin_mode=1 rc=1\nNOTE 00 # Looking for stairs. Munchkin Mode.\nNOTE 01 # Flowing toward up-stairs at cost 8\nNOTE 02 # Munchkin Mode.  Power Climb. \nNOTE 03 # Fleeing level. Munchkin Mode\nNOTE 04 # Ready...\nNOTE 05 Initializing the Borg... done.\nNOTE 06 Initializing the Borg... (various)\nNOTE 07 Initializing the Borg... (options)\nNOTE 08 Initializing the Borg... (borg.txt)\nNOTE 09 Initializing the Borg... (memory)\nNOTE 10  \nNOTE 11   \nOUTCOME climb_decision=1\nPassed\nnative-c/stairrange-245 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 11,
+        "depth": 10,
+        "goal_less": 1,
+        "fleeing": 1,
+        "munchkin_mode": 1,
+        "rc": 1
+      },
+      "outcome": {
+        "climb_decision": 1
+      }
+    },
+    "after": {
+      "raw": "native-c/stairrange-245: starting...\nSETUP seed=245 class=Warrior depth=10 clevel=11\n  clevel11_range_growth_unchanged  STATE clevel=11 depth=10 goal_less=1 fleeing=1 munchkin_mode=1 rc=1\nNOTE 00 # Looking for stairs. Munchkin Mode.\nNOTE 01 # Flowing toward up-stairs at cost 8\nNOTE 02 # Munchkin Mode.  Power Climb. \nNOTE 03 # Fleeing level. Munchkin Mode\nNOTE 04 # Ready...\nNOTE 05 Initializing the Borg... done.\nNOTE 06 Initializing the Borg... (various)\nNOTE 07 Initializing the Borg... (options)\nNOTE 08 Initializing the Borg... (borg.txt)\nNOTE 09 Initializing the Borg... (memory)\nNOTE 10  \nNOTE 11   \nOUTCOME climb_decision=1\nPassed\nnative-c/stairrange-245 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 11,
+        "depth": 10,
+        "goal_less": 1,
+        "fleeing": 1,
+        "munchkin_mode": 1,
+        "rc": 1
+      },
+      "outcome": {
+        "climb_decision": 1
+      }
+    }
+  }
+}
