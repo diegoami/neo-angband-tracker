@@ -531,6 +531,10 @@ static int borg_danger_physical(int i, bool full_damage)
             if (chance < 5)
                 chance = 5;
 
+            /* never estimate more than the full damage of the blow. */
+            if (chance > 100)
+                chance = 100;
+
             /* Modify the damage by the chance of getting hit */
             z = (z * chance) / 100;
         }
