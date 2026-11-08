@@ -1,0 +1,9 @@
+native-c/light-238: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior mode=torch wielded=yes
+  light_modifier_counts_once  MODE torch
+GEOMETRY light_mod=0 bi_light=2
+RATING bi_light=2
+OUTCOME bi_light=2
+Passed
+native-c/light-238 finished: 1/1 passed

@@ -1,0 +1,12 @@
+native-c/light-238: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior mode=phial wielded=yes
+  light_modifier_counts_once  MODE phial
+GEOMETRY light_mod=4 bi_light=8
+RATING bi_light=8
+OUTCOME bi_light=8
+Failed
+    native-c/light-238:159: requirement 'light' == '4' failed
+      light:                8
+      4:                4
+native-c/light-238 finished: 0/1 passed
