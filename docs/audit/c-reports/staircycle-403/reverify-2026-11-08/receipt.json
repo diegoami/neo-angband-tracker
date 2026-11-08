@@ -1,0 +1,133 @@
+{
+  "slug": "staircycle-403",
+  "date": "2026-11-08",
+  "kind": "newrun",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "d92e06c3f964e4bba19642288ded1b331a327109",
+  "fixtures_ref": "43dee40ed05284848f3df25aa5abf19a7f776c7f",
+  "command": "python3 reproduce.py --full-tests --fixtures-ref 43dee40ed05284848f3df25aa5abf19a7f776c7f --fix-ref d92e06c3f964e4bba19642288ded1b331a327109",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "ailing_failed_as_expected": true,
+        "state": {
+          "poisoned": 0,
+          "hallucinating": 0,
+          "depth": 9,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "stair_directed": 1,
+          "munchkin_handled": 1
+        }
+      },
+      "clean": {
+        "exit": 0,
+        "passed": true,
+        "ailing_failed_as_expected": false,
+        "state": {
+          "poisoned": 0,
+          "hallucinating": 0,
+          "depth": 9,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "munchkin_handled": 1
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "ailing_failed_as_expected": false,
+        "state": {
+          "poisoned": 0,
+          "hallucinating": 0,
+          "depth": 9,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "stair_directed": 0,
+          "munchkin_handled": 1
+        }
+      },
+      "clean": {
+        "exit": 0,
+        "passed": true,
+        "ailing_failed_as_expected": false,
+        "state": {
+          "poisoned": 0,
+          "hallucinating": 0,
+          "depth": 9,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "munchkin_handled": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "clean"
+  ],
+  "diagnostics": [],
+  "full_tests_parsed_from_alltests_logs": {
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    },
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    }
+  },
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "render_smoke": {
+    "replay.html": {
+      "output": "RENDER-SMOKE actions=0 errors=0 OK",
+      "exit": 0,
+      "sha256": "6fc714b240299010ed25f26de9a7a299f00483374bbf6badd14c5782528619cb"
+    }
+  },
+  "run_root": "/tmp/angband-staircycle-403-15ao1x8f",
+  "sha256": {
+    "after-alltests.log": "31339a9e0d43e0966149137a885705a33107cd84913004368fba99c48a5c37f5",
+    "after-build.log": "e8a2b006bb1dc8ac74e1c93fec7bb67610fd266f05a550be7d22f1c8285a0d84",
+    "after-scenarios.log": "0c277a8f87f650b6be6aab25c5327ee7dfad0180141888e7c14b5cf9a7282702",
+    "before-alltests.log": "c4136d9b8e52c215f94f99f672613bcbea5db19313be23e7e233d769ffb517f7",
+    "before-build.log": "34c457a51dec9b2d521e65cef1040b4cc070e053aeb5913ea7e140e6989dfd47",
+    "before-scenarios.log": "91cf54526d1059cbf24143dac1cdf709cf3b36d452251a4d0d091245560e539b",
+    "configure.log": "acbeb7e6886a148eb4d4ba9c388d7e4ad8ec46f525b4289e0427c29876e5bec5",
+    "result.json": "0897bd803370166d9215482bd9eb75b13d50e7da925cb9c7d4bde0823c42174a",
+    "scenario-after-clean.log": "24cbbdc242dd9461ded2e7fc8f8e199075d417e30166fe2bd85eab046d235c9d",
+    "scenario-after-main.log": "2389859e675d63244189e58346fffab12a9ccd764b09cafc18784690a75fbabb",
+    "scenario-after-results.json": "de17c2cf05b9d33faf96202cc0f2ac1747dac44397be2f3a1c229c3bc3e464d2",
+    "scenario-before-clean.log": "24cbbdc242dd9461ded2e7fc8f8e199075d417e30166fe2bd85eab046d235c9d",
+    "scenario-before-main.log": "f932764da6627798cc262d7400386796e22cf812971dbc12d14ecb6785659349",
+    "scenario-before-results.json": "1e67111737a60809f486ceac4bc3a431ffaecc23eeca2e358930a30147b183c6"
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "change": "fixtures_ref, cases, full_tests, render_check, run_log, claim updated to this run; identical_controls, toolchain, sha256 added; previous values kept under superseded_run. The original receipt had no sha256 map."
+    },
+    {
+      "file": "README.md",
+      "old_sha256": "db3dece9708f1fdb7c1d7a3b0b1106a5a0b642c60b527cf8c9c7233f33309f1a",
+      "new_sha256": "45409924b9813d1d5c08e34250fed639cd892ef978f794d77593a8c66fa1c9e9",
+      "change": "appended \"Re-verification with a control (2026-11-08)\""
+    }
+  ]
+}

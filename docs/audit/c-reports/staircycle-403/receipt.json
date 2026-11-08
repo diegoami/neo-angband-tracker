@@ -1,0 +1,154 @@
+{
+  "issue": "diegoami/neo-angband-tracker#403",
+  "report": "staircycle-403",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "d92e06c3f964e4bba19642288ded1b331a327109",
+  "fix_branch": "task/staircycle-403",
+  "fixtures_ref": "43dee40ed05284848f3df25aa5abf19a7f776c7f",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "ailing_failed_as_expected": true,
+        "state": {
+          "poisoned": 0,
+          "hallucinating": 0,
+          "depth": 9,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "stair_directed": 1,
+          "munchkin_handled": 1
+        }
+      },
+      "clean": {
+        "exit": 0,
+        "passed": true,
+        "ailing_failed_as_expected": false,
+        "state": {
+          "poisoned": 0,
+          "hallucinating": 0,
+          "depth": 9,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "munchkin_handled": 1
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "ailing_failed_as_expected": false,
+        "state": {
+          "poisoned": 0,
+          "hallucinating": 0,
+          "depth": 9,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "stair_directed": 0,
+          "munchkin_handled": 1
+        }
+      },
+      "clean": {
+        "exit": 0,
+        "passed": true,
+        "ailing_failed_as_expected": false,
+        "state": {
+          "poisoned": 0,
+          "hallucinating": 0,
+          "depth": 9,
+          "munchkin_mode": 1,
+          "rc": 1
+        },
+        "outcome": {
+          "munchkin_handled": 1
+        }
+      }
+    }
+  },
+  "claim": "While poisoned or hallucinating, the munchkin branch directed the Borg at known stairs; stair travel does not age the world clock, so the timed ailments could never wear off. The correction bails out of munchkin mode for those ailments, handing the turn to the ordinary recovery path (which ages turns normally); the clean control confirms munchkin play is unchanged. Control clean (healthy munchkin Borg, run alone): munchkin_mode=1, power-climbs, in both versions; byte-identical logs.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-think-dungeon.c"
+  ],
+  "runner_asserts": "The corrected file must equal the base file with exactly the bail insertion applied; the source scope must be that single file.",
+  "render_check": "node tools/c-evidence/render-smoke.js (Playwright headless) on the committed replay.html, 2026-11-08: RENDER-SMOKE actions=0 errors=0 OK",
+  "run_log": "reproduce.py --full-tests at fixtures 43dee40ed / fix d92e06c3f: VERIFIED; logs in reverify-2026-11-08/",
+  "superseded_run": {
+    "fixtures_ref": "0bd2123be5b7f0830be26949549ea1a4b59e75df",
+    "cases": {
+      "before": {
+        "passed": false,
+        "ailing_failed_as_expected": true,
+        "outcome": {
+          "stair_directed": 1,
+          "munchkin_handled": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "stair_directed": 0,
+          "munchkin_handled": 1
+        }
+      }
+    },
+    "render_check": "Chrome headless planned after packaging; matrix replay generated.",
+    "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+  },
+  "identical_controls": [
+    "clean"
+  ],
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "sha256": {
+    "README.md": "45409924b9813d1d5c08e34250fed639cd892ef978f794d77593a8c66fa1c9e9",
+    "after-clean.log": "24cbbdc242dd9461ded2e7fc8f8e199075d417e30166fe2bd85eab046d235c9d",
+    "after-main.log": "2389859e675d63244189e58346fffab12a9ccd764b09cafc18784690a75fbabb",
+    "after-results.json": "de17c2cf05b9d33faf96202cc0f2ac1747dac44397be2f3a1c229c3bc3e464d2",
+    "before-clean.log": "24cbbdc242dd9461ded2e7fc8f8e199075d417e30166fe2bd85eab046d235c9d",
+    "before-main.log": "f932764da6627798cc262d7400386796e22cf812971dbc12d14ecb6785659349",
+    "before-results.json": "1e67111737a60809f486ceac4bc3a431ffaecc23eeca2e358930a30147b183c6",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "0fac2c8fcb3d22efec1dd3559a5206d3e01e2e13e9388e1141290113dc2238bd",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "eeaf6183ace28c8db84764056bdd66d4a8cc3b41bc3ce475dedd651586603966",
+    "replay.html": "6fc714b240299010ed25f26de9a7a299f00483374bbf6badd14c5782528619cb",
+    "reproduce.py": "bb5bd8fe49f10fbd395869efcf21b19ea8efd113684b7476b22c34d451a2f3b1",
+    "reverify-2026-11-08/after-alltests.log": "31339a9e0d43e0966149137a885705a33107cd84913004368fba99c48a5c37f5",
+    "reverify-2026-11-08/after-build.log": "e8a2b006bb1dc8ac74e1c93fec7bb67610fd266f05a550be7d22f1c8285a0d84",
+    "reverify-2026-11-08/after-scenarios.log": "0c277a8f87f650b6be6aab25c5327ee7dfad0180141888e7c14b5cf9a7282702",
+    "reverify-2026-11-08/before-alltests.log": "c4136d9b8e52c215f94f99f672613bcbea5db19313be23e7e233d769ffb517f7",
+    "reverify-2026-11-08/before-build.log": "34c457a51dec9b2d521e65cef1040b4cc070e053aeb5913ea7e140e6989dfd47",
+    "reverify-2026-11-08/before-scenarios.log": "91cf54526d1059cbf24143dac1cdf709cf3b36d452251a4d0d091245560e539b",
+    "reverify-2026-11-08/configure.log": "acbeb7e6886a148eb4d4ba9c388d7e4ad8ec46f525b4289e0427c29876e5bec5",
+    "reverify-2026-11-08/receipt.json": "744ae2977668636af24c280633821fe23d1edb8a9af4f203331440ba78931c97",
+    "reverify-2026-11-08/result.json": "0897bd803370166d9215482bd9eb75b13d50e7da925cb9c7d4bde0823c42174a",
+    "reverify-2026-11-08/scenario-after-clean.log": "24cbbdc242dd9461ded2e7fc8f8e199075d417e30166fe2bd85eab046d235c9d",
+    "reverify-2026-11-08/scenario-after-main.log": "2389859e675d63244189e58346fffab12a9ccd764b09cafc18784690a75fbabb",
+    "reverify-2026-11-08/scenario-after-results.json": "de17c2cf05b9d33faf96202cc0f2ac1747dac44397be2f3a1c229c3bc3e464d2",
+    "reverify-2026-11-08/scenario-before-clean.log": "24cbbdc242dd9461ded2e7fc8f8e199075d417e30166fe2bd85eab046d235c9d",
+    "reverify-2026-11-08/scenario-before-main.log": "f932764da6627798cc262d7400386796e22cf812971dbc12d14ecb6785659349",
+    "reverify-2026-11-08/scenario-before-results.json": "1e67111737a60809f486ceac4bc3a431ffaecc23eeca2e358930a30147b183c6",
+    "run-cases.py": "645683dbad27b8586e03749b2d109814d5a4dd49008cfcf9b9249f354444a975",
+    "scenario.c": "734af08dca61108dfc326f48cf19805b2f3a8a804c57d07baf190de82204b931"
+  }
+}

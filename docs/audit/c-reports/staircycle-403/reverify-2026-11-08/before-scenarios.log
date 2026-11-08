@@ -1,0 +1,2 @@
+main {'exit': 0, 'passed': False, 'ailing_failed_as_expected': True, 'state': {'poisoned': 0, 'hallucinating': 0, 'depth': 9, 'munchkin_mode': 1, 'rc': 1}, 'outcome': {'stair_directed': 1, 'munchkin_handled': 1}}
+clean {'exit': 0, 'passed': True, 'ailing_failed_as_expected': False, 'state': {'poisoned': 0, 'hallucinating': 0, 'depth': 9, 'munchkin_mode': 1, 'rc': 1}, 'outcome': {'munchkin_handled': 1}}
