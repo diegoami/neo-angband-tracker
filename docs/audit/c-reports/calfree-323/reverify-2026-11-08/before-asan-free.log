@@ -1,0 +1,40 @@
+native-c/calfree-323: starting...
+SETUPSTEP minimal
+  calculation_free_releases_the_token_array  MODE free
+GEOMETRY freed count=0
+RATING freed_value=3 freed_count=0
+OUTCOME freed_value=3 freed_count=0
+Passed
+native-c/calfree-323 finished: 1/1 passed
+
+=================================================================
+==7417==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 80 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b604fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x556453ed40a4 in mem_alloc /tmp/angband-calfree-323-p6hkt5aa/source/src/z-virt.c:38
+    #2 0x556453f867ee in borg_array_add /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas.c:95
+    #3 0x556453f8f222 in adjust_order_ops_depth_block /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas-calc.c:388
+    #4 0x556453f8f938 in adjust_order_operations /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas-calc.c:466
+    #5 0x556453f8fd7b in parse_calculation /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas-calc.c:523
+    #6 0x556453f90093 in parse_calculation_line /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas-calc.c:566
+    #7 0x556453b4302a in scenario /tmp/angband-calfree-323-p6hkt5aa/evidence/scenario.c:33
+    #8 0x55645407cd15 in main /tmp/angband-calfree-323-p6hkt5aa/source/src/tests/unit-test.c:53
+    #9 0x7f1b6002a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #10 0x7f1b6002a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #11 0x556453b42e64 in _start (/tmp/angband-calfree-323-p6hkt5aa/build-asan/game/T323Observer+0x149e64) (BuildId: 49211a50726e8d2c4730ff5744af1306c70257b8)
+
+Direct leak of 80 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b604fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x556453ed40a4 in mem_alloc /tmp/angband-calfree-323-p6hkt5aa/source/src/z-virt.c:38
+    #2 0x556453f867ee in borg_array_add /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas.c:95
+    #3 0x556453f8e428 in tokenize_math /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas-calc.c:256
+    #4 0x556453f8fd64 in parse_calculation /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas-calc.c:519
+    #5 0x556453f90093 in parse_calculation_line /tmp/angband-calfree-323-p6hkt5aa/source/src/borg/borg-formulas-calc.c:566
+    #6 0x556453b4302a in scenario /tmp/angband-calfree-323-p6hkt5aa/evidence/scenario.c:33
+    #7 0x55645407cd15 in main /tmp/angband-calfree-323-p6hkt5aa/source/src/tests/unit-test.c:53
+    #8 0x7f1b6002a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #9 0x7f1b6002a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #10 0x556453b42e64 in _start (/tmp/angband-calfree-323-p6hkt5aa/build-asan/game/T323Observer+0x149e64) (BuildId: 49211a50726e8d2c4730ff5744af1306c70257b8)
+
+SUMMARY: AddressSanitizer: 160 byte(s) leaked in 2 allocation(s).

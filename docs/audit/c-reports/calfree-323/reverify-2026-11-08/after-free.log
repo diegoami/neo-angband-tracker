@@ -1,0 +1,8 @@
+native-c/calfree-323: starting...
+SETUPSTEP minimal
+  calculation_free_releases_the_token_array  MODE free
+GEOMETRY freed count=0
+RATING freed_value=3 freed_count=0
+OUTCOME freed_value=3 freed_count=0
+Passed
+native-c/calfree-323 finished: 1/1 passed
