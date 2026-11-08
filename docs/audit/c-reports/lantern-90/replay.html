@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg did not refuel its lantern from a spare that had fuel</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg did not refuel its lantern from a spare that had fuel</h1><p>With no flask of oil the Borg refuels its wielded lantern from a spare lantern, walking the lanterns from the first one and skipping Everburning and empty ones. The scan started from borg_slot(), which returns the last lantern in the pack. When that lantern was empty or Everburning the scan stopped at once, so an earlier lantern with fuel was never used. The correction starts at the first lantern in the pack.</p><p><label>Scenario: <select id="scenario"><option value="empty">Full spare lantern in front of an empty one</option><option value="single">Control: one full spare lantern</option></select></label></p><section class="scenario" data-mode="empty"><p class="summary">A Warrior wields a Lantern with 500 turns of fuel, has no flask of oil, and carries two spare Lanterns: one with 5000 turns, then one with 0. Original: the scan starts at the last lantern (empty), finds nothing to use and the Borg does not refuel (unmet need). Corrected: the scan starts at the full lantern and the Borg refuels with it.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg refuels from the spare lantern (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION need=2 keys=0,0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg refuels from the spare lantern (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION need=1 keys=70,102
+TRACK # Refueling with Lantern (5000 turns).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lantern-90: starting...
+SETUP seed=90 mode=empty class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5
+  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000
+PACK 5 desc=[Lantern (5000 turns)] timeout=5000
+PACK 6 desc=[Lantern (0 turns)] timeout=0
+STATE wielded=[Lantern (500 turns)] fuel=500
+DECISION need=2 keys=0,0
+OUTCOME refuels=0
+Failed
+    native-c/lantern-90:163: requirement &#x27;need == BORG_MET_NEED&#x27; failed
+native-c/lantern-90 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lantern-90: starting...
+SETUP seed=90 mode=empty class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5
+  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000
+PACK 5 desc=[Lantern (5000 turns)] timeout=5000
+PACK 6 desc=[Lantern (0 turns)] timeout=0
+STATE wielded=[Lantern (500 turns)] fuel=500
+DECISION need=1 keys=70,102
+TRACK # Refueling with Lantern (5000 turns).
+OUTCOME refuels=1
+Passed
+native-c/lantern-90 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="single"><p class="summary">The same Warrior with only the full spare Lantern. The first and the last lantern are the same, so the Borg refuels from it before and after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg refuels from the spare lantern (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION need=1 keys=70,102
+TRACK # Refueling with Lantern (5000 turns).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg refuels from the spare lantern (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION need=1 keys=70,102
+TRACK # Refueling with Lantern (5000 turns).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lantern-90: starting...
+SETUP seed=90 mode=single class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5
+  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000
+PACK 5 desc=[Lantern (5000 turns)] timeout=5000
+STATE wielded=[Lantern (500 turns)] fuel=500
+DECISION need=1 keys=70,102
+TRACK # Refueling with Lantern (5000 turns).
+OUTCOME refuels=1
+Passed
+native-c/lantern-90 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lantern-90: starting...
+SETUP seed=90 mode=single class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5
+  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000
+PACK 5 desc=[Lantern (5000 turns)] timeout=5000
+STATE wielded=[Lantern (500 turns)] fuel=500
+DECISION need=1 keys=70,102
+TRACK # Refueling with Lantern (5000 turns).
+OUTCOME refuels=1
+Passed
+native-c/lantern-90 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 90, character level 12, depth 5, a lit open arena. The Warrior wields a Lantern with 500 turns of fuel (the refuel threshold is 1000), has no flasks of oil (the starting ones are removed), and carries a Lantern with 5000 turns and, except in the control, an empty Lantern. The production borg_maintain_light() decides; its keypresses are read, not played. Fixture intervention: the starting flasks are removed and the lanterns&#x27; fuel is set.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/90">issue 90</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

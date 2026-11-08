@@ -1,0 +1,11 @@
+native-c/lantern-90: starting...
+SETUP seed=90 mode=empty class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5
+  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000
+PACK 5 desc=[Lantern (5000 turns)] timeout=5000
+PACK 6 desc=[Lantern (0 turns)] timeout=0
+STATE wielded=[Lantern (500 turns)] fuel=500
+DECISION need=2 keys=0,0
+OUTCOME refuels=0
+Failed
+    native-c/lantern-90:163: requirement 'need == BORG_MET_NEED' failed
+native-c/lantern-90 finished: 0/1 passed

@@ -1,0 +1,2 @@
+empty {'exit': 0, 'passed': True, 'state': {'fuel': 500}, 'outcome': {'refuels': 1}}
+single {'exit': 0, 'passed': True, 'state': {'fuel': 500}, 'outcome': {'refuels': 1}}
