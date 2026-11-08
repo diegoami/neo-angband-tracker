@@ -22,6 +22,23 @@ snapshot and drafted upstream reply must be re-pinned too. That inventory
 is [C-UPSTREAM-CHANGE.md](C-UPSTREAM-CHANGE.md); run it before declaring
 the cycle done.
 
+## 0. Tooling and definition of done
+
+The generators and checks are committed in [tools/c-evidence](../tools/c-evidence/README.md).
+A pair is done only when all of these hold:
+
+1. `python3 tools/c-evidence/check_evidence.py --evidence-pr <N>` passes (package,
+   receipt hashes, pins, controls, gates, render check, issue kit and
+   Verification, PR cross-links, labels).
+2. The issue opens in plain language (RULES 16-17), the owner filing kit sits near
+   the top, and its copyable description carries an immutable evidence link.
+3. The source and evidence PRs link each other and the issue by number.
+4. The #207 receipt is posted.
+
+The repository ignores `*.log`; until the `.gitignore` exception for
+`docs/audit/c-reports/**/*.log` is on every evidence base, commit logs with
+`git add -f` (the receipt hashes them; a missing log is a broken receipt).
+
 ## 1. Branches
 
 - **Source branch** `task/c-borg-<slug>` from pristine `c-borg-reference`
@@ -108,6 +125,11 @@ Captured artifacts from the verified run, **committed to the evidence branch**
    template that passes can still generate broken JS (bit calfree-323).
 
 ## 4. Pinning discipline
+
+Every repeat command pins **both** shas: `git show <fixtures-sha>:…/reproduce.py`
+and `--fixtures-ref <fixtures-sha> --fix-ref <fix-sha>`. Never rely on
+`FETCH_HEAD` or a branch head for the fixtures. Open the evidence PR first so
+the source PR body can link it.
 
 The three reproduce commands pin an **immutable fixtures commit sha**. If
 artifacts or generator fixes are appended after the verified run (CBUG-0061
@@ -219,3 +241,17 @@ assertion):
 
 A triage comment must carry the same standard of evidence as a fix:
 file:line traces and stock-data checks that a maintainer can re-run.
+- Values-based resists (`values:RES_*`) **do** derive into Borg traits once the
+  player knows the runes: call `player_learn_all_runes(player)` before
+  `borg_notice()` (swapacid-199; supersedes the earlier "never derive" note).
+- `borg_notice()` re-derives `borg.goal.recalling` from `player->word_recall`;
+  set the game timer. `borg_game_ratio` is 0 in a fresh fixture.
+- `borg_flow_spastic()` reads `borg_detect_door[]`: call `borg_alloc_detection()`.
+- `create_needed_dirs()` creates a missing user directory; to make borg.txt
+  unreadable and unwritable even as root, point the user directory through a
+  regular file after start-up.
+- Monster placement consumes RNG: place traps or other random features after
+  the monsters so the monster roll is identical across cases.
+- An unchanged control must exercise the changed code and give byte-identical
+  logs; a case whose decision is equal but whose printed state differs is not
+  a control.
