@@ -1,0 +1,71 @@
+{
+  "issue": "diegoami/neo-angband-tracker#404",
+  "report": "flowcache-404",
+  "consumer_case": "diegoami/better-borg-c#212 (D0008)",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "b71b32c152e272886cb46bb8f253e8c4f5130711",
+  "fix_branch": "task/c-borg-flow-danger-cache",
+  "fixtures_ref": "89326f5216148ab47a18585236678c391bb4e559",
+  "fixed_source": "src/borg/borg-flow.c",
+  "variant_sources_sha256": {
+    "after": "0566d8bdb5105d9246d571c0774dbb4675a108153c728b5e038b1093e51bd30b",
+    "alt-wipe": "45c9a2944769c63b1e271dbac6c03ad703e45a743b34e752bb623a52711add85",
+    "before": "0a8933b10f249e70be7b82603e97b9ee494cdfabdc7d60011cc8eee668270c1f",
+    "neg-enqueue-only": "513f30f6d305c7137171fd7d9a5309bbba65874e6b2148ce1bda9937e779e3ac",
+    "neg-spread-only": "b7332ea3bd2a28d4e19cc581121933435caa799be20b99ca64ad61fc712771dd"
+  },
+  "failed_cases": {
+    "after": [],
+    "alt-wipe": [],
+    "before": [
+      "cache-desperate-enqueue",
+      "cache-desperate-spread",
+      "cache-digging-enqueue",
+      "cache-digging-spread",
+      "cache-lunal-enqueue",
+      "cache-lunal-spread",
+      "cache-munchkin-enqueue",
+      "cache-munchkin-spread",
+      "caution",
+      "prod-remembered",
+      "prod-visible"
+    ],
+    "neg-enqueue-only": [
+      "cache-desperate-spread",
+      "cache-digging-spread",
+      "cache-lunal-spread",
+      "cache-munchkin-spread",
+      "caution",
+      "prod-remembered",
+      "prod-visible"
+    ],
+    "neg-spread-only": [
+      "cache-desperate-enqueue",
+      "cache-digging-enqueue",
+      "cache-lunal-enqueue",
+      "cache-munchkin-enqueue"
+    ]
+  },
+  "full_tests": {
+    "after": {
+      "frontends": "5/5",
+      "units": "965/965"
+    },
+    "before": {
+      "frontends": "5/5",
+      "units": "965/965"
+    }
+  },
+  "numbers": {
+    "cases_per_variant": 30,
+    "danger_G": 16,
+    "limit": 1,
+    "contract_cases": 11,
+    "original_failures": 11,
+    "corrected_failures": 0
+  },
+  "claim": "flow_spread and flow_enqueue_grid marked a grid known/not-icky while the danger gate was skipped (desperate, lunal, munchkin, digging); later normal flows accepted that entry unchecked. The correction marks a grid known only when its danger was checked.",
+  "does_not_claim": "that D0008 or any life survives because of this change, or that overall survival improves",
+  "d0008_diagnostic": "d0008-diagnostic/README.md",
+  "review": "review-kimi-k3.txt"
+}

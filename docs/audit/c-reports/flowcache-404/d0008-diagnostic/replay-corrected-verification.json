@@ -1,0 +1,21 @@
+{
+  "complete": false,
+  "engine_mode": "historical rebuild with player-known observation extensions",
+  "engine_sha256": "abc613cd4098ed3003f96869e7d0dbf220a08e6e4aa4ea4defec789a8c2119d6",
+  "error": null,
+  "exit_code": 1,
+  "extensions": [],
+  "first_difference": {
+    "actual": "10837 454 1 57344 0\n",
+    "expected": "10837 454 1 54 0\n",
+    "row": 746,
+    "stream": "actions.txt"
+  },
+  "interrupted": null,
+  "original": "/home/diego/projects/angband/better-borg-c/artifacts/death-workflow/collections/20261107T230736.548607Z/game-001-seed-1668846659",
+  "original_engine_sha256": "eefdc67133daaad42b6610402b3fc323b3a5abf55595c247fb449b937cd7285f",
+  "recording_sha256": "cc2503d16acf44f12459a5b3e3cdcb9f4608c19ca5a6843715fcd06caca39b81",
+  "schema": "borg-replay-verification@1",
+  "scope": "All recorded input, Borg actions, clock/file inputs, native-save fingerprints, RNG/player state and logical terminal frames; no checkpoint restore or new independent life",
+  "verified": false
+}

@@ -1,0 +1,21 @@
+1668846659 ctrl | a grey mold | turn=10940 depth=1 depth=1 level=1 level=1  | exit 0 
+1668846659 fix | (alive and well) | turn=30000 depth=1 depth=2 level=2 level=2  | exit 0 
+101 ctrl | (alive and well) | turn=30000 depth=1 depth=2 level=4 level=4  | exit 0 
+101 fix | (alive and well) | turn=30000 depth=1 depth=2 level=4 level=4  | exit 0 
+202 ctrl | (alive and well) | turn=30000 depth=1 depth=1 level=2 level=2  | exit 0 
+202 fix | (alive and well) | turn=30000 depth=1 depth=1 level=2 level=2  | exit 0 
+303 ctrl | a cutpurse | turn=3927 depth=1 depth=1 level=1 level=1  | exit 0 
+303 fix | a cutpurse | turn=3927 depth=1 depth=1 level=1 level=1  | exit 0 
+404 ctrl | a soldier | turn=14472 depth=1 depth=2 level=2 level=2  | exit 0 
+404 fix | (alive and well) | turn=30000 depth=2 depth=2 level=5 level=5  | exit 0 
+505 ctrl | a grey mold | turn=19355 depth=1 depth=2 level=2 level=2  | exit 0 
+505 fix | a grey mold | turn=19355 depth=1 depth=2 level=2 level=2  | exit 0 
+606 ctrl | (alive and well) | turn=30000 depth=1 depth=1 level=2 level=2  | exit 0 
+606 fix | (alive and well) | turn=30000 depth=1 depth=1 level=2 level=2  | exit 0 
+707 ctrl | (alive and well) | turn=30000 depth=1 depth=1 level=2 level=2  | exit 0 
+707 fix | (alive and well) | turn=30000 depth=1 depth=1 level=2 level=2  | exit 0 
+808 ctrl | (alive and well) | turn=30000 depth=2 depth=2 level=3 level=3  | exit 0 
+808 fix | (alive and well) | turn=30000 depth=2 depth=2 level=3 level=3  | exit 0 
+909 ctrl | (alive and well) | turn=30000 depth=1 depth=2 level=3 level=3  | exit 0 
+909 fix | (alive and well) | turn=30000 depth=1 depth=2 level=3 level=3  | exit 0 
+DONE
