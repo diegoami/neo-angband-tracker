@@ -1,0 +1,41 @@
+{
+  "wrong-return": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+      "power_maim": 6
+    },
+    "realcall": {
+      "value": 234
+    },
+    "outcome": {
+      "value": 234
+    }
+  },
+  "single": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+      "power_maim": 6
+    },
+    "realcall": {
+      "value": 234
+    },
+    "outcome": {
+      "value": 234
+    }
+  },
+  "none": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+      "power_maim": 6
+    },
+    "realcall": {
+      "value": 0
+    },
+    "outcome": {
+      "value": 0
+    }
+  }
+}

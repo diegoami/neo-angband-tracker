@@ -1,0 +1,12 @@
+native-c/maimfoe-256: starting...
+SETUPSTEP profile
+SETUP lich kill=1 power=1699
+SETUP kobold kill=2 power=8
+SETUP blows=2 power_maim=6
+SETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125
+  maim_foe_returns_best_score  MODE wrong-return
+REALCALL value=30
+OUTCOME value=30
+Failed
+    native-c/maimfoe-256:171: requirement 'v >= 100' failed
+native-c/maimfoe-256 finished: 0/1 passed
