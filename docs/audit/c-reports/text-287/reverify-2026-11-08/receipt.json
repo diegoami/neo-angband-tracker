@@ -159,5 +159,23 @@
     "control_logs_identical": true,
     "interpretation": "No sanitizer report in either variant. The fixture measures the converted text with strnlen bounded by the 1024-byte buffer, so the original's missing terminator is shown by the measurement (strnlen=1024, terminated=0) but is not an out-of-bounds access inside the fixture; the unbounded read happens in the production caller (strlen in borg_get_messages), which this fixture does not exercise. The correction introduces no sanitizer report at 80 columns.",
     "bound_model": "bound-model-wide.c / bound-model-wide-asan.log: a standalone program (not the game) that copies only the corrected wcstombs line into a 1024-byte stack buffer; ASAN reports stack-buffer-overflow for n=256 (WRITE of size 1025) and n=300 (1201) with 4-byte characters. Owner decision requested on issue 287."
+  },
+  "receipt_amendments": {
+    "date": "2026-11-08",
+    "receipt.json sha256.README.md": {
+      "old": "94a32a5fd9cab126a71ad03246ca38930d40dbbcdd8ef81bdc71b4e18cc00486",
+      "new": "94afbade1a033649f8ccb1dffee83f6ed6822d898bc5a29e6a0c168ebdac463f",
+      "why": "README gained the Re-verification and Errata sections"
+    },
+    "receipt.json render_check": "added (original receipt only had a 'browser' entry); points at this receipt's render_check",
+    "README placeholder link": "PR-SOURCE -> #335",
+    "restored_at_original_paths": [
+      "after-control.log",
+      "after-multibyte.log",
+      "after-scenarios.log",
+      "before-control.log",
+      "before-multibyte.log",
+      "before-scenarios.log"
+    ]
   }
 }
