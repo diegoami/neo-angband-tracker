@@ -1,0 +1,8 @@
+native-c/calcreload-325: starting...
+SETUPSTEP minimal
+  calculation_reload_releases_the_array  MODE control
+GEOMETRY control count=1
+RATING control_value=3 control_count=1
+OUTCOME control_value=3 control_count=1
+Passed
+native-c/calcreload-325 finished: 1/1 passed
