@@ -1,0 +1,12 @@
+native-c/spastic-146: starting...
+SETUP seed=146 mode=corner class=Warrior clevel=20 depth=5 borg=(1,1)
+  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(1,1)
+TRACK call1 # Flowing toward spastic at cost 0
+DECISION call=call2 rc=0 key=0 borg=(1,1)
+TRACK call2 # Spastic Searching at (1,1)...value:0
+DECISION call=call3 rc=1 key=51 borg=(1,1)
+TRACK call3 # Flowing toward spastic at cost 21
+STATE own_grid_searched=1
+OUTCOME moved=1
+Passed
+native-c/spastic-146 finished: 1/1 passed
