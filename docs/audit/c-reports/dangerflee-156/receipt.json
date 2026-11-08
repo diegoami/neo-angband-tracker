@@ -1,0 +1,151 @@
+{
+  "issue": "diegoami/neo-angband-tracker#156",
+  "report": "dangerflee-156",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "007d45483832b2792ddde1b2c368b67975365496",
+  "fix_branch": "task/dangerflee-156",
+  "fixtures_ref": "809e556b39e47c2dd13c6dd53aa42b7ac8329010",
+  "cases": {
+    "excessive": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 20,
+          "avoidance": 8,
+          "hp": 8,
+          "fleeing": 1
+        },
+        "outcome": {
+          "excessive_flee": 0,
+          "desperate_stairs": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 8,
+          "hp": 8,
+          "fleeing": 1
+        },
+        "outcome": {
+          "excessive_flee": 1,
+          "desperate_stairs": 1
+        }
+      }
+    },
+    "morgoth": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 20,
+          "avoidance": 8,
+          "hp": 8,
+          "fleeing": 1
+        },
+        "outcome": {
+          "excessive_flee": 1,
+          "desperate_stairs": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 8,
+          "hp": 8,
+          "fleeing": 1
+        },
+        "outcome": {
+          "excessive_flee": 0,
+          "desperate_stairs": 0
+        }
+      }
+    },
+    "hurt": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 1
+        },
+        "outcome": {
+          "excessive_flee": 0,
+          "desperate_stairs": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 1
+        },
+        "outcome": {
+          "excessive_flee": 0,
+          "desperate_stairs": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "hurt"
+  ],
+  "claim": "The excessive-danger flee in borg_caution() required borg.ready_morgoth == 1, contrary to its comment, so ordinary Borgs never fled here. With the owner-decided != 1, a level-40 Warrior on 8 HP beside a cave bear flees and dashes for the staircase two steps away instead of reading Word of Recall; a Morgoth-ready Borg no longer flees from this check; the below-threshold control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-caution.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "a13d42af7d733d824f26c7253707d2952fa1d2affad20d990ceb6045425cfae5"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "25c4359bf1b6c2312709954af98fe0b6f6ef25e22ceab2894d7357649a7b78bb",
+    "after-excessive.log": "eae3d0d632f4dbf559c437e5a5d75810b450eb01ea4d2df1ed11de9ecf584913",
+    "after-hurt.log": "7c0bbe5d250225af21c002234987d8fb1da13e9c3c361fea0e7cc28bc66ef04f",
+    "after-morgoth.log": "394b6a5dea1b76c6fb57b9d98d8c14d23b52bc63f3bfe5954d3dd5b1784a1d44",
+    "after-results.json": "6db55cd4540102c877c7272e8cf2db529b36cb4805c8f0e5d29e2258ae4eba1c",
+    "before-excessive.log": "a77541fa7401a94625abbbc88f10f7f34e2196f41ff5d0d6d6b974009cbba176",
+    "before-hurt.log": "7c0bbe5d250225af21c002234987d8fb1da13e9c3c361fea0e7cc28bc66ef04f",
+    "before-morgoth.log": "d85a34731f49d23716bb97c1048f65a5b679039c1e98b37e0d164f55d8cf60dd",
+    "before-results.json": "333f48ea3c42e20829bd017a6d85944c8b2bf3734e40027d870842734b28c1b5",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "bd6b5863a974a524eed4bea9381db2fbc7bb912ebef3b5c28931952b54d3c925",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "9859fc2dcedff85f1b1df572975410d3b795132e3b6ffc71644a08d81567e56a",
+    "replay.html": "8168a5829b0d77bf58c77f4fe89e60655e4479aeaad37a88cda09dc63de1be42",
+    "reproduce.py": "3572f30621b9ac5482243a280ddfa78df0af916b9481b6b198d34a39eb8c387c",
+    "result.json": "4632f35231224706be5db1f2d49ea82f3d90e1560036cdd0841a20307c8b5937",
+    "run-after-alltests.log": "f07df6ad75590b861732c2edb21a3da51f8e6500e3a5f0cec3ae46878c394dd7",
+    "run-after-build.log": "260efc9f7f44164797d601fdded0f9bdeecbbe0abead99a690b0ca19b3df60eb",
+    "run-after-scenarios.log": "ff75cd5a0d82a60aa9b51edba700318e8c5704f2c2cd7b583825c1e4b557d40c",
+    "run-before-alltests.log": "0851f2debb34e9fbbd144234c81e2e30420996591f2da6e9319bbab38dd59273",
+    "run-before-build.log": "3c0b1cbdb73e90c4881c4cf6e4af6c854552a2389bc45765e8f596c47a5e54ea",
+    "run-before-scenarios.log": "b289d1d4125ba5b83991250249ad61465f1ed5facf770a4f2274b6f5e22c1606",
+    "run-cases.py": "6a1d0bb12c2cc854bc4aa49f746747a7689a941c078e0392b66664c0b99b0c2b",
+    "run-configure.log": "550b94dfa845e5e76bd64d7892deaed64696828dfeb85c92d2c4270bd7844251",
+    "scenario.c": "93212be1634861b56330b28a93cc8150d51ff88bcf8a8f2b2d0a1c37df5c87ec"
+  }
+}
