@@ -145,13 +145,15 @@ def check_github(issue_no, src_no, ev_no, rep):
     if not rep.check(issue is not None, f"issue #{issue_no} readable"):
         return
     body = issue.get("body") or ""
+    # preserved original text inside <details> blocks is history, not current claims
+    live = re.sub(r"<details>.*?</details>", "", body, flags=re.S)
     labels = [l["name"] for l in issue.get("labels", [])]
     head = body[:2500]
     rep.check("compare/master...diegoami:neo-angband-tracker:" in body, "issue has the upstream compare link")
     rep.check("compare/master...diegoami:neo-angband-tracker:" in head, "filing kit near the top of the issue", warn=True)
     rep.check(re.search(r"#+\s*Verification", body) is not None, "issue has a Verification section")
-    rep.check("not been checked in the native" not in body and "not yet its own native reproduction" not in body
-              and "next action: reproduce" not in body.lower(), "issue body not stale (no 'not checked natively' text)")
+    rep.check("not been checked in the native" not in live and "not yet its own native reproduction" not in live
+              and "next action: reproduce" not in live.lower(), "issue body not stale (no 'not checked natively' text outside <details>)")
     pr = [l for l in labels if l.startswith("priority:")]
     rep.check(len(pr) == 1, f"exactly one priority label ({', '.join(pr) or 'none'})")
     rep.check("evidence:c-game-reproduced" in labels, "label evidence:c-game-reproduced")

@@ -15,6 +15,11 @@ pristine reference), `CEV_BUILD` (its build directory), `CEV_BORG_TXT`
 | `mkev.sh SLUG MSGFILE` | Creates `task/SLUG-evidence` from master with the generators, commits, pushes, extracts the pinned reproduce.py. |
 | `finish.sh SLUG FIXTURES_SHA FIX_SHA` | After a green `reproduce.py --full-tests` run: README (`mkreadme.py`), receipt with sha256 of every file + headless render check (`package.py`, `render-check.js`), commits **with `git add -f`** (logs), pushes. |
 
+Requirements: python3, node, and Playwright with Chromium resolvable from
+node (`require('playwright')`; set `NODE_PATH` to the global node_modules if
+needed). `finish.sh` refuses to commit when the package step or render check
+fails.
+
 Definition of done for a pair: `check_evidence.py --evidence-pr N` passes,
 the issue opens in plain language with the owner filing kit near the top and
 a Verification section, both PRs cross-link, and the #207 receipt is posted.
