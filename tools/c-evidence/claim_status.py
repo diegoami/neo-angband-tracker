@@ -74,8 +74,10 @@ def status(issue_no, now, open_prs):
             # older free-form claims: lease runs from the comment time
             last = ("CLAIM", legacy.group("who").strip(), parse_time(c["created_at"]), None, c["created_at"])
             continue
-        if re.match(r"^[#*\s]*(Triage|Native triage|Native consequence triage|Owner-intent|Owner question)", first, re.I):
-            triaged = (first[:70], c["created_at"])
+        tri = [l for l in (c.get("body") or "").splitlines()
+               if re.match(r"^[#*\s]*(Triage|Native triage|Native consequence triage|Owner-intent|Owner question)", l, re.I)]
+        if tri:
+            triaged = (tri[0].strip()[:70], c["created_at"])
         if re.match(r"^[#*\s]*(Triage|Native triage|Native consequence triage|Owner decision|Owner-intent)", first, re.I) and last and last[0] != "RELEASE":
             # a triage/decision comment by the claimant ends the work
             last = ("RELEASE", last[1], parse_time(c["created_at"]), None, c["created_at"])
