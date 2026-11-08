@@ -1,0 +1,9 @@
+native-c/lunaltake-73: starting...
+SETUP seed=73 mode=gold class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5
+  lunal_take_skips_bad_items  STATE item=[copper] distance=4 pack_has_free_slot=1
+DECISION rc=1 key=54
+TRACK # Lunal Item copper, at 12,14
+TRACK # Flowing toward munchkin item at cost 4
+OUTCOME walks_to_item=1
+Passed
+native-c/lunaltake-73 finished: 1/1 passed

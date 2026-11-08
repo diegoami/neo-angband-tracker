@@ -1,0 +1,109 @@
+{
+  "issue": "diegoami/neo-angband-tracker#73",
+  "report": "lunaltake-73",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "45423c1c8d99bc7846dc8503fa0a2be0e5c7e149",
+  "fix_branch": "task/lunaltake-73",
+  "fixtures_ref": "a2184b5d56d7a92cb8754335932367e2ce4b0f3a",
+  "cases": {
+    "dagger": {
+      "before": {
+        "passed": false,
+        "state": {
+          "distance": 4,
+          "pack_has_free_slot": 1
+        },
+        "outcome": {
+          "walks_to_item": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "distance": 4,
+          "pack_has_free_slot": 1
+        },
+        "outcome": {
+          "walks_to_item": 0
+        }
+      }
+    },
+    "gold": {
+      "before": {
+        "passed": true,
+        "state": {
+          "distance": 4,
+          "pack_has_free_slot": 1
+        },
+        "outcome": {
+          "walks_to_item": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "distance": 4,
+          "pack_has_free_slot": 1
+        },
+        "outcome": {
+          "walks_to_item": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "gold"
+  ],
+  "claim": "With a dagger four grids away the original Lunal take routine flowed to it and queued a step; with the items marked bad skipped it does nothing. A pile of gold in the same place is taken before and after, and that control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-take.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-take.c": "bce0ef46537090a097df1540aa31bf4ee8555748e88fc7fc36402777fffdfd06"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "63c2213fdb5832b5dc083b5c23928596d22903afe02f018872b615d1f63343c5",
+    "after-dagger.log": "705974872345a8fb7818f60c0f251fdd2f4b9fc56d9073d2c2005b8b815f621d",
+    "after-gold.log": "33e5f0b32c182224ce790fdc1524906e35abbed62971636d2973c4c8c0ce6446",
+    "after-results.json": "9cd7c582ba08de6518ee225eb551add0dfdd61721fed34bb5a44ebf85bcbeaf6",
+    "before-dagger.log": "433b58cfbc2228fea7d8ae22dff843158eff441d612eacdffca945ef8c50dc32",
+    "before-gold.log": "33e5f0b32c182224ce790fdc1524906e35abbed62971636d2973c4c8c0ce6446",
+    "before-results.json": "3daaf6ef43d1fd003b39e8b8e0dc640b31d8c7eef6aa17cd66f792c3dbef057a",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "ec7f99f594ebc603ce46a730fef90c3d48c0e952a20d5d21d615afc6446ff8e8",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "366e5b206009b3bfa13f667b5bd450b105145341616b6cbabc21cabd476610a1",
+    "replay.html": "dd52bb30f65f441d0b574c988c8e40abd8f07f839ac5ca78f5960e6979ff9042",
+    "reproduce.py": "df3e4810330c0cc8e55bf40bb9046b4fc624c7a7edabdda47ff074d285235217",
+    "result.json": "1780d63cb4754491dcd089f51c694734de82a6fe8940441bccb8e7e2330b1f5f",
+    "run-after-alltests.log": "04e8170d9f402d7b1a46902c8d66c7e588cee443d65c12e3a55bb0eca275a98f",
+    "run-after-build.log": "5a730e4b1f01f727676cd420d5c301a34707d34937c58d48c659a98defd9fd39",
+    "run-after-scenarios.log": "58e1db109ec95068a32bce3b53e64e40fcfcd8326674812a7278a3d141f979fb",
+    "run-before-alltests.log": "72cd8ae94f3ade6fa26f637ec6eb25856013250dcb3e94588334ae2dd2550b52",
+    "run-before-build.log": "de1070f155c0e1b77e8c8797c04ad7ddca68c6bed78387a562ac8c6698740d97",
+    "run-before-scenarios.log": "76a1821935e64f5f5ba72f1c7e2b7c0d8543408f4f15097cbdc0f82f896f591d",
+    "run-cases.py": "ed77fcd27e3d83561db1e08389bb4a5d43d58ab48f7809693963ffcd7818f97e",
+    "run-configure.log": "8a2400ea691bfb3910bc3c8303695984ab15c636c785859f282a3be291f20325",
+    "scenario.c": "3b79c090142bf72b61475205973bc56d24ca5949b532cb480594fd5c96b699a5"
+  }
+}

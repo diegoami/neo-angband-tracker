@@ -1,0 +1,40 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg&#x27;s Lunal mode walked to items it had marked as not worth taking</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg&#x27;s Lunal mode walked to items it had marked as not worth taking</h1><p>In Lunal mode the Borg is leaving the level and only wants a few things on the way: gold, artifacts, certain potions and, at the start of the game, valuable items. The take routine works out for each visible item whether it is bad and notes the ones it wants, but the result was never used, so every visible item within range became a target. The correction skips the items marked bad.</p><p><label>Scenario: <select id="scenario"><option value="dagger">A dagger lies four grids away</option><option value="gold">Control: a pile of gold lies four grids away</option></select></label></p><section class="scenario" data-mode="dagger"><p class="summary">A level-12 Warrior with a free pack slot sees a Dagger four grids east. The production Lunal take routine decides whether to go for it. Original: the routine marks the dagger bad (it is not gold, an artifact, a stat potion or a valuable start-of-game item) but never skips it, so the Borg flows to it. Corrected: the dagger is skipped and the routine does nothing.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg walks toward the item (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=54
+TRACK # Flowing toward munchkin item at cost 4</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg walks toward the item (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lunaltake-73: starting...
+SETUP seed=73 mode=dagger class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5
+  lunal_take_skips_bad_items  STATE item=[&amp; Dagger~] distance=4 pack_has_free_slot=1
+DECISION rc=1 key=54
+TRACK # Flowing toward munchkin item at cost 4
+OUTCOME walks_to_item=1
+Failed
+    native-c/lunaltake-73:166: requirement &#x27;!rc&#x27; failed
+native-c/lunaltake-73 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lunaltake-73: starting...
+SETUP seed=73 mode=dagger class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5
+  lunal_take_skips_bad_items  STATE item=[&amp; Dagger~] distance=4 pack_has_free_slot=1
+DECISION rc=0 key=0
+OUTCOME walks_to_item=0
+Passed
+native-c/lunaltake-73 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="gold"><p class="summary">The same Warrior with a pile of gold in the same place. Gold is marked good and the Borg walks to it before and after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg walks toward the item (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54
+TRACK # Lunal Item copper, at 12,14
+TRACK # Flowing toward munchkin item at cost 4</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg walks toward the item (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54
+TRACK # Lunal Item copper, at 12,14
+TRACK # Flowing toward munchkin item at cost 4</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lunaltake-73: starting...
+SETUP seed=73 mode=gold class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5
+  lunal_take_skips_bad_items  STATE item=[copper] distance=4 pack_has_free_slot=1
+DECISION rc=1 key=54
+TRACK # Lunal Item copper, at 12,14
+TRACK # Flowing toward munchkin item at cost 4
+OUTCOME walks_to_item=1
+Passed
+native-c/lunaltake-73 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lunaltake-73: starting...
+SETUP seed=73 mode=gold class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5
+  lunal_take_skips_bad_items  STATE item=[copper] distance=4 pack_has_free_slot=1
+DECISION rc=1 key=54
+TRACK # Lunal Item copper, at 12,14
+TRACK # Flowing toward munchkin item at cost 4
+OUTCOME walks_to_item=1
+Passed
+native-c/lunaltake-73 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 73, character level 12, depth 5, a lit open arena, a free pack slot. The item is placed by the fixture in the Borg&#x27;s object list four grids east, in view. Fixture interventions: the object list entry is placed by the fixture (kind, position, value 100); the Borg&#x27;s map update is not run, so the detection arrays are sized for a two-by-two panel map as it would. The production borg_flow_take_lunal() decides; its keypress is read, not played.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/73">issue 73</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

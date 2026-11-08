@@ -1,0 +1,77 @@
+{
+  "dagger": {
+    "label": "A dagger lies four grids away",
+    "explanation": "A level-12 Warrior with a free pack slot sees a Dagger four grids east. The production Lunal take routine decides whether to go for it. Original: the routine marks the dagger bad (it is not gold, an artifact, a stat potion or a valuable start-of-game item) but never skips it, so the Borg flows to it. Corrected: the dagger is skipped and the routine does nothing.",
+    "control": false,
+    "before": {
+      "raw": "native-c/lunaltake-73: starting...\nSETUP seed=73 mode=dagger class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5\n  lunal_take_skips_bad_items  STATE item=[& Dagger~] distance=4 pack_has_free_slot=1\nDECISION rc=1 key=54\nTRACK # Flowing toward munchkin item at cost 4\nOUTCOME walks_to_item=1\nFailed\n    native-c/lunaltake-73:166: requirement '!rc' failed\nnative-c/lunaltake-73 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "distance": 4,
+        "pack_has_free_slot": 1
+      },
+      "outcome": {
+        "walks_to_item": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=54",
+        "TRACK # Flowing toward munchkin item at cost 4"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lunaltake-73: starting...\nSETUP seed=73 mode=dagger class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5\n  lunal_take_skips_bad_items  STATE item=[& Dagger~] distance=4 pack_has_free_slot=1\nDECISION rc=0 key=0\nOUTCOME walks_to_item=0\nPassed\nnative-c/lunaltake-73 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "distance": 4,
+        "pack_has_free_slot": 1
+      },
+      "outcome": {
+        "walks_to_item": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0"
+      ],
+      "value": 0
+    }
+  },
+  "gold": {
+    "label": "Control: a pile of gold lies four grids away",
+    "explanation": "The same Warrior with a pile of gold in the same place. Gold is marked good and the Borg walks to it before and after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lunaltake-73: starting...\nSETUP seed=73 mode=gold class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5\n  lunal_take_skips_bad_items  STATE item=[copper] distance=4 pack_has_free_slot=1\nDECISION rc=1 key=54\nTRACK # Lunal Item copper, at 12,14\nTRACK # Flowing toward munchkin item at cost 4\nOUTCOME walks_to_item=1\nPassed\nnative-c/lunaltake-73 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "distance": 4,
+        "pack_has_free_slot": 1
+      },
+      "outcome": {
+        "walks_to_item": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=54",
+        "TRACK # Lunal Item copper, at 12,14",
+        "TRACK # Flowing toward munchkin item at cost 4"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lunaltake-73: starting...\nSETUP seed=73 mode=gold class=Warrior clevel=12 hp=156/156 sp=0/0 food=8999 depth=5\n  lunal_take_skips_bad_items  STATE item=[copper] distance=4 pack_has_free_slot=1\nDECISION rc=1 key=54\nTRACK # Lunal Item copper, at 12,14\nTRACK # Flowing toward munchkin item at cost 4\nOUTCOME walks_to_item=1\nPassed\nnative-c/lunaltake-73 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "distance": 4,
+        "pack_has_free_slot": 1
+      },
+      "outcome": {
+        "walks_to_item": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=54",
+        "TRACK # Lunal Item copper, at 12,14",
+        "TRACK # Flowing toward munchkin item at cost 4"
+      ],
+      "value": 1
+    }
+  }
+}
