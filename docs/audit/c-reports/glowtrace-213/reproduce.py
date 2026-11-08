@@ -19,6 +19,8 @@ import tempfile
 BASE = "e473720ed88a0f0c7ca66815cef3000eb4a38bc3"
 DIRECTORY = "docs/audit/c-reports/glowtrace-213/"
 SOURCE = "src/borg/borg-update.c"
+CONTROLS = ('door',)  # unchanged-situation controls: complete logs must be byte-identical
+DIAGNOSTICS = ('torchlit',)  # recorded, not asserted
 PHASES = ("before", "after")
 
 FLOORS_OLD = '''            /* Floors */
@@ -177,7 +179,12 @@ add_compile_definitions(PRIVATE_USER_PATH="{root / 'test-user'}")
         raise RuntimeError("Corrected variant must flag glowing floors, spare walls and fill the light-flow list")
     if (source / SOURCE).read_text() != fixed:
         raise RuntimeError("Disposable source not restored to the correction")
-    summary = {"base": BASE, "fix": fix, "fixtures_ref": ref, "cases": rows,
+    for control in CONTROLS:
+        if not (rows["before"][control]["passed"] and rows["after"][control]["passed"]):
+            raise RuntimeError(f"Control {control} did not pass in both versions")
+        if (evidence / f"before-{control}.log").read_bytes() != (evidence / f"after-{control}.log").read_bytes():
+            raise RuntimeError(f"Control {control} logs differ between the original and the correction")
+    summary = {"base": BASE, "fix": fix, "fixtures_ref": ref, "cases": rows, "identical_full_logs": list(CONTROLS), "diagnostics": list(DIAGNOSTICS),
                "full_tests": gates,
                "fixed_source_sha256": {SOURCE: hashlib.sha256((source / SOURCE).read_bytes()).hexdigest()}}
     (root / "result.json").write_text(json.dumps(summary, indent=2) + "\n")

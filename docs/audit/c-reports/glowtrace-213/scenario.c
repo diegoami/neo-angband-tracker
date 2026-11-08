@@ -28,6 +28,9 @@
 #include <string.h>
 
 static term screen;
+static const char *glow_mode = "main";
+static int scenario_door(void *state);
+static int scenario_torchlit(void *state);
 
 int setup_tests(void **state)
 {
@@ -53,8 +56,15 @@ int setup_tests(void **state)
     /* A uniformly permanently-glowing arena floor: every interior grid the
      * game reports as lit (LIGHTING via SQUARE_GLOW) regardless of the
      * borg's own torch. */
-    for (int y = 1; y < 23; ++y) for (int x = 1; x < 23; ++x)
-        sqinfo_on(square(cave, loc(x, y))->info, SQUARE_GLOW);
+    /* GLOW213_MODE: "main" (default), "door" (unchanged control: an open
+     * door in the same glowing arena), "torchlit" (diagnostic: an unlit
+     * arena, so only the Borg's own light source lights nearby floors). */
+    if (getenv("GLOW213_MODE")) glow_mode = getenv("GLOW213_MODE");
+    if (!streq(glow_mode, "torchlit"))
+        for (int y = 1; y < 23; ++y) for (int x = 1; x < 23; ++x)
+            sqinfo_on(square(cave, loc(x, y))->info, SQUARE_GLOW);
+    if (streq(glow_mode, "door"))
+        square_set_feat(cave, loc(10, 12), FEAT_OPEN);
     player->upkeep->update |= PU_BONUS | PU_HP | PU_TORCH; update_stuff(player);
     player->chp = player->mhp;
     borg_rand_local = 1000; borg_init();
@@ -74,8 +84,15 @@ int setup_tests(void **state)
     borg.c = player->grid; borg.avoidance = player->chp; borg.ready_morgoth = 0;
     borg.status.active = true;
     borg_update_entrypoint(true);
-    printf("SETUP seed=213 class=%s depth=%d hp=%d\n",
-           player->class->name, player->depth, player->chp);
+    printf("SETUP seed=213 class=%s depth=%d hp=%d mode=%s\n",
+           player->class->name, player->depth, player->chp, glow_mode);
+    if (streq(glow_mode, "door")) {
+        tests[0].name = "door_and_wall_flags_unchanged";
+        tests[0].func = scenario_door;
+    } else if (streq(glow_mode, "torchlit")) {
+        tests[0].name = "torchlit_floor_flags";
+        tests[0].func = scenario_torchlit;
+    }
     return 0;
 }
 
@@ -115,6 +132,49 @@ static int scenario_glow(void *state)
     borg_flow_light(GOAL_XTRA);
     printf("OUTCOME glow_n=%d\n", (int)borg_glow_n);
     require(borg_glow_n > 0);
+    ok;
+}
+
+/* Control: non-floor grids (an open door and a permanent wall) in the
+ * same glowing arena. The correction touches only the Floors branch, so
+ * these grids' flags must be identical before and after. Only the door
+ * and wall grids are printed. */
+static int scenario_door(void *state)
+{
+    borg_update();
+    unsigned door = borg_grids[12][10].info, wall = borg_grids[0][5].info;
+    printf("STATE door_feat=%d door_info=%u door_glow=%d door_dark=%d wall_info=%u wall_glow=%d\n",
+           (int)borg_grids[12][10].feat, door, (door & BORG_GLOW) != 0,
+           (door & BORG_DARK) != 0, wall, (wall & BORG_GLOW) != 0);
+    printf("OUTCOME door_is_open=%d wall_glow=%d\n",
+           borg_grids[12][10].feat == FEAT_OPEN ? 1 : 0, (wall & BORG_GLOW) != 0);
+    require(borg_grids[12][10].feat == FEAT_OPEN);
+    require(!(wall & BORG_GLOW));
+    ok;
+}
+
+/* Diagnostic, not a control: an arena with no permanent glow. Floors next
+ * to the Borg are lit only by its own light source. Prints the game's
+ * permanent-glow flag (square_isglow), the current light level
+ * (square_light / square_islit) and the Borg's flags, so the corrected
+ * branch's use of square_islit() can be compared with a CAVE_GLOW-style
+ * test. No requirement: the outcome is recorded, not asserted. */
+static int scenario_torchlit(void *state)
+{
+    borg_update();
+    struct loc nearg = loc(11, 12), farg = loc(3, 3);
+    unsigned ni = borg_grids[12][11].info, fi = borg_grids[3][3].info;
+    printf("STATE near_isglow=%d near_light=%d near_islit=%d near_glow=%d near_dark=%d near_light_flag=%d\n",
+           square_isglow(cave, nearg) ? 1 : 0, square_light(cave, nearg),
+           square_islit(cave, nearg) ? 1 : 0, (ni & BORG_GLOW) != 0,
+           (ni & BORG_DARK) != 0, (ni & BORG_LIGHT) != 0);
+    printf("STATE far_isglow=%d far_light=%d far_islit=%d far_glow=%d far_dark=%d\n",
+           square_isglow(cave, farg) ? 1 : 0, square_light(cave, farg),
+           square_islit(cave, farg) ? 1 : 0, (fi & BORG_GLOW) != 0,
+           (fi & BORG_DARK) != 0);
+    borg_flow_light(GOAL_XTRA);
+    printf("OUTCOME torchlit_marked_glow=%d glow_n=%d\n",
+           (ni & BORG_GLOW) != 0, (int)borg_glow_n);
     ok;
 }
 
