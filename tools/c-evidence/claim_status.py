@@ -17,7 +17,7 @@ the label is still present.  An issue with an open PR that names it is never fre
 
 Usage:
   claim_status.py 197 198              # status of issues
-  claim_status.py --candidates         # free candidate leads (upstream-c + reported-lead)
+  claim_status.py --candidates         # free candidate leads (upstream-c + reported-lead or triage:needed)
   claim_status.py --stale              # expired claims whose label should be cleared
 Exit status: 0 if every named issue is FREE, 1 otherwise.
 """
@@ -107,8 +107,9 @@ def main():
     open_prs = gh("pulls?state=open")
     targets = list(args.issues)
     if args.candidates:
-        targets += [i["number"] for i in gh("issues?state=open&labels=upstream-c,evidence:reported-lead")
-                    if "pull_request" not in i]
+        for q in ("upstream-c,evidence:reported-lead", "upstream-c,triage:needed"):
+            targets += [i["number"] for i in gh(f"issues?state=open&labels={q}")
+                        if "pull_request" not in i]
     if args.stale:
         targets += [i["number"] for i in gh(f"issues?state=open&labels={LABEL}") if "pull_request" not in i]
     ok = True
