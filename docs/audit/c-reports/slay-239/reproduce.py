@@ -126,6 +126,11 @@ add_compile_definitions(PRIVATE_USER_PATH="{root/'test-user'}")
         raise RuntimeError("Original animal case does not show the lost slay")
     if "auto=20" not in ratings("after","animal"):
         raise RuntimeError("Corrected animal case does not show the slay")
+    kb, ka = rows["before"]["kill-undead"], rows["after"]["kill-undead"]
+    if kb["passed"] or "wk_undead=0" not in kb.get("trait", ""):
+        raise RuntimeError("Original kill-undead case does not show the missing kill trait: "+str(kb))
+    if not ka["passed"] or "wk_undead=1" not in ka.get("trait", ""):
+        raise RuntimeError("Corrected kill-undead case does not set the kill trait: "+str(ka))
     if not rows["after"]["nonanimal"]["passed"]:
         raise RuntimeError("Corrected control failed")
     for mode in CONTROLS:
@@ -140,7 +145,7 @@ add_compile_definitions(PRIVATE_USER_PATH="{root/'test-user'}")
              "fixed_source_sha256":hashlib.sha256((source/SOURCE).read_bytes()).hexdigest()}
     (root/"result.json").write_text(json.dumps(summary,indent=2)+"\n")
     subprocess.run([sys.executable,str(evidence/"make_replay.py"),str(evidence)],check=True)
-    print("VERIFIED: the original rates the Slay Animal weapon at 17 against an animal (the no-slay reading), the correction at 20; control identical.",flush=True)
+    print("VERIFIED: the original rates the Slay Animal weapon at 17 against an animal (the no-slay reading), the correction at 20; control identical; kill-undead trait 0 before, 1 after.",flush=True)
     print(f"Logs and result.json: {root}",flush=True)
 
 if __name__=="__main__":

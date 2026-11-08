@@ -1,7 +1,7 @@
 import json,os,re,subprocess,sys
 from pathlib import Path
 phase,binary,directory=sys.argv[1:];root=Path(directory)
-cases=('animal','nonanimal')
+cases=('animal','nonanimal','kill-undead')
 rows={}
 for mode in cases:
  env=os.environ|{'S239_MODE':mode,'S239_PROFILE':str(root/'profile')}

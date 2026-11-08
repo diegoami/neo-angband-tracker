@@ -54,18 +54,20 @@
 static term screen;
 static struct monster *animal;
 
-static struct object *known_weapon(void)
+static struct object *known_weapon(int race_flag, int multiplier)
 {
     struct object *obj = object_new();
     struct object_kind *kind = lookup_kind(TV_SWORD, lookup_sval(TV_SWORD, "Broad Sword"));
     if (!kind) quit("fixture weapon kind missing");
     object_prep(obj, kind, 50, MAXIMISE);
     /* Give the weapon the animals slay (race flag ANIMAL, the base
-     * multiplier of two), as a Slay Animal ego would. */
+     * multiplier of two), as a Slay Animal ego would; the kill-undead
+     * mode instead gives the race-destroying undead slay (race flag
+     * UNDEAD, multiplier five), as a *Slay Undead* weapon carries. */
     if (!obj->slays) obj->slays = mem_zalloc(z_info->slay_max * sizeof(bool));
     int found = 0;
     for (int i = 0; i < z_info->slay_max; i++)
-        if (slays[i].race_flag == RF_ANIMAL && slays[i].multiplier == 2) {
+        if (slays[i].race_flag == race_flag && slays[i].multiplier == multiplier) {
             obj->slays[i] = true;
             found++;
         }
@@ -106,7 +108,9 @@ int setup_tests(void **state)
     /* A Slay Animal broadsword in the weapon slot, and the birth light
      * wielded in the later light slot, which is the slot whose empty
      * slays erase the weapon's in the original. */
-    struct object *sword = known_weapon();
+    bool kill_mode = mode && streq(mode, "kill-undead");
+    struct object *sword = kill_mode ? known_weapon(RF_UNDEAD, 5)
+        : known_weapon(RF_ANIMAL, 2);
     inven_wield(sword, wield_slot(sword));
     for (int pass = 0; pass < 4; pass++) {
         for (struct object *obj = player->gear; obj; obj = obj->next) {
@@ -137,7 +141,8 @@ int setup_tests(void **state)
     /* An animal (or, in the control, a monster with no animal flag),
      * adjacent and awake. */
     animal = t_add_monster(cave, loc(12, 11),
-        (mode && streq(mode, "nonanimal")) ? "Small kobold" : "White harpy");
+        (mode && streq(mode, "nonanimal")) ? "Small kobold"
+        : kill_mode ? "Zombified orc" : "White harpy");
     if (!animal) { printf("SETUPFAIL animal\n"); return 1; }
     update_mon(animal, cave, true);
     if (!mflag_has(animal->mflag, MFLAG_VISIBLE)) { printf("SETUPFAIL visible\n"); return 1; }
@@ -196,6 +201,31 @@ static int scenario(void *state)
     printf("GEOMETRY player=(%d,%d) animal=(%d,%d) rf_animal=%d temp_n=%d\n",
         borg.c.x, borg.c.y, animal->grid.x, animal->grid.y,
         (int)rf_has(r_ptr->flags, RF_ANIMAL), borg_temp_n);
+
+    if (mode && streq(mode, "kill-undead")) {
+        /* The kill multiplier: the inventory scan should set the
+         * race-destroying trait BI_WK_UNDEAD for a wielded multiplier-five
+         * undead slay.  Measure the thrust value as computed, with only the
+         * plain undead slay (three times) and with the kill trait (five
+         * times) against an adjacent zombified orc. */
+        int ws = borg.trait[BI_WS_UNDEAD], wk = borg.trait[BI_WK_UNDEAD];
+        printf("TRAIT ws_undead=%d wk_undead=%d rf_undead=%d\n", ws, wk,
+            (int)rf_has(r_ptr->flags, RF_UNDEAD));
+        int auto_value = thrust_value();
+        borg.trait[BI_WS_UNDEAD] = 1; borg.trait[BI_WK_UNDEAD] = 0;
+        int slay_only = thrust_value();
+        borg.trait[BI_WK_UNDEAD] = 1;
+        int kill = thrust_value();
+        borg.trait[BI_WS_UNDEAD] = ws; borg.trait[BI_WK_UNDEAD] = wk;
+        printf("RATING auto=%d slay_only=%d kill=%d\n", auto_value, slay_only, kill);
+        printf("OUTCOME auto=%d slay_only=%d kill=%d wk_undead=%d\n",
+            auto_value, slay_only, kill, wk);
+        /* Correct contract: the kill trait is set and the computed value
+         * is the five-times reading. */
+        require(wk);
+        eq(auto_value, kill);
+        ok;
+    }
 
     int trait_as_computed = borg.trait[BI_WS_ANIMAL];
 
