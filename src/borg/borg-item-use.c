@@ -394,7 +394,7 @@ bool borg_eat_food_any(void)
     }
     /* Consume in order, when hurting */
     if ((borg.trait[BI_CURHP] < 4
-            || (borg.trait[BI_CURHP] <= borg.trait[BI_MAXHP]))
+            || (borg.trait[BI_CURHP] < borg.trait[BI_MAXHP]))
         && (borg_quaff_potion(sv_potion_cure_light)
             || borg_quaff_potion(sv_potion_cure_serious)
             || borg_quaff_potion(sv_potion_cure_critical)
