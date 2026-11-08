@@ -1,0 +1,16 @@
+Native evidence directory: /tmp/angband-dispel-248-thvbd5hb
+Preparing worktree (detached HEAD e473720ed)
+HEAD is now at e473720ed Term_clear() and loop over height calling Term_erase() are not synonyms
+configure: shared validation lock; log /tmp/angband-dispel-248-thvbd5hb/configure.log
+before-build: shared validation lock; log /tmp/angband-dispel-248-thvbd5hb/before-build.log
+before-scenarios: shared validation lock; log /tmp/angband-dispel-248-thvbd5hb/before-scenarios.log
+before-alltests: shared validation lock; log /tmp/angband-dispel-248-thvbd5hb/before-alltests.log
+after-build: shared validation lock; log /tmp/angband-dispel-248-thvbd5hb/after-build.log
+after-scenarios: shared validation lock; log /tmp/angband-dispel-248-thvbd5hb/after-scenarios.log
+after-alltests: shared validation lock; log /tmp/angband-dispel-248-thvbd5hb/after-alltests.log
+  File "/tmp/angband-dispel-248-thvbd5hb/evidence/make_replay.py", line 7
+    'bolt':('Control: the primary bolt is untouched','Only the class\'s primary nether bolt is valued against the same living giant. The Dispel Life filter plays no part, and the complete log is byte-identical before and after the correction.'}
+                                                                                                                                                                                                                                                   ^
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '('
+Reproduction failed: Command '['/usr/local/bin/python3', '/tmp/angband-dispel-248-thvbd5hb/evidence/make_replay.py', '/tmp/angband-dispel-248-thvbd5hb/evidence']' returned non-zero exit status 1.
+EXIT 1

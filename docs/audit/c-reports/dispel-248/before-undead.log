@@ -1,0 +1,10 @@
+native-c/dispel-248: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Necromancer level=26 depth=30 hp=158/158 sp=144/144 target=vampire bat hp=47 undead=1
+  dispel_life_rates_living_monsters  MODE undead
+GATE spell_okay=1 legal=1 temp_n=1
+LAUNCH direct=-1
+RATING value=-21 expected_average=39 clevel=26
+OUTCOME hp_before=47 hp_after=47 hp_lost=0 undead=1
+Passed
+native-c/dispel-248 finished: 1/1 passed
