@@ -1,0 +1,290 @@
+{
+  "purpose": "Re-verification run at the original receipt pins; the original run's logs were dropped by the repository's *.log ignore rule although its receipt listed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "405e4fd4880e7bef27d6a6328765a904638c8257",
+  "fixtures_ref": "8b30eb5845ae542b41f2601d4370c044f13c21ac",
+  "original_receipt_pins": {
+    "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+    "fix": "405e4fd4880e7bef27d6a6328765a904638c8257",
+    "fixtures_ref": "8b30eb5845ae542b41f2601d4370c044f13c21ac"
+  },
+  "cases_match_original_result_json": true,
+  "case_differences": [],
+  "cases": {
+    "before-normal": {
+      "no-target": {
+        "exit": 0,
+        "passed": false,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 0,
+          "keys": 3
+        },
+        "outcome": {
+          "return": 0,
+          "keys": 3
+        }
+      },
+      "live-shot": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 4,
+          "keys": 11
+        },
+        "outcome": {
+          "return": 4,
+          "keys": 11
+        }
+      },
+      "simulated": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 4,
+          "keys": 0
+        },
+        "outcome": {
+          "return": 4,
+          "keys": 0
+        }
+      }
+    },
+    "before-asan": {
+      "no-target": {
+        "exit": 1,
+        "passed": false,
+        "asan": true,
+        "oob_read": true
+      },
+      "live-shot": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 4,
+          "keys": 11
+        },
+        "outcome": {
+          "return": 4,
+          "keys": 11
+        }
+      },
+      "simulated": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 4,
+          "keys": 0
+        },
+        "outcome": {
+          "return": 4,
+          "keys": 0
+        }
+      }
+    },
+    "after-normal": {
+      "no-target": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "return": 0,
+          "keys": 0
+        }
+      },
+      "live-shot": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 4,
+          "keys": 11
+        },
+        "outcome": {
+          "return": 4,
+          "keys": 11
+        }
+      },
+      "simulated": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 4,
+          "keys": 0
+        },
+        "outcome": {
+          "return": 4,
+          "keys": 0
+        }
+      }
+    },
+    "after-asan": {
+      "no-target": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "return": 0,
+          "keys": 0
+        }
+      },
+      "live-shot": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 4,
+          "keys": 11
+        },
+        "outcome": {
+          "return": 4,
+          "keys": 11
+        }
+      },
+      "simulated": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "oob_read": false,
+        "decision": {
+          "return": 4,
+          "keys": 0
+        },
+        "outcome": {
+          "return": 4,
+          "keys": 0
+        }
+      }
+    }
+  },
+  "identical_full_logs": [
+    "live-shot",
+    "simulated"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "gate_lines_from_alltests_logs": {
+    "before": {
+      "total_lines": [
+        "Total: 965/965 passed (100.0%)",
+        "Total: 5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "total_lines": [
+        "Total: 965/965 passed (100.0%)",
+        "Total: 5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "fixed_source_sha256": "1750601167e32b6d7983a3134d52696a24d44d707a91a08d8413f5feee527385",
+  "fixed_source_sha256_matches_original": true,
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium, clicks every option/button)",
+    "page": "../replay.html (committed)",
+    "result": "RENDER-SMOKE actions=9 errors=0 OK"
+  },
+  "regenerated_replay_vs_committed": {
+    "replay-data.json": "byte-identical to committed",
+    "replay.html": "byte-identical to committed"
+  },
+  "files_byte_identical_to_original_receipt_hash": [
+    "after-asan-build.log",
+    "after-asan-scenarios.log",
+    "after-live-shot.log",
+    "after-no-target.log",
+    "after-normal-scenarios.log",
+    "after-results.json",
+    "after-simulated.log",
+    "asan-after-live-shot.log",
+    "asan-after-no-target.log",
+    "asan-after-results.json",
+    "asan-after-simulated.log",
+    "asan-before-live-shot.log",
+    "asan-before-simulated.log",
+    "before-asan-scenarios.log",
+    "before-live-shot.log",
+    "before-no-target.log",
+    "before-normal-scenarios.log",
+    "before-results.json",
+    "before-simulated.log",
+    "result.json"
+  ],
+  "files_differing_from_original_receipt_hash": [
+    "after-alltests.log",
+    "after-normal-build.log",
+    "asan-before-no-target.log",
+    "before-alltests.log",
+    "before-asan-build.log",
+    "before-normal-build.log",
+    "configure-asan.log",
+    "configure.log"
+  ],
+  "sha256": {
+    "after-alltests.log": "3f5629a7b38e3831358a7566829eb79d8bd7d79343f5c22c4233fbb817cd63da",
+    "after-asan-build.log": "34feddb350b49e16c608d8f1e2fa3fb08c020bfd80b7d8ffbeac756fd4df7ed5",
+    "after-asan-scenarios.log": "545c45f3a09d7c173e95b78ffd07e5ba0814e192551b1b50f462ef27b90343d2",
+    "after-live-shot.log": "1a0bb575da7e826189716802884292d2644ffaf23a86e2f6e90352cc682cb649",
+    "after-no-target.log": "543f19d33a48a3ffe7a20312638fcc27084a1d2b584143dd0e408933fe0eb1d0",
+    "after-normal-build.log": "9d3a1ca201dd801db534b425357e412af45d82c95fbb0193601626f33a3adf97",
+    "after-normal-scenarios.log": "545c45f3a09d7c173e95b78ffd07e5ba0814e192551b1b50f462ef27b90343d2",
+    "after-results.json": "bdf08ca58ed11d1bdea67df6ced6807baf4d462844572ba57b173aa6e0da24a6",
+    "after-simulated.log": "e8d9fa7820fc15e6aa21589ebdbe068bd0a4b7d687b8bed6922adfa3f9b8e7b8",
+    "asan-after-live-shot.log": "1a0bb575da7e826189716802884292d2644ffaf23a86e2f6e90352cc682cb649",
+    "asan-after-no-target.log": "543f19d33a48a3ffe7a20312638fcc27084a1d2b584143dd0e408933fe0eb1d0",
+    "asan-after-results.json": "bdf08ca58ed11d1bdea67df6ced6807baf4d462844572ba57b173aa6e0da24a6",
+    "asan-after-simulated.log": "e8d9fa7820fc15e6aa21589ebdbe068bd0a4b7d687b8bed6922adfa3f9b8e7b8",
+    "asan-before-live-shot.log": "1a0bb575da7e826189716802884292d2644ffaf23a86e2f6e90352cc682cb649",
+    "asan-before-no-target.log": "286cc27a7d41238fc4a05d7e2aaf6186dae8fa9ce36187117ed9b63254f1a813",
+    "asan-before-results.json": "ee3a8cb8e5461c3b68f684594289b59cf20ce34c0d3344e3c5075db754be6f02",
+    "asan-before-simulated.log": "e8d9fa7820fc15e6aa21589ebdbe068bd0a4b7d687b8bed6922adfa3f9b8e7b8",
+    "before-alltests.log": "ad2fcb924a9e19dd181c3133ea023a85fa7f04a407f8f917a208154fbec8e0c7",
+    "before-asan-build.log": "ff42934245f41ecdbc778b001d8295a4888f33d4264ef6164b01d8407af8dd18",
+    "before-asan-scenarios.log": "78fc9411abea82f2eab623b2eec369d83d3c9fd5766fe6d3eff7de3f57e3add6",
+    "before-live-shot.log": "1a0bb575da7e826189716802884292d2644ffaf23a86e2f6e90352cc682cb649",
+    "before-no-target.log": "1c73061346945ee71cacd386b91cc8d0d6bdfff064544a9723ff151c3a15dec7",
+    "before-normal-build.log": "ab853abc4b46552835e5f20d024da26b91b5ef388a4f9c88ef0b3e19819632cc",
+    "before-normal-scenarios.log": "53d39b4dc43e2e5594eb45402e96b3d0b522aa3fd892f2ba0ef12c93a7edcb10",
+    "before-results.json": "7f85ace8da4dbd7827ce48313091a1fd108a0897568fb26f65c59895968332f9",
+    "before-simulated.log": "e8d9fa7820fc15e6aa21589ebdbe068bd0a4b7d687b8bed6922adfa3f9b8e7b8",
+    "configure-asan.log": "9af6706fe51874c35c995c7a1a7e50eabe24b578cb670f2722963dff8649efbb",
+    "configure.log": "9df61852b50b689cf3ea0173651b6bc70ed95878a30e587abc348f3d9867d094",
+    "result.json": "91c401cbe03212044c391ff67b29add4c4805447c916109dd78774fa52698f6f"
+  }
+}

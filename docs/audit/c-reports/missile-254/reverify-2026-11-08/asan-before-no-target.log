@@ -1,0 +1,65 @@
+native-c/missile-254: starting...
+SETUPSTEP profile
+QUIVER slot=35 letter_index=0 tval=3 sval=1 n=20
+SETUP seed=1000 class=Warrior level=11 depth=10 hp=91/91 ammo_tval=3 bow_iqty=1
+  launch_without_target_does_not_fire  =================================================================
+==19971==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x52e000018078 at pc 0x7f30f7a7d96f bp 0x7ffddc501880 sp 0x7ffddc501028
+READ of size 1 at 0x52e000018078 thread T0
+    #0 0x7f30f7a7d96e in strlen ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:391
+    #1 0x55e73cdfba31 in my_strcpy /tmp/angband-missile-254-vgxz4o5i/source/src/z-util.c:482
+    #2 0x55e73cdf0a57 in vstrnfmt /tmp/angband-missile-254-vgxz4o5i/source/src/z-form.c:496
+    #3 0x55e73cdf110e in vformat /tmp/angband-missile-254-vgxz4o5i/source/src/z-form.c:589
+    #4 0x55e73cdf14f6 in format /tmp/angband-missile-254-vgxz4o5i/source/src/z-form.c:648
+    #5 0x55e73ce4c927 in borg_attack_aux_launch /tmp/angband-missile-254-vgxz4o5i/source/src/borg/borg-fight-attack.c:2148
+    #6 0x55e73ca72515 in scenario /tmp/angband-missile-254-vgxz4o5i/evidence/normal/scenario.c:179
+    #7 0x55e73cfac394 in main /tmp/angband-missile-254-vgxz4o5i/source/src/tests/unit-test.c:53
+    #8 0x7f30f762a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #9 0x7f30f762a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #10 0x55e73ca6fe64 in _start (/tmp/angband-missile-254-vgxz4o5i/build-asan/game/M254Observer+0x14ae64) (BuildId: f5f303459539f3a86fffa67c28b497ea040e8b98)
+
+0x52e000018078 is located 904 bytes before 40680-byte region [0x52e000018400,0x52e0000222e8)
+allocated by thread T0 here:
+    #0 0x7f30f7afd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55e73ce03723 in mem_alloc /tmp/angband-missile-254-vgxz4o5i/source/src/z-virt.c:38
+    #2 0x55e73ce0375f in mem_zalloc /tmp/angband-missile-254-vgxz4o5i/source/src/z-virt.c:46
+    #3 0x55e73cef14f2 in borg_init_item /tmp/angband-missile-254-vgxz4o5i/source/src/borg/borg-item.c:141
+    #4 0x55e73cecec3f in borg_init /tmp/angband-missile-254-vgxz4o5i/source/src/borg/borg-init.c:579
+    #5 0x55e73ca70c78 in setup_tests /tmp/angband-missile-254-vgxz4o5i/evidence/normal/scenario.c:100
+    #6 0x55e73cfac211 in main /tmp/angband-missile-254-vgxz4o5i/source/src/tests/unit-test.c:45
+    #7 0x7f30f762a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #8 0x7f30f762a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #9 0x55e73ca6fe64 in _start (/tmp/angband-missile-254-vgxz4o5i/build-asan/game/M254Observer+0x14ae64) (BuildId: f5f303459539f3a86fffa67c28b497ea040e8b98)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:391 in strlen
+Shadow bytes around the buggy address:
+  0x52e000017d80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x52e000017e00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x52e000017e80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x52e000017f00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x52e000017f80: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+=>0x52e000018000: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa[fa]
+  0x52e000018080: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x52e000018100: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x52e000018180: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x52e000018200: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x52e000018280: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==19971==ABORTING

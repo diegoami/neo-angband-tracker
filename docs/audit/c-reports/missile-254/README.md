@@ -122,3 +122,54 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs including the asan
 variants. [Full receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the original run's phase, build and gate logs were listed and hashed in
+`receipt.json` but never committed (the repository's `*.log` ignore rule
+dropped them), so the receipt could not be checked against published bytes.
+The same pinned runner was run again on 2026-11-08 at the receipt's own pins
+(base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `405e4fd4880e7bef27d6a6328765a904638c8257`, fixtures `8b30eb5845ae542b41f2601d4370c044f13c21ac`) with `--full-tests` (normal and AddressSanitizer builds).
+Every case reproduced the recorded outcome; the runner's per-case results
+(`result.json` `cases`) are identical to the committed original.
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `no-target` (normal) | `DECISION return=0 keys=3 sequence=f5` (fire keys queued with no target); 0/1 | `keys=0`, nothing queued; 1/1 |
+| `no-target` (asan) | heap-buffer-overflow `READ of size 1` (strlen ← format ← `borg_attack_aux_launch`, `borg-fight-attack.c:2148`); 0/1 | 1/1, no sanitizer report |
+| `live-shot` (control) | `return=4 keys=11`; 1/1 | byte-identical log (normal and asan) |
+| `simulated` (control) | `return=4 keys=0`; 1/1 | byte-identical log (normal and asan) |
+
+Gates from the re-run's alltests logs: before Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines); after Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines).
+Re-run toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, cmake version 3.28.3 (the original receipt records
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, cmake version 4.2.3; the toolchain differs, and the files listed
+below as byte-identical are identical nonetheless).
+Corrected source sha256 matches the original receipt.
+Render check of the committed `replay.html` with `tools/c-evidence/render-smoke.js`
+(Playwright Chromium, every option and button clicked): `RENDER-SMOKE actions=9 errors=0 OK`.
+The original receipt records its own headless check under the `browser` key.
+The regenerated `replay.html` and `replay-data.json` are byte-identical to the committed ones.
+
+Where the logs are: [`reverify-2026-11-08/`](reverify-2026-11-08/) holds every log,
+`result.json` and per-mode results of the re-run, with
+[`reverify-2026-11-08/receipt.json`](reverify-2026-11-08/receipt.json) (pins, per-case
+results, gate lines, toolchain, render result, sha256 of every file there).
+20 re-run files are byte-identical to the hashes in the original
+`receipt.json`; those not already committed were also placed at their original paths in this directory, so the original receipt now resolves for them: `after-asan-build.log`, `after-asan-scenarios.log`, `after-live-shot.log`, `after-no-target.log`, `after-normal-scenarios.log`, `after-simulated.log`, `asan-after-live-shot.log`, `asan-after-no-target.log`, `asan-after-simulated.log`, `asan-before-live-shot.log`, `asan-before-simulated.log`, `before-asan-scenarios.log`, `before-live-shot.log`, `before-no-target.log`, `before-normal-scenarios.log`, `before-simulated.log`.
+The rest (`after-alltests.log`, `after-normal-build.log`, `asan-before-no-target.log`, `before-alltests.log`, `before-asan-build.log`, `before-normal-build.log`, `configure-asan.log`, `configure.log`) differ in
+run-specific content (temporary paths, timings, build output of the different toolchain, sanitizer addresses and process ids) and are
+published only under `reverify-2026-11-08/`.
+
+Repeat (fixtures pinned by sha; the fix sha is fixed inside `reproduce.py` at that pin, and the runner
+refuses any other source diff):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/missile-254-evidence
+git show 8b30eb5845ae542b41f2601d4370c044f13c21ac:docs/audit/c-reports/missile-254/reproduce.py > /tmp/reproduce-missile-254.py
+python3 /tmp/reproduce-missile-254.py --full-tests --fixtures-ref 8b30eb5845ae542b41f2601d4370c044f13c21ac
+```
+
+## Errata (2026-11-08)
+
+- `receipt.json` hashes `README.md` as it stood when the receipt was last written; this appended section changes the README, so that one hash no longer matches by design.
