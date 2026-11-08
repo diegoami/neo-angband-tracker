@@ -26,7 +26,12 @@ for (const [dir, pin] of [
 ]) {
 	if (git(dir, "rev-parse", "HEAD") !== pin)
 		throw new Error("Unexpected upstream source pin: " + dir);
-	if (git(dir, "diff", "HEAD", "--numstat"))
+	if (
+		git(dir, "diff", "HEAD", "--numstat")
+			.split("\n")
+			.filter(Boolean)
+			.some((row) => !/^0\t0\t/.test(row))
+	)
 		throw new Error("Tracked source contents changed: " + dir);
 	const modes = git(dir, "diff", "HEAD", "--summary");
 	if (
