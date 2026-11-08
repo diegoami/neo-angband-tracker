@@ -118,3 +118,65 @@ stale-read, not full autonomous play.
   fixed-source sha256.
 - `replay.html`, `replay-data.json` — the offline demo.
 - `receipt.json` — sha256 map of every file in this directory.
+
+## Re-verification (2026-11-08)
+
+Why: the logs of the original run were listed in `receipt.json` (with
+sha256 values) but were never committed — the repository's `*.log`
+ignore rule dropped them. To give reviewers the actual logs, the
+pinned runner was executed again at the same pins (fixtures
+`6f6710ccc3a3dc1b035544338444048b2f7cbced`, base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `e890819a6b5ac6e7f7135dcc2b234fcc520b9752`) with `--full-tests`.
+The earlier text above is left unchanged.
+
+The run reproduced every recorded case: per-case pass/fail and every
+parsed outcome value in its `result.json` equal the `cases` in the
+original `receipt.json` (`matches_original_receipt_cases: true`).
+Runner verdict: `VERIFIED: the original lets a stale entry erase the giant's danger, the correction counts it; two control logs identical.`
+
+| Mode | Original (base) | Corrected (fix) |
+| --- | --- | --- |
+| `stale-hit` | FAIL: idx0=0 idx1=1; danger=0 | pass: idx0=0 idx1=1; danger=1 |
+| `in-list` (control, byte-identical) | pass: idx0=1 idx1=0; danger=0 | pass: idx0=1 idx1=0; danger=0 |
+| `empty` (control, byte-identical) | pass: idx0=0 idx1=0; danger=1 | pass: idx0=0 idx1=0; danger=1 |
+
+Full native gates, parsed from the committed alltests logs: original
+965/965 unit checks and 5/5 frontend tests; corrected
+965/965 and 5/5. Toolchain for this run: `cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0`,
+`cmake version 3.28.3` (the original run recorded `gcc 15.2.0`, `cmake 4.2.3`). Replay render
+check on the committed `replay.html`: `RENDER-SMOKE actions=9 errors=0 OK`
+(`tools/c-evidence/render-smoke.js`, Playwright Chromium headless).
+
+Logs, `result.json`, per-phase results and a `receipt.json` with the
+sha256 of every file are in [`reverify-2026-11-08/`](reverify-2026-11-08/).
+Repeat (fixtures pinned by sha; this runner has no `--fix-ref` flag: the
+fix sha `e890819a6b5ac6e7f7135dcc2b234fcc520b9752` is a constant in the pinned script, which
+asserts the source diff against it):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/tpreader-250-evidence
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/tpreader-250
+git show 6f6710ccc3a3dc1b035544338444048b2f7cbced:docs/audit/c-reports/tpreader-250/reproduce.py > /tmp/reproduce-tpreader-250.py
+python3 /tmp/reproduce-tpreader-250.py --full-tests --fixtures-ref 6f6710ccc3a3dc1b035544338444048b2f7cbced
+```
+
+## Errata (2026-11-08)
+
+`receipt.json` records `fixtures_ref`
+`6cc5ae14af46a8c269bb5ca22609f882791aa485`; that commit does not exist
+in this repository. The correct fixtures pin is the one this README
+already prints, `6f6710ccc3a3dc1b035544338444048b2f7cbced` ("CBUG:
+native Teleport Other stale-exclusion fixture (tpreader-250)"), the
+parent of the artifact commit `9ca89f4461e5`. Its `scenario.c`,
+`run-cases.py`, `make_replay.py`, `reproduce.py` and `borg.txt` match
+the sha256 values in `receipt.json` byte for byte, and the
+re-verification above ran at that pin. The repeat commands above are
+correct as printed.
+
+"Source proposal: PR (see the issue)" above refers to
+diegoami/neo-angband-tracker#380; this evidence package is PR #381.
+
+Scope note: the corrected loop is the same one-comparison change as the
+reader correction already demonstrated for issue #67 (CBUG-0051, pair
+#285/#286); this package re-demonstrates it with a different fixture
+(adjacent hill giant, danger 0 vs 179). Whether to keep it as a separate
+pair or fold it into #67 is an owner decision recorded on issue #250.

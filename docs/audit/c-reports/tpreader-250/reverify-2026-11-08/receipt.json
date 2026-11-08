@@ -1,0 +1,146 @@
+{
+ "slug": "tpreader-250",
+ "issue": 250,
+ "date": "2026-11-08",
+ "why": "the original run's logs were listed in receipt.json but never committed (dropped by the repository's *.log ignore rule); this run re-executes the same pins and commits its logs",
+ "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+ "fix": "e890819a6b5ac6e7f7135dcc2b234fcc520b9752",
+ "fixtures_ref": "6f6710ccc3a3dc1b035544338444048b2f7cbced",
+ "original_receipt_fixtures_ref": "6cc5ae14af46a8c269bb5ca22609f882791aa485",
+ "command": "git show 6f6710ccc3a3dc1b035544338444048b2f7cbced:docs/audit/c-reports/tpreader-250/reproduce.py > /tmp/reproduce-tpreader-250.py && python3 /tmp/reproduce-tpreader-250.py --full-tests --fixtures-ref 6f6710ccc3a3dc1b035544338444048b2f7cbced",
+ "runner_verdict": [
+  "VERIFIED: the original lets a stale entry erase the giant's danger, the correction counts it; two control logs identical."
+ ],
+ "cases": {
+  "before": {
+   "stale-hit": {
+    "exit": 0,
+    "passed": false,
+    "setup": {
+     "idx0": 0,
+     "idx1": 1
+    },
+    "danger": {
+     "danger": 0
+    },
+    "outcome": {
+     "danger": 0
+    }
+   },
+   "in-list": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "idx0": 1,
+     "idx1": 0
+    },
+    "danger": {
+     "danger": 0
+    },
+    "outcome": {
+     "danger": 0
+    }
+   },
+   "empty": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "idx0": 0,
+     "idx1": 0
+    },
+    "danger": {
+     "danger": 179
+    },
+    "outcome": {
+     "danger": 1
+    }
+   }
+  },
+  "after": {
+   "stale-hit": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "idx0": 0,
+     "idx1": 1
+    },
+    "danger": {
+     "danger": 179
+    },
+    "outcome": {
+     "danger": 1
+    }
+   },
+   "in-list": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "idx0": 1,
+     "idx1": 0
+    },
+    "danger": {
+     "danger": 0
+    },
+    "outcome": {
+     "danger": 0
+    }
+   },
+   "empty": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "idx0": 0,
+     "idx1": 0
+    },
+    "danger": {
+     "danger": 179
+    },
+    "outcome": {
+     "danger": 1
+    }
+   }
+  }
+ },
+ "matches_original_receipt_cases": true,
+ "identical_full_logs": [
+  "in-list",
+  "empty"
+ ],
+ "full_tests": {
+  "before": {
+   "units": "965/965",
+   "frontends": "5/5",
+   "failed_lines": 0
+  },
+  "after": {
+   "units": "965/965",
+   "frontends": "5/5",
+   "failed_lines": 0
+  }
+ },
+ "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+ "cmake": "cmake version 3.28.3",
+ "render_check": {
+  "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless) on the committed replay.html",
+  "result": "RENDER-SMOKE actions=9 errors=0 OK",
+  "exit": 0
+ },
+ "sha256": {
+  "after-alltests.log": "f90ab12c96ceb08b4ed27a3a6f62390ef528d76989e7f28955ec55be99a0bbb9",
+  "after-build.log": "de80be678bb3122f22baf5085bbbcc66f4522682d96c8182d41558a471db1ed4",
+  "after-empty.log": "2c6c99077fab9c1c936ab164d39dd2c62263305f7d5548862b89b3e864f2d836",
+  "after-in-list.log": "9cf7e62f4ee0280f814ffe1bb0c7f38820d9c8d4e9af393667a2432bfca302fc",
+  "after-results.json": "6535c4b371ee2d152e603fe94f44c0d25dad2ba313162bb73ffa64301a15d567",
+  "after-scenarios.log": "3be413983ff48149bfabef3b212a2fb7f2e6a4e4c569de2b4388d24645d1157e",
+  "after-stale-hit.log": "9f765a0c5b83ad524f63ccd37617eb59add3e8f1f6d458fffb1eefebd70bc704",
+  "before-alltests.log": "7f16bf7ea42e04852fafddf2d0394e88f377e7a675821612545bcc060b60f83f",
+  "before-build.log": "6b019402df11bbb41ea395f40db1abf4c5c1dd14304a0681c3f34fdbeefe3443",
+  "before-empty.log": "2c6c99077fab9c1c936ab164d39dd2c62263305f7d5548862b89b3e864f2d836",
+  "before-in-list.log": "9cf7e62f4ee0280f814ffe1bb0c7f38820d9c8d4e9af393667a2432bfca302fc",
+  "before-results.json": "4fde60c8c41ef4baf1b40f749940db4110539a7ddf421d74d6ecc6ec153f8d06",
+  "before-scenarios.log": "73791c9ceee1201219a97ce911de6347ac65503b56b55c69f6246427b0386cd5",
+  "before-stale-hit.log": "5e9b3544510d99113f92e7275f6e5fe4c506375a9888f48f8f53964b7ae95b51",
+  "configure.log": "43012d2c7fa2cd4ca8df99f9a113a2d9bd3da2ce538f6e53fc74fcd04c9c4622",
+  "result.json": "fff883d87ef3f6aebc8fa7b6a9782c86355765aedffeee1907380771d1d2fcc8"
+ }
+}
