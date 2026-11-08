@@ -1,0 +1,138 @@
+{
+ "slug": "calllight-231",
+ "issue": 231,
+ "date": "2026-11-08",
+ "why": "the original run's logs were listed in receipt.json but never committed (dropped by the repository's *.log ignore rule); this run re-executes the same pins and commits its logs",
+ "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+ "fix": "cda4fb662cabee8a49fbdbcaf4383dc7be1fff1c",
+ "fixtures_ref": "f7058cd56f58938d68c37523816a99020efd8f75",
+ "original_receipt_fixtures_ref": "f7058cd56f58938d68c37523816a99020efd8f75",
+ "command": "git show f7058cd56f58938d68c37523816a99020efd8f75:docs/audit/c-reports/calllight-231/reproduce.py > /tmp/reproduce-calllight-231.py && python3 /tmp/reproduce-calllight-231.py --full-tests --fixtures-ref f7058cd56f58938d68c37523816a99020efd8f75",
+ "runner_verdict": [
+  "VERIFIED: the original leaves the lit doorway unmarked, the correction repairs the mark; control log identical."
+ ],
+ "cases": {
+  "before": {
+   "own-open-door": {
+    "exit": 0,
+    "passed": false,
+    "setup": {
+     "ownglow_before": 0,
+     "isglow": 1
+    },
+    "state": {
+     "ownglow": 0
+    },
+    "outcome": {
+     "ownglow": 0
+    }
+   },
+   "floor": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "ownglow_before": 1,
+     "isglow": 1
+    },
+    "state": {
+     "ownglow": 1
+    },
+    "outcome": {
+     "ownglow": 1
+    }
+   }
+  },
+  "after": {
+   "own-open-door": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "ownglow_before": 0,
+     "isglow": 1
+    },
+    "state": {
+     "ownglow": 1
+    },
+    "outcome": {
+     "ownglow": 1
+    }
+   },
+   "floor": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "ownglow_before": 1,
+     "isglow": 1
+    },
+    "state": {
+     "ownglow": 1
+    },
+    "outcome": {
+     "ownglow": 1
+    }
+   }
+  }
+ },
+ "matches_original_receipt_cases": true,
+ "identical_full_logs": [
+  "floor"
+ ],
+ "full_tests": {
+  "before": {
+   "units": "965/965",
+   "frontends": "5/5",
+   "failed_lines": 0
+  },
+  "after": {
+   "units": "965/965",
+   "frontends": "5/5",
+   "failed_lines": 0
+  }
+ },
+ "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+ "cmake": "cmake version 3.28.3",
+ "render_check": {
+  "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless) on the committed replay.html",
+  "result": "RENDER-SMOKE actions=6 errors=0 OK",
+  "exit": 0
+ },
+ "sha256": {
+  "after-alltests.log": "1b6bacce87c7fc70b568c30d729a367d5af5f97d2fa330ce795d9a680c8da89b",
+  "after-build.log": "ddf26b985caaf9b1a686f997aa2bacf28a2d68cc28999691c70cf066ef22a11f",
+  "after-floor.log": "959f03341e6259b2d8a3ccaccd7911e45bf5eae219b59e79a6a4a766bad06e5a",
+  "after-own-open-door.log": "c0f583ec7ae41ec72d6d083530ec85c014752396d9abd4ac3b7b2d83f4f769bc",
+  "after-results.json": "23a8dd6dca320ffef0ea1186d6275aa8ed4c898142b72e0b5144ce47b959cce1",
+  "after-scenarios.log": "07408965e074a94747c32ebca3e80bc135fb07a4b3fd8e891f9f73c1c090b790",
+  "before-alltests.log": "f4eee2daf59e8ca985579cf7513fb5c5dfe0d8f7be92190c4f3364637a9718d9",
+  "before-build.log": "96ee698ae7188370c02df4c1db51e3098194a7af67217b337b198cd9047e5afd",
+  "before-floor.log": "959f03341e6259b2d8a3ccaccd7911e45bf5eae219b59e79a6a4a766bad06e5a",
+  "before-own-open-door.log": "c3b5785da84c49957ad76d9d50644c8d38902a43bef4edf94ff6de2bcd43db56",
+  "before-results.json": "899a909fdd34818f4177c265a84caa8fd245309c309111ac1757ad1970239829",
+  "before-scenarios.log": "781383dde3dd556cafe0e1794c4e899bb69c3fa6562026c1787f81831140b9be",
+  "configure.log": "0420bd5091d1ed3c4f408036bc798e7c428f978a5f5430e4ec3243bd32db9efb",
+  "result.json": "4a3d1760753824f61fa21b6900261fb08b27e704f468aaccce65d2aae4942214"
+ },
+ "restored_at_original_paths": [
+  "after-floor.log",
+  "after-own-open-door.log",
+  "after-scenarios.log",
+  "before-floor.log",
+  "before-own-open-door.log",
+  "before-scenarios.log"
+ ],
+ "not_restored_differ_from_original_hash": [
+  "after-alltests.log",
+  "after-build.log",
+  "before-alltests.log",
+  "before-build.log",
+  "configure.log"
+ ],
+ "receipt_amendments": [
+  {
+   "field": "sha256.README.md",
+   "old": "98f88d072037def2e798dab57b51e6dab44b79356b35c9447408a6408a62a2ea",
+   "new": "a5a72f4a01a631116242d1d97d40c90419e13435259631403f2ef730c8fc60a4",
+   "why": "README.md gained the appended Re-verification (and Errata) sections on 2026-11-08"
+  }
+ ]
+}

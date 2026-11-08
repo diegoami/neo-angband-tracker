@@ -1,0 +1,66 @@
+{
+  "own-open-door": {
+    "label": "The Borg stands in an open doorway",
+    "explanation": "A Warrior with a burned-out torch stands in an open doorway whose grid the game reports as lit, while the Borg's own map carries no glow mark for it (the state the door case exists to repair). The original scan visits only the eight neighbours, so the own-grid door case never fires and the lit mark is never repaired; the corrected scan includes the Borg's own grid, the door case fires, and the mark is set.",
+    "before": {
+      "raw": "native-c/calllight-231: starting...\nSETUPSTEP profile\nSETUP ownfeat=3 ownglow_before=0 isglow=1\nSETUP player-torch-timeout=0 borg-timeout=0\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  own_grid_door_lit_mark_repaired  MODE own-open-door\nDECISION acted=0 keys=0 sequence=\nSTATE ownglow=0\nOUTCOME ownglow=0\nFailed\n    native-c/calllight-231:165: requirement 'ownglow == 1' failed\nnative-c/calllight-231 finished: 0/1 passed\n",
+      "passed": false,
+      "setup": {
+        "ownglow_before": 0,
+        "isglow": 1
+      },
+      "state": {
+        "ownglow": 0
+      },
+      "outcome": {
+        "ownglow": 0
+      }
+    },
+    "after": {
+      "raw": "native-c/calllight-231: starting...\nSETUPSTEP profile\nSETUP ownfeat=3 ownglow_before=0 isglow=1\nSETUP player-torch-timeout=0 borg-timeout=0\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  own_grid_door_lit_mark_repaired  MODE own-open-door\nDECISION acted=0 keys=0 sequence=\nSTATE ownglow=1\nOUTCOME ownglow=1\nPassed\nnative-c/calllight-231 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "ownglow_before": 0,
+        "isglow": 1
+      },
+      "state": {
+        "ownglow": 1
+      },
+      "outcome": {
+        "ownglow": 1
+      }
+    }
+  },
+  "floor": {
+    "label": "Control: the own grid is a plain lit floor",
+    "explanation": "With a plain lit floor underfoot both versions leave the marks alone. The complete logs are byte-identical.",
+    "before": {
+      "raw": "native-c/calllight-231: starting...\nSETUPSTEP profile\nSETUP ownfeat=1 ownglow_before=1 isglow=1\nSETUP player-torch-timeout=0 borg-timeout=0\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  own_grid_door_lit_mark_repaired  MODE floor\nDECISION acted=0 keys=0 sequence=\nSTATE ownglow=1\nOUTCOME ownglow=1\nPassed\nnative-c/calllight-231 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "ownglow_before": 1,
+        "isglow": 1
+      },
+      "state": {
+        "ownglow": 1
+      },
+      "outcome": {
+        "ownglow": 1
+      }
+    },
+    "after": {
+      "raw": "native-c/calllight-231: starting...\nSETUPSTEP profile\nSETUP ownfeat=1 ownglow_before=1 isglow=1\nSETUP player-torch-timeout=0 borg-timeout=0\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  own_grid_door_lit_mark_repaired  MODE floor\nDECISION acted=0 keys=0 sequence=\nSTATE ownglow=1\nOUTCOME ownglow=1\nPassed\nnative-c/calllight-231 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "ownglow_before": 1,
+        "isglow": 1
+      },
+      "state": {
+        "ownglow": 1
+      },
+      "outcome": {
+        "ownglow": 1
+      }
+    }
+  }
+}

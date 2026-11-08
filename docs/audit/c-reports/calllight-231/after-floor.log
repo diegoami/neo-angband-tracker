@@ -1,0 +1,11 @@
+native-c/calllight-231: starting...
+SETUPSTEP profile
+SETUP ownfeat=1 ownglow_before=1 isglow=1
+SETUP player-torch-timeout=0 borg-timeout=0
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20
+  own_grid_door_lit_mark_repaired  MODE floor
+DECISION acted=0 keys=0 sequence=
+STATE ownglow=1
+OUTCOME ownglow=1
+Passed
+native-c/calllight-231 finished: 1/1 passed
