@@ -1,0 +1,113 @@
+{
+  "issue": "diegoami/neo-angband-tracker#40",
+  "report": "lightwest-40",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "6dd5874b444b00b8185fce58c823002ab6c544ad",
+  "fix_branch": "task/lightwest-40",
+  "fixtures_ref": "483a7a12c8470d43f890ac64f62f666691690a42",
+  "cases": {
+    "west": {
+      "before": {
+        "passed": false,
+        "state": {
+          "light": 3,
+          "lit_grids": 37,
+          "grid_lit": 0
+        },
+        "outcome": {
+          "ghost_kept": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "light": 3,
+          "lit_grids": 37,
+          "grid_lit": 1
+        },
+        "outcome": {
+          "ghost_kept": 0
+        }
+      }
+    },
+    "east": {
+      "before": {
+        "passed": true,
+        "state": {
+          "light": 3,
+          "lit_grids": 37,
+          "grid_lit": 1
+        },
+        "outcome": {
+          "ghost_kept": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "light": 3,
+          "lit_grids": 37,
+          "grid_lit": 1
+        },
+        "outcome": {
+          "ghost_kept": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "east"
+  ],
+  "claim": "With the monster last seen on the missing west grid, the original Borg did not treat the grid as lit and kept the monster as a ghost; with the grid lit the follow-up forgets it, as it does for the mirror grid on the east side, which is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-cave-light.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-cave-light.c": "361100451fc5972491ec79bfc5d14a21e4fe868f957d6e28e105669cb40b8860"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "3cdc538994631324a782a2c9df0d5cb3758f09eb5eebc1d075d69898b0ee9685",
+    "after-east.log": "6a1b9a56760eaa59c58adb44b42f6f8972ff73bde52549249f20f90f084b84be",
+    "after-results.json": "90b0542e7ce839b89da14a9632082527d13d4bc1f30cc8d64a62fa3f34c3515a",
+    "after-west.log": "abaf87704df2af0094dc177b09d1bdc24a90186bddf07b73b97faf88bf515c9c",
+    "before-east.log": "6a1b9a56760eaa59c58adb44b42f6f8972ff73bde52549249f20f90f084b84be",
+    "before-results.json": "edf6abf75fb36f0e2c823bc45cdf77a62cb23565caabfb778d2f5c5b54a008c7",
+    "before-west.log": "6fa55b70f9fdbf45915464e80900d4ebec43c740c1902b149bb7d09e3044df0d",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "dc3f4f7f219d1f1a002f712525ee71bb760e0d7c1c70c4fe1057c23d2ced8b12",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "13e493264ab63384a5b84de347b27dc4347a08bc6307414502d8cbc54a9862bd",
+    "replay.html": "d2f004f03bc3a6cd8b62b582aea18d0ffa7d8cadaf38f51f7f38d858114e566f",
+    "reproduce.py": "6d741a9df7cec11ca284214aa5d3f50f017cf26f82a45c31392c0a7d93f861f7",
+    "result.json": "09f8d1056e57e14abe3c89f1f7adc9570376ea8616271f58ee5571f8653fe8c9",
+    "run-after-alltests.log": "047fbd12b55b81a182bc2135b9bce40f1b0df1808668dba3ff01989803f8ad23",
+    "run-after-build.log": "28e1f48bf0fefd8e383412446e1a097fd3f67b81d006c48c4b0260de5f0a1133",
+    "run-after-scenarios.log": "0daadcf8ab794bb9e2e79bf5055051149c5fb55d3cef3b87ef112aba5882c7e9",
+    "run-before-alltests.log": "4db933fbd1dda1bd7d3a16cdb73257b04e9ef3f0351f28f3f260778950ae6c82",
+    "run-before-build.log": "7bb6022f498d02cc0a55e6cf308cd0196fe41da7aa36796d884580830772d0bb",
+    "run-before-scenarios.log": "4097eeb63bf61142a97b5f0162cef0a6b2882d271a845049cceb03ea6f416899",
+    "run-cases.py": "1b39503627d6fad1662dcacc4383e52634bb68c50ac436040788d3fd6a812df9",
+    "run-configure.log": "671adcd9d43b35012f08857733d62af59f26d1220c5be51477a2ab32741f6aec",
+    "scenario.c": "a111da530b25690a3fd83858a1da85cf857ee61ea9187f615a1b038065bfdda5"
+  }
+}

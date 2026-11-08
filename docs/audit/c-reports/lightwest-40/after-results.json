@@ -1,0 +1,26 @@
+{
+  "west": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "light": 3,
+      "lit_grids": 37,
+      "grid_lit": 1
+    },
+    "outcome": {
+      "ghost_kept": 0
+    }
+  },
+  "east": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "light": 3,
+      "lit_grids": 37,
+      "grid_lit": 1
+    },
+    "outcome": {
+      "ghost_kept": 0
+    }
+  }
+}

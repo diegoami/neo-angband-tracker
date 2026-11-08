@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg kept a ghost monster that had left the west edge of its light</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg kept a ghost monster that had left the west edge of its light</h1><p>The Borg keeps a map of the grids its own light reaches and uses it to decide whether it should be able to see a monster it last saw on a grid. The west part of the radius-2 block listed the grids two rows above and below (which the north and south blocks add already) instead of the grids one row above and below, so the two grids one row up and down and two columns west were never marked as lit. A monster last seen there was treated as unseen rather than gone, so the Borg kept it in its monster list. The correction lists the grids one row above and below, like the east block.</p><p><label>Scenario: <select id="scenario"><option value="west">Monster last seen two columns west and one row south</option><option value="east">Control: the same monster two columns east and one row south</option></select></label></p><section class="scenario" data-mode="west"><p class="summary">A level-20 Warrior with a Lantern stands in a dark room. A cave bear was last seen two columns west and one row south of it, in the lantern light, and has since walked away. The Borg&#x27;s own light map is updated by the production routine and then the production follow-up for the vanished monster runs. Original: the grid is not marked as lit, so the Borg does not expect to see the bear there and keeps it as a ghost in its monster list. Corrected: the grid is lit, the follow-up runs and the ghost is forgotten.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the vanished monster stays in the Borg&#x27;s list (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION kill_before=1 kill_after=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the vanished monster stays in the Borg&#x27;s list (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION kill_before=1 kill_after=0
+TRACK # There was a monster &#x27;cave bear&#x27; at (13,8)
+TRACK # Forgetting a monster &#x27;cave bear&#x27; at (13,8)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lightwest-40: starting...
+SETUP seed=40 mode=west class=Warrior clevel=20 hp=231 depth=5 
+  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(8,13) grid_lit=0
+DECISION kill_before=1 kill_after=1
+OUTCOME ghost_kept=1
+Failed
+    native-c/lightwest-40:178: requirement &#x27;!r_after&#x27; failed
+native-c/lightwest-40 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lightwest-40: starting...
+SETUP seed=40 mode=west class=Warrior clevel=20 hp=231 depth=5 
+  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(8,13) grid_lit=1
+DECISION kill_before=1 kill_after=0
+TRACK # There was a monster &#x27;cave bear&#x27; at (13,8)
+TRACK # Forgetting a monster &#x27;cave bear&#x27; at (13,8)
+OUTCOME ghost_kept=0
+Passed
+native-c/lightwest-40 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="east"><p class="summary">The mirror position on the east side, which the original already lights. The follow-up forgets the monster before and after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the vanished monster stays in the Borg&#x27;s list (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION kill_before=1 kill_after=0
+TRACK # There was a monster &#x27;cave bear&#x27; at (13,12)
+TRACK # Forgetting a monster &#x27;cave bear&#x27; at (13,12)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the vanished monster stays in the Borg&#x27;s list (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION kill_before=1 kill_after=0
+TRACK # There was a monster &#x27;cave bear&#x27; at (13,12)
+TRACK # Forgetting a monster &#x27;cave bear&#x27; at (13,12)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lightwest-40: starting...
+SETUP seed=40 mode=east class=Warrior clevel=20 hp=231 depth=5 
+  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(12,13) grid_lit=1
+DECISION kill_before=1 kill_after=0
+TRACK # There was a monster &#x27;cave bear&#x27; at (13,12)
+TRACK # Forgetting a monster &#x27;cave bear&#x27; at (13,12)
+OUTCOME ghost_kept=0
+Passed
+native-c/lightwest-40 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lightwest-40: starting...
+SETUP seed=40 mode=east class=Warrior clevel=20 hp=231 depth=5 
+  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(12,13) grid_lit=1
+DECISION kill_before=1 kill_after=0
+TRACK # There was a monster &#x27;cave bear&#x27; at (13,12)
+TRACK # Forgetting a monster &#x27;cave bear&#x27; at (13,12)
+OUTCOME ghost_kept=0
+Passed
+native-c/lightwest-40 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 40, character level 20, a Lantern, depth 5, a dark open arena (no lit room). A cave bear was last seen on the grid two columns west and one row south of the Borg (control: two columns east); the game monster is then removed and the Borg&#x27;s record of it kept. The production borg_update_light() builds the light map and the production borg_follow_kill() handles the vanished monster. Fixture interventions: the monster is placed, observed and removed by the fixture; the Borg&#x27;s map update is not run.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/40">issue 40</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

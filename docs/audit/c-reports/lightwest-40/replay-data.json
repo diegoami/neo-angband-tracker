@@ -1,0 +1,82 @@
+{
+  "west": {
+    "label": "Monster last seen two columns west and one row south",
+    "explanation": "A level-20 Warrior with a Lantern stands in a dark room. A cave bear was last seen two columns west and one row south of it, in the lantern light, and has since walked away. The Borg's own light map is updated by the production routine and then the production follow-up for the vanished monster runs. Original: the grid is not marked as lit, so the Borg does not expect to see the bear there and keeps it as a ghost in its monster list. Corrected: the grid is lit, the follow-up runs and the ghost is forgotten.",
+    "control": false,
+    "before": {
+      "raw": "native-c/lightwest-40: starting...\nSETUP seed=40 mode=west class=Warrior clevel=20 hp=231 depth=5 \n  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(8,13) grid_lit=0\nDECISION kill_before=1 kill_after=1\nOUTCOME ghost_kept=1\nFailed\n    native-c/lightwest-40:178: requirement '!r_after' failed\nnative-c/lightwest-40 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "light": 3,
+        "lit_grids": 37,
+        "grid_lit": 0
+      },
+      "outcome": {
+        "ghost_kept": 1
+      },
+      "notes": [
+        "DECISION kill_before=1 kill_after=1"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lightwest-40: starting...\nSETUP seed=40 mode=west class=Warrior clevel=20 hp=231 depth=5 \n  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(8,13) grid_lit=1\nDECISION kill_before=1 kill_after=0\nTRACK # There was a monster 'cave bear' at (13,8)\nTRACK # Forgetting a monster 'cave bear' at (13,8)\nOUTCOME ghost_kept=0\nPassed\nnative-c/lightwest-40 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "light": 3,
+        "lit_grids": 37,
+        "grid_lit": 1
+      },
+      "outcome": {
+        "ghost_kept": 0
+      },
+      "notes": [
+        "DECISION kill_before=1 kill_after=0",
+        "TRACK # There was a monster 'cave bear' at (13,8)",
+        "TRACK # Forgetting a monster 'cave bear' at (13,8)"
+      ],
+      "value": 0
+    }
+  },
+  "east": {
+    "label": "Control: the same monster two columns east and one row south",
+    "explanation": "The mirror position on the east side, which the original already lights. The follow-up forgets the monster before and after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lightwest-40: starting...\nSETUP seed=40 mode=east class=Warrior clevel=20 hp=231 depth=5 \n  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(12,13) grid_lit=1\nDECISION kill_before=1 kill_after=0\nTRACK # There was a monster 'cave bear' at (13,12)\nTRACK # Forgetting a monster 'cave bear' at (13,12)\nOUTCOME ghost_kept=0\nPassed\nnative-c/lightwest-40 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "light": 3,
+        "lit_grids": 37,
+        "grid_lit": 1
+      },
+      "outcome": {
+        "ghost_kept": 0
+      },
+      "notes": [
+        "DECISION kill_before=1 kill_after=0",
+        "TRACK # There was a monster 'cave bear' at (13,12)",
+        "TRACK # Forgetting a monster 'cave bear' at (13,12)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/lightwest-40: starting...\nSETUP seed=40 mode=east class=Warrior clevel=20 hp=231 depth=5 \n  unseen_monster_in_the_lantern_light  STATE borg=(10,12) light=3 lit_grids=37 kill_at=(12,13) grid_lit=1\nDECISION kill_before=1 kill_after=0\nTRACK # There was a monster 'cave bear' at (13,12)\nTRACK # Forgetting a monster 'cave bear' at (13,12)\nOUTCOME ghost_kept=0\nPassed\nnative-c/lightwest-40 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "light": 3,
+        "lit_grids": 37,
+        "grid_lit": 1
+      },
+      "outcome": {
+        "ghost_kept": 0
+      },
+      "notes": [
+        "DECISION kill_before=1 kill_after=0",
+        "TRACK # There was a monster 'cave bear' at (13,12)",
+        "TRACK # Forgetting a monster 'cave bear' at (13,12)"
+      ],
+      "value": 0
+    }
+  }
+}
