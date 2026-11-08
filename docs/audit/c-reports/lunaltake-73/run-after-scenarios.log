@@ -1,0 +1,2 @@
+dagger {'exit': 0, 'passed': True, 'state': {'distance': 4, 'pack_has_free_slot': 1}, 'outcome': {'walks_to_item': 0}}
+gold {'exit': 0, 'passed': True, 'state': {'distance': 4, 'pack_has_free_slot': 1}, 'outcome': {'walks_to_item': 1}}
