@@ -1,0 +1,116 @@
+{
+  "north": {
+    "label": "Mummified orc north (direction slot 1 = the ogre mage's number)",
+    "explanation": "Original: the test reads the ogre mage's danger at the orc's grid (144, above 30% of 296 = 88) instead of the orc's (0); '# Shoot N Scoot. (Danger Level 7.1)', Phase Door is cast, the Rogue moves from (20,20) to (29,23) and spends 2 spell points. Corrected: the orc's own danger is read; no Shoot'N'Scoot, no cast.",
+    "control": false,
+    "before": {
+      "raw": "native-c/scootidx-100: starting...\nSETUP seed=100 mode=north class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30\n  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=1 ranged=0 caster_in_view=0\nKILL k=1 race=ogre mage pos=(14,19) awake=1\nKILL k=2 race=mummified orc pos=(20,19) awake=1\nTRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88\nDANGER here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296\nDECISION rc=1 keys=3 sequence=mab\nTRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16\nTRACK # Safe to Shoot'N'Scoot. scary squares: 16/100\nTRACK # Casting Phase Door (0,1).\nTRACK # Shoot N Scoot. (Danger Level 7.1)\nENGINE spell=Phase Door cast=1 grid=(20,20)->(29,23) sp=154->152 energy_used=100 caster_in_view=0\nTRACK engine spell=Phase Door grid=(20,20)->(29,23) sp=154->152\nOUTCOME scoot=1 cast_phase=1\nFailed\n    native-c/scootidx-100:291: requirement '!scoot && !cast' failed\nnative-c/scootidx-100 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "scoot": 1,
+        "cast_phase": 1
+      },
+      "notes": [
+        "TRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88",
+        "DECISION rc=1 keys=3 sequence=mab",
+        "TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16",
+        "TRACK # Safe to Shoot'N'Scoot. scary squares: 16/100",
+        "TRACK # Casting Phase Door (0,1).",
+        "TRACK # Shoot N Scoot. (Danger Level 7.1)",
+        "TRACK engine spell=Phase Door grid=(20,20)->(29,23) sp=154->152"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/scootidx-100: starting...\nSETUP seed=100 mode=north class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30\n  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=1 ranged=0 caster_in_view=0\nKILL k=1 race=ogre mage pos=(14,19) awake=1\nKILL k=2 race=mummified orc pos=(20,19) awake=1\nTRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88\nDANGER here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296\nDECISION rc=0 keys=0 sequence=\nTRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16\nENGINE spell=- cast=0 grid=(20,20)->(20,20) sp=154->154 energy_used=0 caster_in_view=0\nTRACK engine spell=- grid=(20,20)->(20,20) sp=154->154\nOUTCOME scoot=0 cast_phase=0\nPassed\nnative-c/scootidx-100 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "scoot": 0,
+        "cast_phase": 0
+      },
+      "notes": [
+        "TRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88",
+        "DECISION rc=0 keys=0 sequence=",
+        "TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16",
+        "TRACK engine spell=- grid=(20,20)->(20,20) sp=154->154"
+      ],
+      "value": 0
+    }
+  },
+  "south": {
+    "label": "Control: mummified orc south (direction slot 0, unused)",
+    "explanation": "Slot 0 holds no monster and the orc's own danger is 0, so neither version scoots; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/scootidx-100: starting...\nSETUP seed=100 mode=south class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30\n  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=0 ranged=0 caster_in_view=0\nKILL k=1 race=ogre mage pos=(14,19) awake=1\nKILL k=2 race=mummified orc pos=(20,21) awake=1\nTRACK danger here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88\nDANGER here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88 hp=296\nDECISION rc=0 keys=0 sequence=\nTRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16\nENGINE spell=- cast=0 grid=(20,20)->(20,20) sp=154->154 energy_used=0 caster_in_view=0\nTRACK engine spell=- grid=(20,20)->(20,20) sp=154->154\nOUTCOME scoot=0 cast_phase=0\nPassed\nnative-c/scootidx-100 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "scoot": 0,
+        "cast_phase": 0
+      },
+      "notes": [
+        "TRACK danger here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88",
+        "DECISION rc=0 keys=0 sequence=",
+        "TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16",
+        "TRACK engine spell=- grid=(20,20)->(20,20) sp=154->154"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/scootidx-100: starting...\nSETUP seed=100 mode=south class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30\n  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=0 ranged=0 caster_in_view=0\nKILL k=1 race=ogre mage pos=(14,19) awake=1\nKILL k=2 race=mummified orc pos=(20,21) awake=1\nTRACK danger here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88\nDANGER here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88 hp=296\nDECISION rc=0 keys=0 sequence=\nTRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16\nENGINE spell=- cast=0 grid=(20,20)->(20,20) sp=154->154 energy_used=0 caster_in_view=0\nTRACK engine spell=- grid=(20,20)->(20,20) sp=154->154\nOUTCOME scoot=0 cast_phase=0\nPassed\nnative-c/scootidx-100 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "scoot": 0,
+        "cast_phase": 0
+      },
+      "notes": [
+        "TRACK danger here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88",
+        "DECISION rc=0 keys=0 sequence=",
+        "TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16",
+        "TRACK engine spell=- grid=(20,20)->(20,20) sp=154->154"
+      ],
+      "value": 0
+    }
+  },
+  "pack": {
+    "label": "Control: olog north (pack monster, qualifies anyway)",
+    "explanation": "The olog qualifies through the pack-monster test, so both versions Shoot'N'Scoot and cast Phase Door to the same grid; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/scootidx-100: starting...\nSETUP seed=100 mode=pack class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30\n  shoot_scoot_from_adjacent_monster  TRACK adjacent=olog kill_index=2 direction=1 ranged=0 caster_in_view=0\nKILL k=1 race=ogre mage pos=(14,19) awake=1\nKILL k=2 race=olog pos=(20,19) awake=1\nTRACK danger here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88\nDANGER here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296\nDECISION rc=1 keys=3 sequence=mab\nTRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=96\nTRACK # Safe to Shoot'N'Scoot. scary squares: 16/100\nTRACK # Casting Phase Door (0,1).\nTRACK # Shoot N Scoot. (Danger Level 7.1)\nENGINE spell=Phase Door cast=1 grid=(20,20)->(29,23) sp=154->152 energy_used=100 caster_in_view=0\nTRACK engine spell=Phase Door grid=(20,20)->(29,23) sp=154->152\nOUTCOME scoot=1 cast_phase=1\nPassed\nnative-c/scootidx-100 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "scoot": 1,
+        "cast_phase": 1
+      },
+      "notes": [
+        "TRACK danger here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88",
+        "DECISION rc=1 keys=3 sequence=mab",
+        "TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=96",
+        "TRACK # Safe to Shoot'N'Scoot. scary squares: 16/100",
+        "TRACK # Casting Phase Door (0,1).",
+        "TRACK # Shoot N Scoot. (Danger Level 7.1)",
+        "TRACK engine spell=Phase Door grid=(20,20)->(29,23) sp=154->152"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/scootidx-100: starting...\nSETUP seed=100 mode=pack class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30\n  shoot_scoot_from_adjacent_monster  TRACK adjacent=olog kill_index=2 direction=1 ranged=0 caster_in_view=0\nKILL k=1 race=ogre mage pos=(14,19) awake=1\nKILL k=2 race=olog pos=(20,19) awake=1\nTRACK danger here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88\nDANGER here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296\nDECISION rc=1 keys=3 sequence=mab\nTRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=96\nTRACK # Safe to Shoot'N'Scoot. scary squares: 16/100\nTRACK # Casting Phase Door (0,1).\nTRACK # Shoot N Scoot. (Danger Level 7.1)\nENGINE spell=Phase Door cast=1 grid=(20,20)->(29,23) sp=154->152 energy_used=100 caster_in_view=0\nTRACK engine spell=Phase Door grid=(20,20)->(29,23) sp=154->152\nOUTCOME scoot=1 cast_phase=1\nPassed\nnative-c/scootidx-100 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "scoot": 1,
+        "cast_phase": 1
+      },
+      "notes": [
+        "TRACK danger here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88",
+        "DECISION rc=1 keys=3 sequence=mab",
+        "TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=96",
+        "TRACK # Safe to Shoot'N'Scoot. scary squares: 16/100",
+        "TRACK # Casting Phase Door (0,1).",
+        "TRACK # Shoot N Scoot. (Danger Level 7.1)",
+        "TRACK engine spell=Phase Door grid=(20,20)->(29,23) sp=154->152"
+      ],
+      "value": 1
+    }
+  }
+}
