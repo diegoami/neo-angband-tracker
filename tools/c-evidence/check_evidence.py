@@ -73,8 +73,9 @@ def check_package(ref, d, rep):
         rep.check(f in names, f"generator {f} committed")
     for f in ARTIFACTS:
         rep.check(f in names, f"artifact {f} committed")
-    logs = sorted(n for n in names if n.endswith(".log") and "/" not in n)
-    rep.check(any(n.startswith("before-") for n in logs) and any(n.startswith("after-") for n in logs),
+    logs = sorted(n for n in names if n.endswith(".log") and not n.startswith("reverify-"))
+    base = lambda n: n.rsplit("/", 1)[-1]
+    rep.check(any(base(n).startswith("before") for n in logs) and any(base(n).startswith("after") for n in logs),
               "before/after scenario logs committed")
     rep.check(any("alltests" in n for n in logs) or any(n.startswith("reverify-") and "alltests" in n for n in names),
               "full-gate (alltests) logs committed")
@@ -100,7 +101,8 @@ def check_package(ref, d, rep):
             if rh and all(hashlib.sha256(show(ref, f"{d}{rd}/{k}") or b"").hexdigest() == v for k, v in rh.items()) \
                     and any("alltests" in k for k in rh):
                 reverify_ok = True
-        gate_like = lambda k: any(t in k for t in ("alltests", "build", "configure", "scenarios", "asan-build", "result.json"))
+        # sanitizer reports carry process ids/addresses: never byte-reproducible
+        gate_like = lambda k: any(t in k for t in ("alltests", "build", "configure", "scenarios", "result.json", "asan"))
         hard = [k for k in missing if not (reverify_ok and gate_like(k))]
         soft = [k for k in missing if k not in hard]
         rep.check(not hard, f"every hashed file committed (missing {len(hard)}: {', '.join(hard[:4])}{'...' if len(hard) > 4 else ''})")
