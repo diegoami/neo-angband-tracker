@@ -1,0 +1,12 @@
+native-c/stairreturn-230: starting...
+SETUPSTEP profile
+SETUP torchtimeout-after-set=0
+SETUP light=0 torchtimeout=0 onstairs=1
+SETUP pack slot=0 tval=28 desc=Ration of Food
+SETUP pack slot=1 tval=26 desc=Potion of Berserk Strength
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20
+  stair_command_reports_done  MODE stairs-dead-torch
+DECISION acted=1 keys=1 sequence=<
+OUTCOME acted=1 keys=1 stairkey=1
+Passed
+native-c/stairreturn-230 finished: 1/1 passed
