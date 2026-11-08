@@ -1,0 +1,17 @@
+{
+  "main": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "clevel": 5,
+      "depth": 10,
+      "goal_less": 1,
+      "fleeing": 1,
+      "munchkin_mode": 1,
+      "rc": 1
+    },
+    "outcome": {
+      "climb_decision": 1
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "issue": "diegoami/neo-angband-tracker#245",
+  "report": "stairrange-245",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "c16b3e9d14470dd19ef884f37f9eca2f7cc7d37f",
+  "fix_branch": "task/stairrange-245",
+  "fixtures_ref": "3c9a75e2023386863db8a21be16db5b8c12a840a",
+  "cases": {
+    "before": {"passed": false, "state": {"clevel": 5, "depth": 10, "goal_less": 0, "fleeing": 1, "munchkin_mode": 1}},
+    "after": {"passed": true, "state": {"clevel": 5, "depth": 10, "goal_less": 1, "fleeing": 1, "munchkin_mode": 1}}
+  },
+  "claim": "The munchkin stair-range adjustment (clevel - 10) + (10 - depth) is negative below character level 10, shrinking the range instead of increasing it (8 -> 3 for a level-5 borg at depth 10), so no staircase counts as close and the borg never power-climbs toward visible stairs. The owner-decided correction gates the adjustment on clevel > 10: below level 10 the base range 8 applies; at 10 and above the growth is unchanged.",
+  "full_tests": {
+    "before": {"unit_checks": "965/965", "frontend_tests": "5/5"},
+    "after": {"unit_checks": "965/965", "frontend_tests": "5/5"}
+  },
+  "fixed_sources": ["src/borg/borg-think-dungeon.c"],
+  "runner_asserts": "The corrected file must equal the base file with exactly the range gate; the source scope must be that single file.",
+  "render_check": "Chrome headless planned after packaging; matrix replay generated.",
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+}

@@ -1,0 +1,19 @@
+native-c/stairrange-245: starting...
+SETUP seed=245 class=Warrior depth=10 clevel=5
+  shrunk_range_blocks_climb  STATE clevel=5 depth=10 goal_less=0 fleeing=1 munchkin_mode=1 rc=1
+NOTE 00 # Flowing toward stairs at cost 5
+NOTE 01 # Munchkin Mode.  Any Stair. 
+NOTE 02 # Fleeing level. Munchkin Mode
+NOTE 03 # Ready...
+NOTE 04 Initializing the Borg... done.
+NOTE 05 Initializing the Borg... (various)
+NOTE 06 Initializing the Borg... (options)
+NOTE 07 Initializing the Borg... (borg.txt)
+NOTE 08 Initializing the Borg... (memory)
+NOTE 09  
+NOTE 10   
+NOTE 11 ====================
+OUTCOME climb_decision=0
+Failed
+    native-c/stairrange-245:130: requirement 'borg.goal.less' failed
+native-c/stairrange-245 finished: 0/1 passed
