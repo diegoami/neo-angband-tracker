@@ -1,0 +1,209 @@
+{
+ "slug": "outoflight-229",
+ "issue": 229,
+ "date": "2026-11-08",
+ "why": "the original run's logs were listed in receipt.json but never committed (dropped by the repository's *.log ignore rule); this run re-executes the same pins and commits its logs",
+ "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+ "fix": "54a26b3b3fe4e12ed4d8fc3380219727b48eda2b",
+ "fixtures_ref": "e1638569ea292812dd6633e3968b99f78c18c2f4",
+ "original_receipt_fixtures_ref": "e1638569ea292812dd6633e3968b99f78c18c2f4",
+ "command": "git show e1638569ea292812dd6633e3968b99f78c18c2f4:docs/audit/c-reports/outoflight-229/reproduce.py > /tmp/reproduce-outoflight-229.py && python3 /tmp/reproduce-outoflight-229.py --full-tests --fixtures-ref e1638569ea292812dd6633e3968b99f78c18c2f4",
+ "runner_verdict": [
+  "VERIFIED: the original leaves a dying lantern alone, the correction starts the maneuvers and swaps to the torch; three control logs identical."
+ ],
+ "cases": {
+  "before": {
+   "dying": {
+    "exit": 0,
+    "passed": false,
+    "setup": {
+     "timeout": 3,
+     "nofuel": 0,
+     "flasks": 1
+    },
+    "decision": {
+     "acted": 0,
+     "keys": 0
+    },
+    "outcome": {
+     "acted": 0,
+     "keys": 0
+    },
+    "sequence": ""
+   },
+   "lit": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "timeout": 1500,
+     "nofuel": 0,
+     "flasks": 1
+    },
+    "decision": {
+     "acted": 0,
+     "keys": 0
+    },
+    "outcome": {
+     "acted": 0,
+     "keys": 0
+    },
+    "sequence": ""
+   },
+   "everburn": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "timeout": 0,
+     "nofuel": 1,
+     "flasks": 1
+    },
+    "decision": {
+     "acted": 0,
+     "keys": 0
+    },
+    "outcome": {
+     "acted": 0,
+     "keys": 0
+    },
+    "sequence": ""
+   },
+   "dead": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "timeout": 0,
+     "nofuel": 0,
+     "flasks": 1
+    },
+    "decision": {
+     "acted": 1,
+     "keys": 2
+    },
+    "outcome": {
+     "acted": 1,
+     "keys": 2
+    },
+    "sequence": "w e"
+   }
+  },
+  "after": {
+   "dying": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "timeout": 3,
+     "nofuel": 0,
+     "flasks": 1
+    },
+    "decision": {
+     "acted": 1,
+     "keys": 2
+    },
+    "outcome": {
+     "acted": 1,
+     "keys": 2
+    },
+    "sequence": "w e"
+   },
+   "lit": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "timeout": 1500,
+     "nofuel": 0,
+     "flasks": 1
+    },
+    "decision": {
+     "acted": 0,
+     "keys": 0
+    },
+    "outcome": {
+     "acted": 0,
+     "keys": 0
+    },
+    "sequence": ""
+   },
+   "everburn": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "timeout": 0,
+     "nofuel": 1,
+     "flasks": 1
+    },
+    "decision": {
+     "acted": 0,
+     "keys": 0
+    },
+    "outcome": {
+     "acted": 0,
+     "keys": 0
+    },
+    "sequence": ""
+   },
+   "dead": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "timeout": 0,
+     "nofuel": 0,
+     "flasks": 1
+    },
+    "decision": {
+     "acted": 1,
+     "keys": 2
+    },
+    "outcome": {
+     "acted": 1,
+     "keys": 2
+    },
+    "sequence": "w e"
+   }
+  }
+ },
+ "matches_original_receipt_cases": true,
+ "identical_full_logs": [
+  "lit",
+  "everburn",
+  "dead"
+ ],
+ "full_tests": {
+  "before": {
+   "units": "965/965",
+   "frontends": "5/5",
+   "failed_lines": 0
+  },
+  "after": {
+   "units": "965/965",
+   "frontends": "5/5",
+   "failed_lines": 0
+  }
+ },
+ "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+ "cmake": "cmake version 3.28.3",
+ "render_check": {
+  "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless) on the committed replay.html",
+  "result": "RENDER-SMOKE actions=12 errors=0 OK",
+  "exit": 0
+ },
+ "sha256": {
+  "after-alltests.log": "916bba51304e8cba213817d82f1ed1898bedf2de7a524aa4e6f4407ebe6e7acb",
+  "after-build.log": "d9b6573d7b6b2594a8ffe0fe993ece1b9e02b8e77fc863f2fb8e6af3ac104921",
+  "after-dead.log": "fd481a0ecc9c1aad374e3afeada1f9df5b023ecf056aa10e497497a4d715b5fb",
+  "after-dying.log": "8edbc2e833ec04d1b4c54f67ee2de72fe2bd4b142e5cf37268e34c754b11526c",
+  "after-everburn.log": "d1cddb75cb98b838d4ea83a7690ca19f1ae348ff7b4a8c04ec3d02ba95ecb43e",
+  "after-lit.log": "a7be42397c6a0ecfdcb79ecd357ba671c11f328fec1c27e8fcb4b3404081c7f3",
+  "after-results.json": "8db3eee5b27fb9a26c2cb4a965fd805a99d54ab721900da936385c6a8a143c45",
+  "after-scenarios.log": "d27cdc2c27bed230d71c64a2d13a8561033f8532ff3167bcc738a7b095478bfa",
+  "before-alltests.log": "2b1066b67dc6b282edd068c8b749dc3ec6916b19902cb348b0863c8136e8efdc",
+  "before-build.log": "512d40f45ab8451de7bf88d885f06c1321247f01ce83c591733cb0e01797cf97",
+  "before-dead.log": "fd481a0ecc9c1aad374e3afeada1f9df5b023ecf056aa10e497497a4d715b5fb",
+  "before-dying.log": "d49c07bf7f7c4463204bad2d48cc697131c9ea24bfae4febc6efea4d83da9d04",
+  "before-everburn.log": "d1cddb75cb98b838d4ea83a7690ca19f1ae348ff7b4a8c04ec3d02ba95ecb43e",
+  "before-lit.log": "a7be42397c6a0ecfdcb79ecd357ba671c11f328fec1c27e8fcb4b3404081c7f3",
+  "before-results.json": "1e26c7c1609953cc3fea6f03ffcedb8ee56309ad15d12a8bef2fac546d12efac",
+  "before-scenarios.log": "e022f31c742bae251aa4f56583c6c4044c762d638e1d7df7169124a3edfa833e",
+  "configure.log": "c44e29381ed427a66dfb86a73b4167c10a11de409b10b61f5d1d5ccfca622433",
+  "result.json": "7cc28b9c9930e16184adaadec9a44ee2fe0fbf06c8196dbd6f8edfcd0c4d2000"
+ }
+}

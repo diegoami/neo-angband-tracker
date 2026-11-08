@@ -1,0 +1,9 @@
+native-c/outoflight-229: starting...
+SETUPSTEP profile
+SETUP light=3 timeout=1500 nofuel=0 flasks=1
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20
+  dying_light_starts_maneuvers  MODE lit
+DECISION acted=0 keys=0 sequence=
+OUTCOME acted=0 keys=0
+Passed
+native-c/outoflight-229 finished: 1/1 passed
