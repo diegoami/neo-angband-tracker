@@ -35,6 +35,7 @@
 #include <string.h>
 
 static term screen;
+static int scenario_not_drained(void *state);
 
 static struct object *known_item(int tval, const char *name, int number)
 {
@@ -119,6 +120,12 @@ int setup_tests(void **state)
     borg_cfg[BORG_USES_DYNAMIC_CALCS] = false;
     printf("SETUP seed=235 class=%s depth=%d clevel=%d\n",
            player->class->name, player->depth, player->lev);
+    /* DD235_MODE=not-drained: the unchanged control, the same prepared
+     * Borg with full experience; the power dive must still be chosen. */
+    if (getenv("DD235_MODE") && streq(getenv("DD235_MODE"), "not-drained")) {
+        tests[0].name = "undrained_borg_still_power_dives";
+        tests[0].func = scenario_not_drained;
+    }
     return 0;
 }
 
@@ -172,6 +179,34 @@ static int scenario_drained(void *state)
            borg.trait[BI_ISFIXEXP] ? 1 : 0);
     require(borg.trait[BI_ISFIXEXP]);
     require(dives == 0); /* fails before: the drained Borg power-dives */
+    ok;
+}
+
+/* Control: the same fully prepared Borg at depth 15, not drained
+ * (exp == max_exp). Both versions must take the power dive. */
+static int scenario_not_drained(void *state)
+{
+    player->exp    = 10000;
+    player->max_exp = 10000;
+    borg.trait[BI_ISFIXEXP] = 0;
+    {
+        uint16_t total = messages_num();
+        for (uint16_t i = 0; i < total; ++i) (void)message_str(i);
+    }
+    borg_leave_level(false);
+    uint16_t t2 = messages_num();
+    for (uint16_t i = 0; i < t2 && i < 14; ++i)
+        printf("NOTE %02d %s\n", (int)i, message_str(i));
+    int dives = 0;
+    for (uint16_t i = 0; i < t2; ++i) {
+        const char *m = message_str(i);
+        if (m && strstr(m, "power dive"))
+            ++dives;
+    }
+    printf("OUTCOME dive_notes=%d drained=%d\n", dives,
+           borg.trait[BI_ISFIXEXP] ? 1 : 0);
+    require(!borg.trait[BI_ISFIXEXP]);
+    require(dives == 1);
     ok;
 }
 

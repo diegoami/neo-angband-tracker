@@ -2,11 +2,12 @@ import json,os,re,subprocess,sys
 from pathlib import Path
 phase,binary,directory=sys.argv[1:];root=Path(directory)
 rows={}
-for mode in ('main',):
- env=os.environ|{'DD235_PROFILE':str(root/'profile')}
+MODES=('main', 'not-drained')
+for mode in MODES:
+ env=os.environ|{'DD235_PROFILE':str(root/'profile'),'DD235_MODE':mode}
  result=subprocess.run([str(Path(binary).resolve()),"-v"],env=env,cwd=Path(binary).resolve().parent,timeout=300,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True)
- raw=re.sub(r'\x1b\[[0-9;]*m','',result.stdout);(root/f'{phase}-main.log').write_text(raw)
- row={'exit':result.returncode,'passed':'native-c/drainedive-235 finished: 1/1 passed' in raw}
+ raw=re.sub(r'\x1b\[[0-9;]*m','',result.stdout);(root/f'{phase}-{mode}.log').write_text(raw)
+ row={'exit':result.returncode,'passed':('native-c/drainedive-235 finished: 1/1 passed' in raw) if mode=='main' else ('finished: 1/1 passed' in raw)}
  for tag,key in (('OUTCOME ','outcome'),):
   for match in re.findall(re.escape(tag)+r'(.*)',raw):
    row.setdefault(key,{}).update({k:int(v) for k,v in re.findall(r'(\w+)=(-?\d+)',match)})
