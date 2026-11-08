@@ -96,6 +96,14 @@ int setup_tests(void **state)
     borg_cfg[BORG_MUNCHKIN_START] = true;
     printf("SETUP seed=1045 class=%s depth=%d hp=%d\n",
            player->class->name, player->depth, player->chp);
+    /* STAIR403_MODE=clean: run the healthy control on its own, in a fresh
+     * process, so its complete log can be compared byte for byte. */
+    const char *mode = getenv("STAIR403_MODE");
+    if (mode && streq(mode, "clean")) {
+        tests[0] = tests[1];
+        tests[1].name = NULL;
+        tests[1].func = NULL;
+    }
     return 0;
 }
 
