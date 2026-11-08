@@ -420,5 +420,26 @@
     "configure-asan.log": "4c412aa2c0ef8873b65d11266c1ff60fc03c816e22fa3e3cd740acf46e1e4eaa",
     "configure.log": "a1db53754a96511c6bc3b84bf730023b9a8397a2a91f073f647db0ef588b8c7e",
     "result.json": "d0ac3e19cd6419da0f768cd04d9df5e165c72438cf3f39d598afe1c4e86255ea"
-  }
+  },
+  "receipt_amendments": [
+    {
+      "file": "../receipt.json",
+      "key": "sha256.README.md",
+      "old": "84b946eaea26c1f55c5d0a9613b4bdf08b946816e3667bcc55d8b26021a2642b",
+      "new": "dab58ce75e21930d0346f73fe01f80c9b457320e215c433bddc5794e52d9ee10",
+      "why": "README.md gained the 2026-11-08 Re-verification/Errata sections (and any placeholder replacement listed there)"
+    },
+    {
+      "file": "../receipt.json",
+      "key": "render_check",
+      "old": null,
+      "new": {
+        "date": "2026-11-08",
+        "tool": "tools/c-evidence/render-smoke.js",
+        "result": "RENDER-SMOKE actions=12 errors=0 OK",
+        "page": "replay.html (committed)",
+        "note": "The original run's own headless check is recorded under the 'browser' key; this key adds the 2026-11-08 smoke check."
+      }
+    }
+  ]
 }

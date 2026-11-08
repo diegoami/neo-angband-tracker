@@ -192,5 +192,5 @@ python3 /tmp/reproduce-cbug-0102.py --full-tests --fixtures-ref f1f53106526412cf
 
 ## Errata (2026-11-08)
 
-- `receipt.json` hashes `README.md` as it stood at the capture commit `fb2e54739`; this appended section changes the README, so that one hash no longer matches the current file by design. Every other file the original receipt hashes is either committed with its original hash or listed above as re-run-only.
+- `receipt.json` was amended on 2026-11-08 for this section only: its `README.md` hash now covers the README with these sections, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
 - The canonical issue for CBUG-0102 is diegoami/neo-angband-tracker#118 (not #102, which is CBUG-0086). Source PR #283, evidence PR #284.
