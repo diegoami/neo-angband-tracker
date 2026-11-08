@@ -1,0 +1,12 @@
+native-c/brand-240: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Druid level=50 ammo_power=3 ammo_tval=3 brand_legal=1
+  brand_need_counts_once  MODE brand
+GEOMETRY ammo_power=3 arrows=5
+RATING need_brand=20
+OUTCOME need_brand=20
+Failed
+    native-c/brand-240:183: requirement 'need' == '10' failed
+      need:               20
+      10:               10
+native-c/brand-240 finished: 0/1 passed
