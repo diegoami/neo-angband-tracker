@@ -1,0 +1,100 @@
+{
+  "fullhp": {
+    "label": "69 of 69 hit points",
+    "explanation": "Original: 'Quaffing Potions of Healing.' (key q) at full hit points. Corrected: 'Casting Remove Hunger (0,2).' (key m).",
+    "control": false,
+    "before": {
+      "raw": "native-c/eathurt-80: starting...\nSETUP seed=80 mode=fullhp class=Druid clevel=11 hp=69/69 sp=18/18 food=700 depth=5\n  weak_druid_food_choice  STATE curhp=69 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1\nDECISION rc=1 key=113\nTRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0\nTRACK # Quaffing Potions of Healing.\nOUTCOME quaffed_potion=1 cast_remove_hunger=0\nFailed\n    native-c/eathurt-80:172: requirement '!quaffed && cast' failed\nnative-c/eathurt-80 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "curhp": 69,
+        "maxhp": 69,
+        "cursp": 18,
+        "weak": 1,
+        "healing": 2,
+        "hunger_spell": 1
+      },
+      "outcome": {
+        "quaffed_potion": 1,
+        "cast_remove_hunger": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=113",
+        "TRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0",
+        "TRACK # Quaffing Potions of Healing."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/eathurt-80: starting...\nSETUP seed=80 mode=fullhp class=Druid clevel=11 hp=69/69 sp=18/18 food=700 depth=5\n  weak_druid_food_choice  STATE curhp=69 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1\nDECISION rc=1 key=109\nTRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0\nTRACK # Casting Remove Hunger (0,2).\nOUTCOME quaffed_potion=0 cast_remove_hunger=1\nPassed\nnative-c/eathurt-80 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "curhp": 69,
+        "maxhp": 69,
+        "cursp": 18,
+        "weak": 1,
+        "healing": 2,
+        "hunger_spell": 1
+      },
+      "outcome": {
+        "quaffed_potion": 0,
+        "cast_remove_hunger": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=109",
+        "TRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0",
+        "TRACK # Casting Remove Hunger (0,2)."
+      ],
+      "value": 1
+    }
+  },
+  "hurt": {
+    "label": "Control: 64 of 69 hit points",
+    "explanation": "The Druid is hurt, so both versions drink the Potion of Healing; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/eathurt-80: starting...\nSETUP seed=80 mode=hurt class=Druid clevel=11 hp=64/69 sp=18/18 food=700 depth=5\n  weak_druid_food_choice  STATE curhp=64 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1\nDECISION rc=1 key=113\nTRACK # Loc:12,10 Dep:5 Lev:11 HP:64/69 SP:18/18 Danger:p=0\nTRACK # Quaffing Potions of Healing.\nOUTCOME quaffed_potion=1 cast_remove_hunger=0\nPassed\nnative-c/eathurt-80 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "curhp": 64,
+        "maxhp": 69,
+        "cursp": 18,
+        "weak": 1,
+        "healing": 2,
+        "hunger_spell": 1
+      },
+      "outcome": {
+        "quaffed_potion": 1,
+        "cast_remove_hunger": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=113",
+        "TRACK # Loc:12,10 Dep:5 Lev:11 HP:64/69 SP:18/18 Danger:p=0",
+        "TRACK # Quaffing Potions of Healing."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/eathurt-80: starting...\nSETUP seed=80 mode=hurt class=Druid clevel=11 hp=64/69 sp=18/18 food=700 depth=5\n  weak_druid_food_choice  STATE curhp=64 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1\nDECISION rc=1 key=113\nTRACK # Loc:12,10 Dep:5 Lev:11 HP:64/69 SP:18/18 Danger:p=0\nTRACK # Quaffing Potions of Healing.\nOUTCOME quaffed_potion=1 cast_remove_hunger=0\nPassed\nnative-c/eathurt-80 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "curhp": 64,
+        "maxhp": 69,
+        "cursp": 18,
+        "weak": 1,
+        "healing": 2,
+        "hunger_spell": 1
+      },
+      "outcome": {
+        "quaffed_potion": 1,
+        "cast_remove_hunger": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=113",
+        "TRACK # Loc:12,10 Dep:5 Lev:11 HP:64/69 SP:18/18 Danger:p=0",
+        "TRACK # Quaffing Potions of Healing."
+      ],
+      "value": 0
+    }
+  }
+}

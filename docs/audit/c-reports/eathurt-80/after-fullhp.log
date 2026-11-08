@@ -1,0 +1,9 @@
+native-c/eathurt-80: starting...
+SETUP seed=80 mode=fullhp class=Druid clevel=11 hp=69/69 sp=18/18 food=700 depth=5
+  weak_druid_food_choice  STATE curhp=69 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1
+DECISION rc=1 key=109
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0
+TRACK # Casting Remove Hunger (0,2).
+OUTCOME quaffed_potion=0 cast_remove_hunger=1
+Passed
+native-c/eathurt-80 finished: 1/1 passed
