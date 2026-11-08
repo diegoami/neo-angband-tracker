@@ -1,0 +1,47 @@
+native-c/glowoverflow-311: starting...
+SETUPSTEP profile
+SETUP seed=1000 glowing=1600 limit=1536 panel=41x40
+  glow_arrays_are_bounded  =================================================================
+==574062==ERROR: AddressSanitizer: global-buffer-overflow on address 0x64c657f59c20 at pc 0x64c657bd84e1 bp 0x7ffdc61f3280 sp 0x7ffdc61f3270
+WRITE of size 1 at 0x64c657f59c20 thread T0
+    #0 0x64c657bd84e0 in borg_flow_light /tmp/angband-glowoverflow-311-qaoe783g/source/src/borg/borg-flow-misc.c:843
+    #1 0x64c6577a61e6 in scenario /tmp/angband-glowoverflow-311-qaoe783g/evidence/scenario.c:122
+    #2 0x64c657ce281e in main /tmp/angband-glowoverflow-311-qaoe783g/source/src/tests/unit-test.c:53
+    #3 0x7ac13202a600  (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a600) (BuildId: 066527e430a32768d82741e00b81eebb1a872294)
+    #4 0x7ac13202a717 in __libc_start_main (/usr/lib/x86_64-linux-gnu/libc.so.6+0x2a717) (BuildId: 066527e430a32768d82741e00b81eebb1a872294)
+    #5 0x64c6577a4e44 in _start (/tmp/angband-glowoverflow-311-qaoe783g/build-asan/game/T311Observer+0x149e44) (BuildId: 2eb0b6f6337c7091a4ba8020a9c3d91dc594143d)
+
+0x64c657f59c20 is located 0 bytes after global variable 'borg_glow_y' defined in '/tmp/angband-glowoverflow-311-qaoe783g/source/src/borg/borg-cave-light.c:45:9' (0x64c657f59620) of size 1536
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-glowoverflow-311-qaoe783g/source/src/borg/borg-flow-misc.c:843 in borg_flow_light
+Shadow bytes around the buggy address:
+  0x64c657f59980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x64c657f59a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x64c657f59a80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x64c657f59b00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x64c657f59b80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x64c657f59c00: 00 00 00 00[f9]f9 f9 f9 00 00 00 00 02 f9 f9 f9
+  0x64c657f59c80: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x64c657f59d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x64c657f59d80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x64c657f59e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x64c657f59e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==574062==ABORTING

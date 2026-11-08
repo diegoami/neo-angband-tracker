@@ -1,0 +1,3 @@
+glow {'exit': 0, 'passed': True, 'geometry': 'glow_n=1536 limit=1536', 'rating': 'glow_n=1536 overflow=0', 'outcome': 'glow_n=1536 overflow=0'}
+control {'exit': 0, 'passed': True, 'geometry': 'glow_n=1000 limit=1536', 'rating': 'glow_n=1000 overflow=0', 'outcome': 'glow_n=1000 overflow=0'}
+asan {'passed': True, 'summary': 'no sanitizer report', 'write': None, 'in_flow_light': False}

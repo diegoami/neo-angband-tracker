@@ -1,0 +1,10 @@
+native-c/glowoverflow-311: starting...
+SETUPSTEP profile
+SETUP seed=1000 glowing=1600 limit=1536 panel=41x40
+  glow_arrays_are_bounded  MODE glow
+GEOMETRY glow_n=1600 limit=1536
+RATING glow_n=1600 overflow=64
+OUTCOME glow_n=1600 overflow=64
+Failed
+    native-c/glowoverflow-311:131: requirement 'borg_glow_n <= (int)AUTO_LIGHT_MAX' failed
+native-c/glowoverflow-311 finished: 0/1 passed
