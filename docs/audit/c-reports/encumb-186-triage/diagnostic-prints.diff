@@ -1,0 +1,26 @@
+diff --git a/src/borg/borg-power.c b/src/borg/borg-power.c
+index 26f80885b..73c39a647 100644
+--- a/src/borg/borg-power.c
++++ b/src/borg/borg-power.c
+@@ -1865,7 +1865,9 @@ static int32_t borg_power_inventory(void)
+                         || item->sval == sv_potion_inc_con
+                         || item->sval == sv_potion_inc_all)))) {
+             /* No encumbrance penalty for purchasing these items */
++            printf("DBG exempt item=%s value=%d\n", item->desc, (int)value);
+         } else {
++            printf("DBG penalty item=%s value=%d w=%d\n", item ? item->desc : "-", (int)value, borg.trait[BI_WEIGHT]);
+             value -= ((borg.trait[BI_WEIGHT] - (borg.trait[BI_CARRY] / 2))
+                       / (borg.trait[BI_CARRY] / 10) * 1000L);
+         }
+diff --git a/src/borg/borg-store-buy.c b/src/borg/borg-store-buy.c
+index e6841a92f..0380145a2 100644
+--- a/src/borg/borg-store-buy.c
++++ b/src/borg/borg-store-buy.c
+@@ -403,6 +403,7 @@ bool borg_think_shop_buy_useful(void)
+             if (c > borg_gold / 10) p -= c;
+ #endif
+ 
++            printf("DBG buy p=%d b_p=%d\n", (int)p, (int)b_p);
+             /* Ignore "bad" purchases */
+             if (p <= b_p)
+                 continue;

@@ -1,0 +1,26 @@
+#### pristine edge
+DBG penalty item=Dagger (1d4) (+0,+0) value=305988 w=1435
+STATE weight=1435 limit=2400 half=1200 step=240 encumbered=1 speed_loss=0
+DBG penalty item=Dagger (1d4) (+0,+0) value=305988 w=1440
+DBG buy p=515641 b_p=574141
+DECISION buys=0 shop=-1 ware=-1 item=(nothing)
+#### pristine mid
+DBG penalty item=Dagger (1d4) (+0,+0) value=205884 w=1559
+STATE weight=1559 limit=2400 half=1200 step=240 encumbered=1 speed_loss=1
+DBG penalty item=Dagger (1d4) (+0,+0) value=205884 w=1564
+DBG buy p=415537 b_p=415537
+DECISION buys=0 shop=-1 ware=-1 item=(nothing)
+#### pristine str
+DBG penalty item=Dagger (1d4) (+0,+0) value=205884 w=1559
+STATE weight=1559 limit=2400 half=1200 step=240 encumbered=1 speed_loss=1
+DBG penalty item=Dagger (1d4) (+0,+0) value=755884 w=1563
+DBG buy p=965537 b_p=415537
+DECISION buys=1 shop=6 ware=0 item=Potion of Strength
+#### pristine strlight
+STATE weight=499 limit=2400 half=1200 step=240 encumbered=0 speed_loss=0
+DBG buy p=1024037 b_p=474037
+DECISION buys=1 shop=6 ware=0 item=Potion of Strength
+#### pristine light
+STATE weight=499 limit=2400 half=1200 step=240 encumbered=0 speed_loss=0
+DBG buy p=474037 b_p=474037
+DECISION buys=0 shop=-1 ware=-1 item=(nothing)
