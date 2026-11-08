@@ -1,0 +1,139 @@
+{
+  "issue": "diegoami/neo-angband-tracker#134",
+  "report": "countsell-134",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "026a42d3fcdfcbedaaef12c6f39200e38ecbd2ed",
+  "fix_branch": "task/countsell-134",
+  "fixtures_ref": "68b23b2a1b2eeb94d70a86e98375aaddaadf0951",
+  "cases": {
+    "full-unid": {
+      "before": {
+        "passed": false,
+        "state": {
+          "sellable": 0,
+          "unidentified": 1,
+          "prepared_next": 1
+        },
+        "outcome": {
+          "went_down": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "sellable": 15,
+          "unidentified": 1,
+          "prepared_next": 1
+        },
+        "outcome": {
+          "went_down": 0
+        }
+      }
+    },
+    "full": {
+      "before": {
+        "passed": true,
+        "state": {
+          "sellable": 15,
+          "unidentified": 0,
+          "prepared_next": 1
+        },
+        "outcome": {
+          "went_down": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "sellable": 15,
+          "unidentified": 0,
+          "prepared_next": 1
+        },
+        "outcome": {
+          "went_down": 0
+        }
+      }
+    },
+    "light": {
+      "before": {
+        "passed": true,
+        "state": {
+          "sellable": 0,
+          "unidentified": 1,
+          "prepared_next": 1
+        },
+        "outcome": {
+          "went_down": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "sellable": 2,
+          "unidentified": 1,
+          "prepared_next": 1
+        },
+        "outcome": {
+          "went_down": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "full"
+  ],
+  "claim": "borg_count_sell() returned 0 at the first unidentified non-stacked item. A level-4 Warrior with 13 spare swords and one unidentified mace took the down staircase (count 0) instead of going to sell (count 15). Skipping the item restores the count and the decision. The control without unidentified items is byte-identical; with only the unidentified mace both versions still go down.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-sell.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-sell.c": "2f97eaffd543e52d8c32e46479824e5a66e1de2a86e52cd3ee920140d79a281f"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "447575035f6c03c02201dbc62e6468d8a62d733ec138585c2b5e865454402e34",
+    "after-full-unid.log": "0349cd1bcc57c78dd862d82734dc7898f3bd2ada7fb95459c725eb53afccab5e",
+    "after-full.log": "1e59a8be157c88b2f3a6d26d41f667e8dac556c62ca88f400f86fc6bf045b1fc",
+    "after-light.log": "99c981fba49fbf6717d7b1133a11a71b115a0a3914437ef1ecc75a5debf3c698",
+    "after-results.json": "83806eeaeb0bcbe9209a4f99c0bca39ed64f965c3d0f4be6242a641ec8b8e526",
+    "before-full-unid.log": "815688b7ac473ff9bc07fd0fccb206404d5fc715eaa8c8733bc353d59d1fb6ed",
+    "before-full.log": "1e59a8be157c88b2f3a6d26d41f667e8dac556c62ca88f400f86fc6bf045b1fc",
+    "before-light.log": "1da38737dd3e15a6574c341b6d0b37264e28c94e99b51e40f59add2f48033406",
+    "before-results.json": "33f9d5738953578fee0dfc57c347639ff01a1e54cc424711cc92655e9264fac2",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "273a4a4a443bb964a3b7a0220b86b340fb35e8a078b0acd505cf7771d516d5c4",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "bf4e700e6e253c940bcd406d4bb8eeb5aa2bb8140c6485eb68ea79c47d5084cb",
+    "replay.html": "dd0710cece969ae588f02428e8d4e747dcd0f473629cf9705180a08f7b8dad2f",
+    "reproduce.py": "d0c63c8d584802bee0a8ecbd78624ded4d4e2f45e5866e5b0a530e2589376b25",
+    "result.json": "75a9d63135029365599f4e71c837b036850098941fddffc5197cb7897e5f942c",
+    "run-after-alltests.log": "ea7fcbd8e0d8710e828990be45f6d57ce57a8e5df554065191513f5ddf637558",
+    "run-after-build.log": "f8c6495b6c163e4808d7e7ab7b41aca820664e554057e0c7fd06759602f85a2b",
+    "run-after-scenarios.log": "3b3d6ad7571e81959cedf1b5c08634cbb362e5534a0925012eeb2bdae576d396",
+    "run-before-alltests.log": "4588a06234fefbc6c8bd5ec5bf0786129f57b9ea73f4723d97e66c6625024b93",
+    "run-before-build.log": "bcefb6ee3cc8bf8608b3a8d11d6f1136bb93a8c8fcb3d8202ebbc9f9b09e7460",
+    "run-before-scenarios.log": "36f417d5b8ce0276214bc8fde451ccac99d7ac05496027f92f548d75a2bdb5a1",
+    "run-cases.py": "cc6160347f5a768a4a8693ec9eb7839103697af178b01fdbda31fa5a0e6c0886",
+    "run-configure.log": "9427f1c4d6bcf80e7728e31874c33a6a962d827af66cc6e4b24b0d00aac74c86",
+    "scenario.c": "9f03053e846b7c5e48c8e96310549881e296ee007123ac21c7eaf2161dccb71f"
+  }
+}

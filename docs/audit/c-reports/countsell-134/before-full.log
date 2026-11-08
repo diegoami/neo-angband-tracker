@@ -1,0 +1,7 @@
+native-c/countsell-134: starting...
+SETUP seed=134 mode=full class=Warrior clevel=4 depth=1 gold=0
+  full_pack_goes_up_to_sell  STATE sellable=15 unidentified=0 prepared_next=1
+DECISION flow_down=0 key=0
+OUTCOME went_down=0
+Passed
+native-c/countsell-134 finished: 1/1 passed

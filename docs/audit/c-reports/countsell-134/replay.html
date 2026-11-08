@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>One unidentified item made a full pack look empty</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>One unidentified item made a full pack look empty</h1><p>A low-level Borg with a pack full of things to sell should stop going deeper and head back to town to sell them. It decides by counting the sellable items in its pack. When the count reached an unidentified item that was not part of a stack, it gave up and reported 0, instead of skipping that one item. A level-4 Warrior carrying thirteen spare swords and one unidentified mace therefore counted nothing to sell and took the down staircase. The correction skips the unidentified item and keeps counting; the Borg then declines to go down.</p><p><label>Scenario: <select id="scenario"><option value="full-unid">13 spare swords plus one unidentified mace</option><option value="full">Control: 13 spare swords, nothing unidentified</option><option value="light">Only the unidentified mace</option></select></label></p><section class="scenario" data-mode="full-unid"><p class="summary">Original: the count stops at the unidentified mace and returns 0, so the &#x27;need to sell, don&#x27;t go down&#x27; check passes and the Borg flows to the down staircase (key 54). Corrected: 15 sellable items counted; the Borg does not go down.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>took the down staircase (1 = flowed down)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK # Flowing toward down-stairs at cost 3
+DECISION flow_down=1 key=54</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>took the down staircase (1 = flowed down)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION flow_down=0 key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/countsell-134: starting...
+SETUP seed=134 mode=full-unid class=Warrior clevel=4 depth=1 gold=0
+  full_pack_goes_up_to_sell  STATE sellable=0 unidentified=1 prepared_next=1
+TRACK # Flowing toward down-stairs at cost 3
+DECISION flow_down=1 key=54
+OUTCOME went_down=1
+Failed
+    native-c/countsell-134:197: requirement &#x27;!down&#x27; failed
+native-c/countsell-134 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/countsell-134: starting...
+SETUP seed=134 mode=full-unid class=Warrior clevel=4 depth=1 gold=0
+  full_pack_goes_up_to_sell  STATE sellable=15 unidentified=1 prepared_next=1
+DECISION flow_down=0 key=0
+OUTCOME went_down=0
+Passed
+native-c/countsell-134 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="full"><p class="summary">Both versions count 15 sellable items and decline to go down; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>took the down staircase (1 = flowed down)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION flow_down=0 key=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>took the down staircase (1 = flowed down)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION flow_down=0 key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/countsell-134: starting...
+SETUP seed=134 mode=full class=Warrior clevel=4 depth=1 gold=0
+  full_pack_goes_up_to_sell  STATE sellable=15 unidentified=0 prepared_next=1
+DECISION flow_down=0 key=0
+OUTCOME went_down=0
+Passed
+native-c/countsell-134 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/countsell-134: starting...
+SETUP seed=134 mode=full class=Warrior clevel=4 depth=1 gold=0
+  full_pack_goes_up_to_sell  STATE sellable=15 unidentified=0 prepared_next=1
+DECISION flow_down=0 key=0
+OUTCOME went_down=0
+Passed
+native-c/countsell-134 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="light"><p class="summary">Little to sell in either version (0 before, 2 after); both go down. The count line differs, the decision does not.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>took the down staircase (1 = flowed down)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Flowing toward down-stairs at cost 3
+DECISION flow_down=1 key=54</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>took the down staircase (1 = flowed down)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Flowing toward down-stairs at cost 3
+DECISION flow_down=1 key=54</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/countsell-134: starting...
+SETUP seed=134 mode=light class=Warrior clevel=4 depth=1 gold=0
+  full_pack_goes_up_to_sell  STATE sellable=0 unidentified=1 prepared_next=1
+TRACK # Flowing toward down-stairs at cost 3
+DECISION flow_down=1 key=54
+OUTCOME went_down=1
+Passed
+native-c/countsell-134 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/countsell-134: starting...
+SETUP seed=134 mode=light class=Warrior clevel=4 depth=1 gold=0
+  full_pack_goes_up_to_sell  STATE sellable=2 unidentified=1 prepared_next=1
+TRACK # Flowing toward down-stairs at cost 3
+DECISION flow_down=1 key=54
+OUTCOME went_down=1
+Passed
+native-c/countsell-134 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 134, level 4, depth 1, no gold, a torch and rations, in a lit room with a down staircase three steps east and an up staircase far west, both tracked by the Borg. &#x27;full&#x27;: thirteen different spare swords (fully known). &#x27;full-unid&#x27;: the same plus a Mace (Holy Avenger) whose runes are unknown. &#x27;light&#x27;: only the unidentified mace. The production borg_count_sell() runs, then the production borg_flow_stair_more() (the down-stair flow used when leaving a level) runs once and the first queued key is read back. This isolates the selling count and the stair decision; it does not play the trip to town.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/134">issue 134</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
