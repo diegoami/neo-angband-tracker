@@ -1,0 +1,12 @@
+native-c/calllight-231: starting...
+SETUPSTEP profile
+SETUP ownfeat=3 ownglow_before=0 isglow=1
+SETUP player-torch-timeout=0 borg-timeout=0
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20
+  own_grid_door_lit_mark_repaired  MODE own-open-door
+DECISION acted=0 keys=0 sequence=
+STATE ownglow=0
+OUTCOME ownglow=0
+Failed
+    native-c/calllight-231:165: requirement 'ownglow == 1' failed
+native-c/calllight-231 finished: 0/1 passed

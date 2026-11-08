@@ -115,3 +115,53 @@ read back, nothing is cast.
   fixed-source sha256.
 - `replay.html`, `replay-data.json` — the offline demo.
 - `receipt.json` — sha256 map of every file in this directory.
+
+## Re-verification (2026-11-08)
+
+Why: the logs of the original run were listed in `receipt.json` (with
+sha256 values) but were never committed — the repository's `*.log`
+ignore rule dropped them. To give reviewers the actual logs, the
+pinned runner was executed again at the same pins (fixtures
+`f7058cd56f58938d68c37523816a99020efd8f75`, base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `cda4fb662cabee8a49fbdbcaf4383dc7be1fff1c`) with `--full-tests`.
+The earlier text above is left unchanged.
+
+The run reproduced every recorded case: per-case pass/fail and every
+parsed outcome value in its `result.json` equal the `cases` in the
+original `receipt.json` (`matches_original_receipt_cases: true`).
+Runner verdict: `VERIFIED: the original leaves the lit doorway unmarked, the correction repairs the mark; control log identical.`
+
+| Mode | Original (base) | Corrected (fix) |
+| --- | --- | --- |
+| `own-open-door` | FAIL: ownglow=0 | pass: ownglow=1 |
+| `floor` (control, byte-identical) | pass: ownglow=1 | pass: ownglow=1 |
+
+Full native gates, parsed from the committed alltests logs: original
+965/965 unit checks and 5/5 frontend tests; corrected
+965/965 and 5/5. Toolchain for this run: `cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0`,
+`cmake version 3.28.3` (the original run recorded `gcc 15.2.0`, `cmake 4.2.3`). Replay render
+check on the committed `replay.html`: `RENDER-SMOKE actions=6 errors=0 OK`
+(`tools/c-evidence/render-smoke.js`, Playwright Chromium headless).
+
+Logs, `result.json`, per-phase results and a `receipt.json` with the
+sha256 of every file are in [`reverify-2026-11-08/`](reverify-2026-11-08/).
+Repeat (fixtures pinned by sha; this runner has no `--fix-ref` flag: the
+fix sha `cda4fb662cabee8a49fbdbcaf4383dc7be1fff1c` is a constant in the pinned script, which
+asserts the source diff against it):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/calllight-231-evidence
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/calllight-231
+git show f7058cd56f58938d68c37523816a99020efd8f75:docs/audit/c-reports/calllight-231/reproduce.py > /tmp/reproduce-calllight-231.py
+python3 /tmp/reproduce-calllight-231.py --full-tests --fixtures-ref f7058cd56f58938d68c37523816a99020efd8f75
+```
+
+## Errata (2026-11-08)
+
+"Source proposal: PR (see the issue)" above refers to
+diegoami/neo-angband-tracker#395; this evidence package is PR #396.
+The pins and repeat commands above are correct as printed.
+
+Scope of the measured result: the only value that changes between the
+versions is the internal glow mark the Borg keeps for its own grid
+(`ownglow` 0 to 1). No spell, rest, move or other action differs in
+the recorded runs.
