@@ -1,0 +1,10 @@
+native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=hall class=Warrior clevel=20 hp=247 depth=5 corridor=1
+  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(25,12) dist=15 ranged=0 group_ai=1
+DECISION rc=1 key=54 goal=1
+TRACK target (25,12)
+STATE targets=1 hp=247 avoidance=247
+OUTCOME flowed=1
+Failed
+    native-c/flowkillhall-98:198: requirement 'flowed == want' failed
+native-c/flowkillhall-98 finished: 0/1 passed

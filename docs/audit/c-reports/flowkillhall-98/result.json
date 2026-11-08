@@ -1,0 +1,124 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "69862d0f5e2a860d63281df9157d77951875adf3",
+  "fixtures_ref": "8ca38b4bba96a8d03d234b6d473648e84d91059f",
+  "cases": {
+    "before": {
+      "leak": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "targets": 0,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 0
+        }
+      },
+      "reverse": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      },
+      "hall": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      },
+      "hallctl": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      }
+    },
+    "after": {
+      "leak": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      },
+      "reverse": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      },
+      "hall": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "targets": 0,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 0
+        }
+      },
+      "hallctl": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "reverse",
+    "hallctl"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "c957ebe548524686783607eccf7a819d4f485558c514ee05a4d055c4292cdaca"
+  }
+}

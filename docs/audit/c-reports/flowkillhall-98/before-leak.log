@@ -1,0 +1,10 @@
+native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=leak class=Warrior clevel=20 hp=247 depth=5 corridor=0
+  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0
+KILL k=2 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0
+DECISION rc=0 key=0 goal=0
+STATE targets=0 hp=247 avoidance=247
+OUTCOME flowed=0
+Failed
+    native-c/flowkillhall-98:198: requirement 'flowed == want' failed
+native-c/flowkillhall-98 finished: 0/1 passed
