@@ -183,5 +183,30 @@
   "before-scenarios.log": "41f07e79bc86bd6a082e07579e466ac0ad2f3c140349e3076043f1a1af1e8831",
   "configure.log": "8aec11b349659b0ecbd9b22c4abe3257fd20b429081559083252cc1d74605a35",
   "result.json": "23ac9001676f9df423bd59483e755fdc2929b71e9d8ae8176fd41c27b3383a68"
- }
+ },
+ "restored_at_original_paths": [
+  "after-build.log",
+  "after-door-close.log",
+  "after-door-open.log",
+  "after-no-change.log",
+  "after-scenarios.log",
+  "before-door-close.log",
+  "before-door-open.log",
+  "before-no-change.log",
+  "before-scenarios.log"
+ ],
+ "not_restored_differ_from_original_hash": [
+  "after-alltests.log",
+  "before-alltests.log",
+  "before-build.log",
+  "configure.log"
+ ],
+ "receipt_amendments": [
+  {
+   "field": "sha256.README.md",
+   "old": "7e7c8cc02506ae50a2a6580a74566cc3db06425641a8033aea20f92ff5f4a86a",
+   "new": "404672255cb1114c1a2bf54c1aa560b894c90ccecf3cb3761675d279e80c7878",
+   "why": "README.md gained the appended Re-verification (and Errata) sections on 2026-11-08"
+  }
+ ]
 }

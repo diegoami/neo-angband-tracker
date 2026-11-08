@@ -164,7 +164,7 @@
   "cmake": "4.2.3",
   "browser": "Chrome for Testing chromium-1248",
   "sha256": {
-    "README.md": "7e7c8cc02506ae50a2a6580a74566cc3db06425641a8033aea20f92ff5f4a86a",
+    "README.md": "404672255cb1114c1a2bf54c1aa560b894c90ccecf3cb3761675d279e80c7878",
     "after-alltests.log": "4e1def58468f26c1d3838c04f4a82c6b24de0e038dc0d67966361cbc54ed9654",
     "after-build.log": "4b9f8df28476b51b9bb309dc4739f57c14f7591a7278836e9dcd7c94ef52517c",
     "after-door-close.log": "c953f683d03a0831a94b3cb5bd6935597dd972bbd79df638bc6b95058059adbb",
