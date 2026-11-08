@@ -1,0 +1,12 @@
+native-c/granitesim-68: starting...
+SETUP seed=68 mode=rubble class=Warrior clevel=12 hp=159/159 depth=10 speed=110 mouth=passable_rubble
+  ranged_move_simulation  MODE rubble
+TRACK monster=blacklock mage pos=(11,16) speed=119 mouth=passable_rubble mouth_projectable=1 own_projectable=1
+STATE danger=0 monster_danger=38 avoidance=159 hp=159
+DECISION rc=0 keys=0 sequence=
+ENGINE read=0 scroll=- word_recall=0 energy_used=0
+TRACK engine read=0 scroll=- word_recall_active=0
+OUTCOME acted=0 danger=0 recall_flee=0 recall_active=0
+Failed
+    native-c/granitesim-68:217: requirement 'danger > 0' failed
+native-c/granitesim-68 finished: 0/1 passed

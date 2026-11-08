@@ -1,0 +1,164 @@
+{
+  "issue": "diegoami/neo-angband-tracker#68",
+  "report": "granitesim-68",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "f1b39e2050e2e9061da1f46dd546e80597d5ac45",
+  "fix_branch": "task/granitesim-68",
+  "fixtures_ref": "dc1b3433f763f2a207c7766f86be6d312fb9121d",
+  "cases": {
+    "rubble": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 0,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 0,
+          "danger": 0,
+          "recall_flee": 0,
+          "recall_active": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 208,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 1,
+          "danger": 208,
+          "recall_flee": 1,
+          "recall_active": 1
+        }
+      }
+    },
+    "floor": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 208,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 1,
+          "danger": 208,
+          "recall_flee": 1,
+          "recall_active": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 208,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 1,
+          "danger": 208,
+          "recall_flee": 1,
+          "recall_active": 1
+        }
+      }
+    },
+    "granite": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 0,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 0,
+          "danger": 0,
+          "recall_flee": 0,
+          "recall_active": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 0,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 0,
+          "danger": 0,
+          "recall_flee": 0,
+          "recall_active": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "floor",
+    "granite"
+  ],
+  "claim": "The ranged step simulation in borg_danger_one_kill() tested feat >= FEAT_GRANITE where the melee one tests feat == FEAT_GRANITE, so lava and passable rubble counted as walls only pass-wall and kill-wall monsters could enter. With ==, a blacklock mage one step behind passable rubble raises the danger at the Borg's grid from 0 to 208 (equal to the open-floor exit), and a level-12 Warrior flees with Word of Recall instead of taking no precaution; the open-floor and granite controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-danger.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "2aba2c921add9ed292bc457d2ac043fff8ebeba96b5e57e3c1426c0cbca4df1d"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "5d2ee96209f6c07b33ddc789123c21e9fcda769ad1de604a1338f62b077be8b1",
+    "after-floor.log": "5d9a893d6f50f599f1ed12313dec028df295713cf810afa39b814af7f2eb4aa5",
+    "after-granite.log": "83ced9fa405ee644cc11cf384448a51c8497b7aacc40a15fb672e24ac774c572",
+    "after-results.json": "96189249ff64b7950972574a22e334713f5951c76b1d0aed358fb3ec73a286f3",
+    "after-rubble.log": "cddae569712198d3f79ad0d8584a925802fb1836dca8b62523ebc506f0a1ba09",
+    "before-floor.log": "5d9a893d6f50f599f1ed12313dec028df295713cf810afa39b814af7f2eb4aa5",
+    "before-granite.log": "83ced9fa405ee644cc11cf384448a51c8497b7aacc40a15fb672e24ac774c572",
+    "before-results.json": "92a4eed0eefd8b3f7ad2415de9cfd8dc6b966207abe8fe0d2d8baa4da5581b8f",
+    "before-rubble.log": "720ea3f0d18bb5f70344141efc9da72eaef5d2f878cb929ee866a52bdda10ee6",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "025d7e9dfbab3cec86f44611bbc04a0bb953d811f053ac37d119234718dfe330",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "1e5935e9595d3d7fc4703f01c7f9e883c16d7b3a309fa04ea695dc7d3dd8a962",
+    "replay.html": "4875fd66902e459bdb3ad35b6ee6135d61b08c2934cb9589951870116a644e50",
+    "reproduce.py": "509f004ed243431457919cf91aa6c0bf607c6fc0bc7c97cf7f92a21232fbb6f7",
+    "result.json": "ba50364af0ce826a412027a55f5c9065a8e0f54bc91eb06c7a3ee56135d23b33",
+    "run-after-alltests.log": "71144239f91c996d18c90aa14536aa631cd8fc55a1845eb8309ee3bc7b00952e",
+    "run-after-build.log": "6e4f7c7d11008ab90f59b1634e7541134bf66664556d6a3d702ce816fcf4cc06",
+    "run-after-scenarios.log": "79082006c2c9a0b193d486c03a0f61fad771f50d956d37fa820a39f90d9753ee",
+    "run-before-alltests.log": "866a9a0bc87f4c210d1130c3afdc00c950c52d0e88af2114196cb1b64b314b3c",
+    "run-before-build.log": "97052312be204e8b342819153fe321fd8b110c8fb565b6d491ffe77035412512",
+    "run-before-scenarios.log": "4d88646a26f77a72790a15763cfc39d5725fba66eb24eef8808919b903f02fa7",
+    "run-cases.py": "b1e78a4d32b5f91244d95c8ff73c61cb50119b83db8c484d3d7aaa5981fc5703",
+    "run-configure.log": "aae26d7351c71ea54c0248f8c1f835ad236d3ea24ed4bff429489deb1fe53bb7",
+    "scenario.c": "b06beaedfc5f5f04829199c0e9ad2bb7b46c20d7d8789847add1976bf9e27c50"
+  }
+}

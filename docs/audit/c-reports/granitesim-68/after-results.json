@@ -1,0 +1,50 @@
+{
+  "rubble": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 208,
+      "monster_danger": 38,
+      "avoidance": 159,
+      "hp": 159
+    },
+    "outcome": {
+      "acted": 1,
+      "danger": 208,
+      "recall_flee": 1,
+      "recall_active": 1
+    }
+  },
+  "floor": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 208,
+      "monster_danger": 38,
+      "avoidance": 159,
+      "hp": 159
+    },
+    "outcome": {
+      "acted": 1,
+      "danger": 208,
+      "recall_flee": 1,
+      "recall_active": 1
+    }
+  },
+  "granite": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 0,
+      "monster_danger": 38,
+      "avoidance": 159,
+      "hp": 159
+    },
+    "outcome": {
+      "acted": 0,
+      "danger": 0,
+      "recall_flee": 0,
+      "recall_active": 0
+    }
+  }
+}
