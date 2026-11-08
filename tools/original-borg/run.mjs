@@ -3,7 +3,9 @@ import {
 	readFileSync,
 	writeFileSync,
 	mkdirSync,
-	createWriteStream,
+	openSync,
+	writeSync,
+	closeSync,
 } from "node:fs";
 import { resolve, dirname, join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -29,9 +31,9 @@ const bundle = resolve(a.bundle),
 	out = resolve(a.out);
 mkdirSync(out, { recursive: false });
 const build = JSON.parse(readFileSync(join(dirname(bundle), "build.json")));
-const states = createWriteStream(join(out, "states.jsonl")),
-	commands = createWriteStream(join(out, "commands.jsonl"));
-const messageFile = createWriteStream(join(out, "messages.jsonl"));
+const states = openSync(join(out, "states.jsonl"), "wx"),
+	commands = openSync(join(out, "commands.jsonl"), "wx");
+const messageFile = openSync(join(out, "messages.jsonl"), "wx");
 const input = {
 	seed: Number(a.seed),
 	race: a.race,
@@ -54,9 +56,9 @@ try {
 		...input,
 		packDir: join(dirname(bundle), "pack"),
 		manifest: build.borg.manifest.data,
-		onState: (r) => states.write(JSON.stringify(r) + "\n"),
-		onCommand: (r) => commands.write(r),
-		onMessage: (r) => messageFile.write(JSON.stringify(r) + "\n"),
+		onState: (r) => writeSync(states, JSON.stringify(r) + "\n"),
+		onCommand: (r) => writeSync(commands, r),
+		onMessage: (r) => writeSync(messageFile, JSON.stringify(r) + "\n"),
 	});
 } catch (e) {
 	record = { outcome: "harness_failure", error: String(e?.stack ?? e) };
@@ -74,11 +76,8 @@ record = {
 	wallSeconds: (performance.now() - started) / 1000,
 };
 writeFileSync(join(out, "run.json"), JSON.stringify(record, null, 2) + "\n");
-await Promise.all([
-	new Promise((r) => states.end(r)),
-	new Promise((r) => commands.end(r)),
-	new Promise((r) => messageFile.end(r)),
-]);
+for (const fd of [states, commands, messageFile]) closeSync(fd);
+
 console.log(
 	JSON.stringify({
 		out: join(out, "run.json"),
