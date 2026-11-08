@@ -1,0 +1,73 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Remove the dead stun test from the HURT blow danger</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Remove the dead stun test from the HURT blow danger</h1><p>Cleanup, no behaviour change; owner decision (2026-11-08). When the Borg rates how dangerous a monster&#x27;s melee is, borg_danger_physical() handles each HURT blow by setting z to dice x sides and then testing z &gt; dice x sides for a +200 &#x27;stun&#x27; penalty. The two sides are the same expression, so the test is never true. The next test (fewer than 3 sides and more than 5 dice, +400) is live and already covers the knock-out kicks the comment describes; it is kept. The change deletes the dead test.</p><p><label>Scenario: <select id="scenario"><option value="mystic">Control: mystic, 4 x KICK:HURT:10d2 (kept +400 test fires)</option><option value="ant">Control: soldier ant, BITE:HURT:1d2 (removed test evaluated, +400 not taken)</option><option value="orc">Control: cave orc, HIT:HURT:1d8 (ordinary HURT blow)</option><option value="giant">Control: hill giant, 2 x HIT:HURT:4d8 (ordinary HURT blows)</option></select></label></p><section class="scenario" data-mode="mystic"><p class="summary">Each 10d2 kick has fewer than 3 sides, so the original evaluates the removed test (false: z equals dice x sides) and then takes the kept +400. Danger 1604 partial / 1680 full (4 x 400 plus the kick damage) in both versions. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1680</div><p>borg_danger() at the Borg&#x27;s grid with the monster adjacent</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1680</div><p>borg_danger() at the Borg&#x27;s grid with the monster adjacent</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/hurtstun-62: starting...
+SETUP seed=62 mode=mystic class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=mystic
+  hurt_blow_danger  BLOW 0 method=KICK effect=HURT dice=10d2
+BLOW 1 method=KICK effect=HURT dice=10d2
+BLOW 2 method=KICK effect=HURT dice=10d2
+BLOW 3 method=KICK effect=HURT dice=10d2
+STATE blows=4 low_sides=4 live_kick=4 avoidance=371
+DECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680
+OUTCOME danger=1680 full=1680
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/hurtstun-62: starting...
+SETUP seed=62 mode=mystic class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=mystic
+  hurt_blow_danger  BLOW 0 method=KICK effect=HURT dice=10d2
+BLOW 1 method=KICK effect=HURT dice=10d2
+BLOW 2 method=KICK effect=HURT dice=10d2
+BLOW 3 method=KICK effect=HURT dice=10d2
+STATE blows=4 low_sides=4 live_kick=4 avoidance=371
+DECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680
+OUTCOME danger=1680 full=1680
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="ant"><p class="summary">A 1d2 bite has fewer than 3 sides, so the original evaluates the removed test (false); with one die the +400 test is not taken either. Danger 2 in both versions. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">2</div><p>borg_danger() at the Borg&#x27;s grid with the monster adjacent</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">2</div><p>borg_danger() at the Borg&#x27;s grid with the monster adjacent</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/hurtstun-62: starting...
+SETUP seed=62 mode=ant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=soldier ant
+  hurt_blow_danger  BLOW 0 method=BITE effect=HURT dice=1d2
+STATE blows=1 low_sides=1 live_kick=0 avoidance=371
+DECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2
+OUTCOME danger=2 full=2
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/hurtstun-62: starting...
+SETUP seed=62 mode=ant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=soldier ant
+  hurt_blow_danger  BLOW 0 method=BITE effect=HURT dice=1d2
+STATE blows=1 low_sides=1 live_kick=0 avoidance=371
+DECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2
+OUTCOME danger=2 full=2
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="orc"><p class="summary">An ordinary HURT blow: the removed test short-circuits on d_side &lt; 3. Danger 8 in both versions. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">8</div><p>borg_danger() at the Borg&#x27;s grid with the monster adjacent</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">8</div><p>borg_danger() at the Borg&#x27;s grid with the monster adjacent</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/hurtstun-62: starting...
+SETUP seed=62 mode=orc class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=cave orc
+  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=1d8
+STATE blows=1 low_sides=0 live_kick=0 avoidance=371
+DECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8
+OUTCOME danger=8 full=8
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/hurtstun-62: starting...
+SETUP seed=62 mode=orc class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=cave orc
+  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=1d8
+STATE blows=1 low_sides=0 live_kick=0 avoidance=371
+DECISION one_kill=2 one_kill_full=8 grid=8 grid_full=8
+OUTCOME danger=8 full=8
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="giant"><p class="summary">Two ordinary HURT blows. Danger 64 in both versions. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">64</div><p>borg_danger() at the Borg&#x27;s grid with the monster adjacent</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">64</div><p>borg_danger() at the Borg&#x27;s grid with the monster adjacent</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/hurtstun-62: starting...
+SETUP seed=62 mode=giant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=hill giant
+  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=4d8
+BLOW 1 method=HIT effect=HURT dice=4d8
+STATE blows=2 low_sides=0 live_kick=0 avoidance=371
+DECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64
+OUTCOME danger=64 full=64
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/hurtstun-62: starting...
+SETUP seed=62 mode=giant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=hill giant
+  hurt_blow_danger  BLOW 0 method=HIT effect=HURT dice=4d8
+BLOW 1 method=HIT effect=HURT dice=4d8
+STATE blows=2 low_sides=0 live_kick=0 avoidance=371
+DECISION one_kill=2 one_kill_full=64 grid=64 grid_full=64
+OUTCOME danger=64 full=64
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 62, clevel 31, depth 30, full HP (371), hasted (TMD_FAST, speed 120), a torch and rations, in a lit, open 24x40 arena with one awake monster adjacent (east), observed through observe_kill_diff(). The production borg_danger_one_kill() (partial and full damage) and borg_danger() at the Borg&#x27;s grid run and are printed. Modes: &#x27;mystic&#x27; (4 x KICK:HURT:10d2: both the removed test&#x27;s d_side &lt; 3 half and the kept +400 test fire), &#x27;ant&#x27; (soldier ant, BITE:HURT:1d2: the removed test is evaluated, the +400 test is not taken), &#x27;orc&#x27; (cave orc, HIT:HURT:1d8) and &#x27;giant&#x27; (hill giant, 2 x HIT:HURT:4d8): ordinary HURT blows. Fixture interventions: the arena and lighting are set directly, borg_grids is seeded from the cave with BORG_OKAY|BORG_VIEW, borg.avoidance is set to current HP, haste is set directly (so the mystic is rated below the 2000 danger cap and the +400 terms show), and borg_kills[k].awake is set by hand.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/62">issue 62</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

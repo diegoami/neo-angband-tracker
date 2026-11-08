@@ -1,0 +1,11 @@
+native-c/hurtstun-62: starting...
+SETUP seed=62 mode=mystic class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=mystic
+  hurt_blow_danger  BLOW 0 method=KICK effect=HURT dice=10d2
+BLOW 1 method=KICK effect=HURT dice=10d2
+BLOW 2 method=KICK effect=HURT dice=10d2
+BLOW 3 method=KICK effect=HURT dice=10d2
+STATE blows=4 low_sides=4 live_kick=4 avoidance=371
+DECISION one_kill=1604 one_kill_full=1680 grid=1680 grid_full=1680
+OUTCOME danger=1680 full=1680
+Passed
+native-c/hurtstun-62 finished: 1/1 passed

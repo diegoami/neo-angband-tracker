@@ -1,0 +1,8 @@
+native-c/hurtstun-62: starting...
+SETUP seed=62 mode=ant class=Warrior clevel=31 depth=30 hp=371 ac=10 speed=120 monster=soldier ant
+  hurt_blow_danger  BLOW 0 method=BITE effect=HURT dice=1d2
+STATE blows=1 low_sides=1 live_kick=0 avoidance=371
+DECISION one_kill=0 one_kill_full=2 grid=2 grid_full=2
+OUTCOME danger=2 full=2
+Passed
+native-c/hurtstun-62 finished: 1/1 passed
