@@ -10,6 +10,7 @@ pristine reference), `CEV_BUILD` (its build directory), `CEV_BORG_TXT`
 | Tool | Use |
 | --- | --- |
 | `check_evidence.py` | **Run before opening or updating any pair.** `--evidence-pr N` (package + issue + both PRs) or `--all`; `--ref REF --dir DIR` for a package only. Fails on missing generators/artifacts/logs, receipt hash mismatches, nonexistent pins, no byte-identical control, missing gates or render check, placeholders, missing filing kit or Verification, missing cross-links, inconsistent labels. |
+| `claim_status.py` | Read-only lease check for parallel sessions (C-FIX-POSTING §0b): `claim_status.py N…` (FREE / CLAIMED / EXPIRED / HAS-PR), `--candidates` (free leads), `--stale` (expired claims to clean up). Writes (label, CLAIM/HEARTBEAT/RELEASE comments) are made by the session. |
 | `gen.py SPEC OUT` | Writes `run-cases.py`, `make_replay.py`, `reproduce.py` from a spec JSON (slug, issue, prefix, observer, suite, changes = exact old/new hunks per file, modes with expected before/after pass and `control` flags, replay texts, claim, limits). |
 | `devbuild.sh` / `devrun.sh` | Iterate a fixture against `CEV_DEVSRC` before publishing. |
 | `mkev.sh SLUG MSGFILE` | Creates `task/SLUG-evidence` from master with the generators, commits, pushes, extracts the pinned reproduce.py. |

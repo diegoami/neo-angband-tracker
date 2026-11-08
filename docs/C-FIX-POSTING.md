@@ -39,6 +39,26 @@ The repository ignores `*.log`; until the `.gitignore` exception for
 `docs/audit/c-reports/**/*.log` is on every evidence base, commit logs with
 `git add -f` (the receipt hashes them; a missing log is a broken receipt).
 
+## 0b. Claiming an issue (parallel sessions)
+
+Several sessions may fix bugs at once. Claims are leases that decay, so nothing
+stays locked:
+
+- Before starting, run `python3 tools/c-evidence/claim_status.py <issue>`. Work
+  only on a FREE issue (EXPIRED may be taken over, saying so).
+- **Claim**: add the label `status:in-progress` and post a comment whose first
+  line is `CLAIM by <session> at <UTC ISO time>, expires <UTC ISO time>` (lease of
+  at most 6 hours).
+- **Renew**: post `HEARTBEAT by <session> at <time>, expires <time>` before the
+  lease runs out while still working.
+- **Release**: post `RELEASE by <session> at <time>: <fixed in #PR / triaged /
+  abandoned>` and remove `status:in-progress`. A §7 triage or owner-question
+  comment also ends the claim.
+- A claim whose newest CLAIM/HEARTBEAT has expired is free again, even if the
+  label was left behind; `claim_status.py --stale` lists those for cleanup.
+  `claim_status.py --candidates` lists free candidate leads.
+- An issue with an open PR naming it is never free.
+
 ## 1. Branches
 
 - **Source branch** `task/c-borg-<slug>` from pristine `c-borg-reference`
