@@ -101,3 +101,54 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the receipt above hashes the original run's phase logs, but they were
+never committed (the repository's `*.log` ignore rule dropped them), so the
+package could not be checked against its own receipt. The run was repeated
+at the same pins (base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `d4dcb983c9623757b523a7fae861b624d858e23d`, fixtures
+`5f5aa3a857d593d0f053b46c0786256f4d953a0c`) with `--full-tests`, and every case reproduced the recorded
+outcome exactly (the `cases` block of the new `result.json` equals the
+original receipt's):
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `glow` | fail: `glow_n=1600 overflow=64` | pass: `glow_n=1536 overflow=0` |
+| `control` (control) | pass: `glow_n=1000 overflow=0` | pass: `glow_n=1000 overflow=0` |
+| `asan` | fail: `WRITE of size 1` SUMMARY: AddressSanitizer: global-buffer-overflow | pass: no sanitizer report |
+
+Controls byte-identical before/after: `control`. Full native gates from the
+`*-alltests.log` summaries: before: Total: 965/965 passed (100.0%), Total: 5/5; after: Total: 965/965 passed (100.0%), Total: 5/5. Toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0; cmake version 3.28.3.
+
+These re-run files have the same sha256 as the original receipt lists, i.e.
+they are byte-identical to the original run's: `after-build-asan.log`, `after-build.log`, `after-scenarios.log`, `before-control.log`, `before-glow.log`, `after-asan-glow.log`, `after-control.log`, `after-glow.log`, `after-results.json`. Files that differ
+only by the run's temporary paths and build timing: `after-alltests.log`, `before-alltests.log`, `before-build-asan.log`, `before-build.log`, `before-scenarios.log`, `configure-asan.log`, `configure.log`, `result.json`, `before-asan-glow.log`, `before-results.json`.
+
+Render check: `node tools/c-evidence/render-smoke.js replay.html` on the
+committed page (every scenario option and visible button):
+`RENDER-SMOKE actions=2 errors=0 FAILED: rendered text contains "undefined"`.
+
+Logs, `result.json` and a receipt with the sha256 of every re-run file are
+in [`reverify-2026-11-08/`](reverify-2026-11-08/). Repeat, both pins fixed
+(the fix sha is the runner's built-in `FIX` constant, checked against the
+branch diff before building):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/glowoverflow-311-evidence
+git show 5f5aa3a857d593d0f053b46c0786256f4d953a0c:docs/audit/c-reports/glowoverflow-311/reproduce.py > /tmp/reproduce-glowoverflow-311.py
+python3 /tmp/reproduce-glowoverflow-311.py --full-tests --fixtures-ref 5f5aa3a857d593d0f053b46c0786256f4d953a0c
+```
+
+The earlier text of this guide is left as written.
+
+## Errata (2026-11-08)
+
+- **Source proposal link.** The opening's "Source proposal" link above points to a placeholder URL. The source proposal is [#346](https://github.com/diegoami/neo-angband-tracker/pull/346) (branch `task/c-borg-glow-array-bound`); the evidence PR is [#347](https://github.com/diegoami/neo-angband-tracker/pull/347); the canonical issue is [#311](https://github.com/diegoami/neo-angband-tracker/issues/311).
+- **Fixtures pins.** The receipt's `fixtures_ref` is `5f5aa3a857d593d0f053b46c0786256f4d953a0c` (the commit the native run executed at). The commands above pin `83a131b3187b125521dcc76a099807c78167dc54` and the issue's commands pinned `1a9946c6111c541a4041edc7a200e7440434d85e`; all three commits carry byte-identical `scenario.c`, `run-cases.py`, `make_replay.py`, `reproduce.py` and `borg.txt` (`git diff --stat 5f5aa3a857d593d0f053b46c0786256f4d953a0c 1a9946c6111c541a4041edc7a200e7440434d85e -- docs/audit/c-reports/glowoverflow-311/` lists only README/receipt/replay/result artifacts), so any of them reproduces the same run. The re-verification above used `5f5aa3a857d593d0f053b46c0786256f4d953a0c`.
+- **Missing logs and render record.** The file inventory and receipt list phase logs that were not committed with the original package; the re-run's logs are in `reverify-2026-11-08/`. The receipt records its browser check under `browser`; the generic render-smoke result above is the 2026-11-08 record.
+- **README hash.** Because this section was appended, `README.md` no longer matches the `README.md` hash in `receipt.json` (that hash is for the guide before this section was appended); every other hashed file is unchanged.
+- **Consequence paragraph retracted.** The opening's "Consequence" paragraph ("the tail of `borg_glow_y` in `borg_glow_x` and vice versa ... the read-back loop enqueues swapped and off-panel coordinates as flow targets") is not established and is withdrawn (correction note on issue #311, 2026-11-07). What the overflowing write corrupts is undefined behaviour and depends on the build's memory layout. For one analysed build (pristine `e473720`, `cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DSUPPORT_BORG=ON`, gcc 15.2.0; `nm -S` places `borg_glow_y`, then `borg_glow_x`, `borg_glow_n`, `borg_light_y`), a probe that simulates that layout and the compiled scan (`docs/audit/c-reports/spec-checks/glow_overflow_probe.c` and `RECHECK.md` §3 on PR #317, branch `task/borg-spec-audit`) gives, for 1817 glowing grids: 279 enqueued grids with the right y and a wrong x, **none off the panel**, and 249 entries of `borg_light_y[]` overwritten. That is a simulation of one build, not a game run; other builds can differ. What this package measures is unchanged: the unbounded write (1600 entries into arrays of 1536) and the AddressSanitizer `global-buffer-overflow` `WRITE of size 1` in `borg_flow_light` before, none after.
+- **Render check correction.** The receipt's browser record says "no n/a or undefined fields". The 2026-11-08 render smoke of the same committed `replay.html` finds one: choosing **Control** shows "AddressSanitizer on the same run: undefined", because the control has no sanitizer run and the page has no text for that case. The glow scenario's values render correctly and there are no console errors. The page is left as committed; the correct reading for the control is "no sanitizer run for this case".
+- **Restored original logs.** The re-run files whose sha256 equals the value in the original `receipt.json` (`after-build-asan.log`, `after-build.log`, `after-scenarios.log`, `before-control.log`, `before-glow.log`, `after-asan-glow.log`, `after-control.log`, `after-glow.log`) are byte-for-byte the original run's files, so they are also committed here at the paths the receipt names. `after-alltests.log`, `before-alltests.log`, `before-build-asan.log`, `before-build.log`, `before-scenarios.log`, `configure-asan.log`, `configure.log`, `result.json`, `before-asan-glow.log`, `before-results.json` differ by temporary paths and timing and stay only in `reverify-2026-11-08/`.

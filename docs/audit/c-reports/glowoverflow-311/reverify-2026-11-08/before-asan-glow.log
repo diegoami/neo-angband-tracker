@@ -1,0 +1,47 @@
+native-c/glowoverflow-311: starting...
+SETUPSTEP profile
+SETUP seed=1000 glowing=1600 limit=1536 panel=41x40
+  glow_arrays_are_bounded  =================================================================
+==18602==ERROR: AddressSanitizer: global-buffer-overflow on address 0x5587187cfd60 at pc 0x55871844b5c2 bp 0x7ffcce8df200 sp 0x7ffcce8df1f0
+WRITE of size 1 at 0x5587187cfd60 thread T0
+    #0 0x55871844b5c1 in borg_flow_light /tmp/angband-glowoverflow-311-5h6o_1b6/source/src/borg/borg-flow-misc.c:843
+    #1 0x55871801b1eb in scenario /tmp/angband-glowoverflow-311-5h6o_1b6/evidence/scenario.c:122
+    #2 0x558718554a82 in main /tmp/angband-glowoverflow-311-5h6o_1b6/source/src/tests/unit-test.c:53
+    #3 0x7fd96ae2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7fd96ae2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x558718019e44 in _start (/tmp/angband-glowoverflow-311-5h6o_1b6/build-asan/game/T311Observer+0x149e44) (BuildId: 1b01596c938bc2a472176dfa70617227419cf04f)
+
+0x5587187cfd60 is located 0 bytes after global variable 'borg_glow_y' defined in '/tmp/angband-glowoverflow-311-5h6o_1b6/source/src/borg/borg-cave-light.c:45:9' (0x5587187cf760) of size 1536
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-glowoverflow-311-5h6o_1b6/source/src/borg/borg-flow-misc.c:843 in borg_flow_light
+Shadow bytes around the buggy address:
+  0x5587187cfa80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x5587187cfb00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x5587187cfb80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x5587187cfc00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x5587187cfc80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x5587187cfd00: 00 00 00 00 00 00 00 00 00 00 00 00[f9]f9 f9 f9
+  0x5587187cfd80: 00 00 00 00 02 f9 f9 f9 f9 f9 f9 f9 00 00 00 00
+  0x5587187cfe00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x5587187cfe80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x5587187cff00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x5587187cff80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==18602==ABORTING

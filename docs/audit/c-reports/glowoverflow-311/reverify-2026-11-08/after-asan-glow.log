@@ -1,0 +1,9 @@
+native-c/glowoverflow-311: starting...
+SETUPSTEP profile
+SETUP seed=1000 glowing=1600 limit=1536 panel=41x40
+  glow_arrays_are_bounded  MODE glow
+GEOMETRY glow_n=1536 limit=1536
+RATING glow_n=1536 overflow=0
+OUTCOME glow_n=1536 overflow=0
+Passed
+native-c/glowoverflow-311 finished: 1/1 passed
