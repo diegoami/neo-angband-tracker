@@ -254,6 +254,10 @@ static void build_world(bool mold, int wall_x, int chp)
 
 static void move_borg(int x, int y)
 {
+    /* player_place() does not clear the grid the player leaves; without this
+     * the game map marks both grids as the player's and borg_update() would
+     * take the last one it scans. */
+    square_set_mon(cave, player->grid, 0);
     player_place(cave, player, loc(x, y));
     borg.c = player->grid;
     update_view(cave, player);
