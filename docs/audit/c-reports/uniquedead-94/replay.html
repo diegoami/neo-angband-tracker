@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A shape-changed monster made the Borg think Grip was dead</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A shape-changed monster made the Borg think Grip was dead</h1><p>The Borg keeps a table of which uniques are dead. When it looks at a monster whose race is a unique the player has already killed, a fix-up marks that unique as dead. The fix-up used the number of the Borg&#x27;s own monster record instead of the monster&#x27;s race number, so it marked an unrelated race as dead, permanently for the session. This can happen in normal play: a Maia of Aulë can change into the shape of Quaker, Master of Earth, even after the player killed Quaker. In the fixture the Borg had 46 other monster records, so the Maia&#x27;s record was number 47, which is the race number of Grip, Farmer Maggot&#x27;s Dog, still alive. On the next level the Borg&#x27;s living-unique list lost Grip, the depth of its third-shallowest living unique jumped from 17 to 41, and when it read Word of Recall at depth 15 (maximum depth 60) it answered &#x27;n&#x27; to &#x27;Set recall depth to current depth?&#x27;, so the next recall returns to depth 60. The corrected Borg marks Quaker (the race it saw), keeps Grip alive and answers &#x27;y&#x27;, as it does without the bug.</p><p><label>Scenario: <select id="scenario"><option value="grip">Maia in Quaker&#x27;s shape becomes record 47 (Grip&#x27;s race number)</option><option value="slot5">Control: the same sighting becomes record 5 (a non-unique race)</option></select></label></p><section class="scenario" data-mode="grip"><p class="summary">Original: the fix-up marks race 47 (Grip, alive) dead instead of Quaker; on the next level the Borg counts 56 living uniques instead of 57, its first living unique becomes Fang and its hunted depth 41 instead of 17; it answers &#x27;n&#x27; and the recall depth stays 60. Corrected: Quaker is marked, Grip stays alive, hunted depth 17, the Borg answers &#x27;y&#x27; and the game sets recall depth (and maximum depth) to 15.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>answers &#x27;y&#x27; to &#x27;Set recall depth to current depth?&#x27; (1 = yes, recall depth becomes 15)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK start first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+TRACK filler_records=46 shape_tries=1 new_record_slot=47 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=Grip, Farmer Maggot&#x27;s Dog
+TRACK next_level first_living_unique=Fang, Farmer Maggot&#x27;s Dog
+DECISION recall=1 keys=&lt;..rdn.&gt; answer=n</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>answers &#x27;y&#x27; to &#x27;Set recall depth to current depth?&#x27; (1 = yes, recall depth becomes 15)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK start first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+TRACK filler_records=46 shape_tries=1 new_record_slot=47 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=Grip, Farmer Maggot&#x27;s Dog
+TRACK next_level first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+DECISION recall=1 keys=&lt;..rdy.&gt; answer=y</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/uniquedead-94: starting...
+SETUP seed=94 mode=grip class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464
+STATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK start first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+  dead_unique_fixup_marks_the_seen_race  MODE grip
+TRACK filler_records=46 shape_tries=1 new_record_slot=47 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=Grip, Farmer Maggot&#x27;s Dog
+STATE next_level live_uniques=56 hunted_depth=41 grip_dead=1 quaker_dead=1
+TRACK next_level first_living_unique=Fang, Farmer Maggot&#x27;s Dog
+DECISION recall=1 keys=&lt;..rdn.&gt; answer=n
+PROMPT Set recall depth to current depth? -&gt; n
+MSG The air about you becomes charged...
+MSG You have a Scroll of Word of Recall (1st c).
+ENGINE recall_active=1 recall_depth=60 max_depth=60
+OUTCOME grip_dead=1 live_uniques=56 hunted_depth=41 reset_recall=0 recall_depth=60
+Failed
+    native-c/uniquedead-94:267: requirement &#x27;borg_race_death[grip-&gt;ridx] ? 1 : 0&#x27; == &#x27;0&#x27; failed
+      borg_race_death[grip-&gt;ridx] ? 1 : 0:                1
+      0:                0
+native-c/uniquedead-94 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/uniquedead-94: starting...
+SETUP seed=94 mode=grip class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464
+STATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK start first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+  dead_unique_fixup_marks_the_seen_race  MODE grip
+TRACK filler_records=46 shape_tries=1 new_record_slot=47 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=Grip, Farmer Maggot&#x27;s Dog
+STATE next_level live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK next_level first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+DECISION recall=1 keys=&lt;..rdy.&gt; answer=y
+PROMPT Set recall depth to current depth? -&gt; y
+MSG The air about you becomes charged...
+MSG You have a Scroll of Word of Recall (1st c).
+ENGINE recall_active=1 recall_depth=15 max_depth=15
+OUTCOME grip_dead=0 live_uniques=57 hunted_depth=17 reset_recall=1 recall_depth=15
+Passed
+native-c/uniquedead-94 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="slot5"><p class="summary">With only four earlier records the Maia&#x27;s record is 5 (blubbering idiot, not a unique), so the misplaced mark has no visible effect; both versions keep Grip alive and answer &#x27;y&#x27;. The changed line runs in both; the logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>answers &#x27;y&#x27; to &#x27;Set recall depth to current depth?&#x27; (1 = yes, recall depth becomes 15)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK start first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+TRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=blubbering idiot
+TRACK next_level first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+DECISION recall=1 keys=&lt;..rdy.&gt; answer=y</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>answers &#x27;y&#x27; to &#x27;Set recall depth to current depth?&#x27; (1 = yes, recall depth becomes 15)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK start first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+TRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=blubbering idiot
+TRACK next_level first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+DECISION recall=1 keys=&lt;..rdy.&gt; answer=y</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/uniquedead-94: starting...
+SETUP seed=94 mode=slot5 class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464
+STATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK start first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+  dead_unique_fixup_marks_the_seen_race  MODE slot5
+TRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=blubbering idiot
+STATE next_level live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK next_level first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+DECISION recall=1 keys=&lt;..rdy.&gt; answer=y
+PROMPT Set recall depth to current depth? -&gt; y
+MSG The air about you becomes charged...
+MSG You have a Scroll of Word of Recall (1st c).
+ENGINE recall_active=1 recall_depth=15 max_depth=15
+OUTCOME grip_dead=0 live_uniques=57 hunted_depth=17 reset_recall=1 recall_depth=15
+Passed
+native-c/uniquedead-94 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/uniquedead-94: starting...
+SETUP seed=94 mode=slot5 class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464
+STATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK start first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+  dead_unique_fixup_marks_the_seen_race  MODE slot5
+TRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=blubbering idiot
+STATE next_level live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK next_level first_living_unique=Grip, Farmer Maggot&#x27;s Dog
+DECISION recall=1 keys=&lt;..rdy.&gt; answer=y
+PROMPT Set recall depth to current depth? -&gt; y
+MSG The air about you becomes charged...
+MSG You have a Scroll of Word of Recall (1st c).
+ENGINE recall_active=1 recall_depth=15 max_depth=15
+OUTCOME grip_dead=0 live_uniques=57 hunted_depth=17 reset_recall=1 recall_depth=15
+Passed
+native-c/uniquedead-94 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 94, character level 31, depth 15, maximum and recall depth 60, a lit 38x38 room, one Scroll of Word of Recall. Fixture interventions: the character&#x27;s unique kills are recorded as the game records them (r_info max_num = 0 and a lore kill, mon-util.c:1101, load.c:533-535): every unique shallower than depth 40 except Grip, Fang and Nár, plus Quaker; the Borg&#x27;s map grids are marked on-screen/in view. Real code: borg_init(), the first borg_update() (whose new-level branch runs the unique scan), 46 stock wild dogs (4 in the control) each placed and observed with the production observe_kill_diff(); a stock Maia of Aulë placed and changed with the game&#x27;s monster_change_shape() until it takes Quaker&#x27;s shape (one try with this seed); its first sighting through observe_kill_diff() -&gt; borg_new_kill() -&gt; borg_update_kill_old(); a second borg_update() on a new level (borg.status.old_depth changed, as on arrival); the production borg_recall(); the Borg&#x27;s queued answer is given to the game&#x27;s own &#x27;Set recall depth to current depth?&#x27; question while the real read-scroll command runs.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/94">issue 94</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

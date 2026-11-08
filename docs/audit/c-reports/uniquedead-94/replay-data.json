@@ -1,0 +1,112 @@
+{
+  "grip": {
+    "label": "Maia in Quaker's shape becomes record 47 (Grip's race number)",
+    "explanation": "Original: the fix-up marks race 47 (Grip, alive) dead instead of Quaker; on the next level the Borg counts 56 living uniques instead of 57, its first living unique becomes Fang and its hunted depth 41 instead of 17; it answers 'n' and the recall depth stays 60. Corrected: Quaker is marked, Grip stays alive, hunted depth 17, the Borg answers 'y' and the game sets recall depth (and maximum depth) to 15.",
+    "control": false,
+    "before": {
+      "raw": "native-c/uniquedead-94: starting...\nSETUP seed=94 mode=grip class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464\nSTATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1\nTRACK start first_living_unique=Grip, Farmer Maggot's Dog\n  dead_unique_fixup_marks_the_seen_race  MODE grip\nTRACK filler_records=46 shape_tries=1 new_record_slot=47 race_seen=Quaker, Master of Earth max_num=0\nTRACK race_at_slot_index=Grip, Farmer Maggot's Dog\nSTATE next_level live_uniques=56 hunted_depth=41 grip_dead=1 quaker_dead=1\nTRACK next_level first_living_unique=Fang, Farmer Maggot's Dog\nDECISION recall=1 keys=<..rdn.> answer=n\nPROMPT Set recall depth to current depth? -> n\nMSG The air about you becomes charged...\nMSG You have a Scroll of Word of Recall (1st c).\nENGINE recall_active=1 recall_depth=60 max_depth=60\nOUTCOME grip_dead=1 live_uniques=56 hunted_depth=41 reset_recall=0 recall_depth=60\nFailed\n    native-c/uniquedead-94:267: requirement 'borg_race_death[grip->ridx] ? 1 : 0' == '0' failed\n      borg_race_death[grip->ridx] ? 1 : 0:                1\n      0:                0\nnative-c/uniquedead-94 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "live_uniques": 56,
+        "hunted_depth": 41,
+        "grip_dead": 1,
+        "quaker_dead": 1
+      },
+      "outcome": {
+        "grip_dead": 1,
+        "live_uniques": 56,
+        "hunted_depth": 41,
+        "reset_recall": 0,
+        "recall_depth": 60
+      },
+      "notes": [
+        "TRACK start first_living_unique=Grip, Farmer Maggot's Dog",
+        "TRACK filler_records=46 shape_tries=1 new_record_slot=47 race_seen=Quaker, Master of Earth max_num=0",
+        "TRACK race_at_slot_index=Grip, Farmer Maggot's Dog",
+        "TRACK next_level first_living_unique=Fang, Farmer Maggot's Dog",
+        "DECISION recall=1 keys=<..rdn.> answer=n"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/uniquedead-94: starting...\nSETUP seed=94 mode=grip class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464\nSTATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1\nTRACK start first_living_unique=Grip, Farmer Maggot's Dog\n  dead_unique_fixup_marks_the_seen_race  MODE grip\nTRACK filler_records=46 shape_tries=1 new_record_slot=47 race_seen=Quaker, Master of Earth max_num=0\nTRACK race_at_slot_index=Grip, Farmer Maggot's Dog\nSTATE next_level live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1\nTRACK next_level first_living_unique=Grip, Farmer Maggot's Dog\nDECISION recall=1 keys=<..rdy.> answer=y\nPROMPT Set recall depth to current depth? -> y\nMSG The air about you becomes charged...\nMSG You have a Scroll of Word of Recall (1st c).\nENGINE recall_active=1 recall_depth=15 max_depth=15\nOUTCOME grip_dead=0 live_uniques=57 hunted_depth=17 reset_recall=1 recall_depth=15\nPassed\nnative-c/uniquedead-94 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "live_uniques": 57,
+        "hunted_depth": 17,
+        "grip_dead": 0,
+        "quaker_dead": 1
+      },
+      "outcome": {
+        "grip_dead": 0,
+        "live_uniques": 57,
+        "hunted_depth": 17,
+        "reset_recall": 1,
+        "recall_depth": 15
+      },
+      "notes": [
+        "TRACK start first_living_unique=Grip, Farmer Maggot's Dog",
+        "TRACK filler_records=46 shape_tries=1 new_record_slot=47 race_seen=Quaker, Master of Earth max_num=0",
+        "TRACK race_at_slot_index=Grip, Farmer Maggot's Dog",
+        "TRACK next_level first_living_unique=Grip, Farmer Maggot's Dog",
+        "DECISION recall=1 keys=<..rdy.> answer=y"
+      ],
+      "value": 1
+    }
+  },
+  "slot5": {
+    "label": "Control: the same sighting becomes record 5 (a non-unique race)",
+    "explanation": "With only four earlier records the Maia's record is 5 (blubbering idiot, not a unique), so the misplaced mark has no visible effect; both versions keep Grip alive and answer 'y'. The changed line runs in both; the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/uniquedead-94: starting...\nSETUP seed=94 mode=slot5 class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464\nSTATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1\nTRACK start first_living_unique=Grip, Farmer Maggot's Dog\n  dead_unique_fixup_marks_the_seen_race  MODE slot5\nTRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0\nTRACK race_at_slot_index=blubbering idiot\nSTATE next_level live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1\nTRACK next_level first_living_unique=Grip, Farmer Maggot's Dog\nDECISION recall=1 keys=<..rdy.> answer=y\nPROMPT Set recall depth to current depth? -> y\nMSG The air about you becomes charged...\nMSG You have a Scroll of Word of Recall (1st c).\nENGINE recall_active=1 recall_depth=15 max_depth=15\nOUTCOME grip_dead=0 live_uniques=57 hunted_depth=17 reset_recall=1 recall_depth=15\nPassed\nnative-c/uniquedead-94 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "live_uniques": 57,
+        "hunted_depth": 17,
+        "grip_dead": 0,
+        "quaker_dead": 1
+      },
+      "outcome": {
+        "grip_dead": 0,
+        "live_uniques": 57,
+        "hunted_depth": 17,
+        "reset_recall": 1,
+        "recall_depth": 15
+      },
+      "notes": [
+        "TRACK start first_living_unique=Grip, Farmer Maggot's Dog",
+        "TRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0",
+        "TRACK race_at_slot_index=blubbering idiot",
+        "TRACK next_level first_living_unique=Grip, Farmer Maggot's Dog",
+        "DECISION recall=1 keys=<..rdy.> answer=y"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/uniquedead-94: starting...\nSETUP seed=94 mode=slot5 class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464\nSTATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1\nTRACK start first_living_unique=Grip, Farmer Maggot's Dog\n  dead_unique_fixup_marks_the_seen_race  MODE slot5\nTRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0\nTRACK race_at_slot_index=blubbering idiot\nSTATE next_level live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1\nTRACK next_level first_living_unique=Grip, Farmer Maggot's Dog\nDECISION recall=1 keys=<..rdy.> answer=y\nPROMPT Set recall depth to current depth? -> y\nMSG The air about you becomes charged...\nMSG You have a Scroll of Word of Recall (1st c).\nENGINE recall_active=1 recall_depth=15 max_depth=15\nOUTCOME grip_dead=0 live_uniques=57 hunted_depth=17 reset_recall=1 recall_depth=15\nPassed\nnative-c/uniquedead-94 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "live_uniques": 57,
+        "hunted_depth": 17,
+        "grip_dead": 0,
+        "quaker_dead": 1
+      },
+      "outcome": {
+        "grip_dead": 0,
+        "live_uniques": 57,
+        "hunted_depth": 17,
+        "reset_recall": 1,
+        "recall_depth": 15
+      },
+      "notes": [
+        "TRACK start first_living_unique=Grip, Farmer Maggot's Dog",
+        "TRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0",
+        "TRACK race_at_slot_index=blubbering idiot",
+        "TRACK next_level first_living_unique=Grip, Farmer Maggot's Dog",
+        "DECISION recall=1 keys=<..rdy.> answer=y"
+      ],
+      "value": 1
+    }
+  }
+}

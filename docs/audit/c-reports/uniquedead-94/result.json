@@ -1,0 +1,95 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "ea3e7213955bfa1125b84ded987b0adee56c0ee3",
+  "fixtures_ref": "cf21e7cf57d9d282173d8d5e0844fae2153dc04b",
+  "cases": {
+    "before": {
+      "grip": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "live_uniques": 56,
+          "hunted_depth": 41,
+          "grip_dead": 1,
+          "quaker_dead": 1
+        },
+        "outcome": {
+          "grip_dead": 1,
+          "live_uniques": 56,
+          "hunted_depth": 41,
+          "reset_recall": 0,
+          "recall_depth": 60
+        }
+      },
+      "slot5": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "grip_dead": 0,
+          "quaker_dead": 1
+        },
+        "outcome": {
+          "grip_dead": 0,
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "reset_recall": 1,
+          "recall_depth": 15
+        }
+      }
+    },
+    "after": {
+      "grip": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "grip_dead": 0,
+          "quaker_dead": 1
+        },
+        "outcome": {
+          "grip_dead": 0,
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "reset_recall": 1,
+          "recall_depth": 15
+        }
+      },
+      "slot5": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "grip_dead": 0,
+          "quaker_dead": 1
+        },
+        "outcome": {
+          "grip_dead": 0,
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "reset_recall": 1,
+          "recall_depth": 15
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "slot5"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "07de83c4e075049959ab863bfaf1c898269ed2868939cdcf2abe66619daf7698"
+  }
+}

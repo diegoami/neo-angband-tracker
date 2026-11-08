@@ -1,0 +1,17 @@
+native-c/uniquedead-94: starting...
+SETUP seed=94 mode=slot5 class=Warrior clevel=31 depth=15 max_depth=60 recall_depth=60 uniques_killed=39 grip_ridx=47 quaker_ridx=464
+STATE start live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK start first_living_unique=Grip, Farmer Maggot's Dog
+  dead_unique_fixup_marks_the_seen_race  MODE slot5
+TRACK filler_records=4 shape_tries=1 new_record_slot=5 race_seen=Quaker, Master of Earth max_num=0
+TRACK race_at_slot_index=blubbering idiot
+STATE next_level live_uniques=57 hunted_depth=17 grip_dead=0 quaker_dead=1
+TRACK next_level first_living_unique=Grip, Farmer Maggot's Dog
+DECISION recall=1 keys=<..rdy.> answer=y
+PROMPT Set recall depth to current depth? -> y
+MSG The air about you becomes charged...
+MSG You have a Scroll of Word of Recall (1st c).
+ENGINE recall_active=1 recall_depth=15 max_depth=15
+OUTCOME grip_dead=0 live_uniques=57 hunted_depth=17 reset_recall=1 recall_depth=15
+Passed
+native-c/uniquedead-94 finished: 1/1 passed
