@@ -1,0 +1,13 @@
+native-c/dispel-259: starting...
+SETUPSTEP profile
+MANA dispel_power=14 cursp=19 maxsp=116 ok=1
+SETUP seed=1000 class=Priest level=21 depth=5 avoidance=4
+  reserve_bolt_checks_near_monsters  MODE dispel-reserve
+GEOMETRY player=(11,11) bats=3 temp_n=3 cursp=19 maxsp=116
+RATING value=-21127
+OUTCOME value=-21127
+Failed
+    native-c/dispel-259:207: requirement 'v' == '-10627' failed
+      v:           -21127
+      -10627:           -10627
+native-c/dispel-259 finished: 0/1 passed
