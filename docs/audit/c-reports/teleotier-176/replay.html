@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Remove the unreachable fail-rate tier from the Teleport Other defence</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Remove the unreachable fail-rate tier from the Teleport Other defence</h1><p>Cleanup, no behaviour change; owner decision (option C). When the Borg considers teleporting a monster away, borg_defend_aux_tele_away() accepts less spell failure the more dangerous the situation is: 50% by default, 45% when the danger p1 is above twice the Borg&#x27;s avoidance figure, 40% above three times. A third tier (+5, &#x27;a little scary&#x27;) sits in the else of the &#x27;twice&#x27; test but asks for p1 above five halves of the avoidance, which a danger that is not above twice the avoidance never is. The change deletes the dead tier.</p><p><label>Scenario: <select id="scenario"><option value="over3">Control: danger 3.5x avoidance (allowance 40%)</option><option value="upper">Control: danger 2.75x avoidance, the band the dead test names (allowance 45%)</option><option value="lower">Control: danger 2.25x avoidance (allowance 45%)</option><option value="under2">Control: danger 1.5x avoidance (allowance 50%)</option></select></label></p><section class="scenario" data-mode="over3"><p class="summary">Above three times the avoidance the allowance is 40%; Teleport Other fails 41% of the time, so both versions refuse it and borg_defend() does nothing. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>Teleport Other cast by borg_defend() (1 = cast and aimed; 0 = refused)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=0 keys=0 sequence=</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>Teleport Other cast by borg_defend() (1 = cast and aimed; 0 = refused)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=0 keys=0 sequence=</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/teleotier-176: starting...
+SETUP seed=176 mode=over3 class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=287 grid_danger=0 fail=41 afraid=1
+DECISION defend=0 keys=0 sequence=
+OUTCOME cast=0 keys=0
+Passed
+native-c/teleotier-176 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/teleotier-176: starting...
+SETUP seed=176 mode=over3 class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=287 grid_danger=0 fail=41 afraid=1
+DECISION defend=0 keys=0 sequence=
+OUTCOME cast=0 keys=0
+Passed
+native-c/teleotier-176 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="upper"><p class="summary">2.75x is above five halves, the condition of the deleted tier, but the &#x27;twice&#x27; test catches it first in both versions: allowance 45%, Teleport Other cast and aimed. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Teleport Other cast by borg_defend() (1 = cast and aimed; 0 = refused)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=10 sequence=*p6665mbc5</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Teleport Other cast by borg_defend() (1 = cast and aimed; 0 = refused)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=10 sequence=*p6665mbc5</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/teleotier-176: starting...
+SETUP seed=176 mode=upper class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=225 grid_danger=0 fail=41 afraid=1
+DECISION defend=1 keys=10 sequence=*p6665mbc5
+OUTCOME cast=1 keys=10
+Passed
+native-c/teleotier-176 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/teleotier-176: starting...
+SETUP seed=176 mode=upper class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=225 grid_danger=0 fail=41 afraid=1
+DECISION defend=1 keys=10 sequence=*p6665mbc5
+OUTCOME cast=1 keys=10
+Passed
+native-c/teleotier-176 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="lower"><p class="summary">Allowance 45%: cast in both versions. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Teleport Other cast by borg_defend() (1 = cast and aimed; 0 = refused)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=10 sequence=*p6665mbc5</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Teleport Other cast by borg_defend() (1 = cast and aimed; 0 = refused)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=10 sequence=*p6665mbc5</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/teleotier-176: starting...
+SETUP seed=176 mode=lower class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=184 grid_danger=0 fail=41 afraid=1
+DECISION defend=1 keys=10 sequence=*p6665mbc5
+OUTCOME cast=1 keys=10
+Passed
+native-c/teleotier-176 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/teleotier-176: starting...
+SETUP seed=176 mode=lower class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=184 grid_danger=0 fail=41 afraid=1
+DECISION defend=1 keys=10 sequence=*p6665mbc5
+OUTCOME cast=1 keys=10
+Passed
+native-c/teleotier-176 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="under2"><p class="summary">Not above twice the avoidance: the original evaluates the dead test (false) and keeps the default 50%; the changed version keeps 50% directly. Cast in both. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Teleport Other cast by borg_defend() (1 = cast and aimed; 0 = refused)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=10 sequence=*p6665mbc5</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Teleport Other cast by borg_defend() (1 = cast and aimed; 0 = refused)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=10 sequence=*p6665mbc5</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/teleotier-176: starting...
+SETUP seed=176 mode=under2 class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=123 grid_danger=0 fail=41 afraid=1
+DECISION defend=1 keys=10 sequence=*p6665mbc5
+OUTCOME cast=1 keys=10
+Passed
+native-c/teleotier-176 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/teleotier-176: starting...
+SETUP seed=176 mode=under2 class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=123 grid_danger=0 fail=41 afraid=1
+DECISION defend=1 keys=10 sequence=*p6665mbc5
+OUTCOME cast=1 keys=10
+Passed
+native-c/teleotier-176 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Mage, seed 176, clevel 16, depth 15, full HP (82) and SP, a torch, rations and only the [Magical Defences] book with only Teleport Other learned (spell_learn()), in a lit, open 24x40 arena with an awake hill giant 3 grids east, observed through observe_kill_diff(). The player is afraid (TMD_AFRAID set), which adds 20 to the failure rate and puts Teleport Other at 41%, between the 40% and 45% allowances, so the tiers decide the outcome. The production borg_defend(p1) runs with p1 set to a multiple of borg.avoidance (82): &#x27;over3&#x27; 3.5x, &#x27;upper&#x27; 2.75x (the band the dead test names), &#x27;lower&#x27; 2.25x, &#x27;under2&#x27; 1.5x; the queued keys are read back. Fixture interventions: the arena and lighting are set directly, borg_grids is seeded from the cave with BORG_OKAY|BORG_VIEW, borg.avoidance is set to current HP, HP/SP are set to maximum, fear is set directly, borg_kills[k].awake is set by hand and p1 is passed directly instead of being computed by the caller.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/176">issue 176</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

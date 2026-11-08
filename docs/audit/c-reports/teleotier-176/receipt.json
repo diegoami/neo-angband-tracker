@@ -1,0 +1,192 @@
+{
+  "issue": "diegoami/neo-angband-tracker#176",
+  "report": "teleotier-176",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "841cd99eebbe47ef6175b1ed2300548a2bfe0c2b",
+  "fix_branch": "task/teleotier-176",
+  "fixtures_ref": "e8e36b09306a29c853188a45c9ac983bf52c55de",
+  "cases": {
+    "over3": {
+      "before": {
+        "passed": true,
+        "state": {
+          "avoidance": 82,
+          "p1": 287,
+          "grid_danger": 0,
+          "fail": 41,
+          "afraid": 1
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 82,
+          "p1": 287,
+          "grid_danger": 0,
+          "fail": 41,
+          "afraid": 1
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0
+        }
+      }
+    },
+    "upper": {
+      "before": {
+        "passed": true,
+        "state": {
+          "avoidance": 82,
+          "p1": 225,
+          "grid_danger": 0,
+          "fail": 41,
+          "afraid": 1
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 10
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 82,
+          "p1": 225,
+          "grid_danger": 0,
+          "fail": 41,
+          "afraid": 1
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 10
+        }
+      }
+    },
+    "lower": {
+      "before": {
+        "passed": true,
+        "state": {
+          "avoidance": 82,
+          "p1": 184,
+          "grid_danger": 0,
+          "fail": 41,
+          "afraid": 1
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 10
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 82,
+          "p1": 184,
+          "grid_danger": 0,
+          "fail": 41,
+          "afraid": 1
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 10
+        }
+      }
+    },
+    "under2": {
+      "before": {
+        "passed": true,
+        "state": {
+          "avoidance": 82,
+          "p1": 123,
+          "grid_danger": 0,
+          "fail": 41,
+          "afraid": 1
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 10
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 82,
+          "p1": 123,
+          "grid_danger": 0,
+          "fail": 41,
+          "afraid": 1
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 10
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "over3",
+    "upper",
+    "lower",
+    "under2"
+  ],
+  "claim": "The deleted tier in borg_defend_aux_tele_away() is unreachable: it is only tested when p1 is not above 2 x avoidance, and asks for p1 above (5 x avoidance) / 2, which is at least 2 x avoidance for any avoidance that is not negative (it is always set from hit points or a positive constant). Four native borg_defend() scenarios, one in each danger band, with a failure rate between the tiers so that the band decides whether Teleport Other is cast, give byte-identical logs before and after, and both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-fight-defend.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-fight-defend.c": "4165806f97ddff57456805b88912546c7735a6301d12d8eab905c8e3288dd6a9"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "ccf00d642c7af7bcfe159d53bac5c93e1056b3c87b8b14707050dafb32853efb",
+    "after-lower.log": "37951d7ebdd847d53ab69f7574405bb524d22fde401a295f95cbdd1ef82eb143",
+    "after-over3.log": "26f30d23e8f2d065e87125b521df18d701780ea97141b31960bea8ac05fbff13",
+    "after-results.json": "eeec561cd372d2b4452a83ab3149ff80146b1e10affde7298a6dbfdebca4c811",
+    "after-under2.log": "f4bb990aa7a3c47d730315ed34a3353ab9b54ca167eae13b97604f5e4e7ab89b",
+    "after-upper.log": "b23d09ece744130e4ad00ed58309d9bdb32b368e4a19a8c89ef7d0ace2e4a749",
+    "before-lower.log": "37951d7ebdd847d53ab69f7574405bb524d22fde401a295f95cbdd1ef82eb143",
+    "before-over3.log": "26f30d23e8f2d065e87125b521df18d701780ea97141b31960bea8ac05fbff13",
+    "before-results.json": "eeec561cd372d2b4452a83ab3149ff80146b1e10affde7298a6dbfdebca4c811",
+    "before-under2.log": "f4bb990aa7a3c47d730315ed34a3353ab9b54ca167eae13b97604f5e4e7ab89b",
+    "before-upper.log": "b23d09ece744130e4ad00ed58309d9bdb32b368e4a19a8c89ef7d0ace2e4a749",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "bf239fa17769853dffe8b5cc1c11d15abcf005946c07c5ff26340897ca7a38b3",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "6626d60ba6a29b7ef7c2f8b09287a19040c75a449f4420d021bbc06f89e0b669",
+    "replay.html": "9c291c8c0e1af6eaaceedfba674577cb26ceebd90bfe7b701cb2950e2ca48d57",
+    "reproduce.py": "95eb824c84c1434f38c865ea7d158e3854d1eeffca0f512a4b39e8e64a1b6e36",
+    "result.json": "8d0deb3780b0ed56fa5fec93152d9db7ec93aeb51cd000261d3699284bb2bebc",
+    "run-after-alltests.log": "7be100f1305211aedc60cf7196cb25d022532929d71d82c0ddb0c206d07cd5bd",
+    "run-after-build.log": "20ceadd44cfdb95b837cb3bf27bc9f0699e2a6ee791a60117d70a446543a8658",
+    "run-after-scenarios.log": "90a693784a9fd5b00a286ae44bf8577756b956e63ca676ac4433647b03866cb9",
+    "run-before-alltests.log": "dce794e6837f53d6460b49f3bef4025704037ca03b1875280ec30c4c289981a4",
+    "run-before-build.log": "27d7f324b53c58e587d956a7def63484424aa6357d7cf7bc4320e18ca28b28aa",
+    "run-before-scenarios.log": "90a693784a9fd5b00a286ae44bf8577756b956e63ca676ac4433647b03866cb9",
+    "run-cases.py": "7ca143455e9399960e37739767aad1f585aa13ae1eb08baf832f9834183b047b",
+    "run-configure.log": "e3118c61db425886b4fe904d57ae11462915871dcf0d1991f8331f694ede8f55",
+    "scenario.c": "2eaac6d831eb9ea2d9dbe0b9f6178850550863675c9863f3ea7d5db1ffb46138"
+  }
+}
