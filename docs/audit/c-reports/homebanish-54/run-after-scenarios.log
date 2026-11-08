@@ -1,0 +1,2 @@
+banish {'exit': 0, 'passed': True, 'outcome': {'stores_banishment_scroll': 1}}
+mass {'exit': 0, 'passed': True, 'outcome': {'stores_banishment_scroll': 1}}
