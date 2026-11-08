@@ -838,6 +838,10 @@ bool borg_flow_take_lunal(bool viewable, int nearness)
             }
         }
 
+        /* Skip items the Borg does not want */
+        if (item_bad)
+            continue;
+
         /* Get the grid */
         ag = &borg_grids[y][x];
 
