@@ -1,0 +1,123 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "541e03b1e6e0bed42e0b71ec520cb6ced8f29d65",
+  "fixtures_ref": "f4244bd11af0a571adcb985f54d0a4c08648cf86",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": -11,
+        "passed": false,
+        "signal": "segfault",
+        "asan_report": false
+      },
+      "asan": {
+        "exit": 1,
+        "passed": false,
+        "signal": "clean",
+        "asan_report": true,
+        "summary": "failed without sanitizer report"
+      },
+      "known": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": false,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "last": {
+          "value": 29,
+          "expected": 29
+        }
+      },
+      "asan-known": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": true,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "last": {
+          "value": 29,
+          "expected": 29
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": false,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "unknown": {
+          "value": 0,
+          "expected": 0
+        }
+      },
+      "asan": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": true,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "unknown": {
+          "value": 0,
+          "expected": 0
+        },
+        "summary": "no sanitizer report"
+      },
+      "known": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": false,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "last": {
+          "value": 29,
+          "expected": 29
+        }
+      },
+      "asan-known": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": true,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "last": {
+          "value": 29,
+          "expected": 29
+        }
+      }
+    }
+  },
+  "identical_full_logs": [
+    "known"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": "3564a5e73421ce182813f418a2c13f2dfff9d4415b5ff833dc64801bdf20ad4c"
+}

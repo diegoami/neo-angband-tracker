@@ -1,0 +1,145 @@
+native-c/blowname-247: starting...
+=================================================================
+==21742==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5020002b685f at pc 0x7f1bbc8c6f8f bp 0x7ffc65435b40 sp 0x7ffc654352e8
+READ of size 16 at 0x5020002b685f thread T0
+    #0 0x7f1bbc8c6f8e in strcmp ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:470
+    #1 0x55c598d01e9a in borg_sort_comp_hook /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:106
+    #2 0x55c598d01d4e in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:57
+    #3 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #4 0x55c598d01db6 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:75
+    #5 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #6 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #7 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #8 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #9 0x55c598d01def in borg_sort /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:89
+    #10 0x55c598bf6838 in borg_init_monster_names /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-flow-kill.c:3254
+    #11 0x55c598bf6ef6 in borg_init_flow_kill /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-flow-kill.c:3338
+    #12 0x55c598c276b5 in borg_init /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-init.c:577
+    #13 0x55c5987c52e7 in setup_tests /tmp/angband-blowname-247-4ccpxw2v/evidence/scenario.c:41
+    #14 0x55c598d045d8 in main /tmp/angband-blowname-247-4ccpxw2v/source/src/tests/unit-test.c:45
+    #15 0x7f1bbc42a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #16 0x7f1bbc42a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #17 0x55c5987c4e44 in _start (/tmp/angband-blowname-247-4ccpxw2v/build-asan/game/BW247Observer+0x14ae44) (BuildId: b29d4d725dfeda6c28389a5992481403b0bfc5c0)
+
+0x5020002b685f is located 0 bytes after 15-byte region [0x5020002b6850,0x5020002b685f)
+allocated by thread T0 here:
+    #0 0x7f1bbc8fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55c598b5bc44 in mem_alloc /tmp/angband-blowname-247-4ccpxw2v/source/src/z-virt.c:38
+    #2 0x55c598b5bc80 in mem_zalloc /tmp/angband-blowname-247-4ccpxw2v/source/src/z-virt.c:46
+    #3 0x55c598c2b65f in borg_massage_special_chars /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-io.c:458
+    #4 0x55c598bf65e4 in borg_init_monster_names /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-flow-kill.c:3240
+    #5 0x55c598bf6ef6 in borg_init_flow_kill /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-flow-kill.c:3338
+    #6 0x55c598c276b5 in borg_init /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-init.c:577
+    #7 0x55c5987c52e7 in setup_tests /tmp/angband-blowname-247-4ccpxw2v/evidence/scenario.c:41
+    #8 0x55c598d045d8 in main /tmp/angband-blowname-247-4ccpxw2v/source/src/tests/unit-test.c:45
+    #9 0x7f1bbc42a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #10 0x7f1bbc42a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #11 0x55c5987c4e44 in _start (/tmp/angband-blowname-247-4ccpxw2v/build-asan/game/BW247Observer+0x14ae44) (BuildId: b29d4d725dfeda6c28389a5992481403b0bfc5c0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:470 in strcmp
+Shadow bytes around the buggy address:
+  0x5020002b6580: fa fa 00 03 fa fa 00 00 fa fa 00 02 fa fa 00 fa
+  0x5020002b6600: fa fa 00 01 fa fa 00 04 fa fa 00 05 fa fa 00 01
+  0x5020002b6680: fa fa 00 03 fa fa 00 07 fa fa 00 06 fa fa 07 fa
+  0x5020002b6700: fa fa 00 04 fa fa 00 06 fa fa 00 05 fa fa 00 04
+  0x5020002b6780: fa fa 00 00 fa fa 00 06 fa fa 07 fa fa fa 00 05
+=>0x5020002b6800: fa fa 00 03 fa fa 00 05 fa fa 00[07]fa fa 00 00
+  0x5020002b6880: fa fa 00 02 fa fa 07 fa fa fa 00 05 fa fa 00 07
+  0x5020002b6900: fa fa 07 fa fa fa 00 01 fa fa 00 03 fa fa 00 04
+  0x5020002b6980: fa fa 00 06 fa fa 00 02 fa fa 00 04 fa fa 00 02
+  0x5020002b6a00: fa fa 00 fa fa fa 00 fa fa fa 00 05 fa fa 00 02
+  0x5020002b6a80: fa fa 00 07 fa fa 00 06 fa fa 00 00 fa fa 00 06
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+=================================================================
+==21742==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5020002b685f at pc 0x7f1bbc8c6ec1 bp 0x7ffc65435b40 sp 0x7ffc654352e8
+READ of size 16 at 0x5020002b685f thread T0
+    #0 0x7f1bbc8c6ec0 in strcmp ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:471
+    #1 0x55c598d01e9a in borg_sort_comp_hook /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:106
+    #2 0x55c598d01d4e in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:57
+    #3 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #4 0x55c598d01db6 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:75
+    #5 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #6 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #7 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #8 0x55c598d01d99 in borg_sort_aux /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:72
+    #9 0x55c598d01def in borg_sort /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-util.c:89
+    #10 0x55c598bf6838 in borg_init_monster_names /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-flow-kill.c:3254
+    #11 0x55c598bf6ef6 in borg_init_flow_kill /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-flow-kill.c:3338
+    #12 0x55c598c276b5 in borg_init /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-init.c:577
+    #13 0x55c5987c52e7 in setup_tests /tmp/angband-blowname-247-4ccpxw2v/evidence/scenario.c:41
+    #14 0x55c598d045d8 in main /tmp/angband-blowname-247-4ccpxw2v/source/src/tests/unit-test.c:45
+    #15 0x7f1bbc42a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #16 0x7f1bbc42a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #17 0x55c5987c4e44 in _start (/tmp/angband-blowname-247-4ccpxw2v/build-asan/game/BW247Observer+0x14ae44) (BuildId: b29d4d725dfeda6c28389a5992481403b0bfc5c0)
+
+0x5020002b685f is located 0 bytes after 15-byte region [0x5020002b6850,0x5020002b685f)
+allocated by thread T0 here:
+    #0 0x7f1bbc8fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55c598b5bc44 in mem_alloc /tmp/angband-blowname-247-4ccpxw2v/source/src/z-virt.c:38
+    #2 0x55c598b5bc80 in mem_zalloc /tmp/angband-blowname-247-4ccpxw2v/source/src/z-virt.c:46
+    #3 0x55c598c2b65f in borg_massage_special_chars /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-io.c:458
+    #4 0x55c598bf65e4 in borg_init_monster_names /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-flow-kill.c:3240
+    #5 0x55c598bf6ef6 in borg_init_flow_kill /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-flow-kill.c:3338
+    #6 0x55c598c276b5 in borg_init /tmp/angband-blowname-247-4ccpxw2v/source/src/borg/borg-init.c:577
+    #7 0x55c5987c52e7 in setup_tests /tmp/angband-blowname-247-4ccpxw2v/evidence/scenario.c:41
+    #8 0x55c598d045d8 in main /tmp/angband-blowname-247-4ccpxw2v/source/src/tests/unit-test.c:45
+    #9 0x7f1bbc42a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #10 0x7f1bbc42a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #11 0x55c5987c4e44 in _start (/tmp/angband-blowname-247-4ccpxw2v/build-asan/game/BW247Observer+0x14ae44) (BuildId: b29d4d725dfeda6c28389a5992481403b0bfc5c0)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:471 in strcmp
+Shadow bytes around the buggy address:
+  0x5020002b6580: fa fa 00 03 fa fa 00 00 fa fa 00 02 fa fa 00 fa
+  0x5020002b6600: fa fa 00 01 fa fa 00 04 fa fa 00 05 fa fa 00 01
+  0x5020002b6680: fa fa 00 03 fa fa 00 07 fa fa 00 06 fa fa 07 fa
+  0x5020002b6700: fa fa 00 04 fa fa 00 06 fa fa 00 05 fa fa 00 04
+  0x5020002b6780: fa fa 00 00 fa fa 00 06 fa fa 07 fa fa fa 00 05
+=>0x5020002b6800: fa fa 00 03 fa fa 00 05 fa fa 00[07]fa fa 00 00
+  0x5020002b6880: fa fa 00 02 fa fa 07 fa fa fa 00 05 fa fa 00 07
+  0x5020002b6900: fa fa 07 fa fa fa 00 01 fa fa 00 03 fa fa 00 04
+  0x5020002b6980: fa fa 00 06 fa fa 00 02 fa fa 00 04 fa fa 00 02
+  0x5020002b6a00: fa fa 00 fa fa fa 00 fa fa fa 00 05 fa fa 00 02
+  0x5020002b6a80: fa fa 00 07 fa fa 00 06 fa fa 00 00 fa fa 00 06
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior
+  unknown_blow_name_returns_none  KNOWN value=1 expected=1
+LAST value=29 expected=29
+Passed
+native-c/blowname-247 finished: 1/1 passed

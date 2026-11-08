@@ -1,0 +1,7 @@
+native-c/blowname-247: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior
+  unknown_blow_name_returns_none  KNOWN value=1 expected=1
+UNKNOWN value=0 expected=0
+Passed
+native-c/blowname-247 finished: 1/1 passed
