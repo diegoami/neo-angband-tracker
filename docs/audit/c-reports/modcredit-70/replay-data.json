@@ -1,0 +1,137 @@
+{
+  "statring": {
+    "label": "Stat ring: Ring of Strength <+2> vs Ring of Soulkeeping",
+    "explanation": "Original: the Ring of Strength <+2> is guessed at 500 (no stat credit), below the Ring of Soulkeeping at 600, so the Borg sells the Ring of Strength. Corrected: 500 + 2 x 200 = 900, so it sells the Ring of Soulkeeping and keeps the Ring of Strength. The game's own values are 1116 (Strength <+2>) and 1050 (Soulkeeping).",
+    "control": false,
+    "before": {
+      "raw": "native-c/modcredit-70: starting...\nSETUP seed=70 mode=statring class=Warrior clevel=21 maxdepth=20 no_selling=1\n  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=500 pval=0 str=2 speed=0 desc=[Ring of Strength <+2>]\nPACK 1 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]\nTRACK game_value=1116 kind_cost=500 a Ring of Strength <+2>\nTRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping\nSTATE value_a=500 value_b=600 power_now=299431\nDECISION sell=1 shop=5 item=0 what=[Ring of Strength <+2>]\nTRACK You had a Ring of Strength <+2> (a).\nOUTCOME sold_a=1 sold_b=0\nFailed\n    native-c/modcredit-70:209: requirement 'kept_a && !kept_b' failed\nnative-c/modcredit-70 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "value_a": 500,
+        "value_b": 600,
+        "power_now": 299431
+      },
+      "outcome": {
+        "sold_a": 1,
+        "sold_b": 0
+      },
+      "notes": [
+        "TRACK game_value=1116 kind_cost=500 a Ring of Strength <+2>",
+        "TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping",
+        "DECISION sell=1 shop=5 item=0 what=[Ring of Strength <+2>]",
+        "TRACK You had a Ring of Strength <+2> (a)."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/modcredit-70: starting...\nSETUP seed=70 mode=statring class=Warrior clevel=21 maxdepth=20 no_selling=1\n  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=900 pval=0 str=2 speed=0 desc=[Ring of Strength <+2>]\nPACK 1 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]\nTRACK game_value=1116 kind_cost=500 a Ring of Strength <+2>\nTRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping\nSTATE value_a=900 value_b=600 power_now=299431\nDECISION sell=1 shop=5 item=1 what=[Ring of Soulkeeping]\nTRACK You had a Ring of Soulkeeping (b).\nOUTCOME sold_a=0 sold_b=1\nPassed\nnative-c/modcredit-70 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "value_a": 900,
+        "value_b": 600,
+        "power_now": 299431
+      },
+      "outcome": {
+        "sold_a": 0,
+        "sold_b": 1
+      },
+      "notes": [
+        "TRACK game_value=1116 kind_cost=500 a Ring of Strength <+2>",
+        "TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping",
+        "DECISION sell=1 shop=5 item=1 what=[Ring of Soulkeeping]",
+        "TRACK You had a Ring of Soulkeeping (b)."
+      ],
+      "value": 1
+    }
+  },
+  "speed": {
+    "label": "Speed item: Cloak 'Colannon' <+2> vs Amulet of ESP",
+    "explanation": "Original: Colannon is guessed at 21500 (artifact cost 20000 + armour bonus 1500, no speed credit), below the Amulet of ESP at 25000, so the Borg sells Colannon. Corrected: 21500 + 2 x 30000 (speed) + 2 x 100 (stealth) = 81700, capped at 30000 for the sale order, so it sells the Amulet of ESP and keeps Colannon. The game's own values are 11550 (Colannon) and 7134 (ESP).",
+    "control": false,
+    "before": {
+      "raw": "native-c/modcredit-70: starting...\nSETUP seed=70 mode=speed class=Warrior clevel=21 maxdepth=20 no_selling=1\n  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=25000 pval=0 str=0 speed=0 desc=[Amulet of ESP]\nPACK 1 qty=1 borg_value=21500 pval=0 str=0 speed=2 desc=[Cloak 'Colannon' [1,+15] <+2>]\nTRACK game_value=11550 kind_cost=3 the Cloak 'Colannon' [1,+15] <+2>\nTRACK game_value=7134 kind_cost=25000 an Amulet of ESP\nSTATE value_a=21500 value_b=25000 power_now=299431\nDECISION sell=1 shop=6 item=1 what=[Cloak 'Colannon' [1,+15] <+2>]\nTRACK You had the Cloak 'Colannon' [1,+15] <+2> (b).\nOUTCOME sold_a=1 sold_b=0\nFailed\n    native-c/modcredit-70:209: requirement 'kept_a && !kept_b' failed\nnative-c/modcredit-70 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "value_a": 21500,
+        "value_b": 25000,
+        "power_now": 299431
+      },
+      "outcome": {
+        "sold_a": 1,
+        "sold_b": 0
+      },
+      "notes": [
+        "TRACK game_value=11550 kind_cost=3 the Cloak 'Colannon' [1,+15] <+2>",
+        "TRACK game_value=7134 kind_cost=25000 an Amulet of ESP",
+        "DECISION sell=1 shop=6 item=1 what=[Cloak 'Colannon' [1,+15] <+2>]",
+        "TRACK You had the Cloak 'Colannon' [1,+15] <+2> (b)."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/modcredit-70: starting...\nSETUP seed=70 mode=speed class=Warrior clevel=21 maxdepth=20 no_selling=1\n  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=25000 pval=0 str=0 speed=0 desc=[Amulet of ESP]\nPACK 1 qty=1 borg_value=81700 pval=0 str=0 speed=2 desc=[Cloak 'Colannon' [1,+15] <+2>]\nTRACK game_value=11550 kind_cost=3 the Cloak 'Colannon' [1,+15] <+2>\nTRACK game_value=7134 kind_cost=25000 an Amulet of ESP\nSTATE value_a=81700 value_b=25000 power_now=299431\nDECISION sell=1 shop=5 item=0 what=[Amulet of ESP]\nTRACK You had an Amulet of ESP (a).\nOUTCOME sold_a=0 sold_b=1\nPassed\nnative-c/modcredit-70 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "value_a": 81700,
+        "value_b": 25000,
+        "power_now": 299431
+      },
+      "outcome": {
+        "sold_a": 0,
+        "sold_b": 1
+      },
+      "notes": [
+        "TRACK game_value=11550 kind_cost=3 the Cloak 'Colannon' [1,+15] <+2>",
+        "TRACK game_value=7134 kind_cost=25000 an Amulet of ESP",
+        "DECISION sell=1 shop=5 item=0 what=[Amulet of ESP]",
+        "TRACK You had an Amulet of ESP (a)."
+      ],
+      "value": 1
+    }
+  },
+  "nomods": {
+    "label": "Control: two rings without modifiers (Free Action vs Bodykeeping)",
+    "explanation": "Neither ring has a modifier, so the corrected code adds nothing: Free Action 1500, Bodykeeping 750 in both versions, and both sell the Ring of Bodykeeping. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/modcredit-70: starting...\nSETUP seed=70 mode=nomods class=Warrior clevel=21 maxdepth=20 no_selling=1\n  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=750 pval=0 str=0 speed=0 desc=[Ring of Bodykeeping]\nPACK 1 qty=1 borg_value=1500 pval=0 str=0 speed=0 desc=[Ring of Free Action]\nTRACK game_value=500 kind_cost=1500 a Ring of Free Action\nTRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping\nSTATE value_a=1500 value_b=750 power_now=299431\nDECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]\nTRACK You had a Ring of Bodykeeping (a).\nOUTCOME sold_a=0 sold_b=1\nPassed\nnative-c/modcredit-70 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "value_a": 1500,
+        "value_b": 750,
+        "power_now": 299431
+      },
+      "outcome": {
+        "sold_a": 0,
+        "sold_b": 1
+      },
+      "notes": [
+        "TRACK game_value=500 kind_cost=1500 a Ring of Free Action",
+        "TRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping",
+        "DECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]",
+        "TRACK You had a Ring of Bodykeeping (a)."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/modcredit-70: starting...\nSETUP seed=70 mode=nomods class=Warrior clevel=21 maxdepth=20 no_selling=1\n  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=750 pval=0 str=0 speed=0 desc=[Ring of Bodykeeping]\nPACK 1 qty=1 borg_value=1500 pval=0 str=0 speed=0 desc=[Ring of Free Action]\nTRACK game_value=500 kind_cost=1500 a Ring of Free Action\nTRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping\nSTATE value_a=1500 value_b=750 power_now=299431\nDECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]\nTRACK You had a Ring of Bodykeeping (a).\nOUTCOME sold_a=0 sold_b=1\nPassed\nnative-c/modcredit-70 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "value_a": 1500,
+        "value_b": 750,
+        "power_now": 299431
+      },
+      "outcome": {
+        "sold_a": 0,
+        "sold_b": 1
+      },
+      "notes": [
+        "TRACK game_value=500 kind_cost=1500 a Ring of Free Action",
+        "TRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping",
+        "DECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]",
+        "TRACK You had a Ring of Bodykeeping (a)."
+      ],
+      "value": 1
+    }
+  }
+}

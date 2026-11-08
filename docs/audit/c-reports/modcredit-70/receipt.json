@@ -1,0 +1,145 @@
+{
+  "issue": "diegoami/neo-angband-tracker#70",
+  "report": "modcredit-70",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "46c6188eccb54bd0571e0a527145f7fd7ed756c3",
+  "fix_branch": "task/modcredit-70",
+  "fixtures_ref": "42669672433cd274307be9716bec8926f7900394",
+  "cases": {
+    "statring": {
+      "before": {
+        "passed": false,
+        "state": {
+          "value_a": 500,
+          "value_b": 600,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 1,
+          "sold_b": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "value_a": 900,
+          "value_b": 600,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      }
+    },
+    "speed": {
+      "before": {
+        "passed": false,
+        "state": {
+          "value_a": 21500,
+          "value_b": 25000,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 1,
+          "sold_b": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "value_a": 81700,
+          "value_b": 25000,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      }
+    },
+    "nomods": {
+      "before": {
+        "passed": true,
+        "state": {
+          "value_a": 1500,
+          "value_b": 750,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "value_a": 1500,
+          "value_b": 750,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "nomods"
+  ],
+  "claim": "With the pval gate removed and the stat credits read from the modifiers, borg_object_value_known() credits a Ring of Strength <+2> (500 to 900) and the Cloak 'Colannon' with speed +2 (21500 to 81700). In two native sale scenarios the production borg_think_shop_sell_useless() then sells the plain item (Ring of Soulkeeping, Amulet of ESP) instead of the bonus item, and the real do_cmd_sell() carries the sale out; a control with two rings without modifiers is byte-identical; both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-item-analyze.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-item-analyze.c": "980fa5ee95dcf6926c1a01a8fc16f8f5d58606ee63701f97139126c8152d500b"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "33febee13657957a3dae12f537a3d28a9ac47a8974beb0310dafc44369a7b453",
+    "after-nomods.log": "5d71af95b1b17fbb4ba0401e56e07bed3d97d470e0964e1d77161d1273f91ffe",
+    "after-results.json": "30a74e112d252ab4e155aa0986f73008858ab3e0757871ae06e5f53ab6efb4da",
+    "after-speed.log": "98dbbc5d5d11addaacbcffa42e293a9a258faddddc491cdfc51e332facdd7967",
+    "after-statring.log": "fdfcd1bc79046fab13fdffc44f4fd93f0109c687a9d3dc2e0bcca8406a4d3565",
+    "before-nomods.log": "5d71af95b1b17fbb4ba0401e56e07bed3d97d470e0964e1d77161d1273f91ffe",
+    "before-results.json": "8174ec04f10953c6eaff9bfb212996d8183b10e8c3aef819c89afbe8a4cfeb3b",
+    "before-speed.log": "0034ccd03b5c4fb1376a95b5895a78c9ca2f72c86e5684e47967d41d47b73b0d",
+    "before-statring.log": "e6cbfb0b00335aabb1815f197344dc07456c16d9e673462e61fa34ce50c3c4ac",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "f56cb7bd20e58f35426d752d092db859258f0b2c08a8ffe16996dea92fe8c9ea",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "07277be635f43dad115a33591aa3eca69cdf647665e08584d541b69f840db578",
+    "replay.html": "3682b5a3a3a2d74c763109386f58bf9e7d3aa2bf9134673f1320e82a42b213e0",
+    "reproduce.py": "31c3aad04f332c538d88ccb84ffb20f073409f9ff6ee8517d7ee4105c7b656d6",
+    "result.json": "d1a3d72620f9218c3b2ec8c13d6ba7b3d688c5a4472945fb0bae506279826a92",
+    "run-after-alltests.log": "044142527874155524a4855bbc29e8a93bf2dc82ff71f74c3a6aa55040397966",
+    "run-after-build.log": "daeb37a9e61cc5f75fed080e44ad74abfbf997f94ca3486b0bf9f30fbd469a14",
+    "run-after-scenarios.log": "9ed0251ef3122e668b07a3a8150ddb6ec67866179e843f0be52bdf1fd6ea0e25",
+    "run-before-alltests.log": "23f38711b7807fa6f2a29dc4c1df6cf00e37e0992ac172b2b0d03dd962c5276a",
+    "run-before-build.log": "d04a13cceb04a29db9770403a4174570655eb4c1b5c9cf4b58d3d57196a3a190",
+    "run-before-scenarios.log": "4c69259b45b69b21620dff837a46d54d2f7650701a0f3daf62c6a521e8eb4e65",
+    "run-cases.py": "721e7c0ddfd0dca5fe1cc08a4998acff4f4cb8d51c36e7d81829fae1088f4e0c",
+    "run-configure.log": "c86422e4036dedc93ccddeadf069224b5dd7fd6c2fbca536ba5727836f71c184",
+    "scenario.c": "451821f42b56dafe5db9c6749867fa598a826c52bfe0b332ef69804a45e3f0cf"
+  }
+}

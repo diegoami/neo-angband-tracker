@@ -1,0 +1,41 @@
+{
+  "statring": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "value_a": 900,
+      "value_b": 600,
+      "power_now": 299431
+    },
+    "outcome": {
+      "sold_a": 0,
+      "sold_b": 1
+    }
+  },
+  "speed": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "value_a": 81700,
+      "value_b": 25000,
+      "power_now": 299431
+    },
+    "outcome": {
+      "sold_a": 0,
+      "sold_b": 1
+    }
+  },
+  "nomods": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "value_a": 1500,
+      "value_b": 750,
+      "power_now": 299431
+    },
+    "outcome": {
+      "sold_a": 0,
+      "sold_b": 1
+    }
+  }
+}
