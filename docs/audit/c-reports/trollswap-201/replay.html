@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A Slay Troll spare weapon was undervalued, so the Borg kept the wrong one</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A Slay Troll spare weapon was undervalued, so the Borg kept the wrong one</h1><p>When the Borg carries more than one spare weapon it chooses the most useful as its swap weapon and keeps it; the others are offered to the shops. It scores each weapon&#x27;s slays, and a Slay Troll weapon was scored with a damage multiplier of 2 in the first half of its reward although the weapon&#x27;s multiplier is 3. An otherwise identical Slay Orc weapon was scored with its real multiplier of 3. So the Borg preferred a Slay Orc mace over a slightly better Slay Troll mace and offered the Slay Troll mace for sale. The correction uses the weapon&#x27;s own multiplier.</p><p><label>Scenario: <select id="scenario"><option value="troll-orc">Slay Troll mace (+1 damage) against Slay Orc mace</option><option value="troll-plain">Control: Slay Troll mace against a plain mace</option></select></label></p><section class="scenario" data-mode="troll-orc"><p class="summary">A level-30 Warrior whose deepest level is 50 carries two spare maces that differ only in the slay: one of Slay Orc, one of Slay Troll with one extra point of damage. Both slays multiply damage by 3. Original: the Slay Troll mace is undervalued, so the Orc mace becomes the swap weapon and the Borg offers the Slay Troll mace for sale. Corrected: the Slay Troll mace is the swap weapon and the Borg offers the Slay Orc mace.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Slay Troll mace is the one offered for sale (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK swap_value=4824
+TRACK swap_weapon=Mace of Slay Orc (2d4) (+0,+0)
+TRACK sells=1 item_slot=4 item=Mace of Slay Troll (2d4) (+0,+1)
+DECISION sell_slot=4 keeps_troll_weapon=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Slay Troll mace is the one offered for sale (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK swap_value=4899
+TRACK swap_weapon=Mace of Slay Troll (2d4) (+0,+1)
+TRACK sells=1 item_slot=5 item=Mace of Slay Orc (2d4) (+0,+0)
+DECISION sell_slot=5 keeps_troll_weapon=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/trollswap-201: starting...
+SETUP seed=201 mode=troll-orc class=Warrior clevel=30 maxdepth=50 gold=0
+  troll_slay_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 1 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 2 tval=25 desc=[Scroll of Word of Recall] ego=0 value=125
+PACK 3 tval=19 desc=[Wooden Torches (5000 turns)] ego=0 value=2
+PACK 4 tval=7 desc=[Mace of Slay Troll (2d4) (+0,+1)] ego=21 value=2730
+PACK 5 tval=7 desc=[Mace of Slay Orc (2d4) (+0,+0)] ego=20 value=2630
+STATE troll_slot=4 other_slot=5 swap_slot=5
+TRACK swap_value=4824
+TRACK swap_weapon=Mace of Slay Orc (2d4) (+0,+0)
+TRACK sells=1 item_slot=4 item=Mace of Slay Troll (2d4) (+0,+1)
+DECISION sell_slot=4 keeps_troll_weapon=0
+OUTCOME sells_other=0 sells_troll=1
+Failed
+    native-c/trollswap-201:208: requirement &#x27;(weapon_swap - 1) == troll&#x27; failed
+native-c/trollswap-201 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/trollswap-201: starting...
+SETUP seed=201 mode=troll-orc class=Warrior clevel=30 maxdepth=50 gold=0
+  troll_slay_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 1 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 2 tval=25 desc=[Scroll of Word of Recall] ego=0 value=125
+PACK 3 tval=19 desc=[Wooden Torches (5000 turns)] ego=0 value=2
+PACK 4 tval=7 desc=[Mace of Slay Troll (2d4) (+0,+1)] ego=21 value=2730
+PACK 5 tval=7 desc=[Mace of Slay Orc (2d4) (+0,+0)] ego=20 value=2630
+STATE troll_slot=4 other_slot=5 swap_slot=4
+TRACK swap_value=4899
+TRACK swap_weapon=Mace of Slay Troll (2d4) (+0,+1)
+TRACK sells=1 item_slot=5 item=Mace of Slay Orc (2d4) (+0,+0)
+DECISION sell_slot=5 keeps_troll_weapon=1
+OUTCOME sells_other=1 sells_troll=0
+Passed
+native-c/trollswap-201 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="troll-plain"><p class="summary">The same Warrior with a plain Mace and a Slay Troll Mace. The Slay Troll mace is the better swap before and after the correction, so the plain mace is offered for sale in both.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Slay Troll mace is the one offered for sale (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK swap_weapon=Mace of Slay Troll (2d4) (+0,+0)
+TRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)
+DECISION sell_slot=4 keeps_troll_weapon=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Slay Troll mace is the one offered for sale (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK swap_weapon=Mace of Slay Troll (2d4) (+0,+0)
+TRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)
+DECISION sell_slot=4 keeps_troll_weapon=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/trollswap-201: starting...
+SETUP seed=201 mode=troll-plain class=Warrior clevel=30 maxdepth=50 gold=0
+  troll_slay_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 1 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 2 tval=25 desc=[Scroll of Word of Recall] ego=0 value=125
+PACK 3 tval=19 desc=[Wooden Torches (5000 turns)] ego=0 value=2
+PACK 4 tval=7 desc=[Mace (2d4) (+0,+0)] ego=0 value=130
+PACK 5 tval=7 desc=[Mace of Slay Troll (2d4) (+0,+0)] ego=21 value=2630
+STATE troll_slot=5 other_slot=4 swap_slot=5
+TRACK swap_weapon=Mace of Slay Troll (2d4) (+0,+0)
+TRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)
+DECISION sell_slot=4 keeps_troll_weapon=1
+OUTCOME sells_other=1 sells_troll=0
+Passed
+native-c/trollswap-201 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/trollswap-201: starting...
+SETUP seed=201 mode=troll-plain class=Warrior clevel=30 maxdepth=50 gold=0
+  troll_slay_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 1 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 2 tval=25 desc=[Scroll of Word of Recall] ego=0 value=125
+PACK 3 tval=19 desc=[Wooden Torches (5000 turns)] ego=0 value=2
+PACK 4 tval=7 desc=[Mace (2d4) (+0,+0)] ego=0 value=130
+PACK 5 tval=7 desc=[Mace of Slay Troll (2d4) (+0,+0)] ego=21 value=2630
+STATE troll_slot=5 other_slot=4 swap_slot=5
+TRACK swap_weapon=Mace of Slay Troll (2d4) (+0,+0)
+TRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)
+DECISION sell_slot=4 keeps_troll_weapon=1
+OUTCOME sells_other=1 sells_troll=0
+Passed
+native-c/trollswap-201 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 201, character level 30, deepest level 50 (the Borg only carries a swap weapon from level 50), no gold, a torch and rations, in a lit room. Fixture interventions: the starting Potion of Berserk Strength is removed (it is the cheapest spare and is always offered for sale first, which would hide the choice between the maces); the Warrior wields the starting dagger so the maces are the only spare weapons; in the changed scenario the Slay Troll mace carries one extra point of damage so that, with the correct valuation, it is strictly (not tie-break) the better swap. All runes are known. The production borg_notice() chooses the swap weapon and the production borg_think_shop_sell_useless() chooses what to sell; the shop and the sale are not played.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/201">issue 201</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

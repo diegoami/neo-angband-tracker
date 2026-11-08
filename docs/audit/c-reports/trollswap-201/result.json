@@ -1,0 +1,79 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "4fe83bc81a2208e76481e09fa66a66481052cd44",
+  "fixtures_ref": "600adff3dfc087f59e842bf2a896b742f0de1ac9",
+  "cases": {
+    "before": {
+      "troll-orc": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "troll_slot": 4,
+          "other_slot": 5,
+          "swap_slot": 5
+        },
+        "outcome": {
+          "sells_other": 0,
+          "sells_troll": 1
+        }
+      },
+      "troll-plain": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "troll_slot": 5,
+          "other_slot": 4,
+          "swap_slot": 5
+        },
+        "outcome": {
+          "sells_other": 1,
+          "sells_troll": 0
+        }
+      }
+    },
+    "after": {
+      "troll-orc": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "troll_slot": 4,
+          "other_slot": 5,
+          "swap_slot": 4
+        },
+        "outcome": {
+          "sells_other": 1,
+          "sells_troll": 0
+        }
+      },
+      "troll-plain": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "troll_slot": 5,
+          "other_slot": 4,
+          "swap_slot": 5
+        },
+        "outcome": {
+          "sells_other": 1,
+          "sells_troll": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "troll-plain"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-trait-swap.c": "d0f83bfeb77c6877890793c44ee6868b4fddfdb8ee9352342dd46558a5fc5cae"
+  }
+}
