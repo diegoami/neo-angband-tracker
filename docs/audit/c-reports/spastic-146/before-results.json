@@ -1,0 +1,32 @@
+{
+  "middle": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "own_grid_searched": 0
+    },
+    "outcome": {
+      "moved": 0
+    }
+  },
+  "corner": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "own_grid_searched": 1
+    },
+    "outcome": {
+      "moved": 0
+    }
+  },
+  "far": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "own_grid_searched": 0
+    },
+    "outcome": {
+      "moved": 0
+    }
+  }
+}

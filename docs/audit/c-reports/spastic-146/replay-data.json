@@ -1,0 +1,113 @@
+{
+  "middle": {
+    "label": "Standing in the middle of a room",
+    "explanation": "Original: three calls, each returns false with no key; the Borg never moves. Corrected: the first call flows toward a wall grid at distance 10 and queues a step (key 51, south-east).",
+    "control": false,
+    "before": {
+      "raw": "native-c/spastic-146: starting...\nSETUP seed=146 mode=middle class=Warrior clevel=20 depth=5 borg=(12,12)\n  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(12,12)\nDECISION call=call2 rc=0 key=0 borg=(12,12)\nDECISION call=call3 rc=0 key=0 borg=(12,12)\nSTATE own_grid_searched=0\nOUTCOME moved=0\nFailed\n    native-c/spastic-146:151: requirement 'moves > 0' failed\nnative-c/spastic-146 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "own_grid_searched": 0
+      },
+      "outcome": {
+        "moved": 0
+      },
+      "notes": [
+        "DECISION call=call2 rc=0 key=0 borg=(12,12)",
+        "DECISION call=call3 rc=0 key=0 borg=(12,12)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/spastic-146: starting...\nSETUP seed=146 mode=middle class=Warrior clevel=20 depth=5 borg=(12,12)\n  spastic_search_walks_to_a_wall  DECISION call=call1 rc=1 key=51 borg=(12,12)\nTRACK call1 # Flowing toward spastic at cost 10\nDECISION call=call2 rc=1 key=51 borg=(12,12)\nDECISION call=call3 rc=1 key=51 borg=(12,12)\nSTATE own_grid_searched=0\nOUTCOME moved=1\nPassed\nnative-c/spastic-146 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "own_grid_searched": 0
+      },
+      "outcome": {
+        "moved": 1
+      },
+      "notes": [
+        "TRACK call1 # Flowing toward spastic at cost 10",
+        "DECISION call=call2 rc=1 key=51 borg=(12,12)",
+        "DECISION call=call3 rc=1 key=51 borg=(12,12)"
+      ],
+      "value": 1
+    }
+  },
+  "corner": {
+    "label": "Standing in a corner, next to the walls",
+    "explanation": "Both versions first search the corner the Borg stands in (call 1 chooses it, call 2 records the search). Original: call 3 chooses the same corner again and does nothing. Corrected: call 3 walks toward the next wall grid (distance 21).",
+    "control": false,
+    "before": {
+      "raw": "native-c/spastic-146: starting...\nSETUP seed=146 mode=corner class=Warrior clevel=20 depth=5 borg=(1,1)\n  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(1,1)\nTRACK call1 # Flowing toward spastic at cost 0\nDECISION call=call2 rc=0 key=0 borg=(1,1)\nTRACK call2 # Spastic Searching at (1,1)...value:0\nDECISION call=call3 rc=0 key=0 borg=(1,1)\nSTATE own_grid_searched=1\nOUTCOME moved=0\nFailed\n    native-c/spastic-146:151: requirement 'moves > 0' failed\nnative-c/spastic-146 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "own_grid_searched": 1
+      },
+      "outcome": {
+        "moved": 0
+      },
+      "notes": [
+        "TRACK call1 # Flowing toward spastic at cost 0",
+        "DECISION call=call2 rc=0 key=0 borg=(1,1)",
+        "TRACK call2 # Spastic Searching at (1,1)...value:0",
+        "DECISION call=call3 rc=0 key=0 borg=(1,1)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/spastic-146: starting...\nSETUP seed=146 mode=corner class=Warrior clevel=20 depth=5 borg=(1,1)\n  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(1,1)\nTRACK call1 # Flowing toward spastic at cost 0\nDECISION call=call2 rc=0 key=0 borg=(1,1)\nTRACK call2 # Spastic Searching at (1,1)...value:0\nDECISION call=call3 rc=1 key=51 borg=(1,1)\nTRACK call3 # Flowing toward spastic at cost 21\nSTATE own_grid_searched=1\nOUTCOME moved=1\nPassed\nnative-c/spastic-146 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "own_grid_searched": 1
+      },
+      "outcome": {
+        "moved": 1
+      },
+      "notes": [
+        "TRACK call1 # Flowing toward spastic at cost 0",
+        "DECISION call=call2 rc=0 key=0 borg=(1,1)",
+        "TRACK call2 # Spastic Searching at (1,1)...value:0",
+        "DECISION call=call3 rc=1 key=51 borg=(1,1)",
+        "TRACK call3 # Flowing toward spastic at cost 21"
+      ],
+      "value": 1
+    }
+  },
+  "far": {
+    "label": "Control: no wall within search range",
+    "explanation": "In a full-size room every wall is more than 25 steps away; neither version finds a candidate and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/spastic-146: starting...\nSETUP seed=146 mode=far class=Warrior clevel=20 depth=5 borg=(99,33)\n  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(99,33)\nDECISION call=call2 rc=0 key=0 borg=(99,33)\nDECISION call=call3 rc=0 key=0 borg=(99,33)\nSTATE own_grid_searched=0\nOUTCOME moved=0\nPassed\nnative-c/spastic-146 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "own_grid_searched": 0
+      },
+      "outcome": {
+        "moved": 0
+      },
+      "notes": [
+        "DECISION call=call2 rc=0 key=0 borg=(99,33)",
+        "DECISION call=call3 rc=0 key=0 borg=(99,33)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/spastic-146: starting...\nSETUP seed=146 mode=far class=Warrior clevel=20 depth=5 borg=(99,33)\n  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(99,33)\nDECISION call=call2 rc=0 key=0 borg=(99,33)\nDECISION call=call3 rc=0 key=0 borg=(99,33)\nSTATE own_grid_searched=0\nOUTCOME moved=0\nPassed\nnative-c/spastic-146 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "own_grid_searched": 0
+      },
+      "outcome": {
+        "moved": 0
+      },
+      "notes": [
+        "DECISION call=call2 rc=0 key=0 borg=(99,33)",
+        "DECISION call=call3 rc=0 key=0 borg=(99,33)"
+      ],
+      "value": 0
+    }
+  }
+}
