@@ -1,0 +1,9 @@
+native-c/maimfoe-256: starting...
+SETUPSTEP profile
+SETUP blows=2 power_maim=6
+SETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125
+  maim_foe_returns_best_score  MODE none
+REALCALL value=0
+OUTCOME value=0
+Passed
+native-c/maimfoe-256 finished: 1/1 passed

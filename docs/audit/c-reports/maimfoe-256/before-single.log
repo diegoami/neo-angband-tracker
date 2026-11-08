@@ -1,0 +1,10 @@
+native-c/maimfoe-256: starting...
+SETUPSTEP profile
+SETUP lich kill=1 power=1699
+SETUP blows=2 power_maim=6
+SETUP seed=1000 class=Blackguard level=31 depth=30 hp=273/273 sp=125/125
+  maim_foe_returns_best_score  MODE single
+REALCALL value=234
+OUTCOME value=234
+Passed
+native-c/maimfoe-256 finished: 1/1 passed
