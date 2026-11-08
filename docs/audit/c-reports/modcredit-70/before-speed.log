@@ -9,5 +9,5 @@ DECISION sell=1 shop=6 item=1 what=[Cloak 'Colannon' [1,+15] <+2>]
 TRACK You had the Cloak 'Colannon' [1,+15] <+2> (b).
 OUTCOME sold_a=1 sold_b=0
 Failed
-    native-c/modcredit-70:209: requirement 'kept_a && !kept_b' failed
+    native-c/modcredit-70:214: requirement 'kept_a && !kept_b' failed
 native-c/modcredit-70 finished: 0/1 passed

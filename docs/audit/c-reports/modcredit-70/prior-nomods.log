@@ -1,0 +1,12 @@
+native-c/modcredit-70: starting...
+SETUP seed=70 mode=nomods class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=750 pval=0 str=0 speed=0 desc=[Ring of Bodykeeping]
+PACK 1 qty=1 borg_value=1500 pval=0 str=0 speed=0 desc=[Ring of Free Action]
+TRACK game_value=500 kind_cost=1500 a Ring of Free Action
+TRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping
+STATE value_a=1500 value_b=750 power_now=299431
+DECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]
+TRACK You had a Ring of Bodykeeping (a).
+OUTCOME sold_a=0 sold_b=1
+Passed
+native-c/modcredit-70 finished: 1/1 passed

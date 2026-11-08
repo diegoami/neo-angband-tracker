@@ -37,5 +37,31 @@
       "sold_a": 0,
       "sold_b": 1
     }
+  },
+  "inertia": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "value_a": 10,
+      "value_b": 600,
+      "power_now": 299431
+    },
+    "outcome": {
+      "sold_a": 0,
+      "sold_b": 0
+    }
+  },
+  "thror": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "value_a": 14000,
+      "value_b": 600,
+      "power_now": 299431
+    },
+    "outcome": {
+      "sold_a": 0,
+      "sold_b": 1
+    }
   }
 }

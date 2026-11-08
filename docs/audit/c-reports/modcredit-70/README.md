@@ -74,3 +74,77 @@ scenario), `before-results.json`, `after-results.json`, `result.json`,
 `run-{before,after}-scenarios.log`, `run-{before,after}-alltests.log`,
 `replay.html`, `replay-data.json` and `receipt.json` (sha256 of every other
 file) are the captured run.
+
+## Revision (2026-11-08): value floor for negative modifiers
+
+**Why.** With the pval gate gone, the remaining guard at the top of the
+wearable block, `if (item->pval < 0) return (0L);`, no longer guarded
+anything: in 4.2 a wearable's pval is 0, so negative modifiers were simply
+subtracted. Under the earlier fix head (`46c6188ec`) an Amulet of Inertia
+<-2> was guessed at 10 - 2 x 30000 = -59990. Treating every item with any
+negative modifier as worthless was rejected, because several good items mix
+bonuses and penalties (the Boots of Thror, of Durin, of Dor-Lomin, of
+Hammerhand, of Thorin, of the Haradrim; the Cloak of Shadows ego).
+
+**Owner decision (2026-11-08, option B).** Negative modifiers keep
+subtracting, but the total never goes below zero. The fix commit
+`4b99fb276` replaces the pval test with
+`if (value < 0) return (0L);` after the last modifier credit, with the
+comment "Penalties never make an item worth less than nothing". The source
+branch diff against the base is still one hunk pair in
+`src/borg/borg-item-analyze.c`.
+
+**New modes.** `inertia` (an Amulet of Inertia <-2> and a Ring of
+Soulkeeping) and `thror` (the Boots of Thror [7,+20] <+3, -1>: STR +3,
+CON +3, speed +3, stealth -1, and a Ring of Soulkeeping). The runner now also
+builds the earlier fix head (no gates) to record the guesses the floor
+replaces, asserts the new hunks and the one-file scope at the fix pin, and
+checks that no corrected guess is below zero and that the floor changes no
+value that was not below zero.
+
+| Mode | Original (`e473720ed`) | Earlier fix, no floor (`46c6188ec`) | Corrected (`4b99fb276`) |
+| --- | --- | --- | --- |
+| `statring` | 500 / 600, sells Strength (fails) | 900 / 600, sells Soulkeeping | 900 / 600, sells Soulkeeping (passes) |
+| `speed` | 21500 / 25000, sells Colannon (fails) | 81700 / 25000, sells ESP | 81700 / 25000, sells ESP (passes) |
+| `nomods` (control) | 1500 / 750, sells Bodykeeping | same | byte-identical log (passes) |
+| `inertia` | 10 / 600: picks Inertia to sell, the shop refuses it ("I do not wish to purchase this item", game value 0), nothing sold (fails) | **-59990** / 600, sells Soulkeeping | **0** / 600, sells Soulkeeping (passes) |
+| `thror` | 14000 / 600, sells Soulkeeping (passes) | 105100 / 600, sells Soulkeeping | 105100 / 600, sells Soulkeeping (passes) |
+
+The first three modes give the same values and outcomes as the earlier run.
+Their `after-*` logs and `before-nomods.log` are byte-identical to the
+earlier capture; `before-statring.log` and `before-speed.log` differ only in
+the source line number of the failed-requirement message (209 to 214), because
+the scenario gained the two new modes.
+
+What the floor changes, and what it does not: the Amulet of Inertia is
+guessed at 0 instead of -59990; the Boots of Thror keep their full credit
+less 100 for the stealth penalty (105100 against 14000 at the base). The sale
+decision in `inertia` is the same with and without the floor
+(`borg_good_sell()` already refuses any guess at or below 0); the floor
+matters where the Borg tests `!item->value` (for example the ring checks in
+`borg-item-wear.c` and the home-drop check in `borg-store-sell.c`), which
+treat -59990 as a valuable item and 0 as worthless. Those decisions are
+**not measured** here. Stat modifiers below zero still earn no credit and
+subtract nothing (unchanged from the earlier head). Whole-game effects are
+not measured.
+
+Gates at the new pins: 965/965 unit checks and 5/5 frontend tests, before
+and after. Replay: generated script passes `node --check`; the committed
+`replay.html` passes `render-smoke.js` (15 actions, 0 errors).
+
+**The new pins supersede the earlier ones** (fixtures `426696724`, fix
+`46c6188ec`, receipt `0af6c5af0`). Repeat:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/modcredit-70
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/modcredit-70-evidence
+git show 11b7442e345f3ffad53d539e70a58614337c4961:docs/audit/c-reports/modcredit-70/reproduce.py > /tmp/reproduce-modcredit-70.py
+python3 /tmp/reproduce-modcredit-70.py --full-tests --fixtures-ref 11b7442e345f3ffad53d539e70a58614337c4961 --fix-ref 4b99fb276441337fdf74d042db84fc06783691c6
+```
+
+The captured run (logs `before-*`, `prior-*`, `after-*`, `run-*.log`
+including `run-prior-build.log` and `run-prior-scenarios.log`, the three
+`*-results.json`, `result.json`, `replay.html`, `replay-data.json`) replaces
+the earlier capture in this directory, and `receipt.json` now describes this
+run with a sha256 of every other file. The earlier receipt remains at
+`0af6c5af0`.

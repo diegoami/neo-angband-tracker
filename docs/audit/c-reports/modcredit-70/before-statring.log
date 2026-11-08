@@ -9,5 +9,5 @@ DECISION sell=1 shop=5 item=0 what=[Ring of Strength <+2>]
 TRACK You had a Ring of Strength <+2> (a).
 OUTCOME sold_a=1 sold_b=0
 Failed
-    native-c/modcredit-70:209: requirement 'kept_a && !kept_b' failed
+    native-c/modcredit-70:214: requirement 'kept_a && !kept_b' failed
 native-c/modcredit-70 finished: 0/1 passed

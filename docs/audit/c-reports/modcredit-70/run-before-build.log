@@ -68,8 +68,8 @@ Copying needed files
 [ 29%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-tval.c.o
 [ 29%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-util.c.o
 [ 30%] Building C object CMakeFiles/OurCoreLib.dir/src/option.c.o
-[ 30%] Building C object CMakeFiles/OurCoreLib.dir/src/player-attack.c.o
 [ 30%] Building C object CMakeFiles/OurCoreLib.dir/src/parser.c.o
+[ 30%] Building C object CMakeFiles/OurCoreLib.dir/src/player-attack.c.o
 [ 30%] Building C object CMakeFiles/OurCoreLib.dir/src/player-birth.c.o
 [ 32%] Building C object CMakeFiles/OurCoreLib.dir/src/player-calcs.c.o
 [ 32%] Building C object CMakeFiles/OurCoreLib.dir/src/player-class.c.o
@@ -151,8 +151,8 @@ Copying needed files
 [ 67%] Building C object CMakeFiles/OurCoreLib.dir/src/z-rand.c.o
 [ 69%] Building C object CMakeFiles/OurCoreLib.dir/src/z-textblock.c.o
 [ 69%] Building C object CMakeFiles/OurCoreLib.dir/src/z-type.c.o
-[ 69%] Building C object CMakeFiles/OurCoreLib.dir/src/z-util.c.o
 [ 69%] Building C object CMakeFiles/OurCoreLib.dir/src/z-virt.c.o
+[ 69%] Building C object CMakeFiles/OurCoreLib.dir/src/z-util.c.o
 [ 70%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-attack-munchkin.c.o
 [ 70%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-caution.c.o
 [ 70%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-cave-light.c.o
@@ -167,8 +167,8 @@ Copying needed files
 [ 76%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-fight-perm.c.o
 [ 76%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-dark.c.o
 [ 76%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-glyph.c.o
+[ 76%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-kill.c.o
 [ 78%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-misc.c.o
-[ 78%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-kill.c.o
 [ 78%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-stairs.c.o
 [ 78%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-take.c.o
 [ 78%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow.c.o
@@ -194,8 +194,8 @@ Copying needed files
 [ 87%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-magic-play.c.o
 [ 89%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-magic.c.o
 [ 89%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-messages-react.c.o
-[ 89%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-messages.c.o
 [ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-power.c.o
+[ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-messages.c.o
 [ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-prepared.c.o
 [ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-projection.c.o
 [ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-recover.c.o
@@ -206,15 +206,15 @@ Copying needed files
 [ 94%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-dungeon-util.c.o
 [ 94%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-dungeon.c.o
 [ 94%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-store.c.o
-[ 94%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think.c.o
 [ 96%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-trait-swap.c.o
+[ 96%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think.c.o
 [ 96%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-trait.c.o
 [ 96%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-update.c.o
 [ 96%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-util.c.o
 [ 98%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg.c.o
 [ 98%] Built target OurCoreLib
+[ 98%] Building C object CMakeFiles/MC70Observer.dir/tmp/angband-modcredit-70-7mnsgi6t/evidence/scenario.c.o
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-x11.c.o
-[ 98%] Building C object CMakeFiles/MC70Observer.dir/tmp/angband-modcredit-70-o6xw0gti/evidence/scenario.c.o
 [ 98%] Linking C executable game/MC70Observer
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-spoil.c.o
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-test.c.o

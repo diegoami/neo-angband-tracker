@@ -1,7 +1,8 @@
 {
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
-  "fix": "46c6188eccb54bd0571e0a527145f7fd7ed756c3",
-  "fixtures_ref": "42669672433cd274307be9716bec8926f7900394",
+  "prior_fix": "46c6188eccb54bd0571e0a527145f7fd7ed756c3",
+  "fix": "4b99fb276441337fdf74d042db84fc06783691c6",
+  "fixtures_ref": "11b7442e345f3ffad53d539e70a58614337c4961",
   "cases": {
     "before": {
       "statring": {
@@ -36,6 +37,99 @@
         "state": {
           "value_a": 1500,
           "value_b": 750,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      },
+      "inertia": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "value_a": 10,
+          "value_b": 600,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 0
+        }
+      },
+      "thror": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "value_a": 14000,
+          "value_b": 600,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      }
+    },
+    "prior": {
+      "statring": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "value_a": 900,
+          "value_b": 600,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      },
+      "speed": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "value_a": 81700,
+          "value_b": 25000,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      },
+      "nomods": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "value_a": 1500,
+          "value_b": 750,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      },
+      "inertia": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "value_a": -59990,
+          "value_b": 600,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      },
+      "thror": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "value_a": 105100,
+          "value_b": 600,
           "power_now": 299431
         },
         "outcome": {
@@ -83,6 +177,32 @@
           "sold_a": 0,
           "sold_b": 1
         }
+      },
+      "inertia": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "value_a": 0,
+          "value_b": 600,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
+      },
+      "thror": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "value_a": 105100,
+          "value_b": 600,
+          "power_now": 299431
+        },
+        "outcome": {
+          "sold_a": 0,
+          "sold_b": 1
+        }
       }
     }
   },
@@ -100,6 +220,6 @@
     }
   },
   "fixed_source_sha256": {
-    "src/borg/borg-item-analyze.c": "980fa5ee95dcf6926c1a01a8fc16f8f5d58606ee63701f97139126c8152d500b"
+    "src/borg/borg-item-analyze.c": "2c78ec6f32d6aa8fc3a2118432c735ce2d187c4bb0f0a60de26789aec7d51cd7"
   }
 }

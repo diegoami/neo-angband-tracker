@@ -2,23 +2,23 @@
 Copying needed files
 [  0%] Built target TransferLib
 [ 54%] Built target OurCoreLib
-[ 54%] Linking C executable unittests/artifact/name/name
 [ 55%] Linking C executable unittests/z-virt/string/string
+[ 55%] Linking C executable unittests/artifact/name/name
 [ 56%] Built target unittest-artifact-name
-[ 56%] Built target unittest-z-virt-string
 [ 56%] Linking C executable unittests/cave/find/find
+[ 56%] Built target unittest-z-virt-string
 [ 56%] Linking C executable unittests/cave/scatter/scatter
+[ 56%] Built target unittest-cave-find
+[ 56%] Linking C executable unittests/command/lookup/lookup
 [ 57%] Built target unittest-cave-scatter
-[ 57%] Built target unittest-cave-find
 [ 57%] Linking C executable unittests/effects/chain/chain
-[ 57%] Linking C executable unittests/command/lookup/lookup
+[ 57%] Built target unittest-command-lookup
+[ 57%] Linking C executable unittests/effects/destruction/destruction
 [ 58%] Built target unittest-effects-chain
-[ 58%] Linking C executable unittests/effects/destruction/destruction
-[ 58%] Built target unittest-command-lookup
 [ 58%] Linking C executable unittests/effects/earthquake/earthquake
 [ 58%] Built target unittest-effects-destruction
-[ 59%] Built target unittest-effects-earthquake
-[ 60%] Linking C executable unittests/effects/info/info
+[ 59%] Linking C executable unittests/effects/info/info
+[ 60%] Built target unittest-effects-earthquake
 [ 60%] Linking C executable unittests/game/basic/basic
 [ 60%] Built target unittest-effects-info
 [ 61%] Linking C executable unittests/game/mage/mage
@@ -58,53 +58,53 @@ Copying needed files
 [ 69%] Linking C executable unittests/parse/c-info/c-info
 [ 69%] Built target unittest-parse-brand
 [ 69%] Linking C executable unittests/parse/curse/curse
+[ 69%] Built target unittest-parse-c-info
+[ 69%] Linking C executable unittests/parse/e-info/e-info
 [ 70%] Built target unittest-parse-curse
-[ 70%] Built target unittest-parse-c-info
-[ 70%] Linking C executable unittests/parse/e-info/e-info
 [ 70%] Linking C executable unittests/parse/f-info/f-info
 [ 70%] Built target unittest-parse-e-info
 [ 71%] Built target unittest-parse-f-info
 [ 71%] Linking C executable unittests/parse/flavor/flavor
 [ 71%] Linking C executable unittests/parse/graphics/graphics
 [ 71%] Built target unittest-parse-flavor
+[ 71%] Linking C executable unittests/parse/h-info/h-info
 [ 72%] Built target unittest-parse-graphics
-[ 72%] Linking C executable unittests/parse/h-info/h-info
 [ 72%] Linking C executable unittests/parse/hints/hints
 [ 72%] Built target unittest-parse-h-info
 [ 73%] Built target unittest-parse-hints
 [ 73%] Linking C executable unittests/parse/k-info/k-info
 [ 73%] Linking C executable unittests/parse/lore/lore
+[ 73%] Built target unittest-parse-k-info
+[ 73%] Linking C executable unittests/parse/mbase/mbase
 [ 74%] Built target unittest-parse-lore
-[ 74%] Built target unittest-parse-k-info
 [ 74%] Linking C executable unittests/parse/mspell/mspell
-[ 74%] Linking C executable unittests/parse/mbase/mbase
+[ 74%] Built target unittest-parse-mbase
 [ 75%] Built target unittest-parse-mspell
-[ 75%] Built target unittest-parse-mbase
 [ 75%] Linking C executable unittests/parse/names/names
 [ 75%] Linking C executable unittests/parse/objact/objact
-[ 76%] Built target unittest-parse-names
+[ 75%] Built target unittest-parse-names
+[ 75%] Linking C executable unittests/parse/objbase/objbase
 [ 76%] Built target unittest-parse-objact
-[ 76%] Linking C executable unittests/parse/objbase/objbase
 [ 76%] Linking C executable unittests/parse/objprop/objprop
 [ 76%] Built target unittest-parse-objbase
+[ 76%] Linking C executable unittests/parse/p-info/p-info
 [ 77%] Built target unittest-parse-objprop
-[ 77%] Linking C executable unittests/parse/p-info/p-info
 [ 77%] Linking C executable unittests/parse/pain/pain
 [ 77%] Built target unittest-parse-p-info
 [ 77%] Linking C executable unittests/parse/parse/parse
 [ 78%] Built target unittest-parse-pain
 [ 78%] Linking C executable unittests/parse/partrap/partrap
 [ 78%] Built target unittest-parse-parse
-[ 79%] Built target unittest-parse-partrap
-[ 79%] Linking C executable unittests/parse/pprop/pprop
-[ 80%] Linking C executable unittests/parse/pit/pit
+[ 79%] Linking C executable unittests/parse/pit/pit
+[ 80%] Built target unittest-parse-partrap
+[ 80%] Linking C executable unittests/parse/pprop/pprop
 [ 80%] Built target unittest-parse-pit
-[ 80%] Built target unittest-parse-pprop
 [ 81%] Linking C executable unittests/parse/proj/proj
+[ 81%] Built target unittest-parse-pprop
 [ 81%] Linking C executable unittests/parse/ptimed/ptimed
+[ 81%] Built target unittest-parse-proj
 [ 81%] Built target unittest-parse-ptimed
 [ 82%] Linking C executable unittests/parse/r-info/r-info
-[ 82%] Built target unittest-parse-proj
 [ 82%] Linking C executable unittests/parse/readstore/readstore
 [ 82%] Built target unittest-parse-r-info
 [ 82%] Built target unittest-parse-readstore
@@ -118,25 +118,25 @@ Copying needed files
 [ 84%] Built target unittest-parse-slay
 [ 85%] Linking C executable unittests/parse/v-info/v-info
 [ 85%] Linking C executable unittests/parse/world/world
-[ 85%] Built target unittest-parse-v-info
 [ 85%] Built target unittest-parse-world
+[ 85%] Built target unittest-parse-v-info
 [ 86%] Linking C executable unittests/parse/z-info/z-info
 [ 86%] Linking C executable unittests/player/birth/birth
-[ 86%] Built target unittest-parse-z-info
 [ 86%] Built target unittest-player-birth
+[ 86%] Built target unittest-parse-z-info
 [ 87%] Linking C executable unittests/player/calc-inventory/calc-inventory
 [ 87%] Linking C executable unittests/player/combine-pack/combine-pack
-[ 87%] Built target unittest-player-combine-pack
 [ 87%] Built target unittest-player-calc-inventory
-[ 87%] Linking C executable unittests/player/history/history
+[ 87%] Built target unittest-player-combine-pack
 [ 88%] Linking C executable unittests/player/digging/digging
-[ 88%] Built target unittest-player-history
+[ 88%] Linking C executable unittests/player/history/history
 [ 88%] Built target unittest-player-digging
 [ 89%] Linking C executable unittests/player/inven-carry-num/inven-carry-num
+[ 89%] Built target unittest-player-history
 [ 89%] Linking C executable unittests/player/inven-wield/inven-wield
 [ 89%] Built target unittest-player-inven-carry-num
-[ 89%] Built target unittest-player-inven-wield
 [ 89%] Linking C executable unittests/player/pathfind/pathfind
+[ 89%] Built target unittest-player-inven-wield
 [ 89%] Linking C executable unittests/player/playerstat/playerstat
 [ 90%] Built target unittest-player-pathfind
 [ 90%] Linking C executable unittests/player/pscore/pscore
@@ -147,20 +147,20 @@ Copying needed files
 [ 91%] Built target unittest-player-timed
 [ 91%] Linking C executable unittests/trivial/trivial/trivial
 [ 92%] Built target unittest-player-util
-[ 92%] Built target unittest-trivial-trivial
 [ 92%] Linking C executable unittests/z-bitflag/bitflag/bitflag
+[ 92%] Built target unittest-trivial-trivial
 [ 92%] Linking C executable unittests/z-dice/dice/dice
-[ 92%] Built target unittest-z-dice-dice
 [ 93%] Built target unittest-z-bitflag-bitflag
 [ 93%] Linking C executable unittests/z-expression/expression/expression
+[ 93%] Built target unittest-z-dice-dice
 [ 93%] Linking C executable unittests/z-file/filename-index/filename-index
 [ 94%] Built target unittest-z-expression-expression
-[ 94%] Built target unittest-z-file-filename-index
 [ 94%] Linking C executable unittests/z-file/path-normalize/path-normalize
+[ 94%] Built target unittest-z-file-filename-index
 [ 94%] Linking C executable unittests/z-quark/quark/quark
 [ 95%] Built target unittest-z-file-path-normalize
-[ 95%] Built target unittest-z-quark-quark
 [ 95%] Linking C executable unittests/z-queue/qp/qp
+[ 95%] Built target unittest-z-quark-quark
 [ 95%] Linking C executable unittests/z-textblock/textblock/textblock
 [ 96%] Built target unittest-z-queue-qp
 [ 96%] Linking C executable unittests/z-util/guard/guard
@@ -171,8 +171,8 @@ Copying needed files
 [ 97%] Built target unittest-z-util-meanvar
 [ 97%] Linking C executable unittests/z-util/util/util
 [ 98%] Built target unittest-z-util-rational
-[ 98%] Built target unittest-z-util-util
 [ 98%] Linking C executable unittests/z-virt/mem/mem
+[ 98%] Built target unittest-z-util-util
 [ 99%] Built target OurExecutable
 [100%] Built target unittest-z-virt-mem
 Running 86 suites:

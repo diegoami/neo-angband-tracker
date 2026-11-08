@@ -1,0 +1,13 @@
+native-c/modcredit-70: starting...
+SETUP seed=70 mode=inertia class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]
+PACK 1 qty=1 borg_value=10 pval=0 str=0 speed=-2 desc=[Amulet of Inertia <-2>]
+TRACK game_value=0 kind_cost=10 an Amulet of Inertia <-2>
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+STATE value_a=10 value_b=600 power_now=299431
+DECISION sell=1 shop=5 item=1 what=[Amulet of Inertia <-2>]
+TRACK I do not wish to purchase this item.
+OUTCOME sold_a=0 sold_b=0
+Failed
+    native-c/modcredit-70:214: requirement 'kept_a && !kept_b' failed
+native-c/modcredit-70 finished: 0/1 passed
