@@ -1,0 +1,75 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The secret-door search never left its own grid</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The secret-door search never left its own grid</h1><p>When a bored Borg runs out of things to explore it looks for grids next to walls, where a secret door might be found, and walks to the best one. To compare candidate grids it measures how far each is from where it stands. That measurement was asked to stop early, and because it starts at the Borg&#x27;s own grid at distance 0 it stopped before measuring any other grid. So the search could only ever pick the grid the Borg already stood on: from the middle of a room it never moved, and next to a wall it searched there and then kept picking the same grid. The correction measures the whole neighbourhood, and the Borg walks to the next wall grid.</p><p><label>Scenario: <select id="scenario"><option value="middle">Standing in the middle of a room</option><option value="corner">Standing in a corner, next to the walls</option><option value="far">Control: no wall within search range</option></select></label></p><section class="scenario" data-mode="middle"><p class="summary">Original: three calls, each returns false with no key; the Borg never moves. Corrected: the first call flows toward a wall grid at distance 10 and queues a step (key 51, south-east).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>search took a step (1 = the Borg walks toward a wall grid)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION call=call2 rc=0 key=0 borg=(12,12)
+DECISION call=call3 rc=0 key=0 borg=(12,12)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>search took a step (1 = the Borg walks toward a wall grid)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK call1 # Flowing toward spastic at cost 10
+DECISION call=call2 rc=1 key=51 borg=(12,12)
+DECISION call=call3 rc=1 key=51 borg=(12,12)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/spastic-146: starting...
+SETUP seed=146 mode=middle class=Warrior clevel=20 depth=5 borg=(12,12)
+  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(12,12)
+DECISION call=call2 rc=0 key=0 borg=(12,12)
+DECISION call=call3 rc=0 key=0 borg=(12,12)
+STATE own_grid_searched=0
+OUTCOME moved=0
+Failed
+    native-c/spastic-146:151: requirement &#x27;moves &gt; 0&#x27; failed
+native-c/spastic-146 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/spastic-146: starting...
+SETUP seed=146 mode=middle class=Warrior clevel=20 depth=5 borg=(12,12)
+  spastic_search_walks_to_a_wall  DECISION call=call1 rc=1 key=51 borg=(12,12)
+TRACK call1 # Flowing toward spastic at cost 10
+DECISION call=call2 rc=1 key=51 borg=(12,12)
+DECISION call=call3 rc=1 key=51 borg=(12,12)
+STATE own_grid_searched=0
+OUTCOME moved=1
+Passed
+native-c/spastic-146 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="corner"><p class="summary">Both versions first search the corner the Borg stands in (call 1 chooses it, call 2 records the search). Original: call 3 chooses the same corner again and does nothing. Corrected: call 3 walks toward the next wall grid (distance 21).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>search took a step (1 = the Borg walks toward a wall grid)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK call1 # Flowing toward spastic at cost 0
+DECISION call=call2 rc=0 key=0 borg=(1,1)
+TRACK call2 # Spastic Searching at (1,1)...value:0
+DECISION call=call3 rc=0 key=0 borg=(1,1)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>search took a step (1 = the Borg walks toward a wall grid)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK call1 # Flowing toward spastic at cost 0
+DECISION call=call2 rc=0 key=0 borg=(1,1)
+TRACK call2 # Spastic Searching at (1,1)...value:0
+DECISION call=call3 rc=1 key=51 borg=(1,1)
+TRACK call3 # Flowing toward spastic at cost 21</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/spastic-146: starting...
+SETUP seed=146 mode=corner class=Warrior clevel=20 depth=5 borg=(1,1)
+  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(1,1)
+TRACK call1 # Flowing toward spastic at cost 0
+DECISION call=call2 rc=0 key=0 borg=(1,1)
+TRACK call2 # Spastic Searching at (1,1)...value:0
+DECISION call=call3 rc=0 key=0 borg=(1,1)
+STATE own_grid_searched=1
+OUTCOME moved=0
+Failed
+    native-c/spastic-146:151: requirement &#x27;moves &gt; 0&#x27; failed
+native-c/spastic-146 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/spastic-146: starting...
+SETUP seed=146 mode=corner class=Warrior clevel=20 depth=5 borg=(1,1)
+  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(1,1)
+TRACK call1 # Flowing toward spastic at cost 0
+DECISION call=call2 rc=0 key=0 borg=(1,1)
+TRACK call2 # Spastic Searching at (1,1)...value:0
+DECISION call=call3 rc=1 key=51 borg=(1,1)
+TRACK call3 # Flowing toward spastic at cost 21
+STATE own_grid_searched=1
+OUTCOME moved=1
+Passed
+native-c/spastic-146 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="far"><p class="summary">In a full-size room every wall is more than 25 steps away; neither version finds a candidate and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>search took a step (1 = the Borg walks toward a wall grid)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION call=call2 rc=0 key=0 borg=(99,33)
+DECISION call=call3 rc=0 key=0 borg=(99,33)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>search took a step (1 = the Borg walks toward a wall grid)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION call=call2 rc=0 key=0 borg=(99,33)
+DECISION call=call3 rc=0 key=0 borg=(99,33)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/spastic-146: starting...
+SETUP seed=146 mode=far class=Warrior clevel=20 depth=5 borg=(99,33)
+  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(99,33)
+DECISION call=call2 rc=0 key=0 borg=(99,33)
+DECISION call=call3 rc=0 key=0 borg=(99,33)
+STATE own_grid_searched=0
+OUTCOME moved=0
+Passed
+native-c/spastic-146 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/spastic-146: starting...
+SETUP seed=146 mode=far class=Warrior clevel=20 depth=5 borg=(99,33)
+  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(99,33)
+DECISION call=call2 rc=0 key=0 borg=(99,33)
+DECISION call=call3 rc=0 key=0 borg=(99,33)
+STATE own_grid_searched=0
+OUTCOME moved=0
+Passed
+native-c/spastic-146 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 146, level 20, depth 5, alone in a closed granite room with no stairs or monsters; the Borg has just arrived on the level. The production borg_flow_spastic(true) (the bored call) runs three times in a row from the same position, as the Borg would call it each turn, and the first queued key is read back after each call. Main room 22x22; the control uses a full-size 196x64 room in which every wall is farther than the level-20 search range (25), so neither version has a candidate. This isolates the search choice; it does not run until a secret door is found.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/146">issue 146</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

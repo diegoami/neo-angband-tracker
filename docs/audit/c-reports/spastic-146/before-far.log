@@ -1,0 +1,9 @@
+native-c/spastic-146: starting...
+SETUP seed=146 mode=far class=Warrior clevel=20 depth=5 borg=(99,33)
+  spastic_search_walks_to_a_wall  DECISION call=call1 rc=0 key=0 borg=(99,33)
+DECISION call=call2 rc=0 key=0 borg=(99,33)
+DECISION call=call3 rc=0 key=0 borg=(99,33)
+STATE own_grid_searched=0
+OUTCOME moved=0
+Passed
+native-c/spastic-146 finished: 1/1 passed

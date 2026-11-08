@@ -1,0 +1,127 @@
+{
+  "issue": "diegoami/neo-angband-tracker#146",
+  "report": "spastic-146",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "f97311e5d52de4dda8d75058114c52acbdac2674",
+  "fix_branch": "task/spastic-146",
+  "fixtures_ref": "da9a39f4da3005dc24feeba4ae6b8e0bfe67475e",
+  "cases": {
+    "middle": {
+      "before": {
+        "passed": false,
+        "state": {
+          "own_grid_searched": 0
+        },
+        "outcome": {
+          "moved": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "own_grid_searched": 0
+        },
+        "outcome": {
+          "moved": 1
+        }
+      }
+    },
+    "corner": {
+      "before": {
+        "passed": false,
+        "state": {
+          "own_grid_searched": 1
+        },
+        "outcome": {
+          "moved": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "own_grid_searched": 1
+        },
+        "outcome": {
+          "moved": 1
+        }
+      }
+    },
+    "far": {
+      "before": {
+        "passed": true,
+        "state": {
+          "own_grid_searched": 0
+        },
+        "outcome": {
+          "moved": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "own_grid_searched": 0
+        },
+        "outcome": {
+          "moved": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "far"
+  ],
+  "claim": "borg_flow_spastic() spreads its reverse flow with optimize=true; the flow starts at the borg's grid with cost 0, so the optimized spread stops before any other grid gets a cost and the search can only choose the borg's own grid. From mid-room it never moves; in a corner it re-chooses the searched corner. Spreading without optimization lets it walk to wall grids; the out-of-range control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-misc.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "13fefba8f71ebfc9b91679677aaf238c69efe071920dbf2312820713e301c3d5"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "7dbf88f9294e271fcdc5a52e29846039857e0ba5184d2f404bbd5c1966bc9b82",
+    "after-corner.log": "ef657497c5b3f371eb9c6fcfce0c15dd809ed99b0eb48e6302e3b54df55d601e",
+    "after-far.log": "ef00f38d72433f93de35cad00019d2dbf9a836fecdc0ef2b7c1d10de2ef3520d",
+    "after-middle.log": "fe320e4a62b46977574c3d49277d3becc0628c8f0471f93bcc0c9ed64fb0e4c1",
+    "after-results.json": "89a368a12820b19a541d11348a165f1ce34c8d9a60c70dc88a28f7382978aa1c",
+    "before-corner.log": "ca488219d574d67acb8f3dec8334025f556b785ebbd2bf4e7b5eda3d9c3d709f",
+    "before-far.log": "ef00f38d72433f93de35cad00019d2dbf9a836fecdc0ef2b7c1d10de2ef3520d",
+    "before-middle.log": "fb2ec66a4990fd0124d0466fd8b8fe3eea7ea632cc0f1e46bba221fcf712088c",
+    "before-results.json": "0e2b4b9be58e51375b24a26055107eb7062165d426727a856a37b7e978c52855",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "c68ad710af64aa5cc88499d73eab01c843f64e15c85a719f04b34b2138787fb5",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "ae9e57454041365bb227259a109ae26ceb2c1fe14443283bf930335f4f377d01",
+    "replay.html": "ce381faa0521b86014b2b9b52e6954b02fcaa1b6f456fcc627a460a09851afe6",
+    "reproduce.py": "c738657d93cb53577d31405edf2d97089dceda57966d32c9bab56743a7322535",
+    "result.json": "7c90c6317d77cfbc8feeaa834a657b471a0047f190e788ab672fbb517a5e213d",
+    "run-after-alltests.log": "2104a0f22ce94c503eb8e2119d31b879455567feecf2932956d85c5cc49f8063",
+    "run-after-build.log": "0aaeb295da8b8e6cbdde7dca0b57656b45733379e102c910ba18d3e3593249e0",
+    "run-after-scenarios.log": "0ddfe84b90d1fb1c048ae081b26733fbb2f4c060938f978e2a763bc3b340e2e0",
+    "run-before-alltests.log": "3ec9eb06a1118ad196c4cd374d2783242249d213be6285df19d8b00d372c7764",
+    "run-before-build.log": "c07758631da4024f1ece30f94d4330ac6103c491ea11780c328a8a77a517fe3e",
+    "run-before-scenarios.log": "cf9e827471e30e29715aae8555bbfea5c82ba8a4ae17dde844f8395eabf7700f",
+    "run-cases.py": "b4ac8c6d051492912220edad2054019083bb33b80dac5b60a5044a2e9ef9e177",
+    "run-configure.log": "1cdff7abf1c89726fcd5f98156dd701cb1b8f6ac84fbe8a614bee52b98ac4b75",
+    "scenario.c": "0eb671fcba236cec56286bb2e004ddf171a39ae2dee944f064a36090b22c63ab"
+  }
+}
