@@ -1,0 +1,100 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "5d73e0c2120b450428f2417db325041c1b6d3da9",
+  "fixtures_ref": "620235082d9faf6644d496f52fbc177a970fe266",
+  "cases": {
+    "before": {
+      "tight": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "pack_used": 23
+        },
+        "outcome": {
+          "actions": 2,
+          "wears_scale_mail": 0,
+          "wears_cloak": 0
+        }
+      },
+      "roomy": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "pack_used": 20
+        },
+        "outcome": {
+          "actions": 5,
+          "wears_scale_mail": 1,
+          "wears_cloak": 1
+        }
+      },
+      "nocloak": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "pack_used": 23
+        },
+        "outcome": {
+          "actions": 2,
+          "wears_scale_mail": 0,
+          "wears_cloak": 0
+        }
+      }
+    },
+    "after": {
+      "tight": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "pack_used": 22
+        },
+        "outcome": {
+          "actions": 5,
+          "wears_scale_mail": 1,
+          "wears_cloak": 1
+        }
+      },
+      "roomy": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "pack_used": 20
+        },
+        "outcome": {
+          "actions": 5,
+          "wears_scale_mail": 1,
+          "wears_cloak": 1
+        }
+      },
+      "nocloak": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "pack_used": 23
+        },
+        "outcome": {
+          "actions": 2,
+          "wears_scale_mail": 0,
+          "wears_cloak": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "roomy",
+    "nocloak"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-item-wear.c": "58a6c7b877225f034ea1f477ffa1f8b3d8b27461d4e06ce9fcbe2a3a4e305537"
+  }
+}

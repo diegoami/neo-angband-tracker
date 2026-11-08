@@ -1,0 +1,140 @@
+{
+  "tight": {
+    "label": "Two stacked Tulwars, one free slot, Cloak in pack",
+    "explanation": "Original: the Dagger comes off and a Tulwar goes on (2 actions); the pack is now full, the armour change is skipped, the cloak is skipped too and the plan is discarded, so the Borg ends in Soft Leather Armour with no cloak. Corrected: the armour change is skipped once, the Cloak goes on (freeing a slot), then the armour is swapped for Metal Scale Mail (5 actions).",
+    "control": false,
+    "before": {
+      "raw": "native-c/wearskip-85: starting...\nSETUP seed=85 mode=tight class=Warrior clevel=21 pack_used=22/23\n  home_wears_every_reachable_upgrade  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Potion of Cure Light Wounds]\nPACK c qty=1 desc=[Potion of Cure Serious Wounds]\nPACK d qty=1 desc=[Potion of Neutralize Poison]\nPACK e qty=1 desc=[Potion of Restore Mana]\nPACK f qty=1 desc=[Potion of Speed]\nPACK g qty=1 desc=[Potion of Heroism]\nPACK i qty=1 desc=[Potion of Berserk Strength]\nPACK m qty=1 desc=[Potion of Boldness]\nPACK n qty=1 desc=[Potion of Resist Heat]\nPACK o qty=1 desc=[Potion of Resist Cold]\nPACK p qty=1 desc=[Potion of Resist Poison]\nPACK q qty=1 desc=[Potion of True Seeing]\nPACK r qty=1 desc=[Potion of Infravision]\nPACK s qty=1 desc=[Potion of Sleep]\nPACK t qty=1 desc=[Potion of Blindness]\nPACK u qty=1 desc=[Potion of Confusion]\nPACK v qty=1 desc=[Potion of Surprise]\nPACK w qty=1 desc=[Potion of Salt Water]\nPACK x qty=1 desc=[Metal Scale Mail (-2) [38,+0]]\nPACK y qty=1 desc=[Cloak [1,+0]]\nPACK z qty=2 desc=[Tulwars (2d4) (+0,+0)]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=674741\nSTEP 1 acts=1 keys=[ta] full=0\nPLAN do_best=0 [1:9/6] [2:17/1] [3:15/1]\nDECISION step=1 cmd=t item=[a Dagger]\nENGINE You were wielding a Dagger (1d4) (+0,+0) (z).\nSTEP 2 acts=1 keys=[wA] full=1\nPLAN do_best=0 [2:17/1] [3:15/1]\nDECISION step=2 cmd=w item=[2 Tulwars]\nENGINE You are wielding a Tulwar (2d4) (+0,+0) (a).\nSTEP 3 acts=0 keys=[] full=1\nPLAN none do_best=1\nTRACK power_end=670839\nSTATE weapon=[a Tulwar] body=[Soft Leather Armour] cloak=[(nothing)] pack_used=23\nOUTCOME actions=2 wears_scale_mail=0 wears_cloak=0\nFailed\n    native-c/wearskip-85:280: requirement 'scale && has_cloak' failed\nnative-c/wearskip-85 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "pack_used": 23
+      },
+      "outcome": {
+        "actions": 2,
+        "wears_scale_mail": 0,
+        "wears_cloak": 0
+      },
+      "notes": [
+        "TRACK power_start=674741",
+        "DECISION step=1 cmd=t item=[a Dagger]",
+        "DECISION step=2 cmd=w item=[2 Tulwars]",
+        "TRACK power_end=670839"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/wearskip-85: starting...\nSETUP seed=85 mode=tight class=Warrior clevel=21 pack_used=22/23\n  home_wears_every_reachable_upgrade  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Potion of Cure Light Wounds]\nPACK c qty=1 desc=[Potion of Cure Serious Wounds]\nPACK d qty=1 desc=[Potion of Neutralize Poison]\nPACK e qty=1 desc=[Potion of Restore Mana]\nPACK f qty=1 desc=[Potion of Speed]\nPACK g qty=1 desc=[Potion of Heroism]\nPACK i qty=1 desc=[Potion of Berserk Strength]\nPACK m qty=1 desc=[Potion of Boldness]\nPACK n qty=1 desc=[Potion of Resist Heat]\nPACK o qty=1 desc=[Potion of Resist Cold]\nPACK p qty=1 desc=[Potion of Resist Poison]\nPACK q qty=1 desc=[Potion of True Seeing]\nPACK r qty=1 desc=[Potion of Infravision]\nPACK s qty=1 desc=[Potion of Sleep]\nPACK t qty=1 desc=[Potion of Blindness]\nPACK u qty=1 desc=[Potion of Confusion]\nPACK v qty=1 desc=[Potion of Surprise]\nPACK w qty=1 desc=[Potion of Salt Water]\nPACK x qty=1 desc=[Metal Scale Mail (-2) [38,+0]]\nPACK y qty=1 desc=[Cloak [1,+0]]\nPACK z qty=2 desc=[Tulwars (2d4) (+0,+0)]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=674741\nSTEP 1 acts=1 keys=[ta] full=0\nPLAN do_best=0 [1:9/6] [2:17/1] [3:15/1]\nDECISION step=1 cmd=t item=[a Dagger]\nENGINE You were wielding a Dagger (1d4) (+0,+0) (z).\nSTEP 2 acts=1 keys=[wA] full=1\nPLAN do_best=0 [2:17/1] [3:15/1]\nDECISION step=2 cmd=w item=[2 Tulwars]\nENGINE You are wielding a Tulwar (2d4) (+0,+0) (a).\nSTEP 3 acts=1 keys=[wy] full=1\nPLAN do_best=0 [2:17/1]\nDECISION step=3 cmd=w item=[a Cloak]\nENGINE You are wearing a Cloak [1,+0] (i).\nSTEP 4 acts=1 keys=[tg] full=0\nPLAN do_best=0 [2:17/1]\nDECISION step=4 cmd=t item=[Soft Leather Armour]\nENGINE You were wearing Soft Leather Armour [8,+0] (y).\nSTEP 5 acts=1 keys=[wx] full=1\nPLAN do_best=0\nDECISION step=5 cmd=w item=[Metal Scale Mail]\nENGINE You are wearing Metal Scale Mail (-2) [38,+0] (g).\nSTEP 6 acts=0 keys=[] full=0\nPLAN none do_best=0\nTRACK power_end=703289\nSTATE weapon=[a Tulwar] body=[Metal Scale Mail] cloak=[a Cloak] pack_used=22\nOUTCOME actions=5 wears_scale_mail=1 wears_cloak=1\nPassed\nnative-c/wearskip-85 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "pack_used": 22
+      },
+      "outcome": {
+        "actions": 5,
+        "wears_scale_mail": 1,
+        "wears_cloak": 1
+      },
+      "notes": [
+        "TRACK power_start=674741",
+        "DECISION step=1 cmd=t item=[a Dagger]",
+        "DECISION step=2 cmd=w item=[2 Tulwars]",
+        "DECISION step=3 cmd=w item=[a Cloak]",
+        "DECISION step=4 cmd=t item=[Soft Leather Armour]",
+        "DECISION step=5 cmd=w item=[Metal Scale Mail]",
+        "TRACK power_end=703289"
+      ],
+      "value": 1
+    }
+  },
+  "roomy": {
+    "label": "Control: one Tulwar, two free slots",
+    "explanation": "The pack never fills, so no change is skipped; both versions make the same five changes and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/wearskip-85: starting...\nSETUP seed=85 mode=roomy class=Warrior clevel=21 pack_used=21/23\n  home_wears_every_reachable_upgrade  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Potion of Cure Light Wounds]\nPACK c qty=1 desc=[Potion of Cure Serious Wounds]\nPACK d qty=1 desc=[Potion of Neutralize Poison]\nPACK e qty=1 desc=[Potion of Restore Mana]\nPACK f qty=1 desc=[Potion of Speed]\nPACK g qty=1 desc=[Potion of Heroism]\nPACK i qty=1 desc=[Potion of Berserk Strength]\nPACK m qty=1 desc=[Potion of Boldness]\nPACK n qty=1 desc=[Potion of Resist Heat]\nPACK o qty=1 desc=[Potion of Resist Cold]\nPACK p qty=1 desc=[Potion of Resist Poison]\nPACK q qty=1 desc=[Potion of True Seeing]\nPACK r qty=1 desc=[Potion of Infravision]\nPACK s qty=1 desc=[Potion of Sleep]\nPACK t qty=1 desc=[Potion of Blindness]\nPACK u qty=1 desc=[Potion of Confusion]\nPACK v qty=1 desc=[Potion of Surprise]\nPACK w qty=1 desc=[Metal Scale Mail (-2) [38,+0]]\nPACK x qty=1 desc=[Cloak [1,+0]]\nPACK y qty=1 desc=[Tulwar (2d4) (+0,+0)]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=674781\nSTEP 1 acts=1 keys=[ta] full=0\nPLAN do_best=0 [1:9/6] [2:17/1] [3:15/1]\nDECISION step=1 cmd=t item=[a Dagger]\nENGINE You were wielding a Dagger (1d4) (+0,+0) (y).\nSTEP 2 acts=1 keys=[wz] full=0\nPLAN do_best=0 [2:17/1] [3:15/1]\nDECISION step=2 cmd=w item=[a Tulwar]\nENGINE You are wielding a Tulwar (2d4) (+0,+0) (a).\nSTEP 3 acts=1 keys=[tg] full=0\nPLAN do_best=0 [2:17/1] [3:15/1]\nDECISION step=3 cmd=t item=[Soft Leather Armour]\nENGINE You were wearing Soft Leather Armour [8,+0] (x).\nSTEP 4 acts=1 keys=[ww] full=0\nPLAN do_best=0 [3:15/1]\nDECISION step=4 cmd=w item=[Metal Scale Mail]\nENGINE You are wearing Metal Scale Mail (-2) [38,+0] (g).\nSTEP 5 acts=1 keys=[wx] full=0\nPLAN do_best=0\nDECISION step=5 cmd=w item=[a Cloak]\nENGINE You are wearing a Cloak [1,+0] (i).\nSTEP 6 acts=0 keys=[] full=0\nPLAN none do_best=0\nTRACK power_end=703369\nSTATE weapon=[a Tulwar] body=[Metal Scale Mail] cloak=[a Cloak] pack_used=20\nOUTCOME actions=5 wears_scale_mail=1 wears_cloak=1\nPassed\nnative-c/wearskip-85 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "pack_used": 20
+      },
+      "outcome": {
+        "actions": 5,
+        "wears_scale_mail": 1,
+        "wears_cloak": 1
+      },
+      "notes": [
+        "TRACK power_start=674781",
+        "DECISION step=1 cmd=t item=[a Dagger]",
+        "DECISION step=2 cmd=w item=[a Tulwar]",
+        "DECISION step=3 cmd=t item=[Soft Leather Armour]",
+        "DECISION step=4 cmd=w item=[Metal Scale Mail]",
+        "DECISION step=5 cmd=w item=[a Cloak]",
+        "TRACK power_end=703369"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/wearskip-85: starting...\nSETUP seed=85 mode=roomy class=Warrior clevel=21 pack_used=21/23\n  home_wears_every_reachable_upgrade  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Potion of Cure Light Wounds]\nPACK c qty=1 desc=[Potion of Cure Serious Wounds]\nPACK d qty=1 desc=[Potion of Neutralize Poison]\nPACK e qty=1 desc=[Potion of Restore Mana]\nPACK f qty=1 desc=[Potion of Speed]\nPACK g qty=1 desc=[Potion of Heroism]\nPACK i qty=1 desc=[Potion of Berserk Strength]\nPACK m qty=1 desc=[Potion of Boldness]\nPACK n qty=1 desc=[Potion of Resist Heat]\nPACK o qty=1 desc=[Potion of Resist Cold]\nPACK p qty=1 desc=[Potion of Resist Poison]\nPACK q qty=1 desc=[Potion of True Seeing]\nPACK r qty=1 desc=[Potion of Infravision]\nPACK s qty=1 desc=[Potion of Sleep]\nPACK t qty=1 desc=[Potion of Blindness]\nPACK u qty=1 desc=[Potion of Confusion]\nPACK v qty=1 desc=[Potion of Surprise]\nPACK w qty=1 desc=[Metal Scale Mail (-2) [38,+0]]\nPACK x qty=1 desc=[Cloak [1,+0]]\nPACK y qty=1 desc=[Tulwar (2d4) (+0,+0)]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=674781\nSTEP 1 acts=1 keys=[ta] full=0\nPLAN do_best=0 [1:9/6] [2:17/1] [3:15/1]\nDECISION step=1 cmd=t item=[a Dagger]\nENGINE You were wielding a Dagger (1d4) (+0,+0) (y).\nSTEP 2 acts=1 keys=[wz] full=0\nPLAN do_best=0 [2:17/1] [3:15/1]\nDECISION step=2 cmd=w item=[a Tulwar]\nENGINE You are wielding a Tulwar (2d4) (+0,+0) (a).\nSTEP 3 acts=1 keys=[tg] full=0\nPLAN do_best=0 [2:17/1] [3:15/1]\nDECISION step=3 cmd=t item=[Soft Leather Armour]\nENGINE You were wearing Soft Leather Armour [8,+0] (x).\nSTEP 4 acts=1 keys=[ww] full=0\nPLAN do_best=0 [3:15/1]\nDECISION step=4 cmd=w item=[Metal Scale Mail]\nENGINE You are wearing Metal Scale Mail (-2) [38,+0] (g).\nSTEP 5 acts=1 keys=[wx] full=0\nPLAN do_best=0\nDECISION step=5 cmd=w item=[a Cloak]\nENGINE You are wearing a Cloak [1,+0] (i).\nSTEP 6 acts=0 keys=[] full=0\nPLAN none do_best=0\nTRACK power_end=703369\nSTATE weapon=[a Tulwar] body=[Metal Scale Mail] cloak=[a Cloak] pack_used=20\nOUTCOME actions=5 wears_scale_mail=1 wears_cloak=1\nPassed\nnative-c/wearskip-85 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "pack_used": 20
+      },
+      "outcome": {
+        "actions": 5,
+        "wears_scale_mail": 1,
+        "wears_cloak": 1
+      },
+      "notes": [
+        "TRACK power_start=674781",
+        "DECISION step=1 cmd=t item=[a Dagger]",
+        "DECISION step=2 cmd=w item=[a Tulwar]",
+        "DECISION step=3 cmd=t item=[Soft Leather Armour]",
+        "DECISION step=4 cmd=w item=[Metal Scale Mail]",
+        "DECISION step=5 cmd=w item=[a Cloak]",
+        "TRACK power_end=703369"
+      ],
+      "value": 1
+    }
+  },
+  "nocloak": {
+    "label": "Control: full pack and nothing else to try",
+    "explanation": "The armour change is skipped (the skip path runs in both versions) and no other change remains; both versions stop after the Tulwar and discard the plan. The logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/wearskip-85: starting...\nSETUP seed=85 mode=nocloak class=Warrior clevel=21 pack_used=22/23\n  home_wears_every_reachable_upgrade  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Potion of Cure Light Wounds]\nPACK c qty=1 desc=[Potion of Cure Serious Wounds]\nPACK d qty=1 desc=[Potion of Neutralize Poison]\nPACK e qty=1 desc=[Potion of Restore Mana]\nPACK f qty=1 desc=[Potion of Speed]\nPACK g qty=1 desc=[Potion of Heroism]\nPACK i qty=1 desc=[Potion of Berserk Strength]\nPACK m qty=1 desc=[Potion of Boldness]\nPACK n qty=1 desc=[Potion of Resist Heat]\nPACK o qty=1 desc=[Potion of Resist Cold]\nPACK p qty=1 desc=[Potion of Resist Poison]\nPACK q qty=1 desc=[Potion of True Seeing]\nPACK r qty=1 desc=[Potion of Infravision]\nPACK s qty=1 desc=[Potion of Sleep]\nPACK t qty=1 desc=[Potion of Blindness]\nPACK u qty=1 desc=[Potion of Confusion]\nPACK v qty=1 desc=[Potion of Surprise]\nPACK w qty=1 desc=[Potion of Salt Water]\nPACK x qty=1 desc=[Potion of Dragon Breath]\nPACK y qty=1 desc=[Metal Scale Mail (-2) [38,+0]]\nPACK z qty=2 desc=[Tulwars (2d4) (+0,+0)]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=674741\nSTEP 1 acts=1 keys=[ta] full=0\nPLAN do_best=0 [1:9/6] [2:17/1]\nDECISION step=1 cmd=t item=[a Dagger]\nENGINE You were wielding a Dagger (1d4) (+0,+0) (z).\nSTEP 2 acts=1 keys=[wA] full=1\nPLAN do_best=0 [2:17/1]\nDECISION step=2 cmd=w item=[2 Tulwars]\nENGINE You are wielding a Tulwar (2d4) (+0,+0) (a).\nSTEP 3 acts=0 keys=[] full=1\nPLAN none do_best=1\nTRACK power_end=670839\nSTATE weapon=[a Tulwar] body=[Soft Leather Armour] cloak=[(nothing)] pack_used=23\nOUTCOME actions=2 wears_scale_mail=0 wears_cloak=0\nPassed\nnative-c/wearskip-85 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "pack_used": 23
+      },
+      "outcome": {
+        "actions": 2,
+        "wears_scale_mail": 0,
+        "wears_cloak": 0
+      },
+      "notes": [
+        "TRACK power_start=674741",
+        "DECISION step=1 cmd=t item=[a Dagger]",
+        "DECISION step=2 cmd=w item=[2 Tulwars]",
+        "TRACK power_end=670839"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/wearskip-85: starting...\nSETUP seed=85 mode=nocloak class=Warrior clevel=21 pack_used=22/23\n  home_wears_every_reachable_upgrade  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Potion of Cure Light Wounds]\nPACK c qty=1 desc=[Potion of Cure Serious Wounds]\nPACK d qty=1 desc=[Potion of Neutralize Poison]\nPACK e qty=1 desc=[Potion of Restore Mana]\nPACK f qty=1 desc=[Potion of Speed]\nPACK g qty=1 desc=[Potion of Heroism]\nPACK i qty=1 desc=[Potion of Berserk Strength]\nPACK m qty=1 desc=[Potion of Boldness]\nPACK n qty=1 desc=[Potion of Resist Heat]\nPACK o qty=1 desc=[Potion of Resist Cold]\nPACK p qty=1 desc=[Potion of Resist Poison]\nPACK q qty=1 desc=[Potion of True Seeing]\nPACK r qty=1 desc=[Potion of Infravision]\nPACK s qty=1 desc=[Potion of Sleep]\nPACK t qty=1 desc=[Potion of Blindness]\nPACK u qty=1 desc=[Potion of Confusion]\nPACK v qty=1 desc=[Potion of Surprise]\nPACK w qty=1 desc=[Potion of Salt Water]\nPACK x qty=1 desc=[Potion of Dragon Breath]\nPACK y qty=1 desc=[Metal Scale Mail (-2) [38,+0]]\nPACK z qty=2 desc=[Tulwars (2d4) (+0,+0)]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=674741\nSTEP 1 acts=1 keys=[ta] full=0\nPLAN do_best=0 [1:9/6] [2:17/1]\nDECISION step=1 cmd=t item=[a Dagger]\nENGINE You were wielding a Dagger (1d4) (+0,+0) (z).\nSTEP 2 acts=1 keys=[wA] full=1\nPLAN do_best=0 [2:17/1]\nDECISION step=2 cmd=w item=[2 Tulwars]\nENGINE You are wielding a Tulwar (2d4) (+0,+0) (a).\nSTEP 3 acts=0 keys=[] full=1\nPLAN none do_best=1\nTRACK power_end=670839\nSTATE weapon=[a Tulwar] body=[Soft Leather Armour] cloak=[(nothing)] pack_used=23\nOUTCOME actions=2 wears_scale_mail=0 wears_cloak=0\nPassed\nnative-c/wearskip-85 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "pack_used": 23
+      },
+      "outcome": {
+        "actions": 2,
+        "wears_scale_mail": 0,
+        "wears_cloak": 0
+      },
+      "notes": [
+        "TRACK power_start=674741",
+        "DECISION step=1 cmd=t item=[a Dagger]",
+        "DECISION step=2 cmd=w item=[2 Tulwars]",
+        "TRACK power_end=670839"
+      ],
+      "value": 0
+    }
+  }
+}
