@@ -39,7 +39,7 @@
  * Determine if a grid is "interesting" (and should be explored)
  *
  * A grid is "interesting" if it is a closed door, rubble, hidden treasure,
- * or a visible trap, or an "unknown" grid.
+ * or an "unknown" grid.
  * or a non-perma-wall adjacent to a perma-wall. (GCV)
  *
  */
@@ -141,56 +141,6 @@ static bool borg_flow_dark_interesting(int y, int x)
             }
         }
         /* this door should be ok to open */
-        return true;
-    }
-
-    /* Explore "visible traps" */
-    if (feat_is_trap_holding(ag->feat)) {
-        /* Do not disarm when blind */
-        if (borg.trait[BI_ISBLIND])
-            return false;
-
-        /* Do not disarm when confused */
-        if (borg.trait[BI_ISCONFUSED])
-            return false;
-
-        /* Do not disarm when hallucinating */
-        if (borg.trait[BI_ISIMAGE])
-            return false;
-
-        /* Do not flow without lite */
-        if (borg.trait[BI_LIGHT] == 0)
-            return false;
-
-        /* Do not disarm trap doors on level 99 */
-        if (borg.trait[BI_CDEPTH] == 99 && ag->trap && !ag->glyph)
-            return false;
-
-        /* Do not disarm when you could end up dead */
-        if (borg.trait[BI_CURHP] < 60)
-            return false;
-
-        /* Do not disarm when clumsy */
-        if (borg.trait[BI_DISP] < 30 && borg.trait[BI_CLEVEL] < 20)
-            return false;
-        if (borg.trait[BI_DISP] < 45 && borg.trait[BI_CLEVEL] < 10)
-            return false;
-        if (borg.trait[BI_DISM] < 30 && borg.trait[BI_CLEVEL] < 20)
-            return false;
-        if (borg.trait[BI_DISM] < 45 && borg.trait[BI_CLEVEL] < 10)
-            return false;
-
-        /* Do not explore if a Scaryguy on the Level */
-        if (borg.mon.scary)
-            return false;
-
-        /* NOTE: the flow code allows a borg to flow through a trap and so he
-         * may still try to disarm one on his way to the other interesting grid.
-         * If mods are made to the above criteria for disarming traps, then mods
-         * must also be made to borg_flow_spread() and borg_flow_direct()
-         */
-
-        /* Okay */
         return true;
     }
 
