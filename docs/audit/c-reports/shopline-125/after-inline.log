@@ -1,0 +1,8 @@
+native-c/shopline-125: starting...
+SETUP seed=125 mode=inline class=Warrior clevel=12 hp=147/147 sp=0/0 food=8999 depth=0
+  flow_avoids_other_shop_doors  STATE borg=(10,12) goal_shop=0 at (30,12) other_shop=1 at (11,12) depth=0
+DECISION rc=1 key=51
+TRACK # Flowing toward General Store at cost 20
+OUTCOME steps_onto_other_shop=0
+Passed
+native-c/shopline-125 finished: 1/1 passed

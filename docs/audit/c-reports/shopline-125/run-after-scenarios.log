@@ -1,0 +1,2 @@
+inline {'exit': 0, 'passed': True, 'state': {'goal_shop': 0, 'other_shop': 1, 'depth': 0}, 'outcome': {'steps_onto_other_shop': 0}}
+offrow {'exit': 0, 'passed': True, 'state': {'goal_shop': 0, 'other_shop': 1, 'depth': 0}, 'outcome': {'steps_onto_other_shop': 0}}
