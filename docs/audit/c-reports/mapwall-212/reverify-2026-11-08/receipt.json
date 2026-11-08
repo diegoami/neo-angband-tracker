@@ -1,0 +1,187 @@
+{
+ "slug": "mapwall-212",
+ "issue": 212,
+ "date": "2026-11-08",
+ "why": "the original run's logs were listed in receipt.json but never committed (dropped by the repository's *.log ignore rule); this run re-executes the same pins and commits its logs",
+ "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+ "fix": "5bd789ee0ff0a471162d7e3ebefb1ac4d501803c",
+ "fixtures_ref": "9fe10e42709c480e7b09c8472f9205b9281d6a1c",
+ "original_receipt_fixtures_ref": "9fe10e42709c480e7b09c8472f9205b9281d6a1c",
+ "command": "git show 9fe10e42709c480e7b09c8472f9205b9281d6a1c:docs/audit/c-reports/mapwall-212/reproduce.py > /tmp/reproduce-mapwall-212.py && python3 /tmp/reproduce-mapwall-212.py --full-tests --fixtures-ref 9fe10e42709c480e7b09c8472f9205b9281d6a1c",
+ "runner_verdict": [
+  "VERIFIED: the original keeps stale flows through changed grids, the correction invalidates them; control log identical."
+ ],
+ "cases": {
+  "before": {
+   "door-close": {
+    "exit": 0,
+    "passed": false,
+    "setup": {
+     "feat": 1,
+     "flow": 50,
+     "know": 1,
+     "icky": 1
+    },
+    "state": {
+     "flow": 50,
+     "know": 1,
+     "icky": 1,
+     "wizard_light": 1,
+     "detect_walls": 1
+    },
+    "outcome": {
+     "invalidated": 0,
+     "flow255": 0
+    }
+   },
+   "door-open": {
+    "exit": 0,
+    "passed": false,
+    "setup": {
+     "feat": 2,
+     "flow": 50,
+     "know": 1,
+     "icky": 1
+    },
+    "state": {
+     "flow": 50,
+     "know": 1,
+     "icky": 1,
+     "wizard_light": 1,
+     "detect_walls": 1
+    },
+    "outcome": {
+     "invalidated": 0,
+     "flow255": 0
+    }
+   },
+   "no-change": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "feat": 1,
+     "flow": 50,
+     "know": 1,
+     "icky": 1
+    },
+    "state": {
+     "flow": 50,
+     "know": 1,
+     "icky": 1,
+     "wizard_light": 1,
+     "detect_walls": 1
+    },
+    "outcome": {
+     "invalidated": 0,
+     "flow255": 0
+    }
+   }
+  },
+  "after": {
+   "door-close": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "feat": 1,
+     "flow": 50,
+     "know": 1,
+     "icky": 1
+    },
+    "state": {
+     "flow": 255,
+     "know": 0,
+     "icky": 0,
+     "wizard_light": 0,
+     "detect_walls": 0
+    },
+    "outcome": {
+     "invalidated": 1,
+     "flow255": 1
+    }
+   },
+   "door-open": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "feat": 2,
+     "flow": 50,
+     "know": 1,
+     "icky": 1
+    },
+    "state": {
+     "flow": 50,
+     "know": 0,
+     "icky": 0,
+     "wizard_light": 0,
+     "detect_walls": 0
+    },
+    "outcome": {
+     "invalidated": 1,
+     "flow255": 0
+    }
+   },
+   "no-change": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+     "feat": 1,
+     "flow": 50,
+     "know": 1,
+     "icky": 1
+    },
+    "state": {
+     "flow": 50,
+     "know": 1,
+     "icky": 1,
+     "wizard_light": 1,
+     "detect_walls": 1
+    },
+    "outcome": {
+     "invalidated": 0,
+     "flow255": 0
+    }
+   }
+  }
+ },
+ "matches_original_receipt_cases": true,
+ "identical_full_logs": [
+  "no-change"
+ ],
+ "full_tests": {
+  "before": {
+   "units": "965/965",
+   "frontends": "5/5",
+   "failed_lines": 0
+  },
+  "after": {
+   "units": "965/965",
+   "frontends": "5/5",
+   "failed_lines": 0
+  }
+ },
+ "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+ "cmake": "cmake version 3.28.3",
+ "render_check": {
+  "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless) on the committed replay.html",
+  "result": "RENDER-SMOKE actions=9 errors=0 OK",
+  "exit": 0
+ },
+ "sha256": {
+  "after-alltests.log": "f678e4e2b6e163cb18f639eb0155168f7f226f6906ad854484ea500bbaebc868",
+  "after-build.log": "4b9f8df28476b51b9bb309dc4739f57c14f7591a7278836e9dcd7c94ef52517c",
+  "after-door-close.log": "c953f683d03a0831a94b3cb5bd6935597dd972bbd79df638bc6b95058059adbb",
+  "after-door-open.log": "45d0e7dbba74720a68990e4c61fe10a9cb24453ecfa0e63078ce3637d4c77efb",
+  "after-no-change.log": "5be488375ec26d1d51d3b30be5387fd3d3b3087ce5f8c6b521d53c72f6112756",
+  "after-results.json": "8f14d26be254fa8b3327b006c13ade776a1e5891c79b38e4e6379f3b08f34a8b",
+  "after-scenarios.log": "8949226c7b2af691df6ad105d3754a1e8a0e2db48cbcd32f8e9b2b35c8922d05",
+  "before-alltests.log": "4ba6908cb63273b33e19e38e766ce44e90c46e5b914f44ad4ea34a342a9d8b51",
+  "before-build.log": "8c5cd91ae7e7006815fc2d8fce8ef971ed68f1e008f64e03868745b22acd948d",
+  "before-door-close.log": "d9947bff09b68b0e2858abee3fdc74a238231d4f512c2c9cb499a40a6c3342ce",
+  "before-door-open.log": "933dd5d5b9b0bc3fd67a0a4a6516cea282de4281de96dd51d3a620133a987dc5",
+  "before-no-change.log": "5be488375ec26d1d51d3b30be5387fd3d3b3087ce5f8c6b521d53c72f6112756",
+  "before-results.json": "8496e9e13df983217705ee87b3021352e17f61c0525bb0e9b672e8fb2510e066",
+  "before-scenarios.log": "41f07e79bc86bd6a082e07579e466ac0ad2f3c140349e3076043f1a1af1e8831",
+  "configure.log": "8aec11b349659b0ecbd9b22c4abe3257fd20b429081559083252cc1d74605a35",
+  "result.json": "23ac9001676f9df423bd59483e755fdc2929b71e9d8ae8176fd41c27b3383a68"
+ }
+}

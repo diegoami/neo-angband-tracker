@@ -118,3 +118,49 @@ does not walk anywhere in this fixture.
   fixed-source sha256.
 - `replay.html`, `replay-data.json` — the offline demo.
 - `receipt.json` — sha256 map of every file in this directory.
+
+## Re-verification (2026-11-08)
+
+Why: the logs of the original run were listed in `receipt.json` (with
+sha256 values) but were never committed — the repository's `*.log`
+ignore rule dropped them. To give reviewers the actual logs, the
+pinned runner was executed again at the same pins (fixtures
+`9fe10e42709c480e7b09c8472f9205b9281d6a1c`, base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `5bd789ee0ff0a471162d7e3ebefb1ac4d501803c`) with `--full-tests`.
+The earlier text above is left unchanged.
+
+The run reproduced every recorded case: per-case pass/fail and every
+parsed outcome value in its `result.json` equal the `cases` in the
+original `receipt.json` (`matches_original_receipt_cases: true`).
+Runner verdict: `VERIFIED: the original keeps stale flows through changed grids, the correction invalidates them; control log identical.`
+
+| Mode | Original (base) | Corrected (fix) |
+| --- | --- | --- |
+| `door-close` | FAIL: flow=50 know=1 icky=1 wizard_light=1 detect_walls=1 | pass: flow=255 know=0 icky=0 wizard_light=0 detect_walls=0 |
+| `door-open` | FAIL: flow=50 know=1 icky=1 wizard_light=1 detect_walls=1 | pass: flow=50 know=0 icky=0 wizard_light=0 detect_walls=0 |
+| `no-change` (control, byte-identical) | pass: flow=50 know=1 icky=1 wizard_light=1 detect_walls=1 | pass: flow=50 know=1 icky=1 wizard_light=1 detect_walls=1 |
+
+Full native gates, parsed from the committed alltests logs: original
+965/965 unit checks and 5/5 frontend tests; corrected
+965/965 and 5/5. Toolchain for this run: `cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0`,
+`cmake version 3.28.3` (the original run recorded `gcc 15.2.0`, `cmake 4.2.3`). Replay render
+check on the committed `replay.html`: `RENDER-SMOKE actions=9 errors=0 OK`
+(`tools/c-evidence/render-smoke.js`, Playwright Chromium headless).
+
+Logs, `result.json`, per-phase results and a `receipt.json` with the
+sha256 of every file are in [`reverify-2026-11-08/`](reverify-2026-11-08/).
+Repeat (fixtures pinned by sha; this runner has no `--fix-ref` flag: the
+fix sha `5bd789ee0ff0a471162d7e3ebefb1ac4d501803c` is a constant in the pinned script, which
+asserts the source diff against it):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/mapwall-212-evidence
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/mapwall-212
+git show 9fe10e42709c480e7b09c8472f9205b9281d6a1c:docs/audit/c-reports/mapwall-212/reproduce.py > /tmp/reproduce-mapwall-212.py
+python3 /tmp/reproduce-mapwall-212.py --full-tests --fixtures-ref 9fe10e42709c480e7b09c8472f9205b9281d6a1c
+```
+
+## Errata (2026-11-08)
+
+"Source proposal: PR (see the issue)" above refers to
+diegoami/neo-angband-tracker#387; this evidence package is PR #388.
+The pins and repeat commands above are correct as printed.

@@ -1,0 +1,10 @@
+native-c/mapwall-212: starting...
+SETUPSTEP profile
+SETUP pass1 feat=2 flow=50 know=1 icky=1
+SETUP seed=1000 class=Warrior level=1 depth=30 changed=1
+  wall_change_invalidates_flow  MODE door-open
+STATE flow=50 know=1 icky=1 wizard_light=1 detect_walls=1
+OUTCOME invalidated=0 flow255=0
+Failed
+    native-c/mapwall-212:145: requirement 'know == 0' failed
+native-c/mapwall-212 finished: 0/1 passed

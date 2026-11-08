@@ -1,0 +1,9 @@
+native-c/mapwall-212: starting...
+SETUPSTEP profile
+SETUP pass1 feat=1 flow=50 know=1 icky=1
+SETUP seed=1000 class=Warrior level=1 depth=30 changed=1
+  wall_change_invalidates_flow  MODE door-close
+STATE flow=255 know=0 icky=0 wizard_light=0 detect_walls=0
+OUTCOME invalidated=1 flow255=1
+Passed
+native-c/mapwall-212 finished: 1/1 passed
