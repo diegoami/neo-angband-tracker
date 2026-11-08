@@ -1,0 +1,153 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A poisoned or bleeding Borg in town only looked in the Bookseller and bought no cure</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A poisoned or bleeding Borg in town only looked in the Bookseller and bought no cure</h1><p>When the Borg is poisoned or bleeding in town it is meant to go straight to the shop that sells cures. The code still uses store number 3 for that, which was the Temple in older Angband; in 4.2 store 3 is the Bookseller and the cure potions are in the Alchemy shop (store 4). While poisoned or bleeding, every purchase the Borg weighs is limited to that one store. A level-1 Warrior in town with 500 gold and Potions of Cure Light Wounds on sale in the Alchemy shop buys them when healthy, but when poisoned or bleeding it chooses no shop at all. With the correction it sets out to buy the potions in both cases.</p><p><label>Scenario: <select id="scenario"><option value="poisoned">Poisoned, Cure Light Wounds on sale</option><option value="bleeding">Bleeding, Cure Light Wounds on sale</option><option value="healthy">Control: healthy, same stock</option></select></label></p><section class="scenario" data-mode="poisoned"><p class="summary">Original: the immediate-purchase step and step 3 only look at store 3 (the Bookseller), where nothing helps a Warrior, so borg_choose_shop() returns false with no goal. Corrected: they look at store 4 and the Borg chooses the Alchemy shop, ware 0 (Potions of Cure Light Wounds).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sets out to buy Cure Light Wounds (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]
+TRACK goal_item=-1 item=[(none)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to buy Cure Light Wounds (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+TRACK goal_item=-1 item=[(none)]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/urgentshop-23: starting...
+TIMED poisoned=10 cut=0
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=3 [Bookseller] 1x [First Spells]
+SETUP seed=23 mode=poisoned class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=1 cut=0 aclw=0
+  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]
+TRACK goal_item=-1 item=[(none)]
+OUTCOME buys_cure=0
+Failed
+    native-c/urgentshop-23:186: requirement &#x27;buys_cure&#x27; failed
+native-c/urgentshop-23 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/urgentshop-23: starting...
+TIMED poisoned=10 cut=0
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=3 [Bookseller] 1x [First Spells]
+SETUP seed=23 mode=poisoned class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=1 cut=0 aclw=0
+  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+TRACK goal_item=-1 item=[(none)]
+OUTCOME buys_cure=1
+Passed
+native-c/urgentshop-23 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="bleeding"><p class="summary">Same as poisoned: the original chooses no shop; the corrected Borg chooses the Alchemy shop&#x27;s Cure Light Wounds, which reduce cuts.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sets out to buy Cure Light Wounds (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]
+TRACK goal_item=-1 item=[(none)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to buy Cure Light Wounds (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+TRACK goal_item=-1 item=[(none)]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/urgentshop-23: starting...
+TIMED poisoned=0 cut=10
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=3 [Bookseller] 1x [First Spells]
+SETUP seed=23 mode=bleeding class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=0 cut=1 aclw=0
+  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]
+TRACK goal_item=-1 item=[(none)]
+OUTCOME buys_cure=0
+Failed
+    native-c/urgentshop-23:186: requirement &#x27;buys_cure&#x27; failed
+native-c/urgentshop-23 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/urgentshop-23: starting...
+TIMED poisoned=0 cut=10
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=3 [Bookseller] 1x [First Spells]
+SETUP seed=23 mode=bleeding class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=0 cut=1 aclw=0
+  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+TRACK goal_item=-1 item=[(none)]
+OUTCOME buys_cure=1
+Passed
+native-c/urgentshop-23 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="healthy"><p class="summary">Not poisoned or bleeding, the store filter does not apply and both versions weigh every store and choose the Alchemy shop&#x27;s Cure Light Wounds in step 3; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>sets out to buy Cure Light Wounds (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+TRACK goal_item=-1 item=[(none)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to buy Cure Light Wounds (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+TRACK goal_item=-1 item=[(none)]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/urgentshop-23: starting...
+TIMED poisoned=0 cut=0
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=3 [Bookseller] 1x [First Spells]
+SETUP seed=23 mode=healthy class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=0 cut=0 aclw=0
+  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+TRACK goal_item=-1 item=[(none)]
+OUTCOME buys_cure=1
+Passed
+native-c/urgentshop-23 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/urgentshop-23: starting...
+TIMED poisoned=0 cut=0
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=3 [Bookseller] 1x [First Spells]
+SETUP seed=23 mode=healthy class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=0 cut=0 aclw=0
+  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+TRACK goal_item=-1 item=[(none)]
+OUTCOME buys_cure=1
+Passed
+native-c/urgentshop-23 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 23, character level 1, standard starting kit (two Rations of Food, a wielded Wooden Torch, armour and weapon). The fixture removes the kit&#x27;s Scroll of Word of Recall and Potion of Berserk Strength (otherwise the Borg first takes the scroll home or sells the potion, which ends the shop choice before any purchase is weighed) and sets the gold to 500. In town (depth 0). Every store is emptied, then the Alchemy shop is given five Potions of Cure Light Wounds and the Bookseller one [First Spells] (fixture stock, identical in every mode). &#x27;poisoned&#x27; and &#x27;bleeding&#x27; apply 10 turns of poison or a cut with the game&#x27;s player_inc_timed(); &#x27;healthy&#x27; applies nothing. The Borg&#x27;s items and stores are loaded with the production borg_find_all_items(); then the production borg_choose_shop() runs once and its goal is read back. This isolates the shop choice; it does not walk to the store or carry out the purchase.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/23">issue 23</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
