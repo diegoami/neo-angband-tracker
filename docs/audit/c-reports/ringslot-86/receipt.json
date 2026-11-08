@@ -1,0 +1,128 @@
+{
+  "issue": "diegoami/neo-angband-tracker#86",
+  "report": "ringslot-86",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "aa3bf51c9dec12cf55ca2e7e8f3e38e07a55baf7",
+  "fix_branch": "task/ringslot-86",
+  "fixtures_ref": "5a12c8ad5535219fb532c17236814169648d5812",
+  "cases": {
+    "swap": {
+      "before": {
+        "passed": false,
+        "state": {},
+        "outcome": {
+          "actions": 2,
+          "wears_new_ring": 1,
+          "wears_kept_ring": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {},
+        "outcome": {
+          "actions": 2,
+          "wears_new_ring": 1,
+          "wears_kept_ring": 1
+        }
+      }
+    },
+    "mirror": {
+      "before": {
+        "passed": true,
+        "state": {},
+        "outcome": {
+          "actions": 2,
+          "wears_new_ring": 1,
+          "wears_kept_ring": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {},
+        "outcome": {
+          "actions": 2,
+          "wears_new_ring": 1,
+          "wears_kept_ring": 1
+        }
+      }
+    },
+    "empty": {
+      "before": {
+        "passed": true,
+        "state": {},
+        "outcome": {
+          "actions": 1,
+          "wears_new_ring": 1,
+          "wears_kept_ring": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {},
+        "outcome": {
+          "actions": 1,
+          "wears_new_ring": 1,
+          "wears_kept_ring": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "mirror",
+    "empty"
+  ],
+  "claim": "borg_best_stuff_aux() skipped a left-ring candidate whenever it equalled the stale right-slot entry left over from the previous subtree, so the last ring tried on the right hand was never tried on the left. A level-21 Warrior at home wearing Feather Falling (left) and See Invisible (right), with Free Action in the pack, took off See Invisible instead of Feather Falling; corrected, it keeps See Invisible and wears Free Action in place of Feather Falling. Controls with the weak ring on the right hand and with no ring worn are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-item-wear.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-item-wear.c": "e66941552a53b7ea264167b05ab531b8413c132326a25bbd778d6903a9cc3867"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "1572c0a37deb6b1520a916baebbfa02c93f2e9c4dde1547bdefd2e687472896f",
+    "after-empty.log": "a0f655bbd38d34826c1acedc002757adbd75f74822d79b3342def928f2b57ac8",
+    "after-mirror.log": "f609b5f31ad9b5ea11ab21ac5b0d389489e675a8e4a595bdb6e4c7391482e315",
+    "after-results.json": "f3f49b7b3abe66d2d67d5c67d4371199006341cb8747b3bafefd98f172cb3f33",
+    "after-swap.log": "1846bb90a2235bc4f40d32efb8658a671a56eb8ec91622f617de6e6979de40b0",
+    "before-empty.log": "a0f655bbd38d34826c1acedc002757adbd75f74822d79b3342def928f2b57ac8",
+    "before-mirror.log": "f609b5f31ad9b5ea11ab21ac5b0d389489e675a8e4a595bdb6e4c7391482e315",
+    "before-results.json": "a243786a86bebaf63850053a541008edd8a71e1e3486208775b3003e49a93acd",
+    "before-swap.log": "942b21ab003a3de3ca0d43b6e8ac1274182b73a0e11a729f95999168b4ef7292",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "5387227f70e7524249a1ee48399e5fbf60f71e5d87aed3e93433b4bec50d8d75",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "9ba699b415954deaa6c0db43b0b7f9ef96482bbe21c340e229900a9bf8e4d60f",
+    "replay.html": "1ce17fffb3e36a945fc6a3f269c9b073e33accf597d8aa1fbe8042d599753a00",
+    "reproduce.py": "90f2eec62c29aa6114fa4c5aa71c3a7775f7853de6502c57c4805a3caf51e7f1",
+    "result.json": "ae17aec750d036aad27376bc6b8577ca278b2b700dc4735f5c490762215d7cdf",
+    "run-after-alltests.log": "e51b5a2097d07b3656a051cd8222c7ec832f64ee2e27ec00f1909446f4280eac",
+    "run-after-build.log": "13bfeb35e5738685f728d92b4ffbe3180c9a9a2a8ce953f812cba338a06b2c69",
+    "run-after-scenarios.log": "ddc78e8d4c300ce7ce66d9a4ddbbf86d78f7804849c80315bf1ea6dc76ad332c",
+    "run-before-alltests.log": "9347b59120e975c1a14cf4fdcbd6b172ea745151c0b9df446ed6a415ac3274e1",
+    "run-before-build.log": "b327b640b3c513e5937a8fc7fd806a53e50119360584166e7bcdc56f724f42d6",
+    "run-before-scenarios.log": "8a3c7bc0d68d3254f95157fcf2c8543768dce24fca3ccbf3852a062b7b77b6da",
+    "run-cases.py": "1bbdb472d3fc56d7652d73a8cf92e37651b38d625e5fd074c5fab416dbed2a2e",
+    "run-configure.log": "63ae675963aaeda52f781d65148930988af8b275ea4a4885ebff24cad493d6cf",
+    "scenario.c": "89ba16cedd1dacb0ce0940fb3aff23c48c0bd7a25d22064c197f3d7cd6e6254c"
+  }
+}

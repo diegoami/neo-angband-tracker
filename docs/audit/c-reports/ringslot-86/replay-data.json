@@ -1,0 +1,117 @@
+{
+  "swap": {
+    "label": "Weak ring on the left hand, good ring on the right, better ring in pack",
+    "explanation": "Original: the left-slot search skips Free Action (it was the last ring tried on the right), so the only plan containing it puts it on the right hand; the Borg takes off See Invisible and wears Free Action, keeping Feather Falling. Corrected: Free Action is also tried on the left; the Borg takes off Feather Falling and wears Free Action, keeping See Invisible.",
+    "control": false,
+    "before": {
+      "raw": "native-c/ringslot-86: starting...\nSETUP seed=86 mode=swap class=Warrior clevel=21 pack_used=2/23\n  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Ring of Free Action]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN c desc=[Ring of See Invisible]\nWORN d desc=[Ring of Feather Falling]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=586441\nSTEP 1 acts=1 keys=[tc]\nPLAN do_best=0 [9:21/28]\nDECISION step=1 cmd=t item=[a Ring of See Invisible]\nENGINE You were wearing a Ring of See Invisible (c).\nSTEP 2 acts=1 keys=[wb]\nPLAN do_best=0\nDECISION step=2 cmd=w item=[a Ring of Free Action]\nENGINE You are wearing a Ring of Free Action (c).\nSTEP 3 acts=0 keys=[]\nPLAN none do_best=0\nTRACK power_end=591441\nSTATE ring1=[a Ring of Free Action] ring2=[a Ring of Feather Falling]\nOUTCOME actions=2 wears_new_ring=1 wears_kept_ring=0\nFailed\n    native-c/ringslot-86:298: requirement 'newr == 1 && keep == 1' failed\nnative-c/ringslot-86 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {},
+      "outcome": {
+        "actions": 2,
+        "wears_new_ring": 1,
+        "wears_kept_ring": 0
+      },
+      "notes": [
+        "TRACK power_start=586441",
+        "DECISION step=1 cmd=t item=[a Ring of See Invisible]",
+        "DECISION step=2 cmd=w item=[a Ring of Free Action]",
+        "TRACK power_end=591441"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/ringslot-86: starting...\nSETUP seed=86 mode=swap class=Warrior clevel=21 pack_used=2/23\n  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Ring of Free Action]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN c desc=[Ring of See Invisible]\nWORN d desc=[Ring of Feather Falling]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=586441\nSTEP 1 acts=1 keys=[td]\nPLAN do_best=0 [8:21/28]\nDECISION step=1 cmd=t item=[a Ring of Feather Falling]\nENGINE You were wearing a Ring of Feather Falling (b).\nSTEP 2 acts=1 keys=[wc]\nPLAN do_best=0\nDECISION step=2 cmd=w item=[a Ring of Free Action]\nENGINE You are wearing a Ring of Free Action (d).\nSTEP 3 acts=0 keys=[]\nPLAN none do_best=0\nTRACK power_end=595941\nSTATE ring1=[a Ring of See Invisible] ring2=[a Ring of Free Action]\nOUTCOME actions=2 wears_new_ring=1 wears_kept_ring=1\nPassed\nnative-c/ringslot-86 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {},
+      "outcome": {
+        "actions": 2,
+        "wears_new_ring": 1,
+        "wears_kept_ring": 1
+      },
+      "notes": [
+        "TRACK power_start=586441",
+        "DECISION step=1 cmd=t item=[a Ring of Feather Falling]",
+        "DECISION step=2 cmd=w item=[a Ring of Free Action]",
+        "TRACK power_end=595941"
+      ],
+      "value": 1
+    }
+  },
+  "mirror": {
+    "label": "Control: good ring on the left hand, weak ring on the right",
+    "explanation": "The weak ring is on the right hand, which the search fills last and checks correctly; both versions take off Feather Falling and wear Free Action. The left-slot check still runs (and skips Free Action in the original) but the best plan is the same, and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/ringslot-86: starting...\nSETUP seed=86 mode=mirror class=Warrior clevel=21 pack_used=2/23\n  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Ring of Free Action]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN c desc=[Ring of Feather Falling]\nWORN d desc=[Ring of See Invisible]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=586441\nSTEP 1 acts=1 keys=[tc]\nPLAN do_best=0 [9:21/28]\nDECISION step=1 cmd=t item=[a Ring of Feather Falling]\nENGINE You were wearing a Ring of Feather Falling (b).\nSTEP 2 acts=1 keys=[wc]\nPLAN do_best=0\nDECISION step=2 cmd=w item=[a Ring of Free Action]\nENGINE You are wearing a Ring of Free Action (c).\nSTEP 3 acts=0 keys=[]\nPLAN none do_best=0\nTRACK power_end=595941\nSTATE ring1=[a Ring of Free Action] ring2=[a Ring of See Invisible]\nOUTCOME actions=2 wears_new_ring=1 wears_kept_ring=1\nPassed\nnative-c/ringslot-86 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {},
+      "outcome": {
+        "actions": 2,
+        "wears_new_ring": 1,
+        "wears_kept_ring": 1
+      },
+      "notes": [
+        "TRACK power_start=586441",
+        "DECISION step=1 cmd=t item=[a Ring of Feather Falling]",
+        "DECISION step=2 cmd=w item=[a Ring of Free Action]",
+        "TRACK power_end=595941"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/ringslot-86: starting...\nSETUP seed=86 mode=mirror class=Warrior clevel=21 pack_used=2/23\n  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Ring of Free Action]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN c desc=[Ring of Feather Falling]\nWORN d desc=[Ring of See Invisible]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=586441\nSTEP 1 acts=1 keys=[tc]\nPLAN do_best=0 [9:21/28]\nDECISION step=1 cmd=t item=[a Ring of Feather Falling]\nENGINE You were wearing a Ring of Feather Falling (b).\nSTEP 2 acts=1 keys=[wc]\nPLAN do_best=0\nDECISION step=2 cmd=w item=[a Ring of Free Action]\nENGINE You are wearing a Ring of Free Action (c).\nSTEP 3 acts=0 keys=[]\nPLAN none do_best=0\nTRACK power_end=595941\nSTATE ring1=[a Ring of Free Action] ring2=[a Ring of See Invisible]\nOUTCOME actions=2 wears_new_ring=1 wears_kept_ring=1\nPassed\nnative-c/ringslot-86 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {},
+      "outcome": {
+        "actions": 2,
+        "wears_new_ring": 1,
+        "wears_kept_ring": 1
+      },
+      "notes": [
+        "TRACK power_start=586441",
+        "DECISION step=1 cmd=t item=[a Ring of Feather Falling]",
+        "DECISION step=2 cmd=w item=[a Ring of Free Action]",
+        "TRACK power_end=595941"
+      ],
+      "value": 1
+    }
+  },
+  "empty": {
+    "label": "Control: no ring worn",
+    "explanation": "Both ring slots are empty; trying Free Action on the left hand gives the same power as on the right, so the plan does not change. Both versions wear Free Action in one step, and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/ringslot-86: starting...\nSETUP seed=86 mode=empty class=Warrior clevel=21 pack_used=2/23\n  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Ring of Free Action]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=580941\nSTEP 1 acts=1 keys=[wb]\nPLAN do_best=0\nDECISION step=1 cmd=w item=[a Ring of Free Action]\nENGINE You are wearing a Ring of Free Action (c).\nSTEP 2 acts=0 keys=[]\nPLAN none do_best=0\nTRACK power_end=590941\nSTATE ring1=[a Ring of Free Action] ring2=[(nothing)]\nOUTCOME actions=1 wears_new_ring=1 wears_kept_ring=0\nPassed\nnative-c/ringslot-86 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {},
+      "outcome": {
+        "actions": 1,
+        "wears_new_ring": 1,
+        "wears_kept_ring": 0
+      },
+      "notes": [
+        "TRACK power_start=580941",
+        "DECISION step=1 cmd=w item=[a Ring of Free Action]",
+        "TRACK power_end=590941"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/ringslot-86: starting...\nSETUP seed=86 mode=empty class=Warrior clevel=21 pack_used=2/23\n  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]\nPACK b qty=1 desc=[Ring of Free Action]\nWORN a desc=[Dagger (1d4) (+0,+0)]\nWORN f desc=[Wooden Torch (2000 turns)]\nWORN g desc=[Soft Leather Armour [8,+0]]\nTRACK power_start=580941\nSTEP 1 acts=1 keys=[wb]\nPLAN do_best=0\nDECISION step=1 cmd=w item=[a Ring of Free Action]\nENGINE You are wearing a Ring of Free Action (c).\nSTEP 2 acts=0 keys=[]\nPLAN none do_best=0\nTRACK power_end=590941\nSTATE ring1=[a Ring of Free Action] ring2=[(nothing)]\nOUTCOME actions=1 wears_new_ring=1 wears_kept_ring=0\nPassed\nnative-c/ringslot-86 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {},
+      "outcome": {
+        "actions": 1,
+        "wears_new_ring": 1,
+        "wears_kept_ring": 0
+      },
+      "notes": [
+        "TRACK power_start=580941",
+        "DECISION step=1 cmd=w item=[a Ring of Free Action]",
+        "TRACK power_end=590941"
+      ],
+      "value": 0
+    }
+  }
+}
