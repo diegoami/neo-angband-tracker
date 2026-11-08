@@ -1,0 +1,11 @@
+native-c/slay-239: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior level=31 depth=5 weapon=Broad Sword (2d5) (+0,+0) light_tval=19
+  slay_weapon_counts  MODE animal
+GEOMETRY player=(11,11) animal=(12,11) rf_animal=1 temp_n=0
+TRAIT ws_animal=0
+RATING auto=17 without=17 with=20
+OUTCOME auto=17 without=17 with=20
+Failed
+    native-c/slay-239:221: requirement 'auto_value > without_slay' failed
+native-c/slay-239 finished: 0/1 passed

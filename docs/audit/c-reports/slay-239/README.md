@@ -30,7 +30,7 @@ races. No death or survival claim is made.
 
 Canonical report: [issue239](https://github.com/diegoami/neo-angband-tracker/issues/239).
 Lead supplied by borg-rs; independently validated and reproduced
-natively here. Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+natively here. Source proposal [#304](https://github.com/diegoami/neo-angband-tracker/pull/304).
 
 ## Verification
 
@@ -115,3 +115,98 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the original run's phase, build and gate logs were listed and hashed in
+`receipt.json` but never committed (the repository's `*.log` ignore rule
+dropped them), so the receipt could not be checked against published bytes.
+The same pinned runner was run again on 2026-11-08 at the receipt's own pins
+(base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `9ab78ae605ca4463268a669121d69b216285c2f1`, fixtures `65fa24e6c650aab2a9bbeef75800fa068a602429`) with `--full-tests`.
+Every case reproduced the recorded outcome; the runner's per-case results
+(`result.json` `cases`) are identical to the committed original.
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `animal` (Slay Animal sword vs white harpy) | `TRAIT ws_animal=0`, `RATING auto=17 without=17 with=20`; 0/1 | `ws_animal=2`, `auto=20`; 1/1 |
+| `nonanimal` (control, small kobold) | `auto=19 without=19 with=19`; 1/1 | byte-identical log |
+
+Gates from the re-run's alltests logs: before Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines); after Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines).
+Re-run toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, cmake version 3.28.3 (the original receipt records
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, cmake version 4.2.3; the toolchain differs, and the files listed
+below as byte-identical are identical nonetheless).
+Corrected source sha256 matches the original receipt.
+Render check of the committed `replay.html` with `tools/c-evidence/render-smoke.js`
+(Playwright Chromium, every option and button clicked): `RENDER-SMOKE actions=4 errors=0 OK`.
+The original receipt records its own headless check under the `browser` key.
+The regenerated `replay.html` and `replay-data.json` are byte-identical to the committed ones. The repeat command below pins the new fixtures commit `cafe3462c` (next section), which supersedes `65fa24e6c` and reproduces these two cases unchanged.
+
+Where the logs are: [`reverify-2026-11-08/`](reverify-2026-11-08/) holds every log,
+`result.json` and per-mode results of the re-run, with
+[`reverify-2026-11-08/receipt.json`](reverify-2026-11-08/receipt.json) (pins, per-case
+results, gate lines, toolchain, render result, sha256 of every file there).
+10 re-run files are byte-identical to the hashes in the original
+`receipt.json`; those not already committed were also placed at their original paths in this directory, so the original receipt now resolves for them: `after-animal.log`, `after-build.log`, `after-nonanimal.log`, `after-scenarios.log`, `before-animal.log`, `before-nonanimal.log`, `before-scenarios.log`.
+The rest (`after-alltests.log`, `before-alltests.log`, `before-build.log`, `configure.log`) differ in
+run-specific content (temporary paths, timings, build output of the different toolchain) and are
+published only under `reverify-2026-11-08/`.
+
+Repeat (fixtures pinned by sha; the fix sha is fixed inside `reproduce.py` at that pin, and the runner
+refuses any other source diff):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/slay-239-evidence
+git show cafe3462c68445753b6eec99542a7788b7d9afec:docs/audit/c-reports/slay-239/reproduce.py > /tmp/reproduce-slay-239.py
+python3 /tmp/reproduce-slay-239.py --full-tests --fixtures-ref cafe3462c68445753b6eec99542a7788b7d9afec
+```
+
+## Errata (2026-11-08)
+
+- The source-proposal link near the top of this README was a placeholder; it now points to the source PR [#304](https://github.com/diegoami/neo-angband-tracker/pull/304) (evidence PR #305, canonical issue #239).
+- The opening above says the correction "also derives the never-set kill traits"; the original package did not test that half. The next section adds a case that does.
+- `receipt.json` was amended on 2026-11-08 for this only: its `README.md` hash now covers the README with these sections and the link fix, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
+
+## Kill-trait case (2026-11-08, fixtures `cafe3462c`)
+
+The correction has a second half the original package never exercised:
+it sets the race-destroying "kill" traits (`BI_WK_UNDEAD`, `BI_WK_DEMON`,
+`BI_WK_DRAGON`) from a wielded multiplier-five slay. Fixtures commit
+`cafe3462c68445753b6eec99542a7788b7d9afec` adds the `kill-undead` mode:
+the same level-31 warrior wields a Broad Sword carrying the undead
+multiplier-five slay (`UNDEAD_5`, as a *Slay Undead* weapon has) with the
+torch in the later light slot, and faces an adjacent zombified orc. The
+scenario prints the traits as `borg_notice()` computed them and the thrust
+value as computed, with only the plain undead slay forced on (`slay_only`,
+three times) and with the kill trait forced on (`kill`, five times).
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `kill-undead` | `TRAIT ws_undead=0 wk_undead=0`, `RATING auto=11 slay_only=24 kill=36`; 0/1 | `ws_undead=5 wk_undead=1`, `auto=36`; 1/1 |
+| `animal` | `auto=17`; 0/1 (as above) | `auto=20`; 1/1 |
+| `nonanimal` (control) | 1/1 | byte-identical log |
+
+What this shows: with the correction the kill trait is set and the attack
+is valued at the five-times reading (36). A correction that only
+accumulated the plain slays (`|=`) without the kill derivation would stop
+at the slay-only reading (24); the original reaches neither (11), because
+the light slot also erases the plain slay. Only `BI_WK_UNDEAD` is
+exercised; the demon and dragon lines are the same shape and are verified
+by reading only. Gates at this pin: 965/965 unit checks and 5/5 frontend
+tests per phase. The `animal`/`nonanimal` logs equal the receipt-pin re-run
+except one line in `before-animal.log`: the failed assertion's source line
+number (221 → 251, because `scenario.c` grew).
+
+Run output, receipt (pins, cases, gates, render check, sha256 of every
+file) and the regenerated three-situation replay are in
+[`reverify-2026-11-08-kill-undead/`](reverify-2026-11-08-kill-undead/)
+(`replay.html` there: render-smoke `actions=6 errors=0 OK`, generated
+script passes `node --check`). **This fixtures pin supersedes
+`65fa24e6c`** as the package's repeat pin; the top-level `replay.html`,
+logs and `receipt.json` remain the original two-situation run.
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/slay-239-evidence
+git show cafe3462c68445753b6eec99542a7788b7d9afec:docs/audit/c-reports/slay-239/reproduce.py > /tmp/reproduce-slay-239.py
+python3 /tmp/reproduce-slay-239.py --full-tests --fixtures-ref cafe3462c68445753b6eec99542a7788b7d9afec
+```

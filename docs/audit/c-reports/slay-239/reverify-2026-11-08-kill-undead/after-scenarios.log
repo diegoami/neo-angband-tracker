@@ -1,0 +1,3 @@
+animal {'exit': 0, 'passed': True, 'trait': 'ws_animal=2', 'rating': 'auto=20 without=17 with=20', 'outcome': 'auto=20 without=17 with=20'}
+nonanimal {'exit': 0, 'passed': True, 'rating': 'auto=19 without=19 with=19', 'outcome': 'auto=19 without=19 with=19'}
+kill-undead {'exit': 0, 'passed': True, 'trait': 'ws_undead=5 wk_undead=1 rf_undead=1', 'rating': 'auto=36 slay_only=24 kill=36', 'outcome': 'auto=36 slay_only=24 kill=36 wk_undead=1'}
