@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 TOOLS=$(cd "$(dirname "$0")" && pwd)
 WORK=${CEV_WORK:-/tmp/c-evidence-work}
 REPO=${CEV_REPO:-$(dirname "$(git -C "$TOOLS" rev-parse --path-format=absolute --git-common-dir)")}
