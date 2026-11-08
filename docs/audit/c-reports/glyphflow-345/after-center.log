@@ -1,0 +1,14 @@
+native-c/glyphflow-345: starting...
+SETUP seed=345 mode=center class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=1 key=51 borg=(99,33)
+TRACK outlying # Flowing toward Glyph at cost 1
+STATE center_rune=1 ring_runes=0 read=1
+OUTCOME progress=1
+Passed
+native-c/glyphflow-345 finished: 1/1 passed

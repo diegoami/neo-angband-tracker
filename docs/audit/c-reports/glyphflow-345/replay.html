@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Sea of Runes stalled after its centre rune</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Sea of Runes stalled after its centre rune</h1><p>Before fighting Morgoth the Borg builds a Sea of Runes: a 5x5 block of Runes of Protection with itself at the centre. To choose the next rune grid it measures how far every grid is from where it stands. That measurement was asked to stop early, and because it starts at the Borg&#x27;s own grid at distance 0 it stopped before measuring any other grid. Once the centre rune is laid and the Borg stands on it, the centre is excluded and no other grid looks reachable, so the Borg does nothing more on the Sea. The correction measures the whole neighbourhood, and the Borg steps toward the next rune grid.</p><p><label>Scenario: <select id="scenario"><option value="center">Standing on the laid centre rune</option><option value="offcenter">Control: standing on an unglyphed ring grid</option></select></label></p><section class="scenario" data-mode="center"><p class="summary">Original: two further calls both return false with no key queued; only the Borg&#x27;s own (excluded) grid has a distance, so no outlying grid is chosen. Corrected: the first further call flows toward a ring grid at distance 1 and queues a step (key 51, south-east).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>outlying-rune progress (1 = the Borg steps toward or reads the next rune)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(99,33)
+DECISION call=follow rc=0 key=0 borg=(99,33)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>outlying-rune progress (1 = the Borg steps toward or reads the next rune)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=1 key=51 borg=(99,33)
+TRACK outlying # Flowing toward Glyph at cost 1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/glyphflow-345: starting...
+SETUP seed=345 mode=center class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(99,33)
+DECISION call=follow rc=0 key=0 borg=(99,33)
+STATE center_rune=1 ring_runes=0 read=1
+OUTCOME progress=0
+Failed
+    native-c/glyphflow-345:165: requirement &#x27;rc&#x27; failed
+native-c/glyphflow-345 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/glyphflow-345: starting...
+SETUP seed=345 mode=center class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=1 key=51 borg=(99,33)
+TRACK outlying # Flowing toward Glyph at cost 1
+STATE center_rune=1 ring_runes=0 read=1
+OUTCOME progress=1
+Passed
+native-c/glyphflow-345 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="offcenter"><p class="summary">The Borg&#x27;s own grid is itself an outlying candidate at distance 0, so both versions choose it and read the next rune on the following call.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>outlying-rune progress (1 = the Borg steps toward or reads the next rune)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>outlying-rune progress (1 = the Borg steps toward or reads the next rune)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/glyphflow-345: starting...
+SETUP seed=345 mode=offcenter class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.
+STATE center_rune=1 ring_runes=0 read=1
+OUTCOME progress=1
+Passed
+native-c/glyphflow-345 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/glyphflow-345: starting...
+SETUP seed=345 mode=offcenter class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.
+STATE center_rune=1 ring_runes=0 read=1
+OUTCOME progress=1
+Passed
+native-c/glyphflow-345 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 345, level 50, depth 99, a full-size open level (198x66), 40 known Rune of Protection scrolls. The production borg_flow_glyph() runs as the Borg would call it: the first call chooses the Borg&#x27;s own grid as the centre, the second call arrives and reads a Rune of Protection (the fixture then lays that rune on the grid, the result of the read), and up to two further calls must choose and act on an outlying rune grid. The off-centre control starts those later calls one grid east of the centre, on an unglyphed ring grid. This isolates the rune-grid choice; it does not run a whole Sea of Runes or a Morgoth fight. The first and second calls behave identically in both versions.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/345">issue 345</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

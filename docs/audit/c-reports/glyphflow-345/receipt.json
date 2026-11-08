@@ -1,0 +1,113 @@
+{
+  "issue": "diegoami/neo-angband-tracker#345",
+  "report": "glyphflow-345",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "f618381294dcf5bff1f0bc95f0fbe259412a53b9",
+  "fix_branch": "task/glyphflow-345",
+  "fixtures_ref": "fbe06401c54c4e701ea20a9e3c7aec48f849c30b",
+  "cases": {
+    "center": {
+      "before": {
+        "passed": false,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 0,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 0,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      }
+    },
+    "offcenter": {
+      "before": {
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 0,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 0,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "offcenter"
+  ],
+  "claim": "borg_flow_glyph() spreads its reverse flow with optimize=true; the flow starts at the borg's grid with cost 0, so the optimized spread stops before any other grid gets a cost. With the centre rune laid and the borg on it, no outlying rune grid is reachable to the scan and the Sea of Runes makes no progress. Spreading without optimization lets the borg choose and step toward the next rune grid; the off-centre control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-glyph.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-glyph.c": "3419399378525343a25da23dbafd9fc6928b77541f1e830c0ff38d223bd2fc2e"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "f398a6e5eab09c1460aad250e8280edde22ee4722561821c81cfe12f8a0ec56e",
+    "after-center.log": "7847612d29e48fbdbc0e2b89d488936dc72155cae594aa2677714411ca243ace",
+    "after-offcenter.log": "fa21d50d2eda8b4a424681267e0b12b765337c376eef8048507c8c4f90493e14",
+    "after-results.json": "1160d6725a299640a12df84bbf7f7acdc79d8a2b1027423d0738f4fed02cca20",
+    "before-center.log": "41fdc1a014574c5e8cae9a6de97aa63b2e28911e6b4c204bc7d0195ea8efccff",
+    "before-offcenter.log": "fa21d50d2eda8b4a424681267e0b12b765337c376eef8048507c8c4f90493e14",
+    "before-results.json": "3dcc4223939bc7edd9fc06bfb59187557e5c0337a24f2b28bcc48a075fd111c2",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "08896ed83adca699d0e00cd868cacd9c6749e9d54ba53c8d563ea6fcc87111eb",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "1d460932191fc9cbfefda06a6a92c03965a037b57a54222156d1005cf6063e05",
+    "replay.html": "8601655812fe0b63245b0c69fef6ff72e7d905e2610655f604dd79d5882b465d",
+    "reproduce.py": "5cd89106076e14d30d4c53686a43870b89895dac7096a8e7b356407a3258574d",
+    "result.json": "3ecb76b500929994a6b20d96eeab0916f867f787b1572867528457f41750a4c2",
+    "run-after-alltests.log": "8867d474ff2354fb2ae201e0e249134a928455bf38e2636031dda45f84a79247",
+    "run-after-build.log": "73c9986f9b838a380deb77c30f47c17f6d705c4446fcb11b08f884bc51e279a1",
+    "run-after-scenarios.log": "f21832bd9b4b028d6f7e6f45654b431a6892c99ae5a891e4c77098b66cebaf7e",
+    "run-before-alltests.log": "278673119b27ef35f007bf91ee502f845b25bdd6b0a853b8005d26bac2c92a03",
+    "run-before-build.log": "beb5ab8671f7cbc3ac1ab85d2fe5f28f836ab7d2c33168c4a6a7667b72d650b8",
+    "run-before-scenarios.log": "dfa57a111ce990df8b590c90512e9ace41b1781b4bb975492dcd10d28d703216",
+    "run-cases.py": "a88017eed91766a44e46c1110eec4329cca02b52d2f87f36f4b8f58030202aaa",
+    "run-configure.log": "2dfa60365d60960a31af132d30e42723dd298f45746016701846cd7be3ae7b54",
+    "scenario.c": "25de8ebe1ac6c936a6f09008d0a2e5ab4e834795f4373d979f01f0ab1a4776db"
+  }
+}

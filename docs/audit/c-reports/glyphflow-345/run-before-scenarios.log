@@ -1,0 +1,2 @@
+center {'exit': 0, 'passed': False, 'state': {'center_rune': 1, 'ring_runes': 0, 'read': 1}, 'outcome': {'progress': 0}}
+offcenter {'exit': 0, 'passed': True, 'state': {'center_rune': 1, 'ring_runes': 0, 'read': 1}, 'outcome': {'progress': 1}}
