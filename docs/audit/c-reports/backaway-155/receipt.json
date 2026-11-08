@@ -1,0 +1,145 @@
+{
+  "issue": "diegoami/neo-angband-tracker#155",
+  "report": "backaway-155",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "df5361ad5cc3977c75a86061ad0d944568885d77",
+  "fix_branch": "task/backaway-155",
+  "fixtures_ref": "fa0293e587d8ab7e8e2e90e5fade853a2cfcd0ef",
+  "cases": {
+    "monster": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 20,
+          "avoidance": 40,
+          "hp": 40,
+          "fleeing": 0
+        },
+        "outcome": {
+          "backed_away": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 40,
+          "hp": 40,
+          "fleeing": 0
+        },
+        "outcome": {
+          "backed_away": 1
+        }
+      }
+    },
+    "trap": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 20,
+          "avoidance": 40,
+          "hp": 40,
+          "fleeing": 0
+        },
+        "outcome": {
+          "backed_away": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 40,
+          "hp": 40,
+          "fleeing": 0
+        },
+        "outcome": {
+          "backed_away": 1
+        }
+      }
+    },
+    "healthy": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 245,
+          "hp": 245,
+          "fleeing": 0
+        },
+        "outcome": {
+          "backed_away": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 245,
+          "hp": 245,
+          "fleeing": 0
+        },
+        "outcome": {
+          "backed_away": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "healthy"
+  ],
+  "claim": "The back-away scan in borg_caution() never cleared adjacent_monster between candidates and ended at the first trapped candidate (break). A hurt level-20 Warrior with a cave bear two steps away did not back away although a safe grid existed; after clearing the flag per grid and skipping trapped grids it backs up to 9,11. The full-HP control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-caution.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "3bc2f24fa2f9bced8b17774aa5c057963b7cdf3df93651b127738a0da9acd87f"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "79a1a8385fcc460bf92361e9d6bdd13de48980ed7b59e7a7329d8813817c4e3e",
+    "after-healthy.log": "b3d3d9854b9d6c9675db3dcb763b590ab0995fb0a45c6b7acfdc74ad54a68cd8",
+    "after-monster.log": "0549304bb1d78e51d7c44727ebc87e19ab9955dd98a19b0a82447c094ed69ed5",
+    "after-results.json": "4423b49aac6071fc18da59f3e2e19994fc3daf46a4dc53d4398e53066eeb6d5a",
+    "after-trap.log": "37372f6714ce0d2c8b5bcb0d17fa4c3820305952cbc6a283f523bc71e6d40139",
+    "before-healthy.log": "b3d3d9854b9d6c9675db3dcb763b590ab0995fb0a45c6b7acfdc74ad54a68cd8",
+    "before-monster.log": "80b0e8c177d804993a88465a143603eb285cbc43be527b6861af4a94e8824319",
+    "before-results.json": "d89d51fa45659a1af6673db477fe7f4afd18f1cf501222e25283389c42909309",
+    "before-trap.log": "d47cfaee3ee3ce6627c53de11a4f5d9716dfe7897bae180bae33da07c50a83c8",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "c5d07f96736b68b71d6f8fc497d93809c7b01c8b8d1d12060ce57d4a0038a317",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "c4a255aa91806e30bd0f59c4a5e8ee94616908709e5254ca2c1ecff36f4062c4",
+    "replay.html": "33aa4cea17894f10f7ba2e52afa10fa77f3be209adffa006d462a902ae04a36a",
+    "reproduce.py": "46f153e35aaa58d3327ad265c84996e2ce4a01a01856cd7ac1077fd78024b5bb",
+    "result.json": "5a2dcb22896a923bf6841170e69fd637d06ac20a56ea49bf6c96cc38de20dc1d",
+    "run-after-alltests.log": "1ddd2c377b2cd311bc78896117768927ba374414d363c04995128c27f9463c02",
+    "run-after-build.log": "9b5c9e8d7b714802bdf2e3533967ffc28657f545ee3d4513ef73cc9acc1fcd55",
+    "run-after-scenarios.log": "4c5bf535c68766a4ac188bc77bbdf14447dcd3b74e398da6f7496bfbdca63a3b",
+    "run-before-alltests.log": "93c3bd8ad8d0686ee87f195ada6f655c615e6fb2819ed4b986fe062402db756b",
+    "run-before-build.log": "02da8d4b1b78416619afdec330c5bcc7eda510595c962545e9dd43804de0b98c",
+    "run-before-scenarios.log": "86d1bae40cf6f2778865d9cc1122b144a0e7d69896d195d64db65c43984244a1",
+    "run-cases.py": "bc301a7f88152d5086822f814c24e99181d8fc3425e8b5f106f71becfe121c68",
+    "run-configure.log": "4f5b3d2f707deb4dfb9f5c89df20c8d34b854e080490da9f1b28fb806335f058",
+    "scenario.c": "953521ff58a01eb022cbe11e22738c034b85187b89721f32ad17faf6e727460a"
+  }
+}
