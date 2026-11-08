@@ -1,0 +1,145 @@
+{
+  "issue": "diegoami/neo-angband-tracker#153",
+  "report": "deskstair-153",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "62768100602b693ed5845f0e5749830563d7e3b3",
+  "fix_branch": "task/deskstair-153",
+  "fixtures_ref": "366fd1b08c4d0c3815bbb90be2457c372e757ff4",
+  "cases": {
+    "twostairs": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 20,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 1
+        },
+        "outcome": {
+          "desperate_stairs": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "desperate_stairs": 1
+        }
+      }
+    },
+    "twodown": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 20,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 1
+        },
+        "outcome": {
+          "desperate_stairs": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "desperate_stairs": 1
+        }
+      }
+    },
+    "onestair": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "desperate_stairs": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "desperate_stairs": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "onestair"
+  ],
+  "claim": "The desperation stair scans in borg_caution() keep the farthest free staircase ('skip the closer ones'), so a second, distant staircase hides one two steps away. A badly hurt level-5 Warrior beside a cave bear with an up (or down) staircase two steps away reads Word of Recall instead of dashing for it. Keeping the nearest staircase restores the dash; the single-staircase control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-caution.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "5a8c2cc746efb84e5a8c8fb64ada5d12b4eb068abd4fef880477199d763a8569"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "d7e00db659d211efca06a2ab015eb9a3bcdc009e50b33ab8ab08c1ff191938dd",
+    "after-onestair.log": "67e9eef6e2c2e2da8bb656a629c8a95c0feb25b938212ff577e875db5751e4aa",
+    "after-results.json": "3b3a961b98cd217a29701581da722e598d5e64adcbc745d71c1adbb03c6aa9c9",
+    "after-twodown.log": "a1bea6ad35fb6e78b54cc80e7ade07f8c3a8ce92312cbe90416660f78ea6f2aa",
+    "after-twostairs.log": "4c368100fdcc4f924bf2c95d2cc7a4608cef9e9b8c10c31b6980b85fe0489e97",
+    "before-onestair.log": "67e9eef6e2c2e2da8bb656a629c8a95c0feb25b938212ff577e875db5751e4aa",
+    "before-results.json": "4f51cdc5785a6864f3b18bef25a1a517b6b0945741010734763b087eda79dfa0",
+    "before-twodown.log": "538eaec84169037a39cea6d5c705ebec46daa6bb6ef49ab39662aadc02b6edf6",
+    "before-twostairs.log": "04a2f30e7605269c42c876c7d9a8f1cdbedd39ec18cf066b548affbd091bfaf3",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "077a5735f167c62d02413d7d75c04f4046c79df45e577a67b12acccb1ed9b366",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "ef267e4e963b53451fdf681a15bbc28570c7a90e19c32f1be8507e1938a4d11c",
+    "replay.html": "0d7f159e5741424a58cc805f5ff797ba14a2e59b6e70e556fea6cf6799f8d7ba",
+    "reproduce.py": "c9c32a93fc038ceaf5df234fdd2311aa0b58083e61113a1d30cd3d428bd51a6b",
+    "result.json": "a51c1ed356a8a2e77684ecba4dc4c0dd173f207704fbb2f86923b508b6efb4e5",
+    "run-after-alltests.log": "4c9af0467cc55f2ee8c46b2d2787815c725043b08898660bbb11a858d74dabc6",
+    "run-after-build.log": "86c080098c2f62fffbd1e5b08773816986c357d6facfd0a5b18368a4e8a9884d",
+    "run-after-scenarios.log": "c63bcf7d9e777cd5118ad8f3600d48cbb806bff313b7e1c384ec61aba8eaeaee",
+    "run-before-alltests.log": "369fc16a8eaed5948d3a335e6a855589444d17c4723dd73da8288df1a492fe3b",
+    "run-before-build.log": "f4d5115376096f1e1d70aea855a0af62eb942b87526705d61edf1ff599ba75cd",
+    "run-before-scenarios.log": "727ec371e53916fe49ac0c1a91c91cd956673b21c865e0a86a8db9399244e277",
+    "run-cases.py": "5a639ea177e87792ab098d94c55fd5f3f1c5b79479c4bbf5c06d9e9e4aca8146",
+    "run-configure.log": "6ca7f42d68fde271ce3de648561855e0e081bfecef067382c8007cc3e01377d7",
+    "scenario.c": "b5cc35143d7b211413ce6bc37e24a5ea0135bcdaf2a7a363324a82152d67037c"
+  }
+}
