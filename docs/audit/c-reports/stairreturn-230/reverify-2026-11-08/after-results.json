@@ -1,0 +1,56 @@
+{
+  "stairs-dead-torch": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+      "torchtimeout": 0,
+      "onstairs": 1
+    },
+    "decision": {
+      "acted": 1,
+      "keys": 1
+    },
+    "outcome": {
+      "acted": 1,
+      "keys": 1,
+      "stairkey": 1
+    },
+    "sequence": "<"
+  },
+  "lit": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+      "torchtimeout": 2000,
+      "onstairs": 0
+    },
+    "decision": {
+      "acted": 0,
+      "keys": 0
+    },
+    "outcome": {
+      "acted": 0,
+      "keys": 0,
+      "stairkey": 0
+    },
+    "sequence": ""
+  },
+  "dead-no-stairs": {
+    "exit": 0,
+    "passed": true,
+    "setup": {
+      "torchtimeout": 0,
+      "onstairs": 0
+    },
+    "decision": {
+      "acted": 0,
+      "keys": 0
+    },
+    "outcome": {
+      "acted": 0,
+      "keys": 0,
+      "stairkey": 0
+    },
+    "sequence": ""
+  }
+}

@@ -1,0 +1,15 @@
+native-c/stairreturn-230: starting...
+SETUPSTEP profile
+SETUP torchtimeout-after-set=0
+SETUP light=0 torchtimeout=0 onstairs=1
+SETUP pack slot=0 tval=28 desc=Ration of Food
+SETUP pack slot=1 tval=26 desc=Potion of Berserk Strength
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20
+  stair_command_reports_done  MODE stairs-dead-torch
+DECISION acted=0 keys=1 sequence=<
+OUTCOME acted=0 keys=1 stairkey=1
+Failed
+    native-c/stairreturn-230:155: requirement 'acted ? 1 : 0' == '1' failed
+      acted ? 1 : 0:                0
+      1:                1
+native-c/stairreturn-230 finished: 0/1 passed

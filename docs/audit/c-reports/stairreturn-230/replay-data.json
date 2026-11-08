@@ -1,0 +1,122 @@
+{
+  "stairs-dead-torch": {
+    "label": "Out of light on a staircase",
+    "explanation": "A Warrior with a burned-out torch stands on a down staircase at depth 30. The out-of-light routine queues the stair key (<) but falls through and reports \"nothing done\", so the think loop keeps queueing commands behind it \u2014 commands that would land on the new level after the stairs were taken. The corrected routine returns true.",
+    "before": {
+      "raw": "native-c/stairreturn-230: starting...\nSETUPSTEP profile\nSETUP torchtimeout-after-set=0\nSETUP light=0 torchtimeout=0 onstairs=1\nSETUP pack slot=0 tval=28 desc=Ration of Food\nSETUP pack slot=1 tval=26 desc=Potion of Berserk Strength\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  stair_command_reports_done  MODE stairs-dead-torch\nDECISION acted=0 keys=1 sequence=<\nOUTCOME acted=0 keys=1 stairkey=1\nFailed\n    native-c/stairreturn-230:155: requirement 'acted ? 1 : 0' == '1' failed\n      acted ? 1 : 0:                0\n      1:                1\nnative-c/stairreturn-230 finished: 0/1 passed\n",
+      "passed": false,
+      "setup": {
+        "torchtimeout": 0,
+        "onstairs": 1
+      },
+      "decision": {
+        "acted": 0,
+        "keys": 1
+      },
+      "outcome": {
+        "acted": 0,
+        "keys": 1,
+        "stairkey": 1
+      },
+      "sequence": "<"
+    },
+    "after": {
+      "raw": "native-c/stairreturn-230: starting...\nSETUPSTEP profile\nSETUP torchtimeout-after-set=0\nSETUP light=0 torchtimeout=0 onstairs=1\nSETUP pack slot=0 tval=28 desc=Ration of Food\nSETUP pack slot=1 tval=26 desc=Potion of Berserk Strength\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  stair_command_reports_done  MODE stairs-dead-torch\nDECISION acted=1 keys=1 sequence=<\nOUTCOME acted=1 keys=1 stairkey=1\nPassed\nnative-c/stairreturn-230 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "torchtimeout": 0,
+        "onstairs": 1
+      },
+      "decision": {
+        "acted": 1,
+        "keys": 1
+      },
+      "outcome": {
+        "acted": 1,
+        "keys": 1,
+        "stairkey": 1
+      },
+      "sequence": "<"
+    }
+  },
+  "lit": {
+    "label": "Control: plenty of torch fuel",
+    "explanation": "With 2000 turns of torch both versions leave the routine alone. The complete logs are byte-identical.",
+    "before": {
+      "raw": "native-c/stairreturn-230: starting...\nSETUPSTEP profile\nSETUP torchtimeout-after-set=2000\nSETUP light=2 torchtimeout=2000 onstairs=0\nSETUP pack slot=0 tval=28 desc=Ration of Food\nSETUP pack slot=1 tval=26 desc=Potion of Berserk Strength\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  stair_command_reports_done  MODE lit\nDECISION acted=0 keys=0 sequence=\nOUTCOME acted=0 keys=0 stairkey=0\nPassed\nnative-c/stairreturn-230 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "torchtimeout": 2000,
+        "onstairs": 0
+      },
+      "decision": {
+        "acted": 0,
+        "keys": 0
+      },
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "stairkey": 0
+      },
+      "sequence": ""
+    },
+    "after": {
+      "raw": "native-c/stairreturn-230: starting...\nSETUPSTEP profile\nSETUP torchtimeout-after-set=2000\nSETUP light=2 torchtimeout=2000 onstairs=0\nSETUP pack slot=0 tval=28 desc=Ration of Food\nSETUP pack slot=1 tval=26 desc=Potion of Berserk Strength\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  stair_command_reports_done  MODE lit\nDECISION acted=0 keys=0 sequence=\nOUTCOME acted=0 keys=0 stairkey=0\nPassed\nnative-c/stairreturn-230 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "torchtimeout": 2000,
+        "onstairs": 0
+      },
+      "decision": {
+        "acted": 0,
+        "keys": 0
+      },
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "stairkey": 0
+      },
+      "sequence": ""
+    }
+  },
+  "dead-no-stairs": {
+    "label": "Control: out of light, no staircase",
+    "explanation": "With a dead torch and no staircase underfoot both versions find nothing to do. The complete logs are byte-identical.",
+    "before": {
+      "raw": "native-c/stairreturn-230: starting...\nSETUPSTEP profile\nSETUP torchtimeout-after-set=0\nSETUP light=0 torchtimeout=0 onstairs=0\nSETUP pack slot=0 tval=28 desc=Ration of Food\nSETUP pack slot=1 tval=26 desc=Potion of Berserk Strength\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  stair_command_reports_done  MODE dead-no-stairs\nDECISION acted=0 keys=0 sequence=\nOUTCOME acted=0 keys=0 stairkey=0\nPassed\nnative-c/stairreturn-230 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "torchtimeout": 0,
+        "onstairs": 0
+      },
+      "decision": {
+        "acted": 0,
+        "keys": 0
+      },
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "stairkey": 0
+      },
+      "sequence": ""
+    },
+    "after": {
+      "raw": "native-c/stairreturn-230: starting...\nSETUPSTEP profile\nSETUP torchtimeout-after-set=0\nSETUP light=0 torchtimeout=0 onstairs=0\nSETUP pack slot=0 tval=28 desc=Ration of Food\nSETUP pack slot=1 tval=26 desc=Potion of Berserk Strength\nSETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20\n  stair_command_reports_done  MODE dead-no-stairs\nDECISION acted=0 keys=0 sequence=\nOUTCOME acted=0 keys=0 stairkey=0\nPassed\nnative-c/stairreturn-230 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "torchtimeout": 0,
+        "onstairs": 0
+      },
+      "decision": {
+        "acted": 0,
+        "keys": 0
+      },
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "stairkey": 0
+      },
+      "sequence": ""
+    }
+  }
+}

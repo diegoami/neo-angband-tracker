@@ -1,0 +1,134 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "db0d342ecf9fae2e129740d50d3bb42498f7ac0e",
+  "fixtures_ref": "484c534d59c47a4a84273b7651b0c483cf8b5b67",
+  "cases": {
+    "before": {
+      "stairs-dead-torch": {
+        "exit": 0,
+        "passed": false,
+        "setup": {
+          "torchtimeout": 0,
+          "onstairs": 1
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 1
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 1,
+          "stairkey": 1
+        },
+        "sequence": "<"
+      },
+      "lit": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 2000,
+          "onstairs": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "stairkey": 0
+        },
+        "sequence": ""
+      },
+      "dead-no-stairs": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 0,
+          "onstairs": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "stairkey": 0
+        },
+        "sequence": ""
+      }
+    },
+    "after": {
+      "stairs-dead-torch": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 0,
+          "onstairs": 1
+        },
+        "decision": {
+          "acted": 1,
+          "keys": 1
+        },
+        "outcome": {
+          "acted": 1,
+          "keys": 1,
+          "stairkey": 1
+        },
+        "sequence": "<"
+      },
+      "lit": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 2000,
+          "onstairs": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "stairkey": 0
+        },
+        "sequence": ""
+      },
+      "dead-no-stairs": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "torchtimeout": 0,
+          "onstairs": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "stairkey": 0
+        },
+        "sequence": ""
+      }
+    }
+  },
+  "identical_full_logs": [
+    "lit",
+    "dead-no-stairs"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": "520b2dc886922ad90cf2d26e3b420c812393121282f48ef7f1732db29c286394"
+}
