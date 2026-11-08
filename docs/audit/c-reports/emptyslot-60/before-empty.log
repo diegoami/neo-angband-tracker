@@ -1,0 +1,14 @@
+native-c/emptyslot-60: starting...
+BIRTH start_kit=0 pack_items=1 gold=591
+GEAR worn [Wooden Torch (5000 turns)]
+GEAR pack [Ration of Food]
+ATE pack_items=0
+STORE0 [General Store]
+SETUP seed=60 mode=empty class=Warrior clevel=1 gold=591 food_items=0 light=2
+  starving_borg_buys_food_with_room_in_pack  SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]
+TRACK pack_used=0 first_empty_slot=-1 inventory_full=1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 what=[(nothing)]
+OUTCOME buys_food=0
+Failed
+    native-c/emptyslot-60:195: requirement 'buys_food' failed
+native-c/emptyslot-60 finished: 0/1 passed

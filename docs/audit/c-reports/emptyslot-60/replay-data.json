@@ -1,0 +1,60 @@
+{
+  "empty": {
+    "label": "Empty pack, starving, rations on sale",
+    "explanation": "Original: the first-empty-slot helper returns -1 for the empty pack, so the immediate food purchase and the home check both give up and borg_choose_shop() returns false with no goal. Corrected: the helper returns slot 0 and the Borg chooses the General Store, ware 0 (Rations of Food).",
+    "control": false,
+    "before": {
+      "raw": "native-c/emptyslot-60: starting...\nBIRTH start_kit=0 pack_items=1 gold=591\nGEAR worn [Wooden Torch (5000 turns)]\nGEAR pack [Ration of Food]\nATE pack_items=0\nSTORE0 [General Store]\nSETUP seed=60 mode=empty class=Warrior clevel=1 gold=591 food_items=0 light=2\n  starving_borg_buys_food_with_room_in_pack  SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]\nTRACK pack_used=0 first_empty_slot=-1 inventory_full=1\nDECISION chose_shop=0 goal_shop=-1 goal_ware=-1 what=[(nothing)]\nOUTCOME buys_food=0\nFailed\n    native-c/emptyslot-60:195: requirement 'buys_food' failed\nnative-c/emptyslot-60 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "buys_food": 0
+      },
+      "notes": [
+        "TRACK pack_used=0 first_empty_slot=-1 inventory_full=1",
+        "DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 what=[(nothing)]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/emptyslot-60: starting...\nBIRTH start_kit=0 pack_items=1 gold=591\nGEAR worn [Wooden Torch (5000 turns)]\nGEAR pack [Ration of Food]\nATE pack_items=0\nSTORE0 [General Store]\nSETUP seed=60 mode=empty class=Warrior clevel=1 gold=591 food_items=0 light=2\n  starving_borg_buys_food_with_room_in_pack  SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]\nTRACK pack_used=0 first_empty_slot=0 inventory_full=0\nDECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]\nOUTCOME buys_food=1\nPassed\nnative-c/emptyslot-60 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_food": 1
+      },
+      "notes": [
+        "TRACK pack_used=0 first_empty_slot=0 inventory_full=0",
+        "DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]"
+      ],
+      "value": 1
+    }
+  },
+  "oil": {
+    "label": "Control: one Flask of Oil in the pack",
+    "explanation": "With one used slot both versions return slot 1 as the first empty slot and choose to buy the rations; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/emptyslot-60: starting...\nBIRTH start_kit=0 pack_items=1 gold=591\nGEAR worn [Wooden Torch (5000 turns)]\nGEAR pack [Ration of Food]\nATE pack_items=0\nSTORE0 [General Store]\nSETUP seed=60 mode=oil class=Warrior clevel=1 gold=591 food_items=0 light=2\n  starving_borg_buys_food_with_room_in_pack  PACK 0 qty=1 desc=[Flask of oil]\nSHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]\nTRACK pack_used=1 first_empty_slot=1 inventory_full=0\nDECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]\nOUTCOME buys_food=1\nPassed\nnative-c/emptyslot-60 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_food": 1
+      },
+      "notes": [
+        "TRACK pack_used=1 first_empty_slot=1 inventory_full=0",
+        "DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/emptyslot-60: starting...\nBIRTH start_kit=0 pack_items=1 gold=591\nGEAR worn [Wooden Torch (5000 turns)]\nGEAR pack [Ration of Food]\nATE pack_items=0\nSTORE0 [General Store]\nSETUP seed=60 mode=oil class=Warrior clevel=1 gold=591 food_items=0 light=2\n  starving_borg_buys_food_with_room_in_pack  PACK 0 qty=1 desc=[Flask of oil]\nSHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]\nTRACK pack_used=1 first_empty_slot=1 inventory_full=0\nDECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]\nOUTCOME buys_food=1\nPassed\nnative-c/emptyslot-60 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_food": 1
+      },
+      "notes": [
+        "TRACK pack_used=1 first_empty_slot=1 inventory_full=0",
+        "DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]"
+      ],
+      "value": 1
+    }
+  }
+}

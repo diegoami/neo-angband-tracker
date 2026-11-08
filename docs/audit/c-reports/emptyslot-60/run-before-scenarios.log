@@ -1,0 +1,2 @@
+empty {'exit': 0, 'passed': False, 'outcome': {'buys_food': 0}}
+oil {'exit': 0, 'passed': True, 'outcome': {'buys_food': 1}}

@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A Borg with an empty pack thought its pack was full and would not buy food</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A Borg with an empty pack thought its pack was full and would not buy food</h1><p>Before buying anything, or taking anything out of its home, the Borg asks for the first empty slot in its pack. That helper looked for the last used slot and returned the one after it; when the pack held nothing at all it found no used slot and answered &#x27;no room&#x27;. A level-1 Warrior started without the starting kit, ate its only ration and stood in town starving with 591 gold and five Rations of Food in the General Store; the Borg&#x27;s shop choice found &#x27;no room&#x27; and chose no shop at all. The correction returns slot 0 for an empty pack; the Borg then sets out to buy the rations.</p><p><label>Scenario: <select id="scenario"><option value="empty">Empty pack, starving, rations on sale</option><option value="oil">Control: one Flask of Oil in the pack</option></select></label></p><section class="scenario" data-mode="empty"><p class="summary">Original: the first-empty-slot helper returns -1 for the empty pack, so the immediate food purchase and the home check both give up and borg_choose_shop() returns false with no goal. Corrected: the helper returns slot 0 and the Borg chooses the General Store, ware 0 (Rations of Food).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sets out to buy food (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK pack_used=0 first_empty_slot=-1 inventory_full=1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 what=[(nothing)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to buy food (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK pack_used=0 first_empty_slot=0 inventory_full=0
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/emptyslot-60: starting...
+BIRTH start_kit=0 pack_items=1 gold=591
+GEAR worn [Wooden Torch (5000 turns)]
+GEAR pack [Ration of Food]
+ATE pack_items=0
+STORE0 [General Store]
+SETUP seed=60 mode=empty class=Warrior clevel=1 gold=591 food_items=0 light=2
+  starving_borg_buys_food_with_room_in_pack  SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]
+TRACK pack_used=0 first_empty_slot=-1 inventory_full=1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 what=[(nothing)]
+OUTCOME buys_food=0
+Failed
+    native-c/emptyslot-60:195: requirement &#x27;buys_food&#x27; failed
+native-c/emptyslot-60 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/emptyslot-60: starting...
+BIRTH start_kit=0 pack_items=1 gold=591
+GEAR worn [Wooden Torch (5000 turns)]
+GEAR pack [Ration of Food]
+ATE pack_items=0
+STORE0 [General Store]
+SETUP seed=60 mode=empty class=Warrior clevel=1 gold=591 food_items=0 light=2
+  starving_borg_buys_food_with_room_in_pack  SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]
+TRACK pack_used=0 first_empty_slot=0 inventory_full=0
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]
+OUTCOME buys_food=1
+Passed
+native-c/emptyslot-60 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="oil"><p class="summary">With one used slot both versions return slot 1 as the first empty slot and choose to buy the rations; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>sets out to buy food (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK pack_used=1 first_empty_slot=1 inventory_full=0
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to buy food (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK pack_used=1 first_empty_slot=1 inventory_full=0
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/emptyslot-60: starting...
+BIRTH start_kit=0 pack_items=1 gold=591
+GEAR worn [Wooden Torch (5000 turns)]
+GEAR pack [Ration of Food]
+ATE pack_items=0
+STORE0 [General Store]
+SETUP seed=60 mode=oil class=Warrior clevel=1 gold=591 food_items=0 light=2
+  starving_borg_buys_food_with_room_in_pack  PACK 0 qty=1 desc=[Flask of oil]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]
+TRACK pack_used=1 first_empty_slot=1 inventory_full=0
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]
+OUTCOME buys_food=1
+Passed
+native-c/emptyslot-60 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/emptyslot-60: starting...
+BIRTH start_kit=0 pack_items=1 gold=591
+GEAR worn [Wooden Torch (5000 turns)]
+GEAR pack [Ration of Food]
+ATE pack_items=0
+STORE0 [General Store]
+SETUP seed=60 mode=oil class=Warrior clevel=1 gold=591 food_items=0 light=2
+  starving_borg_buys_food_with_room_in_pack  PACK 0 qty=1 desc=[Flask of oil]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]
+TRACK pack_used=1 first_empty_slot=1 inventory_full=0
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 what=[Rations of Food]
+OUTCOME buys_food=1
+Passed
+native-c/emptyslot-60 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 60, character level 1, birth option &#x27;Start with a kit of useful gear&#x27; off, so the game gives one Ration of Food (pack) and one Wooden Torch (wielded) and 591 gold. The ration is eaten with the real eat command (the fixture first sets the food counter to Weak so the command is accepted). In town (depth 0). Every store is emptied, then the General Store is given five Rations of Food (fixture stock). &#x27;empty&#x27;: nothing else, so the pack is empty. &#x27;oil&#x27;: the fixture puts one Flask of Oil in the pack, so exactly one slot is used. The Borg&#x27;s items and stores are loaded with the production borg_find_all_items(); then the production borg_choose_shop() (the town decision that buys food immediately when the Borg has none) runs once and its goal is read back. This isolates the shop choice; it does not walk to the store or carry out the purchase.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/60">issue 60</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

@@ -1,0 +1,93 @@
+{
+  "issue": "diegoami/neo-angband-tracker#60",
+  "report": "emptyslot-60",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "adcb53459ca9fabaa0c457231cd56dbd8b789698",
+  "fix_branch": "task/emptyslot-60",
+  "fixtures_ref": "e550240591a3ba6c99ecf09ba8268667971ba52d",
+  "cases": {
+    "empty": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "buys_food": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "buys_food": 1
+        }
+      }
+    },
+    "oil": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "buys_food": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "buys_food": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "oil"
+  ],
+  "claim": "borg_first_empty_inventory_slot() returned -1 ('no room') for an empty pack. A starving level-1 Warrior with an empty pack, 591 gold and rations on sale chose no shop; with the correction it chooses the General Store rations. With one item in the pack both versions return slot 1 and buy the rations, byte-identically.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-inventory.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-inventory.c": "07a6c945e3efa0013f171a03514600d4523ff1c58d5703d27b99774f9c5cc096"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "110d53739cacc6b2c6eab06a9781615b5aacfe71775d9b3a3edca053b8f47094",
+    "after-empty.log": "31fd572447a7722eaa72e27156747f7b7b1105fe66f3ef45d5083f9770b3c865",
+    "after-oil.log": "4ac90be35f47c090b878934bb4ba72e086bd758af9088e5964bc725d0902b301",
+    "after-results.json": "3a683f910b8ec29272cd2b61e7edd32574fbf45850d277d55069ec2f1ff02005",
+    "before-empty.log": "e5de0aae6312f167ca1bf393f0e80503d8025a07756fc1b8d359928d2ca75f6f",
+    "before-oil.log": "4ac90be35f47c090b878934bb4ba72e086bd758af9088e5964bc725d0902b301",
+    "before-results.json": "c72561335640fb2fdc7f02c92a1818cc44cc9a841b1e0495c160140eba276c25",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "8bc1149b4fef9a8ffa0d9fc608823c584e88e8939d8888387c6913c909707bd6",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "469cdb576b5fa5d85945902eaae5ac6d8a979c06816962a03022e10a09e9cc18",
+    "replay.html": "db9e60eb2591d1e1f1f743244b3eb4aca4a2fb8df52884c87d14d047589b0973",
+    "reproduce.py": "cee4e45972c898468aaa318f49b3544265654755e997deaae954f3a14b3c4e15",
+    "result.json": "284004c183f4089b21d9d10c6c6888d1eef6182b7d49824ee8fb0d1368a2909f",
+    "run-after-alltests.log": "6c661515605fbe4e1cde10ed67f3ca7bd34d1be3069d95bf85f8754c7bbedcbf",
+    "run-after-build.log": "9d0ebb789763dfee9b98c09784e4e382178f35a5fbae41279aeecd4ed4385b6e",
+    "run-after-scenarios.log": "cccb66d0551ef46bdde9a61a62691240d07e1ba1edbdcf4a834b018894158a54",
+    "run-before-alltests.log": "8ec31c2917ddd578b01afc327665829df73cc4ce2f8df8177264bf4efe07151a",
+    "run-before-build.log": "7d4eba8401df56c5f315d8efbc4b2f55fd4183c82687955b08e915a62113dc2f",
+    "run-before-scenarios.log": "d68f337c71c1977e39abe940722483939a4af11c4d185046207a706cc0617457",
+    "run-cases.py": "7e310c68ddf5594ed2c7bbcac2b469accd06279d9a83f696e6062e83c98bd15d",
+    "run-configure.log": "ba21b8c5ebea943d932e698bfc04b05ce5bc3aadc0e7ee45cc7ff664bc917c64",
+    "scenario.c": "f9e77a6a216870e5ae83618b5d05cdd52c1c3a9708066ec568e57c22d57418c3"
+  }
+}
