@@ -1,0 +1,71 @@
+{
+  "empty": {
+    "label": "Full spare lantern in front of an empty one",
+    "explanation": "A Warrior wields a Lantern with 500 turns of fuel, has no flask of oil, and carries two spare Lanterns: one with 5000 turns, then one with 0. Original: the scan starts at the last lantern (empty), finds nothing to use and the Borg does not refuel (unmet need). Corrected: the scan starts at the full lantern and the Borg refuels with it.",
+    "control": false,
+    "before": {
+      "raw": "native-c/lantern-90: starting...\nSETUP seed=90 mode=empty class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5\n  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000\nPACK 5 desc=[Lantern (5000 turns)] timeout=5000\nPACK 6 desc=[Lantern (0 turns)] timeout=0\nSTATE wielded=[Lantern (500 turns)] fuel=500\nDECISION need=2 keys=0,0\nOUTCOME refuels=0\nFailed\n    native-c/lantern-90:163: requirement 'need == BORG_MET_NEED' failed\nnative-c/lantern-90 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "fuel": 500
+      },
+      "outcome": {
+        "refuels": 0
+      },
+      "notes": [
+        "DECISION need=2 keys=0,0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/lantern-90: starting...\nSETUP seed=90 mode=empty class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5\n  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000\nPACK 5 desc=[Lantern (5000 turns)] timeout=5000\nPACK 6 desc=[Lantern (0 turns)] timeout=0\nSTATE wielded=[Lantern (500 turns)] fuel=500\nDECISION need=1 keys=70,102\nTRACK # Refueling with Lantern (5000 turns).\nOUTCOME refuels=1\nPassed\nnative-c/lantern-90 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "fuel": 500
+      },
+      "outcome": {
+        "refuels": 1
+      },
+      "notes": [
+        "DECISION need=1 keys=70,102",
+        "TRACK # Refueling with Lantern (5000 turns)."
+      ],
+      "value": 1
+    }
+  },
+  "single": {
+    "label": "Control: one full spare lantern",
+    "explanation": "The same Warrior with only the full spare Lantern. The first and the last lantern are the same, so the Borg refuels from it before and after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lantern-90: starting...\nSETUP seed=90 mode=single class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5\n  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000\nPACK 5 desc=[Lantern (5000 turns)] timeout=5000\nSTATE wielded=[Lantern (500 turns)] fuel=500\nDECISION need=1 keys=70,102\nTRACK # Refueling with Lantern (5000 turns).\nOUTCOME refuels=1\nPassed\nnative-c/lantern-90 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "fuel": 500
+      },
+      "outcome": {
+        "refuels": 1
+      },
+      "notes": [
+        "DECISION need=1 keys=70,102",
+        "TRACK # Refueling with Lantern (5000 turns)."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lantern-90: starting...\nSETUP seed=90 mode=single class=Warrior clevel=12 hp=161/161 sp=0/0 food=8999 depth=5\n  refuel_from_a_spare_lantern  PACK 4 desc=[Wooden Torch (5000 turns)] timeout=5000\nPACK 5 desc=[Lantern (5000 turns)] timeout=5000\nSTATE wielded=[Lantern (500 turns)] fuel=500\nDECISION need=1 keys=70,102\nTRACK # Refueling with Lantern (5000 turns).\nOUTCOME refuels=1\nPassed\nnative-c/lantern-90 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "fuel": 500
+      },
+      "outcome": {
+        "refuels": 1
+      },
+      "notes": [
+        "DECISION need=1 keys=70,102",
+        "TRACK # Refueling with Lantern (5000 turns)."
+      ],
+      "value": 1
+    }
+  }
+}

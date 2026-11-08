@@ -1,0 +1,105 @@
+{
+  "issue": "diegoami/neo-angband-tracker#90",
+  "report": "lantern-90",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "bd4698a850e9fb926d74c9a26be298716a33e5ba",
+  "fix_branch": "task/lantern-90",
+  "fixtures_ref": "505180c1268aa95a36818078b0633175b29e11c9",
+  "cases": {
+    "empty": {
+      "before": {
+        "passed": false,
+        "state": {
+          "fuel": 500
+        },
+        "outcome": {
+          "refuels": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "fuel": 500
+        },
+        "outcome": {
+          "refuels": 1
+        }
+      }
+    },
+    "single": {
+      "before": {
+        "passed": true,
+        "state": {
+          "fuel": 500
+        },
+        "outcome": {
+          "refuels": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "fuel": 500
+        },
+        "outcome": {
+          "refuels": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "single"
+  ],
+  "claim": "With a full spare lantern in front of an empty one, the original Borg did not refuel (the scan began at the empty one and stopped); with the scan starting at the first lantern it refuels from the full one. The single-spare control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-light.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-light.c": "ec1b2faaa5a0130990843f347a695fc7ec4bd395fb0dec52cd591596aaa3e282"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "db24446dbee706a7ae60074ed30da3b4373c59d728b60555cda8aab7b5fe7163",
+    "after-empty.log": "88e5ac68723d6292c1b0a84ef84bbe8327114709e35628ccb9c0bd29aa142904",
+    "after-results.json": "e1a0ac872da8922220ce5a75f63d3925ee6cdd7104427a4c1e2d8edc2bf6af6c",
+    "after-single.log": "a215c69662550b0e7d931271189cbc1125b059a15baa506c829a2de0315151a9",
+    "before-empty.log": "c394d1a6eb54b65daf2fabd1faae76c1a9e05c9641d3a20d85d4716664e88617",
+    "before-results.json": "1b44af4296989d9b821f7a16ca2cad01c1d76d1355ada04a25b4a9549f54e15c",
+    "before-single.log": "a215c69662550b0e7d931271189cbc1125b059a15baa506c829a2de0315151a9",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "4027eb7adaf007947670bbb74ce64a6924bf5fccfff5bb4b1f435244d4fc65c5",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "3e1c4fe31e8c65faaa6389ab684e928389bfdc2459fddad4258b8876247fb191",
+    "replay.html": "c497e619460c6df8424a413465a65892b228f833e8880af3ba3e886b38a50862",
+    "reproduce.py": "5e9f1806fb14ad7bbc5db04a2a6004921ebee854b0ee3ebea0463c849c03551e",
+    "result.json": "7958268b3bd152862ec03839072d9725573fdde189fcebd3dd1388860bf458d7",
+    "run-after-alltests.log": "b23f14c20243bd9076dedf50f6a1c20a7209fbed808eb10136a2c48f7d0877e3",
+    "run-after-build.log": "aaf157bf5a2f3b35395cfa97fee2a8624b072acbb8373c19ed2dee0c267be3b4",
+    "run-after-scenarios.log": "c98bc824098d7a4196cc24380df0cf34e0adcf7a00be64cfe987b8ca15b816b9",
+    "run-before-alltests.log": "d3252fec67aaac23e222640759030dc064d1c26fc340024595f85da65db90848",
+    "run-before-build.log": "b66e2ae42b74667577c8ac8834affa9470bb339e05c11c320f903b5c13b6e604",
+    "run-before-scenarios.log": "2390f5c2fd83f0ba453417fbd5b05400a8660a55e0578b654f1bb9df43b13249",
+    "run-cases.py": "b7db22485ba57c1de6c732de33615ed0617d1a62beec7372a1fac50f4f2bf5f0",
+    "run-configure.log": "241f6dd8215e9bae9a5ba35e11828f63727f220abcfa69d3b7c7e178569e0af1",
+    "scenario.c": "59f018e84df4cc2889aad404a95ad2839c75dd354b109beb8a0ea2a9acaab2dc"
+  }
+}
