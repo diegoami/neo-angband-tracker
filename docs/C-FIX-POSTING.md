@@ -168,6 +168,21 @@ head; append commits instead.
   `grep -c` that may legitimately print 0.
 - `reproduce.py` already takes `/tmp/angband-validation.lock` internally per
   command — don't wrap the runner itself in `flock`.
+- Trait derivation from injected gear is **not guaranteed**: values-based
+  resists (`values:RES_FIRE[1]`, e.g. Multi-Hued Dragon Scale Mail) never reach
+  the old-style flag derivation (`BI_SRFIRE`/`BI_SRCOLD`/`BI_SRACID`/`BI_SRELEC`/
+  `BI_SRPOIS` all stayed 0 with the DSM worn; blocked the prepreason-234 depth
+  boundary), and a worn plain "See Invisible" ring left `BI_SINV` 0 (blocked the
+  drainedive-235 preparedness). Probe `borg.trait[]` after `borg_notice(true)`
+  before designing an observable around an injected trait.
+- `BI_ISFIXEXP` is recomputed by every `borg_notice()`: true only when
+  `player->exp < player->max_exp` and clevel ≠ 50; at clevel 50 in the dungeon
+  it is forced false (borg-trait.c). Set the exp fields in the fixture and let
+  the derivation compute the trait — a direct assignment is overwritten.
+- Use the static preparedness path (`BORG_USES_DYNAMIC_CALCS = false`): the
+  shipped profile's dynamic formulas otherwise answer before the static
+  restock/aux checks with profile reasons ("ccw < 3"), masking the config the
+  fixture thinks it is testing.
 - When one LSan report shows several leaks, attribute them by allocation
   stack signature, not by size alone (e.g. three formula leaks split by
   `borg_array_add ← parse_calculation_line` vs `← adjust_order_ops_depth_block`
