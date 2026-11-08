@@ -76,3 +76,47 @@ encounter-frequency or player-death claim is made. The world-clock mechanics
 (level entry grants minimum move energy; the world tick is skipped during
 level generation) are upstream engine behaviour, quoted from the issue's
 native observations, not modified by this correction.
+
+
+## Re-verification with a control (2026-11-08)
+
+Why: the original run's phase logs (configure, builds, full gates) were not
+committed (the repository's `*.log` ignore rule dropped them), the receipt had
+no sha256 map, the replay render check was only planned, and the healthy control ran inside the same process as the ailing case, so its log carried that case's messages and could not be compared byte for byte.
+
+The healthy control now also runs on its own (`STAIR403_MODE=clean`): the same position and depth without poison or hallucination, in a fresh process. The runner asserts it passes in both versions with a byte-identical complete log. The `main` mode still runs both scenarios as before.
+
+**New fixtures pin `43dee40ed05284848f3df25aa5abf19a7f776c7f` supersedes `0bd2123be5b7f0830be26949549ea1a4b59e75df`** for
+every repeat command. It adds only the mode selection and the new case(s); the
+main case's code path is unchanged, and the run at the new pin reproduced the
+recorded main outcome exactly (the `Failed` line of the original's main log
+now cites a later source line, the only difference in that log). Fix
+`d92e06c3f964e4bba19642288ded1b331a327109`, base `e473720ed`.
+
+| Case | Original (base) | Corrected (fix) | Logs |
+| --- | --- | --- | --- |
+| `main`: poisoned + hallucinating (then the healthy case) | **stair_directed=1** (Power Climb), suite 1/2 | **stair_directed=0** (turn handed to recovery), suite 2/2 | `before-main.log`, `after-main.log` |
+| `clean` (control, run alone) | munchkin_handled=1, `<` key; 1/1 | munchkin_handled=1; 1/1 | **byte-identical** `before-clean.log` / `after-clean.log` |
+
+Full native gates on both variants: 965/965 unit checks and 5/5 frontend tests
+(parsed from `reverify-2026-11-08/before-alltests.log` and `after-alltests.log`,
+no failed lines). Toolchain: GNU 13.3.0, cmake version 3.28.3.
+Render check: `node tools/c-evidence/render-smoke.js` (Playwright headless) on
+the committed `replay.html`: `RENDER-SMOKE actions=0 errors=0 OK` (no console errors, no
+`undefined`/`NaN`); the page now has a section per extra case with both raw logs.
+
+The top-level `before-*.log`, `after-*.log`, results files, `replay.html` and
+`replay-data.json` are from this run. Configure, build, scenario-runner and
+full-gate logs and `result.json` are in [reverify-2026-11-08/](reverify-2026-11-08/)
+with their own [receipt](reverify-2026-11-08/receipt.json). The root
+`receipt.json` now records this run (the earlier pin and outcomes are kept
+under `superseded_run`) and a sha256 map of every file in this directory.
+
+Repeat, with both shas pinned:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/staircycle-403
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/staircycle-403-evidence
+git show 43dee40ed05284848f3df25aa5abf19a7f776c7f:docs/audit/c-reports/staircycle-403/reproduce.py > /tmp/reproduce-staircycle-403.py
+python3 /tmp/reproduce-staircycle-403.py --full-tests --fixtures-ref 43dee40ed05284848f3df25aa5abf19a7f776c7f --fix-ref d92e06c3f964e4bba19642288ded1b331a327109
+```

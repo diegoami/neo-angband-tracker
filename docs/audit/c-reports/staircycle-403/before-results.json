@@ -14,5 +14,20 @@
       "stair_directed": 1,
       "munchkin_handled": 1
     }
+  },
+  "clean": {
+    "exit": 0,
+    "passed": true,
+    "ailing_failed_as_expected": false,
+    "state": {
+      "poisoned": 0,
+      "hallucinating": 0,
+      "depth": 9,
+      "munchkin_mode": 1,
+      "rc": 1
+    },
+    "outcome": {
+      "munchkin_handled": 1
+    }
   }
 }

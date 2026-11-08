@@ -3,7 +3,7 @@
     "label": "Stair-travel gate under ailments",
     "explanation": "A munchkin-start Warrior at depth 9 stands on a known up stair while poisoned and hallucinating. Stair travel does not age the world clock (level entry grants minimum move energy; the world tick is skipped during level generation), so shuttling between stairs can never let these timed ailments wear off. The original munchkin branch directs the Borg at the stair (stair_directed=1); the corrected branch hands the turn back to the ordinary recovery path (stair_directed=0). A clean control confirms munchkin play is unchanged.",
     "before": {
-      "raw": "native-c/staircycle-403: starting...\nSETUP seed=1045 class=Warrior depth=9 hp=20\n  stair_travel_gated_when_ailing  STATE poisoned=1 hallucinating=1 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Ready...\nNOTE 04 Initializing the Borg... done.\nNOTE 05 Initializing the Borg... (various)\nNOTE 06 Initializing the Borg... (options)\nNOTE 07 Initializing the Borg... (borg.txt)\nNOTE 08 Initializing the Borg... (memory)\nNOTE 09  \nNOTE 10   \nNOTE 11 ====================\nNOTE 12   \nNOTE 13  \nOUTCOME stair_directed=1\nFailed\n    native-c/staircycle-403:177: requirement '!stair_directed' failed\n  munchkin_open_when_clean  STATE poisoned=0 hallucinating=0 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Flowing toward up-stairs at cost 0\nNOTE 04 # Munchkin Mode.  Power Climb. \nNOTE 05 # Fleeing level. Munchkin Mode\nNOTE 06 # Ready...\nNOTE 07 Initializing the Borg... done.\nNOTE 08 Initializing the Borg... (various)\nNOTE 09 Initializing the Borg... (options)\nNOTE 10 Initializing the Borg... (borg.txt)\nNOTE 11 Initializing the Borg... (memory)\nNOTE 12  \nNOTE 13   \nOUTCOME munchkin_handled=1\nPassed\nnative-c/staircycle-403 finished: 1/2 passed\n",
+      "raw": "native-c/staircycle-403: starting...\nSETUP seed=1045 class=Warrior depth=9 hp=20\n  stair_travel_gated_when_ailing  STATE poisoned=1 hallucinating=1 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Ready...\nNOTE 04 Initializing the Borg... done.\nNOTE 05 Initializing the Borg... (various)\nNOTE 06 Initializing the Borg... (options)\nNOTE 07 Initializing the Borg... (borg.txt)\nNOTE 08 Initializing the Borg... (memory)\nNOTE 09  \nNOTE 10   \nNOTE 11 ====================\nNOTE 12   \nNOTE 13  \nOUTCOME stair_directed=1\nFailed\n    native-c/staircycle-403:185: requirement '!stair_directed' failed\n  munchkin_open_when_clean  STATE poisoned=0 hallucinating=0 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Flowing toward up-stairs at cost 0\nNOTE 04 # Munchkin Mode.  Power Climb. \nNOTE 05 # Fleeing level. Munchkin Mode\nNOTE 06 # Ready...\nNOTE 07 Initializing the Borg... done.\nNOTE 08 Initializing the Borg... (various)\nNOTE 09 Initializing the Borg... (options)\nNOTE 10 Initializing the Borg... (borg.txt)\nNOTE 11 Initializing the Borg... (memory)\nNOTE 12  \nNOTE 13   \nOUTCOME munchkin_handled=1\nPassed\nnative-c/staircycle-403 finished: 1/2 passed\n",
       "passed": false,
       "state": {
         "poisoned": 0,
@@ -29,6 +29,38 @@
       },
       "outcome": {
         "stair_directed": 0,
+        "munchkin_handled": 1
+      }
+    }
+  },
+  "clean": {
+    "label": "Control: healthy munchkin Borg",
+    "explanation": "The same position and depth without poison or hallucination, run on its own. Munchkin mode keeps handling the turn and power-climbs; the correction does not change healthy munchkin play.",
+    "before": {
+      "raw": "native-c/staircycle-403: starting...\nSETUP seed=1045 class=Warrior depth=9 hp=20\n  munchkin_open_when_clean  STATE poisoned=0 hallucinating=0 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Ready...\nNOTE 04 Initializing the Borg... done.\nNOTE 05 Initializing the Borg... (various)\nNOTE 06 Initializing the Borg... (options)\nNOTE 07 Initializing the Borg... (borg.txt)\nNOTE 08 Initializing the Borg... (memory)\nNOTE 09  \nNOTE 10   \nNOTE 11 ====================\nNOTE 12   \nNOTE 13  \nOUTCOME munchkin_handled=1\nPassed\nnative-c/staircycle-403 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "poisoned": 0,
+        "hallucinating": 0,
+        "depth": 9,
+        "munchkin_mode": 1,
+        "rc": 1
+      },
+      "outcome": {
+        "munchkin_handled": 1
+      }
+    },
+    "after": {
+      "raw": "native-c/staircycle-403: starting...\nSETUP seed=1045 class=Warrior depth=9 hp=20\n  munchkin_open_when_clean  STATE poisoned=0 hallucinating=0 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Ready...\nNOTE 04 Initializing the Borg... done.\nNOTE 05 Initializing the Borg... (various)\nNOTE 06 Initializing the Borg... (options)\nNOTE 07 Initializing the Borg... (borg.txt)\nNOTE 08 Initializing the Borg... (memory)\nNOTE 09  \nNOTE 10   \nNOTE 11 ====================\nNOTE 12   \nNOTE 13  \nOUTCOME munchkin_handled=1\nPassed\nnative-c/staircycle-403 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "poisoned": 0,
+        "hallucinating": 0,
+        "depth": 9,
+        "munchkin_mode": 1,
+        "rc": 1
+      },
+      "outcome": {
         "munchkin_handled": 1
       }
     }
