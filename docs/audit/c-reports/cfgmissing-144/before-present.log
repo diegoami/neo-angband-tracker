@@ -1,0 +1,6 @@
+native-c/cfgmissing-144: starting...
+SETUP seed=144 mode=present borg_txt_dir=(profile)
+  borg_init_without_borg_txt  STATE init_failure=0 stop_dlevel=128
+OUTCOME init_completed=1 crashed=0
+Passed
+native-c/cfgmissing-144 finished: 1/1 passed

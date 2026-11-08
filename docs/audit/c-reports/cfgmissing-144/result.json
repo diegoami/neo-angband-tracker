@@ -1,0 +1,71 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "8cbee69447cda2526b4810fd6ea74677921ff1d1",
+  "fixtures_ref": "1ff9ca1e59d639b6693b9bcb40190c6d836c6fa9",
+  "cases": {
+    "before": {
+      "missing": {
+        "exit": 3,
+        "passed": false,
+        "outcome": {
+          "init_completed": 0,
+          "crashed": 1
+        }
+      },
+      "present": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 128
+        },
+        "outcome": {
+          "init_completed": 1,
+          "crashed": 0
+        }
+      }
+    },
+    "after": {
+      "missing": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 128
+        },
+        "outcome": {
+          "init_completed": 1,
+          "crashed": 0
+        }
+      },
+      "present": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 128
+        },
+        "outcome": {
+          "init_completed": 1,
+          "crashed": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "present"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-init.c": "b952199ca8aac03c4a0b0f2b34089a227d473166ad7710956d14fc65fa18d95c"
+  }
+}
