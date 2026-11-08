@@ -1,0 +1,13 @@
+native-c/dangerflee-156: starting...
+SETUP seed=156 mode=morgoth class=Warrior clevel=40 hp=8 depth=30 up=1 down=0
+  flee_from_excessive_danger  KILL k=1 r=140 pos=(11,13) awake=1 power=40
+STATE danger=20 avoidance=8 hp=8 fleeing=1
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)
+OUTCOME excessive_flee=0 desperate_stairs=0
+Passed
+native-c/dangerflee-156 finished: 1/1 passed

@@ -1,0 +1,153 @@
+{
+  "excessive": {
+    "label": "8 hit points, cave bear adjacent, not ready for Morgoth",
+    "explanation": "Original: no excessive-danger flee; teleport fails and the Borg reads Word of Recall beside the bear. Corrected: '# Fleeing (excessive danger)', then 'Desperate for Stairs (two)', a step west toward the staircase (key 52).",
+    "control": false,
+    "before": {
+      "raw": "native-c/dangerflee-156: starting...\nSETUP seed=156 mode=excessive class=Warrior clevel=40 hp=8 depth=30 up=1 down=0\n  flee_from_excessive_danger  KILL k=1 r=140 pos=(11,13) awake=1 power=40\nSTATE danger=20 avoidance=8 hp=8 fleeing=1\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nOUTCOME excessive_flee=0 desperate_stairs=0\nFailed\n    native-c/dangerflee-156:178: requirement 'excessive' failed\nnative-c/dangerflee-156 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 20,
+        "avoidance": 8,
+        "hp": 8,
+        "fleeing": 1
+      },
+      "outcome": {
+        "excessive_flee": 0,
+        "desperate_stairs": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/dangerflee-156: starting...\nSETUP seed=156 mode=excessive class=Warrior clevel=40 hp=8 depth=30 up=1 down=0\n  flee_from_excessive_danger  KILL k=1 r=140 pos=(11,13) awake=1 power=40\nSTATE danger=20 avoidance=8 hp=8 fleeing=1\nDECISION rc=1 key=52\nTRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20\nTRACK # Fleeing (excessive danger)\nTRACK # Flowing toward up-stairs at cost 2\nTRACK # Desperate for Stairs (two)\nOUTCOME excessive_flee=1 desperate_stairs=1\nPassed\nnative-c/dangerflee-156 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "avoidance": 8,
+        "hp": 8,
+        "fleeing": 1
+      },
+      "outcome": {
+        "excessive_flee": 1,
+        "desperate_stairs": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=52",
+        "TRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20",
+        "TRACK # Fleeing (excessive danger)",
+        "TRACK # Flowing toward up-stairs at cost 2",
+        "TRACK # Desperate for Stairs (two)"
+      ],
+      "value": 1
+    }
+  },
+  "morgoth": {
+    "label": "Same, but marked ready for Morgoth (intended reversal)",
+    "explanation": "Owner-decided direction: a Borg going after Morgoth does not flee from this check. Original: flees and dashes for the staircase. Corrected: no excessive-danger flee; it reads Word of Recall like the ordinary Borg did before.",
+    "control": false,
+    "before": {
+      "raw": "native-c/dangerflee-156: starting...\nSETUP seed=156 mode=morgoth class=Warrior clevel=40 hp=8 depth=30 up=1 down=0\n  flee_from_excessive_danger  KILL k=1 r=140 pos=(11,13) awake=1 power=40\nSTATE danger=20 avoidance=8 hp=8 fleeing=1\nDECISION rc=1 key=52\nTRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20\nTRACK # Fleeing (excessive danger)\nTRACK # Flowing toward up-stairs at cost 2\nTRACK # Desperate for Stairs (two)\nOUTCOME excessive_flee=1 desperate_stairs=1\nFailed\n    native-c/dangerflee-156:181: requirement '!excessive' failed\nnative-c/dangerflee-156 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 20,
+        "avoidance": 8,
+        "hp": 8,
+        "fleeing": 1
+      },
+      "outcome": {
+        "excessive_flee": 1,
+        "desperate_stairs": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=52",
+        "TRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20",
+        "TRACK # Fleeing (excessive danger)",
+        "TRACK # Flowing toward up-stairs at cost 2",
+        "TRACK # Desperate for Stairs (two)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/dangerflee-156: starting...\nSETUP seed=156 mode=morgoth class=Warrior clevel=40 hp=8 depth=30 up=1 down=0\n  flee_from_excessive_danger  KILL k=1 r=140 pos=(11,13) awake=1 power=40\nSTATE danger=20 avoidance=8 hp=8 fleeing=1\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nOUTCOME excessive_flee=0 desperate_stairs=0\nPassed\nnative-c/dangerflee-156 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "avoidance": 8,
+        "hp": 8,
+        "fleeing": 1
+      },
+      "outcome": {
+        "excessive_flee": 0,
+        "desperate_stairs": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)"
+      ],
+      "value": 0
+    }
+  },
+  "hurt": {
+    "label": "Control: danger between one and two times the hit points",
+    "explanation": "Danger 20 against 15 hit points does not reach the excessive threshold; both versions read Word of Recall and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/dangerflee-156: starting...\nSETUP seed=156 mode=hurt class=Warrior clevel=40 hp=15 depth=30 up=1 down=0\n  flee_from_excessive_danger  KILL k=1 r=140 pos=(11,13) awake=1 power=40\nSTATE danger=20 avoidance=15 hp=15 fleeing=1\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:30 Lev:40 HP:15/468 SP:0/0 Danger:p=20\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nOUTCOME excessive_flee=0 desperate_stairs=0\nPassed\nnative-c/dangerflee-156 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "avoidance": 15,
+        "hp": 15,
+        "fleeing": 1
+      },
+      "outcome": {
+        "excessive_flee": 0,
+        "desperate_stairs": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:30 Lev:40 HP:15/468 SP:0/0 Danger:p=20",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/dangerflee-156: starting...\nSETUP seed=156 mode=hurt class=Warrior clevel=40 hp=15 depth=30 up=1 down=0\n  flee_from_excessive_danger  KILL k=1 r=140 pos=(11,13) awake=1 power=40\nSTATE danger=20 avoidance=15 hp=15 fleeing=1\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:30 Lev:40 HP:15/468 SP:0/0 Danger:p=20\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nOUTCOME excessive_flee=0 desperate_stairs=0\nPassed\nnative-c/dangerflee-156 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "avoidance": 15,
+        "hp": 15,
+        "fleeing": 1
+      },
+      "outcome": {
+        "excessive_flee": 0,
+        "desperate_stairs": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:30 Lev:40 HP:15/468 SP:0/0 Danger:p=20",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)"
+      ],
+      "value": 0
+    }
+  }
+}

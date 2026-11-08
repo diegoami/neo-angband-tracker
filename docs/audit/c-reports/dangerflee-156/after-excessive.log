@@ -1,0 +1,12 @@
+native-c/dangerflee-156: starting...
+SETUP seed=156 mode=excessive class=Warrior clevel=40 hp=8 depth=30 up=1 down=0
+  flee_from_excessive_danger  KILL k=1 r=140 pos=(11,13) awake=1 power=40
+STATE danger=20 avoidance=8 hp=8 fleeing=1
+DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:30 Lev:40 HP:8/468 SP:0/0 Danger:p=20
+TRACK # Fleeing (excessive danger)
+TRACK # Flowing toward up-stairs at cost 2
+TRACK # Desperate for Stairs (two)
+OUTCOME excessive_flee=1 desperate_stairs=1
+Passed
+native-c/dangerflee-156 finished: 1/1 passed
