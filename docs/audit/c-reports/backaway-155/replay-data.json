@@ -1,0 +1,127 @@
+{
+  "monster": {
+    "label": "South neighbour is next to the bear",
+    "explanation": "Original: after the south grid is found next to the bear, every later grid is also skipped; no retreat. Corrected: '# Backing up to 9,11', a step north-west (key 55).",
+    "control": false,
+    "before": {
+      "raw": "native-c/backaway-155: starting...\nSETUP seed=155 mode=monster class=Warrior clevel=20 hp=40 depth=5 \n  back_away_to_a_safe_grid  KILL k=1 r=140 pos=(11,14) awake=1 power=36\nSTATE danger=20 avoidance=40 hp=40 fleeing=0\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20\nOUTCOME backed_away=0\nFailed\n    native-c/backaway-155:186: requirement 'backed' failed\nnative-c/backaway-155 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 20,
+        "avoidance": 40,
+        "hp": 40,
+        "fleeing": 0
+      },
+      "outcome": {
+        "backed_away": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/backaway-155: starting...\nSETUP seed=155 mode=monster class=Warrior clevel=20 hp=40 depth=5 \n  back_away_to_a_safe_grid  KILL k=1 r=140 pos=(11,14) awake=1 power=36\nSTATE danger=20 avoidance=40 hp=40 fleeing=0\nDECISION rc=1 key=55\nTRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20\nTRACK # Backing up to 9,11 (20 > 0)\nOUTCOME backed_away=1\nPassed\nnative-c/backaway-155 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "avoidance": 40,
+        "hp": 40,
+        "fleeing": 0
+      },
+      "outcome": {
+        "backed_away": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=55",
+        "TRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20",
+        "TRACK # Backing up to 9,11 (20 > 0)"
+      ],
+      "value": 1
+    }
+  },
+  "trap": {
+    "label": "Known trap on the south neighbour",
+    "explanation": "Original: the trap on the first grid checked ends the whole search; no retreat. Corrected: the trapped grid is skipped and the Borg backs up to 9,11.",
+    "control": false,
+    "before": {
+      "raw": "native-c/backaway-155: starting...\nSETUP seed=155 mode=trap class=Warrior clevel=20 hp=40 depth=5 \n  back_away_to_a_safe_grid  KILL k=1 r=140 pos=(9,14) awake=1 power=36\nSTATE danger=20 avoidance=40 hp=40 fleeing=0\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20\nOUTCOME backed_away=0\nFailed\n    native-c/backaway-155:186: requirement 'backed' failed\nnative-c/backaway-155 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 20,
+        "avoidance": 40,
+        "hp": 40,
+        "fleeing": 0
+      },
+      "outcome": {
+        "backed_away": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/backaway-155: starting...\nSETUP seed=155 mode=trap class=Warrior clevel=20 hp=40 depth=5 \n  back_away_to_a_safe_grid  KILL k=1 r=140 pos=(9,14) awake=1 power=36\nSTATE danger=20 avoidance=40 hp=40 fleeing=0\nDECISION rc=1 key=55\nTRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20\nTRACK # Backing up to 9,11 (20 > 0)\nOUTCOME backed_away=1\nPassed\nnative-c/backaway-155 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "avoidance": 40,
+        "hp": 40,
+        "fleeing": 0
+      },
+      "outcome": {
+        "backed_away": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=55",
+        "TRACK # Loc:12,10 Dep:5 Lev:20 HP:40/245 SP:0/0 Danger:p=20",
+        "TRACK # Backing up to 9,11 (20 > 0)"
+      ],
+      "value": 1
+    }
+  },
+  "healthy": {
+    "label": "Control: full hit points",
+    "explanation": "Danger 20 is below 40% of 245 hit points, so neither version considers backing away; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/backaway-155: starting...\nSETUP seed=155 mode=healthy class=Warrior clevel=20 hp=245 depth=5 \n  back_away_to_a_safe_grid  KILL k=1 r=140 pos=(11,14) awake=1 power=36\nSTATE danger=20 avoidance=245 hp=245 fleeing=0\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:5 Lev:20 HP:245/245 SP:0/0 Danger:p=20\nOUTCOME backed_away=0\nPassed\nnative-c/backaway-155 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "avoidance": 245,
+        "hp": 245,
+        "fleeing": 0
+      },
+      "outcome": {
+        "backed_away": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:5 Lev:20 HP:245/245 SP:0/0 Danger:p=20"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/backaway-155: starting...\nSETUP seed=155 mode=healthy class=Warrior clevel=20 hp=245 depth=5 \n  back_away_to_a_safe_grid  KILL k=1 r=140 pos=(11,14) awake=1 power=36\nSTATE danger=20 avoidance=245 hp=245 fleeing=0\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:5 Lev:20 HP:245/245 SP:0/0 Danger:p=20\nOUTCOME backed_away=0\nPassed\nnative-c/backaway-155 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "avoidance": 245,
+        "hp": 245,
+        "fleeing": 0
+      },
+      "outcome": {
+        "backed_away": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:5 Lev:20 HP:245/245 SP:0/0 Danger:p=20"
+      ],
+      "value": 0
+    }
+  }
+}
