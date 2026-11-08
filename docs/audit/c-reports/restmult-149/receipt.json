@@ -1,0 +1,121 @@
+{
+  "issue": "diegoami/neo-angband-tracker#149",
+  "report": "restmult-149",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "e66740cc4563224ca5dddab5d7bd543d8c8f1342",
+  "fix_branch": "task/restmult-149",
+  "fixtures_ref": "e76b239b3882a1f63ac88516cf380eeae2a0ccd1",
+  "cases": {
+    "sameturn": {
+      "before": {
+        "passed": false,
+        "state": {
+          "now": 1000,
+          "last_kill_mult": 1000,
+          "food": 6,
+          "light": 2,
+          "monsters": 0
+        },
+        "outcome": {
+          "rests_one_turn_after_the_kill": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "now": 1000,
+          "last_kill_mult": 1000,
+          "food": 6,
+          "light": 2,
+          "monsters": 0
+        },
+        "outcome": {
+          "rests_one_turn_after_the_kill": 0
+        }
+      }
+    },
+    "recent": {
+      "before": {
+        "passed": true,
+        "state": {
+          "now": 1000,
+          "last_kill_mult": 998,
+          "food": 6,
+          "light": 2,
+          "monsters": 0
+        },
+        "outcome": {
+          "rests_one_turn_after_the_kill": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "now": 1000,
+          "last_kill_mult": 998,
+          "food": 6,
+          "light": 2,
+          "monsters": 0
+        },
+        "outcome": {
+          "rests_one_turn_after_the_kill": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "recent"
+  ],
+  "claim": "On the turn of a multiplier kill, the original check passed the recent-kill test and cleared the timer, so a check one turn later allowed resting; without the clearing, that second check refuses. With the kill two turns old both checks refuse before and after, and that control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-misc.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "25c70fc207987d6f3dcecc51a2dfae593ede8a6bb1cd9cfad05b9408a6f3ff49"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "baba1c3000ef92768730ce100b5caef60787b9445984493708600e526d822ca0",
+    "after-recent.log": "45fe361c587556f67a3360e7d59a35055f298db883ffc38cd94b2aa23f7bae12",
+    "after-results.json": "6e56b0a68a1fa7cf98103e64ef1ec89e43f69e1cad6b938140e88cb9b3f2c782",
+    "after-sameturn.log": "dcae603d7cb54f7e7e3c667f9808338d967a9405bf17b5362d4f24026c2fc878",
+    "before-recent.log": "45fe361c587556f67a3360e7d59a35055f298db883ffc38cd94b2aa23f7bae12",
+    "before-results.json": "6b127350a1e67be544f5dbaedbd4c66b8eef5a3d36ba82daac5a365956c2506f",
+    "before-sameturn.log": "bd4afb0a451a6cbc1702525ca29d1419d878eb58da9d7905a1c0d2a5440f550d",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "dfade3cb284ab32675b0205696db25c7fe1d11c2e32e1089d3b4f1f4a0aff105",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "fa0736f99259800f51b6c66318e72404f9c44d4d545fedf521e8ffe85a9f32d1",
+    "replay.html": "e3cf258b8d63174d0bd7a5a10c0cd523b56fc50d19be6f901f94e7b94801aa55",
+    "reproduce.py": "2b876e5e1550e6b6663ac5046a453cec5afdc959d11b4c5e0a41176e1e2c8285",
+    "result.json": "d1838aa1e483e2b7492ded04c80f755aed6a8bced61741167c450be05caa3593",
+    "run-after-alltests.log": "ec94900310eb9d965f38e1001d78fca23120de5a47082ee846becd84edbb11ca",
+    "run-after-build.log": "08ed440dc614b82b503e0d3fef41cd54b4beb515876b894b3e366fc3aa2514b2",
+    "run-after-scenarios.log": "b4bc7ebafd38697fa52c05ee9c8fd6cd7661c7db744d67448aa087f1ab4a5288",
+    "run-before-alltests.log": "5cd7616a5e59b64749d760ebaa70bbb5b3803dd8f3cdb48980e6bd95fa1c2c66",
+    "run-before-build.log": "23841d41cb661f6ce08657e7367b1799591a42ee46b2d98df2ebb667a99e500f",
+    "run-before-scenarios.log": "38ce818d7f37f4af463460019b4d2b664c57abebc2585ffd60e9ba33da1d661c",
+    "run-cases.py": "63617ccd28ce419c026a461ccea39c7cd56ac0f67ef31d925fb38d130baaf9a4",
+    "run-configure.log": "9db08bbfefab2c118f4c246a923fcbefc56af08e95d14548bbd2295d7bb80944",
+    "scenario.c": "afba57bf369d426184f78c4c247e816ad875ce584286e5ff31cfde556363c2c7"
+  }
+}
