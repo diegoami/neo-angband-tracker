@@ -1,0 +1,22 @@
+native-c/glyphtrack-116: starting...
+SETUP seed=116 mode=complete-sea class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+STATE tracked_runes=1 needs_new_sea=0
+STATE ring_runes=24 center_rune=1
+DECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK goal # Flowing toward Glyph at cost 0
+DECISION call=arrive-again rc=0 followup_step=1 keys_queued=5
+TRACK keys 57344 57344 114 100 54
+TRACK arrive-again # Glyph Creating at (99,33)
+TRACK arrive-again # Reading Scrolls of Rune of Protection.
+TRACK arrive-again # Flowing toward item at cost 3
+TRACK arrive-again # Walking onto a glyph of warding.
+OUTCOME first_rc=1 second_rc=0 tracked_runes=1 extra_step=1
+Failed
+    native-c/glyphtrack-116:207: requirement 'again' failed
+native-c/glyphtrack-116 finished: 0/1 passed

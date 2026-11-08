@@ -1,0 +1,96 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Sea of Runes flow reported no action after queueing a rune read</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Sea of Runes flow reported no action after queueing a rune read</h1><p>When the Borg stands on the grid it chose for a rune, the Sea of Runes flow reads a Rune of Protection (or casts or activates the equivalent) and tracks the new rune. If the grid was already in the tracker, the function returned false although the read had just been queued. Its caller treats false as nothing done and goes on to its remaining flows in the same turn, so their keypresses are queued behind the read. A complete sea makes the Borg return to its centre, which is always tracked, so this is the ordinary way to reach it. The correction returns true in that case too: the read is the action.</p><p><label>Scenario: <select id="scenario"><option value="complete-sea">Arrival at the centre of a complete sea (the grid is already tracked)</option><option value="new-sea">Control: first arrival at a new sea centre</option></select></label></p><section class="scenario" data-mode="complete-sea"><p class="summary">The Borg has read a Rune of Protection at the centre of a Sea of Runes and the other 24 grids of the sea hold runes. The flow makes the centre its goal and the Borg arrives there again: the read is queued, and the grid is already in the glyph tracker. Original: the flow returns false, so the next flow in the caller&#x27;s sequence (here a step towards a potion three grids away) is queued after the read in the same turn. Corrected: the flow returns true and only the read is queued.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>a step is queued after the rune read (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK goal # Flowing toward Glyph at cost 0
+DECISION call=arrive-again rc=0 followup_step=1 keys_queued=5
+TRACK keys 57344 57344 114 100 54
+TRACK arrive-again # Glyph Creating at (99,33)
+TRACK arrive-again # Reading Scrolls of Rune of Protection.
+TRACK arrive-again # Flowing toward item at cost 3
+TRACK arrive-again # Walking onto a glyph of warding.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>a step is queued after the rune read (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK goal # Flowing toward Glyph at cost 0
+DECISION call=arrive-again rc=1 followup_step=0 keys_queued=4
+TRACK keys 57344 57344 114 100
+TRACK arrive-again # Glyph Creating at (99,33)
+TRACK arrive-again # Reading Scrolls of Rune of Protection.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/glyphtrack-116: starting...
+SETUP seed=116 mode=complete-sea class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+STATE tracked_runes=1 needs_new_sea=0
+STATE ring_runes=24 center_rune=1
+DECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK goal # Flowing toward Glyph at cost 0
+DECISION call=arrive-again rc=0 followup_step=1 keys_queued=5
+TRACK keys 57344 57344 114 100 54
+TRACK arrive-again # Glyph Creating at (99,33)
+TRACK arrive-again # Reading Scrolls of Rune of Protection.
+TRACK arrive-again # Flowing toward item at cost 3
+TRACK arrive-again # Walking onto a glyph of warding.
+OUTCOME first_rc=1 second_rc=0 tracked_runes=1 extra_step=1
+Failed
+    native-c/glyphtrack-116:207: requirement &#x27;again&#x27; failed
+native-c/glyphtrack-116 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/glyphtrack-116: starting...
+SETUP seed=116 mode=complete-sea class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+STATE tracked_runes=1 needs_new_sea=0
+STATE ring_runes=24 center_rune=1
+DECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK goal # Flowing toward Glyph at cost 0
+DECISION call=arrive-again rc=1 followup_step=0 keys_queued=4
+TRACK keys 57344 57344 114 100
+TRACK arrive-again # Glyph Creating at (99,33)
+TRACK arrive-again # Reading Scrolls of Rune of Protection.
+OUTCOME first_rc=1 second_rc=1 tracked_runes=1 extra_step=0
+Passed
+native-c/glyphtrack-116 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="new-sea"><p class="summary">The first arrival at the chosen centre: the grid is new, the read is queued, the rune is tracked and the flow returns true, before and after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>a step is queued after the rune read (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">n/a</div><p>a step is queued after the rune read (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/glyphtrack-116: starting...
+SETUP seed=116 mode=new-sea class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+STATE tracked_runes=1 needs_new_sea=0
+OUTCOME first_rc=1
+Passed
+native-c/glyphtrack-116 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/glyphtrack-116: starting...
+SETUP seed=116 mode=new-sea class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+STATE tracked_runes=1 needs_new_sea=0
+OUTCOME first_rc=1
+Passed
+native-c/glyphtrack-116 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 116, character level 50, depth 99, a lit open arena, a lit Lantern and 40 Scrolls of Rune of Protection. Fixture interventions: the rune grids are laid by the fixture (the centre after the Borg&#x27;s first read, and the other 24 grids of the sea at once) as the Borg&#x27;s earlier reads would have left them, in both the game map and the Borg&#x27;s map entries; a Potion of Cure Light Wounds is placed in the Borg&#x27;s object list three grids east, in view; the Borg&#x27;s map update is not run, so the Borg does not mark itself as sitting in the sea (borg.morgoth_position stays false). The production borg_flow_glyph() makes both calls and the production borg_flow_take() is the next flow in the caller&#x27;s sequence; the keypress queue is read, not played.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/116">issue 116</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

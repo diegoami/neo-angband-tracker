@@ -1,0 +1,119 @@
+{
+  "issue": "diegoami/neo-angband-tracker#116",
+  "report": "glyphtrack-116",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "d0164206a3c1111f386f9d9c13ed72850400a939",
+  "fix_branch": "task/glyphtrack-116",
+  "fixtures_ref": "d98f485ed5f5cab1b52e533ff19749fb10a95c3f",
+  "cases": {
+    "complete-sea": {
+      "before": {
+        "passed": false,
+        "state": {
+          "tracked_runes": 1,
+          "needs_new_sea": 0,
+          "ring_runes": 24,
+          "center_rune": 1
+        },
+        "outcome": {
+          "first_rc": 1,
+          "second_rc": 0,
+          "tracked_runes": 1,
+          "extra_step": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "tracked_runes": 1,
+          "needs_new_sea": 0,
+          "ring_runes": 24,
+          "center_rune": 1
+        },
+        "outcome": {
+          "first_rc": 1,
+          "second_rc": 1,
+          "tracked_runes": 1,
+          "extra_step": 0
+        }
+      }
+    },
+    "new-sea": {
+      "before": {
+        "passed": true,
+        "state": {
+          "tracked_runes": 1,
+          "needs_new_sea": 0
+        },
+        "outcome": {
+          "first_rc": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "tracked_runes": 1,
+          "needs_new_sea": 0
+        },
+        "outcome": {
+          "first_rc": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "new-sea"
+  ],
+  "claim": "At the centre of a complete Sea of Runes, the original flow queued the rune read and returned false, and the caller's next flow queued a step east behind the read in the same turn (5 keys: read, then step). With the correction the flow returns true and only the read (4 keys) is queued. The first-arrival control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-glyph.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-glyph.c": "e10f96cd8f060ca242419e084c6772d5529e28560f2864b8634c686bdf0664b7"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "f42cb8b9306550f6ed0986768cdc1ed412612b5d7333d3e3626bb4d03b1c4a96",
+    "after-complete-sea.log": "45d436fa4fd570cc6c6e8cf4dc443b4703d9ffd71a6be947e2aef58f3bbe0515",
+    "after-new-sea.log": "51973352c8b619862d19f3a9e6cd5d2063a887c4aa7848b550244e088b6abdfe",
+    "after-results.json": "9f7d72d5c0fd46946e968e965294fb124dba90b114fdc87d238619858ce527db",
+    "before-complete-sea.log": "1e5f0bf2398b58154c8683c022b74d6f3d448dbba1303e6beef1713c0b9616df",
+    "before-new-sea.log": "51973352c8b619862d19f3a9e6cd5d2063a887c4aa7848b550244e088b6abdfe",
+    "before-results.json": "77896e0867bfb3f9bfe6490d6c76e185e3c94d871e9b6b7885d3ad1ec5a8f254",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "bdebc035a2b877a757e032ca42d3207752ba81631190f98e5d1e5783daacd292",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "d94e84b3d6af81cde907f4b009803be43a6e81e631863ade5dd01a2fa8a6cbc9",
+    "replay.html": "765dc0a18182353699d5b9c43e1f82d7cd66d4bc0853af710646d8ff2fc6147a",
+    "reproduce.py": "4c78fa63c7ccf371762c8c06808e73ed7984c8b4c65327aeb172c675962181f5",
+    "result.json": "35f93f8a8555f6fccaad275cbcefc5063f045fac260ce169bd2ea873091bb2e1",
+    "run-after-alltests.log": "290ebde7ae2da5de1a8ea89946cbc20f2b42cd7a4b3f186d3295dd7aa18c7a4a",
+    "run-after-build.log": "cff8b9b6b74be410ea2b67c9f9d620e23a3cdbf965ad9bd5fe9b66fe59a462e7",
+    "run-after-scenarios.log": "c400279645a34065d695e74b1f78724663cef14d669858e1db7026bf7daaba73",
+    "run-before-alltests.log": "e6884911813bf62b2c410fc18351cdb950907011509cf93ad76e9b9eb75b2326",
+    "run-before-build.log": "4142e605d8100ce11165cde8a957b8cd5b47a7178d8085413a0c61f88e960ef5",
+    "run-before-scenarios.log": "0782223e2b7188f33bd7755e2a28eb0f7d9f78732fc893ed05e6e7d4037d5b46",
+    "run-cases.py": "735ae1f3fd83b2461447976fd4c3d4492b4c673883c044a2f8c634aa29c90192",
+    "run-configure.log": "89d0cb9ef4f7f6bc5f9f6813282bd9563588b97d6cc273fcb4f5f029e5711625",
+    "scenario.c": "58448dc06c88fce634bbb1309a50e452f02443b1749f91f0af6a196379e487e9"
+  }
+}

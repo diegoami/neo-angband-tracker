@@ -1,0 +1,112 @@
+{
+  "complete-sea": {
+    "label": "Arrival at the centre of a complete sea (the grid is already tracked)",
+    "explanation": "The Borg has read a Rune of Protection at the centre of a Sea of Runes and the other 24 grids of the sea hold runes. The flow makes the centre its goal and the Borg arrives there again: the read is queued, and the grid is already in the glyph tracker. Original: the flow returns false, so the next flow in the caller's sequence (here a step towards a potion three grids away) is queued after the read in the same turn. Corrected: the flow returns true and only the read is queued.",
+    "control": false,
+    "before": {
+      "raw": "native-c/glyphtrack-116: starting...\nSETUP seed=116 mode=complete-sea class=Warrior clevel=50 depth=99 runes=40\n  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)\nTRACK choose # Flowing toward Glyph at cost 0\nDECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)\nTRACK arrive # Glyph Creating at (99,33)\nTRACK arrive # Reading Scrolls of Rune of Protection.\nTRACK arrive # Noting the creation of a glyph.\nSTATE tracked_runes=1 needs_new_sea=0\nSTATE ring_runes=24 center_rune=1\nDECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)\nTRACK goal # Flowing toward Glyph at cost 0\nDECISION call=arrive-again rc=0 followup_step=1 keys_queued=5\nTRACK keys 57344 57344 114 100 54\nTRACK arrive-again # Glyph Creating at (99,33)\nTRACK arrive-again # Reading Scrolls of Rune of Protection.\nTRACK arrive-again # Flowing toward item at cost 3\nTRACK arrive-again # Walking onto a glyph of warding.\nOUTCOME first_rc=1 second_rc=0 tracked_runes=1 extra_step=1\nFailed\n    native-c/glyphtrack-116:207: requirement 'again' failed\nnative-c/glyphtrack-116 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "tracked_runes": 1,
+        "needs_new_sea": 0,
+        "ring_runes": 24,
+        "center_rune": 1
+      },
+      "outcome": {
+        "first_rc": 1,
+        "second_rc": 0,
+        "tracked_runes": 1,
+        "extra_step": 1
+      },
+      "notes": [
+        "TRACK choose # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)",
+        "TRACK arrive # Glyph Creating at (99,33)",
+        "TRACK arrive # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive # Noting the creation of a glyph.",
+        "DECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)",
+        "TRACK goal # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive-again rc=0 followup_step=1 keys_queued=5",
+        "TRACK keys 57344 57344 114 100 54",
+        "TRACK arrive-again # Glyph Creating at (99,33)",
+        "TRACK arrive-again # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive-again # Flowing toward item at cost 3",
+        "TRACK arrive-again # Walking onto a glyph of warding."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/glyphtrack-116: starting...\nSETUP seed=116 mode=complete-sea class=Warrior clevel=50 depth=99 runes=40\n  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)\nTRACK choose # Flowing toward Glyph at cost 0\nDECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)\nTRACK arrive # Glyph Creating at (99,33)\nTRACK arrive # Reading Scrolls of Rune of Protection.\nTRACK arrive # Noting the creation of a glyph.\nSTATE tracked_runes=1 needs_new_sea=0\nSTATE ring_runes=24 center_rune=1\nDECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)\nTRACK goal # Flowing toward Glyph at cost 0\nDECISION call=arrive-again rc=1 followup_step=0 keys_queued=4\nTRACK keys 57344 57344 114 100\nTRACK arrive-again # Glyph Creating at (99,33)\nTRACK arrive-again # Reading Scrolls of Rune of Protection.\nOUTCOME first_rc=1 second_rc=1 tracked_runes=1 extra_step=0\nPassed\nnative-c/glyphtrack-116 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "tracked_runes": 1,
+        "needs_new_sea": 0,
+        "ring_runes": 24,
+        "center_rune": 1
+      },
+      "outcome": {
+        "first_rc": 1,
+        "second_rc": 1,
+        "tracked_runes": 1,
+        "extra_step": 0
+      },
+      "notes": [
+        "TRACK choose # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)",
+        "TRACK arrive # Glyph Creating at (99,33)",
+        "TRACK arrive # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive # Noting the creation of a glyph.",
+        "DECISION call=goal rc=0 first_key=0 keys_queued=0 borg=(99,33)",
+        "TRACK goal # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive-again rc=1 followup_step=0 keys_queued=4",
+        "TRACK keys 57344 57344 114 100",
+        "TRACK arrive-again # Glyph Creating at (99,33)",
+        "TRACK arrive-again # Reading Scrolls of Rune of Protection."
+      ],
+      "value": 0
+    }
+  },
+  "new-sea": {
+    "label": "Control: first arrival at a new sea centre",
+    "explanation": "The first arrival at the chosen centre: the grid is new, the read is queued, the rune is tracked and the flow returns true, before and after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/glyphtrack-116: starting...\nSETUP seed=116 mode=new-sea class=Warrior clevel=50 depth=99 runes=40\n  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)\nTRACK choose # Flowing toward Glyph at cost 0\nDECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)\nTRACK arrive # Glyph Creating at (99,33)\nTRACK arrive # Reading Scrolls of Rune of Protection.\nTRACK arrive # Noting the creation of a glyph.\nSTATE tracked_runes=1 needs_new_sea=0\nOUTCOME first_rc=1\nPassed\nnative-c/glyphtrack-116 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "tracked_runes": 1,
+        "needs_new_sea": 0
+      },
+      "outcome": {
+        "first_rc": 1
+      },
+      "notes": [
+        "TRACK choose # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)",
+        "TRACK arrive # Glyph Creating at (99,33)",
+        "TRACK arrive # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive # Noting the creation of a glyph."
+      ],
+      "value": "n/a"
+    },
+    "after": {
+      "raw": "native-c/glyphtrack-116: starting...\nSETUP seed=116 mode=new-sea class=Warrior clevel=50 depth=99 runes=40\n  sea_of_runes_arrival_on_known_rune  DECISION call=choose rc=0 first_key=0 keys_queued=0 borg=(99,33)\nTRACK choose # Flowing toward Glyph at cost 0\nDECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)\nTRACK arrive # Glyph Creating at (99,33)\nTRACK arrive # Reading Scrolls of Rune of Protection.\nTRACK arrive # Noting the creation of a glyph.\nSTATE tracked_runes=1 needs_new_sea=0\nOUTCOME first_rc=1\nPassed\nnative-c/glyphtrack-116 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "tracked_runes": 1,
+        "needs_new_sea": 0
+      },
+      "outcome": {
+        "first_rc": 1
+      },
+      "notes": [
+        "TRACK choose # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive rc=1 first_key=57344 keys_queued=4 borg=(99,33)",
+        "TRACK arrive # Glyph Creating at (99,33)",
+        "TRACK arrive # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive # Noting the creation of a glyph."
+      ],
+      "value": "n/a"
+    }
+  }
+}
