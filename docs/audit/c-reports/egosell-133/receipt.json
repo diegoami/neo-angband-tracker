@@ -1,0 +1,93 @@
+{
+  "issue": "diegoami/neo-angband-tracker#133",
+  "report": "egosell-133",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "8b5ab27a81e46d95a87f4aca100cf2beca213171",
+  "fix_branch": "task/egosell-133",
+  "fixtures_ref": "0fed2a2d690c398f0de454637987b19f75865a1a",
+  "cases": {
+    "plain-worn": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "sold_unidentified_aman": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "sold_unidentified_aman": 0
+        }
+      }
+    },
+    "aman-worn": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "sold_unidentified_aman": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "sold_unidentified_aman": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "aman-worn"
+  ],
+  "claim": "borg_good_sell() asked borg_ego_has_random_power() about the worn cloak's ego (borg_items[INVEN_OUTER]) instead of the item being sold. A level-21 Warrior wearing a plain Cloak sold an unidentified Cloak of Aman (hidden resist nether) to the Black Market; corrected, it keeps the cloak. With a Cloak of Aman worn both versions keep it and the logs are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-sell.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-sell.c": "33905660a43e81e5422b1339d33812ca3e2cf00e3cf2da180a227c02b754c994"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "5e0849191cf3e07392db87f1df2bc008f5dced544acfab88ddbcdbc8107383dd",
+    "after-aman-worn.log": "1ad1e279944291ab7d3dbae6756c487c1d5b102d155fd7f9a87e537aac0cdb7b",
+    "after-plain-worn.log": "7f929371b654277fc5223a27df46f41b20c66bf73d3fecc1254d6b64c131ae90",
+    "after-results.json": "a7048c7ea3e4c59890a50bfd6a80122ae673789432263664a74973760b19aef4",
+    "before-aman-worn.log": "1ad1e279944291ab7d3dbae6756c487c1d5b102d155fd7f9a87e537aac0cdb7b",
+    "before-plain-worn.log": "de1d5ca9db1590159cbffaf33c06e1741165e883e9a6f67f300726dd6337aa83",
+    "before-results.json": "127dd596c2ab605b7e6ddc8c70ce751b6f7843096ea1a5ec898b7539372aaf3f",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "971eeeb0507dc2b714e8f88b132e877a0f29d4324c981b6235f7d79b7b09ce44",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "d2e006a23ac3bf964445c4e035ae1f6f9909c840bcfd2a0fafd693fdc5bb80a4",
+    "replay.html": "c9e85a82cc826e0c43ab91f8cb2b0ef1bac76e9f2573d575047f4dcebf3b7107",
+    "reproduce.py": "164b232160eb2f16f931eec68b8ca3d7544957a7e8f7994888e47f553aa92324",
+    "result.json": "310040e1740c7bdaa17b1abf5c1c4c9a223745aa3118de984a3ceebecf2f27e8",
+    "run-after-alltests.log": "f252080483a9f31ed881d8d9018a11235e19516c165d3c9f03fe90a45fae82ec",
+    "run-after-build.log": "ccc898db65d6028774e40f1e8de842e8ce3fa034fd59935e46603441c084d5be",
+    "run-after-scenarios.log": "32bc01d4e9827e57936c05402ce7cb928e60d1ee381f8c220f91c25aa1250a94",
+    "run-before-alltests.log": "f2486882d5b8bd77ce48a757098da4ac901772869c5fee2b595ff5027b146c29",
+    "run-before-build.log": "ecdb9537277e4e9cd28b1f8497d0f9b18433fdbffbf144c3c32731135931af87",
+    "run-before-scenarios.log": "3ccec4d668d2c3cc621912ba72500ebc0e65cafbbfb04160752d924444ff5643",
+    "run-cases.py": "68a3bd781a2204edc8b45a5b502e06cf0b5d4fe6694a673bfea1df7769965c77",
+    "run-configure.log": "30d5964a639c09e1449fa6b934b1d5dce10503442105f665b39e5b559f62c4b0",
+    "scenario.c": "314b693a571661dbc3557b7ee2a60abc3b7342b17660ba28a6a629abf2a8fd96"
+  }
+}

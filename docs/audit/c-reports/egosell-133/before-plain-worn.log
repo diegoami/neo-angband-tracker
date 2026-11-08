@@ -1,0 +1,12 @@
+native-c/egosell-133: starting...
+SETUP seed=133 mode=plain-worn class=Warrior clevel=21 maxdepth=20 no_selling=1
+  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] <+1> {??}]
+WORN cloak ego=- desc=[Cloak [1,+0]]
+TRACK hidden_rune=nether power_now=293381
+DECISION sell=1 shop=6 item=0 what=[Cloak of Aman [1,+14] <+1> {??}]
+TRACK You have learned the rune of resist nether.
+TRACK You had a Cloak of Aman [1,+14] <+1> (a).
+OUTCOME sold_unidentified_aman=1
+Failed
+    native-c/egosell-133:210: requirement '!sold' failed
+native-c/egosell-133 finished: 0/1 passed

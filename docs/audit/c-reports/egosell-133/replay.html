@@ -1,0 +1,52 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg gave away an unidentified Cloak of Aman</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg gave away an unidentified Cloak of Aman</h1><p>In town the Borg looks for pack items it can sell without losing anything. It is meant to keep an ego item whose random extra power (for example the hidden high resist on a Cloak of Aman) it has not learned yet, unless it carries a stack of them. That check looked up the ego of the cloak the Borg was wearing instead of the item being sold. A level-21 Warrior wearing a plain Cloak and carrying a Cloak of Aman whose random resist (nether) was still unknown therefore chose to sell the Cloak of Aman to the Black Market; carrying out that sale with the real store command handed the cloak over and only then revealed its resist. The correction asks about the item being sold; the Borg then keeps the cloak.</p><p><label>Scenario: <select id="scenario"><option value="plain-worn">Plain Cloak worn, unidentified Cloak of Aman carried</option><option value="aman-worn">Control: Cloak of Aman worn, unidentified Cloak of Aman carried</option></select></label></p><section class="scenario" data-mode="plain-worn"><p class="summary">Original: the random-power check asks about the worn plain Cloak (no ego, no random power), so the Cloak of Aman counts as safe to sell; the Borg picks it for the Black Market (shop 6, item a) and the real sale hands it over (&#x27;You had a Cloak of Aman [1,+14] &lt;+1&gt; (a).&#x27;), learning the nether rune only as it goes. Corrected: the check asks about the Cloak of Aman itself and the Borg sells nothing.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>sold the unidentified Cloak of Aman (1 = sold)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK hidden_rune=nether power_now=293381
+DECISION sell=1 shop=6 item=0 what=[Cloak of Aman [1,+14] &lt;+1&gt; {??}]
+TRACK You have learned the rune of resist nether.
+TRACK You had a Cloak of Aman [1,+14] &lt;+1&gt; (a).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>sold the unidentified Cloak of Aman (1 = sold)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK hidden_rune=nether power_now=293381
+DECISION sell=0 shop=-1 item=-1 what=[(nothing)]
+TRACK still carried: a Cloak of Aman [1,+14] &lt;+1&gt; {??}</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/egosell-133: starting...
+SETUP seed=133 mode=plain-worn class=Warrior clevel=21 maxdepth=20 no_selling=1
+  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] &lt;+1&gt; {??}]
+WORN cloak ego=- desc=[Cloak [1,+0]]
+TRACK hidden_rune=nether power_now=293381
+DECISION sell=1 shop=6 item=0 what=[Cloak of Aman [1,+14] &lt;+1&gt; {??}]
+TRACK You have learned the rune of resist nether.
+TRACK You had a Cloak of Aman [1,+14] &lt;+1&gt; (a).
+OUTCOME sold_unidentified_aman=1
+Failed
+    native-c/egosell-133:210: requirement &#x27;!sold&#x27; failed
+native-c/egosell-133 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/egosell-133: starting...
+SETUP seed=133 mode=plain-worn class=Warrior clevel=21 maxdepth=20 no_selling=1
+  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] &lt;+1&gt; {??}]
+WORN cloak ego=- desc=[Cloak [1,+0]]
+TRACK hidden_rune=nether power_now=293381
+DECISION sell=0 shop=-1 item=-1 what=[(nothing)]
+TRACK still carried: a Cloak of Aman [1,+14] &lt;+1&gt; {??}
+OUTCOME sold_unidentified_aman=0
+Passed
+native-c/egosell-133 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="aman-worn"><p class="summary">The worn cloak and the carried one have the same random-power ego, so both versions give the same answer: nothing is sold. The changed check runs in both versions; the logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sold the unidentified Cloak of Aman (1 = sold)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK hidden_rune=nether power_now=319235
+DECISION sell=0 shop=-1 item=-1 what=[(nothing)]
+TRACK still carried: a Cloak of Aman [1,+14] &lt;+1&gt; {??}</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>sold the unidentified Cloak of Aman (1 = sold)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK hidden_rune=nether power_now=319235
+DECISION sell=0 shop=-1 item=-1 what=[(nothing)]
+TRACK still carried: a Cloak of Aman [1,+14] &lt;+1&gt; {??}</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/egosell-133: starting...
+SETUP seed=133 mode=aman-worn class=Warrior clevel=21 maxdepth=20 no_selling=1
+  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] &lt;+1&gt; {??}]
+WORN cloak ego=of Aman desc=[Cloak of Aman [1,+18] &lt;+2&gt;]
+TRACK hidden_rune=nether power_now=319235
+DECISION sell=0 shop=-1 item=-1 what=[(nothing)]
+TRACK still carried: a Cloak of Aman [1,+14] &lt;+1&gt; {??}
+OUTCOME sold_unidentified_aman=0
+Passed
+native-c/egosell-133 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/egosell-133: starting...
+SETUP seed=133 mode=aman-worn class=Warrior clevel=21 maxdepth=20 no_selling=1
+  keeps_unidentified_random_ego  PACK 0 qty=1 ident=0 needs_id=1 ego=of Aman desc=[Cloak of Aman [1,+14] &lt;+1&gt; {??}]
+WORN cloak ego=of Aman desc=[Cloak of Aman [1,+18] &lt;+2&gt;]
+TRACK hidden_rune=nether power_now=319235
+DECISION sell=0 shop=-1 item=-1 what=[(nothing)]
+TRACK still carried: a Cloak of Aman [1,+14] &lt;+1&gt; {??}
+OUTCOME sold_unidentified_aman=0
+Passed
+native-c/egosell-133 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 133, character level 21, max depth 20, in town standing on the Black Market entrance, birth_no_selling at its default (on), BORG_WORSHIPS_GOLD and BORG_MONEY_SCUM_AMOUNT off, static preparedness. The starting pack is emptied (equipment kept) and every store is emptied. The carried spare is a Cloak of Aman created first from the same RNG state in both modes; every rune is known except the spare&#x27;s random high resist (nether), so its ego name is shown but it is not identified ({??}). &#x27;plain-worn&#x27;: a plain Cloak is worn. &#x27;aman-worn&#x27;: a Cloak of Aman is worn instead. The production borg_find_all_items(), borg_notice() and borg_power() load the state; the production borg_think_shop_sell_useless() (step 2 of the store logic) runs once and its goal is read back; if it chose the cloak, the real do_cmd_sell() runs on it. This isolates the sell choice and the sale; it does not play the walk through town or the Borg&#x27;s other store steps.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/133">issue 133</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
