@@ -1,0 +1,15 @@
+native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE archer
+TRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=48 with_crush=48 reduction=0 monster_without=48 monster_with=48
+DECISION acted=0 keys=0 sequence=
+ENGINE spell=- cast=0 monster_alive=1 monster_hp_before=50 player_hp=183->183 energy_used=0
+TRACK engine spell=- monster_alive=1 player_hp=183->183
+OUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1
+Failed
+    native-c/crushv2-66:222: requirement 'acted ? 1 : 0' == '1' failed
+      acted ? 1 : 0:                0
+      1:                1
+native-c/crushv2-66 finished: 0/1 passed

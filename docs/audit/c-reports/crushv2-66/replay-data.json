@@ -1,0 +1,158 @@
+{
+  "caster": {
+    "label": "Blacklock mage (36 hp, spells) five steps away",
+    "explanation": "Original: danger 936 with and without Crush, reduction 0, no attack chosen. Corrected: Crush clears the mage's ranged danger (936 to 0); the Borg queues 'mbb', the real cast kills the mage.",
+    "control": false,
+    "before": {
+      "raw": "native-c/crushv2-66: starting...\nSETUPSTEP profile\nSETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144\n  crush_counts_ranged_danger  MODE caster\nTRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20\nTRACK danger without_crush=936 with_crush=936 reduction=0 monster_without=936 monster_with=936\nDECISION acted=0 keys=0 sequence=\nENGINE spell=- cast=0 monster_alive=1 monster_hp_before=36 player_hp=183->183 energy_used=0\nTRACK engine spell=- monster_alive=1 player_hp=183->183\nOUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1\nFailed\n    native-c/crushv2-66:222: requirement 'acted ? 1 : 0' == '1' failed\n      acted ? 1 : 0:                0\n      1:                1\nnative-c/crushv2-66 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "cast_crush": 0,
+        "monster_alive": 1
+      },
+      "notes": [
+        "TRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20",
+        "TRACK danger without_crush=936 with_crush=936 reduction=0 monster_without=936 monster_with=936",
+        "DECISION acted=0 keys=0 sequence=",
+        "TRACK engine spell=- monster_alive=1 player_hp=183->183"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/crushv2-66: starting...\nSETUPSTEP profile\nSETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144\n  crush_counts_ranged_danger  MODE caster\nTRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20\nTRACK danger without_crush=936 with_crush=0 reduction=936 monster_without=936 monster_with=0\nDECISION acted=1 keys=3 sequence=mbb\nENGINE spell=Crush cast=1 monster_alive=0 monster_hp_before=36 player_hp=183->152 energy_used=100\nTRACK engine spell=Crush monster_alive=0 player_hp=183->152\nOUTCOME acted=1 keys=3 cast_crush=1 monster_alive=0\nPassed\nnative-c/crushv2-66 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "acted": 1,
+        "keys": 3,
+        "cast_crush": 1,
+        "monster_alive": 0
+      },
+      "notes": [
+        "TRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20",
+        "TRACK danger without_crush=936 with_crush=0 reduction=936 monster_without=936 monster_with=0",
+        "DECISION acted=1 keys=3 sequence=mbb",
+        "TRACK engine spell=Crush monster_alive=0 player_hp=183->152"
+      ],
+      "value": 1
+    }
+  },
+  "archer": {
+    "label": "Cave orc (50 hp, innate arrows) five steps away",
+    "explanation": "Original: danger 48 with and without Crush, no attack. Corrected: Crush clears the arrow danger (48 to 0); the Borg casts Crush and the orc dies.",
+    "control": false,
+    "before": {
+      "raw": "native-c/crushv2-66: starting...\nSETUPSTEP profile\nSETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144\n  crush_counts_ranged_danger  MODE archer\nTRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0\nTRACK danger without_crush=48 with_crush=48 reduction=0 monster_without=48 monster_with=48\nDECISION acted=0 keys=0 sequence=\nENGINE spell=- cast=0 monster_alive=1 monster_hp_before=50 player_hp=183->183 energy_used=0\nTRACK engine spell=- monster_alive=1 player_hp=183->183\nOUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1\nFailed\n    native-c/crushv2-66:222: requirement 'acted ? 1 : 0' == '1' failed\n      acted ? 1 : 0:                0\n      1:                1\nnative-c/crushv2-66 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "cast_crush": 0,
+        "monster_alive": 1
+      },
+      "notes": [
+        "TRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0",
+        "TRACK danger without_crush=48 with_crush=48 reduction=0 monster_without=48 monster_with=48",
+        "DECISION acted=0 keys=0 sequence=",
+        "TRACK engine spell=- monster_alive=1 player_hp=183->183"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/crushv2-66: starting...\nSETUPSTEP profile\nSETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144\n  crush_counts_ranged_danger  MODE archer\nTRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0\nTRACK danger without_crush=48 with_crush=0 reduction=48 monster_without=48 monster_with=0\nDECISION acted=1 keys=3 sequence=mbb\nENGINE spell=Crush cast=1 monster_alive=0 monster_hp_before=50 player_hp=183->152 energy_used=100\nTRACK engine spell=Crush monster_alive=0 player_hp=183->152\nOUTCOME acted=1 keys=3 cast_crush=1 monster_alive=0\nPassed\nnative-c/crushv2-66 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "acted": 1,
+        "keys": 3,
+        "cast_crush": 1,
+        "monster_alive": 0
+      },
+      "notes": [
+        "TRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0",
+        "TRACK danger without_crush=48 with_crush=0 reduction=48 monster_without=48 monster_with=0",
+        "DECISION acted=1 keys=3 sequence=mbb",
+        "TRACK engine spell=Crush monster_alive=0 player_hp=183->152"
+      ],
+      "value": 1
+    }
+  },
+  "melee": {
+    "label": "Control: ogre (60 hp, no ranged attack) five steps away",
+    "explanation": "The changed line runs (the ogre is crushable and in view) but its ranged danger is already 0; both versions see danger 0, choose no attack, and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/crushv2-66: starting...\nSETUPSTEP profile\nSETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144\n  crush_counts_ranged_danger  MODE melee\nTRACK race=ogre hp=60 power=60 crush_limit=104 distance=5 spell_freq=0\nTRACK danger without_crush=0 with_crush=0 reduction=0 monster_without=0 monster_with=0\nDECISION acted=0 keys=0 sequence=\nENGINE spell=- cast=0 monster_alive=1 monster_hp_before=60 player_hp=183->183 energy_used=0\nTRACK engine spell=- monster_alive=1 player_hp=183->183\nOUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1\nPassed\nnative-c/crushv2-66 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "cast_crush": 0,
+        "monster_alive": 1
+      },
+      "notes": [
+        "TRACK race=ogre hp=60 power=60 crush_limit=104 distance=5 spell_freq=0",
+        "TRACK danger without_crush=0 with_crush=0 reduction=0 monster_without=0 monster_with=0",
+        "DECISION acted=0 keys=0 sequence=",
+        "TRACK engine spell=- monster_alive=1 player_hp=183->183"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/crushv2-66: starting...\nSETUPSTEP profile\nSETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144\n  crush_counts_ranged_danger  MODE melee\nTRACK race=ogre hp=60 power=60 crush_limit=104 distance=5 spell_freq=0\nTRACK danger without_crush=0 with_crush=0 reduction=0 monster_without=0 monster_with=0\nDECISION acted=0 keys=0 sequence=\nENGINE spell=- cast=0 monster_alive=1 monster_hp_before=60 player_hp=183->183 energy_used=0\nTRACK engine spell=- monster_alive=1 player_hp=183->183\nOUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1\nPassed\nnative-c/crushv2-66 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "cast_crush": 0,
+        "monster_alive": 1
+      },
+      "notes": [
+        "TRACK race=ogre hp=60 power=60 crush_limit=104 distance=5 spell_freq=0",
+        "TRACK danger without_crush=0 with_crush=0 reduction=0 monster_without=0 monster_with=0",
+        "DECISION acted=0 keys=0 sequence=",
+        "TRACK engine spell=- monster_alive=1 player_hp=183->183"
+      ],
+      "value": 0
+    }
+  },
+  "tough": {
+    "label": "Control: dark dwarven lord (132 hp, too strong to crush)",
+    "explanation": "Above the 104 hit-point limit Crush would not kill it; both versions keep danger 720, choose no attack, and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/crushv2-66: starting...\nSETUPSTEP profile\nSETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144\n  crush_counts_ranged_danger  MODE tough\nTRACK race=dark dwarven lord hp=132 power=132 crush_limit=104 distance=5 spell_freq=20\nTRACK danger without_crush=720 with_crush=720 reduction=0 monster_without=720 monster_with=720\nDECISION acted=0 keys=0 sequence=\nENGINE spell=- cast=0 monster_alive=1 monster_hp_before=132 player_hp=183->183 energy_used=0\nTRACK engine spell=- monster_alive=1 player_hp=183->183\nOUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1\nPassed\nnative-c/crushv2-66 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "cast_crush": 0,
+        "monster_alive": 1
+      },
+      "notes": [
+        "TRACK race=dark dwarven lord hp=132 power=132 crush_limit=104 distance=5 spell_freq=20",
+        "TRACK danger without_crush=720 with_crush=720 reduction=0 monster_without=720 monster_with=720",
+        "DECISION acted=0 keys=0 sequence=",
+        "TRACK engine spell=- monster_alive=1 player_hp=183->183"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/crushv2-66: starting...\nSETUPSTEP profile\nSETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144\n  crush_counts_ranged_danger  MODE tough\nTRACK race=dark dwarven lord hp=132 power=132 crush_limit=104 distance=5 spell_freq=20\nTRACK danger without_crush=720 with_crush=720 reduction=0 monster_without=720 monster_with=720\nDECISION acted=0 keys=0 sequence=\nENGINE spell=- cast=0 monster_alive=1 monster_hp_before=132 player_hp=183->183 energy_used=0\nTRACK engine spell=- monster_alive=1 player_hp=183->183\nOUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1\nPassed\nnative-c/crushv2-66 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "acted": 0,
+        "keys": 0,
+        "cast_crush": 0,
+        "monster_alive": 1
+      },
+      "notes": [
+        "TRACK race=dark dwarven lord hp=132 power=132 crush_limit=104 distance=5 spell_freq=20",
+        "TRACK danger without_crush=720 with_crush=720 reduction=0 monster_without=720 monster_with=720",
+        "DECISION acted=0 keys=0 sequence=",
+        "TRACK engine spell=- monster_alive=1 player_hp=183->183"
+      ],
+      "value": 0
+    }
+  }
+}

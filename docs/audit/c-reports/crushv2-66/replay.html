@@ -1,0 +1,127 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A Necromancer Borg never cast Crush on a weak monster shooting at it from range</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A Necromancer Borg never cast Crush on a weak monster shooting at it from range</h1><p>Crush kills every monster in view with less than four times the caster&#x27;s level in hit points. The Borg values Crush by how much it lowers the danger at its grid. The danger code has two Crush adjustments, one for melee danger and one for ranged danger, but the ranged one cleared the melee value again instead of the ranged value. A monster that would die to Crush therefore kept all of its ranged danger, and Crush looked useless against anything that attacks from a distance. A level-26 Necromancer whose only attack spell is Crush, with an awake blacklock mage (36 hit points, under the limit of 104) five steps away, saw danger 936 both with and without Crush and did nothing. With the ranged value cleared, Crush removes all 936 danger, the Borg casts it, and the real cast kills the mage. The same holds for a cave orc that shoots arrows.</p><p><label>Scenario: <select id="scenario"><option value="caster">Blacklock mage (36 hp, spells) five steps away</option><option value="archer">Cave orc (50 hp, innate arrows) five steps away</option><option value="melee">Control: ogre (60 hp, no ranged attack) five steps away</option><option value="tough">Control: dark dwarven lord (132 hp, too strong to crush)</option></select></label></p><section class="scenario" data-mode="caster"><p class="summary">Original: danger 936 with and without Crush, reduction 0, no attack chosen. Corrected: Crush clears the mage&#x27;s ranged danger (936 to 0); the Borg queues &#x27;mbb&#x27;, the real cast kills the mage.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>cast Crush (1 = the Borg queued Crush and the real cast ran)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=936 with_crush=936 reduction=0 monster_without=936 monster_with=936
+DECISION acted=0 keys=0 sequence=
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>cast Crush (1 = the Borg queued Crush and the real cast ran)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=936 with_crush=0 reduction=936 monster_without=936 monster_with=0
+DECISION acted=1 keys=3 sequence=mbb
+TRACK engine spell=Crush monster_alive=0 player_hp=183-&gt;152</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE caster
+TRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=936 with_crush=936 reduction=0 monster_without=936 monster_with=936
+DECISION acted=0 keys=0 sequence=
+ENGINE spell=- cast=0 monster_alive=1 monster_hp_before=36 player_hp=183-&gt;183 energy_used=0
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183
+OUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1
+Failed
+    native-c/crushv2-66:222: requirement &#x27;acted ? 1 : 0&#x27; == &#x27;1&#x27; failed
+      acted ? 1 : 0:                0
+      1:                1
+native-c/crushv2-66 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE caster
+TRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=936 with_crush=0 reduction=936 monster_without=936 monster_with=0
+DECISION acted=1 keys=3 sequence=mbb
+ENGINE spell=Crush cast=1 monster_alive=0 monster_hp_before=36 player_hp=183-&gt;152 energy_used=100
+TRACK engine spell=Crush monster_alive=0 player_hp=183-&gt;152
+OUTCOME acted=1 keys=3 cast_crush=1 monster_alive=0
+Passed
+native-c/crushv2-66 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="archer"><p class="summary">Original: danger 48 with and without Crush, no attack. Corrected: Crush clears the arrow danger (48 to 0); the Borg casts Crush and the orc dies.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>cast Crush (1 = the Borg queued Crush and the real cast ran)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=48 with_crush=48 reduction=0 monster_without=48 monster_with=48
+DECISION acted=0 keys=0 sequence=
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>cast Crush (1 = the Borg queued Crush and the real cast ran)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=48 with_crush=0 reduction=48 monster_without=48 monster_with=0
+DECISION acted=1 keys=3 sequence=mbb
+TRACK engine spell=Crush monster_alive=0 player_hp=183-&gt;152</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE archer
+TRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=48 with_crush=48 reduction=0 monster_without=48 monster_with=48
+DECISION acted=0 keys=0 sequence=
+ENGINE spell=- cast=0 monster_alive=1 monster_hp_before=50 player_hp=183-&gt;183 energy_used=0
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183
+OUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1
+Failed
+    native-c/crushv2-66:222: requirement &#x27;acted ? 1 : 0&#x27; == &#x27;1&#x27; failed
+      acted ? 1 : 0:                0
+      1:                1
+native-c/crushv2-66 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE archer
+TRACK race=cave orc hp=50 power=50 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=48 with_crush=0 reduction=48 monster_without=48 monster_with=0
+DECISION acted=1 keys=3 sequence=mbb
+ENGINE spell=Crush cast=1 monster_alive=0 monster_hp_before=50 player_hp=183-&gt;152 energy_used=100
+TRACK engine spell=Crush monster_alive=0 player_hp=183-&gt;152
+OUTCOME acted=1 keys=3 cast_crush=1 monster_alive=0
+Passed
+native-c/crushv2-66 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="melee"><p class="summary">The changed line runs (the ogre is crushable and in view) but its ranged danger is already 0; both versions see danger 0, choose no attack, and the logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>cast Crush (1 = the Borg queued Crush and the real cast ran)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK race=ogre hp=60 power=60 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=0 with_crush=0 reduction=0 monster_without=0 monster_with=0
+DECISION acted=0 keys=0 sequence=
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>cast Crush (1 = the Borg queued Crush and the real cast ran)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK race=ogre hp=60 power=60 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=0 with_crush=0 reduction=0 monster_without=0 monster_with=0
+DECISION acted=0 keys=0 sequence=
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE melee
+TRACK race=ogre hp=60 power=60 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=0 with_crush=0 reduction=0 monster_without=0 monster_with=0
+DECISION acted=0 keys=0 sequence=
+ENGINE spell=- cast=0 monster_alive=1 monster_hp_before=60 player_hp=183-&gt;183 energy_used=0
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183
+OUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1
+Passed
+native-c/crushv2-66 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE melee
+TRACK race=ogre hp=60 power=60 crush_limit=104 distance=5 spell_freq=0
+TRACK danger without_crush=0 with_crush=0 reduction=0 monster_without=0 monster_with=0
+DECISION acted=0 keys=0 sequence=
+ENGINE spell=- cast=0 monster_alive=1 monster_hp_before=60 player_hp=183-&gt;183 energy_used=0
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183
+OUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1
+Passed
+native-c/crushv2-66 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="tough"><p class="summary">Above the 104 hit-point limit Crush would not kill it; both versions keep danger 720, choose no attack, and the logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>cast Crush (1 = the Borg queued Crush and the real cast ran)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK race=dark dwarven lord hp=132 power=132 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=720 with_crush=720 reduction=0 monster_without=720 monster_with=720
+DECISION acted=0 keys=0 sequence=
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>cast Crush (1 = the Borg queued Crush and the real cast ran)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK race=dark dwarven lord hp=132 power=132 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=720 with_crush=720 reduction=0 monster_without=720 monster_with=720
+DECISION acted=0 keys=0 sequence=
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE tough
+TRACK race=dark dwarven lord hp=132 power=132 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=720 with_crush=720 reduction=0 monster_without=720 monster_with=720
+DECISION acted=0 keys=0 sequence=
+ENGINE spell=- cast=0 monster_alive=1 monster_hp_before=132 player_hp=183-&gt;183 energy_used=0
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183
+OUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1
+Passed
+native-c/crushv2-66 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE tough
+TRACK race=dark dwarven lord hp=132 power=132 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=720 with_crush=720 reduction=0 monster_without=720 monster_with=720
+DECISION acted=0 keys=0 sequence=
+ENGINE spell=- cast=0 monster_alive=1 monster_hp_before=132 player_hp=183-&gt;183 energy_used=0
+TRACK engine spell=- monster_alive=1 player_hp=183-&gt;183
+OUTCOME acted=0 keys=0 cast_crush=0 monster_alive=1
+Passed
+native-c/crushv2-66 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Necromancer, seed 66, level 26, depth 20, 183 hit points, carrying [Dark Rituals] with only Crush learned (no other attack spell, no missiles), in a synthetic 40x40 arena. The Borg&#x27;s map is copied from the game cave and every grid is marked in view; one monster is placed five steps south, made aware and tracked by the Borg as awake. The production borg_attack(false) runs once; the keys it queues are resolved to the book and spell and executed with the real CMD_CAST command. The danger lines are diagnostic calls of borg_danger() with and without the Crush flag, the same calls borg_attack_aux_crush() makes. Cases: blacklock mage (ranged spells), cave orc (innate arrows), ogre (melee only, control), dark dwarven lord (132 hit points, too strong to crush, control).</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/66">issue 66</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
