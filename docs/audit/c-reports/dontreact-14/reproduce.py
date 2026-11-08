@@ -19,6 +19,8 @@ SOURCES = (
     "src/borg/borg-messages.c",
     "src/borg/borg-caution.c",
 )
+CONTROLS = ('no-knockout',)  # unchanged-situation controls: complete logs must be byte-identical
+DIAGNOSTICS = ()  # recorded, not asserted
 PHASES = ("before", "after")
 
 def main():
@@ -116,8 +118,13 @@ add_compile_definitions(PRIVATE_USER_PATH="{root/'test-user'}")
     for source_path, content in variants["after"].items():
         if (source/source_path).read_text() != content:
             raise RuntimeError("Disposable source not restored to the correction")
+    for control in CONTROLS:
+        if not (rows["before"][control]["passed"] and rows["after"][control]["passed"]):
+            raise RuntimeError(f"Control {control} did not pass in both versions")
+        if (evidence / f"before-{control}.log").read_bytes() != (evidence / f"after-{control}.log").read_bytes():
+            raise RuntimeError(f"Control {control} logs differ between the original and the correction")
     summary={"base":BASE,"fix":fix,"fixtures_ref":ref,"cases":rows,
-             "identical_full_logs":[],"full_tests":gates,
+             "identical_full_logs":list(CONTROLS),"diagnostics":list(DIAGNOSTICS),"full_tests":gates,
              "fixed_sources_sha256":{s: hashlib.sha256((source/s).read_bytes()).hexdigest() for s in SOURCES}}
     (root/"result.json").write_text(json.dumps(summary,indent=2)+"\n")
     subprocess.run([sys.executable,str(evidence/"make_replay.py"),str(evidence)],check=True)

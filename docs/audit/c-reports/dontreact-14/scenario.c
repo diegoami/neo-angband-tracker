@@ -21,6 +21,7 @@
 #include <stdlib.h>
 
 static term screen;
+static int scenario_no_knockout(void *state);
 
 int setup_tests(void **state)
 {
@@ -43,6 +44,13 @@ int setup_tests(void **state)
     borg.status.active = true;
     borg_update_entrypoint(true);
     printf("SETUP seed=1000 class=%s\n", player->class->name);
+    /* KO14_MODE=no-knockout: the unchanged-situation control (same
+     * messages and pump, no knockout parsed). */
+    const char *mode = getenv("KO14_MODE");
+    if (mode && streq(mode, "no-knockout")) {
+        tests[0].name = "no_knockout_reactions_unchanged";
+        tests[0].func = scenario_no_knockout;
+    }
     return 0;
 }
 
@@ -83,5 +91,35 @@ static int scenario(void *state)
     require(after_recovery > after_ko);
     ok;
 }
+/* Control: the same baseline, parse, pump and reaction sequence with an
+ * ordinary message where the knockout was. The knockout flag is never
+ * raised, so the original and the corrected borg must behave identically:
+ * every reaction queues. */
+static int scenario_no_knockout(void *state)
+{
+    borg_react("You feel great.", "TEST:baseline");
+    int after_baseline = borg_msg_num;
+    printf("STATE after_baseline=%d\n", after_baseline);
+
+    borg_parse("You feel less thirsty.");
+    borg_parse(NULL);
+
+    borg_react("You feel less great.", "TEST:no-ko");
+    int after_ko = borg_msg_num;
+    printf("STATE after_ko=%d\n", after_ko);
+
+    borg_parse(NULL);
+    borg.dont_react = false;
+
+    borg_react("You feel great again.", "TEST:after-pump");
+    int after_recovery = borg_msg_num;
+    printf("STATE after_recovery=%d\n", after_recovery);
+    printf("OUTCOME never_gated=%d\n",
+           (after_ko > after_baseline && after_recovery > after_ko) ? 1 : 0);
+    require(after_ko > after_baseline);
+    require(after_recovery > after_ko);
+    ok;
+}
+
 const char *suite_name = "native-c/dontreact-14";
 struct test tests[] = {{"knockout_flag_clears_on_pump", scenario}, {NULL, NULL}};
