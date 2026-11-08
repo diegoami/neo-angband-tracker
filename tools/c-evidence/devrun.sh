@@ -1,7 +1,7 @@
 #!/bin/sh
 TOOLS=$(cd "$(dirname "$0")" && pwd)
 WORK=${CEV_WORK:-/tmp/c-evidence-work}
-REPO=${CEV_REPO:-$(git -C "$TOOLS" rev-parse --show-toplevel)}
+REPO=${CEV_REPO:-$(dirname "$(git -C "$TOOLS" rev-parse --path-format=absolute --git-common-dir)")}
 BUILD=${CEV_BUILD:-$WORK/build}
 DEVSRC=${CEV_DEVSRC:-$WORK/dev-source}
 # usage: devrun.sh slug Observer PREFIX mode

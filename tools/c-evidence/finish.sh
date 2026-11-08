@@ -1,7 +1,7 @@
 #!/bin/sh
 TOOLS=$(cd "$(dirname "$0")" && pwd)
 WORK=${CEV_WORK:-/tmp/c-evidence-work}
-REPO=${CEV_REPO:-$(git -C "$TOOLS" rev-parse --show-toplevel)}
+REPO=${CEV_REPO:-$(dirname "$(git -C "$TOOLS" rev-parse --path-format=absolute --git-common-dir)")}
 BUILD=${CEV_BUILD:-$WORK/build}
 DEVSRC=${CEV_DEVSRC:-$WORK/dev-source}
 # usage: finish.sh slug fixtures_sha fix_sha  -> README, package, commit (with logs), push; prints receipt sha
