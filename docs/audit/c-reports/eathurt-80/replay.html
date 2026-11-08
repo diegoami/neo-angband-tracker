@@ -1,0 +1,46 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A Druid at full health drank Healing instead of casting Remove Hunger</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A Druid at full health drank Healing instead of casting Remove Hunger</h1><p>When the Borg is weak from hunger and has no food, borg_eat_food_any() falls back to cure potions, which also nourish a little (one percent of a full stomach each). The comment says it does this only &#x27;when hurting&#x27;, but the test was current hit points &lt;= maximum hit points, which is always true. The caller tries this fallback before the Remove Hunger spell, so a level-11 Druid at full health, with Remove Hunger available and two Potions of Healing, drank a Potion of Healing. The correction tests current &lt; maximum, and the Druid casts Remove Hunger.</p><p><label>Scenario: <select id="scenario"><option value="fullhp">69 of 69 hit points</option><option value="hurt">Control: 64 of 69 hit points</option></select></label></p><section class="scenario" data-mode="fullhp"><p class="summary">Original: &#x27;Quaffing Potions of Healing.&#x27; (key q) at full hit points. Corrected: &#x27;Casting Remove Hunger (0,2).&#x27; (key m).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>cast Remove Hunger instead of drinking a potion (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0
+TRACK # Quaffing Potions of Healing.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>cast Remove Hunger instead of drinking a potion (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=109
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0
+TRACK # Casting Remove Hunger (0,2).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/eathurt-80: starting...
+SETUP seed=80 mode=fullhp class=Druid clevel=11 hp=69/69 sp=18/18 food=700 depth=5
+  weak_druid_food_choice  STATE curhp=69 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1
+DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0
+TRACK # Quaffing Potions of Healing.
+OUTCOME quaffed_potion=1 cast_remove_hunger=0
+Failed
+    native-c/eathurt-80:172: requirement &#x27;!quaffed &amp;&amp; cast&#x27; failed
+native-c/eathurt-80 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/eathurt-80: starting...
+SETUP seed=80 mode=fullhp class=Druid clevel=11 hp=69/69 sp=18/18 food=700 depth=5
+  weak_druid_food_choice  STATE curhp=69 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1
+DECISION rc=1 key=109
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:69/69 SP:18/18 Danger:p=0
+TRACK # Casting Remove Hunger (0,2).
+OUTCOME quaffed_potion=0 cast_remove_hunger=1
+Passed
+native-c/eathurt-80 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="hurt"><p class="summary">The Druid is hurt, so both versions drink the Potion of Healing; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>cast Remove Hunger instead of drinking a potion (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:64/69 SP:18/18 Danger:p=0
+TRACK # Quaffing Potions of Healing.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>cast Remove Hunger instead of drinking a potion (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:64/69 SP:18/18 Danger:p=0
+TRACK # Quaffing Potions of Healing.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/eathurt-80: starting...
+SETUP seed=80 mode=hurt class=Druid clevel=11 hp=64/69 sp=18/18 food=700 depth=5
+  weak_druid_food_choice  STATE curhp=64 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1
+DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:64/69 SP:18/18 Danger:p=0
+TRACK # Quaffing Potions of Healing.
+OUTCOME quaffed_potion=1 cast_remove_hunger=0
+Passed
+native-c/eathurt-80 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/eathurt-80: starting...
+SETUP seed=80 mode=hurt class=Druid clevel=11 hp=64/69 sp=18/18 food=700 depth=5
+  weak_druid_food_choice  STATE curhp=64 maxhp=69 cursp=18 weak=1 healing=2 hunger_spell=1
+DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:5 Lev:11 HP:64/69 SP:18/18 Danger:p=0
+TRACK # Quaffing Potions of Healing.
+OUTCOME quaffed_potion=1 cast_remove_hunger=0
+Passed
+native-c/eathurt-80 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Druid, seed 80, level 11, depth 5, a lit 38x22 room with no monsters. The starting rations are removed (no food in the pack). The Druid carries its starting [Lesser Charms] and two Potions of Healing, and has learned Remove Hunger and cast it before (fixture sets the learned and worked spell flags); 18 of 18 mana. Food is set just below the Weak threshold. Main case 69 of 69 hit points; control 64 of 69 (hurt). The production borg_caution() runs once and the first queued key is read back. This isolates the starvation step; it does not play out later turns.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/80">issue 80</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

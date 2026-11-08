@@ -1,0 +1,13 @@
+Native evidence directory: /tmp/angband-eathurt-80-9gx4supa
+Preparing worktree (detached HEAD e473720ed)
+HEAD is now at e473720ed Term_clear() and loop over height calling Term_erase() are not synonyms
+configure: shared validation lock; log /tmp/angband-eathurt-80-9gx4supa/configure.log
+before-build: shared validation lock; log /tmp/angband-eathurt-80-9gx4supa/before-build.log
+before-scenarios: shared validation lock; log /tmp/angband-eathurt-80-9gx4supa/before-scenarios.log
+before-alltests: shared validation lock; log /tmp/angband-eathurt-80-9gx4supa/before-alltests.log
+after-build: shared validation lock; log /tmp/angband-eathurt-80-9gx4supa/after-build.log
+after-scenarios: shared validation lock; log /tmp/angband-eathurt-80-9gx4supa/after-scenarios.log
+after-alltests: shared validation lock; log /tmp/angband-eathurt-80-9gx4supa/after-alltests.log
+Open in your browser: /tmp/angband-eathurt-80-9gx4supa/evidence/replay.html
+VERIFIED: the corrected full-health weak Druid casts Remove Hunger instead of drinking a Potion of Healing; the hurt control is byte-identical.
+Logs and result.json: /tmp/angband-eathurt-80-9gx4supa

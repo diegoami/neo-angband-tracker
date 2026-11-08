@@ -1,0 +1,2 @@
+fullhp {'exit': 0, 'passed': False, 'state': {'curhp': 69, 'maxhp': 69, 'cursp': 18, 'weak': 1, 'healing': 2, 'hunger_spell': 1}, 'outcome': {'quaffed_potion': 1, 'cast_remove_hunger': 0}}
+hurt {'exit': 0, 'passed': True, 'state': {'curhp': 64, 'maxhp': 69, 'cursp': 18, 'weak': 1, 'healing': 2, 'hunger_spell': 1}, 'outcome': {'quaffed_potion': 1, 'cast_remove_hunger': 0}}

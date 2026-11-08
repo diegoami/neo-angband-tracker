@@ -1,0 +1,130 @@
+{
+  "issue": "diegoami/neo-angband-tracker#80",
+  "report": "eathurt-80",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "8ae589ac5719e647ecc6c4da887268f64b8bcb46",
+  "fix_branch": "task/eathurt-80",
+  "fixtures_ref": "84ec69bca227897e7846c9189b5bf9c80205f79c",
+  "cases": {
+    "fullhp": {
+      "before": {
+        "passed": false,
+        "state": {
+          "curhp": 69,
+          "maxhp": 69,
+          "cursp": 18,
+          "weak": 1,
+          "healing": 2,
+          "hunger_spell": 1
+        },
+        "outcome": {
+          "quaffed_potion": 1,
+          "cast_remove_hunger": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "curhp": 69,
+          "maxhp": 69,
+          "cursp": 18,
+          "weak": 1,
+          "healing": 2,
+          "hunger_spell": 1
+        },
+        "outcome": {
+          "quaffed_potion": 0,
+          "cast_remove_hunger": 1
+        }
+      }
+    },
+    "hurt": {
+      "before": {
+        "passed": true,
+        "state": {
+          "curhp": 64,
+          "maxhp": 69,
+          "cursp": 18,
+          "weak": 1,
+          "healing": 2,
+          "hunger_spell": 1
+        },
+        "outcome": {
+          "quaffed_potion": 1,
+          "cast_remove_hunger": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "curhp": 64,
+          "maxhp": 69,
+          "cursp": 18,
+          "weak": 1,
+          "healing": 2,
+          "hunger_spell": 1
+        },
+        "outcome": {
+          "quaffed_potion": 1,
+          "cast_remove_hunger": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "hurt"
+  ],
+  "claim": "borg_eat_food_any() drinks cure potions for food 'when hurting', tested as CURHP <= MAXHP, which is always true. A weak level-11 Druid at full health with Remove Hunger and two Potions of Healing drinks a Potion of Healing (one percent of nourishment) instead of casting Remove Hunger. With CURHP < MAXHP it casts the spell; the hurt control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-item-use.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-item-use.c": "48f56be97adb04eb356c65512ed9907351b5c49edcf4f6bfb89e2d1ea17551b9"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "8d7234fa9870b6b3e50be5da09d508372cfc43bae84357ae0823030e1a0bb12a",
+    "after-fullhp.log": "07235bb5b4c93d8a3ed6d7150f02d7ccc5eed8cae598eaecebcdb555df22eafd",
+    "after-hurt.log": "0dd54fba1a58a93f2bd58bbe42ee533540d591cafe93762ac37d28a32e638e9b",
+    "after-results.json": "c16dd4eff77c04f413cf8819532a2412c1e6da6dcf81e4ad8716c4fd2d4398f7",
+    "before-fullhp.log": "b01e09bd3f66f968810960599c54cf8fe1489aeda3463e77084ba31a99ecc707",
+    "before-hurt.log": "0dd54fba1a58a93f2bd58bbe42ee533540d591cafe93762ac37d28a32e638e9b",
+    "before-results.json": "8f03203cbfd7a6356230c6fb2c53656ca0af4f990a92e97381b2f7a277bd7722",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "5299360e29f82425ae0049083d72222bfdc2393de3ace8df5008e1aa320ba3c0",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "90e19b48d3c10308ed078565446ec42c0253c30ed28d2f24d903ec622c4438b5",
+    "replay.html": "7709a6f3d98e40c5ee6104015d911a2038f9f2f85655d60d21de9b77449237d7",
+    "reproduce.py": "e13e6e6a879062684ddf61b5c5faf45107c0ab3332a1b1f115b817d24421cd18",
+    "result.json": "b7618270927e6ee042f3e77c14d8211fa00408c718727c95a9ed6ad8675f743f",
+    "run-after-alltests.log": "899adbf1b9f8cf194eeda9a6c8feb13447310e79ac7b49ad78ec4247e07ae474",
+    "run-after-build.log": "49d608f6392abb9c14a49df61d043eec98bed6dcc8878d11fd253480b37da6ac",
+    "run-after-scenarios.log": "415798473ea908b71d749ce2a788f5cc2c7f7f22f7bf03a90fd677e021c13dfc",
+    "run-before-alltests.log": "b3ea130a908064cb025760f15566a48ddce4b0b9ba52a488220801b8eab34a6d",
+    "run-before-build.log": "aa7d278a87aa8c3dbe76e14263de23a31ff6991061e6cc33aaf7cb18ec243b2b",
+    "run-before-scenarios.log": "02409e55441bcee3e7d1733ca98bfeb485976fc7fb18edfe899706988b9f8e18",
+    "run-cases.py": "429c00374b638c2fa919b42dfcf9795bf782114650d58fc053231d31df3eb540",
+    "run-configure.log": "13935af9d64122c83eac3e4c4d40845efef286bedaeedabeb97750227dc71ed0",
+    "run-matrix.log": "9d08aa216da94dbbb5da62b3cc3625bc095bc10c9bb6547af9011cafe097d5a7",
+    "scenario.c": "8c031aeccb5302c3b06a0f5abc00fd8b9f7b062fefc7b78131847be8e240addc"
+  }
+}
