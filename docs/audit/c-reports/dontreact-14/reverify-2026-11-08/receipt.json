@@ -1,0 +1,119 @@
+{
+  "slug": "dontreact-14",
+  "date": "2026-11-08",
+  "kind": "newrun",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "13590ee6ea748c4bae8f6ed86df041efe810993a",
+  "fixtures_ref": "f89af81271aacf9e18125f61a34b58e2b12dffcc",
+  "command": "python3 reproduce.py --full-tests --fixtures-ref f89af81271aacf9e18125f61a34b58e2b12dffcc --fix-ref 13590ee6ea748c4bae8f6ed86df041efe810993a",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 1,
+          "after_recovery": 1
+        },
+        "outcome": {
+          "recovered": 0
+        }
+      },
+      "no-knockout": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 2,
+          "after_recovery": 3
+        },
+        "outcome": {
+          "never_gated": 1
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 1,
+          "after_recovery": 2
+        },
+        "outcome": {
+          "recovered": 1
+        }
+      },
+      "no-knockout": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 2,
+          "after_recovery": 3
+        },
+        "outcome": {
+          "never_gated": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "no-knockout"
+  ],
+  "diagnostics": [],
+  "full_tests_parsed_from_alltests_logs": {
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    },
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    }
+  },
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "render_smoke": {
+    "replay.html": {
+      "output": "RENDER-SMOKE actions=0 errors=0 OK",
+      "exit": 0,
+      "sha256": "a14253dae75b6898de20d6778cdb3c71431c2cfbde2a2c3baaa027947e545a8d"
+    }
+  },
+  "run_root": "/tmp/angband-dontreact-14-effc6i0k",
+  "sha256": {
+    "after-alltests.log": "f552b1125b6a28435ce9d4666d57bd59ee4a88a33fdc17f46e185f92a0cf73bc",
+    "after-build.log": "b88179866d4710702d6962e77dd9ad4478ce8a344951a2b21a8e0447c59f7a29",
+    "after-scenarios.log": "7042784bb94dfb6d4c185d46188c1da52d2413a82ac5ce778fb0aa42e672b2e1",
+    "before-alltests.log": "7cd94fe8ce04fe5e8972a3d9b0ea7781e85474c69815a9ccefd7ac261e2e9e07",
+    "before-build.log": "55925207472b71f67abc1c72016e5943770e5bc99e06da116d7d0a0f761f6351",
+    "before-scenarios.log": "bf506348eae559d4ed272e68631b8bcb4999ddabaf7a38f7e22d6f024c54d6f9",
+    "configure.log": "bc2ed4f321ba2b5f9d79412f1a882988c52070e3f667418a3e023366b627e0de",
+    "result.json": "7733837c485be183e6acd55a5f460876fa0d307b4c08127d3935d96529361cd7",
+    "scenario-after-main.log": "b83b70d44cb3f02946290c1fada84bce9ca6893570520689a96075a6dacd021f",
+    "scenario-after-no-knockout.log": "b1c552f23d01651357320a889190bc13a52e0337f0945b789f4d23f66d28542b",
+    "scenario-after-results.json": "3b3f0077000f8ce123107b650dc6586e6a3c3c0fde6c581509f0963444341666",
+    "scenario-before-main.log": "467f36093d5d86782685e6671743417d5a02b7696c3a2fd7ebcdead901853bf7",
+    "scenario-before-no-knockout.log": "b1c552f23d01651357320a889190bc13a52e0337f0945b789f4d23f66d28542b",
+    "scenario-before-results.json": "de67eff1a74a1d6369affa47c45f5d7ed31fd1b6bfc282acebc57dcba858b56f"
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "change": "fixtures_ref, cases, full_tests, render_check, run_log, claim updated to this run; identical_controls, toolchain, sha256 added; previous values kept under superseded_run. The original receipt had no sha256 map."
+    },
+    {
+      "file": "README.md",
+      "old_sha256": "1cc75a387bfae6333f07856b553e0ba00d8953e763c3b7b74d85ae547eca2941",
+      "new_sha256": "1431504551f4bcf04b72491ef82e1902498d95f6dfa7535d71ed2ebd20f9056d",
+      "change": "appended \"Re-verification with a control (2026-11-08)\""
+    }
+  ]
+}

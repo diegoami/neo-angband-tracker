@@ -1,0 +1,2 @@
+main {'exit': 0, 'passed': True, 'state': {'after_baseline': 1, 'after_ko': 1, 'after_recovery': 2}, 'outcome': {'recovered': 1}}
+no-knockout {'exit': 0, 'passed': True, 'state': {'after_baseline': 1, 'after_ko': 2, 'after_recovery': 3}, 'outcome': {'never_gated': 1}}

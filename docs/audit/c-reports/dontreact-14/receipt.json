@@ -5,15 +5,71 @@
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
   "fix": "13590ee6ea748c4bae8f6ed86df041efe810993a",
   "fix_branch": "task/dontreact-14",
-  "fixtures_ref": "1006af0916d95a6ebd6c415326afd77f7d828d03",
+  "fixtures_ref": "f89af81271aacf9e18125f61a34b58e2b12dffcc",
   "cases": {
-    "before": {"passed": false, "state": {"after_baseline": 1, "after_ko": 1, "after_recovery": 1}, "outcome": {"recovered": 0}},
-    "after": {"passed": true, "state": {"after_baseline": 1, "after_ko": 1, "after_recovery": 2}, "outcome": {"recovered": 1}}
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 1,
+          "after_recovery": 1
+        },
+        "outcome": {
+          "recovered": 0
+        }
+      },
+      "no-knockout": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 2,
+          "after_recovery": 3
+        },
+        "outcome": {
+          "never_gated": 1
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 1,
+          "after_recovery": 2
+        },
+        "outcome": {
+          "recovered": 1
+        }
+      },
+      "no-knockout": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 2,
+          "after_recovery": 3
+        },
+        "outcome": {
+          "never_gated": 1
+        }
+      }
+    }
   },
-  "claim": "The original static knockout flag never clears, so the borg stays deaf after recovery (no message queued: 1). The corrected borg.dont_react field is cleared by the production pump, so reactions resume (2). During-knockout gating is identical in both versions.",
+  "claim": "The original static knockout flag never clears, so the borg stays deaf after recovery (no message queued: 1). The corrected borg.dont_react field is cleared by the production pump, so reactions resume (2). During-knockout gating is identical in both versions. Control no-knockout (no knockout parsed): every reaction queues (1, 2, 3) in both versions; byte-identical logs.",
   "full_tests": {
-    "before": {"unit_checks": "965/965", "frontend_tests": "5/5"},
-    "after": {"unit_checks": "965/965", "frontend_tests": "5/5"}
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
   },
   "fixed_sources": [
     "src/borg/borg-messages-react.c",
@@ -22,6 +78,74 @@
     "src/borg/borg-caution.c"
   ],
   "runner_asserts": "Each corrected file must equal the base file with exactly the expected rename applied; source scope must be exactly those four files.",
-  "render_check": "Chrome headless dump-dom: both cards render (Original 1, Corrected 2); no page errors.",
-  "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+  "render_check": "node tools/c-evidence/render-smoke.js (Playwright headless) on the committed replay.html, 2026-11-08: RENDER-SMOKE actions=0 errors=0 OK",
+  "run_log": "reproduce.py --full-tests at fixtures f89af8127 / fix 13590ee6e: VERIFIED; logs in reverify-2026-11-08/",
+  "superseded_run": {
+    "fixtures_ref": "1006af0916d95a6ebd6c415326afd77f7d828d03",
+    "cases": {
+      "before": {
+        "passed": false,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 1,
+          "after_recovery": 1
+        },
+        "outcome": {
+          "recovered": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "after_baseline": 1,
+          "after_ko": 1,
+          "after_recovery": 2
+        },
+        "outcome": {
+          "recovered": 1
+        }
+      }
+    },
+    "render_check": "Chrome headless dump-dom: both cards render (Original 1, Corrected 2); no page errors.",
+    "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+  },
+  "identical_controls": [
+    "no-knockout"
+  ],
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "sha256": {
+    "README.md": "1431504551f4bcf04b72491ef82e1902498d95f6dfa7535d71ed2ebd20f9056d",
+    "after-main.log": "b83b70d44cb3f02946290c1fada84bce9ca6893570520689a96075a6dacd021f",
+    "after-no-knockout.log": "b1c552f23d01651357320a889190bc13a52e0337f0945b789f4d23f66d28542b",
+    "after-results.json": "3b3f0077000f8ce123107b650dc6586e6a3c3c0fde6c581509f0963444341666",
+    "before-main.log": "467f36093d5d86782685e6671743417d5a02b7696c3a2fd7ebcdead901853bf7",
+    "before-no-knockout.log": "b1c552f23d01651357320a889190bc13a52e0337f0945b789f4d23f66d28542b",
+    "before-results.json": "de67eff1a74a1d6369affa47c45f5d7ed31fd1b6bfc282acebc57dcba858b56f",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "a6503643d20e5ed2a5dd6d11149b41c3f73e83c555f9a955157627ba02fdfba3",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "1bd813ffa40732ea46d6b4b0b20f7dc4618f0951986c4b1e71c72f41cb129f8d",
+    "replay.html": "a14253dae75b6898de20d6778cdb3c71431c2cfbde2a2c3baaa027947e545a8d",
+    "reproduce.py": "c45183874d9cbfbb46954652faa5fdab08beb95aa6f38418eeee956a1ed6d0f2",
+    "reverify-2026-11-08/after-alltests.log": "f552b1125b6a28435ce9d4666d57bd59ee4a88a33fdc17f46e185f92a0cf73bc",
+    "reverify-2026-11-08/after-build.log": "b88179866d4710702d6962e77dd9ad4478ce8a344951a2b21a8e0447c59f7a29",
+    "reverify-2026-11-08/after-scenarios.log": "7042784bb94dfb6d4c185d46188c1da52d2413a82ac5ce778fb0aa42e672b2e1",
+    "reverify-2026-11-08/before-alltests.log": "7cd94fe8ce04fe5e8972a3d9b0ea7781e85474c69815a9ccefd7ac261e2e9e07",
+    "reverify-2026-11-08/before-build.log": "55925207472b71f67abc1c72016e5943770e5bc99e06da116d7d0a0f761f6351",
+    "reverify-2026-11-08/before-scenarios.log": "bf506348eae559d4ed272e68631b8bcb4999ddabaf7a38f7e22d6f024c54d6f9",
+    "reverify-2026-11-08/configure.log": "bc2ed4f321ba2b5f9d79412f1a882988c52070e3f667418a3e023366b627e0de",
+    "reverify-2026-11-08/receipt.json": "e03183d34e2023d0bb8b13a7a75f093d6243ed55fe0892f7e07e70bf9de66c41",
+    "reverify-2026-11-08/result.json": "7733837c485be183e6acd55a5f460876fa0d307b4c08127d3935d96529361cd7",
+    "reverify-2026-11-08/scenario-after-main.log": "b83b70d44cb3f02946290c1fada84bce9ca6893570520689a96075a6dacd021f",
+    "reverify-2026-11-08/scenario-after-no-knockout.log": "b1c552f23d01651357320a889190bc13a52e0337f0945b789f4d23f66d28542b",
+    "reverify-2026-11-08/scenario-after-results.json": "3b3f0077000f8ce123107b650dc6586e6a3c3c0fde6c581509f0963444341666",
+    "reverify-2026-11-08/scenario-before-main.log": "467f36093d5d86782685e6671743417d5a02b7696c3a2fd7ebcdead901853bf7",
+    "reverify-2026-11-08/scenario-before-no-knockout.log": "b1c552f23d01651357320a889190bc13a52e0337f0945b789f4d23f66d28542b",
+    "reverify-2026-11-08/scenario-before-results.json": "de67eff1a74a1d6369affa47c45f5d7ed31fd1b6bfc282acebc57dcba858b56f",
+    "run-cases.py": "14eec6e885c4fffd1fce3fa8e69b80cd83e2720a8d71ac1f68cd46f6b7e54d00",
+    "scenario.c": "5cc82465cce20e24769fe2c60fcc01b85f7800ce6fe832f9d7582c5fc03b6380"
+  }
 }

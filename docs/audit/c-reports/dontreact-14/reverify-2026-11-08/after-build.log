@@ -1,0 +1,16 @@
+Copying needed files
+[  0%] Built target TransferLib
+[  0%] Built target OurUnitTestLib
+[  0%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-caution.c.o
+[  0%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-light.c.o
+[  0%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-messages-react.c.o
+[  0%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-messages.c.o
+[  1%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-reincarnate.c.o
+[  3%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-dungeon-util.c.o
+[  5%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg.c.o
+[ 98%] Built target OurCoreLib
+[ 98%] Building C object CMakeFiles/KO14Observer.dir/tmp/angband-dontreact-14-effc6i0k/evidence/scenario.c.o
+[ 98%] Linking C executable game/angband
+[ 98%] Linking C executable game/KO14Observer
+[100%] Built target OurExecutable
+[100%] Built target KO14Observer
