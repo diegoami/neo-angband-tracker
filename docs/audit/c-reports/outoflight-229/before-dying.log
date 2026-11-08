@@ -1,0 +1,12 @@
+native-c/outoflight-229: starting...
+SETUPSTEP profile
+SETUP light=3 timeout=3 nofuel=0 flasks=1
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20
+  dying_light_starts_maneuvers  MODE dying
+DECISION acted=0 keys=0 sequence=
+OUTCOME acted=0 keys=0
+Failed
+    native-c/outoflight-229:161: requirement 'acted ? 1 : 0' == '1' failed
+      acted ? 1 : 0:                0
+      1:                1
+native-c/outoflight-229 finished: 0/1 passed
