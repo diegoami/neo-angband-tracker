@@ -110,3 +110,64 @@ isolates the flag marking, not full autonomous play.
   fixed-source sha256.
 - `replay.html`, `replay-data.json` — the offline demo.
 - `receipt.json` — sha256 map of every file in this directory.
+
+## Re-verification (2026-11-08)
+
+Why: the logs of the original run were listed in `receipt.json` (with
+sha256 values) but were never committed — the repository's `*.log`
+ignore rule dropped them. To give reviewers the actual logs, the
+pinned runner was executed again at the same pins (fixtures
+`4478e689cf5518cbb72a9a34efa1f6b0e3b58f61`, base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `8e0f8448e9ebc6d164e4e621840acb0005094f81`) with `--full-tests`.
+The earlier text above is left unchanged.
+
+The run reproduced every recorded case: per-case pass/fail and every
+parsed outcome value in its `result.json` equal the `cases` in the
+original `receipt.json` (`matches_original_receipt_cases: true`).
+Runner verdict: `VERIFIED: the original marks the dug grid glowing, the correction marks it dark; control log identical.`
+
+| Mode | Original (base) | Corrected (fix) |
+| --- | --- | --- |
+| `excavate` | FAIL: glow=1 dark=0; acted=1 dark_marked=0 | pass: glow=0 dark=1; acted=1 dark_marked=1 |
+| `no-target` (control, byte-identical) | pass: glow=0 dark=0; acted=0 dark_marked=0 | pass: glow=0 dark=0; acted=0 dark_marked=0 |
+
+Full native gates, parsed from the committed alltests logs: original
+965/965 unit checks and 5/5 frontend tests; corrected
+965/965 and 5/5. Toolchain for this run: `cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0`,
+`cmake version 3.28.3` (the original run recorded `gcc 15.2.0`, `cmake 4.2.3`). Replay render
+check on the committed `replay.html`: `RENDER-SMOKE actions=6 errors=0 OK`
+(`tools/c-evidence/render-smoke.js`, Playwright Chromium headless).
+
+Logs, `result.json`, per-phase results and a `receipt.json` with the
+sha256 of every file are in [`reverify-2026-11-08/`](reverify-2026-11-08/).
+Repeat (fixtures pinned by sha; this runner has no `--fix-ref` flag: the
+fix sha `8e0f8448e9ebc6d164e4e621840acb0005094f81` is a constant in the pinned script, which
+asserts the source diff against it):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/excavate-236-evidence
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/excavate-236
+git show 4478e689cf5518cbb72a9a34efa1f6b0e3b58f61:docs/audit/c-reports/excavate-236/reproduce.py > /tmp/reproduce-excavate-236.py
+python3 /tmp/reproduce-excavate-236.py --full-tests --fixtures-ref 4478e689cf5518cbb72a9a34efa1f6b0e3b58f61
+```
+
+## Errata (2026-11-08)
+
+The fixtures pin printed above, `be69260bfcf7c51ce762ccf75282b18fbb5f7ad2`,
+does not exist in this repository (it is also recorded as `fixtures_ref`
+in `receipt.json`), so the three repeat commands above fail at
+`git show`. The real fixtures commit is
+`4478e689cf5518cbb72a9a34efa1f6b0e3b58f61` ("CBUG: native vault
+excavation flag fixture (excavate-236)"), the parent of the artifact
+commit `793f723ebb684f1f2abcdb267dc759861bc7874d`. Its `scenario.c`,
+`run-cases.py`, `make_replay.py`, `reproduce.py` and `borg.txt` match
+the sha256 values in `receipt.json` byte for byte, and the
+re-verification above ran at that commit. Corrected repeat commands:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/excavate-236-evidence
+git show 4478e689cf5518cbb72a9a34efa1f6b0e3b58f61:docs/audit/c-reports/excavate-236/reproduce.py > /tmp/reproduce-excavate-236.py
+python3 /tmp/reproduce-excavate-236.py --fixtures-ref 4478e689cf5518cbb72a9a34efa1f6b0e3b58f61 --full-tests
+```
+
+"Source proposal: PR (see the issue)" above refers to
+diegoami/neo-angband-tracker#400; this evidence package is PR #401.
