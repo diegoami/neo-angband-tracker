@@ -1,0 +1,26 @@
+{
+  "north": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "scoot": 1,
+      "cast_phase": 1
+    }
+  },
+  "south": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "scoot": 0,
+      "cast_phase": 0
+    }
+  },
+  "pack": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "scoot": 1,
+      "cast_phase": 1
+    }
+  }
+}

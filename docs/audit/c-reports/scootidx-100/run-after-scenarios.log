@@ -1,0 +1,3 @@
+north {'exit': 0, 'passed': True, 'outcome': {'scoot': 0, 'cast_phase': 0}}
+south {'exit': 0, 'passed': True, 'outcome': {'scoot': 0, 'cast_phase': 0}}
+pack {'exit': 0, 'passed': True, 'outcome': {'scoot': 1, 'cast_phase': 1}}

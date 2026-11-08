@@ -1,0 +1,122 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A monster out of sight made the Borg phase away from a harmless neighbour</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A monster out of sight made the Borg phase away from a harmless neighbour</h1><p>Rogues, warriors and other archers use &#x27;Shoot N Scoot&#x27;: when a dangerous monster reaches melee range they cast Phase Door to get distance and keep shooting. To decide whether the monster next to the Borg is worth it, one test looks up that monster&#x27;s danger. It looked up the wrong monster: it used the direction number of the grid (0 to 7) as the monster number, so it read whichever monster the Borg happened to record in that slot. A level-38 Rogue at full health (296 hit points) with only a mummified orc beside it (danger 16 at its grid) therefore cast Phase Door, because monster number 1 in its records was an ogre mage down a corridor, out of sight of the Rogue. It spent a turn and 2 spell points teleporting away from a neighbour whose own danger the test rates 0, to a random grid. The correction looks up the monster actually standing in that grid, and the Rogue stays put.</p><p><label>Scenario: <select id="scenario"><option value="north">Mummified orc north (direction slot 1 = the ogre mage&#x27;s number)</option><option value="south">Control: mummified orc south (direction slot 0, unused)</option><option value="pack">Control: olog north (pack monster, qualifies anyway)</option></select></label></p><section class="scenario" data-mode="north"><p class="summary">Original: the test reads the ogre mage&#x27;s danger at the orc&#x27;s grid (144, above 30% of 296 = 88) instead of the orc&#x27;s (0); &#x27;# Shoot N Scoot. (Danger Level 7.1)&#x27;, Phase Door is cast, the Rogue moves from (20,20) to (29,23) and spends 2 spell points. Corrected: the orc&#x27;s own danger is read; no Shoot&#x27;N&#x27;Scoot, no cast.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>cast Phase Door to Shoot&#x27;N&#x27;Scoot (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DECISION rc=1 keys=3 sequence=mab
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+TRACK # Safe to Shoot&#x27;N&#x27;Scoot. scary squares: 16/100
+TRACK # Casting Phase Door (0,1).
+TRACK # Shoot N Scoot. (Danger Level 7.1)
+TRACK engine spell=Phase Door grid=(20,20)-&gt;(29,23) sp=154-&gt;152</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>cast Phase Door to Shoot&#x27;N&#x27;Scoot (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DECISION rc=0 keys=0 sequence=
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+TRACK engine spell=- grid=(20,20)-&gt;(20,20) sp=154-&gt;154</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/scootidx-100: starting...
+SETUP seed=100 mode=north class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30
+  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=1 ranged=0 caster_in_view=0
+KILL k=1 race=ogre mage pos=(14,19) awake=1
+KILL k=2 race=mummified orc pos=(20,19) awake=1
+TRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DANGER here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296
+DECISION rc=1 keys=3 sequence=mab
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+TRACK # Safe to Shoot&#x27;N&#x27;Scoot. scary squares: 16/100
+TRACK # Casting Phase Door (0,1).
+TRACK # Shoot N Scoot. (Danger Level 7.1)
+ENGINE spell=Phase Door cast=1 grid=(20,20)-&gt;(29,23) sp=154-&gt;152 energy_used=100 caster_in_view=0
+TRACK engine spell=Phase Door grid=(20,20)-&gt;(29,23) sp=154-&gt;152
+OUTCOME scoot=1 cast_phase=1
+Failed
+    native-c/scootidx-100:291: requirement &#x27;!scoot &amp;&amp; !cast&#x27; failed
+native-c/scootidx-100 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/scootidx-100: starting...
+SETUP seed=100 mode=north class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30
+  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=1 ranged=0 caster_in_view=0
+KILL k=1 race=ogre mage pos=(14,19) awake=1
+KILL k=2 race=mummified orc pos=(20,19) awake=1
+TRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DANGER here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296
+DECISION rc=0 keys=0 sequence=
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+ENGINE spell=- cast=0 grid=(20,20)-&gt;(20,20) sp=154-&gt;154 energy_used=0 caster_in_view=0
+TRACK engine spell=- grid=(20,20)-&gt;(20,20) sp=154-&gt;154
+OUTCOME scoot=0 cast_phase=0
+Passed
+native-c/scootidx-100 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="south"><p class="summary">Slot 0 holds no monster and the orc&#x27;s own danger is 0, so neither version scoots; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>cast Phase Door to Shoot&#x27;N&#x27;Scoot (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK danger here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88
+DECISION rc=0 keys=0 sequence=
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+TRACK engine spell=- grid=(20,20)-&gt;(20,20) sp=154-&gt;154</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>cast Phase Door to Shoot&#x27;N&#x27;Scoot (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK danger here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88
+DECISION rc=0 keys=0 sequence=
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+TRACK engine spell=- grid=(20,20)-&gt;(20,20) sp=154-&gt;154</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/scootidx-100: starting...
+SETUP seed=100 mode=south class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30
+  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=0 ranged=0 caster_in_view=0
+KILL k=1 race=ogre mage pos=(14,19) awake=1
+KILL k=2 race=mummified orc pos=(20,21) awake=1
+TRACK danger here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88
+DANGER here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88 hp=296
+DECISION rc=0 keys=0 sequence=
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+ENGINE spell=- cast=0 grid=(20,20)-&gt;(20,20) sp=154-&gt;154 energy_used=0 caster_in_view=0
+TRACK engine spell=- grid=(20,20)-&gt;(20,20) sp=154-&gt;154
+OUTCOME scoot=0 cast_phase=0
+Passed
+native-c/scootidx-100 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/scootidx-100: starting...
+SETUP seed=100 mode=south class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30
+  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=0 ranged=0 caster_in_view=0
+KILL k=1 race=ogre mage pos=(14,19) awake=1
+KILL k=2 race=mummified orc pos=(20,21) awake=1
+TRACK danger here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88
+DANGER here=16 adjacent_monster=0 direction_slot_monster=0 threshold=88 hp=296
+DECISION rc=0 keys=0 sequence=
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+ENGINE spell=- cast=0 grid=(20,20)-&gt;(20,20) sp=154-&gt;154 energy_used=0 caster_in_view=0
+TRACK engine spell=- grid=(20,20)-&gt;(20,20) sp=154-&gt;154
+OUTCOME scoot=0 cast_phase=0
+Passed
+native-c/scootidx-100 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="pack"><p class="summary">The olog qualifies through the pack-monster test, so both versions Shoot&#x27;N&#x27;Scoot and cast Phase Door to the same grid; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>cast Phase Door to Shoot&#x27;N&#x27;Scoot (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK danger here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DECISION rc=1 keys=3 sequence=mab
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=96
+TRACK # Safe to Shoot&#x27;N&#x27;Scoot. scary squares: 16/100
+TRACK # Casting Phase Door (0,1).
+TRACK # Shoot N Scoot. (Danger Level 7.1)
+TRACK engine spell=Phase Door grid=(20,20)-&gt;(29,23) sp=154-&gt;152</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>cast Phase Door to Shoot&#x27;N&#x27;Scoot (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK danger here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DECISION rc=1 keys=3 sequence=mab
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=96
+TRACK # Safe to Shoot&#x27;N&#x27;Scoot. scary squares: 16/100
+TRACK # Casting Phase Door (0,1).
+TRACK # Shoot N Scoot. (Danger Level 7.1)
+TRACK engine spell=Phase Door grid=(20,20)-&gt;(29,23) sp=154-&gt;152</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/scootidx-100: starting...
+SETUP seed=100 mode=pack class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30
+  shoot_scoot_from_adjacent_monster  TRACK adjacent=olog kill_index=2 direction=1 ranged=0 caster_in_view=0
+KILL k=1 race=ogre mage pos=(14,19) awake=1
+KILL k=2 race=olog pos=(20,19) awake=1
+TRACK danger here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DANGER here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296
+DECISION rc=1 keys=3 sequence=mab
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=96
+TRACK # Safe to Shoot&#x27;N&#x27;Scoot. scary squares: 16/100
+TRACK # Casting Phase Door (0,1).
+TRACK # Shoot N Scoot. (Danger Level 7.1)
+ENGINE spell=Phase Door cast=1 grid=(20,20)-&gt;(29,23) sp=154-&gt;152 energy_used=100 caster_in_view=0
+TRACK engine spell=Phase Door grid=(20,20)-&gt;(29,23) sp=154-&gt;152
+OUTCOME scoot=1 cast_phase=1
+Passed
+native-c/scootidx-100 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/scootidx-100: starting...
+SETUP seed=100 mode=pack class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30
+  shoot_scoot_from_adjacent_monster  TRACK adjacent=olog kill_index=2 direction=1 ranged=0 caster_in_view=0
+KILL k=1 race=ogre mage pos=(14,19) awake=1
+KILL k=2 race=olog pos=(20,19) awake=1
+TRACK danger here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DANGER here=96 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296
+DECISION rc=1 keys=3 sequence=mab
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=96
+TRACK # Safe to Shoot&#x27;N&#x27;Scoot. scary squares: 16/100
+TRACK # Casting Phase Door (0,1).
+TRACK # Shoot N Scoot. (Danger Level 7.1)
+ENGINE spell=Phase Door cast=1 grid=(20,20)-&gt;(29,23) sp=154-&gt;152 energy_used=100 caster_in_view=0
+TRACK engine spell=Phase Door grid=(20,20)-&gt;(29,23) sp=154-&gt;152
+OUTCOME scoot=1 cast_phase=1
+Passed
+native-c/scootidx-100 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Rogue, seed 100, level 38, depth 30, 296/296 hit points, 154 spell points, Phase Door learned from [First Spells] (no other spell), a sling with 30 iron shots and 5 Phase Door scrolls, in a lit 40x40 arena. The Borg&#x27;s map is copied from the game cave. An awake ogre mage stands at the end of a walled corridor running west from the grid north of the Borg; the Borg saw it from that grid a moment earlier (the fixture moves the player there to observe it, then back), so it is the Borg&#x27;s monster number 1 but is out of sight of the Borg&#x27;s grid. &#x27;north&#x27;: an awake mummified orc (monster number 2, no spells, not in a group) stands north of the Borg, in direction slot 1. &#x27;south&#x27; (control): the same orc stands south, direction slot 0, an unused monster number. &#x27;pack&#x27; (control): an olog, a pack monster close to the Borg&#x27;s level, stands north; it qualifies for Shoot&#x27;N&#x27;Scoot without the danger test. The production borg_caution() runs once; the queued keys are resolved to the book and spell and executed with the real CMD_CAST command. The danger lines are diagnostic calls of borg_danger_one_kill() with the two candidate indices.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/100">issue 100</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

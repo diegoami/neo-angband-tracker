@@ -1,0 +1,14 @@
+native-c/scootidx-100: starting...
+SETUP seed=100 mode=north class=Rogue clevel=38 hp=296 sp=154/154 depth=30 missiles=30
+  shoot_scoot_from_adjacent_monster  TRACK adjacent=mummified orc kill_index=2 direction=1 ranged=0 caster_in_view=0
+KILL k=1 race=ogre mage pos=(14,19) awake=1
+KILL k=2 race=mummified orc pos=(20,19) awake=1
+TRACK danger here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88
+DANGER here=16 adjacent_monster=0 direction_slot_monster=144 threshold=88 hp=296
+DECISION rc=0 keys=0 sequence=
+TRACK # Loc:20,20 Dep:30 Lev:38 HP:296/296 SP:154/154 Danger:p=16
+ENGINE spell=- cast=0 grid=(20,20)->(20,20) sp=154->154 energy_used=0 caster_in_view=0
+TRACK engine spell=- grid=(20,20)->(20,20) sp=154->154
+OUTCOME scoot=0 cast_phase=0
+Passed
+native-c/scootidx-100 finished: 1/1 passed

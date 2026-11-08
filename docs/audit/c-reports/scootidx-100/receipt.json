@@ -1,0 +1,116 @@
+{
+  "issue": "diegoami/neo-angband-tracker#100",
+  "report": "scootidx-100",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "dbafd291a3d4d1ff2b4338ba1ee0cc8c65224277",
+  "fix_branch": "task/scootidx-100",
+  "fixtures_ref": "dbf954ba92ced9b87da786812dfbf4a950abae6b",
+  "cases": {
+    "north": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "scoot": 1,
+          "cast_phase": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "scoot": 0,
+          "cast_phase": 0
+        }
+      }
+    },
+    "south": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "scoot": 0,
+          "cast_phase": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "scoot": 0,
+          "cast_phase": 0
+        }
+      }
+    },
+    "pack": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "scoot": 1,
+          "cast_phase": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "scoot": 1,
+          "cast_phase": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "south",
+    "pack"
+  ],
+  "claim": "borg_shoot_scoot_safe() passed the direction index i (0-7) to borg_danger_one_kill() instead of the adjacent monster's kill index ag->kill. A full-health level-38 Rogue next to a mummified orc (own danger 0) cast Phase Door because kill slot 1, matching the orc's direction, held an out-of-sight ogre mage (danger 144 at the orc's grid). With ag->kill it stays; the south (unused slot) and olog (pack, qualifies anyway) controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-kill.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "b7a42823c42e0dbb0f0e3892c8a45c05bf7c588192238f3365d1bd027a80584a"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "5af777728e4955dcf6e8241a46ca08a98c23aee42cf415ddfc10eef58f6e15b3",
+    "after-north.log": "348d5344902d6162edffabcc0121dca9b9acca957c56fffb831ee3fad4a919e4",
+    "after-pack.log": "10dca72d7e89448592de1130b70853d5cd2944e352cf4b6ce175f586ed7fabae",
+    "after-results.json": "a43ef8849385eaebd8a32961c8e591c5b06a2d811b0e7b7e872c61f5ad07fc80",
+    "after-south.log": "12f0d4c35682779a52038785864e8f5edf565aa4d3118eb671110992ee1b8e06",
+    "before-north.log": "23dac676a7bece4940d44f7f61faf6fe624deaa95159aa6d58a0e325763518f0",
+    "before-pack.log": "10dca72d7e89448592de1130b70853d5cd2944e352cf4b6ce175f586ed7fabae",
+    "before-results.json": "0abd715ad1894d3b228f22778d063a0c642706a1a621897771b431d925660c94",
+    "before-south.log": "12f0d4c35682779a52038785864e8f5edf565aa4d3118eb671110992ee1b8e06",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "aa338ef89727b159eefbf1a992601c0058dc6796c676d672f57d594bed725f9c",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "aac7806273fd415a4925a19cdcf659f517891ec37993c50059c7338855ff7186",
+    "replay.html": "0c34edee2bf297e6059257e7a0357998aba78b545238c3a046c37ae10ed9d21e",
+    "reproduce.py": "5bdf0f3bfa297b20d0e399da198d8a1fba06a1f69723da56c32b822f5676b8b3",
+    "result.json": "dccc07257bdaea8e63958871dd0a2da45290cbc9caad90ab949fc2a679fc9a58",
+    "run-after-alltests.log": "024476a70210c0b9f75523032357cd58dfe4ec9f83c6ec6dd118a693744366de",
+    "run-after-build.log": "d19153e217f02cc6f3b154a42e95fb55408738bdff3baf13f29d131355ae19ff",
+    "run-after-scenarios.log": "2d2cdcdf5a429e41702c57109eed00fe46641abd408691a1d4b4aa2fd0ab8481",
+    "run-before-alltests.log": "e315139c992c5580c97133f857ce303cba131ee2374f69866a2a66dca2ce60b4",
+    "run-before-build.log": "268727ad48d89e941ceb8ad355e694a23023d569cab52e0b474b1fdcf79235f8",
+    "run-before-scenarios.log": "3188af51ecdee0df883ac86c6317ca3806b6e5c9ca211f9151de756f0ec7fe96",
+    "run-cases.py": "34985517b56223899418ad9cb24990fae54df6042e728ecc63dd1f1dcca9b0e3",
+    "run-configure.log": "3e2f080a3ba99390b13fdab7187c5d286a8a2650c41acfc3d3683f8aca6c3ab6",
+    "scenario.c": "209af42e98a124f0deb322e24adb19a8989e862a9da6ea5d53754ddc602bbba5"
+  }
+}
