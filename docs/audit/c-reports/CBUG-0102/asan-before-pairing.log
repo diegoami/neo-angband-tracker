@@ -1,0 +1,19 @@
+native-c/CBUG-0102: starting...
+SETUPSTEP profile
+SETUPSTEP birth
+SETUPSTEP borg
+SETUPSTEP monster mage
+SETUP seed=1000 class=Warrior level=1 depth=5 hp=8/20 sp=0/0 mode=pairing
+THREAT name=mage kill_index=1 awake=1 ranged=8
+SPELLS 46,47,48,59,60,67,70,78,
+GRID player=(10,10) feat=1 trappable=1 mage=(11,10)
+TRACK start num=0 size=200
+  failed_glyph_keeps_count_in_bounds  MODE pairing
+DANGER phaseB p1=308 p2=88 avoidance=180
+DECISION phaseB acted=1 keys=4 sequence=<Escape><Escape>rc
+TRACK phaseB_acted num=1
+ENGINE turn=1 hp=8: You have no more Scrolls of Rune of Protection (c).
+OUTCOME glyph_created=1 warded_grid=(10,10) hp=8 num_final=1
+Passed
+TRACK teardown num=1
+native-c/CBUG-0102 finished: 1/1 passed

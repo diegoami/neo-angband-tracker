@@ -1,0 +1,70 @@
+native-c/CBUG-0102: starting...
+SETUPSTEP profile
+SETUPSTEP birth
+SETUPSTEP borg
+SETUPSTEP monster mage
+SETUP seed=1000 class=Warrior level=1 depth=5 hp=8/20 sp=0/0 mode=stairs
+THREAT name=mage kill_index=1 awake=1 ranged=8
+SPELLS 46,47,48,59,60,67,70,78,
+GRID player=(11,11) feat=3 trappable=0 mage=(11,10)
+TRACK start num=0 size=200
+  failed_glyph_keeps_count_in_bounds  =================================================================
+==23169==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x51800001487c at pc 0x55dc12578682 bp 0x7ffdc1b3bf00 sp 0x7ffdc1b3bef0
+WRITE of size 4 at 0x51800001487c thread T0
+    #0 0x55dc12578681 in borg_defend_aux_glyph /tmp/angband-cbug-0102-r93jkpd4/source/src/borg/borg-fight-defend.c:1607
+    #1 0x55dc12584da6 in borg_calculate_defense_effectiveness /tmp/angband-cbug-0102-r93jkpd4/source/src/borg/borg-fight-defend.c:3485
+    #2 0x55dc12585441 in borg_defend /tmp/angband-cbug-0102-r93jkpd4/source/src/borg/borg-fight-defend.c:3599
+    #3 0x55dc1217e56d in scenario /tmp/angband-cbug-0102-r93jkpd4/evidence/normal/scenario.c:303
+    #4 0x55dc126b89ea in main /tmp/angband-cbug-0102-r93jkpd4/source/src/tests/unit-test.c:53
+    #5 0x7ffa2ba2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #6 0x7ffa2ba2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #7 0x55dc12179e64 in _start (/tmp/angband-cbug-0102-r93jkpd4/build-asan/game/CBUG0102Observer+0x14be64) (BuildId: 36130bdef71553cfb6f5fb43abac9baabf5ae183)
+
+0x51800001487c is located 4 bytes before 800-byte region [0x518000014880,0x518000014ba0)
+allocated by thread T0 here:
+    #0 0x7ffa2befd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55dc1250fd79 in mem_alloc /tmp/angband-cbug-0102-r93jkpd4/source/src/z-virt.c:38
+    #2 0x55dc1250fdb5 in mem_zalloc /tmp/angband-cbug-0102-r93jkpd4/source/src/z-virt.c:46
+    #3 0x55dc125c1f78 in borg_init_track /tmp/angband-cbug-0102-r93jkpd4/source/src/borg/borg-flow.c:1212
+    #4 0x55dc1258fc6a in borg_init_flow_glyph /tmp/angband-cbug-0102-r93jkpd4/source/src/borg/borg-flow-glyph.c:334
+    #5 0x55dc125c22a3 in borg_init_flow /tmp/angband-cbug-0102-r93jkpd4/source/src/borg/borg-flow.c:1274
+    #6 0x55dc125db281 in borg_init /tmp/angband-cbug-0102-r93jkpd4/source/src/borg/borg-init.c:573
+    #7 0x55dc1217b3fa in setup_tests /tmp/angband-cbug-0102-r93jkpd4/evidence/normal/scenario.c:161
+    #8 0x55dc126b8867 in main /tmp/angband-cbug-0102-r93jkpd4/source/src/tests/unit-test.c:45
+    #9 0x7ffa2ba2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #10 0x7ffa2ba2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #11 0x55dc12179e64 in _start (/tmp/angband-cbug-0102-r93jkpd4/build-asan/game/CBUG0102Observer+0x14be64) (BuildId: 36130bdef71553cfb6f5fb43abac9baabf5ae183)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-cbug-0102-r93jkpd4/source/src/borg/borg-fight-defend.c:1607 in borg_defend_aux_glyph
+Shadow bytes around the buggy address:
+  0x518000014580: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x518000014600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x518000014680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x518000014700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x518000014780: 00 00 00 00 00 00 fa fa fa fa fa fa fa fa fa fa
+=>0x518000014800: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa[fa]
+  0x518000014880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x518000014900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x518000014980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x518000014a00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x518000014a80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==23169==ABORTING

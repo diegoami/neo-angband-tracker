@@ -1,0 +1,424 @@
+{
+  "purpose": "Re-verification run at the original receipt pins; the original run's logs were dropped by the repository's *.log ignore rule although its receipt listed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "ec172531ec38fdd3ac2783d21e3faf6dc1e2b3f3",
+  "fixtures_ref": "f1f53106526412cfe44fa01c73d00e7dbf4dbeed",
+  "original_receipt_pins": {
+    "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+    "fix": "ec172531ec38fdd3ac2783d21e3faf6dc1e2b3f3",
+    "fixtures_ref": "f1f53106526412cfe44fa01c73d00e7dbf4dbeed"
+  },
+  "cases_match_original_result_json": true,
+  "case_differences": [],
+  "cases": {
+    "before-normal": {
+      "stairs": {
+        "exit": 0,
+        "passed": false,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseA": {
+          "num": -1
+        },
+        "phaseB": {
+          "num": 0
+        },
+        "message": {
+          "failed_floor": 1,
+          "total_new": 5
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 0
+        },
+        "decisionA": {
+          "acted": 1,
+          "keys": 3
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      },
+      "clear-floor": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseA": {
+          "num": 0
+        },
+        "phaseB": {
+          "num": 1
+        },
+        "message": {
+          "failed_floor": 0,
+          "total_new": 4
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionA": {
+          "acted": 1,
+          "keys": 3
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      },
+      "pairing": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseB": {
+          "num": 1
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      }
+    },
+    "before-asan": {
+      "stairs": {
+        "exit": 1,
+        "passed": false,
+        "asan": true,
+        "underflow": true,
+        "defend_site": true
+      },
+      "clear-floor": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseA": {
+          "num": 0
+        },
+        "phaseB": {
+          "num": 1
+        },
+        "message": {
+          "failed_floor": 0,
+          "total_new": 4
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionA": {
+          "acted": 1,
+          "keys": 3
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      },
+      "pairing": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseB": {
+          "num": 1
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      }
+    },
+    "after-normal": {
+      "stairs": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseA": {
+          "num": 0
+        },
+        "phaseB": {
+          "num": 1
+        },
+        "message": {
+          "failed_floor": 1,
+          "total_new": 5
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionA": {
+          "acted": 1,
+          "keys": 3
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      },
+      "clear-floor": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseA": {
+          "num": 0
+        },
+        "phaseB": {
+          "num": 1
+        },
+        "message": {
+          "failed_floor": 0,
+          "total_new": 4
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionA": {
+          "acted": 1,
+          "keys": 3
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      },
+      "pairing": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseB": {
+          "num": 1
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      }
+    },
+    "after-asan": {
+      "stairs": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseA": {
+          "num": 0
+        },
+        "phaseB": {
+          "num": 1
+        },
+        "message": {
+          "failed_floor": 1,
+          "total_new": 5
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionA": {
+          "acted": 1,
+          "keys": 3
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      },
+      "clear-floor": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseA": {
+          "num": 0
+        },
+        "phaseB": {
+          "num": 1
+        },
+        "message": {
+          "failed_floor": 0,
+          "total_new": 4
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionA": {
+          "acted": 1,
+          "keys": 3
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      },
+      "pairing": {
+        "exit": 0,
+        "passed": true,
+        "asan": false,
+        "underflow": false,
+        "defend_site": false,
+        "phaseB": {
+          "num": 1
+        },
+        "outcome": {
+          "glyph_created": 1,
+          "hp": 8,
+          "num_final": 1
+        },
+        "decisionB": {
+          "acted": 1,
+          "keys": 4
+        }
+      }
+    }
+  },
+  "identical_full_logs": [
+    "clear-floor",
+    "pairing"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "gate_lines_from_alltests_logs": {
+    "before": {
+      "total_lines": [
+        "Total: 965/965 passed (100.0%)",
+        "Total: 5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "total_lines": [
+        "Total: 965/965 passed (100.0%)",
+        "Total: 5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "fixed_source_sha256": "3189a4b646b8f7db4df82c88302acba015a4333332c995b8f367f7062cbafd69",
+  "fixed_source_sha256_matches_original": true,
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium, clicks every option/button)",
+    "page": "../replay.html (committed)",
+    "result": "RENDER-SMOKE actions=12 errors=0 OK"
+  },
+  "regenerated_replay_vs_committed": {
+    "replay-data.json": "byte-identical to committed",
+    "replay.html": "differs from committed"
+  },
+  "files_byte_identical_to_original_receipt_hash": [
+    "after-asan-build.log",
+    "after-asan-scenarios.log",
+    "after-clear-floor.log",
+    "after-normal-scenarios.log",
+    "after-pairing.log",
+    "after-results.json",
+    "after-stairs.log",
+    "asan-after-clear-floor.log",
+    "asan-after-pairing.log",
+    "asan-after-results.json",
+    "asan-after-stairs.log",
+    "asan-before-clear-floor.log",
+    "asan-before-pairing.log",
+    "asan-before-results.json",
+    "before-asan-scenarios.log",
+    "before-clear-floor.log",
+    "before-normal-scenarios.log",
+    "before-pairing.log",
+    "before-results.json",
+    "before-stairs.log",
+    "result.json"
+  ],
+  "files_differing_from_original_receipt_hash": [
+    "after-alltests.log",
+    "after-normal-build.log",
+    "asan-before-stairs.log",
+    "before-alltests.log",
+    "before-asan-build.log",
+    "before-normal-build.log",
+    "configure-asan.log",
+    "configure.log"
+  ],
+  "sha256": {
+    "after-alltests.log": "c2a41d4bb6b5ac708f952f4a736f385856cec49c3fe9b07cb2876768ca060e89",
+    "after-asan-build.log": "c9f619e4ef3a75503117bf8f68083cc1a13da9da41b6878c02f5b5b155cfbc34",
+    "after-asan-scenarios.log": "23039fd6f2075a96b44c9a562c79ccb6b74201361f1da275e8ea4dd0c580b7c0",
+    "after-clear-floor.log": "064737d0fd3d4ff3ccb5c73918c414dcc216ff6690aa8f391c7671146f44f740",
+    "after-normal-build.log": "c9f619e4ef3a75503117bf8f68083cc1a13da9da41b6878c02f5b5b155cfbc34",
+    "after-normal-scenarios.log": "23039fd6f2075a96b44c9a562c79ccb6b74201361f1da275e8ea4dd0c580b7c0",
+    "after-pairing.log": "f44b95bb49b5aa4f98bd0139547518d5bd30c744c4ad75515d535848460eacf0",
+    "after-results.json": "adf7290695cf492c934d2873a2c835575a472d8d283cdf658a4240ffe3c68843",
+    "after-stairs.log": "ed447188ac5a98bca7affe5b43ff70494dfcb21778f044f491a269116c5cae7e",
+    "asan-after-clear-floor.log": "064737d0fd3d4ff3ccb5c73918c414dcc216ff6690aa8f391c7671146f44f740",
+    "asan-after-pairing.log": "f44b95bb49b5aa4f98bd0139547518d5bd30c744c4ad75515d535848460eacf0",
+    "asan-after-results.json": "adf7290695cf492c934d2873a2c835575a472d8d283cdf658a4240ffe3c68843",
+    "asan-after-stairs.log": "ed447188ac5a98bca7affe5b43ff70494dfcb21778f044f491a269116c5cae7e",
+    "asan-before-clear-floor.log": "064737d0fd3d4ff3ccb5c73918c414dcc216ff6690aa8f391c7671146f44f740",
+    "asan-before-pairing.log": "f44b95bb49b5aa4f98bd0139547518d5bd30c744c4ad75515d535848460eacf0",
+    "asan-before-results.json": "bc0afe0c7ba21187c0d8f0081a335476cdd519147dcf8f6bdb65a4e023af557c",
+    "asan-before-stairs.log": "d9da5a0f2f193b52e10d323c09ca6a172b8ec3598cea84b79318e42d53ef1fd4",
+    "before-alltests.log": "3547f1dc19e4ea2139cdc79d74dd83c8a785ae9c681d395f1e13c0eed0d84438",
+    "before-asan-build.log": "0284500488bbf3f630abb1d122fa7c3059bcf69cdca57a8fb747afc471c41715",
+    "before-asan-scenarios.log": "cf5dd943f577ab688e4f2ca90e4f8b46eb33221d118c804c7baaa5a09f51bcfb",
+    "before-clear-floor.log": "064737d0fd3d4ff3ccb5c73918c414dcc216ff6690aa8f391c7671146f44f740",
+    "before-normal-build.log": "8d46339472ea2b84f700fc62a6d4cd0c137da320312615196815f7f1e6d9599d",
+    "before-normal-scenarios.log": "fdb540cfe75784f93583958bcade7ce6d16c06b56a707952fc331acf17643214",
+    "before-pairing.log": "f44b95bb49b5aa4f98bd0139547518d5bd30c744c4ad75515d535848460eacf0",
+    "before-results.json": "87bded061a8dc3b5ba043b07e91399d314cadc8156d2bd2beb5af556e56d3499",
+    "before-stairs.log": "bf5c1ea2972c7e96d3d33a164da972d889dc2e2e7e1fa34984d494b1de78aed3",
+    "configure-asan.log": "4c412aa2c0ef8873b65d11266c1ff60fc03c816e22fa3e3cd740acf46e1e4eaa",
+    "configure.log": "a1db53754a96511c6bc3b84bf730023b9a8397a2a91f073f647db0ef588b8c7e",
+    "result.json": "d0ac3e19cd6419da0f768cd04d9df5e165c72438cf3f39d598afe1c4e86255ea"
+  }
+}
