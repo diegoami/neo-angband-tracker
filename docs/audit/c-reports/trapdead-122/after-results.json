@@ -1,0 +1,35 @@
+{
+  "known": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "flowed": 0,
+      "key": 0,
+      "step_x": -1,
+      "step_y": -1,
+      "step_is_trap": 0
+    }
+  },
+  "unknown": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "flowed": 1,
+      "key": 68,
+      "step_x": 11,
+      "step_y": 12,
+      "step_is_trap": 1
+    }
+  },
+  "door": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "flowed": 1,
+      "key": 52,
+      "step_x": 9,
+      "step_y": 12,
+      "step_is_trap": 0
+    }
+  }
+}

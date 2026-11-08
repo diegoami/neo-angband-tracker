@@ -1,0 +1,103 @@
+{
+  "known": {
+    "label": "Control: fully known room, a known trap next to the player",
+    "explanation": "Neither version treats the trap as somewhere to explore: both dark-flow passes return false and no key is queued. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/trapdead-122: starting...\nSETUP seed=122 mode=known class=Rogue clevel=25 depth=5 hp=231 light=3 disp=99 dism=98 trap=(11,12) lit=37\n  flow_dark         DECISION pass=near rc=0 key=0 goal_type=0 step=(0,0)\nDECISION pass=far rc=0 key=0 goal_type=0 step=(0,0)\nOUTCOME flowed=0 key=0 step_x=-1 step_y=-1 step_is_trap=0\nPassed\nnative-c/trapdead-122 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 0,
+        "key": 0,
+        "step_x": -1,
+        "step_y": -1,
+        "step_is_trap": 0
+      },
+      "notes": [
+        "DECISION pass=far rc=0 key=0 goal_type=0 step=(0,0)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/trapdead-122: starting...\nSETUP seed=122 mode=known class=Rogue clevel=25 depth=5 hp=231 light=3 disp=99 dism=98 trap=(11,12) lit=37\n  flow_dark         DECISION pass=near rc=0 key=0 goal_type=0 step=(0,0)\nDECISION pass=far rc=0 key=0 goal_type=0 step=(0,0)\nOUTCOME flowed=0 key=0 step_x=-1 step_y=-1 step_is_trap=0\nPassed\nnative-c/trapdead-122 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 0,
+        "key": 0,
+        "step_x": -1,
+        "step_y": -1,
+        "step_is_trap": 0
+      },
+      "notes": [
+        "DECISION pass=far rc=0 key=0 goal_type=0 step=(0,0)"
+      ],
+      "value": 0
+    }
+  },
+  "unknown": {
+    "label": "Control: unknown area to the east, the trap on the route",
+    "explanation": "Both versions flow toward the unknown area (far pass). The first step is onto the trap grid, so the step code queues 'D' (key 68) to disarm it: traps on the route are handled outside the deleted case. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/trapdead-122: starting...\nSETUP seed=122 mode=unknown class=Rogue clevel=25 depth=5 hp=231 light=3 disp=99 dism=98 trap=(11,12) lit=37\n  flow_dark         DECISION pass=near rc=0 key=0 goal_type=0 step=(0,0)\nDECISION pass=far rc=1 key=68 goal_type=4 step=(11,12)\nOUTCOME flowed=1 key=68 step_x=11 step_y=12 step_is_trap=1\nPassed\nnative-c/trapdead-122 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "key": 68,
+        "step_x": 11,
+        "step_y": 12,
+        "step_is_trap": 1
+      },
+      "notes": [
+        "DECISION pass=far rc=1 key=68 goal_type=4 step=(11,12)"
+      ],
+      "value": 68
+    },
+    "after": {
+      "raw": "native-c/trapdead-122: starting...\nSETUP seed=122 mode=unknown class=Rogue clevel=25 depth=5 hp=231 light=3 disp=99 dism=98 trap=(11,12) lit=37\n  flow_dark         DECISION pass=near rc=0 key=0 goal_type=0 step=(0,0)\nDECISION pass=far rc=1 key=68 goal_type=4 step=(11,12)\nOUTCOME flowed=1 key=68 step_x=11 step_y=12 step_is_trap=1\nPassed\nnative-c/trapdead-122 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "key": 68,
+        "step_x": 11,
+        "step_y": 12,
+        "step_is_trap": 1
+      },
+      "notes": [
+        "DECISION pass=far rc=1 key=68 goal_type=4 step=(11,12)"
+      ],
+      "value": 68
+    }
+  },
+  "door": {
+    "label": "Control: a closed door four grids west",
+    "explanation": "Both versions choose the door (near pass) and step west toward it (key 52), passing the trap by. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/trapdead-122: starting...\nSETUP seed=122 mode=door class=Rogue clevel=25 depth=5 hp=231 light=3 disp=99 dism=98 trap=(11,12) lit=37\n  flow_dark         DECISION pass=near rc=1 key=52 goal_type=4 step=(9,12)\nOUTCOME flowed=1 key=52 step_x=9 step_y=12 step_is_trap=0\nPassed\nnative-c/trapdead-122 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "key": 52,
+        "step_x": 9,
+        "step_y": 12,
+        "step_is_trap": 0
+      },
+      "notes": [],
+      "value": 52
+    },
+    "after": {
+      "raw": "native-c/trapdead-122: starting...\nSETUP seed=122 mode=door class=Rogue clevel=25 depth=5 hp=231 light=3 disp=99 dism=98 trap=(11,12) lit=37\n  flow_dark         DECISION pass=near rc=1 key=52 goal_type=4 step=(9,12)\nOUTCOME flowed=1 key=52 step_x=9 step_y=12 step_is_trap=0\nPassed\nnative-c/trapdead-122 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "key": 52,
+        "step_x": 9,
+        "step_y": 12,
+        "step_is_trap": 0
+      },
+      "notes": [],
+      "value": 52
+    }
+  }
+}

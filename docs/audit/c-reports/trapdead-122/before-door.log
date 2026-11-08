@@ -1,0 +1,6 @@
+native-c/trapdead-122: starting...
+SETUP seed=122 mode=door class=Rogue clevel=25 depth=5 hp=231 light=3 disp=99 dism=98 trap=(11,12) lit=37
+  flow_dark         DECISION pass=near rc=1 key=52 goal_type=4 step=(9,12)
+OUTCOME flowed=1 key=52 step_x=9 step_y=12 step_is_trap=0
+Passed
+native-c/trapdead-122 finished: 1/1 passed
