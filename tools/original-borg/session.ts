@@ -4,7 +4,6 @@ import {
 	disposeApi2Host,
 } from "ENGINE/packages/web/src/mod-api2-host.ts";
 import { createIntentGate } from "ENGINE/packages/web/src/intent-gate.ts";
-import { buildInputSnapshot } from "ENGINE/packages/web/src/input-snapshot.ts";
 import {
 	modPluginContext,
 	setModComposedRecords,
@@ -183,7 +182,6 @@ export async function run(o: any) {
 			return result;
 		},
 	};
-	const listeners = new Map();
 	let memory: any = null;
 	setModRegistries(game.booted.registries);
 	setModComposedRecords(records);
