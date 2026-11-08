@@ -1,0 +1,9 @@
+native-c/gloves-205: starting...
+SETUPSTEP profile
+SETUP gloveslot=4 borg_fa=1 game_fa=1 game_known_fa=1
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20
+  gloves_eligible_for_armour_swap  MODE glove-fa
+SWAPS armour_swap=5 value=10609 free_act=1
+OUTCOME armour_swap=1 free_act=1
+Passed
+native-c/gloves-205 finished: 1/1 passed

@@ -1,0 +1,3 @@
+glove-fa {'exit': 0, 'passed': False, 'swaps': {'armour_swap': 0, 'value': -1, 'free_act': 0}, 'outcome': {'armour_swap': 0, 'free_act': 0}}
+plain {'exit': 0, 'passed': True, 'swaps': {'armour_swap': 0, 'value': -1, 'free_act': 0}, 'outcome': {'armour_swap': 0, 'free_act': 0}}
+have-fa {'exit': 0, 'passed': True, 'swaps': {'armour_swap': 0, 'value': -1, 'free_act': 0}, 'outcome': {'armour_swap': 0, 'free_act': 0}}

@@ -121,3 +121,51 @@ This isolates the swap eligibility, not full autonomous play.
   fixed-source sha256.
 - `replay.html`, `replay-data.json` — the offline demo.
 - `receipt.json` — sha256 map of every file in this directory.
+
+
+## Re-verification (2026-11-08)
+
+Why: the receipt above hashes the original run's phase logs, but they were
+never committed (the repository's `*.log` ignore rule dropped them), so the
+package could not be checked against its own receipt. The run was repeated
+at the same pins (base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `c52527eed3cf272cb62a16a773f25ed09f6cac36`, fixtures
+`9a6927a4f4025d05ec6ec78866c607d56acebe03`) with `--full-tests`, and every case reproduced the recorded
+outcome exactly (the `cases` block of the new `result.json` equals the
+original receipt's):
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `glove-fa` | fail: `armour_swap=0 free_act=0` | pass: `armour_swap=1 free_act=1` |
+| `plain` (control) | pass: `armour_swap=0 free_act=0` | pass: `armour_swap=0 free_act=0` |
+| `have-fa` (control) | pass: `armour_swap=0 free_act=0` | pass: `armour_swap=0 free_act=0` |
+
+Controls byte-identical before/after: `plain`, `have-fa`. Full native gates from the
+`*-alltests.log` summaries: before: Total: 965/965 passed (100.0%), Total: 5/5; after: Total: 965/965 passed (100.0%), Total: 5/5. Toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0; cmake version 3.28.3.
+
+These re-run files have the same sha256 as the original receipt lists, i.e.
+they are byte-identical to the original run's: `after-build.log`, `after-scenarios.log`, `before-scenarios.log`, `result.json`, `before-glove-fa.log`, `before-have-fa.log`, `before-plain.log`, `before-results.json`, `after-glove-fa.log`, `after-have-fa.log`, `after-plain.log`, `after-results.json`. Files that differ
+only by the run's temporary paths and build timing: `after-alltests.log`, `before-alltests.log`, `before-build.log`, `configure.log`.
+
+Render check: `node tools/c-evidence/render-smoke.js replay.html` on the
+committed page (every scenario option and visible button):
+`RENDER-SMOKE actions=9 errors=0 OK`.
+
+Logs, `result.json` and a receipt with the sha256 of every re-run file are
+in [`reverify-2026-11-08/`](reverify-2026-11-08/). Repeat, both pins fixed
+(the fix sha is the runner's built-in `FIX` constant, checked against the
+branch diff before building):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/gloves-205-evidence
+git show 9a6927a4f4025d05ec6ec78866c607d56acebe03:docs/audit/c-reports/gloves-205/reproduce.py > /tmp/reproduce-gloves-205.py
+python3 /tmp/reproduce-gloves-205.py --full-tests --fixtures-ref 9a6927a4f4025d05ec6ec78866c607d56acebe03
+```
+
+The earlier text of this guide is left as written.
+
+## Errata (2026-11-08)
+
+- **Links.** "Source proposal: PR (see the issue)" above: the source proposal is [#377](https://github.com/diegoami/neo-angband-tracker/pull/377) (branch `task/gloves-205`, fix `c52527eed3cf272cb62a16a773f25ed09f6cac36`); evidence PR: [#378](https://github.com/diegoami/neo-angband-tracker/pull/378); canonical issue: [#205](https://github.com/diegoami/neo-angband-tracker/issues/205).
+- **Missing logs.** The file inventory lists phase logs that were not committed with the original package; see the re-verification section above.
+- **README hash.** Because these sections were appended, `README.md` no longer matches the `README.md` hash in `receipt.json` (that hash is for the guide before this section); every other hashed file is unchanged.
+- **Restored original logs.** The re-run files whose sha256 equals the value in the original `receipt.json` (`after-build.log`, `after-scenarios.log`, `before-scenarios.log`, `before-glove-fa.log`, `before-have-fa.log`, `before-plain.log`, `after-glove-fa.log`, `after-have-fa.log`, `after-plain.log`) are byte-for-byte the original run's files, so they are also committed here at the paths the receipt names. `after-alltests.log`, `before-alltests.log`, `before-build.log`, `configure.log` differ by temporary paths and timing and stay only in `reverify-2026-11-08/`.
