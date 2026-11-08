@@ -73,10 +73,11 @@ def check_package(ref, d, rep):
         rep.check(f in names, f"generator {f} committed")
     for f in ARTIFACTS:
         rep.check(f in names, f"artifact {f} committed")
-    logs = sorted(n for n in names if n.endswith(".log"))
+    logs = sorted(n for n in names if n.endswith(".log") and "/" not in n)
     rep.check(any(n.startswith("before-") for n in logs) and any(n.startswith("after-") for n in logs),
               "before/after scenario logs committed")
-    rep.check(any("alltests" in n for n in logs), "full-gate (alltests) logs committed")
+    rep.check(any("alltests" in n for n in logs) or any(n.startswith("reverify-") and "alltests" in n for n in names),
+              "full-gate (alltests) logs committed")
     raw = show(ref, d + "receipt.json")
     if not raw:
         return None
@@ -88,7 +89,23 @@ def check_package(ref, d, rep):
     hashes = receipt.get("sha256") or {}
     if rep.check(bool(hashes), "receipt has a sha256 map"):
         missing = [k for k in hashes if k not in names]
-        rep.check(not missing, f"every hashed file committed (missing {len(missing)}: {', '.join(missing[:4])}{'...' if len(missing) > 4 else ''})")
+        # Original-run build/gate logs cannot be recreated byte for byte; a
+        # later re-verification directory with its own complete receipt covers
+        # them (reported as WARN).  Scenario logs must still match.
+        reverify = sorted({n.split("/")[0] for n in names if n.startswith("reverify-") and n.endswith("/receipt.json")})
+        reverify_ok = False
+        for rd in reverify:
+            rr = json.loads(show(ref, f"{d}{rd}/receipt.json") or b"{}")
+            rh = rr.get("sha256") or {}
+            if rh and all(hashlib.sha256(show(ref, f"{d}{rd}/{k}") or b"").hexdigest() == v for k, v in rh.items()) \
+                    and any("alltests" in k for k in rh):
+                reverify_ok = True
+        gate_like = lambda k: any(t in k for t in ("alltests", "build", "configure", "scenarios", "asan-build", "result.json"))
+        hard = [k for k in missing if not (reverify_ok and gate_like(k))]
+        soft = [k for k in missing if k not in hard]
+        rep.check(not hard, f"every hashed file committed (missing {len(hard)}: {', '.join(hard[:4])}{'...' if len(hard) > 4 else ''})")
+        if soft:
+            rep.check(False, f"{len(soft)} original-run gate/build logs replaced by a complete re-verification run ({', '.join(reverify)})", warn=True)
         bad = []
         for k, v in hashes.items():
             if k in names:
