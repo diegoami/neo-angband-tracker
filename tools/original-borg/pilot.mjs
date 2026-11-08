@@ -56,6 +56,22 @@ for (const [label, seed, race, cls, turns] of cases) {
 	);
 	if (result.error) throw result.error;
 	const record = JSON.parse(readFileSync(join(dir, "run.json")));
+	if (label.startsWith("cap-")) {
+		assert.equal(result.status, 0);
+		assert.equal(record.outcome, "turn_cap");
+		assert.ok(record.turn >= 2000);
+		for (const file of ["states.jsonl", "commands.jsonl", "messages.jsonl"])
+			assert.ok(readFileSync(join(dir, file)).length > 0);
+	}
+	if (label.startsWith("death-")) {
+		assert.equal(result.status, 0);
+		assert.equal(record.outcome, "death");
+	}
+	if (label === "unsupported-birth") {
+		assert.equal(result.status, 1);
+		assert.equal(record.outcome, "harness_failure");
+	}
+
 	rows.push({ label, ...record });
 	console.log(
 		JSON.stringify({
