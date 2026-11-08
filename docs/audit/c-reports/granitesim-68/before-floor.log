@@ -1,0 +1,20 @@
+native-c/granitesim-68: starting...
+SETUP seed=68 mode=floor class=Warrior clevel=12 hp=159/159 depth=10 speed=110 mouth=floor
+  ranged_move_simulation  MODE floor
+TRACK monster=blacklock mage pos=(11,16) speed=119 mouth=floor mouth_projectable=1 own_projectable=1
+STATE danger=208 monster_danger=38 avoidance=159 hp=159
+DECISION rc=1 keys=5 sequence=<Esc><Esc>rf<Esc>
+TRACK # Loc:11,11 Dep:10 Lev:12 HP:159/159 SP:0/0 Danger:p=208
+TRACK # Safe to Phase. scary squares: 43
+TRACK # No Phase. scary squares: 47
+TRACK # Safe to Phase. scary squares: 40
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # No Phase. scary squares: 49
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)
+ENGINE read=1 scroll=Word of Recall word_recall=17 energy_used=100
+TRACK engine read=1 scroll=Word of Recall word_recall_active=1
+OUTCOME acted=1 danger=208 recall_flee=1 recall_active=1
+Passed
+native-c/granitesim-68 finished: 1/1 passed

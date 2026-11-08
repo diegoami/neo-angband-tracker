@@ -1,0 +1,124 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "f1b39e2050e2e9061da1f46dd546e80597d5ac45",
+  "fixtures_ref": "dc1b3433f763f2a207c7766f86be6d312fb9121d",
+  "cases": {
+    "before": {
+      "rubble": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "danger": 0,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 0,
+          "danger": 0,
+          "recall_flee": 0,
+          "recall_active": 0
+        }
+      },
+      "floor": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 208,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 1,
+          "danger": 208,
+          "recall_flee": 1,
+          "recall_active": 1
+        }
+      },
+      "granite": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 0,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 0,
+          "danger": 0,
+          "recall_flee": 0,
+          "recall_active": 0
+        }
+      }
+    },
+    "after": {
+      "rubble": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 208,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 1,
+          "danger": 208,
+          "recall_flee": 1,
+          "recall_active": 1
+        }
+      },
+      "floor": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 208,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 1,
+          "danger": 208,
+          "recall_flee": 1,
+          "recall_active": 1
+        }
+      },
+      "granite": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 0,
+          "monster_danger": 38,
+          "avoidance": 159,
+          "hp": 159
+        },
+        "outcome": {
+          "acted": 0,
+          "danger": 0,
+          "recall_flee": 0,
+          "recall_active": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "floor",
+    "granite"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "2aba2c921add9ed292bc457d2ac043fff8ebeba96b5e57e3c1426c0cbca4df1d"
+  }
+}

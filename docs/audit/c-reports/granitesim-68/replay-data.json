@@ -1,0 +1,176 @@
+{
+  "rubble": {
+    "label": "Passable rubble between the mage and the Borg",
+    "explanation": "Original: the rubble counts as a wall the mage cannot step onto, danger 0, borg_caution() does nothing. Corrected: the mage can step onto the rubble and cast, danger 208; the Borg flees the level ('# Fleeing the level (recall)') and the real read activates Word of Recall.",
+    "control": false,
+    "before": {
+      "raw": "native-c/granitesim-68: starting...\nSETUP seed=68 mode=rubble class=Warrior clevel=12 hp=159/159 depth=10 speed=110 mouth=passable_rubble\n  ranged_move_simulation  MODE rubble\nTRACK monster=blacklock mage pos=(11,16) speed=119 mouth=passable_rubble mouth_projectable=1 own_projectable=1\nSTATE danger=0 monster_danger=38 avoidance=159 hp=159\nDECISION rc=0 keys=0 sequence=\nENGINE read=0 scroll=- word_recall=0 energy_used=0\nTRACK engine read=0 scroll=- word_recall_active=0\nOUTCOME acted=0 danger=0 recall_flee=0 recall_active=0\nFailed\n    native-c/granitesim-68:217: requirement 'danger > 0' failed\nnative-c/granitesim-68 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 0,
+        "monster_danger": 38,
+        "avoidance": 159,
+        "hp": 159
+      },
+      "outcome": {
+        "acted": 0,
+        "danger": 0,
+        "recall_flee": 0,
+        "recall_active": 0
+      },
+      "notes": [
+        "TRACK monster=blacklock mage pos=(11,16) speed=119 mouth=passable_rubble mouth_projectable=1 own_projectable=1",
+        "DECISION rc=0 keys=0 sequence=",
+        "TRACK engine read=0 scroll=- word_recall_active=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/granitesim-68: starting...\nSETUP seed=68 mode=rubble class=Warrior clevel=12 hp=159/159 depth=10 speed=110 mouth=passable_rubble\n  ranged_move_simulation  MODE rubble\nTRACK monster=blacklock mage pos=(11,16) speed=119 mouth=passable_rubble mouth_projectable=1 own_projectable=1\nSTATE danger=208 monster_danger=38 avoidance=159 hp=159\nDECISION rc=1 keys=5 sequence=<Esc><Esc>rf<Esc>\nTRACK # Loc:11,11 Dep:10 Lev:12 HP:159/159 SP:0/0 Danger:p=208\nTRACK # Safe to Phase. scary squares: 43\nTRACK # No Phase. scary squares: 47\nTRACK # Safe to Phase. scary squares: 40\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # No Phase. scary squares: 49\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nENGINE read=1 scroll=Word of Recall word_recall=17 energy_used=100\nTRACK engine read=1 scroll=Word of Recall word_recall_active=1\nOUTCOME acted=1 danger=208 recall_flee=1 recall_active=1\nPassed\nnative-c/granitesim-68 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 208,
+        "monster_danger": 38,
+        "avoidance": 159,
+        "hp": 159
+      },
+      "outcome": {
+        "acted": 1,
+        "danger": 208,
+        "recall_flee": 1,
+        "recall_active": 1
+      },
+      "notes": [
+        "TRACK monster=blacklock mage pos=(11,16) speed=119 mouth=passable_rubble mouth_projectable=1 own_projectable=1",
+        "DECISION rc=1 keys=5 sequence=<Esc><Esc>rf<Esc>",
+        "TRACK # Loc:11,11 Dep:10 Lev:12 HP:159/159 SP:0/0 Danger:p=208",
+        "TRACK # Safe to Phase. scary squares: 43",
+        "TRACK # No Phase. scary squares: 47",
+        "TRACK # Safe to Phase. scary squares: 40",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # No Phase. scary squares: 49",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)",
+        "TRACK engine read=1 scroll=Word of Recall word_recall_active=1"
+      ],
+      "value": 208
+    }
+  },
+  "floor": {
+    "label": "Control: open floor between the mage and the Borg",
+    "explanation": "Floor is not a wall in either version: danger 208 and the same Word of Recall flight in both, byte-identical logs. This is what the corrected rubble case matches.",
+    "control": true,
+    "before": {
+      "raw": "native-c/granitesim-68: starting...\nSETUP seed=68 mode=floor class=Warrior clevel=12 hp=159/159 depth=10 speed=110 mouth=floor\n  ranged_move_simulation  MODE floor\nTRACK monster=blacklock mage pos=(11,16) speed=119 mouth=floor mouth_projectable=1 own_projectable=1\nSTATE danger=208 monster_danger=38 avoidance=159 hp=159\nDECISION rc=1 keys=5 sequence=<Esc><Esc>rf<Esc>\nTRACK # Loc:11,11 Dep:10 Lev:12 HP:159/159 SP:0/0 Danger:p=208\nTRACK # Safe to Phase. scary squares: 43\nTRACK # No Phase. scary squares: 47\nTRACK # Safe to Phase. scary squares: 40\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # No Phase. scary squares: 49\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nENGINE read=1 scroll=Word of Recall word_recall=17 energy_used=100\nTRACK engine read=1 scroll=Word of Recall word_recall_active=1\nOUTCOME acted=1 danger=208 recall_flee=1 recall_active=1\nPassed\nnative-c/granitesim-68 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 208,
+        "monster_danger": 38,
+        "avoidance": 159,
+        "hp": 159
+      },
+      "outcome": {
+        "acted": 1,
+        "danger": 208,
+        "recall_flee": 1,
+        "recall_active": 1
+      },
+      "notes": [
+        "TRACK monster=blacklock mage pos=(11,16) speed=119 mouth=floor mouth_projectable=1 own_projectable=1",
+        "DECISION rc=1 keys=5 sequence=<Esc><Esc>rf<Esc>",
+        "TRACK # Loc:11,11 Dep:10 Lev:12 HP:159/159 SP:0/0 Danger:p=208",
+        "TRACK # Safe to Phase. scary squares: 43",
+        "TRACK # No Phase. scary squares: 47",
+        "TRACK # Safe to Phase. scary squares: 40",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # No Phase. scary squares: 49",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)",
+        "TRACK engine read=1 scroll=Word of Recall word_recall_active=1"
+      ],
+      "value": 208
+    },
+    "after": {
+      "raw": "native-c/granitesim-68: starting...\nSETUP seed=68 mode=floor class=Warrior clevel=12 hp=159/159 depth=10 speed=110 mouth=floor\n  ranged_move_simulation  MODE floor\nTRACK monster=blacklock mage pos=(11,16) speed=119 mouth=floor mouth_projectable=1 own_projectable=1\nSTATE danger=208 monster_danger=38 avoidance=159 hp=159\nDECISION rc=1 keys=5 sequence=<Esc><Esc>rf<Esc>\nTRACK # Loc:11,11 Dep:10 Lev:12 HP:159/159 SP:0/0 Danger:p=208\nTRACK # Safe to Phase. scary squares: 43\nTRACK # No Phase. scary squares: 47\nTRACK # Safe to Phase. scary squares: 40\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # No Phase. scary squares: 49\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nENGINE read=1 scroll=Word of Recall word_recall=17 energy_used=100\nTRACK engine read=1 scroll=Word of Recall word_recall_active=1\nOUTCOME acted=1 danger=208 recall_flee=1 recall_active=1\nPassed\nnative-c/granitesim-68 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 208,
+        "monster_danger": 38,
+        "avoidance": 159,
+        "hp": 159
+      },
+      "outcome": {
+        "acted": 1,
+        "danger": 208,
+        "recall_flee": 1,
+        "recall_active": 1
+      },
+      "notes": [
+        "TRACK monster=blacklock mage pos=(11,16) speed=119 mouth=floor mouth_projectable=1 own_projectable=1",
+        "DECISION rc=1 keys=5 sequence=<Esc><Esc>rf<Esc>",
+        "TRACK # Loc:11,11 Dep:10 Lev:12 HP:159/159 SP:0/0 Danger:p=208",
+        "TRACK # Safe to Phase. scary squares: 43",
+        "TRACK # No Phase. scary squares: 47",
+        "TRACK # Safe to Phase. scary squares: 40",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # No Phase. scary squares: 49",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)",
+        "TRACK engine read=1 scroll=Word of Recall word_recall_active=1"
+      ],
+      "value": 208
+    }
+  },
+  "granite": {
+    "label": "Control: granite between the mage and the Borg",
+    "explanation": "Granite is a wall in both versions; the mage cannot reach a firing grid, danger 0, no action, byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/granitesim-68: starting...\nSETUP seed=68 mode=granite class=Warrior clevel=12 hp=159/159 depth=10 speed=110 mouth=granite\n  ranged_move_simulation  MODE granite\nTRACK monster=blacklock mage pos=(11,16) speed=119 mouth=granite mouth_projectable=1 own_projectable=0\nSTATE danger=0 monster_danger=38 avoidance=159 hp=159\nDECISION rc=0 keys=0 sequence=\nENGINE read=0 scroll=- word_recall=0 energy_used=0\nTRACK engine read=0 scroll=- word_recall_active=0\nOUTCOME acted=0 danger=0 recall_flee=0 recall_active=0\nPassed\nnative-c/granitesim-68 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 0,
+        "monster_danger": 38,
+        "avoidance": 159,
+        "hp": 159
+      },
+      "outcome": {
+        "acted": 0,
+        "danger": 0,
+        "recall_flee": 0,
+        "recall_active": 0
+      },
+      "notes": [
+        "TRACK monster=blacklock mage pos=(11,16) speed=119 mouth=granite mouth_projectable=1 own_projectable=0",
+        "DECISION rc=0 keys=0 sequence=",
+        "TRACK engine read=0 scroll=- word_recall_active=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/granitesim-68: starting...\nSETUP seed=68 mode=granite class=Warrior clevel=12 hp=159/159 depth=10 speed=110 mouth=granite\n  ranged_move_simulation  MODE granite\nTRACK monster=blacklock mage pos=(11,16) speed=119 mouth=granite mouth_projectable=1 own_projectable=0\nSTATE danger=0 monster_danger=38 avoidance=159 hp=159\nDECISION rc=0 keys=0 sequence=\nENGINE read=0 scroll=- word_recall=0 energy_used=0\nTRACK engine read=0 scroll=- word_recall_active=0\nOUTCOME acted=0 danger=0 recall_flee=0 recall_active=0\nPassed\nnative-c/granitesim-68 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 0,
+        "monster_danger": 38,
+        "avoidance": 159,
+        "hp": 159
+      },
+      "outcome": {
+        "acted": 0,
+        "danger": 0,
+        "recall_flee": 0,
+        "recall_active": 0
+      },
+      "notes": [
+        "TRACK monster=blacklock mage pos=(11,16) speed=119 mouth=granite mouth_projectable=1 own_projectable=0",
+        "DECISION rc=0 keys=0 sequence=",
+        "TRACK engine read=0 scroll=- word_recall_active=0"
+      ],
+      "value": 0
+    }
+  }
+}
