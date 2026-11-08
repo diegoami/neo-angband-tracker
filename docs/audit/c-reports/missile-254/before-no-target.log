@@ -1,0 +1,12 @@
+native-c/missile-254: starting...
+SETUPSTEP profile
+QUIVER slot=35 letter_index=0 tval=3 sval=1 n=20
+SETUP seed=1000 class=Warrior level=11 depth=10 hp=91/91 ammo_tval=3 bow_iqty=1
+  launch_without_target_does_not_fire  MODE no-target
+DECISION no-target return=0 keys=3 sequence=f5
+OUTCOME return=0 keys=3
+Failed
+    native-c/missile-254:188: requirement 'len' == '0' failed
+      len:                3
+      0:                0
+native-c/missile-254 finished: 0/1 passed
