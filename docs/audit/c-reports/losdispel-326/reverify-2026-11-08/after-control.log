@@ -1,0 +1,9 @@
+native-c/losdispel-326: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Priest level=50 depth=30 sp=276/276
+  los_dispel_reaches_its_blast  MODE control
+GEOMETRY player=(5,20) bats=(10,20)(11,19)(11,21) temp_n=3
+RATING orb=540
+OUTCOME orb=540
+Passed
+native-c/losdispel-326 finished: 1/1 passed
