@@ -1,0 +1,9 @@
+native-c/homeblows-313: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior str=17 dex=16 stack=1
+  stack_weighs_like_one_weapon  MODE single
+GEOMETRY iqty=1 weight=40 weight_one=40
+RATING borg_blows=2 engine_blows=2
+OUTCOME borg_blows=2 engine_blows=2
+Passed
+native-c/homeblows-313 finished: 1/1 passed
