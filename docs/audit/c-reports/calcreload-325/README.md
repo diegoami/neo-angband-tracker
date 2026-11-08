@@ -28,7 +28,7 @@ in both variants and untouched here.
 
 Canonical report: [issue325](https://github.com/diegoami/neo-angband-tracker/issues/325).
 Lead supplied by borg-rs; independently validated and reproduced
-natively here. Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+natively here. Source proposal [#337](https://github.com/diegoami/neo-angband-tracker/pull/337).
 
 ## Verification
 
@@ -157,6 +157,9 @@ python3 /tmp/reproduce-calcreload-325.py --full-tests --fixtures-ref 9f6ee40d700
 
 ## Errata (2026-11-08)
 
-- The "Source proposal" link near the top labelled `PR-SOURCE` points at an unfilled placeholder URL. The source proposal is draft PR [#337](https://github.com/diegoami/neo-angband-tracker/pull/337); this evidence is draft PR [#338](https://github.com/diegoami/neo-angband-tracker/pull/338).
+- The "Source proposal" link near the top was labelled `PR-SOURCE` and pointed at an unfilled placeholder URL; on 2026-11-08 it was corrected in place to the real link. The source proposal is draft PR [#337](https://github.com/diegoami/neo-angband-tracker/pull/337); this evidence is draft PR [#338](https://github.com/diegoami/neo-angband-tracker/pull/338).
 - The repeat commands above pin `47d5600af81a1880be98a0ae4a80391e7dd43bd5` while `receipt.json` records `fixtures_ref` `9f6ee40d7005abe79a07767e48ca8deaa921b96d`, the commit the native run actually executed at. Both carry the same generators (see the re-verification note); prefer the `9f6ee40d7005abe79a07767e48ca8deaa921b96d` pin given in the Re-verification section.
 - `receipt.json` hashes phase logs that were never committed (the `*.log` ignore rule). The re-verification run's logs, under `reverify-2026-11-08/`, replace them; where the original hash is reproduced byte for byte, that is listed above. Its `browser` entry records the original Chrome-for-Testing render check; the re-verification adds the render-smoke result above.
+- Re-run files whose bytes reproduce the original receipt's sha256 exactly are also committed at their original paths in this directory, so the original receipt's hashes check against them: `after-build-asan.log`, `after-control.log`, `after-reload.log`, `after-scenarios.log`, `before-control.log`, `before-reload.log`, `before-scenarios.log`. The original run's build, configure and gate logs cannot be reproduced byte for byte; the complete re-run set is under `reverify-2026-11-08/`.
+- The original sanitizer scenario logs (`after-asan-reload.log`, `before-asan-reload.log`) cannot be reproduced byte for byte: they carry process ids, memory addresses and the run's temporary paths. The re-run's sanitizer logs, which give the same verdicts recorded in the original receipt, are committed at those paths and `receipt.json` now hashes them; the original hashes are kept under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
+- `receipt.json` was amended on 2026-11-08 for this append: its `README.md` hash now matches this README, and a `render_check` entry points at the re-verification render result. The old and new values are recorded under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.

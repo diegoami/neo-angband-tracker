@@ -73,9 +73,9 @@
   },
   "maintenance_base": "f186aa1fce2e590eb9bbcb91dc369f3f8b6af688",
   "sha256": {
-    "README.md": "71569753ad21778ddc3f7e1560c1715e10bd5e31125a25315b8f59b7611fc4f1",
+    "README.md": "1c623e5759cea1289b23279aa1fcdedbddfaa3abb033f4449432e6c420d606c1",
     "after-alltests.log": "4ba4365693098d2d3cb9e0f0e0cb9f10a4554a3e9140f6e7bfb7cd9cafd36022",
-    "after-asan-reload.log": "f886bf3e3821fbe9d2eae5b181e5aecf397ee229d510466d9c4a313c59798b5e",
+    "after-asan-reload.log": "b9968955d3cd307d346d869638aae9efbb0ea003a8b653cbc8d41d7aa58fc414",
     "after-build-asan.log": "3966b8697c08f4f7c16f8d1f9e88cd1266c096fb1c688ee569eb4492790ea109",
     "after-build.log": "a8171a4cf51175e97fc811d45fd0baa63fada0aec9159144959db47ecc10b8a0",
     "after-control.log": "6d80fb5d22c779b285086c091c18ccd7232244f2f4c3793c04fb103ca881a1d0",
@@ -83,7 +83,7 @@
     "after-results.json": "42df6fa2e702893c55acb79fdc6e4463bceaa6b5e23cbd4b5e8bd861761ef6f9",
     "after-scenarios.log": "f13184b81d8792cfd9f386ce2dd8c5c97946f0df12f5efba6a971f0e06002844",
     "before-alltests.log": "c158928fd832cb5551f15812b4f576b5dfd72ff273efea045fc9ecf4befe44c5",
-    "before-asan-reload.log": "301056ff265e70d928b96dfb5fce99222ce974d771029b8356eca732a95a50eb",
+    "before-asan-reload.log": "11fd342fa58b4795d82ba8ed35308d103adbb4c29d2261d029e8510d5822042a",
     "before-build-asan.log": "4e28ae0cf7e9d5f45408ab526ebb4c762f224ed1c9dffe383b9240bc2abc1a51",
     "before-build.log": "fd50932958066fe78e50a6514c4c05a0e9b63b5049ee542819d5becff86699b2",
     "before-control.log": "6d80fb5d22c779b285086c091c18ccd7232244f2f4c3793c04fb103ca881a1d0",
@@ -100,5 +100,12 @@
     "result.json": "e46023a4c8173d29dda1a041666c8e824863b52500203c626e538fa331b9d34b",
     "run-cases.py": "c59219b55a263e162e61740773f8b12ba2e099ea4fc5ed7c7c0ff3fe9f909f6a",
     "scenario.c": "f4d6d50c122bad2914bbfc36d43a66c07f2f8774dad1afea6301ed6a9efbf76b"
+  },
+  "render_check": {
+    "date": "2026-11-08",
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "result": "RENDER-SMOKE actions=2 errors=0 OK",
+    "replay_sha256": "bb54f24e29836b728dcdb963dd40bbf5b399b78d1ec1e766989769194116db3d",
+    "receipt": "reverify-2026-11-08/receipt.json"
   }
 }

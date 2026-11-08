@@ -1,0 +1,54 @@
+native-c/calcreload-325: starting...
+SETUPSTEP minimal
+  calculation_reload_releases_the_array  MODE reload
+GEOMETRY freed retained=0 count=0
+RATING retained=0 reload_value=7 reload_count=1
+OUTCOME retained=0 reload_value=7 reload_count=1
+Passed
+native-c/calcreload-325 finished: 1/1 passed
+
+=================================================================
+==22430==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 80 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf002fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55753bdfd465 in mem_alloc /tmp/angband-calcreload-325-z4ax9zww/source/src/z-virt.c:38
+    #2 0x55753beafbaf in borg_array_add /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas.c:95
+    #3 0x55753beb85e3 in adjust_order_ops_depth_block /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:388
+    #4 0x55753beb8cf9 in adjust_order_operations /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:466
+    #5 0x55753beb913c in parse_calculation /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:523
+    #6 0x55753beb9454 in parse_calculation_line /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:566
+    #7 0x55753ba6c02a in scenario /tmp/angband-calcreload-325-z4ax9zww/evidence/scenario.c:32
+    #8 0x55753bfa60fa in main /tmp/angband-calcreload-325-z4ax9zww/source/src/tests/unit-test.c:53
+    #9 0x7fceffe2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #10 0x7fceffe2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #11 0x55753ba6be64 in _start (/tmp/angband-calcreload-325-z4ax9zww/build-asan/game/T325Observer+0x149e64) (BuildId: 7aac677ea508db18982797446a4a5f500e658100)
+
+Direct leak of 80 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf002fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55753bdfd465 in mem_alloc /tmp/angband-calcreload-325-z4ax9zww/source/src/z-virt.c:38
+    #2 0x55753beafbaf in borg_array_add /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas.c:95
+    #3 0x55753beb85e3 in adjust_order_ops_depth_block /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:388
+    #4 0x55753beb8cf9 in adjust_order_operations /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:466
+    #5 0x55753beb913c in parse_calculation /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:523
+    #6 0x55753beb9454 in parse_calculation_line /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:566
+    #7 0x55753ba6c3b7 in scenario /tmp/angband-calcreload-325-z4ax9zww/evidence/scenario.c:44
+    #8 0x55753bfa60fa in main /tmp/angband-calcreload-325-z4ax9zww/source/src/tests/unit-test.c:53
+    #9 0x7fceffe2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #10 0x7fceffe2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #11 0x55753ba6be64 in _start (/tmp/angband-calcreload-325-z4ax9zww/build-asan/game/T325Observer+0x149e64) (BuildId: 7aac677ea508db18982797446a4a5f500e658100)
+
+Direct leak of 80 byte(s) in 1 object(s) allocated from:
+    #0 0x7fcf002fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55753bdfd465 in mem_alloc /tmp/angband-calcreload-325-z4ax9zww/source/src/z-virt.c:38
+    #2 0x55753beafbaf in borg_array_add /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas.c:95
+    #3 0x55753beb77e9 in tokenize_math /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:256
+    #4 0x55753beb9125 in parse_calculation /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:519
+    #5 0x55753beb9454 in parse_calculation_line /tmp/angband-calcreload-325-z4ax9zww/source/src/borg/borg-formulas-calc.c:566
+    #6 0x55753ba6c02a in scenario /tmp/angband-calcreload-325-z4ax9zww/evidence/scenario.c:32
+    #7 0x55753bfa60fa in main /tmp/angband-calcreload-325-z4ax9zww/source/src/tests/unit-test.c:53
+    #8 0x7fceffe2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #9 0x7fceffe2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #10 0x55753ba6be64 in _start (/tmp/angband-calcreload-325-z4ax9zww/build-asan/game/T325Observer+0x149e64) (BuildId: 7aac677ea508db18982797446a4a5f500e658100)
+
+SUMMARY: AddressSanitizer: 240 byte(s) leaked in 3 allocation(s).

@@ -1,0 +1,9 @@
+native-c/calcreload-325: starting...
+SETUPSTEP minimal
+  calculation_reload_releases_the_array  MODE reload
+GEOMETRY freed retained=1 count=0
+RATING retained=1 reload_value=7 reload_count=1
+OUTCOME retained=1 reload_value=7 reload_count=1
+Failed
+    native-c/calcreload-325:53: requirement '!retained' failed
+native-c/calcreload-325 finished: 0/1 passed
