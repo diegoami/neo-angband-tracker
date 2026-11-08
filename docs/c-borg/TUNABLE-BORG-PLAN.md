@@ -218,6 +218,32 @@ The measurements come from [borg-zoo](https://github.com/diegoami/borg-zoo), whi
 
 **Before striking more:** the items marked "Proposed" or "To evaluate" on early-game evidence alone should first be run on borg-zoo's deep suite (400,000 engine turns) across classes. Money scum and the formula language do not need it. Munchkin start and lunal mode are already decided.
 
+### Strategy by class (owner direction, 2026-11-08)
+
+A remake has different strategies per class, and possibly different Borgs. A shared base (perception, map memory, flow, item knowledge and the danger model) carries a strategy layer per class: fight or flee thresholds, dive pacing, resting, spell use, mana reserve and equipment valuation.
+
+borg-zoo's class suite (`classes-1800`: 9 classes × 200 seeds, races cycled, 100,000 engine turns) shows why:
+
+- **Class matters more than version.** On the original C Borg, deaths range from 19 % (Paladin) to 70 % (Druid). Every better-borg-c milestone so far moves the overall rate by about a point.
+- **The same setting splits by class.** Munchkin-d6, against default on the same seeds:
+
+  | Class | Default | Munchkin-d6 | Rescued / newly killed |
+  | --- | --- | --- | --- |
+  | Warrior | 32 % | 7 % | 60 / 10 |
+  | Druid | 70 % | 49 % | 58 / 16 |
+  | Ranger | 43 % | 29 % | 54 / 26 |
+  | Paladin | 19 % | 18 % | 25 / 24 |
+  | Mage | 31 % | 45 % | 26 / 54 |
+  | Priest | 24 % | 37 % | 29 / 55 |
+  | Blackguard | 20 % | — | 152 of 200 runs never finish |
+
+  These splits are post hoc, from one run of 1,800 seeds.
+- **Fixes split by class too.** Milestone 5 cut Warrior deaths from 32 % to 17 %, and milestone 6 brought them back to 28 %. A prespecified confirmation on fresh Warrior seeds and a bisect of the M5 to M6 carries are running.
+
+**Measured before it is built.** Per-class strategies are compared per class. 200 seeds per class detect differences of about 12 points; about 1,000 seeds per class are needed for 5 points.
+
+**Diving without scumming.** The early gain munchkin start buys for some classes comes from getting deeper faster. The remake should get it through fair play: a depth-preparation rule per class. In the C Borg that rule is `borg_prepared()`, including "maximum character level < depth", the plan's biggest single lever (see the first tuning surface). Stair-scumming to a target depth stays out. No existing setting does this: `borg_plays_risky` made no early difference on 50 Warrior seeds.
+
 ## Decisions for the owner
 
 1. **better-borg-c scope:** a strategy track conflicts with RULES 12 (no new gameplay strategies), RULES 10 (no Rust work), RULES 14 and PLAN (bugs before discretionary batches), and the cross-repository limits in AGENTS and PLAN. Decide whether tuning gets protected capacity alongside the bug queue.
@@ -226,6 +252,6 @@ The measurements come from [borg-zoo](https://github.com/diegoami/borg-zoo), whi
 4. **Owning sessions:** name the session that owns each track (R0–R1, Phase 0–5, R2–R5) and the shared contract.
 5. **The objective:** D, T, the progress floor and the survival tolerance.
 6. **Compute:** the budget, and whether a dedicated runner machine is available.
-7. **Classes:** whether tuned profiles may differ by class.
+7. **Classes:** whether tuned profiles may differ by class. For a remake the owner has answered yes (*Strategy by class*, above); for the existing Borgs it is still open.
 
 Sources: `BORG_SPEC.md` at `684321538` (merged with PR #317); borg-rs at `74fc879` (`README.md`, `CLAUDE.md`, `docs/REVIEW.md`, `docs/STATUS.md`, `docs/harness.md`, `harness/suites/`, `borg-rs/src/state.rs`; local checkout, read only); better-borg-c at `702f091` (`patches/series.json`) and `8a7eba1ad` (`README.md`, `PLAN.md`, `RULES.md`, `docs/measurement/`); `src/borg/borg.txt` and the literal count from `src/borg/*.c` at `e473720`; reviews [#360](https://github.com/diegoami/neo-angband-tracker/issues/360) and [PR #361](https://github.com/diegoami/neo-angband-tracker/pull/361); `borgh_key()` in borg-rs `angband/src/main-borgh.c` at `74fc879`.
