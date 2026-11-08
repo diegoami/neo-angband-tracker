@@ -212,8 +212,10 @@ def main():
         open_src = {}
         page = 1
         while True:
-            batch = gh(f"pulls?state=open&base=c-borg-reference&per_page=100&page={page}") or []
+            batch = gh(f"pulls?state=open&per_page=100&page={page}") or []
             for p in batch:
+                if p["base"]["ref"] == "master":
+                    continue  # evidence/doc PRs; source PRs target c-borg-reference or a stacked fix branch
                 open_src[p["head"]["ref"]] = p["number"]
                 open_src[p["head"]["sha"]] = p["number"]
             if len(batch) < 100:
