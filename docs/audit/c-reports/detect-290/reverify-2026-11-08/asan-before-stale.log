@@ -1,0 +1,63 @@
+native-c/detect-290: starting...
+SETUPSTEP profile
+PANELS hgt=28 wid=66
+SETUP seed=1000 class=Warrior level=1 depth=5 panels=3,8
+  queued_detection_respects_resized_arrays  MODE stale
+QUEUED panels=3,8
+=================================================================
+==10689==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x5020003ed2c0 at pc 0x55f180b7e9d3 bp 0x7ffe5e12b1c0 sp 0x7ffe5e12b1b0
+READ of size 8 at 0x5020003ed2c0 thread T0
+    #0 0x55f180b7e9d2 in borg_handle_self /tmp/angband-detect-290-4jn960ry/source/src/borg/borg-update.c:1396
+    #1 0x55f180b80ea6 in borg_update /tmp/angband-detect-290-4jn960ry/source/src/borg/borg-update.c:1676
+    #2 0x55f180656b21 in scenario /tmp/angband-detect-290-4jn960ry/evidence/normal/scenario.c:164
+    #3 0x55f180b904c9 in main /tmp/angband-detect-290-4jn960ry/source/src/tests/unit-test.c:53
+    #4 0x7fa61bc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #5 0x7fa61bc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #6 0x55f180654e64 in _start (/tmp/angband-detect-290-4jn960ry/build-asan/game/D290Observer+0x14ae64) (BuildId: 07cc4cd245a59bcfd4797de4e3dd78f6ebb6a0a4)
+
+0x5020003ed2c0 is located 0 bytes after 16-byte region [0x5020003ed2b0,0x5020003ed2c0)
+allocated by thread T0 here:
+    #0 0x7fa61c0fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55f1809e7858 in mem_alloc /tmp/angband-detect-290-4jn960ry/source/src/z-virt.c:38
+    #2 0x55f1809e7894 in mem_zalloc /tmp/angband-detect-290-4jn960ry/source/src/z-virt.c:46
+    #3 0x55f180b8d78e in borg_alloc_detection /tmp/angband-detect-290-4jn960ry/source/src/borg/borg-update.c:3172
+    #4 0x55f180b801e6 in borg_update /tmp/angband-detect-290-4jn960ry/source/src/borg/borg-update.c:1584
+    #5 0x55f180656b21 in scenario /tmp/angband-detect-290-4jn960ry/evidence/normal/scenario.c:164
+    #6 0x55f180b904c9 in main /tmp/angband-detect-290-4jn960ry/source/src/tests/unit-test.c:53
+    #7 0x7fa61bc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #8 0x7fa61bc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #9 0x55f180654e64 in _start (/tmp/angband-detect-290-4jn960ry/build-asan/game/D290Observer+0x14ae64) (BuildId: 07cc4cd245a59bcfd4797de4e3dd78f6ebb6a0a4)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-detect-290-4jn960ry/source/src/borg/borg-update.c:1396 in borg_handle_self
+Shadow bytes around the buggy address:
+  0x5020003ed000: fa fa 03 fa fa fa 03 fa fa fa 03 fa fa fa 03 fa
+  0x5020003ed080: fa fa 03 fa fa fa 03 fa fa fa 03 fa fa fa 03 fa
+  0x5020003ed100: fa fa 03 fa fa fa 03 fa fa fa 03 fa fa fa 03 fa
+  0x5020003ed180: fa fa 03 fa fa fa 03 fa fa fa 03 fa fa fa 03 fa
+  0x5020003ed200: fa fa 03 fa fa fa 03 fa fa fa 00 00 fa fa 02 fa
+=>0x5020003ed280: fa fa 02 fa fa fa 00 00[fa]fa 02 fa fa fa 02 fa
+  0x5020003ed300: fa fa 00 00 fa fa 02 fa fa fa 02 fa fa fa 00 00
+  0x5020003ed380: fa fa 02 fa fa fa 02 fa fa fa 00 00 fa fa 02 fa
+  0x5020003ed400: fa fa 02 fa fa fa 00 00 fa fa fa fa fa fa fa fa
+  0x5020003ed480: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x5020003ed500: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==10689==ABORTING

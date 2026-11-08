@@ -1,0 +1,6 @@
+native-c/detect-290: starting...
+SETUPSTEP profile
+PANELS hgt=28 wid=66
+SETUP seed=1000 class=Warrior level=1 depth=5 panels=3,8
+  queued_detection_respects_resized_arrays  MODE stale
+QUEUED panels=3,8
