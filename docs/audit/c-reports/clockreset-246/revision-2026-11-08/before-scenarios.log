@@ -1,0 +1,2 @@
+main {'exit': 0, 'passed': False, 'state': {'time_after': 2147480647, 'active': 0}, 'outcome': {'kept_playing': 0, 'time_reset': 0}}
+below-threshold {'exit': 0, 'passed': True, 'state': {'time_after': 2147480646, 'active': 1}, 'outcome': {'kept_playing': 1, 'time_reset': 0}}

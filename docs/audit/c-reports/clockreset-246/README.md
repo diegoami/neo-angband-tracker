@@ -105,3 +105,70 @@ git fetch https://github.com/diegoami/neo-angband-tracker.git task/clockreset-24
 git show 526c82044ee91bbbb531c25edd07f63bed7cd88c:docs/audit/c-reports/clockreset-246/reproduce.py > /tmp/reproduce-clockreset-246.py
 python3 /tmp/reproduce-clockreset-246.py --full-tests --fixtures-ref 526c82044ee91bbbb531c25edd07f63bed7cd88c --fix-ref 7cc0ebbd2016afeaaf57c5e976251b67f7c0e147
 ```
+
+## Revision (2026-11-08): owner-decided shape
+
+**Owner decision: trim the source comment now** (recorded on issue #246).
+The reset's source comment used to narrate history ("The previous version
+aborted the borg here…"). History belongs in the commit message, not in code
+proposed upstream. The source branch has one new commit,
+`045f7acc75f64b462d48116a91fce7a15781bd71`, which replaces that comment with
+a plain description of what the code does now. **No code changed.** Measured
+against base `e473720ed`, the whole branch is now:
+
+```diff
+-    /* Prevent clock wrapping Step 2 */
++    /* Prevent clock wrapping Step 2: reset the clock and keep playing.
++     * The overflow check in borg_think() remains as a failsafe. */
+     if (borg.time.now >= BORG_TIME_MAX - 3000) {
+-        /* Panic */
+-        borg_oops("clock overflow");
+-
+-        /* Oops */
+-        return true;
++        borg.time.now = 1;
++        borg_warning("*****WARNING***** Borg Clock Overflow");
+     }
+```
+
+The fixtures commit `12d555c66c0274df03711e5e906ee24c011f28fb` changes only
+the expected hunk in `reproduce.py`. The scenario, the runner and the replay
+generator are unchanged.
+
+**New pins supersede the earlier ones** for every repeat command: fixtures
+`12d555c66c0274df03711e5e906ee24c011f28fb` (was `526c82044`) and fix
+`045f7acc75f64b462d48116a91fce7a15781bd71` (was `7cc0ebbd2`).
+
+The outcomes are identical to the previous run, as expected for a
+comment-only change. Every scenario log (`before-main.log`, `after-main.log`
+and both `below-threshold` logs), both results files, `replay.html` and
+`replay-data.json` came out byte-identical to the files already committed
+here.
+
+| Case | Original (base) | Corrected (fix `045f7acc7`) | Logs |
+| --- | --- | --- | --- |
+| `main`: clock at `BORG_TIME_MAX - 3000` | clock frozen at 2147480647, **aborted** ("Aborting (clock overflow)."), 0/1 | clock **reset to 1**, still active, 1/1 | unchanged from the previous run |
+| `below-threshold` (control): `BORG_TIME_MAX - 3001` | clock 2147480646, active, 1/1 | identical, 1/1 | **byte-identical** |
+
+Both full native gates pass on each variant: 965/965 unit checks and 5/5
+frontend tests, with no failed lines. The figures are parsed from
+`revision-2026-11-08/before-alltests.log` and `after-alltests.log`. The full
+build of the corrected tree reports no warnings. Toolchain: GNU 13.3.0, cmake
+version 3.28.3. Render check: `node tools/c-evidence/render-smoke.js`
+(Playwright headless) on `replay.html` printed
+`RENDER-SMOKE actions=0 errors=0 OK`.
+
+The configure, build, scenario-runner and full-gate logs and `result.json`
+for this run are in [revision-2026-11-08/](revision-2026-11-08/), with their
+own [receipt](revision-2026-11-08/receipt.json). The root `receipt.json`
+records this run and keeps earlier runs under `superseded_runs`. It also
+holds a sha256 map of every file in this directory.
+
+Repeat, with both shas pinned:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/clockreset-246
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/clockreset-246-evidence
+git show 12d555c66c0274df03711e5e906ee24c011f28fb:docs/audit/c-reports/clockreset-246/reproduce.py > /tmp/reproduce-clockreset-246.py
+python3 /tmp/reproduce-clockreset-246.py --full-tests --fixtures-ref 12d555c66c0274df03711e5e906ee24c011f28fb --fix-ref 045f7acc75f64b462d48116a91fce7a15781bd71
+```

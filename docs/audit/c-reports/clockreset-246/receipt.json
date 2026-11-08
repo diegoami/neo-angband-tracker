@@ -2,9 +2,9 @@
   "issue": "diegoami/neo-angband-tracker#246",
   "report": "clockreset-246",
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
-  "fix": "7cc0ebbd2016afeaaf57c5e976251b67f7c0e147",
+  "fix": "045f7acc75f64b462d48116a91fce7a15781bd71",
   "fix_branch": "task/clockreset-246",
-  "fixtures_ref": "526c82044ee91bbbb531c25edd07f63bed7cd88c",
+  "fixtures_ref": "12d555c66c0274df03711e5e906ee24c011f28fb",
   "cases": {
     "before": {
       "main": {
@@ -73,30 +73,9 @@
   "fixed_sources": [
     "src/borg/borg-think-dungeon.c"
   ],
-  "runner_asserts": "The corrected file must equal the base file with exactly the graceful reset replacing the panic; the source scope must be that single file.",
+  "runner_asserts": "The corrected file must equal the base file with exactly the reset hunk (trimmed comment, borg.time.now = 1 and the warning replacing the panic); the source scope must be that single file; main must flip as recorded and the below-threshold control log must be byte-identical.",
   "render_check": "node tools/c-evidence/render-smoke.js (Playwright headless) on the committed replay.html, 2026-11-08: RENDER-SMOKE actions=0 errors=0 OK",
-  "run_log": "reproduce.py --full-tests at fixtures 526c82044 / fix 7cc0ebbd2: VERIFIED; logs in reverify-2026-11-08/",
-  "superseded_run": {
-    "fixtures_ref": "85ff225404d99acfdf22568b4bc5ec64afd4218b",
-    "cases": {
-      "before": {
-        "passed": false,
-        "state": {
-          "time_after": 2147480647,
-          "active": 0
-        }
-      },
-      "after": {
-        "passed": true,
-        "state": {
-          "time_after": 1,
-          "active": 1
-        }
-      }
-    },
-    "render_check": "Chrome headless planned after packaging; matrix replay generated.",
-    "run_log": "matrix exit 0; VERIFIED line in reproduce output"
-  },
+  "run_log": "reproduce.py --full-tests at fixtures 12d555c66 / fix 045f7acc7: VERIFIED; logs in revision-2026-11-08/",
   "identical_controls": [
     "below-threshold"
   ],
@@ -105,7 +84,7 @@
     "cmake": "cmake version 3.28.3"
   },
   "sha256": {
-    "README.md": "312f23a9d1cc108699c24409d30e3e5c980aa490b5c44ac61fdc5f93b67987d4",
+    "README.md": "5afc1ca01c9d483b66c5196bb3e99552926702da8dd7a9cda1a1dc668d53bd9a",
     "after-below-threshold.log": "0f72efdb7fdbe9f584e6d89cda6dc270c065dfbe767a814de30ba6d022173893",
     "after-main.log": "cea16502a1308f5edd7ed214c5929de609603b8e5830670b820f752ad83ab6ab",
     "after-results.json": "f9c54d724d39dd1ce0437d0216348370237a05c75411625c83c8e1b0355965eb",
@@ -117,7 +96,7 @@
     "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
     "replay-data.json": "370e50422101249ed063d256248150784709d78875a6bdebf0fd6484633b22eb",
     "replay.html": "26b6fcfd407aeb2b769929c65398b8a05550b8345cc62db04a3aece1f5e12541",
-    "reproduce.py": "75f9e4f521da468d91f50ad2f127206f41280c2409ec7a0970ce417636e61062",
+    "reproduce.py": "977dc64c4f029c7e9c946cbd1fce2ce7afe48bdb2716978149efd602450f9923",
     "reverify-2026-11-08/after-alltests.log": "d6a3f626de7c86c6e2b6f368ecc3b80ae24bd2d716c1da738dca00e131898e4b",
     "reverify-2026-11-08/after-build.log": "d34c06a4fd8171d18500632f648267b66926351c758d34b8c40c182e2ca7479b",
     "reverify-2026-11-08/after-scenarios.log": "3e8db30a881e319d7ba236c19f6ebf37560d7a840fc4d3a1b39959179b2615aa",
@@ -133,7 +112,112 @@
     "reverify-2026-11-08/scenario-before-below-threshold.log": "0f72efdb7fdbe9f584e6d89cda6dc270c065dfbe767a814de30ba6d022173893",
     "reverify-2026-11-08/scenario-before-main.log": "cfb694b7ea1a63e730baf6686dbdb7476c0fa8e86811f0b100efb67ef2f812db",
     "reverify-2026-11-08/scenario-before-results.json": "4b0a0e8e29b148ee095bcc44b57945f2968f16539a74dcb8f872f250ca76629e",
+    "revision-2026-11-08/after-alltests.log": "5e36ab289aeaab430ca63ecff4006fe877951267af28808dcd8440fe50e9a9fb",
+    "revision-2026-11-08/after-build.log": "d34c06a4fd8171d18500632f648267b66926351c758d34b8c40c182e2ca7479b",
+    "revision-2026-11-08/after-scenarios.log": "3e8db30a881e319d7ba236c19f6ebf37560d7a840fc4d3a1b39959179b2615aa",
+    "revision-2026-11-08/before-alltests.log": "9421f0a16ff2c02cd6adb28488c165c1d73234816414685ce2daf5b096010d50",
+    "revision-2026-11-08/before-build.log": "80282ff22fd4984f3ee990f0ccbddbd23df6437117d8197e9cec6a9232022961",
+    "revision-2026-11-08/before-scenarios.log": "94eb37089f9f2f5b742ab5f224d812b736be4a8be70010f1ae9fd35e842abbf2",
+    "revision-2026-11-08/configure.log": "215ec413b51d976065537803caea77102544b8414c35c35067bbfc59b683f28c",
+    "revision-2026-11-08/receipt.json": "23289436eb17770a9cd0983b95e0de774bc1cd355670f067f22f2be34399b6da",
+    "revision-2026-11-08/result.json": "29a525a2ff7f143e578c190818ba567f36fce57c1cffe02817d9b5993768bcda",
+    "revision-2026-11-08/scenario-after-below-threshold.log": "0f72efdb7fdbe9f584e6d89cda6dc270c065dfbe767a814de30ba6d022173893",
+    "revision-2026-11-08/scenario-after-main.log": "cea16502a1308f5edd7ed214c5929de609603b8e5830670b820f752ad83ab6ab",
+    "revision-2026-11-08/scenario-after-results.json": "f9c54d724d39dd1ce0437d0216348370237a05c75411625c83c8e1b0355965eb",
+    "revision-2026-11-08/scenario-before-below-threshold.log": "0f72efdb7fdbe9f584e6d89cda6dc270c065dfbe767a814de30ba6d022173893",
+    "revision-2026-11-08/scenario-before-main.log": "cfb694b7ea1a63e730baf6686dbdb7476c0fa8e86811f0b100efb67ef2f812db",
+    "revision-2026-11-08/scenario-before-results.json": "4b0a0e8e29b148ee095bcc44b57945f2968f16539a74dcb8f872f250ca76629e",
     "run-cases.py": "56c43d53880f2cfea0612022d05b937269a98a060df266e13da0654f6446a61e",
     "scenario.c": "06adbd763419d5614eebc1c3f81f5e386c929ab716d176a267092ed2400e2084"
+  },
+  "superseded_runs": [
+    {
+      "fixtures_ref": "85ff225404d99acfdf22568b4bc5ec64afd4218b",
+      "cases": {
+        "before": {
+          "passed": false,
+          "state": {
+            "time_after": 2147480647,
+            "active": 0
+          }
+        },
+        "after": {
+          "passed": true,
+          "state": {
+            "time_after": 1,
+            "active": 1
+          }
+        }
+      },
+      "render_check": "Chrome headless planned after packaging; matrix replay generated.",
+      "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+    },
+    {
+      "fix": "7cc0ebbd2016afeaaf57c5e976251b67f7c0e147",
+      "fixtures_ref": "526c82044ee91bbbb531c25edd07f63bed7cd88c",
+      "cases": {
+        "before": {
+          "main": {
+            "exit": 0,
+            "passed": false,
+            "state": {
+              "time_after": 2147480647,
+              "active": 0
+            },
+            "outcome": {
+              "kept_playing": 0,
+              "time_reset": 0
+            }
+          },
+          "below-threshold": {
+            "exit": 0,
+            "passed": true,
+            "state": {
+              "time_after": 2147480646,
+              "active": 1
+            },
+            "outcome": {
+              "kept_playing": 1,
+              "time_reset": 0
+            }
+          }
+        },
+        "after": {
+          "main": {
+            "exit": 0,
+            "passed": true,
+            "state": {
+              "time_after": 1,
+              "active": 1
+            },
+            "outcome": {
+              "kept_playing": 1,
+              "time_reset": 1
+            }
+          },
+          "below-threshold": {
+            "exit": 0,
+            "passed": true,
+            "state": {
+              "time_after": 2147480646,
+              "active": 1
+            },
+            "outcome": {
+              "kept_playing": 1,
+              "time_reset": 0
+            }
+          }
+        }
+      },
+      "claim": "The graceful clock reset in borg_think() fired at BORG_TIME_MAX - 100 while borg_think_dungeon() aborted the borg at BORG_TIME_MAX - 3000, so the abort always won and the reset was unreachable. The owner-decided correction resets the clock in place at the threshold (the same borg.time.now = 1 assignment) and keeps playing; the borg_think() check remains as a failsafe. Control below-threshold (BORG_TIME_MAX - 3001): clock kept, Borg active, identical decision and byte-identical logs in both versions.",
+      "render_check": "node tools/c-evidence/render-smoke.js (Playwright headless) on the committed replay.html, 2026-11-08: RENDER-SMOKE actions=0 errors=0 OK",
+      "run_log": "reproduce.py --full-tests at fixtures 526c82044 / fix 7cc0ebbd2: VERIFIED; logs in reverify-2026-11-08/",
+      "identical_controls": [
+        "below-threshold"
+      ]
+    }
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-think-dungeon.c": "3a99be10bb0530f98baf3e715d5501d6fe4d1b7e2a03e7c67c52b781c473dafe"
   }
 }

@@ -1,0 +1,106 @@
+{
+  "slug": "clockreset-246",
+  "date": "2026-11-08",
+  "kind": "owner-decided revision",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "045f7acc75f64b462d48116a91fce7a15781bd71",
+  "fixtures_ref": "12d555c66c0274df03711e5e906ee24c011f28fb",
+  "command": "python3 reproduce.py --full-tests --fixtures-ref 12d555c66c0274df03711e5e906ee24c011f28fb --fix-ref 045f7acc75f64b462d48116a91fce7a15781bd71",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "time_after": 2147480647,
+          "active": 0
+        },
+        "outcome": {
+          "kept_playing": 0,
+          "time_reset": 0
+        }
+      },
+      "below-threshold": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "time_after": 2147480646,
+          "active": 1
+        },
+        "outcome": {
+          "kept_playing": 1,
+          "time_reset": 0
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "time_after": 1,
+          "active": 1
+        },
+        "outcome": {
+          "kept_playing": 1,
+          "time_reset": 1
+        }
+      },
+      "below-threshold": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "time_after": 2147480646,
+          "active": 1
+        },
+        "outcome": {
+          "kept_playing": 1,
+          "time_reset": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "below-threshold"
+  ],
+  "full_tests_parsed_from_alltests_logs": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    }
+  },
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "render_smoke": {
+    "replay.html": {
+      "output": "RENDER-SMOKE actions=0 errors=0 OK",
+      "exit": 0,
+      "sha256": "26b6fcfd407aeb2b769929c65398b8a05550b8345cc62db04a3aece1f5e12541"
+    }
+  },
+  "run_root": "/tmp/angband-clockreset-246-ou8yis38",
+  "sha256": {
+    "after-alltests.log": "5e36ab289aeaab430ca63ecff4006fe877951267af28808dcd8440fe50e9a9fb",
+    "after-build.log": "d34c06a4fd8171d18500632f648267b66926351c758d34b8c40c182e2ca7479b",
+    "after-scenarios.log": "3e8db30a881e319d7ba236c19f6ebf37560d7a840fc4d3a1b39959179b2615aa",
+    "before-alltests.log": "9421f0a16ff2c02cd6adb28488c165c1d73234816414685ce2daf5b096010d50",
+    "before-build.log": "80282ff22fd4984f3ee990f0ccbddbd23df6437117d8197e9cec6a9232022961",
+    "before-scenarios.log": "94eb37089f9f2f5b742ab5f224d812b736be4a8be70010f1ae9fd35e842abbf2",
+    "configure.log": "215ec413b51d976065537803caea77102544b8414c35c35067bbfc59b683f28c",
+    "result.json": "29a525a2ff7f143e578c190818ba567f36fce57c1cffe02817d9b5993768bcda",
+    "scenario-after-below-threshold.log": "0f72efdb7fdbe9f584e6d89cda6dc270c065dfbe767a814de30ba6d022173893",
+    "scenario-after-main.log": "cea16502a1308f5edd7ed214c5929de609603b8e5830670b820f752ad83ab6ab",
+    "scenario-after-results.json": "f9c54d724d39dd1ce0437d0216348370237a05c75411625c83c8e1b0355965eb",
+    "scenario-before-below-threshold.log": "0f72efdb7fdbe9f584e6d89cda6dc270c065dfbe767a814de30ba6d022173893",
+    "scenario-before-main.log": "cfb694b7ea1a63e730baf6686dbdb7476c0fa8e86811f0b100efb67ef2f812db",
+    "scenario-before-results.json": "4b0a0e8e29b148ee095bcc44b57945f2968f16539a74dcb8f872f250ca76629e"
+  }
+}
