@@ -191,6 +191,33 @@ With a two-sided test at α = 0.05 and 80 % power (normal approximation for two 
 - **Compute contention:** one lock-owning coordinator, bounded workers, scheduled batches or a separate runner machine. borg-rs reports a 4-core machine, which suits identity suites but not tuning cohorts.
 - **Two codebases drifting apart:** guard with differential identity at shared profiles, ledgers of what exists in one only, and the Phase 2a decision.
 
+## What a remake leaves out
+
+*Added 2026-11-08, after revision 3.* The plan above recommends against a rewrite (approach D). The owner is also considering a remake: a new Borg designed from scratch, keeping the C Borg's concepts (danger above all) but not its code. This section records what such a remake would not carry over, and the measurements behind each item. It does not change the plan for better-borg-c or borg-rs.
+
+The measurements come from [borg-zoo](https://github.com/diegoami/borg-zoo), which runs seed suites across Borg versions and `borg.txt` profiles ([results](https://diegoami.github.io/borg-zoo/)). Unless stated otherwise:
+- the original C Borg (`e473720`) on 50 Human Warrior seeds;
+- the first 100,000 engine turns (experiments `switches-early` and `switches-early-2`);
+- "no effect" means no effect in the early game, not proof that a setting is useless later.
+
+| Item | Status | Why | Evidence |
+| --- | --- | --- | --- |
+| **Munchkin start** (`borg_munchkin_start`, §13.1 of the specification) | **Left out: owner decision, 2026-11-08** | It survives by stair-diving to a target depth without fighting, a scumming style of play. Its effect depends on the class, and it has a liveness defect. | `classes-munchkin`: 1,800 seeds, 9 classes × 200, races cycled. Deaths fall for warriors (32 % → 7 %, 60 seeds rescued against 10 newly killed), druids and rangers, but **rise** for mages (31 % → 45 %, 26 against 54) and priests (24 % → 37 %, 29 against 55). 152 of 200 Blackguard runs never finish: they loop on "Fleeing level. Munchkin Mode" without game time passing ([#403](https://github.com/diegoami/neo-angband-tracker/issues/403#issuecomment-6717932947)). These per-class figures are post hoc. |
+| **Money scum** (`borg_money_scum_amount`) | Proposed | It rests in town killing townspeople for gold until a target is reached: survival by not playing. | 0 deaths in 50 runs at 5,000 and at 20,000 gold, because it hardly plays: 49 of 50 characters are still at character level 1 at the cap, never below dungeon level 1. All 16 of the default's deaths are avoided, and progress collapses with them (alive at the cap having reached dungeon level 5: 18 % → 2 %). |
+| **Self scum** (`borg_self_scum`, default **on**) | Proposed | It sets a money-scum target when the Borg wants a shop item it cannot afford, and keeps playing once the target is reached. It is gold farming by another route. | Turning it off gave the same outcome on all 50 seeds; its conditions (character level 10+) are rarely met that early. |
+| **Lunal mode** (`borg_self_lunal`, §13.1 of the specification) | **Left out: owner decision, 2026-11-08** | Stair-dives and climbs without fighting, as munchkin does, but deeper: the same scumming style. | Not measured; left out on the same grounds as munchkin. |
+| **The formula language** (`borg_uses_dynamic_calcs` and the formula section of `borg.txt`) | Proposed | A second, interpreted valuation beside the code. A remake has one valuation model in code. | With it on, the Borg's start-up warning consumes a runner key and the Borg aborts, so the zoo cannot run it. The shipped `borg.txt`, formula section included, played identically to the built-in defaults on all 50 seeds. |
+| **The `borg_worships_*` switches** (speed, HP, damage, mana, AC, gold) | Proposed: replace | Per-stat selectors of different weight branches in `borg_power()`; `worships_gold` changes selling instead. A remake would have one valuation with explicit weights. | Speed, HP and damage gave the same deaths as default on all 50 seeds (damage lost 2 runs on the progress measure); mana played identically; AC moved 9 seeds (5 rescued, 4 newly killed); gold changed 7 of 50 games without changing the death count. |
+| **Chest tolerance** (`borg_chest_fail_tolerance`) | To evaluate | A single threshold in the flow. | Identical to default on all 50 seeds. |
+| **Cheat death and respawn** (`borg_cheat_death`, `borg_respawn_*`) | Proposed: move | Test conveniences. They belong in the test runner, not in the Borg. | – |
+
+**Kept as concepts, redesigned:**
+- **The danger model.**
+- **Leaving a level that feels dangerous.** Human players use it too, but the remake needs a rule that stops it from cycling between levels without game time passing. Munchkin's Blackguard loop and seed 1045 ([#403](https://github.com/diegoami/neo-angband-tracker/issues/403)) are both in that family.
+- **Swaps, `borg_kills_uniques` and `borg_plays_risky`.** No clear early effect, but they are risk and equipment policies that may matter deeper in the game.
+
+**Before striking more:** the items marked "Proposed" or "To evaluate" on early-game evidence alone should first be run on borg-zoo's deep suite (400,000 engine turns) across classes. Money scum and the formula language do not need it. Munchkin start and lunal mode are already decided.
+
 ## Decisions for the owner
 
 1. **better-borg-c scope:** a strategy track conflicts with RULES 12 (no new gameplay strategies), RULES 10 (no Rust work), RULES 14 and PLAN (bugs before discretionary batches), and the cross-repository limits in AGENTS and PLAN. Decide whether tuning gets protected capacity alongside the bug queue.
