@@ -1,0 +1,2 @@
+excavate {'exit': 0, 'passed': False, 'setup': {'spelllegal': 1, 'wallfeat': 18, 'perma_adjacent': 1}, 'decision': {'acted': 1, 'keys': 9}, 'state': {'glow': 1, 'dark': 0}, 'outcome': {'acted': 1, 'dark_marked': 0}, 'sequence': '* p 3 6 5 m b c 5'}
+no-target {'exit': 0, 'passed': True, 'setup': {'spelllegal': 1, 'wallfeat': 18, 'perma_adjacent': 0}, 'decision': {'acted': 0, 'keys': 0}, 'state': {'glow': 0, 'dark': 0}, 'outcome': {'acted': 0, 'dark_marked': 0}, 'sequence': ''}

@@ -1,0 +1,113 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "8e0f8448e9ebc6d164e4e621840acb0005094f81",
+  "fixtures_ref": "be69260bfcf7c51ce762ccf75282b18fbb5f7ad2",
+  "cases": {
+    "before": {
+      "excavate": {
+        "exit": 0,
+        "passed": false,
+        "setup": {
+          "spelllegal": 1,
+          "wallfeat": 18,
+          "perma_adjacent": 1
+        },
+        "decision": {
+          "acted": 1,
+          "keys": 9
+        },
+        "state": {
+          "glow": 1,
+          "dark": 0
+        },
+        "outcome": {
+          "acted": 1,
+          "dark_marked": 0
+        },
+        "sequence": "* p 3 6 5 m b c 5"
+      },
+      "no-target": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "spelllegal": 1,
+          "wallfeat": 18,
+          "perma_adjacent": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "state": {
+          "glow": 0,
+          "dark": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "dark_marked": 0
+        },
+        "sequence": ""
+      }
+    },
+    "after": {
+      "excavate": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "spelllegal": 1,
+          "wallfeat": 18,
+          "perma_adjacent": 1
+        },
+        "decision": {
+          "acted": 1,
+          "keys": 9
+        },
+        "state": {
+          "glow": 0,
+          "dark": 1
+        },
+        "outcome": {
+          "acted": 1,
+          "dark_marked": 1
+        },
+        "sequence": "* p 3 6 5 m b c 5"
+      },
+      "no-target": {
+        "exit": 0,
+        "passed": true,
+        "setup": {
+          "spelllegal": 1,
+          "wallfeat": 18,
+          "perma_adjacent": 0
+        },
+        "decision": {
+          "acted": 0,
+          "keys": 0
+        },
+        "state": {
+          "glow": 0,
+          "dark": 0
+        },
+        "outcome": {
+          "acted": 0,
+          "dark_marked": 0
+        },
+        "sequence": ""
+      }
+    }
+  },
+  "identical_full_logs": [
+    "no-target"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": "a2490c528d402a804e40ea3be61a7454b1cdee47ac8bdcc65ab78f9c792ba616"
+}

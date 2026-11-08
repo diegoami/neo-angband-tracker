@@ -1,0 +1,10 @@
+native-c/excavate-236: starting...
+SETUPSTEP profile
+SETUP vault=1 spelllegal=1 wallfeat=18 perma_adjacent=0
+SETUP seed=1000 class=Druid level=13 depth=30 mana=72/72
+  excavated_grid_marked_dark  MODE no-target
+DECISION acted=0 keys=0 sequence=
+STATE glow=0 dark=0
+OUTCOME acted=0 dark_marked=0
+Passed
+native-c/excavate-236 finished: 1/1 passed
