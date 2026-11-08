@@ -1,0 +1,22 @@
+{
+  "missing": {
+    "exit": 3,
+    "passed": false,
+    "outcome": {
+      "init_completed": 0,
+      "crashed": 1
+    }
+  },
+  "present": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "init_failure": 0,
+      "stop_dlevel": 128
+    },
+    "outcome": {
+      "init_completed": 1,
+      "crashed": 0
+    }
+  }
+}

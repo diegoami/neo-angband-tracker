@@ -1,0 +1,64 @@
+{
+  "missing": {
+    "label": "borg.txt cannot be read or written",
+    "explanation": "Original: after the 'unable to write default BORG.TXT' warning, borg_init() reads the unallocated settings table and the process gets SIGSEGV. Corrected: start-up completes with the default settings (borg_stop_dlevel 128).",
+    "control": false,
+    "before": {
+      "raw": "native-c/cfgmissing-144: starting...\nSETUP seed=144 mode=missing borg_txt_dir=(missing)\n  borg_init_without_borg_txt  OUTCOME init_completed=0 crashed=1\nnative-c/cfgmissing-144 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "init_completed": 0,
+        "crashed": 1
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/cfgmissing-144: starting...\nSETUP seed=144 mode=missing borg_txt_dir=(missing)\n  borg_init_without_borg_txt  STATE init_failure=0 stop_dlevel=128\nOUTCOME init_completed=1 crashed=0\nPassed\nnative-c/cfgmissing-144 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "init_failure": 0,
+        "stop_dlevel": 128
+      },
+      "outcome": {
+        "init_completed": 1,
+        "crashed": 0
+      },
+      "notes": [],
+      "value": 1
+    }
+  },
+  "present": {
+    "label": "Control: stock borg.txt present",
+    "explanation": "borg.txt is read normally; both versions start and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/cfgmissing-144: starting...\nSETUP seed=144 mode=present borg_txt_dir=(profile)\n  borg_init_without_borg_txt  STATE init_failure=0 stop_dlevel=128\nOUTCOME init_completed=1 crashed=0\nPassed\nnative-c/cfgmissing-144 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "init_failure": 0,
+        "stop_dlevel": 128
+      },
+      "outcome": {
+        "init_completed": 1,
+        "crashed": 0
+      },
+      "notes": [],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/cfgmissing-144: starting...\nSETUP seed=144 mode=present borg_txt_dir=(profile)\n  borg_init_without_borg_txt  STATE init_failure=0 stop_dlevel=128\nOUTCOME init_completed=1 crashed=0\nPassed\nnative-c/cfgmissing-144 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "init_failure": 0,
+        "stop_dlevel": 128
+      },
+      "outcome": {
+        "init_completed": 1,
+        "crashed": 0
+      },
+      "notes": [],
+      "value": 1
+    }
+  }
+}

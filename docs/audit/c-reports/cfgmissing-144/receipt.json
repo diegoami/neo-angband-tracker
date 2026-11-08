@@ -1,0 +1,109 @@
+{
+  "issue": "diegoami/neo-angband-tracker#144",
+  "report": "cfgmissing-144",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "8cbee69447cda2526b4810fd6ea74677921ff1d1",
+  "fix_branch": "task/cfgmissing-144",
+  "fixtures_ref": "1ff9ca1e59d639b6693b9bcb40190c6d836c6fa9",
+  "cases": {
+    "missing": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "init_completed": 0,
+          "crashed": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 128
+        },
+        "outcome": {
+          "init_completed": 1,
+          "crashed": 0
+        }
+      }
+    },
+    "present": {
+      "before": {
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 128
+        },
+        "outcome": {
+          "init_completed": 1,
+          "crashed": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 128
+        },
+        "outcome": {
+          "init_completed": 1,
+          "crashed": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "present"
+  ],
+  "claim": "When borg.txt is missing and cannot be written, borg_init_txt_file() returned before allocating borg_cfg and borg_init() crashed (SIGSEGV) reading it. Allocating the defaults before opening the file lets start-up complete with defaults; the reopen-failure path now also returns with defaults. The stock-file control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-init.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-init.c": "b952199ca8aac03c4a0b0f2b34089a227d473166ad7710956d14fc65fa18d95c"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "fafae3886b12dd83de9a4dba9181280aab41c88798c3d9473c4ff29974a329c2",
+    "after-missing.log": "a41bba9d8e78e9f52d514d0c1eeb98c9fd8c8d52ca289339225fbaa625669d05",
+    "after-present.log": "01651119b84238b3d9839087660984ca54a7bc8d47da605b2527081ba8f976f9",
+    "after-results.json": "8be241f34fdb4dd5cc396721de1057275762e27137c250657b4b6e9c505a6599",
+    "before-missing.log": "0819ba4a89712c6a316c6ad7492b862a7280743f2847996cad631d161948f322",
+    "before-present.log": "01651119b84238b3d9839087660984ca54a7bc8d47da605b2527081ba8f976f9",
+    "before-results.json": "6e248110b93e121934311329c378d76b415f07fe35836551a967c909a6cfc0f1",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "910e95c9b6e888b38910ba1b3d466c441f39b1ca5866092c5b2447850359c6bc",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "7340bdde03f2879d1944401b0455f77969c08df58b9ebb00b50cc74b91a2e341",
+    "replay.html": "29a752fdf9d5a26917cf9a8577a25be97b4533b884eb6a25504485463b5179d8",
+    "reproduce.py": "4fe455b8d2e4448e310dee4e0efe91297261113423ca94ced859d678ce5d3947",
+    "result.json": "5587c3c86c69a116982b83d2e860b8e7ce16281a0d076bbca3f1986af021d0d5",
+    "run-after-alltests.log": "bc06ca674f078eecd2d6de47ddc9e7c50fc72ba1fd44f4f178902a5490c4b7f8",
+    "run-after-build.log": "63b84d9aaf961b26d9b3d5476e00b9040e194d4c8e149737d546b5831c776cb0",
+    "run-after-scenarios.log": "e10801fb0db8196bc225d6d011bf36803957cc3516578dc59c01b77c3740471b",
+    "run-before-alltests.log": "9889460cdaf8ddd338b5cb0f887582f0cf7d62093b0e6fdf372fb0926eb1f7e6",
+    "run-before-build.log": "6eef8c1faa5a3c5a697112cf9554afc256e9310686fb6d80c9dcf7fcb43cbfc8",
+    "run-before-scenarios.log": "5bc537772cb15d638a4c9bbcd3a194eab2fe9410c04dcf38b8f92161cb0c3694",
+    "run-cases.py": "edec14d0122485f304c467f6a9e1bd840c8b7ae592b17e2414aefd45c5a4535e",
+    "run-configure.log": "8af3eec6346795de441c3f35665b0b3f6c769200c1a03c1aef813f5d072b442c",
+    "scenario.c": "23a4920dfb744dc38e7495e838ebbd5bfe91f8558d08431d71d6c529645a1855"
+  }
+}
