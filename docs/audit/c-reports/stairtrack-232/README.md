@@ -23,7 +23,7 @@ claim.
 
 Canonical report: [issue232](https://github.com/diegoami/neo-angband-tracker/issues/232).
 Lead supplied by borg-rs; independently validated and reproduced
-natively here. Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+natively here. Source proposal [#358](https://github.com/diegoami/neo-angband-tracker/pull/358).
 
 ## Verification
 
@@ -132,7 +132,7 @@ The earlier text of this guide is left as written.
 
 ## Errata (2026-11-08)
 
-- **Source proposal link.** The opening's "Source proposal" link above points to a placeholder URL. The source proposal is [#358](https://github.com/diegoami/neo-angband-tracker/pull/358) (branch `task/c-borg-stair-track-break`); the evidence PR is [#359](https://github.com/diegoami/neo-angband-tracker/pull/359); the canonical issue is [#232](https://github.com/diegoami/neo-angband-tracker/issues/232).
+- **Source proposal link.** The opening's "Source proposal" link above pointed to a placeholder URL; it was corrected in place on 2026-11-08 (the earlier commits keep the old text). The source proposal is [#358](https://github.com/diegoami/neo-angband-tracker/pull/358) (branch `task/c-borg-stair-track-break`); the evidence PR is [#359](https://github.com/diegoami/neo-angband-tracker/pull/359); the canonical issue is [#232](https://github.com/diegoami/neo-angband-tracker/issues/232).
 - **Fixtures pins.** The receipt's `fixtures_ref` is `91eb5b3400cc56b407db6c9011e989c216edfac0` (the commit the native run executed at). The commands above pin `6a28f95e98d046ddaa0ba29b265df2ba42291090` and the issue's commands pinned `07a71c16084398643ac09da9cc56e3b2b5b6ea6b`; all three commits carry byte-identical `scenario.c`, `run-cases.py`, `make_replay.py`, `reproduce.py` and `borg.txt` (`git diff --stat 91eb5b3400cc56b407db6c9011e989c216edfac0 07a71c16084398643ac09da9cc56e3b2b5b6ea6b -- docs/audit/c-reports/stairtrack-232/` lists only README/receipt/replay/result artifacts), so any of them reproduces the same run. The re-verification above used `91eb5b3400cc56b407db6c9011e989c216edfac0`.
 - **Missing logs and render record.** The file inventory and receipt list phase logs that were not committed with the original package; the re-run's logs are in `reverify-2026-11-08/`. The receipt records its browser check under `browser`; the generic render-smoke result above is the 2026-11-08 record.
 - **README hash.** Because this section was appended, `README.md` no longer matches the `README.md` hash in `receipt.json` (that hash is for the guide before this section was appended); every other hashed file is unchanged.
