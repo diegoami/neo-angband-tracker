@@ -1,0 +1,216 @@
+{
+  "issue": "diegoami/neo-angband-tracker#111",
+  "report": "venomcost-111",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "65aa5a6d4cc047559b9e633b91534ee5fa920310",
+  "fix_branch": "task/venomcost-111",
+  "fixtures_ref": "06f485e8d7f39db503166d7241369194a699cb42",
+  "cases": {
+    "unique": {
+      "before": {
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 3,
+          "no_rest_prep": 19000
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 3,
+          "no_rest_prep": 19000
+        }
+      }
+    },
+    "unique50": {
+      "before": {
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 46
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 3,
+          "no_rest_prep": 19000
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 46
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 3,
+          "no_rest_prep": 19000
+        }
+      }
+    },
+    "nounique": {
+      "before": {
+        "passed": true,
+        "state": {
+          "near_unique": 0,
+          "mon_unique": 0,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0,
+          "no_rest_prep": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "near_unique": 0,
+          "mon_unique": 0,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0,
+          "no_rest_prep": 0
+        }
+      }
+    },
+    "poisoned": {
+      "before": {
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 1,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0,
+          "no_rest_prep": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 1,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0,
+          "no_rest_prep": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "unique",
+    "unique50",
+    "nounique",
+    "poisoned"
+  ],
+  "claim": "The removed test in borg_perma_aux_venom() can never refuse the cast: it reads Smite Evil's cost, which is -1 for the Blackguard (the only class with Venom), and -1 >= spell points / 10 (or / 7) needs negative spell points, while borg_spell_okay_fail(VENOM) just above requires at least 18. Four native borg_perma_spell() scenarios with a Blackguard, two that cast Venom through the removed lines and two that do not cast, give byte-identical logs before and after, and both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-fight-perm.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-fight-perm.c": "4a0ac371ca74703884a82211c28455f905721df4925d8c33caead25207ab8527"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "6c9fcf4625aa92debfb230332f2a94b624b97853dc6351007526249faef2f4f0",
+    "after-nounique.log": "413049259c75e80eb15ac14641182039ca5f5939a3787720a3aed2f14c33c499",
+    "after-poisoned.log": "457ce6cb88de77dfd49dc17c67002c12d89be00981b3aaa78d3d2a00e61f6328",
+    "after-results.json": "8031e6861cdad6678876b9ff1fcf74e6488f0f519bf66a3d7ff88550c5054a99",
+    "after-unique.log": "f9398f44caba07e045732710b7a4d987704a8b3acaa354ed6f5b5ab87806e536",
+    "after-unique50.log": "2ea94eed512afaa4b78bf9872ea788a362d05ebb7dd2499c2531831c4b6ee9dd",
+    "before-nounique.log": "413049259c75e80eb15ac14641182039ca5f5939a3787720a3aed2f14c33c499",
+    "before-poisoned.log": "457ce6cb88de77dfd49dc17c67002c12d89be00981b3aaa78d3d2a00e61f6328",
+    "before-results.json": "8031e6861cdad6678876b9ff1fcf74e6488f0f519bf66a3d7ff88550c5054a99",
+    "before-unique.log": "f9398f44caba07e045732710b7a4d987704a8b3acaa354ed6f5b5ab87806e536",
+    "before-unique50.log": "2ea94eed512afaa4b78bf9872ea788a362d05ebb7dd2499c2531831c4b6ee9dd",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "c4e248f531235e612eb8d0ff4e34bd1b86d4abc3d0cf67bec1253e2545a27566",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "5babc120fcfcfd4f017ed6f31e2a21e34adb5eea0ba392b947bec8cf37ac629a",
+    "replay.html": "e584a76d45519752e2bf1c0435246a8d4835eea5b7bfc9fb2b191c61b1b3e409",
+    "reproduce.py": "759b4c7af59adbcf876586373796c21cbd3cbdfed8fca71bd0fdc240cbcc78dd",
+    "result.json": "b6f5c1d75538289cb3fd7bde974064b7b4625435842254dfffc1c1ff11aa1135",
+    "run-after-alltests.log": "6ab4893df9615530a0112ce8cff4fd74d01b20a59d6a7e64a7958d09e62b217c",
+    "run-after-build.log": "62f471fb926f0a2784d73a74e121eec4f77c781fd2bc6c6647e46dfc40fe6631",
+    "run-after-scenarios.log": "e353f10bf733b0b8c33d19dd9f2a2efb8ac8ec3b1c195ed4a1aacd2fe16386bb",
+    "run-before-alltests.log": "54f37eb34ae61da26f33a8566c2a75666a33ad7e1262011e271a81f2157e7555",
+    "run-before-build.log": "86c59a65a01b638070d973267a2b4e5114b97c8f71f47e221fcc72a44851fd7d",
+    "run-before-scenarios.log": "e353f10bf733b0b8c33d19dd9f2a2efb8ac8ec3b1c195ed4a1aacd2fe16386bb",
+    "run-cases.py": "9ba3cf64793f85807d1a0725887d9c926c8b5b6357cbebaa52ba4242fdb87f66",
+    "run-configure.log": "8403675db25c3e3e6fc059c86c79dbc5da726378530a8f229b6fd433bc38ccd3",
+    "scenario.c": "3179b07a7c1674b029a375f793411a110325bcec94479d4b34803f09fb9333d3"
+  }
+}

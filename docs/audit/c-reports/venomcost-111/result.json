@@ -1,0 +1,174 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "65aa5a6d4cc047559b9e633b91534ee5fa920310",
+  "fixtures_ref": "06f485e8d7f39db503166d7241369194a699cb42",
+  "cases": {
+    "before": {
+      "unique": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 3,
+          "no_rest_prep": 19000
+        }
+      },
+      "unique50": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 46
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 3,
+          "no_rest_prep": 19000
+        }
+      },
+      "nounique": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_unique": 0,
+          "mon_unique": 0,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0,
+          "no_rest_prep": 0
+        }
+      },
+      "poisoned": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 1,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0,
+          "no_rest_prep": 0
+        }
+      }
+    },
+    "after": {
+      "unique": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 3,
+          "no_rest_prep": 19000
+        }
+      },
+      "unique50": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 46
+        },
+        "outcome": {
+          "cast": 1,
+          "keys": 3,
+          "no_rest_prep": 19000
+        }
+      },
+      "nounique": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_unique": 0,
+          "mon_unique": 0,
+          "venom_active": 0,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0,
+          "no_rest_prep": 0
+        }
+      },
+      "poisoned": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_unique": 1,
+          "mon_unique": 1,
+          "venom_active": 1,
+          "venom_fail": 12,
+          "venom_cost": 18,
+          "smite_cost": -1,
+          "cursp": 38
+        },
+        "outcome": {
+          "cast": 0,
+          "keys": 0,
+          "no_rest_prep": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "unique",
+    "unique50",
+    "nounique",
+    "poisoned"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-fight-perm.c": "4a0ac371ca74703884a82211c28455f905721df4925d8c33caead25207ab8527"
+  }
+}

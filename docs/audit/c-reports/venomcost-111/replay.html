@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Remove the dead mana-cost test from the Blackguard&#x27;s Venom preparation</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Remove the dead mana-cost test from the Blackguard&#x27;s Venom preparation</h1><p>Cleanup, no behaviour change; owner decision (option C). Between fights the Borg casts &#x27;perma&#x27; spells that prepare it for battle. For the Blackguard, borg_perma_aux_venom() decides whether to poison its weapon with Venom. The routine was copied from the Smite Evil one and still reads Smite Evil&#x27;s mana cost. The Blackguard has no Smite Evil, so the cost is -1 and the test &#x27;only if it is cheap&#x27; always passes; the spell-okay check just before it already requires enough spell points for Venom&#x27;s real cost of 18. The change removes the cost lookup and the test and keeps today&#x27;s behaviour: the Blackguard casts Venom without a mana-cost limit.</p><p><label>Scenario: <select id="scenario"><option value="unique">Control: unique 3 grids away, clevel 42 (cast)</option><option value="unique50">Control: unique 3 grids away, clevel 50 (cast)</option><option value="nounique">Control: a cave orc, no unique (not cast)</option><option value="poisoned">Control: unique near, weapon already poisoned (not cast)</option></select></label></p><section class="scenario" data-mode="unique"><p class="summary">Venom fails 12% of the time, within the 15% allowed near a unique. The original passes the dead cost test (cost read as -1 against 38 spell points) and casts; the changed version casts the same way (keys m b d, no_rest_prep 19000). Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Venom cast by borg_perma_spell() (1 = cast, keys m b d queued; 0 = not cast)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION perma=1 keys=3 sequence=mbd</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Venom cast by borg_perma_spell() (1 = cast, keys m b d queued; 0 = not cast)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION perma=1 keys=3 sequence=mbd</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/venomcost-111: starting...
+SETUP seed=111 mode=unique class=Blackguard clevel=42 depth=20 sp=38/38 monster=Bullroarer the Hobbit
+  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38
+DECISION perma=1 keys=3 sequence=mbd
+OUTCOME cast=1 keys=3 no_rest_prep=19000
+Passed
+native-c/venomcost-111 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/venomcost-111: starting...
+SETUP seed=111 mode=unique class=Blackguard clevel=42 depth=20 sp=38/38 monster=Bullroarer the Hobbit
+  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38
+DECISION perma=1 keys=3 sequence=mbd
+OUTCOME cast=1 keys=3 no_rest_prep=19000
+Passed
+native-c/venomcost-111 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="unique50"><p class="summary">Same as &#x27;unique&#x27; with 46 spell points: both versions cast Venom. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Venom cast by borg_perma_spell() (1 = cast, keys m b d queued; 0 = not cast)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION perma=1 keys=3 sequence=mbd</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Venom cast by borg_perma_spell() (1 = cast, keys m b d queued; 0 = not cast)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION perma=1 keys=3 sequence=mbd</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/venomcost-111: starting...
+SETUP seed=111 mode=unique50 class=Blackguard clevel=50 depth=20 sp=46/46 monster=Bullroarer the Hobbit
+  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=46
+DECISION perma=1 keys=3 sequence=mbd
+OUTCOME cast=1 keys=3 no_rest_prep=19000
+Passed
+native-c/venomcost-111 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/venomcost-111: starting...
+SETUP seed=111 mode=unique50 class=Blackguard clevel=50 depth=20 sp=46/46 monster=Bullroarer the Hobbit
+  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=46
+DECISION perma=1 keys=3 sequence=mbd
+OUTCOME cast=1 keys=3 no_rest_prep=19000
+Passed
+native-c/venomcost-111 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="nounique"><p class="summary">Without a unique the failure allowance is 5%, below Venom&#x27;s 12%, so both versions stop before the cost test and cast nothing. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>Venom cast by borg_perma_spell() (1 = cast, keys m b d queued; 0 = not cast)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION perma=0 keys=0 sequence=</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>Venom cast by borg_perma_spell() (1 = cast, keys m b d queued; 0 = not cast)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION perma=0 keys=0 sequence=</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/venomcost-111: starting...
+SETUP seed=111 mode=nounique class=Blackguard clevel=42 depth=20 sp=38/38 monster=cave orc
+  perma_venom       STATE near_unique=0 mon_unique=0 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38
+DECISION perma=0 keys=0 sequence=
+OUTCOME cast=0 keys=0 no_rest_prep=0
+Passed
+native-c/venomcost-111 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/venomcost-111: starting...
+SETUP seed=111 mode=nounique class=Blackguard clevel=42 depth=20 sp=38/38 monster=cave orc
+  perma_venom       STATE near_unique=0 mon_unique=0 venom_active=0 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38
+DECISION perma=0 keys=0 sequence=
+OUTCOME cast=0 keys=0 no_rest_prep=0
+Passed
+native-c/venomcost-111 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="poisoned"><p class="summary">The weapon is already poisoned, so both versions return before the cost test and cast nothing. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>Venom cast by borg_perma_spell() (1 = cast, keys m b d queued; 0 = not cast)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION perma=0 keys=0 sequence=</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>Venom cast by borg_perma_spell() (1 = cast, keys m b d queued; 0 = not cast)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION perma=0 keys=0 sequence=</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/venomcost-111: starting...
+SETUP seed=111 mode=poisoned class=Blackguard clevel=42 depth=20 sp=38/38 monster=Bullroarer the Hobbit
+  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=1 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38
+DECISION perma=0 keys=0 sequence=
+OUTCOME cast=0 keys=0 no_rest_prep=0
+Passed
+native-c/venomcost-111 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/venomcost-111: starting...
+SETUP seed=111 mode=poisoned class=Blackguard clevel=42 depth=20 sp=38/38 monster=Bullroarer the Hobbit
+  perma_venom       STATE near_unique=1 mon_unique=1 venom_active=1 venom_fail=12 venom_cost=18 smite_cost=-1 cursp=38
+DECISION perma=0 keys=0 sequence=
+OUTCOME cast=0 keys=0 no_rest_prep=0
+Passed
+native-c/venomcost-111 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Blackguard, seed 111, clevel 42 (50 in &#x27;unique50&#x27;), depth 20, full HP and spell points, a torch, rations and only the [Fear and Torment] book (so Venom is the only perma spell available), Venom learned through spell_learn(), in a lit, open 24x40 arena with one monster 3 grids east, observed through the Borg&#x27;s observe_kill_diff(); borg_near_monster_type(12) runs as borg_think_dungeon() runs it. The production borg_perma_spell() runs (simulation, then the real cast); the queued keys are read back. &#x27;unique&#x27;: Bullroarer the Hobbit. &#x27;unique50&#x27;: the same at clevel 50. &#x27;nounique&#x27;: a cave orc. &#x27;poisoned&#x27;: Bullroarer, with the weapon already poisoned (TMD_ATT_POIS set). Fixture interventions: the arena and lighting are set directly, borg_grids is seeded from the cave with BORG_OKAY|BORG_VIEW, borg.avoidance is set to current HP, current HP and SP are set to their maximum, and in &#x27;poisoned&#x27; the timed effect is set directly.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/111">issue 111</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
