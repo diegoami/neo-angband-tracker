@@ -65,6 +65,7 @@ def status(issue_no, now, open_prs):
     if linked:
         return "HAS-PR", f"open PR(s) {linked}"
     last = None
+    triaged = None
     for c in gh(f"issues/{issue_no}/comments"):
         first = (c.get("body") or "").strip().splitlines()[0] if c.get("body") else ""
         m = LINE.match(first)
@@ -73,6 +74,8 @@ def status(issue_no, now, open_prs):
             # older free-form claims: lease runs from the comment time
             last = ("CLAIM", legacy.group("who").strip(), parse_time(c["created_at"]), None, c["created_at"])
             continue
+        if re.match(r"^[#*\s]*(Triage|Native triage|Native consequence triage|Owner-intent|Owner question)", first, re.I):
+            triaged = (first[:70], c["created_at"])
         if re.match(r"^[#*\s]*(Triage|Native triage|Native consequence triage|Owner decision|Owner-intent)", first, re.I) and last and last[0] != "RELEASE":
             # a triage/decision comment by the claimant ends the work
             last = ("RELEASE", last[1], parse_time(c["created_at"]), None, c["created_at"])
@@ -80,6 +83,8 @@ def status(issue_no, now, open_prs):
         if m:
             last = (m.group(1), m.group("who"), parse_time(m.group("at")) or parse_time(c["created_at"]),
                     parse_time(m.group("exp") or "") if m.group("exp") else None, c["created_at"])
+    if (not last or last[0] == "RELEASE") and triaged and (not last or triaged[1] >= last[4]):
+        return "TRIAGED", f"{triaged[0]} ({triaged[1]}); not a fix candidate unless the owner reopens it"
     if not last or last[0] == "RELEASE":
         note = f"label {LABEL} still set" if LABEL in labels else ""
         return "FREE", note
@@ -109,7 +114,7 @@ def main():
         st, why = status(n, now, open_prs)
         if args.candidates and st != "FREE":
             continue
-        if args.stale and st not in ("EXPIRED", "FREE", "HAS-PR", "CLOSED"):
+        if args.stale and st not in ("EXPIRED", "FREE", "HAS-PR", "CLOSED", "TRIAGED"):
             continue
         print(f"#{n}: {st}{' — ' + why if why else ''}")
         ok = ok and st == "FREE"
