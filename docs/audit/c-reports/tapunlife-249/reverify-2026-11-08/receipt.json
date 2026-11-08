@@ -212,5 +212,14 @@
     "before-undead.log": "1c3821673f9f253173ead7d49f2984911139134693443b0834753e8182fce07b",
     "configure.log": "5e359f5b7f2b0b608b3ca3d2d2b0c4fe6bfb9ea252403abbe82e74c4c8c7f7a1",
     "result.json": "1578791f7f46892bb2b3d1c91f3f4a63f089ac7063d2d4d295028917680a3ace"
-  }
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "field": "sha256.README.md",
+      "old": "1603240646e54a2b092e1b5b540ce7ecbcc0544c9929b4dda2bccd4bb37c70ac",
+      "new": "f73c3ed586e132299bb5f2ae42f735424cb3f892fe5758300d420c558f74d5b7",
+      "reason": "README.md gained the 2026-11-08 Re-verification and Errata sections (append-only); no other hashed file changed"
+    }
+  ]
 }
