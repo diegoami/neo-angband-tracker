@@ -1,0 +1,156 @@
+{
+  "purpose": "Re-verification at the original pins: the original run's logs were dropped by the repository's *.log ignore rule although the original receipt hashed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "02be7739db306897f2441562ee8d27dddc15d36c",
+  "fixtures_ref": "4b9ab473a51a05b8b428115b79bbea72cc4b86cb",
+  "original_fixtures_ref": "4b9ab473a51a05b8b428115b79bbea72cc4b86cb",
+  "command": "git show 4b9ab473a51a05b8b428115b79bbea72cc4b86cb:docs/audit/c-reports/opblock-324/reproduce.py > /tmp/reproduce-opblock-324.py && python3 /tmp/reproduce-opblock-324.py --full-tests --fixtures-ref 4b9ab473a51a05b8b428115b79bbea72cc4b86cb",
+  "fix_pin_note": "reproduce.py hard-codes BASE and FIX and asserts the exact source hunk; it has no --fix-ref flag.",
+  "cases": {
+    "before": {
+      "operators": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "parsed count=1",
+        "rating": "formula_value=7 calc_count=1",
+        "outcome": "formula_value=7 calc_count=1"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "control count=1",
+        "rating": "control_value=42 control_count=1",
+        "outcome": "control_value=42 control_count=1"
+      },
+      "asan": {
+        "passed": true,
+        "summary": "160 byte(s) leaked in 2 allocation(s).",
+        "operator_block_leaks": 1
+      }
+    },
+    "after": {
+      "operators": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "parsed count=1",
+        "rating": "formula_value=7 calc_count=1",
+        "outcome": "formula_value=7 calc_count=1"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "control count=1",
+        "rating": "control_value=42 control_count=1",
+        "outcome": "control_value=42 control_count=1"
+      },
+      "asan": {
+        "passed": true,
+        "summary": "no leaks reported",
+        "operator_block_leaks": 0
+      }
+    }
+  },
+  "matches_original_receipt_cases": true,
+  "case_differences": [],
+  "identical_controls": {
+    "control": true,
+    "operators": true
+  },
+  "byte_identical_to_original_hash": {
+    "after-alltests.log": false,
+    "after-build-asan.log": true,
+    "after-build.log": true,
+    "after-scenarios.log": true,
+    "before-alltests.log": false,
+    "before-build-asan.log": false,
+    "before-build.log": false,
+    "before-scenarios.log": true,
+    "configure-asan.log": false,
+    "configure.log": false,
+    "result.json": true,
+    "after-asan-operators.log": true,
+    "after-control.log": true,
+    "after-operators.log": true,
+    "after-results.json": true,
+    "before-asan-operators.log": false,
+    "before-control.log": true,
+    "before-operators.log": true,
+    "before-results.json": true
+  },
+  "full_tests": {
+    "before": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "original_compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "original_cmake": "cmake version 4.2.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "target": "committed replay.html",
+    "replay_sha256": "f6a16bd80cd8c9d5f0e551a18cc1615552fe8535c4835000af9463343484e1ae",
+    "result": "RENDER-SMOKE actions=2 errors=0 OK",
+    "exit": 0
+  },
+  "sha256": {
+    "after-alltests.log": "a25493d832a781c838a08585f8fa5ced369bedb6d9a43527b9719930474dd023",
+    "after-asan-operators.log": "e409328a7f603cb51d6e69de2ea139dde3e3861f7de9444fa728028fe66482ad",
+    "after-build-asan.log": "c286ea3a852a76f7d037b654c9bdd5631214e7a0b517ef47070c6386d2998b75",
+    "after-build.log": "e045b74a9d127d296116c4e5cc90b3a7adf6863aac370333d637b215d63c3658",
+    "after-control.log": "d45d78cebae749560f01c2d65012eb8310062d4ff8f7e622159029f18b1e455d",
+    "after-operators.log": "e409328a7f603cb51d6e69de2ea139dde3e3861f7de9444fa728028fe66482ad",
+    "after-results.json": "4fc728a67b791bc3363276acc231279396979d9ca827f8cbdc4891b8c149d656",
+    "after-scenarios.log": "ed2bb4f91a96a5743b74bf4938bfce845498ef23b551df18533deeee35ccadba",
+    "before-alltests.log": "68f0bf9ab68b993e8629b159b3c21b3c4b519a1c3e5ec7d5469a2ea709d0e873",
+    "before-asan-operators.log": "8ce7ea2f3f30a2660754ef4888134541800148895b6630a8c8fc1e73779b8f62",
+    "before-build-asan.log": "3c689f6a000cdd1559d36be65e40fd853a6e98524748300fadc068800d49b723",
+    "before-build.log": "01d219b347940d0bbb5f1e77d05953fee6825c2ab15de697ce4da480fe037b0d",
+    "before-control.log": "d45d78cebae749560f01c2d65012eb8310062d4ff8f7e622159029f18b1e455d",
+    "before-operators.log": "e409328a7f603cb51d6e69de2ea139dde3e3861f7de9444fa728028fe66482ad",
+    "before-results.json": "1b61c2c615f3fca18003536b26236f98bda6a7da18909c925d5590d46076a8cc",
+    "before-scenarios.log": "7c5a53993b993bcfd75db2fa7a367c0a4286f6baa43a6df2a7e1e69d0166d18b",
+    "configure-asan.log": "e37dea3a4ebd750c3e27fe7c41eecb3330c2359c49bc0ff3b988dfdc203f01f7",
+    "configure.log": "e12e3f5bf33445d8e9cd2539a88bccbd0a5d52b0a20b11350de02596d67802f8",
+    "result.json": "303ff9528cc0ad105635194f999c5076a7855b2cf7e3592b10dd04fce8b1680f"
+  },
+  "receipt_amendments": {
+    "date": "2026-11-08",
+    "receipt.json sha256.README.md": {
+      "old": "fb7ee339a8054f0c2980a2b0a633ec998fe062f9c6667f535f0d50ae5e9bf448",
+      "new": "cc29591a3e8dde835d6a8513a47faea6ec5841c75e2c5743f4e56daf9c84beb0",
+      "why": "README gained the Re-verification and Errata sections"
+    },
+    "receipt.json render_check": "added (original receipt only had a 'browser' entry); points at this receipt's render_check",
+    "README placeholder link": "PR-SOURCE -> #339",
+    "restored_at_original_paths": [
+      "after-asan-operators.log",
+      "after-build-asan.log",
+      "after-build.log",
+      "after-control.log",
+      "after-operators.log",
+      "after-scenarios.log",
+      "before-control.log",
+      "before-operators.log",
+      "before-scenarios.log"
+    ],
+    "asan_logs_replaced_at_original_paths": {
+      "before-asan-operators.log": {
+        "old": "9e214ac3c14f39b6d3b912afb986dd18989abf51e602ce2629c4abbbdb85ad5e",
+        "new": "8ce7ea2f3f30a2660754ef4888134541800148895b6630a8c8fc1e73779b8f62"
+      }
+    }
+  }
+}

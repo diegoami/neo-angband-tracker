@@ -1,0 +1,8 @@
+native-c/opblock-324: starting...
+SETUPSTEP minimal
+  operator_block_backing_array_is_freed  MODE operators
+GEOMETRY parsed count=1
+RATING formula_value=7 calc_count=1
+OUTCOME formula_value=7 calc_count=1
+Passed
+native-c/opblock-324 finished: 1/1 passed
