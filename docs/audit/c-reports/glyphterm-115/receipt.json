@@ -1,0 +1,114 @@
+{
+  "issue": "diegoami/neo-angband-tracker#115",
+  "report": "glyphterm-115",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "87323a76f8e2aa75524482a6f2668673fc174ad9",
+  "fix_branch": "task/glyphterm-115",
+  "fixtures_ref": "8611139ae2e6822711152950aae96572090770a7",
+  "cases": {
+    "offcenter": {
+      "before": {
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 0,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 0,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      }
+    },
+    "ring": {
+      "before": {
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 12,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 12,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "offcenter",
+    "ring"
+  ],
+  "claim": "In borg_flow_glyph()'s old-centre branch tmp_glyph is never incremented (only the new-sea branch counts glyphs), so 500 + (tmp_glyph * 500) - cost equals 500 - cost. Two native Sea of Runes scenarios that reach the changed line (the Borg on an unglyphed grid of the block, with and without twelve runes already laid) give byte-identical logs before and after, and both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-glyph.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-glyph.c": "edccf8108b533bd7c0b36e35f56eb5d8980920e89d2ec5d647d97e3f9b4e5314"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "efbab92556b07fd3c208f6bef3725b9957180bcf508f455ae180300b56a22d32",
+    "after-offcenter.log": "e17da33914131ac110d1fca62c51f51efb228cf8b18e932813c26f1e1d2fff30",
+    "after-results.json": "eda0e84f7689319015d1a5d6feb77ec9e67fe8bbef6b6c971e1f58bf870fc3f3",
+    "after-ring.log": "11a4c3683d574b54c6fc120805db68587a1e016f0852d54e009c8dcd6948db01",
+    "before-offcenter.log": "e17da33914131ac110d1fca62c51f51efb228cf8b18e932813c26f1e1d2fff30",
+    "before-results.json": "eda0e84f7689319015d1a5d6feb77ec9e67fe8bbef6b6c971e1f58bf870fc3f3",
+    "before-ring.log": "11a4c3683d574b54c6fc120805db68587a1e016f0852d54e009c8dcd6948db01",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "02a1b6af1284715824010b4352b72a8ca60685bd93e1124a678c49164ba5e67b",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "48d65073cc6f242a7d5cdcfae16f2f252d2f0abda1ff581935f50ee49447a3cc",
+    "replay.html": "873fabe925172ccc35aa2bfdfd53deb4c69495d44076786796f7934c55b42f8b",
+    "reproduce.py": "f4313d1fc076aa5748e70bff1bf581714aa2a6ad9b04b84309d962cd9dd985f7",
+    "result.json": "3955259c86062fe02d99af1c024222a6c1ec82226ef4a54a40dd7371de3e2546",
+    "run-after-alltests.log": "09711d6e195e336cfe8317a7494f458a64dfb947813ff6655b1b00f2fb6f1f4b",
+    "run-after-build.log": "78389da2a045095dff0a257e3c4e34acc5ba6daaf579ea6388eac58422034866",
+    "run-after-scenarios.log": "e27e57274f73020cd3766f2e8eae7fbeba19a1f0aca95e4b929549d143d8ce16",
+    "run-before-alltests.log": "73f09d7f0a1970529cf68f5cc8290a65bcfc42974fadf59f890b8dd28746da2f",
+    "run-before-build.log": "64b8b58d49683bcaa4721b3b654738aee7c72ff775ef58373eee3257e2fc7605",
+    "run-before-scenarios.log": "e27e57274f73020cd3766f2e8eae7fbeba19a1f0aca95e4b929549d143d8ce16",
+    "run-cases.py": "c9048743c2dc4ea2fd5f7fcd886691ca4c09692c13b0ef9333b669c083b68dbb",
+    "run-configure.log": "5aa9f3ad94dc5cdb66a6edf56ac6ee6501577163779e8e67c6a2580f02c9854c",
+    "scenario.c": "3dcc196d66a06dbf1534515ca68c32b5e7edb87a5ac5c8b6741b6ef21fc7ecf0"
+  }
+}

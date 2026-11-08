@@ -1,0 +1,76 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "87323a76f8e2aa75524482a6f2668673fc174ad9",
+  "fixtures_ref": "8611139ae2e6822711152950aae96572090770a7",
+  "cases": {
+    "before": {
+      "offcenter": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 0,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      },
+      "ring": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 12,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      }
+    },
+    "after": {
+      "offcenter": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 0,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      },
+      "ring": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "center_rune": 1,
+          "ring_runes": 12,
+          "read": 1
+        },
+        "outcome": {
+          "progress": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "offcenter",
+    "ring"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-glyph.c": "edccf8108b533bd7c0b36e35f56eb5d8980920e89d2ec5d647d97e3f9b4e5314"
+  }
+}
