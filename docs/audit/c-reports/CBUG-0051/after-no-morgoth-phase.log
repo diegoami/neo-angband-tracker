@@ -1,0 +1,13 @@
+native-c/CBUG-0051: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Mage level=31 depth=100 hp=162/162 sp=171/171 mode=no-morgoth-phase near_morgoth=1
+  teleport_other_skips_only_listed  MODE no-morgoth-phase
+KILL index=1 pos=(11,12) awake=1 danger=16
+KILL index=2 pos=(12,11) awake=1 danger=128
+DANGER p1=144 strong=128 weak=16
+TEMP phase2 n=2
+LAUNCH p2=128
+OUTCOME p2=128 expected_best=128 strong=128 weak=16 tp_other_n=0
+Passed
+TRACK teardown tp_other_n=0
+native-c/CBUG-0051 finished: 1/1 passed
