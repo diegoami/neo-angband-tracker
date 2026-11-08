@@ -1,0 +1,2 @@
+new-level {'exit': 0, 'passed': False, 'setup': {'curdepth': 31, 'panels': 1}, 'state': {'obj': 1, 'wall': 0}, 'outcome': {'obj_cleared': 0, 'wall_cleared': 1}}
+same-level {'exit': 0, 'passed': True, 'setup': {'curdepth': 30, 'panels': 1}, 'state': {'obj': 1, 'wall': 1}, 'outcome': {'obj_cleared': 0, 'wall_cleared': 0}}

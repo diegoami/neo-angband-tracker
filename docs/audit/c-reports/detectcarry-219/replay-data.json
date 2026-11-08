@@ -1,0 +1,74 @@
+{
+  "new-level": {
+    "label": "Taking stairs to depth 31",
+    "explanation": "The Borg holds an object-detection stamp for panel 0 from the previous level. On a depth change the other per-panel flags (walls, traps, doors, evil) are cleared but the object flag is not: the new level's panel still counts as detected and the Borg skips casting detect objects there. The correction clears it with the others; the wall flag is the witness that the pass ran.",
+    "before": {
+      "raw": "native-c/detectcarry-219: starting...\nSETUPSTEP profile\nSETUP olddepth=30 curdepth=31 panels=1,1\nSETUP seed=1000 class=Warrior level=1 hp=20/20\n  detection_flags_cleared_on_new_level  MODE new-level\nSTATE obj=1 wall=0\nOUTCOME obj_cleared=0 wall_cleared=1\nFailed\n    native-c/detectcarry-219:122: requirement 'obj == 0' failed\nnative-c/detectcarry-219 finished: 0/1 passed\n",
+      "passed": false,
+      "setup": {
+        "curdepth": 31,
+        "panels": 1
+      },
+      "state": {
+        "obj": 1,
+        "wall": 0
+      },
+      "outcome": {
+        "obj_cleared": 0,
+        "wall_cleared": 1
+      }
+    },
+    "after": {
+      "raw": "native-c/detectcarry-219: starting...\nSETUPSTEP profile\nSETUP olddepth=30 curdepth=31 panels=1,1\nSETUP seed=1000 class=Warrior level=1 hp=20/20\n  detection_flags_cleared_on_new_level  MODE new-level\nSTATE obj=0 wall=0\nOUTCOME obj_cleared=1 wall_cleared=1\nPassed\nnative-c/detectcarry-219 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "curdepth": 31,
+        "panels": 1
+      },
+      "state": {
+        "obj": 0,
+        "wall": 0
+      },
+      "outcome": {
+        "obj_cleared": 1,
+        "wall_cleared": 1
+      }
+    }
+  },
+  "same-level": {
+    "label": "Control: no depth change",
+    "explanation": "With the depth unchanged nothing is cleared in either version. The complete logs are byte-identical.",
+    "before": {
+      "raw": "native-c/detectcarry-219: starting...\nSETUPSTEP profile\nSETUP olddepth=30 curdepth=30 panels=1,1\nSETUP seed=1000 class=Warrior level=1 hp=20/20\n  detection_flags_cleared_on_new_level  MODE same-level\nSTATE obj=1 wall=1\nOUTCOME obj_cleared=0 wall_cleared=0\nPassed\nnative-c/detectcarry-219 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "curdepth": 30,
+        "panels": 1
+      },
+      "state": {
+        "obj": 1,
+        "wall": 1
+      },
+      "outcome": {
+        "obj_cleared": 0,
+        "wall_cleared": 0
+      }
+    },
+    "after": {
+      "raw": "native-c/detectcarry-219: starting...\nSETUPSTEP profile\nSETUP olddepth=30 curdepth=30 panels=1,1\nSETUP seed=1000 class=Warrior level=1 hp=20/20\n  detection_flags_cleared_on_new_level  MODE same-level\nSTATE obj=1 wall=1\nOUTCOME obj_cleared=0 wall_cleared=0\nPassed\nnative-c/detectcarry-219 finished: 1/1 passed\n",
+      "passed": true,
+      "setup": {
+        "curdepth": 30,
+        "panels": 1
+      },
+      "state": {
+        "obj": 1,
+        "wall": 1
+      },
+      "outcome": {
+        "obj_cleared": 0,
+        "wall_cleared": 0
+      }
+    }
+  }
+}
