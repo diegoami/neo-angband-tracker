@@ -115,5 +115,27 @@
     "before-torch.log": "071da3cac43555e6f1751bb01b639ea5b5f6c2aa16b528ee89362fdb530e6cf8",
     "configure.log": "2dc5873b85346a178fc515045f1d4664a0a6fc8639202b067cd5253bcf07f5c0",
     "result.json": "62c5f7ed5292e0042686e096f9e2d7c699e523a0168dfb43946d28f63c135422"
-  }
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "field": "sha256.README.md",
+      "old": "c22ac1542753558648e46b0545a4f73d4dacf30a2749aeda70b22eacf3dbaa6a",
+      "new": "cab0648a9a00ede4a35cba2e4880bdb4e72ff6006e59c61ab38789741b5d4c6a",
+      "reason": "README.md gained the 2026-11-08 Re-verification and Errata sections (append-only); no other hashed file changed"
+    },
+    {
+      "file": "receipt.json",
+      "field": "render_check",
+      "old": null,
+      "new": {
+        "date": "2026-11-08",
+        "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button)",
+        "result": "RENDER-SMOKE actions=2 errors=0 OK",
+        "exit": 0,
+        "note": "added by the 2026-11-08 re-verification; the original run's browser record is under 'browser'"
+      },
+      "reason": "the original receipt recorded its browser check under 'browser', which the package checker does not read"
+    }
+  ]
 }
