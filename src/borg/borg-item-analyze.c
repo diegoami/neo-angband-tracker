@@ -109,10 +109,6 @@ static int32_t borg_object_value_known(borg_item *item)
     case TV_LIGHT:
     case TV_AMULET:
     case TV_RING: {
-        /* Negative "pval" is always bad */
-        if (item->pval < 0)
-            return (0L);
-
         /* Give credit for stat bonuses */
         if (item->modifiers[OBJ_MOD_STR] > 0)
             value += (item->modifiers[OBJ_MOD_STR] * 200L);
@@ -157,6 +153,10 @@ static int32_t borg_object_value_known(borg_item *item)
 
         /* Give credit for damage reduction */
         value += (item->modifiers[OBJ_MOD_DAM_RED] * 200L);
+
+        /* Penalties never make an item worth less than nothing */
+        if (value < 0)
+            return (0L);
 
         break;
     }
