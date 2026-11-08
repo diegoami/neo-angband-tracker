@@ -1,0 +1,2 @@
+stale {'exit': 1, 'passed': False, 'asan': True, 'oob_row': True}
+fresh {'exit': 0, 'passed': True, 'asan': False, 'oob_row': False, 'geometry': 'new_cave=28x28 panels=1,1 last_row_mark=1', 'rating': 'last_row_mark=1 rows=2', 'outcome': 'last_row_mark=1'}

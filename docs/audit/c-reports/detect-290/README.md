@@ -32,7 +32,7 @@ following a self-detection. No death or survival claim is made.
 
 Canonical report: [issue290](https://github.com/diegoami/neo-angband-tracker/issues/290).
 Lead supplied by borg-rs; independently validated and reproduced
-natively here. Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+natively here. Source proposal [#306](https://github.com/diegoami/neo-angband-tracker/pull/306).
 
 ## Verification
 
@@ -122,3 +122,55 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs (with the sanitizer
 logs). [Full receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the original run's phase, build and gate logs were listed and hashed in
+`receipt.json` but never committed (the repository's `*.log` ignore rule
+dropped them), so the receipt could not be checked against published bytes.
+The same pinned runner was run again on 2026-11-08 at the receipt's own pins
+(base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `02fb00af6abdb165fc1b445c42dc85d2263a3cdd`, fixtures `b7eb76c64b6702ba6d4aa1ce5ec3a1b27472e60a`) with `--full-tests` (normal and AddressSanitizer builds).
+Every case reproduced the recorded outcome; the runner's per-case results
+(`result.json` `cases`) are identical to the committed original.
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `stale` (normal; queued detection after the level shrank) | segmentation fault (exit -11) before the scenario finishes; 0/1 | stale mark dropped, `last_row_mark=0 rows=2`; 1/1 |
+| `stale` (asan) | heap-buffer-overflow `READ of size 8` in `borg_handle_self` (`borg-update.c:1396`); 0/1 | 1/1, no sanitizer report |
+| `fresh` (control) | `last_row_mark=1`; 1/1 | byte-identical log (normal and asan) |
+
+Gates from the re-run's alltests logs: before Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines); after Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines).
+Re-run toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, cmake version 3.28.3 (the original receipt records
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, cmake version 4.2.3; the toolchain differs, and the files listed
+below as byte-identical are identical nonetheless).
+Corrected source sha256 matches the original receipt.
+Render check of the committed `replay.html` with `tools/c-evidence/render-smoke.js`
+(Playwright Chromium, every option and button clicked): `RENDER-SMOKE actions=4 errors=0 OK`.
+The original receipt records its own headless check under the `browser` key.
+The regenerated `replay.html` and `replay-data.json` are byte-identical to the committed ones. Normal-build logs are restored under `normal/`, asan logs under `asan/`, as the original receipt names them. The repeat command below pins the guide's own pin `bab03cb22` (generators identical to the run pin `b7eb76c64`).
+
+Where the logs are: [`reverify-2026-11-08/`](reverify-2026-11-08/) holds every log,
+`result.json` and per-mode results of the re-run, with
+[`reverify-2026-11-08/receipt.json`](reverify-2026-11-08/receipt.json) (pins, per-case
+results, gate lines, toolchain, render result, sha256 of every file there).
+13 re-run files are byte-identical to the hashes in the original
+`receipt.json`; those not already committed were also placed at their original paths in this directory, so the original receipt now resolves for them: `after-asan-build.log`, `normal/after-fresh.log`, `normal/after-stale.log`, `asan/after-fresh.log`, `asan/after-stale.log`, `asan/before-fresh.log`, `normal/before-fresh.log`, `normal/before-stale.log`.
+The rest (`after-alltests.log`, `asan/before-stale.log`, `before-alltests.log`, `before-asan-build.log`, `configure-asan.log`, `configure.log`) differ in
+run-specific content (temporary paths, timings, build output of the different toolchain, sanitizer addresses and process ids) and are
+published only under `reverify-2026-11-08/`.
+
+Repeat (fixtures pinned by sha; the fix sha is fixed inside `reproduce.py` at that pin, and the runner
+refuses any other source diff):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/detect-290-evidence
+git show bab03cb2204389ddad6ce017ae84614fdd39fc66:docs/audit/c-reports/detect-290/reproduce.py > /tmp/reproduce-detect-290.py
+python3 /tmp/reproduce-detect-290.py --full-tests --fixtures-ref bab03cb2204389ddad6ce017ae84614fdd39fc66
+```
+
+## Errata (2026-11-08)
+
+- The source-proposal link near the top of this README was a placeholder; it now points to the source PR [#306](https://github.com/diegoami/neo-angband-tracker/pull/306) (evidence PR #307, canonical issue #290).
+- `asan/before-stale.log` (the sanitizer crash report) cannot be reproduced byte for byte: it contains process ids and heap addresses. The re-run's report (same error class, access size and site) is `reverify-2026-11-08/asan-before-stale.log`.
+- `receipt.json` was amended on 2026-11-08 for this only: its `README.md` hash now covers the README with these sections and the link fix, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.

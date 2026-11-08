@@ -1,0 +1,11 @@
+native-c/detect-290: starting...
+SETUPSTEP profile
+PANELS hgt=28 wid=66
+SETUP seed=1000 class=Warrior level=1 depth=5 panels=3,8
+  queued_detection_respects_resized_arrays  MODE fresh
+QUEUED panels=3,8
+GEOMETRY new_cave=28x28 panels=1,1 last_row_mark=1
+RATING last_row_mark=1 rows=2
+OUTCOME last_row_mark=1
+Passed
+native-c/detect-290 finished: 1/1 passed
