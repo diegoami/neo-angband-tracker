@@ -142,8 +142,8 @@ add_compile_definitions(PRIVATE_USER_PATH="{root/'test-user'}")
         for path, text in variants[phase].items(): (source/path).write_text(text)
         (evidence/"t287-variant.h").write_text(f"#define T287_SIZED {sized[phase]}\n")
         check(*run(phase+"-build", ["cmake", "--build", str(build), "--parallel", "2"]), phase+" build")
-        check(*run(phase+"-build-asan", ["cmake", "--build", str(build_asan), "--target", "T287Observer",
-                                         "--parallel", "2"]), phase+" asan build")
+        # The full tree, so the sanitizer build has its own copy of the game data.
+        check(*run(phase+"-build-asan", ["cmake", "--build", str(build_asan), "--parallel", "2"]), phase+" asan build")
         check(*run(phase+"-scenarios", [sys.executable, str(evidence/"run-cases.py"), phase,
                    str(build/"game/T287Observer"), str(build_asan/"game/T287Observer"), str(evidence)]),
               phase+" scenario runner")
