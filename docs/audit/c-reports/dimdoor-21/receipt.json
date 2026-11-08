@@ -1,0 +1,161 @@
+{
+  "issue": "diegoami/neo-angband-tracker#21",
+  "report": "dimdoor-21",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "4b7a9f414bec7b23aa3453dfb7e54ba2e85c871b",
+  "fix_branch": "task/dimdoor-21",
+  "fixtures_ref": "3edecf91b284a112f3f3e916e18b6fdaec2aa46c",
+  "cases": {
+    "granite": {
+      "before": {
+        "passed": false,
+        "state": {
+          "hp": 28,
+          "sp": 270,
+          "avoidance": 28,
+          "fear_region_here": 78,
+          "pos_danger": 78,
+          "dd_fail": 8
+        },
+        "outcome": {
+          "aim_x": 16,
+          "aim_y": 1,
+          "landed_x": 60,
+          "landed_y": 31,
+          "on_aim": 0,
+          "aim_distance": 59,
+          "dread_distance": 9,
+          "dread_los": 1,
+          "same_room": 1,
+          "fear_region_at_landing": 78
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 28,
+          "sp": 270,
+          "avoidance": 28,
+          "fear_region_here": 78,
+          "pos_danger": 78,
+          "dd_fail": 8
+        },
+        "outcome": {
+          "aim_x": 100,
+          "aim_y": 25,
+          "landed_x": 100,
+          "landed_y": 25,
+          "on_aim": 1,
+          "aim_distance": 0,
+          "dread_distance": 34,
+          "dread_los": 0,
+          "same_room": 0,
+          "fear_region_at_landing": 0
+        }
+      }
+    },
+    "open": {
+      "before": {
+        "passed": true,
+        "state": {
+          "hp": 28,
+          "sp": 270,
+          "avoidance": 28,
+          "fear_region_here": 78,
+          "pos_danger": 78,
+          "dd_fail": 8
+        },
+        "outcome": {
+          "aim_x": 16,
+          "aim_y": 1,
+          "landed_x": 16,
+          "landed_y": 1,
+          "on_aim": 1,
+          "aim_distance": 0,
+          "dread_distance": 68,
+          "dread_los": 1,
+          "same_room": 0,
+          "fear_region_at_landing": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 28,
+          "sp": 270,
+          "avoidance": 28,
+          "fear_region_here": 78,
+          "pos_danger": 78,
+          "dd_fail": 8
+        },
+        "outcome": {
+          "aim_x": 16,
+          "aim_y": 1,
+          "landed_x": 16,
+          "landed_y": 1,
+          "on_aim": 1,
+          "aim_distance": 0,
+          "dread_distance": 68,
+          "dread_los": 1,
+          "same_room": 0,
+          "fear_region_at_landing": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "open"
+  ],
+  "claim": "borg_dimension_door() (borg-escape.c:569-621) takes the lowest borg_danger() grid of the in-bounds box with no check that the player can land there. The scan order makes the north-west-most zero-danger grid win, which on a rock level is unknown granite. effect_handler_TELEPORT_TO (effect-handler-general.c:2717-2843) never lands on an impassable or occupied grid: it searches outward from the target (has_teleport_destination_prereqs, effect-handler-general.c:132-157), so the Borg's score describes a grid it never reaches. The correction skips grids not known to be floor (or that are lava, or hold a known monster) before scoring.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-escape.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-escape.c": "0c5509215733cbd08b253ade7edfe5b5622ed3178b389345ad10e45f0d3785ba"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "bf9292ed13ad70abc277d54f884636ba6108c21ec537ded238a6a9e10f2f9c0f",
+    "after-granite.log": "b77de3c5e2945e2e547cc0f56de61557db5fdd3825df5bc29aaf1f815c37be03",
+    "after-open.log": "588747b6318cea11c19cd94d3c52605946bdbcc0b922cfd1556e8a092c00710e",
+    "after-results.json": "ed8e3c620995c559c93a96bbc2aff012cc3fa9926afd9f43422e92ef67bd7df1",
+    "before-granite.log": "148babe745e55ecf0f361bebcf8809d75a696ba9b6e12d833cb7bf000ded9f46",
+    "before-open.log": "588747b6318cea11c19cd94d3c52605946bdbcc0b922cfd1556e8a092c00710e",
+    "before-results.json": "ab0eb1b9d36c464a94ace84de1d4e343256eb96facb2161b8ee52f6536792c1f",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "32ec8cbd8950ceea9afcac4d6263d1b41f1cf1284b9eaea1fdb826d93bddc6eb",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "23f66974083555a04f23cb252c245b5a40aaa303404493415de5c2973581f396",
+    "replay.html": "7be89d5cbc13ab466d858d54789a4e2b2e4f04263589a1bbbdddf0259d8a0cdc",
+    "reproduce.py": "a0e927d8e1a1c0bc5dc2c73e7b38b2ddc3579865e7502a13e02bd91c58f19925",
+    "result.json": "6eb4b8846ebbba3d850f11623d1c9b0add637b74336f70a0d4e7f1a482469d66",
+    "run-after-alltests.log": "893950fe8a88881abe3c00df7c969a9326ba93d7ed66f2281250b78363d34c7c",
+    "run-after-build.log": "ede7031d99edf19e821087bd4b9fdbb3f5e269afda9b6deb3662f92065bde430",
+    "run-after-scenarios.log": "ef939b0c3f92e4ca3002ffac5460b60e1f756a5260510f4e103e740b407ba51f",
+    "run-before-alltests.log": "133edea3d5aea6d279709903bc760254918e86479e42aa8285a01863779194db",
+    "run-before-build.log": "adabdb75cb13f1929ec482ecf42cf8f74753fa7cd4299895ec42b7c6f7136f64",
+    "run-before-scenarios.log": "2ccf23880a2f2d1dac22f3f8607c7c51e5d0b7fd2f865112416d7675cab61a5b",
+    "run-cases.py": "8e15779224fb5898402f0e51250f98607502625d2752761b3b246d73e1b378b4",
+    "run-configure.log": "4c7285fb3d147c6c80ed6c8ca7d0ffdaea0359c21349bdc38ecb68b179e91f4b",
+    "scenario.c": "d3d970c78df460086b984508af0e6208d0ab70906f74d11125bf9da5da2bf2fa"
+  }
+}

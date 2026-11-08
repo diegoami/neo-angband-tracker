@@ -1,0 +1,15 @@
+native-c/dimdoor-21: starting...
+SETUP seed=21 mode=granite class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=0
+  dimension_door_target  TRACK game-message <Something mumbles.>
+TRACK game-message <You are hit by something cold!>
+TRACK game-message <*** LOW HITPOINT WARNING! ***>
+TRACK game-message <You feel your life force draining away!>
+TRACK borg-reaction <SPELL_072:Something>
+STATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8
+DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5
+DECISION targeted=1 aim=(16,1) aim_feat=granite wall borg_aim_feat=unknown aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (60,31), aimed at (16,1)
+OUTCOME aim_x=16 aim_y=1 landed_x=60 landed_y=31 on_aim=0 aim_distance=59 dread_distance=9 dread_los=1 same_room=1 fear_region_at_landing=78
+Failed
+    native-c/dimdoor-21:320: requirement 'loc_eq(land, aim)' failed
+native-c/dimdoor-21 finished: 0/1 passed

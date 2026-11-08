@@ -1,0 +1,148 @@
+{
+  "granite": {
+    "label": "Rock level: player's room with an invisible dread, an explored room 34 steps east",
+    "explanation": "Original: aims at (16,1), a grid the Borg has never seen and granite in the game, with a scored danger of 0; the game puts the player at (60,31), in the same room, 9 steps from the dread and in its line of sight, regional fear there 78 (as at the start). Corrected: aims at (100,25), the first zero-danger known floor grid, and lands exactly there, 34 steps from the dread, out of its line of sight, regional fear 0.",
+    "control": false,
+    "before": {
+      "raw": "native-c/dimdoor-21: starting...\nSETUP seed=21 mode=granite class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=0\n  dimension_door_target  TRACK game-message <Something mumbles.>\nTRACK game-message <You are hit by something cold!>\nTRACK game-message <*** LOW HITPOINT WARNING! ***>\nTRACK game-message <You feel your life force draining away!>\nTRACK borg-reaction <SPELL_072:Something>\nSTATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8\nDECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5\nDECISION targeted=1 aim=(16,1) aim_feat=granite wall borg_aim_feat=unknown aim_danger=0 cast_dimension_door=1\nTRACK moved from (66,30) to (60,31), aimed at (16,1)\nOUTCOME aim_x=16 aim_y=1 landed_x=60 landed_y=31 on_aim=0 aim_distance=59 dread_distance=9 dread_los=1 same_room=1 fear_region_at_landing=78\nFailed\n    native-c/dimdoor-21:320: requirement 'loc_eq(land, aim)' failed\nnative-c/dimdoor-21 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "hp": 28,
+        "sp": 270,
+        "avoidance": 28,
+        "fear_region_here": 78,
+        "pos_danger": 78,
+        "dd_fail": 8
+      },
+      "outcome": {
+        "aim_x": 16,
+        "aim_y": 1,
+        "landed_x": 60,
+        "landed_y": 31,
+        "on_aim": 0,
+        "aim_distance": 59,
+        "dread_distance": 9,
+        "dread_los": 1,
+        "same_room": 1,
+        "fear_region_at_landing": 78
+      },
+      "notes": [
+        "TRACK game-message <You are hit by something cold!>",
+        "TRACK game-message <*** LOW HITPOINT WARNING! ***>",
+        "TRACK game-message <You feel your life force draining away!>",
+        "TRACK borg-reaction <SPELL_072:Something>",
+        "DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5",
+        "DECISION targeted=1 aim=(16,1) aim_feat=granite wall borg_aim_feat=unknown aim_danger=0 cast_dimension_door=1",
+        "TRACK moved from (66,30) to (60,31), aimed at (16,1)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/dimdoor-21: starting...\nSETUP seed=21 mode=granite class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=0\n  dimension_door_target  TRACK game-message <Something mumbles.>\nTRACK game-message <You are hit by something cold!>\nTRACK game-message <*** LOW HITPOINT WARNING! ***>\nTRACK game-message <You feel your life force draining away!>\nTRACK borg-reaction <SPELL_072:Something>\nSTATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8\nDECISION escape=1 keys=41 sequence=*p99999666666666666666666666666666665mbe5\nDECISION targeted=1 aim=(100,25) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1\nTRACK moved from (66,30) to (100,25), aimed at (100,25)\nOUTCOME aim_x=100 aim_y=25 landed_x=100 landed_y=25 on_aim=1 aim_distance=0 dread_distance=34 dread_los=0 same_room=0 fear_region_at_landing=0\nPassed\nnative-c/dimdoor-21 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 28,
+        "sp": 270,
+        "avoidance": 28,
+        "fear_region_here": 78,
+        "pos_danger": 78,
+        "dd_fail": 8
+      },
+      "outcome": {
+        "aim_x": 100,
+        "aim_y": 25,
+        "landed_x": 100,
+        "landed_y": 25,
+        "on_aim": 1,
+        "aim_distance": 0,
+        "dread_distance": 34,
+        "dread_los": 0,
+        "same_room": 0,
+        "fear_region_at_landing": 0
+      },
+      "notes": [
+        "TRACK game-message <You are hit by something cold!>",
+        "TRACK game-message <*** LOW HITPOINT WARNING! ***>",
+        "TRACK game-message <You feel your life force draining away!>",
+        "TRACK borg-reaction <SPELL_072:Something>",
+        "DECISION escape=1 keys=41 sequence=*p99999666666666666666666666666666665mbe5",
+        "DECISION targeted=1 aim=(100,25) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1",
+        "TRACK moved from (66,30) to (100,25), aimed at (100,25)"
+      ],
+      "value": 1
+    }
+  },
+  "open": {
+    "label": "Control: explored open level, least dangerous grid is floor",
+    "explanation": "On an explored open level the least dangerous grid in scan order, (16,1), is known floor with no monster. Both versions aim at it and the game puts the player exactly there; byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/dimdoor-21: starting...\nSETUP seed=21 mode=open class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=1\n  dimension_door_target  TRACK game-message <Something mumbles.>\nTRACK game-message <You are hit by something cold!>\nTRACK game-message <*** LOW HITPOINT WARNING! ***>\nTRACK game-message <You feel your life force draining away!>\nTRACK borg-reaction <SPELL_072:Something>\nSTATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8\nDECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5\nDECISION targeted=1 aim=(16,1) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1\nTRACK moved from (66,30) to (16,1), aimed at (16,1)\nOUTCOME aim_x=16 aim_y=1 landed_x=16 landed_y=1 on_aim=1 aim_distance=0 dread_distance=68 dread_los=1 same_room=0 fear_region_at_landing=0\nPassed\nnative-c/dimdoor-21 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 28,
+        "sp": 270,
+        "avoidance": 28,
+        "fear_region_here": 78,
+        "pos_danger": 78,
+        "dd_fail": 8
+      },
+      "outcome": {
+        "aim_x": 16,
+        "aim_y": 1,
+        "landed_x": 16,
+        "landed_y": 1,
+        "on_aim": 1,
+        "aim_distance": 0,
+        "dread_distance": 68,
+        "dread_los": 1,
+        "same_room": 0,
+        "fear_region_at_landing": 0
+      },
+      "notes": [
+        "TRACK game-message <You are hit by something cold!>",
+        "TRACK game-message <*** LOW HITPOINT WARNING! ***>",
+        "TRACK game-message <You feel your life force draining away!>",
+        "TRACK borg-reaction <SPELL_072:Something>",
+        "DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5",
+        "DECISION targeted=1 aim=(16,1) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1",
+        "TRACK moved from (66,30) to (16,1), aimed at (16,1)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/dimdoor-21: starting...\nSETUP seed=21 mode=open class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=1\n  dimension_door_target  TRACK game-message <Something mumbles.>\nTRACK game-message <You are hit by something cold!>\nTRACK game-message <*** LOW HITPOINT WARNING! ***>\nTRACK game-message <You feel your life force draining away!>\nTRACK borg-reaction <SPELL_072:Something>\nSTATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8\nDECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5\nDECISION targeted=1 aim=(16,1) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1\nTRACK moved from (66,30) to (16,1), aimed at (16,1)\nOUTCOME aim_x=16 aim_y=1 landed_x=16 landed_y=1 on_aim=1 aim_distance=0 dread_distance=68 dread_los=1 same_room=0 fear_region_at_landing=0\nPassed\nnative-c/dimdoor-21 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 28,
+        "sp": 270,
+        "avoidance": 28,
+        "fear_region_here": 78,
+        "pos_danger": 78,
+        "dd_fail": 8
+      },
+      "outcome": {
+        "aim_x": 16,
+        "aim_y": 1,
+        "landed_x": 16,
+        "landed_y": 1,
+        "on_aim": 1,
+        "aim_distance": 0,
+        "dread_distance": 68,
+        "dread_los": 1,
+        "same_room": 0,
+        "fear_region_at_landing": 0
+      },
+      "notes": [
+        "TRACK game-message <You are hit by something cold!>",
+        "TRACK game-message <*** LOW HITPOINT WARNING! ***>",
+        "TRACK game-message <You feel your life force draining away!>",
+        "TRACK borg-reaction <SPELL_072:Something>",
+        "DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5",
+        "DECISION targeted=1 aim=(16,1) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1",
+        "TRACK moved from (66,30) to (16,1), aimed at (16,1)"
+      ],
+      "value": 1
+    }
+  }
+}

@@ -1,0 +1,82 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dimension Door aimed at solid rock and landed the Borg back beside its attacker</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Dimension Door aimed at solid rock and landed the Borg back beside its attacker</h1><p>Dimension Door lets a Mage teleport to a grid of its choice. When the Borg uses it to escape, it scores every grid within 50 steps by its danger estimate and aims at the least dangerous one, but it never checks that the player can stand there. The scan starts in the far north-west corner, so the winner is usually a grid of solid rock the Borg has never seen. The game does not put the player inside rock: it searches outward from the chosen grid for the nearest grid the player can stand on. In this run a badly hurt level-50 Mage is hit by a nether bolt from an invisible dread in its room, and a second, explored room lies 34 steps east. The original Borg aims at (16,1), unknown to it and granite in the game; the game puts the player at (60,31), the west edge of the same room, 9 steps from the dread and in its line of sight, inside the region the Borg was trying to leave. The corrected Borg only aims at grids it knows to be floor with no monster on them; it aims at (100,25) in the explored room, and the game puts the player exactly there, out of the dread&#x27;s line of sight. When the least dangerous grid is already a known floor grid (an explored open level), both versions aim at it and land on it, with identical logs.</p><p><label>Scenario: <select id="scenario"><option value="granite">Rock level: player&#x27;s room with an invisible dread, an explored room 34 steps east</option><option value="open">Control: explored open level, least dangerous grid is floor</option></select></label></p><section class="scenario" data-mode="granite"><p class="summary">Original: aims at (16,1), a grid the Borg has never seen and granite in the game, with a scored danger of 0; the game puts the player at (60,31), in the same room, 9 steps from the dread and in its line of sight, regional fear there 78 (as at the start). Corrected: aims at (100,25), the first zero-danger known floor grid, and lands exactly there, 34 steps from the dread, out of its line of sight, regional fear 0.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>Dimension Door puts the player where the Borg aimed (1 yes, 0 no)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK game-message &lt;You are hit by something cold!&gt;
+TRACK game-message &lt;*** LOW HITPOINT WARNING! ***&gt;
+TRACK game-message &lt;You feel your life force draining away!&gt;
+TRACK borg-reaction &lt;SPELL_072:Something&gt;
+DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5
+DECISION targeted=1 aim=(16,1) aim_feat=granite wall borg_aim_feat=unknown aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (60,31), aimed at (16,1)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Dimension Door puts the player where the Borg aimed (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;You are hit by something cold!&gt;
+TRACK game-message &lt;*** LOW HITPOINT WARNING! ***&gt;
+TRACK game-message &lt;You feel your life force draining away!&gt;
+TRACK borg-reaction &lt;SPELL_072:Something&gt;
+DECISION escape=1 keys=41 sequence=*p99999666666666666666666666666666665mbe5
+DECISION targeted=1 aim=(100,25) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (100,25), aimed at (100,25)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dimdoor-21: starting...
+SETUP seed=21 mode=granite class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=0
+  dimension_door_target  TRACK game-message &lt;Something mumbles.&gt;
+TRACK game-message &lt;You are hit by something cold!&gt;
+TRACK game-message &lt;*** LOW HITPOINT WARNING! ***&gt;
+TRACK game-message &lt;You feel your life force draining away!&gt;
+TRACK borg-reaction &lt;SPELL_072:Something&gt;
+STATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8
+DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5
+DECISION targeted=1 aim=(16,1) aim_feat=granite wall borg_aim_feat=unknown aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (60,31), aimed at (16,1)
+OUTCOME aim_x=16 aim_y=1 landed_x=60 landed_y=31 on_aim=0 aim_distance=59 dread_distance=9 dread_los=1 same_room=1 fear_region_at_landing=78
+Failed
+    native-c/dimdoor-21:320: requirement &#x27;loc_eq(land, aim)&#x27; failed
+native-c/dimdoor-21 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dimdoor-21: starting...
+SETUP seed=21 mode=granite class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=0
+  dimension_door_target  TRACK game-message &lt;Something mumbles.&gt;
+TRACK game-message &lt;You are hit by something cold!&gt;
+TRACK game-message &lt;*** LOW HITPOINT WARNING! ***&gt;
+TRACK game-message &lt;You feel your life force draining away!&gt;
+TRACK borg-reaction &lt;SPELL_072:Something&gt;
+STATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8
+DECISION escape=1 keys=41 sequence=*p99999666666666666666666666666666665mbe5
+DECISION targeted=1 aim=(100,25) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (100,25), aimed at (100,25)
+OUTCOME aim_x=100 aim_y=25 landed_x=100 landed_y=25 on_aim=1 aim_distance=0 dread_distance=34 dread_los=0 same_room=0 fear_region_at_landing=0
+Passed
+native-c/dimdoor-21 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="open"><p class="summary">On an explored open level the least dangerous grid in scan order, (16,1), is known floor with no monster. Both versions aim at it and the game puts the player exactly there; byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Dimension Door puts the player where the Borg aimed (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;You are hit by something cold!&gt;
+TRACK game-message &lt;*** LOW HITPOINT WARNING! ***&gt;
+TRACK game-message &lt;You feel your life force draining away!&gt;
+TRACK borg-reaction &lt;SPELL_072:Something&gt;
+DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5
+DECISION targeted=1 aim=(16,1) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (16,1), aimed at (16,1)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Dimension Door puts the player where the Borg aimed (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;You are hit by something cold!&gt;
+TRACK game-message &lt;*** LOW HITPOINT WARNING! ***&gt;
+TRACK game-message &lt;You feel your life force draining away!&gt;
+TRACK borg-reaction &lt;SPELL_072:Something&gt;
+DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5
+DECISION targeted=1 aim=(16,1) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (16,1), aimed at (16,1)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dimdoor-21: starting...
+SETUP seed=21 mode=open class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=1
+  dimension_door_target  TRACK game-message &lt;Something mumbles.&gt;
+TRACK game-message &lt;You are hit by something cold!&gt;
+TRACK game-message &lt;*** LOW HITPOINT WARNING! ***&gt;
+TRACK game-message &lt;You feel your life force draining away!&gt;
+TRACK borg-reaction &lt;SPELL_072:Something&gt;
+STATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8
+DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5
+DECISION targeted=1 aim=(16,1) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (16,1), aimed at (16,1)
+OUTCOME aim_x=16 aim_y=1 landed_x=16 landed_y=1 on_aim=1 aim_distance=0 dread_distance=68 dread_los=1 same_room=0 fear_region_at_landing=0
+Passed
+native-c/dimdoor-21 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dimdoor-21: starting...
+SETUP seed=21 mode=open class=Mage clevel=50 depth=40 hp=76/307 sp=276/276 borg=(66,30) dread=(69,32) dd_fail=5 map_A=1 map_B=1 map_corner=1
+  dimension_door_target  TRACK game-message &lt;Something mumbles.&gt;
+TRACK game-message &lt;You are hit by something cold!&gt;
+TRACK game-message &lt;*** LOW HITPOINT WARNING! ***&gt;
+TRACK game-message &lt;You feel your life force draining away!&gt;
+TRACK borg-reaction &lt;SPELL_072:Something&gt;
+STATE hp=28/305 sp=270 avoidance=28 fear_region_here=78 pos_danger=78 dd_fail=8
+DECISION escape=1 keys=57 sequence=*p777777777777777777777777777774444444444444444444445mbe5
+DECISION targeted=1 aim=(16,1) aim_feat=open floor borg_aim_feat=open floor aim_danger=0 cast_dimension_door=1
+TRACK moved from (66,30) to (16,1), aimed at (16,1)
+OUTCOME aim_x=16 aim_y=1 landed_x=16 landed_y=1 on_aim=1 aim_distance=0 dread_distance=68 dread_los=1 same_room=0 fear_region_at_landing=0
+Passed
+native-c/dimdoor-21 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Mage, seed 21, character level 50, depth 40, maximum Intelligence, [Arcane Control] carried and only Dimension Door learned (5% failure when the escape is chosen; no other escape carried). Level 66x198. granite: solid granite except room A (x 60-72, y 25-35) holding the player at (66,30) and an invisible dread at (69,32), and room B (x 100-110, y 25-35). open: the whole level is lit floor (control). Real code: the game&#x27;s monster spell code (do_mon_spell with the dread&#x27;s nether bolt, which really damages the player), the Borg&#x27;s message parser (borg_parse) and map/message update (borg_update, three passes), which raises its regional fear around the unseen caster, the production escape routine borg_escape() called with the danger of the Borg&#x27;s grid as borg_caution() calls it, and the game&#x27;s spell code (spell_cast, the TELEPORT_TO effect) which moves the player. Fixture interventions: the level, rooms and dread are placed directly; the player starts at a quarter of maximum hit points (as after earlier fighting); the level is mapped with the game&#x27;s wiz_light() and the floor of room B (granite) or of the whole level (open) is memorised as seen; the dread&#x27;s spell is cast by calling do_mon_spell directly (its own spell choice is not run); an EVENT_MESSAGE handler hands each game message to borg_parse instead of the Borg scraping the screen; the Borg&#x27;s queued keys are decoded by the fixture (the free-targeting cursor walk from the player, then &#x27;m&#x27;, book, spell and &#x27;5&#x27;), checked to be Dimension Door from the carried book, and executed by setting that target with target_set_location() and calling spell_cast() with a direction hook that answers &#x27;5&#x27; (use target).</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/21">issue 21</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
