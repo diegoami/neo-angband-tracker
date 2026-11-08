@@ -1089,7 +1089,7 @@ bool borg_caution(void)
         /* do not flee level if going after Morgoth or fighting a unique */
         if (!borg.goal.fleeing && !borg.near.unique
             && (borg.trait[BI_CLEVEL] < 50) && !borg.status.vault
-            && (borg.trait[BI_CDEPTH] < 100 && borg.ready_morgoth == 1)) {
+            && (borg.trait[BI_CDEPTH] < 100 && borg.ready_morgoth != 1)) {
             /* Note */
             borg_note("# Fleeing (excessive danger)");
 
