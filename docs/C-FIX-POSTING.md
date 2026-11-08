@@ -172,9 +172,10 @@ head; append commits instead.
   resists (`values:RES_FIRE[1]`, e.g. Multi-Hued Dragon Scale Mail) never reach
   the old-style flag derivation (`BI_SRFIRE`/`BI_SRCOLD`/`BI_SRACID`/`BI_SRELEC`/
   `BI_SRPOIS` all stayed 0 with the DSM worn; blocked the prepreason-234 depth
-  boundary), and a worn plain "See Invisible" ring left `BI_SINV` 0 (blocked the
-  drainedive-235 preparedness). Probe `borg.trait[]` after `borg_notice(true)`
-  before designing an observable around an injected trait.
+  boundary). Plain **flags** on injected gear derive only when the item is
+  **worn** — a carried See Invisible ring derives nothing, the same ring worn
+  sets `BI_SINV` (drainedive-235). Probe `borg.trait[]` after
+  `borg_notice(true)` before designing an observable around an injected trait.
 - `BI_ISFIXEXP` is recomputed by every `borg_notice()`: true only when
   `player->exp < player->max_exp` and clevel ≠ 50; at clevel 50 in the dungeon
   it is forced false (borg-trait.c). Set the exp fields in the fixture and let
