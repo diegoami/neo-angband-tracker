@@ -74,3 +74,63 @@ scenario), `before-results.json`, `after-results.json`, `result.json`,
 `run-{before,after}-scenarios.log`, `run-{before,after}-alltests.log`,
 `replay.html`, `replay-data.json` and `receipt.json` (sha256 of every other
 file) are the captured run.
+
+## Stacked with #146 (2026-11-08)
+
+Owner decision on #147: keep the standalone pair above, and add a run with
+both corrections applied to measure which grid the Borg actually walks to.
+On the pristine base the search can only choose the Borg's own grid (#146),
+so #147's score has no visible move there. **#147's visible effect depends
+on #146** (source PR #426); it should be filed after, or together with, #146.
+The standalone run above and its pins stay valid; this section adds a
+separate run in [`stacked/`](stacked/) and supersedes nothing.
+
+**Setup.** Same Warrior (seed 147, level 20, depth 5) in a closed 22x70
+room with a granite north wall (wide, so the corners, which score higher,
+stay beyond the search's reach at level 20). One disposable worktree builds
+three variants of `src/borg/borg-flow-misc.c`: the pristine base
+(reference), base + #146's hunk, and base + #146's + #147's hunks. The runner
+asserts that `task/spastic-146` (`f97311e5d`) and `task/spasticscore-147`
+(`6e54def84`) are each exactly their expected hunk in that one file, and
+neither source branch was changed. In each build the production
+`borg_flow_spastic(true)` runs repeatedly; the fixture carries out each step
+the call queues (`monster_swap`) and, before each call, blanks the committed
+flow so that the grid at flow cost 0 afterwards is the grid the call chose.
+
+| Mode | Pristine base | #146 only | #146 + #147 |
+| --- | --- | --- | --- |
+| `wall`: starts at (35,2) against the wall, 12 bored calls | searches its own grid 3 times, never moves (0/1) | after the first search picks **(34,2)**, already covered (count 5); creeps west one grid per search: 6 searches, **5 on covered grids**, ends at (30,2) (0/1) | picks **(37,2)**, not covered (count 0); searches (35,2), (37,2), (39,2), (41,2): 4 searches, **none repeated**, ends at (42,2) (1/1) |
+| `approach` (control): starts at (35,5), stops at the first search | finds no grid, never moves (0/1) | walks to (38,2), searches once (1/1) | byte-identical to #146 only |
+
+Why: after the search at (35,2) the counts of (34..36, 1..3) are 5. With
+#146 alone each candidate is scored with its north-west neighbour's count, so
+(34,2) is scored with (33,1)'s 0 and wins at distance 1. With #147 too,
+(34,2) and (36,2) carry their own 5 and the nearest uncovered grid wins. In
+the control no grid has been searched, so both counts are 0 everywhere.
+
+Gates: 965/965 unit checks and 5/5 frontend tests for each of the three
+builds. Replay [`stacked/replay.html`](stacked/replay.html): generated script
+passes `node --check`; Playwright Chromium headless `render-check.js` (12
+checks) and `render-smoke.js` (6 actions), no console errors.
+[`stacked/receipt.json`](stacked/receipt.json) holds the sha256 of every file
+in `stacked/`; all phase logs are committed there.
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/spastic-146
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/spasticscore-147
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/spasticscore-147-evidence
+git show 81fe464dc50445b5eb1c6758c3bc4773d9972d5d:docs/audit/c-reports/spasticscore-147/stacked/reproduce.py > /tmp/reproduce-spasticscore-147-stacked.py
+python3 /tmp/reproduce-spasticscore-147-stacked.py --full-tests --fixtures-ref 81fe464dc50445b5eb1c6758c3bc4773d9972d5d --fix146-ref f97311e5d52de4dda8d75058114c52acbdac2674 --fix147-ref 6e54def846e04ee7a6a203bfcb1623128fc7d696
+```
+
+**Proves:** with #146 applied, #147's slip decides where the Borg walks: it
+steps onto grids its last search already covered and searches each of them
+again; the corrected score sends it to uncovered grids. **Does not prove:**
+anything about a real dungeon level, other classes or levels, how often a
+Borg is bored next to a wall in play, or that a secret door is found (in
+4.2 doors are found by walking next to them). The fixture carries out the
+queued steps itself; the game loop is not under test.
+
+The appended section changes this README's bytes; `receipt.json`'s
+`README.md` hash is updated to follow it (old and new values recorded in
+`stacked/receipt.json`), and no other file of the standalone run changed.
