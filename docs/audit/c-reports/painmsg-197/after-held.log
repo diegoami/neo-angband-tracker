@@ -1,0 +1,11 @@
+native-c/painmsg-197: starting...
+SETUP seed=197 mode=held class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1
+  monster_status_message_recognised  STATE effect_started=1
+TRACK start-message <The kobold is frozen to the spot!>
+TRACK game-message <The kobold can move again.>
+TRACK borg-reaction <PAIN:The kobold>
+TRACK reaction-use <PAIN:The kobold> use=2
+STATE game_messages=1 reactions=1
+OUTCOME recognised=1 matched_to_kobold=1
+Passed
+native-c/painmsg-197 finished: 1/1 passed

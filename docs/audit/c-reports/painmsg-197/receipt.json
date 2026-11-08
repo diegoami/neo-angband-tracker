@@ -1,0 +1,258 @@
+{
+  "issue": "diegoami/neo-angband-tracker#197",
+  "report": "painmsg-197",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "8a0c13f7127642da8222c84380b4e6b8f9f96eff",
+  "fix_branch": "task/painmsg-197",
+  "fixtures_ref": "ba2167d51fcdd99a957b9ed53f65c676ed4b4bff",
+  "cases": {
+    "held": {
+      "before": {
+        "passed": false,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 0
+        },
+        "outcome": {
+          "recognised": 0,
+          "matched_to_kobold": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 1
+        },
+        "outcome": {
+          "recognised": 1,
+          "matched_to_kobold": 1
+        }
+      }
+    },
+    "command": {
+      "before": {
+        "passed": false,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 0
+        },
+        "outcome": {
+          "recognised": 0,
+          "matched_to_kobold": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 1
+        },
+        "outcome": {
+          "recognised": 1,
+          "matched_to_kobold": 1
+        }
+      }
+    },
+    "uncommand": {
+      "before": {
+        "passed": false,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 0
+        },
+        "outcome": {
+          "recognised": 0,
+          "matched_to_kobold": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 1
+        },
+        "outcome": {
+          "recognised": 1,
+          "matched_to_kobold": 1
+        }
+      }
+    },
+    "shapefail": {
+      "before": {
+        "passed": false,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 0
+        },
+        "outcome": {
+          "recognised": 0,
+          "matched_to_kobold": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 1
+        },
+        "outcome": {
+          "recognised": 1,
+          "matched_to_kobold": 1
+        }
+      }
+    },
+    "stun": {
+      "before": {
+        "passed": true,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 1
+        },
+        "outcome": {
+          "recognised": 1,
+          "matched_to_kobold": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 1
+        },
+        "outcome": {
+          "recognised": 1,
+          "matched_to_kobold": 1
+        }
+      }
+    },
+    "hurt": {
+      "before": {
+        "passed": true,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 1
+        },
+        "outcome": {
+          "recognised": 1,
+          "matched_to_kobold": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 1
+        },
+        "outcome": {
+          "recognised": 1,
+          "matched_to_kobold": 1
+        }
+      }
+    },
+    "puff": {
+      "before": {
+        "passed": false,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 0
+        },
+        "outcome": {
+          "recognised": 0,
+          "matched_to_kobold": 0
+        }
+      },
+      "after": {
+        "passed": false,
+        "state": {
+          "effect_started": 1,
+          "game_messages": 1,
+          "reactions": 0
+        },
+        "outcome": {
+          "recognised": 0,
+          "matched_to_kobold": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "stun",
+    "hurt"
+  ],
+  "claim": "borg_get_parsed_pain() allocates strlen(pain) + 1 bytes for ' ' + text + NUL, and its copy loop stops at pos < buflen - 1, so text without [|] markup loses its final character. The suffix_pain entries for NOT_HELD, COMMAND, NOT_COMMAND and SHAPE_FAIL therefore lacked their final punctuation and suffix() never matched the printed line. With strlen + 2 the entries are complete: the four real messages queue 'PAIN:<monster>' and borg_update matches it to the monster; bracketed endings (stun) and pain.txt messages are unchanged.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-messages.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-messages.c": "cd0bc86125d0cbc771a2b975aa4b98716efe459ca1df5b8db461903b69aaa49f"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 37,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "9742523959b55916b6f5a96169d61f4b150ff10fff5c801ec4b0c93f2cd54dd6",
+    "after-command.log": "eef5a5da88221a4e162c4ae80daa59b1054dba3e98ef143d39dfeef06735ffaf",
+    "after-held.log": "4e644a1ce50721ad21dce46f4b2b658ce9a3347d442dc592042ac4d320c400a6",
+    "after-hurt.log": "70ec0bdf3f337d37cc78be34a4cbbc4fd3b296010a3f801d52cf9a813c4e667a",
+    "after-puff.log": "35457c9fb15fa5d5584757c21e0c57d4e251cfaa9615d3d04af6180f819251ec",
+    "after-results.json": "bd51b3a73e19aef21d1e1b083360b31ebd0018916f2dcbac3913e725a6916e85",
+    "after-shapefail.log": "59a2af77c093ce3717cdacf265afe9a986b3ccb13ac8078983193666a4439915",
+    "after-stun.log": "f621a97db11ee81b700eed12e395b8ca1ad3d25fe615b4696af84d47da4b725f",
+    "after-uncommand.log": "358c7f129bec67ab226c2d71a51bf4f215f6ecc1daa09b1bc3399fdbd27c23eb",
+    "before-command.log": "13167928c7c1c53f8a26de169e3bec08c1713fcbdaace784b462a6b61745e3db",
+    "before-held.log": "fe368c9e81deec594c00f5bc157b3df70a99fa69ac3647c32f996f2ad0c00b53",
+    "before-hurt.log": "70ec0bdf3f337d37cc78be34a4cbbc4fd3b296010a3f801d52cf9a813c4e667a",
+    "before-puff.log": "35457c9fb15fa5d5584757c21e0c57d4e251cfaa9615d3d04af6180f819251ec",
+    "before-results.json": "61b72c68a2c92afd179033ea1a770dc72bfa33898e6e0cb33c1195ba0ece4c55",
+    "before-shapefail.log": "30f2a9d4de771330a62e9ca298d249081ec5c7c61629a0192ea2a01af629f408",
+    "before-stun.log": "f621a97db11ee81b700eed12e395b8ca1ad3d25fe615b4696af84d47da4b725f",
+    "before-uncommand.log": "904f4c19d378a2211650abd9aeffd806abfd83ea89cf86a80be912554ace88bb",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "c31d801a58a64556913a8779923789a254007069ff4f32375f76e2d06d37b336",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "61fddae85d128f5797f15974860c50d49197a13f44c644a118e5c57c7d67ebc4",
+    "replay.html": "be4b489b0b0f16d7f5e8c293adca80d54969aa8e2d0a478a520acf51d8f06350",
+    "reproduce.py": "9dcf489230b8a92cd8f49c7f9aacf60a12f8a4892490a1d7bf686fe26dcdeda1",
+    "result.json": "21c75ec1b529d170f0ecefb372abf32d6f94d65d5f93fb1c51f24774c502a97b",
+    "run-after-alltests.log": "45e0e456c9affcfe9255299ce159c2ee11bdd19731e140ea9ae07b58ca2e230e",
+    "run-after-build.log": "df2a09dbb61509700cebf4485e9addec5088cc7f94ddb61c954c58ece1694f9b",
+    "run-after-scenarios.log": "b393d1230996dd0b51146f29a0a70fd3850824a82c2473afe61ba4cc9497bb39",
+    "run-before-alltests.log": "04522061a8b731e95adada8befca8d342730d8f51e4e4d5d50faad77f8ac71f1",
+    "run-before-build.log": "59c9c03867aa2ebf188169061f380fed3606031fa624639e6cb9601dd5622e63",
+    "run-before-scenarios.log": "e586752d3ddd9da215a7a82f07f121e922fc90795a1fb5bad0da61be4c912f8a",
+    "run-cases.py": "a9a0b59700d875acd2d973587155dedd9d3c0a3a3f9f6e25185e4ca12f441a70",
+    "run-configure.log": "cceeb70c6d7f94b373f336ef2fe0ae4bf2d0646f5fc3173a8e83f7c9a0979033",
+    "scenario.c": "06893ae79cb33f42a8d82530788d09f150a50983e49e5c6cbe2734ca1e968fd0"
+  }
+}
