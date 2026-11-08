@@ -1,0 +1,7 @@
+native-c/restcomment-486: starting...
+SETUP mode=asleep race=cave bear dist=3 clevel=10 hp=67/112 avoidance=67
+  check_rest        DANGER at_monster_grid=54 at_rest_grid=0 threshold=22 awake=0 ranged=0 speed=111
+DECISION check_rest=0
+OUTCOME rest=0
+Passed
+native-c/restcomment-486 finished: 1/1 passed

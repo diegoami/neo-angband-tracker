@@ -1,0 +1,37 @@
+{
+  "bear": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "rest": 0
+    }
+  },
+  "bear-l20": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "rest": 1
+    }
+  },
+  "asleep": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "rest": 0
+    }
+  },
+  "wolf": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "rest": 0
+    }
+  },
+  "orc": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "rest": 0
+    }
+  }
+}

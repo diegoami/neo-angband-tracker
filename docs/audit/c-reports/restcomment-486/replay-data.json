@@ -1,0 +1,137 @@
+{
+  "bear": {
+    "label": "Control: awake cave bear 3 grids away, clevel 10",
+    "explanation": "Danger 40 at the bear's grid against a threshold of 22: both versions refuse to rest. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=bear race=cave bear dist=3 clevel=10 hp=67/112 avoidance=67\n  check_rest        DANGER at_monster_grid=40 at_rest_grid=0 threshold=22 awake=1 ranged=0 speed=111\nDECISION check_rest=0\nOUTCOME rest=0\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 0
+      },
+      "notes": [
+        "DECISION check_rest=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=bear race=cave bear dist=3 clevel=10 hp=67/112 avoidance=67\n  check_rest        DANGER at_monster_grid=40 at_rest_grid=0 threshold=22 awake=1 ranged=0 speed=111\nDECISION check_rest=0\nOUTCOME rest=0\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 0
+      },
+      "notes": [
+        "DECISION check_rest=0"
+      ],
+      "value": 0
+    }
+  },
+  "bear-l20": {
+    "label": "Control: the same bear, clevel 20",
+    "explanation": "Threshold 43 is above the danger of 40: both versions allow the rest. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=bear-l20 race=cave bear dist=3 clevel=20 hp=129/215 avoidance=129\n  check_rest        DANGER at_monster_grid=40 at_rest_grid=0 threshold=43 awake=1 ranged=0 speed=111\nDECISION check_rest=1\nOUTCOME rest=1\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 1
+      },
+      "notes": [
+        "DECISION check_rest=1"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=bear-l20 race=cave bear dist=3 clevel=20 hp=129/215 avoidance=129\n  check_rest        DANGER at_monster_grid=40 at_rest_grid=0 threshold=43 awake=1 ranged=0 speed=111\nDECISION check_rest=1\nOUTCOME rest=1\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 1
+      },
+      "notes": [
+        "DECISION check_rest=1"
+      ],
+      "value": 1
+    }
+  },
+  "asleep": {
+    "label": "Control: the bear asleep",
+    "explanation": "Danger 54 at the bear's grid: both versions refuse. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=asleep race=cave bear dist=3 clevel=10 hp=67/112 avoidance=67\n  check_rest        DANGER at_monster_grid=54 at_rest_grid=0 threshold=22 awake=0 ranged=0 speed=111\nDECISION check_rest=0\nOUTCOME rest=0\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 0
+      },
+      "notes": [
+        "DECISION check_rest=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=asleep race=cave bear dist=3 clevel=10 hp=67/112 avoidance=67\n  check_rest        DANGER at_monster_grid=54 at_rest_grid=0 threshold=22 awake=0 ranged=0 speed=111\nDECISION check_rest=0\nOUTCOME rest=0\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 0
+      },
+      "notes": [
+        "DECISION check_rest=0"
+      ],
+      "value": 0
+    }
+  },
+  "wolf": {
+    "label": "Control: awake wolf (+10 speed) 2 grids away",
+    "explanation": "Danger 48 at the wolf's grid: both versions refuse. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=wolf race=wolf dist=2 clevel=10 hp=67/112 avoidance=67\n  check_rest        DANGER at_monster_grid=48 at_rest_grid=16 threshold=22 awake=1 ranged=0 speed=122\nDECISION check_rest=0\nOUTCOME rest=0\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 0
+      },
+      "notes": [
+        "DECISION check_rest=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=wolf race=wolf dist=2 clevel=10 hp=67/112 avoidance=67\n  check_rest        DANGER at_monster_grid=48 at_rest_grid=16 threshold=22 awake=1 ranged=0 speed=122\nDECISION check_rest=0\nOUTCOME rest=0\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 0
+      },
+      "notes": [
+        "DECISION check_rest=0"
+      ],
+      "value": 0
+    }
+  },
+  "orc": {
+    "label": "Control: awake cave orc with arrows 3 grids away",
+    "explanation": "Danger 52 either way, and the orc has a ranged attack in line of sight: both versions refuse. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=orc race=cave orc dist=3 clevel=10 hp=67/112 avoidance=67\n  check_rest        DANGER at_monster_grid=52 at_rest_grid=52 threshold=22 awake=1 ranged=1 speed=111\nDECISION check_rest=0\nOUTCOME rest=0\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 0
+      },
+      "notes": [
+        "DECISION check_rest=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/restcomment-486: starting...\nSETUP mode=orc race=cave orc dist=3 clevel=10 hp=67/112 avoidance=67\n  check_rest        DANGER at_monster_grid=52 at_rest_grid=52 threshold=22 awake=1 ranged=1 speed=111\nDECISION check_rest=0\nOUTCOME rest=0\nPassed\nnative-c/restcomment-486 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "rest": 0
+      },
+      "notes": [
+        "DECISION check_rest=0"
+      ],
+      "value": 0
+    }
+  }
+}
