@@ -5332,5 +5332,17 @@
     "scenario-neg-enqueue-only-results.json": "6c08900b20ec2af3ccee4c4a9df95290ef45bc214b55c3770b70f7440861a7be",
     "scenario-neg-spread-only-cases.log": "2ac06b5a2c74ef7bb575ad78919a13b698472748f77960dec037f542a2d02ad7",
     "scenario-neg-spread-only-results.json": "ca34e13f9c5538da9cccb20b1ee34e36dfeb021a0feda45d0c3b832baf0154d6"
-  }
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "change": "the original receipt had no sha256 map; a complete map of every file in this directory was added, plus identical_controls, render_check and reverification keys (original keys unchanged)"
+    },
+    {
+      "file": "README.md",
+      "old_sha256": null,
+      "new_sha256": "see root receipt.json sha256 map",
+      "change": "appended the Re-verification (2026-11-08) section; the original receipt did not hash README.md"
+    }
+  ]
 }
