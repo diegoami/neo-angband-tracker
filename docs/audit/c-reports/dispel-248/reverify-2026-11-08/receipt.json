@@ -231,6 +231,13 @@
       "old": "84d61709f6577b4e922d3b9dad67285d20f4a6b1dcf6fe48f01f77c74369e2ae",
       "new": "219ac3130c7bf96373ce5c7d10ef5476defff8fbb644aad71d7096f007d6f800",
       "why": "README.md gained the 2026-11-08 Re-verification/Errata sections (and any placeholder replacement listed there)"
+    },
+    {
+      "file": "../receipt.json",
+      "key": "sha256.README.md",
+      "old": "219ac3130c7bf96373ce5c7d10ef5476defff8fbb644aad71d7096f007d6f800",
+      "new": "0fc58a871a8be1d9236858b7369fe44be36405c201223cefddaadc524b6d7648",
+      "why": "README.md gained the 2026-11-08 Re-verification/Errata sections (and any placeholder replacement listed there)"
     }
   ]
 }
