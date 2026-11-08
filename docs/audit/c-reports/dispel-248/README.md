@@ -156,5 +156,5 @@ python3 /tmp/reproduce-dispel-248.py --full-tests --fixtures-ref 6df50d2e5ad605e
 ## Errata (2026-11-08)
 
 - `make_replay.py` at the receipt's `fixtures_ref` `77bddc194` does not parse (a `}` closes a `(` on line 7), so a run at that pin ends with exit 1 after all native checks. The capture commit `466cdf8db` fixed it; `git diff 77bddc194 6df50d2e5` touches no other generator. Use the guide's pin `6df50d2e5`.
-- Committed file that differs from its receipt hash (before this amendment): `README.md`. The receipt was hashed at `efd476b45`; commit `98292a983` then replaced the `pull/SOURCE` placeholder with `pull/291` in the README without re-hashing. No log, generator or replay file was affected.
+- Committed file that differs from its receipt hash (before this amendment): `README.md`. The receipt was hashed at `efd476b45`; commit `98292a983` then replaced the placeholder source-PR link with `pull/291` in the README without re-hashing. No log, generator or replay file was affected.
 - `receipt.json` was amended on 2026-11-08 for this only: its `README.md` hash now covers the README with these sections, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.

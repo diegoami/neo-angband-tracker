@@ -223,7 +223,7 @@
       }
     },
     {
-      "note": "README.md hash 'old' is the hash taken at efd476b45; the committed README at 98292a983 already differed (pull/SOURCE -> pull/291)."
+      "note": "README.md hash 'old' is the hash taken at efd476b45; the committed README at 98292a983 already differed (placeholder source-PR link -> pull/291)."
     },
     {
       "file": "../receipt.json",
