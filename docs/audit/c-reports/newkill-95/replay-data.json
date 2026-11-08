@@ -1,0 +1,72 @@
+{
+  "wall": {
+    "label": "Earth spirit inside a granite pillar",
+    "explanation": "Original: the first sighting overwrites the pillar with floor in the Borg's map (map_granite=0); the Borg fires (keys *p66665f05); the real fire command uses a full turn (energy 100) and one shot, the shot stops at the wall and the earth spirit keeps 56/56 hit points. Corrected: the map keeps granite (map_granite=1), the Borg's own 'never shoot walls' rule holds and no attack is queued.",
+    "control": false,
+    "before": {
+      "raw": "native-c/newkill-95: starting...\nSETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=wall\nTERRAIN game=granite borg_map=granite at (11,15)\n  newly_seen_pass_wall_monster_keeps_wall  MODE wall\nTRACK seen=1 kill=1 race=earth spirit pass_wall=1\nTRACK borg_map before_sighting=granite after_sighting=floor game=granite\nDECISION acted=1 keys=\"*p66665f05\" fired=1\nMSG You have 19 Iron Shots (1d4) (+0,+0) (0).\nENGINE monster_hp=56->56 quiver_shots=20->19 energy_used=100\nOUTCOME map_granite=0 fired=1 damage=0\nFailed\n    native-c/newkill-95:221: requirement 'after_feat' == 'FEAT_GRANITE' failed\n      after_feat:                1\n      FEAT_GRANITE:               21\nnative-c/newkill-95 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "map_granite": 0,
+        "fired": 1,
+        "damage": 0
+      },
+      "notes": [
+        "TRACK seen=1 kill=1 race=earth spirit pass_wall=1",
+        "TRACK borg_map before_sighting=granite after_sighting=floor game=granite",
+        "DECISION acted=1 keys=\"*p66665f05\" fired=1"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/newkill-95: starting...\nSETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=wall\nTERRAIN game=granite borg_map=granite at (11,15)\n  newly_seen_pass_wall_monster_keeps_wall  MODE wall\nTRACK seen=1 kill=1 race=earth spirit pass_wall=1\nTRACK borg_map before_sighting=granite after_sighting=granite game=granite\nDECISION acted=0 keys=\"\" fired=0\nENGINE monster_hp=56->56 quiver_shots=20->20 energy_used=0\nOUTCOME map_granite=1 fired=0 damage=0\nPassed\nnative-c/newkill-95 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "map_granite": 1,
+        "fired": 0,
+        "damage": 0
+      },
+      "notes": [
+        "TRACK seen=1 kill=1 race=earth spirit pass_wall=1",
+        "TRACK borg_map before_sighting=granite after_sighting=granite game=granite",
+        "DECISION acted=0 keys=\"\" fired=0"
+      ],
+      "value": 0
+    }
+  },
+  "floor": {
+    "label": "Control: earth spirit on open floor",
+    "explanation": "The same earth spirit on a floor grid. Both versions keep the grid as floor and fire; the shot hits for 4 damage. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/newkill-95: starting...\nSETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=floor\nTERRAIN game=floor borg_map=floor at (11,15)\n  newly_seen_pass_wall_monster_keeps_wall  MODE floor\nTRACK seen=1 kill=1 race=earth spirit pass_wall=1\nTRACK borg_map before_sighting=floor after_sighting=floor game=floor\nDECISION acted=1 keys=\"*p66665f05\" fired=1\nMSG Your Iron Shot (1d4) (+0,+0) hits the earth spirit.\nMSG You have 19 Iron Shots (1d4) (+0,+0) (0).\nENGINE monster_hp=56->52 quiver_shots=20->19 energy_used=100\nOUTCOME map_granite=0 fired=1 damage=4\nPassed\nnative-c/newkill-95 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "map_granite": 0,
+        "fired": 1,
+        "damage": 4
+      },
+      "notes": [
+        "TRACK seen=1 kill=1 race=earth spirit pass_wall=1",
+        "TRACK borg_map before_sighting=floor after_sighting=floor game=floor",
+        "DECISION acted=1 keys=\"*p66665f05\" fired=1"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/newkill-95: starting...\nSETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=floor\nTERRAIN game=floor borg_map=floor at (11,15)\n  newly_seen_pass_wall_monster_keeps_wall  MODE floor\nTRACK seen=1 kill=1 race=earth spirit pass_wall=1\nTRACK borg_map before_sighting=floor after_sighting=floor game=floor\nDECISION acted=1 keys=\"*p66665f05\" fired=1\nMSG Your Iron Shot (1d4) (+0,+0) hits the earth spirit.\nMSG You have 19 Iron Shots (1d4) (+0,+0) (0).\nENGINE monster_hp=56->52 quiver_shots=20->19 energy_used=100\nOUTCOME map_granite=0 fired=1 damage=4\nPassed\nnative-c/newkill-95 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "map_granite": 0,
+        "fired": 1,
+        "damage": 4
+      },
+      "notes": [
+        "TRACK seen=1 kill=1 race=earth spirit pass_wall=1",
+        "TRACK borg_map before_sighting=floor after_sighting=floor game=floor",
+        "DECISION acted=1 keys=\"*p66665f05\" fired=1"
+      ],
+      "value": 1
+    }
+  }
+}

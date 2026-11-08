@@ -1,0 +1,15 @@
+native-c/newkill-95: starting...
+SETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=wall
+TERRAIN game=granite borg_map=granite at (11,15)
+  newly_seen_pass_wall_monster_keeps_wall  MODE wall
+TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=granite after_sighting=floor game=granite
+DECISION acted=1 keys="*p66665f05" fired=1
+MSG You have 19 Iron Shots (1d4) (+0,+0) (0).
+ENGINE monster_hp=56->56 quiver_shots=20->19 energy_used=100
+OUTCOME map_granite=0 fired=1 damage=0
+Failed
+    native-c/newkill-95:221: requirement 'after_feat' == 'FEAT_GRANITE' failed
+      after_feat:                1
+      FEAT_GRANITE:               21
+native-c/newkill-95 finished: 0/1 passed
