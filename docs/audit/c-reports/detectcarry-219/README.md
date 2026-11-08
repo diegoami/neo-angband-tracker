@@ -112,3 +112,48 @@ back, nothing is cast in the game.
   fixed-source sha256.
 - `replay.html`, `replay-data.json` — the offline demo.
 - `receipt.json` — sha256 map of every file in this directory.
+
+## Re-verification (2026-11-08)
+
+Why: the logs of the original run were listed in `receipt.json` (with
+sha256 values) but were never committed — the repository's `*.log`
+ignore rule dropped them. To give reviewers the actual logs, the
+pinned runner was executed again at the same pins (fixtures
+`55e00023674b9e7634713f2117b5c8c47802ca5f`, base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `3d104a8b82aafeb421869c62736c8046b6272d82`) with `--full-tests`.
+The earlier text above is left unchanged.
+
+The run reproduced every recorded case: per-case pass/fail and every
+parsed outcome value in its `result.json` equal the `cases` in the
+original `receipt.json` (`matches_original_receipt_cases: true`).
+Runner verdict: `VERIFIED: the original keeps the previous level's object-detection stamp, the correction clears it; control log identical.`
+
+| Mode | Original (base) | Corrected (fix) |
+| --- | --- | --- |
+| `new-level` | FAIL: obj=1 wall=0 | pass: obj=0 wall=0 |
+| `same-level` (control, byte-identical) | pass: obj=1 wall=1 | pass: obj=1 wall=1 |
+
+Full native gates, parsed from the committed alltests logs: original
+965/965 unit checks and 5/5 frontend tests; corrected
+965/965 and 5/5. Toolchain for this run: `cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0`,
+`cmake version 3.28.3` (the original run recorded `gcc 15.2.0`, `cmake 4.2.3`). Replay render
+check on the committed `replay.html`: `RENDER-SMOKE actions=6 errors=0 OK`
+(`tools/c-evidence/render-smoke.js`, Playwright Chromium headless).
+
+Logs, `result.json`, per-phase results and a `receipt.json` with the
+sha256 of every file are in [`reverify-2026-11-08/`](reverify-2026-11-08/).
+Repeat (fixtures pinned by sha; this runner has no `--fix-ref` flag: the
+fix sha `3d104a8b82aafeb421869c62736c8046b6272d82` is a constant in the pinned script, which
+asserts the source diff against it):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/detectcarry-219-evidence
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/detectcarry-219
+git show 55e00023674b9e7634713f2117b5c8c47802ca5f:docs/audit/c-reports/detectcarry-219/reproduce.py > /tmp/reproduce-detectcarry-219.py
+python3 /tmp/reproduce-detectcarry-219.py --full-tests --fixtures-ref 55e00023674b9e7634713f2117b5c8c47802ca5f
+```
+
+## Errata (2026-11-08)
+
+"Source proposal: PR (see the issue)" above refers to
+diegoami/neo-angband-tracker#391; this evidence package is PR #392.
+The pins and repeat commands above are correct as printed.

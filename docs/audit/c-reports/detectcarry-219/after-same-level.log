@@ -1,0 +1,9 @@
+native-c/detectcarry-219: starting...
+SETUPSTEP profile
+SETUP olddepth=30 curdepth=30 panels=1,1
+SETUP seed=1000 class=Warrior level=1 hp=20/20
+  detection_flags_cleared_on_new_level  MODE same-level
+STATE obj=1 wall=1
+OUTCOME obj_cleared=0 wall_cleared=0
+Passed
+native-c/detectcarry-219 finished: 1/1 passed
