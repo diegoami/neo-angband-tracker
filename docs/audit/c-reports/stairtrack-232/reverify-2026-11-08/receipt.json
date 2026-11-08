@@ -115,5 +115,27 @@
     "before-scenarios.log": "bea491102634fd5284d75031b5957c50e4ed16b85991b627bee981598f71cc4a",
     "configure.log": "21c2776fc7177567a0e33fe8e6738816bd0cdd15eea98c1b48d218b5571bcf1b",
     "result.json": "5deeafd5e47670d3c86a20a67ff94267fd7dc2130e6b1e322c1f48f28fe4f8c5"
-  }
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "field": "sha256.README.md",
+      "old": "7a15f256466524126678c2b40a47cf4fd905f97094de85b9192d48253d00fe56",
+      "new": "15e79ba01405cb232e9a494dc0ecdebb49d5259d798352919888233bb9637c91",
+      "reason": "README.md gained the 2026-11-08 Re-verification and Errata sections (append-only); no other hashed file changed"
+    },
+    {
+      "file": "receipt.json",
+      "field": "render_check",
+      "old": null,
+      "new": {
+        "date": "2026-11-08",
+        "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button)",
+        "result": "RENDER-SMOKE actions=2 errors=0 OK",
+        "exit": 0,
+        "note": "added by the 2026-11-08 re-verification; the original run's browser record is under 'browser'"
+      },
+      "reason": "the original receipt recorded its browser check under 'browser', which the package checker does not read"
+    }
+  ]
 }
