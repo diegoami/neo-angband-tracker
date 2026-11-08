@@ -1,0 +1,10 @@
+native-c/surrounded-312: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior depth=30 kills=0
+  no_monsters_never_surrounded  MODE traps
+GEOMETRY mode=traps kills_cnt=0
+RATING surrounded=1
+OUTCOME surrounded=1
+Failed
+    native-c/surrounded-312:137: requirement '!surr' failed
+native-c/surrounded-312 finished: 0/1 passed
