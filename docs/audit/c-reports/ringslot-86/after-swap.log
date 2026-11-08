@@ -1,0 +1,25 @@
+native-c/ringslot-86: starting...
+SETUP seed=86 mode=swap class=Warrior clevel=21 pack_used=2/23
+  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]
+PACK b qty=1 desc=[Ring of Free Action]
+WORN a desc=[Dagger (1d4) (+0,+0)]
+WORN c desc=[Ring of See Invisible]
+WORN d desc=[Ring of Feather Falling]
+WORN f desc=[Wooden Torch (2000 turns)]
+WORN g desc=[Soft Leather Armour [8,+0]]
+TRACK power_start=586441
+STEP 1 acts=1 keys=[td]
+PLAN do_best=0 [8:21/28]
+DECISION step=1 cmd=t item=[a Ring of Feather Falling]
+ENGINE You were wearing a Ring of Feather Falling (b).
+STEP 2 acts=1 keys=[wc]
+PLAN do_best=0
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+ENGINE You are wearing a Ring of Free Action (d).
+STEP 3 acts=0 keys=[]
+PLAN none do_best=0
+TRACK power_end=595941
+STATE ring1=[a Ring of See Invisible] ring2=[a Ring of Free Action]
+OUTCOME actions=2 wears_new_ring=1 wears_kept_ring=1
+Passed
+native-c/ringslot-86 finished: 1/1 passed

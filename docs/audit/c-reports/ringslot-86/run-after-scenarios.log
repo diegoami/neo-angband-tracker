@@ -1,0 +1,3 @@
+swap {'exit': 0, 'passed': True, 'state': {}, 'outcome': {'actions': 2, 'wears_new_ring': 1, 'wears_kept_ring': 1}}
+mirror {'exit': 0, 'passed': True, 'state': {}, 'outcome': {'actions': 2, 'wears_new_ring': 1, 'wears_kept_ring': 1}}
+empty {'exit': 0, 'passed': True, 'state': {}, 'outcome': {'actions': 1, 'wears_new_ring': 1, 'wears_kept_ring': 0}}

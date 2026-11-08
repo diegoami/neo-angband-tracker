@@ -1,0 +1,156 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg took off its good ring instead of its weak one when it found a better ring</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg took off its good ring instead of its weak one when it found a better ring</h1><p>At home the Borg works out its best set of equipment by trying every candidate item in every slot, the left ring slot before the right one. A check meant to stop the same ring going on both hands was also applied to the left slot, against the right-slot entry, which at that point still holds the last ring tried on the right hand earlier in the search. So a ring that had just been tried on the right hand was never tried on the left. A level-21 Warrior wearing a Ring of Feather Falling (left) and a Ring of See Invisible (right), with a Ring of Free Action in the pack, therefore never considered Free Action in place of Feather Falling: it took off See Invisible and put Free Action on, keeping the Feather Falling ring (Borg power 591441). The correction drops the left-slot check (the right-slot check already prevents wearing one ring twice); the Borg takes off Feather Falling instead and ends with See Invisible and Free Action (power 595941).</p><p><label>Scenario: <select id="scenario"><option value="swap">Weak ring on the left hand, good ring on the right, better ring in pack</option><option value="mirror">Control: good ring on the left hand, weak ring on the right</option><option value="empty">Control: no ring worn</option></select></label></p><section class="scenario" data-mode="swap"><p class="summary">Original: the left-slot search skips Free Action (it was the last ring tried on the right), so the only plan containing it puts it on the right hand; the Borg takes off See Invisible and wears Free Action, keeping Feather Falling. Corrected: Free Action is also tried on the left; the Borg takes off Feather Falling and wears Free Action, keeping See Invisible.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>still wearing the Ring of See Invisible at the end (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK power_start=586441
+DECISION step=1 cmd=t item=[a Ring of See Invisible]
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+TRACK power_end=591441</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>still wearing the Ring of See Invisible at the end (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_start=586441
+DECISION step=1 cmd=t item=[a Ring of Feather Falling]
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+TRACK power_end=595941</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/ringslot-86: starting...
+SETUP seed=86 mode=swap class=Warrior clevel=21 pack_used=2/23
+  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]
+PACK b qty=1 desc=[Ring of Free Action]
+WORN a desc=[Dagger (1d4) (+0,+0)]
+WORN c desc=[Ring of See Invisible]
+WORN d desc=[Ring of Feather Falling]
+WORN f desc=[Wooden Torch (2000 turns)]
+WORN g desc=[Soft Leather Armour [8,+0]]
+TRACK power_start=586441
+STEP 1 acts=1 keys=[tc]
+PLAN do_best=0 [9:21/28]
+DECISION step=1 cmd=t item=[a Ring of See Invisible]
+ENGINE You were wearing a Ring of See Invisible (c).
+STEP 2 acts=1 keys=[wb]
+PLAN do_best=0
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+ENGINE You are wearing a Ring of Free Action (c).
+STEP 3 acts=0 keys=[]
+PLAN none do_best=0
+TRACK power_end=591441
+STATE ring1=[a Ring of Free Action] ring2=[a Ring of Feather Falling]
+OUTCOME actions=2 wears_new_ring=1 wears_kept_ring=0
+Failed
+    native-c/ringslot-86:298: requirement &#x27;newr == 1 &amp;&amp; keep == 1&#x27; failed
+native-c/ringslot-86 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/ringslot-86: starting...
+SETUP seed=86 mode=swap class=Warrior clevel=21 pack_used=2/23
+  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]
+PACK b qty=1 desc=[Ring of Free Action]
+WORN a desc=[Dagger (1d4) (+0,+0)]
+WORN c desc=[Ring of See Invisible]
+WORN d desc=[Ring of Feather Falling]
+WORN f desc=[Wooden Torch (2000 turns)]
+WORN g desc=[Soft Leather Armour [8,+0]]
+TRACK power_start=586441
+STEP 1 acts=1 keys=[td]
+PLAN do_best=0 [8:21/28]
+DECISION step=1 cmd=t item=[a Ring of Feather Falling]
+ENGINE You were wearing a Ring of Feather Falling (b).
+STEP 2 acts=1 keys=[wc]
+PLAN do_best=0
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+ENGINE You are wearing a Ring of Free Action (d).
+STEP 3 acts=0 keys=[]
+PLAN none do_best=0
+TRACK power_end=595941
+STATE ring1=[a Ring of See Invisible] ring2=[a Ring of Free Action]
+OUTCOME actions=2 wears_new_ring=1 wears_kept_ring=1
+Passed
+native-c/ringslot-86 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="mirror"><p class="summary">The weak ring is on the right hand, which the search fills last and checks correctly; both versions take off Feather Falling and wear Free Action. The left-slot check still runs (and skips Free Action in the original) but the best plan is the same, and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>still wearing the Ring of See Invisible at the end (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_start=586441
+DECISION step=1 cmd=t item=[a Ring of Feather Falling]
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+TRACK power_end=595941</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>still wearing the Ring of See Invisible at the end (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_start=586441
+DECISION step=1 cmd=t item=[a Ring of Feather Falling]
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+TRACK power_end=595941</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/ringslot-86: starting...
+SETUP seed=86 mode=mirror class=Warrior clevel=21 pack_used=2/23
+  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]
+PACK b qty=1 desc=[Ring of Free Action]
+WORN a desc=[Dagger (1d4) (+0,+0)]
+WORN c desc=[Ring of Feather Falling]
+WORN d desc=[Ring of See Invisible]
+WORN f desc=[Wooden Torch (2000 turns)]
+WORN g desc=[Soft Leather Armour [8,+0]]
+TRACK power_start=586441
+STEP 1 acts=1 keys=[tc]
+PLAN do_best=0 [9:21/28]
+DECISION step=1 cmd=t item=[a Ring of Feather Falling]
+ENGINE You were wearing a Ring of Feather Falling (b).
+STEP 2 acts=1 keys=[wc]
+PLAN do_best=0
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+ENGINE You are wearing a Ring of Free Action (c).
+STEP 3 acts=0 keys=[]
+PLAN none do_best=0
+TRACK power_end=595941
+STATE ring1=[a Ring of Free Action] ring2=[a Ring of See Invisible]
+OUTCOME actions=2 wears_new_ring=1 wears_kept_ring=1
+Passed
+native-c/ringslot-86 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/ringslot-86: starting...
+SETUP seed=86 mode=mirror class=Warrior clevel=21 pack_used=2/23
+  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]
+PACK b qty=1 desc=[Ring of Free Action]
+WORN a desc=[Dagger (1d4) (+0,+0)]
+WORN c desc=[Ring of Feather Falling]
+WORN d desc=[Ring of See Invisible]
+WORN f desc=[Wooden Torch (2000 turns)]
+WORN g desc=[Soft Leather Armour [8,+0]]
+TRACK power_start=586441
+STEP 1 acts=1 keys=[tc]
+PLAN do_best=0 [9:21/28]
+DECISION step=1 cmd=t item=[a Ring of Feather Falling]
+ENGINE You were wearing a Ring of Feather Falling (b).
+STEP 2 acts=1 keys=[wc]
+PLAN do_best=0
+DECISION step=2 cmd=w item=[a Ring of Free Action]
+ENGINE You are wearing a Ring of Free Action (c).
+STEP 3 acts=0 keys=[]
+PLAN none do_best=0
+TRACK power_end=595941
+STATE ring1=[a Ring of Free Action] ring2=[a Ring of See Invisible]
+OUTCOME actions=2 wears_new_ring=1 wears_kept_ring=1
+Passed
+native-c/ringslot-86 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="empty"><p class="summary">Both ring slots are empty; trying Free Action on the left hand gives the same power as on the right, so the plan does not change. Both versions wear Free Action in one step, and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>still wearing the Ring of See Invisible at the end (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_start=580941
+DECISION step=1 cmd=w item=[a Ring of Free Action]
+TRACK power_end=590941</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>still wearing the Ring of See Invisible at the end (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_start=580941
+DECISION step=1 cmd=w item=[a Ring of Free Action]
+TRACK power_end=590941</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/ringslot-86: starting...
+SETUP seed=86 mode=empty class=Warrior clevel=21 pack_used=2/23
+  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]
+PACK b qty=1 desc=[Ring of Free Action]
+WORN a desc=[Dagger (1d4) (+0,+0)]
+WORN f desc=[Wooden Torch (2000 turns)]
+WORN g desc=[Soft Leather Armour [8,+0]]
+TRACK power_start=580941
+STEP 1 acts=1 keys=[wb]
+PLAN do_best=0
+DECISION step=1 cmd=w item=[a Ring of Free Action]
+ENGINE You are wearing a Ring of Free Action (c).
+STEP 2 acts=0 keys=[]
+PLAN none do_best=0
+TRACK power_end=590941
+STATE ring1=[a Ring of Free Action] ring2=[(nothing)]
+OUTCOME actions=1 wears_new_ring=1 wears_kept_ring=0
+Passed
+native-c/ringslot-86 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/ringslot-86: starting...
+SETUP seed=86 mode=empty class=Warrior clevel=21 pack_used=2/23
+  home_keeps_good_ring_and_wears_better_one  PACK a qty=5 desc=[Rations of Food]
+PACK b qty=1 desc=[Ring of Free Action]
+WORN a desc=[Dagger (1d4) (+0,+0)]
+WORN f desc=[Wooden Torch (2000 turns)]
+WORN g desc=[Soft Leather Armour [8,+0]]
+TRACK power_start=580941
+STEP 1 acts=1 keys=[wb]
+PLAN do_best=0
+DECISION step=1 cmd=w item=[a Ring of Free Action]
+ENGINE You are wearing a Ring of Free Action (c).
+STEP 2 acts=0 keys=[]
+PLAN none do_best=0
+TRACK power_end=590941
+STATE ring1=[a Ring of Free Action] ring2=[(nothing)]
+OUTCOME actions=1 wears_new_ring=1 wears_kept_ring=0
+Passed
+native-c/ringslot-86 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 86, character level 21, in town (depth 0); the starting kit is discarded. Worn: a Wooden Torch, a Dagger and Soft Leather Armour, plus rings by mode. Pack: a Ring of Free Action and five Rations of Food. All runes known; every store, including the home, is emptied. The game&#x27;s first ring slot is the Borg&#x27;s INVEN_RIGHT, the second its INVEN_LEFT. The fixture calls the production borg_clear_best() as the Borg does on arriving in town, sets shop_num to the home, then repeats the production borg_best_stuff() (the first step of borg_think_store()) until it declines to act. Each queued command is checked (exactly &#x27;t&#x27; or &#x27;w&#x27; plus the letter of the item the Borg named) and carried out with the game&#x27;s own inven_takeoff() / inven_wield(); the Borg then re-reads its gear with borg_find_all_items() and borg_notice(). &#x27;swap&#x27;: See Invisible in the first ring slot (right), Feather Falling in the second (left). &#x27;mirror&#x27;: the same two rings on the other hands. &#x27;empty&#x27;: no ring worn. This isolates the home equipment step; it does not walk to the home or play other store steps.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/86">issue 86</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
