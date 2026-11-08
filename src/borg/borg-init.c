@@ -141,6 +141,9 @@ static bool borg_proc_setting(
                 break;
             }
         }
+
+        /* anything else is not a value: keep the default */
+        break;
     }
 
     if (negative)
