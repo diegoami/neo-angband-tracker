@@ -278,5 +278,6 @@
     "reproduce.py": "5238cb695bf4095dd780a3f84f989cb53078bfca3457245f59963756f91d853a",
     "run-cases.py": "0c4df25e9b683e3738ad5941ef5ee6aa9c30efe3ade90bf17c50faed578d0121",
     "scenario.c": "941d9caa9f00b67336ad4dd92d78951ee74ff5bc781bcca9c9763ef4b62dbc9e"
-  }
+  },
+  "render_check": "2026-11-08: render-smoke.js on replay.html (sha256 2230958ef9a27046bb905a58395800d174821320911a55b4f3bd360c913c0ddd): RENDER-SMOKE actions=36 errors=0 OK; see reverify-2026-11-08/receipt.json"
 }

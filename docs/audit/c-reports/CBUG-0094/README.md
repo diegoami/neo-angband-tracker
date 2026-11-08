@@ -190,3 +190,40 @@ import/checks. The local source PR is a draft, C-only proposal against unchanged
 neither merge is source adoption. No official Angband post, Rust watch/change,
 engine fix, downstream translation, lab change, deployment or release occurs.
 Readiness for owner filing remains subject to human assessment.
+
+## Re-verification (2026-11-08)
+
+Why: the C-FIX-POSTING checker expects `make_replay.py` next to the other
+generators and a recorded headless render check in `receipt.json`. This package
+predates that layout: the replay generator lives at `review/make_replay.py`
+(used by `review/reproduce.py`), and the browser check was recorded only as
+prose in `review/receipt.json`. No native re-run was needed: every phase log,
+results file and gate log listed by the original receipt is committed and
+hash-checked.
+
+What was added (nothing earlier was replaced):
+
+- `make_replay.py`: a byte-identical copy of `review/make_replay.py` at the
+  standard path. `review/reproduce.py` still runs the `review/` copy.
+- Headless render check of the committed `replay.html` (sha256
+  `2230958ef9a27046bb905a58395800d174821320911a55b4f3bd360c913c0ddd`, the same
+  bytes hashed by `review/receipt.json`) with `tools/c-evidence/render-smoke.js`
+  (Playwright 1.63.0, Chromium 153, Node 22). It visits every selector option,
+  clicks every visible button and fails on console errors or rendered
+  `undefined`/`NaN`. Result: `RENDER-SMOKE actions=36 errors=0 OK`.
+- `reverify-2026-11-08/receipt.json` records this check with hashes, and a
+  `render_check` key was appended to `receipt.json` pointing to it (its
+  `sha256` map is unchanged).
+
+The render check proves the committed page loads and every control works
+without script errors; it does not re-measure the native game. The native
+results above stand on the original pinned runs. Repeat commands, pinned:
+
+```sh
+git show a19c8733c0dfa8139b04eecd8117429ec5f55cd6:docs/audit/c-reports/CBUG-0094/reproduce.py > /tmp/reproduce-cbug-0094.py
+python3 /tmp/reproduce-cbug-0094.py --fixtures-ref a19c8733c0dfa8139b04eecd8117429ec5f55cd6 --full-tests
+git show c9f8ab50686e6c5baf3081a749f7f5f905c4580a:docs/audit/c-reports/CBUG-0094/review/reproduce.py > /tmp/reproduce-cbug-0094-replay.py
+python3 /tmp/reproduce-cbug-0094-replay.py --fixtures-ref c9f8ab50686e6c5baf3081a749f7f5f905c4580a --full-tests
+```
+
+Canonical issue: diegoami/neo-angband-tracker#110 (not #94, which is CBUG-0078).
