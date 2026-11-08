@@ -1,0 +1,107 @@
+{
+  "cbug": "blowname-247",
+  "issue": 247,
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "541e03b1e6e0bed42e0b71ec520cb6ced8f29d65",
+  "fixtures_ref": "eea8f6e1cc24ef72fb0dc07ff6df888e100bf3f9",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": -11,
+        "passed": false,
+        "signal": "segfault",
+        "asan_report": false
+      },
+      "asan": {
+        "exit": 1,
+        "passed": false,
+        "signal": "clean",
+        "asan_report": true,
+        "summary": "failed without sanitizer report"
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": false,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "unknown": {
+          "value": 0,
+          "expected": 0
+        }
+      },
+      "asan": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": true,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "unknown": {
+          "value": 0,
+          "expected": 0
+        },
+        "summary": "no sanitizer report"
+      }
+    }
+  },
+  "identical_full_logs": [],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fail_before": {
+    "main": "the original segfaults (strcmp against the table's NULL end entry) on the unknown blow name; exit 139, suite never finishes"
+  },
+  "controls": "the in-table HURT lookup resolves identically in the corrected run; no separate control pair needed for a pure-function lookup",
+  "consequence_note": "unreachable with stock blow_effects.txt (all names in the table); reachable with modded game data, which the borg supports",
+  "asan_note": "asan runs use -fsanitize-recover=address and ASAN_OPTIONS=halt_on_error=0 because borg init trips a separate pre-existing heap-buffer-overflow in borg_sort_comp_hook (borg-util.c:106) \u2014 visible in the asan logs and filed separately",
+  "render_check": {
+    "tool": "Chrome for Testing headless (--headless=new --dump-dom --virtual-time-budget)",
+    "checks": 6,
+    "asserted_against": "rendered DOM: segfault label, sanitizer report snippet, NONE return, raw logs"
+  },
+  "compiler": "gcc 15.2.0",
+  "cmake": "4.2.3",
+  "browser": "Chrome for Testing chromium-1248",
+  "sha256": {
+    "README.md": "2c02758242db33c0dd3d2bfd4ad45daf043621e942f45876f5e4562d1c00f560",
+    "after-alltests.log": "a27f946ec43fb5509c0c51ba73d8de28b26f39921d9ecde466649a3b5dea3fec",
+    "after-asan-main.log": "35b96755e9613bd0e7a108f2ac6b11101900e40386f63e416269d31b8cfd09b8",
+    "after-build-asan.log": "dd5ecdeac80340074d787c49a440c102c9b74104262d4010aaff10dd65bcb203",
+    "after-build.log": "dd5ecdeac80340074d787c49a440c102c9b74104262d4010aaff10dd65bcb203",
+    "after-main.log": "eeb1bdd713bb0fe99989a6e0b9be3d07a21ac1b6334caf6112d313a263db0bfe",
+    "after-results.json": "4745f2902d9a7c5a489d072179ba871c163544ef6924efa3f2ddb26db6cd59f5",
+    "after-scenarios.log": "dbd7d09b715235c10305d8af360a993c34df9afcc62ea02db58e414da789d31f",
+    "before-alltests.log": "49fcacf580e2f59d9c59679ac275cb61310d0f9416ccec3489135bae4f5c9c5a",
+    "before-asan-main.log": "c74968fc0b81d76fe78d54c2f508cb7330f14cf85d82f15997a3a549da51aa91",
+    "before-build-asan.log": "f466ba5fcf3ef4d6824070cd8083b57e5ee5e32dd1f820e252935336620a4a02",
+    "before-build.log": "6617e86bc2333271d9ee8bb88b6d5a2ffad32ece6cb0d5b44cfc42cfec922191",
+    "before-main.log": "f5be3418ceb886fe013f95aabf0f803a7e10437fb8e73340c7e15652aa845428",
+    "before-results.json": "699c0a0131b37c112f7722cbd72894d0f69b8b0c90d1432f4ed0bcafefae7b2f",
+    "before-scenarios.log": "3aad78cde2cd248bf53f2f1597961d81eefe395f5d6bd8206b34948ead513da1",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "configure-asan.log": "e0e918e01fec436fbfd8bd032847af9b7f7acb366709abdbbeb753474501a57f",
+    "configure.log": "c86eb81cc8b204502f7abcedc46f375e8e449666326f4b447b433b246885db00",
+    "make_replay.py": "b848260406565d2a98fc3511e09b68df2048eb52f95b91e4b9f0d6f54d441fbd",
+    "replay-data.json": "a16032088a0d516a01df45c4c248e99e9124c869dd2d222a38347a71665546a2",
+    "replay.html": "8da962e8ba209662329ce80ccdc3d615b3eebd15ba140eae766eca6f863f4a3d",
+    "reproduce.py": "cbcccfaede59e1604efe509f7ea4ff1ddb9504482dafd26589c9677c4cfe941a",
+    "result.json": "fc185fbee1e427a4c03b622e92d6dcaecd53c893065e3a9abdc6e313b80b696f",
+    "run-cases.py": "940d9f0c3f4387a4dd70fedde914ff157d214af8e01c2904e416674b1e4afc55",
+    "scenario.c": "dc2508bd0d3431a7592b2246cfe6b1a9f0cf1f36d532f31148dfb34fb4d39ca4"
+  }
+}

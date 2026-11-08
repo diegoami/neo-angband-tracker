@@ -1,0 +1,4 @@
+main {'exit': 0, 'passed': True, 'signal': 'clean', 'asan_report': False, 'known': {'value': 1, 'expected': 1}, 'unknown': {'value': 0, 'expected': 0}}
+asan {'exit': 0, 'passed': True, 'signal': 'clean', 'asan_report': True, 'known': {'value': 1, 'expected': 1}, 'unknown': {'value': 0, 'expected': 0}, 'summary': 'no sanitizer report'}
+known {'exit': 0, 'passed': True, 'signal': 'clean', 'asan_report': False, 'known': {'value': 1, 'expected': 1}, 'last': {'value': 29, 'expected': 29}}
+asan-known {'exit': 0, 'passed': True, 'signal': 'clean', 'asan_report': True, 'known': {'value': 1, 'expected': 1}, 'last': {'value': 29, 'expected': 29}}

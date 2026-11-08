@@ -1,7 +1,7 @@
 {
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
   "fix": "541e03b1e6e0bed42e0b71ec520cb6ced8f29d65",
-  "fixtures_ref": "eea8f6e1cc24ef72fb0dc07ff6df888e100bf3f9",
+  "fixtures_ref": "f4244bd11af0a571adcb985f54d0a4c08648cf86",
   "cases": {
     "before": {
       "main": {
@@ -16,6 +16,34 @@
         "signal": "clean",
         "asan_report": true,
         "summary": "failed without sanitizer report"
+      },
+      "known": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": false,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "last": {
+          "value": 29,
+          "expected": 29
+        }
+      },
+      "asan-known": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": true,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "last": {
+          "value": 29,
+          "expected": 29
+        }
       }
     },
     "after": {
@@ -47,10 +75,40 @@
           "expected": 0
         },
         "summary": "no sanitizer report"
+      },
+      "known": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": false,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "last": {
+          "value": 29,
+          "expected": 29
+        }
+      },
+      "asan-known": {
+        "exit": 0,
+        "passed": true,
+        "signal": "clean",
+        "asan_report": true,
+        "known": {
+          "value": 1,
+          "expected": 1
+        },
+        "last": {
+          "value": 29,
+          "expected": 29
+        }
       }
     }
   },
-  "identical_full_logs": [],
+  "identical_full_logs": [
+    "known"
+  ],
   "full_tests": {
     "before": {
       "units": "965/965",
