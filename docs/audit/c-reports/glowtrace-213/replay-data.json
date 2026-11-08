@@ -1,0 +1,37 @@
+{
+  "main": {
+    "label": "Glowing floors never reached the borg grid flags",
+    "explanation": "A permanently glowing arena floor is shown to a munchkin-configured Warrior through the production map update. The original map update's Floors branch tested the same condition as the Darkness branch before it and was never taken: no grid anywhere was ever flagged BORG_GLOW, and the flow-toward-light consumer found an empty target list. The corrected branch (restored FEAT_FLOOR condition, glow read from square_islit) flags the glowing floors, walls stay unflagged, and the consumer's list fills.",
+    "before": {
+      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20\n  glow_marked_and_flow_light_works  STATE distant_glow=0 near_glow=0 wall_glow=0 marked=1 lit=1 pcmem=1 info33=41 info1211=57\nFailed\n    native-c/glowtrace-213:108: requirement 'near' failed\nnative-c/glowtrace-213 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "distant_glow": 0,
+        "near_glow": 0,
+        "wall_glow": 0,
+        "marked": 1,
+        "lit": 1,
+        "pcmem": 1,
+        "info33": 41,
+        "info1211": 57
+      }
+    },
+    "after": {
+      "raw": "native-c/glowtrace-213: starting...\nSETUP seed=213 class=Warrior depth=9 hp=20\n  glow_marked_and_flow_light_works  STATE distant_glow=1 near_glow=1 wall_glow=0 marked=1 lit=1 pcmem=1 info33=43 info1211=59\nOUTCOME glow_n=484\nPassed\nnative-c/glowtrace-213 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "distant_glow": 1,
+        "near_glow": 1,
+        "wall_glow": 0,
+        "marked": 1,
+        "lit": 1,
+        "pcmem": 1,
+        "info33": 43,
+        "info1211": 59
+      },
+      "outcome": {
+        "glow_n": 484
+      }
+    }
+  }
+}

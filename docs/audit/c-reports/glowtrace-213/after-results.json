@@ -1,0 +1,19 @@
+{
+  "main": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "distant_glow": 1,
+      "near_glow": 1,
+      "wall_glow": 0,
+      "marked": 1,
+      "lit": 1,
+      "pcmem": 1,
+      "info33": 43,
+      "info1211": 59
+    },
+    "outcome": {
+      "glow_n": 484
+    }
+  }
+}

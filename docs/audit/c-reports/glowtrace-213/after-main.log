@@ -1,0 +1,6 @@
+native-c/glowtrace-213: starting...
+SETUP seed=213 class=Warrior depth=9 hp=20
+  glow_marked_and_flow_light_works  STATE distant_glow=1 near_glow=1 wall_glow=0 marked=1 lit=1 pcmem=1 info33=43 info1211=59
+OUTCOME glow_n=484
+Passed
+native-c/glowtrace-213 finished: 1/1 passed
