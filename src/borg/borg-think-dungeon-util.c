@@ -702,14 +702,23 @@ bool borg_leave_level(bool bored)
     }
 
     /** In the Dungeon **/
+    char prep_cur_reason[1024]  = "";
     const char *prep_cur_depth  = borg_prepared(borg.trait[BI_CDEPTH]);
+
+    /* borg_prepared() formats every reason into one static buffer, so the
+     * call below overwrites the current depth's reason before it is used.
+     * Keep a private copy of the text. */
+    if (prep_cur_depth)
+        strnfmt(prep_cur_reason, sizeof(prep_cur_reason), "%s",
+            prep_cur_depth);
+
     const char *prep_next_depth = borg_prepared(borg.trait[BI_CDEPTH] + 1);
 
     /* if not prepared for this level, head upward */
     if (NULL != prep_cur_depth) {
         g = -1;
         borg_note(format(
-            "# heading up, not prep for current level: %s)", prep_cur_depth));
+            "# heading up, not prep for current level: %s)", prep_cur_reason));
     }
 
     /* Count sellable items */
@@ -764,10 +773,10 @@ bool borg_leave_level(bool bored)
             if (!g && NULL != borg_prepared(borg.trait[BI_MAXDEPTH] * 5 / 10)
                 && borg.trait[BI_MAXDEPTH] > 65) {
                 borg_note(format(
-                    "# Returning to town (too deep: %s)", prep_cur_depth));
+                    "# Returning to town (too deep: %s)", prep_cur_reason));
                 borg.goal.rising = true;
             } else {
-                borg_note(format("# Climbing (too deep: %s)", prep_cur_depth));
+                borg_note(format("# Climbing (too deep: %s)", prep_cur_reason));
                 g = -1;
             }
         }
@@ -781,7 +790,7 @@ bool borg_leave_level(bool bored)
         }
 
         /* I must return to collect stock from the house. */
-        if (strstr(prep_cur_depth, "Collect from house")) {
+        if (strstr(prep_cur_reason, "Collect from house")) {
             borg_note("# Returning to town to Collect stock.");
             borg.goal.rising = true;
             need_restock     = true;
