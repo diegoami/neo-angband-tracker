@@ -6,5 +6,5 @@ GEOMETRY rc=0 strnlen=1024 terminated=0
 RATING terminated=0 strnlen=1024
 OUTCOME terminated=0 strnlen=1024
 Failed
-    native-c/text-287:130: requirement 'terminated' failed
+    native-c/text-287:191: requirement 'terminated' failed
 native-c/text-287 finished: 0/1 passed

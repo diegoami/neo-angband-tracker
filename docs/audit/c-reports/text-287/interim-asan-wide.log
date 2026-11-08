@@ -1,0 +1,60 @@
+native-c/text-287: starting...
+SETUPSTEP profile
+SETUP mb_cur_max=6
+  converted_screen_text_is_terminated  MODE wide
+LAYOUT standalone buffer (AddressSanitizer)
+=================================================================
+==24755==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7fc18e29f180 at pc 0x7fc190080fff bp 0x7ffe76a1d370 sp 0x7ffe76a1cb18
+WRITE of size 1201 at 0x7fc18e29f180 thread T0
+    #0 0x7fc190080ffe in wcstombs ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:3695
+    #1 0x55d4e0836c43 in borg_what_text /tmp/angband-text-287-5jkdskop/source/src/borg/borg-io.c:131
+    #2 0x55d4e03d7a4b in wide_case /tmp/angband-text-287-5jkdskop/evidence/scenario.c:136
+    #3 0x55d4e03d7f5d in scenario /tmp/angband-text-287-5jkdskop/evidence/scenario.c:163
+    #4 0x55d4e09119d1 in main /tmp/angband-text-287-5jkdskop/source/src/tests/unit-test.c:53
+    #5 0x7fc18fc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #6 0x7fc18fc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #7 0x55d4e03d6ec4 in _start (/tmp/angband-text-287-5jkdskop/build-asan/game/T287Observer+0x14aec4) (BuildId: 40fe9c7c0809ff1d622fb2855373f73912180491)
+
+Address 0x7fc18e29f180 is located in stack of thread T0 at offset 4480 in frame
+    #0 0x55d4e03d774d in wide_case /tmp/angband-text-287-5jkdskop/evidence/scenario.c:117
+
+  This frame has 4 object(s):
+    [48, 49) 'attr' (line 135)
+    [64, 1600) 'area' (line 118)
+    [1728, 3328) 'row' (line 128)
+    [3456, 4480) 'lone' (line 120) <== Memory access at offset 4480 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:3695 in wcstombs
+Shadow bytes around the buggy address:
+  0x7fc18e29ef00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fc18e29ef80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fc18e29f000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fc18e29f080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fc18e29f100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x7fc18e29f180:[f3]f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3
+  0x7fc18e29f200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fc18e29f280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fc18e29f300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fc18e29f380: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7fc18e29f400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==24755==ABORTING

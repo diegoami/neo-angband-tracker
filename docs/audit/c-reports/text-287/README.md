@@ -153,3 +153,87 @@ python3 /tmp/reproduce-text-287.py --full-tests --fixtures-ref b4f23f90723a46ad1
 - **The bound claim under "Source explanation" is not correct as written.** The text says the new limit `ABS(n) * MB_CUR_MAX` stays "within the callers' 1024-byte buffers for every reachable `n`". The limit is not tied to the destination size: `borg_get_messages()` passes `char buffer[1024]` with `n = (Term->wid - 1) / tile_width`, so a terminal about 256 columns wide or more showing a line of 4-byte UTF-8 characters can make `wcstombs` write past the buffer. A standalone model of the corrected line (`reverify-2026-11-08/bound-model-wide.c`, not the game) under ASAN reports `stack-buffer-overflow` for n=256 (WRITE of size 1025) and n=300 (WRITE of size 1201). Not measured in the native game. The source fix is unchanged pending an owner decision between passing the buffer size and clamping to size-1 with forced termination (issue #287).
 - Re-run files whose bytes reproduce the original receipt's sha256 exactly are also committed at their original paths in this directory, so the original receipt's hashes check against them: `after-control.log`, `after-multibyte.log`, `after-scenarios.log`, `before-control.log`, `before-multibyte.log`, `before-scenarios.log`. The original run's build, configure and gate logs cannot be reproduced byte for byte; the complete re-run set is under `reverify-2026-11-08/`.
 - `receipt.json` was amended on 2026-11-08 for this append: its `README.md` hash now matches this README, and a `render_check` entry points at the re-verification render result. The old and new values are recorded under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
+
+## Revision (2026-11-08): owner-decided shape
+
+**What changed and why.** Review found that the earlier correction's bound,
+`ABS(n) * MB_CUR_MAX`, is derived from the character count, not from the size
+of the destination buffer (see the Errata above). The owner decided
+([issue comment](https://github.com/diegoami/neo-angband-tracker/issues/287#issuecomment-6721286609)):
+**pass the buffer size.** `borg_what_text()` now takes the destination size,
+converts at most `size - 1` bytes and always terminates the result (an empty
+string on a conversion error); every caller passes `sizeof` of its buffer.
+`wcstombs()` does not terminate a result it had to truncate, so the terminator
+is written at the returned length.
+
+**These pins supersede every earlier pin in this guide** (fix `3e7fe8a83`,
+fixtures `b4f23f907` / `c3c980b34` / `8d844e379`). The earlier receipt is kept
+as [`superseded-2026-11-08/receipt-fix-3e7fe8a.json`](superseded-2026-11-08/receipt-fix-3e7fe8a.json);
+the top-level logs, results, `result.json`, `replay.html` and `replay-data.json`
+are now this run's, and [`receipt.json`](receipt.json) is its receipt.
+
+- Base (pristine C): `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`
+- Fix: `e7f670fa4d4f0672dc346637fc7be20c814a4b62` (draft PR #335; whole branch
+  against the base: `src/borg/borg-io.c`, `borg-io.h`, `borg-messages.c`,
+  `borg-think.c`, 20 insertions, 11 deletions)
+- Earlier fix shape, measured only for comparison: `3e7fe8a8399352c4fe67f5de2d8d48b5e0bd04c1`
+- Fixtures: `f9706564e0a667670fb024e9e1f87da137f21c9c`
+
+`reproduce.py` now asserts every hunk of the four-file change exactly and the
+source scope, builds three variants (original, earlier fix shape, correction)
+in a normal and an AddressSanitizer tree (full tree each, `-fsanitize=address
+-g`, leak detection on) and runs every case in both.
+
+New case **`wide`**: a 301-column terminal with a message line of 300
+characters, each four bytes in UTF-8, read the way `borg_get_messages()` reads
+it (`n = (Term->wid - 1) / tile_width` into a 1024-byte buffer). In the normal
+build the buffer is followed by a guard area that counts writes past it; under
+AddressSanitizer the buffer stands alone so such a write is reported.
+
+| Case | Original | Earlier fix shape | Correction |
+| --- | --- | --- | --- |
+| `multibyte` | `terminated=0 strnlen=1024` (fails) | `terminated=1 strnlen=81` | `terminated=1 strnlen=81` (passes) |
+| `control` | `terminated=1 strnlen=80` | `terminated=1 strnlen=80` | `terminated=1 strnlen=80`, log byte-identical to the original's |
+| `wide` | `terminated=0 strnlen=1024 guard_overwritten=0` (fails: unterminated, no overflow) | `terminated=0 strnlen=1024 guard_overwritten=177` (fails: overflow) | `terminated=1 strnlen=1020 guard_overwritten=0` (passes) |
+| AddressSanitizer, all three cases | no report | `wide`: `stack-buffer-overflow`, `WRITE of size 1201` in `wcstombs` from `borg_what_text`; the others no report | no report |
+
+**Said plainly: the original pin cannot exhibit the overflow.** Its limit is
+`n + 1` bytes, which never exceeds the 1024-byte buffer for a reachable `n`; on
+the wide terminal it stops after 75 characters with no terminator (the same
+missing-terminator defect as `multibyte`). The overflow was introduced by the
+earlier fix shape, not by base C, and the correction removes it: 255 whole
+characters (1020 bytes) and a terminator, nothing past the buffer.
+
+Supporting evidence (kept, unchanged): the standalone program
+[`reverify-2026-11-08/bound-model-wide.c`](reverify-2026-11-08/bound-model-wide.c)
+with its log [`bound-model-wide-asan.log`](reverify-2026-11-08/bound-model-wide-asan.log)
+copies only the earlier fix shape's `wcstombs` line into a 1024-byte stack
+buffer and reports `stack-buffer-overflow` at n=256 (WRITE of size 1025) and
+n=300 (WRITE of size 1201). It is a model, not the game; the `wide` case above
+measures the same overflow through the real `borg_what_text()`.
+
+Full native gates, parsed from `before-alltests.log` and `after-alltests.log`:
+**965/965 unit checks and 5/5 frontend tests** for the original and the
+correction (the earlier fix shape is not gated). Render check of the committed
+`replay.html` with `tools/c-evidence/render-smoke.js`:
+`RENDER-SMOKE actions=6 errors=0 OK`.
+
+Limits: the fixture calls `borg_what_text()` directly the way the caller does;
+it does not run `borg_get_messages()` or the message parser, and the
+`strlen` read in that caller is not exercised (AddressSanitizer reports nothing
+for the original because the fixture measures with `strnlen` bounded by the
+buffer). No death or survival claim.
+
+Repeat:
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/text-287-evidence
+git show f9706564e0a667670fb024e9e1f87da137f21c9c:docs/audit/c-reports/text-287/reproduce.py > /tmp/reproduce-text-287.py
+python3 /tmp/reproduce-text-287.py --full-tests --fixtures-ref f9706564e0a667670fb024e9e1f87da137f21c9c
+```
+
+Final line of the recorded run:
+
+```text
+VERIFIED: multibyte - the original leaves the text unterminated (1024 stale bytes), the correction terminates at 81; wide (301 columns, 4-byte text) - the original is unterminated without overflow, the earlier character-count bound writes 177 bytes past the 1024-byte buffer (AddressSanitizer: stack-buffer-overflow, WRITE of size 1201), the buffer-size bound terminates at 1020 with nothing past the buffer; control identical; no sanitizer report for the original or the correction.
+```

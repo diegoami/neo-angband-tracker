@@ -1,2 +1,6 @@
 multibyte {'exit': 0, 'passed': True, 'geometry': 'rc=0 strnlen=81 terminated=1', 'rating': 'terminated=1 strnlen=81', 'outcome': 'terminated=1 strnlen=81'}
 control {'exit': 0, 'passed': True, 'geometry': 'rc=0 strnlen=80 terminated=1', 'rating': 'terminated=1 strnlen=80', 'outcome': 'terminated=1 strnlen=80'}
+wide {'exit': 0, 'passed': True, 'geometry': 'rc=0 term_wid=301 n=300 strnlen=1020 terminated=1', 'rating': 'terminated=1 strnlen=1020 guard_overwritten=0', 'outcome': 'terminated=1 strnlen=1020 guard_overwritten=0'}
+asan multibyte {'exit': 0, 'passed': True, 'sanitizer_report': None, 'access': None, 'frames': [], 'geometry': 'rc=0 strnlen=81 terminated=1', 'rating': 'terminated=1 strnlen=81', 'outcome': 'terminated=1 strnlen=81'}
+asan control {'exit': 0, 'passed': True, 'sanitizer_report': None, 'access': None, 'frames': [], 'geometry': 'rc=0 strnlen=80 terminated=1', 'rating': 'terminated=1 strnlen=80', 'outcome': 'terminated=1 strnlen=80'}
+asan wide {'exit': 0, 'passed': True, 'sanitizer_report': None, 'access': None, 'frames': [], 'geometry': 'rc=0 term_wid=301 n=300 strnlen=1020 terminated=1', 'rating': 'terminated=1 strnlen=1020 guard_overwritten=0', 'outcome': 'terminated=1 strnlen=1020 guard_overwritten=0'}
