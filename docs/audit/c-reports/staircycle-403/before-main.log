@@ -1,0 +1,38 @@
+native-c/staircycle-403: starting...
+SETUP seed=1045 class=Warrior depth=9 hp=20
+  stair_travel_gated_when_ailing  STATE poisoned=1 hallucinating=1 depth=9 munchkin_mode=1 rc=1 keys=<
+NOTE 00 # Flowing toward up-stairs at cost 0
+NOTE 01 # Munchkin Mode.  Power Climb. 
+NOTE 02 # Fleeing level. Munchkin Mode
+NOTE 03 # Ready...
+NOTE 04 Initializing the Borg... done.
+NOTE 05 Initializing the Borg... (various)
+NOTE 06 Initializing the Borg... (options)
+NOTE 07 Initializing the Borg... (borg.txt)
+NOTE 08 Initializing the Borg... (memory)
+NOTE 09  
+NOTE 10   
+NOTE 11 ====================
+NOTE 12   
+NOTE 13  
+OUTCOME stair_directed=1
+Failed
+    native-c/staircycle-403:177: requirement '!stair_directed' failed
+  munchkin_open_when_clean  STATE poisoned=0 hallucinating=0 depth=9 munchkin_mode=1 rc=1 keys=<
+NOTE 00 # Flowing toward up-stairs at cost 0
+NOTE 01 # Munchkin Mode.  Power Climb. 
+NOTE 02 # Fleeing level. Munchkin Mode
+NOTE 03 # Flowing toward up-stairs at cost 0
+NOTE 04 # Munchkin Mode.  Power Climb. 
+NOTE 05 # Fleeing level. Munchkin Mode
+NOTE 06 # Ready...
+NOTE 07 Initializing the Borg... done.
+NOTE 08 Initializing the Borg... (various)
+NOTE 09 Initializing the Borg... (options)
+NOTE 10 Initializing the Borg... (borg.txt)
+NOTE 11 Initializing the Borg... (memory)
+NOTE 12  
+NOTE 13   
+OUTCOME munchkin_handled=1
+Passed
+native-c/staircycle-403 finished: 1/2 passed

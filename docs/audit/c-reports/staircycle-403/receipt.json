@@ -1,0 +1,21 @@
+{
+  "issue": "diegoami/neo-angband-tracker#403",
+  "report": "staircycle-403",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "d92e06c3f964e4bba19642288ded1b331a327109",
+  "fix_branch": "task/staircycle-403",
+  "fixtures_ref": "0bd2123be5b7f0830be26949549ea1a4b59e75df",
+  "cases": {
+    "before": {"passed": false, "ailing_failed_as_expected": true, "outcome": {"stair_directed": 1, "munchkin_handled": 1}},
+    "after": {"passed": true, "outcome": {"stair_directed": 0, "munchkin_handled": 1}}
+  },
+  "claim": "While poisoned or hallucinating, the munchkin branch directed the Borg at known stairs; stair travel does not age the world clock, so the timed ailments could never wear off. The correction bails out of munchkin mode for those ailments, handing the turn to the ordinary recovery path (which ages turns normally); the clean control confirms munchkin play is unchanged.",
+  "full_tests": {
+    "before": {"unit_checks": "965/965", "frontend_tests": "5/5"},
+    "after": {"unit_checks": "965/965", "frontend_tests": "5/5"}
+  },
+  "fixed_sources": ["src/borg/borg-think-dungeon.c"],
+  "runner_asserts": "The corrected file must equal the base file with exactly the bail insertion applied; the source scope must be that single file.",
+  "render_check": "Chrome headless planned after packaging; matrix replay generated.",
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+}

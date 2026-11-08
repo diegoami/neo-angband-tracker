@@ -1,0 +1,18 @@
+{
+  "main": {
+    "exit": 0,
+    "passed": false,
+    "ailing_failed_as_expected": true,
+    "state": {
+      "poisoned": 0,
+      "hallucinating": 0,
+      "depth": 9,
+      "munchkin_mode": 1,
+      "rc": 1
+    },
+    "outcome": {
+      "stair_directed": 1,
+      "munchkin_handled": 1
+    }
+  }
+}

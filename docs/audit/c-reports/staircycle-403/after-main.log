@@ -1,0 +1,37 @@
+native-c/staircycle-403: starting...
+SETUP seed=1045 class=Warrior depth=9 hp=20
+  stair_travel_gated_when_ailing  STATE poisoned=1 hallucinating=1 depth=9 munchkin_mode=0 rc=1 keys=??rc?
+NOTE 00 # Recalling (twitchy)
+NOTE 01 # Reading Scroll of Word of Recall.
+NOTE 02 # no up stairs found, going down
+NOTE 03 # Bored but unable to flow to up stairs.
+NOTE 04 # Looking for up stairs.  Going up.
+NOTE 05 # Climbing (too deep: restock food < 3)
+NOTE 06 # heading up (bored and unable to dive: restock food < 3)
+NOTE 07 # heading up, not prep for current level: restock food < 3)
+NOTE 08 # Boosting bravery (3) from 20 to 30000!
+NOTE 09 # no up stairs found, going down
+NOTE 10 # Bored but unable to flow to up stairs.
+NOTE 11 # Looking for up stairs.  Going up.
+NOTE 12 # Climbing (too deep: restock food < 3)
+NOTE 13 # heading up (bored and unable to dive: restock food < 3)
+OUTCOME stair_directed=0
+Passed
+  munchkin_open_when_clean  STATE poisoned=0 hallucinating=0 depth=9 munchkin_mode=1 rc=1 keys=<
+NOTE 00 # Flowing toward up-stairs at cost 0
+NOTE 01 # Munchkin Mode.  Power Climb. 
+NOTE 02 # Fleeing level. Munchkin Mode
+NOTE 03 # Recalling (twitchy)
+NOTE 04 # Reading Scroll of Word of Recall.
+NOTE 05 # no up stairs found, going down
+NOTE 06 # Bored but unable to flow to up stairs.
+NOTE 07 # Looking for up stairs.  Going up.
+NOTE 08 # Climbing (too deep: restock food < 3)
+NOTE 09 # heading up (bored and unable to dive: restock food < 3)
+NOTE 10 # heading up, not prep for current level: restock food < 3)
+NOTE 11 # Boosting bravery (3) from 20 to 30000!
+NOTE 12 # no up stairs found, going down
+NOTE 13 # Bored but unable to flow to up stairs.
+OUTCOME munchkin_handled=1
+Passed
+native-c/staircycle-403 finished: 2/2 passed

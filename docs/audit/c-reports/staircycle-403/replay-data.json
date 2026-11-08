@@ -1,0 +1,36 @@
+{
+  "main": {
+    "label": "Stair-travel gate under ailments",
+    "explanation": "A munchkin-start Warrior at depth 9 stands on a known up stair while poisoned and hallucinating. Stair travel does not age the world clock (level entry grants minimum move energy; the world tick is skipped during level generation), so shuttling between stairs can never let these timed ailments wear off. The original munchkin branch directs the Borg at the stair (stair_directed=1); the corrected branch hands the turn back to the ordinary recovery path (stair_directed=0). A clean control confirms munchkin play is unchanged.",
+    "before": {
+      "raw": "native-c/staircycle-403: starting...\nSETUP seed=1045 class=Warrior depth=9 hp=20\n  stair_travel_gated_when_ailing  STATE poisoned=1 hallucinating=1 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Ready...\nNOTE 04 Initializing the Borg... done.\nNOTE 05 Initializing the Borg... (various)\nNOTE 06 Initializing the Borg... (options)\nNOTE 07 Initializing the Borg... (borg.txt)\nNOTE 08 Initializing the Borg... (memory)\nNOTE 09  \nNOTE 10   \nNOTE 11 ====================\nNOTE 12   \nNOTE 13  \nOUTCOME stair_directed=1\nFailed\n    native-c/staircycle-403:177: requirement '!stair_directed' failed\n  munchkin_open_when_clean  STATE poisoned=0 hallucinating=0 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Flowing toward up-stairs at cost 0\nNOTE 04 # Munchkin Mode.  Power Climb. \nNOTE 05 # Fleeing level. Munchkin Mode\nNOTE 06 # Ready...\nNOTE 07 Initializing the Borg... done.\nNOTE 08 Initializing the Borg... (various)\nNOTE 09 Initializing the Borg... (options)\nNOTE 10 Initializing the Borg... (borg.txt)\nNOTE 11 Initializing the Borg... (memory)\nNOTE 12  \nNOTE 13   \nOUTCOME munchkin_handled=1\nPassed\nnative-c/staircycle-403 finished: 1/2 passed\n",
+      "passed": false,
+      "state": {
+        "poisoned": 0,
+        "hallucinating": 0,
+        "depth": 9,
+        "munchkin_mode": 1,
+        "rc": 1
+      },
+      "outcome": {
+        "stair_directed": 1,
+        "munchkin_handled": 1
+      }
+    },
+    "after": {
+      "raw": "native-c/staircycle-403: starting...\nSETUP seed=1045 class=Warrior depth=9 hp=20\n  stair_travel_gated_when_ailing  STATE poisoned=1 hallucinating=1 depth=9 munchkin_mode=0 rc=1 keys=??rc?\nNOTE 00 # Recalling (twitchy)\nNOTE 01 # Reading Scroll of Word of Recall.\nNOTE 02 # no up stairs found, going down\nNOTE 03 # Bored but unable to flow to up stairs.\nNOTE 04 # Looking for up stairs.  Going up.\nNOTE 05 # Climbing (too deep: restock food < 3)\nNOTE 06 # heading up (bored and unable to dive: restock food < 3)\nNOTE 07 # heading up, not prep for current level: restock food < 3)\nNOTE 08 # Boosting bravery (3) from 20 to 30000!\nNOTE 09 # no up stairs found, going down\nNOTE 10 # Bored but unable to flow to up stairs.\nNOTE 11 # Looking for up stairs.  Going up.\nNOTE 12 # Climbing (too deep: restock food < 3)\nNOTE 13 # heading up (bored and unable to dive: restock food < 3)\nOUTCOME stair_directed=0\nPassed\n  munchkin_open_when_clean  STATE poisoned=0 hallucinating=0 depth=9 munchkin_mode=1 rc=1 keys=<\nNOTE 00 # Flowing toward up-stairs at cost 0\nNOTE 01 # Munchkin Mode.  Power Climb. \nNOTE 02 # Fleeing level. Munchkin Mode\nNOTE 03 # Recalling (twitchy)\nNOTE 04 # Reading Scroll of Word of Recall.\nNOTE 05 # no up stairs found, going down\nNOTE 06 # Bored but unable to flow to up stairs.\nNOTE 07 # Looking for up stairs.  Going up.\nNOTE 08 # Climbing (too deep: restock food < 3)\nNOTE 09 # heading up (bored and unable to dive: restock food < 3)\nNOTE 10 # heading up, not prep for current level: restock food < 3)\nNOTE 11 # Boosting bravery (3) from 20 to 30000!\nNOTE 12 # no up stairs found, going down\nNOTE 13 # Bored but unable to flow to up stairs.\nOUTCOME munchkin_handled=1\nPassed\nnative-c/staircycle-403 finished: 2/2 passed\n",
+      "passed": true,
+      "state": {
+        "poisoned": 0,
+        "hallucinating": 0,
+        "depth": 9,
+        "munchkin_mode": 1,
+        "rc": 1
+      },
+      "outcome": {
+        "stair_directed": 0,
+        "munchkin_handled": 1
+      }
+    }
+  }
+}
