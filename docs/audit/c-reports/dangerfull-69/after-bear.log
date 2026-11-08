@@ -1,0 +1,7 @@
+native-c/dangerfull-69: starting...
+SETUP mode=bear race=cave bear dist=3 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=0 grid_full=0 adj_partial=20 adj_full=20 grid_c4=0
+ONEKILL adj_partial=0 adj_full=20
+OUTCOME grid=0 adj=20 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed

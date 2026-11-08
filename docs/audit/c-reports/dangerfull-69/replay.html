@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Say that grid danger always uses the full damage on purpose</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Say that grid danger always uses the full damage on purpose</h1><p>Comment-only cleanup, no behaviour change; owner decision (option A). borg_danger() answers &#x27;how dangerous is this grid?&#x27; for almost every Borg decision. Nearly all callers pass full_damage = false, but the function sets it to true before adding up the monsters, so every caller gets the worst-case estimate. The owner decided the override is deliberate: the reduced estimate it would unmask rests on a hit-chance formula that is tracked separately (#63). The change adds a comment saying the override is deliberate and that reduced estimates come only from direct calls to borg_danger_one_kill(). Nothing became dead code because of the override (those direct calls still use the reduced path), so no code is removed; the compiled object is identical.</p><p><label>Scenario: <select id="scenario"><option value="bear">Control: awake cave bear, 3 grids away</option><option value="wolf">Control: awake wolf, 2 grids away</option><option value="orc">Control: cave orc with arrows, 3 grids away</option><option value="shaman">Control: kobold shaman (spells), 3 grids away</option></select></label></p><section class="scenario" data-mode="bear"><p class="summary">borg_danger() gives 0 at the player&#x27;s grid and 20 next to the bear whether full_damage is false or true; a direct borg_danger_one_kill() call gives 0 (reduced) and 20 (full). Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">20</div><p>borg_danger() next to the monster, as callers ask for it (full_damage false)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">20</div><p>borg_danger() next to the monster, as callers ask for it (full_damage false)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dangerfull-69: starting...
+SETUP mode=bear race=cave bear dist=3 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=0 grid_full=0 adj_partial=20 adj_full=20 grid_c4=0
+ONEKILL adj_partial=0 adj_full=20
+OUTCOME grid=0 adj=20 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dangerfull-69: starting...
+SETUP mode=bear race=cave bear dist=3 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=0 grid_full=0 adj_partial=20 adj_full=20 grid_c4=0
+ONEKILL adj_partial=0 adj_full=20
+OUTCOME grid=0 adj=20 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="wolf"><p class="summary">16 at the player&#x27;s grid, 48 next to the wolf, for both argument values; the direct call gives 0 and 48. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">48</div><p>borg_danger() next to the monster, as callers ask for it (full_damage false)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">48</div><p>borg_danger() next to the monster, as callers ask for it (full_damage false)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dangerfull-69: starting...
+SETUP mode=wolf race=wolf dist=2 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=16 grid_full=16 adj_partial=48 adj_full=48 grid_c4=64
+ONEKILL adj_partial=0 adj_full=48
+OUTCOME grid=16 adj=48 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dangerfull-69: starting...
+SETUP mode=wolf race=wolf dist=2 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=16 grid_full=16 adj_partial=48 adj_full=48 grid_c4=64
+ONEKILL adj_partial=0 adj_full=48
+OUTCOME grid=16 adj=48 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="orc"><p class="summary">13 and 22 for both argument values; the direct call gives 5 and 22. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">22</div><p>borg_danger() next to the monster, as callers ask for it (full_damage false)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">22</div><p>borg_danger() next to the monster, as callers ask for it (full_damage false)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dangerfull-69: starting...
+SETUP mode=orc race=cave orc dist=3 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=13 grid_full=13 adj_partial=22 adj_full=22 grid_c4=104
+ONEKILL adj_partial=5 adj_full=22
+OUTCOME grid=13 adj=22 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dangerfull-69: starting...
+SETUP mode=orc race=cave orc dist=3 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=13 grid_full=13 adj_partial=22 adj_full=22 grid_c4=104
+ONEKILL adj_partial=5 adj_full=22
+OUTCOME grid=13 adj=22 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="shaman"><p class="summary">22 and 22 for both argument values; the direct call gives 8 and 22. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">22</div><p>borg_danger() next to the monster, as callers ask for it (full_damage false)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">22</div><p>borg_danger() next to the monster, as callers ask for it (full_damage false)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dangerfull-69: starting...
+SETUP mode=shaman race=kobold shaman dist=3 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=22 grid_full=22 adj_partial=22 adj_full=22 grid_c4=176
+ONEKILL adj_partial=8 adj_full=22
+OUTCOME grid=22 adj=22 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dangerfull-69: starting...
+SETUP mode=shaman race=kobold shaman dist=3 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=22 grid_full=22 adj_partial=22 adj_full=22 grid_c4=176
+ONEKILL adj_partial=8 adj_full=22
+OUTCOME grid=22 adj=22 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior at dungeon level 10, seed 69, 60% HP, a torch and rations, in a lit, open 24x40 arena with one monster due east, observed through the Borg&#x27;s own observe_kill_diff() and tracked as awake. The production borg_danger() runs at the player&#x27;s grid and at the grid next to the monster, with full_damage false (as its callers pass it) and true, plus once with c=4 at the player&#x27;s grid; borg_danger_one_kill() is called directly with both values at the grid next to the monster for reference. &#x27;bear&#x27;: cave bear 3 grids away. &#x27;wolf&#x27;: wolf (+10 speed) 2 grids away. &#x27;orc&#x27;: cave orc (arrows) 3 grids away. &#x27;shaman&#x27;: kobold shaman (spells) 3 grids away. The scenario check requires borg_danger() to give the same answer for false and true. Fixture interventions: the arena and lighting are set directly, borg_grids is seeded from the cave with BORG_OKAY|BORG_VIEW, borg.avoidance is set to current HP, and only borg_kills[k].awake is set by hand.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/69">issue 69</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
