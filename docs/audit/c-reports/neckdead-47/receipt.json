@@ -1,0 +1,176 @@
+{
+  "issue": "diegoami/neo-angband-tracker#47",
+  "report": "neckdead-47",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "e9080f35f1d2e8c8166116d0025d2e61e499899e",
+  "fix_branch": "task/neckdead-47",
+  "fixtures_ref": "530689cc736c52295417c5ba853fd2ee1df26b22",
+  "cases": {
+    "neck2": {
+      "before": {
+        "passed": true,
+        "state": {
+          "num_neck": 2,
+          "home_power": 2040
+        },
+        "outcome": {
+          "num_neck": 2,
+          "home_power": 2040,
+          "stores_amulet": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "num_neck": 2,
+          "home_power": 2040
+        },
+        "outcome": {
+          "num_neck": 2,
+          "home_power": 2040,
+          "stores_amulet": 1
+        }
+      }
+    },
+    "neck3": {
+      "before": {
+        "passed": true,
+        "state": {
+          "num_neck": 3,
+          "home_power": 3120
+        },
+        "outcome": {
+          "num_neck": 3,
+          "home_power": 3120,
+          "stores_amulet": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "num_neck": 3,
+          "home_power": 3120
+        },
+        "outcome": {
+          "num_neck": 3,
+          "home_power": 3120,
+          "stores_amulet": 0
+        }
+      }
+    },
+    "neck4": {
+      "before": {
+        "passed": true,
+        "state": {
+          "num_neck": 4,
+          "home_power": 2625
+        },
+        "outcome": {
+          "num_neck": 4,
+          "home_power": 2625,
+          "stores_amulet": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "num_neck": 4,
+          "home_power": 2625
+        },
+        "outcome": {
+          "num_neck": 4,
+          "home_power": 2625,
+          "stores_amulet": 0
+        }
+      }
+    },
+    "neck5": {
+      "before": {
+        "passed": true,
+        "state": {
+          "num_neck": 5,
+          "home_power": 2130
+        },
+        "outcome": {
+          "num_neck": 5,
+          "home_power": 2130,
+          "stores_amulet": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "num_neck": 5,
+          "home_power": 2130
+        },
+        "outcome": {
+          "num_neck": 5,
+          "home_power": 2130,
+          "stores_amulet": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "neck2",
+    "neck3",
+    "neck4",
+    "neck5"
+  ],
+  "claim": "The removed tier in borg_power_home_aux1() can never run: it is the else of 'num_neck > 3' and tests 'num_neck > 3' again. Four native scenarios with 2, 3, 4 and 5 amulets in the home, which run the production home score and the production decision to store a spare amulet (stored with 2, kept with 3, 4 and 5), give byte-identical logs before and after, and both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-home-power.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-home-power.c": "85179bd15efb6cfaeee516b3e72ae29e0399c73b06b65ea450c0a0e05eab9aa4"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "717efc998948b54cc6b4f1c7bb22297ca4a920ba6e96d9610c845d85bcebfe25",
+    "after-neck2.log": "29bd3825225912fe38b12df2095124eaf606907a281b29c0df043ef12818c9d7",
+    "after-neck3.log": "5f5c3f38571d025fa6c4c671046f973e362c31535ff077dbeeda383f608e7190",
+    "after-neck4.log": "daed454d3fe1017ff3a07c54d6e84eb9b79ea707be679555f766f9307e09d74f",
+    "after-neck5.log": "9e468410c78739bb649765de9b07446dc4712c5434941f3c21c4b5de7e83ab8d",
+    "after-results.json": "452ab58f890c0c401de209ca988f743e0a3f6f8334ecd801ba4e11bba3ba48f0",
+    "before-neck2.log": "29bd3825225912fe38b12df2095124eaf606907a281b29c0df043ef12818c9d7",
+    "before-neck3.log": "5f5c3f38571d025fa6c4c671046f973e362c31535ff077dbeeda383f608e7190",
+    "before-neck4.log": "daed454d3fe1017ff3a07c54d6e84eb9b79ea707be679555f766f9307e09d74f",
+    "before-neck5.log": "9e468410c78739bb649765de9b07446dc4712c5434941f3c21c4b5de7e83ab8d",
+    "before-results.json": "452ab58f890c0c401de209ca988f743e0a3f6f8334ecd801ba4e11bba3ba48f0",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "e1bdaf5d0199f5175a5b7182dd861684dbd4a9b943665d1e064d11ec567745d1",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "97ab98c2ff8f80ebbdd0610df186907f6026f0ecc513174608d6de1271130821",
+    "replay.html": "698dcdd3996e3caecb9017e26f609a1c443c0d7a72792f021c13210a78ac1011",
+    "reproduce.py": "9568bb23145630f51375ad79a3f25a4f90551cabe50ca404434c09d16b354542",
+    "result.json": "4751d882af749c2c2a3ab0deae492f2cb693136f5417c21e92a652a2c8e4eaa8",
+    "run-after-alltests.log": "93923f1f15560c9f9a02077cb35fb2a4b18c5cd199d837bd08e11be9125bf9e0",
+    "run-after-build.log": "e79a7fb7a847a7a042f1953174f675db7dba550103420d99f0da206046968eb0",
+    "run-after-scenarios.log": "31774442d7239641935d4dbc28c06a61ff00b26b35e66d32e2d45ac86df92de4",
+    "run-before-alltests.log": "1e34f300e32d8fdd42b43552584eebb5619c1b31537570c678b0a56681936c6f",
+    "run-before-build.log": "92c8a0980d2fcaaf022c13e29e431de46a425383fa57fe9daeeb736e08d4622b",
+    "run-before-scenarios.log": "31774442d7239641935d4dbc28c06a61ff00b26b35e66d32e2d45ac86df92de4",
+    "run-cases.py": "e44348cf60e1c55df92465075a03b7fb7455f8802fa8f476d036d2c410022b51",
+    "run-configure.log": "0fe14feef368762d8810891badc8d72a689df057ec6cf509d7b9a9a5ef407d06",
+    "scenario.c": "900f8092252528a7373f23a938871ad73fbee739c2551012c079b635cdc1baac"
+  }
+}
