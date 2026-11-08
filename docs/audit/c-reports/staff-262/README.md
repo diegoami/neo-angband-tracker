@@ -32,7 +32,7 @@ as single-target attacks. No death or survival claim is made.
 
 Canonical report: [issue262](https://github.com/diegoami/neo-angband-tracker/issues/262).
 Lead supplied by borg-rs; independently validated and reproduced
-natively here. Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE),
+natively here. Source proposal [#329](https://github.com/diegoami/neo-angband-tracker/pull/329),
 stacked on [PR327](https://github.com/diegoami/neo-angband-tracker/pull/327).
 
 ## Verification
@@ -151,7 +151,9 @@ python3 /tmp/reproduce-staff-262.py --full-tests --fixtures-ref cf783dd629f2ee01
 
 ## Errata (2026-11-08)
 
-- The "Source proposal" link near the top labelled `PR-SOURCE` points at an unfilled placeholder URL. The source proposal is draft PR [#329](https://github.com/diegoami/neo-angband-tracker/pull/329); this evidence is draft PR [#330](https://github.com/diegoami/neo-angband-tracker/pull/330).
+- The "Source proposal" link near the top was labelled `PR-SOURCE` and pointed at an unfilled placeholder URL; on 2026-11-08 it was corrected in place to the real link. The source proposal is draft PR [#329](https://github.com/diegoami/neo-angband-tracker/pull/329); this evidence is draft PR [#330](https://github.com/diegoami/neo-angband-tracker/pull/330).
 - The repeat commands above pin `4b7fd0c88cdb59dde0ed72e456a3480332af5d91` while `receipt.json` records `fixtures_ref` `cf783dd629f2ee016ebb0ac2395d7b891f588e42`, the commit the native run actually executed at. Both carry the same generators (see the re-verification note); prefer the `cf783dd629f2ee016ebb0ac2395d7b891f588e42` pin given in the Re-verification section.
 - `receipt.json` hashes phase logs that were never committed (the `*.log` ignore rule). The re-verification run's logs, under `reverify-2026-11-08/`, replace them; where the original hash is reproduced byte for byte, that is listed above. Its `browser` entry records the original Chrome-for-Testing render check; the re-verification adds the render-smoke result above.
 - Stacking: this package's "before" variant is not pristine C. Its base is `53ef84c743768fdde9abaebc27bd8526b4423de9`, the head of the LOS-dispel walk correction (issue #326, draft PR #327); `receipt.json` keeps the pristine root `e473720ed` as `root_base`. The re-verification ran at these same stacked pins. Before any upstream filing, #327 must be accepted upstream first; this branch is then rebased onto upstream master and the evidence re-run and re-pinned.
+- Re-run files whose bytes reproduce the original receipt's sha256 exactly are also committed at their original paths in this directory, so the original receipt's hashes check against them: `after-build.log`, `after-control.log`, `after-holy.log`, `after-scenarios.log`, `before-control.log`, `before-holy.log`, `before-scenarios.log`. The original run's build, configure and gate logs cannot be reproduced byte for byte; the complete re-run set is under `reverify-2026-11-08/`.
+- `receipt.json` was amended on 2026-11-08 for this append: its `README.md` hash now matches this README, and a `render_check` entry points at the re-verification render result. The old and new values are recorded under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
