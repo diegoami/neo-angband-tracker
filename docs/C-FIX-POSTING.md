@@ -61,7 +61,7 @@ stays locked:
 
 ## 1. Branches
 
-- **Source branch** `task/c-borg-<slug>` from pristine `c-borg-reference`
+- **Source branch** `task/<slug>` (older pairs used `task/c-borg-<slug>`; both are fine, keep a pair consistent) from pristine `c-borg-reference`
   (currently `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`). One defect, minimal
   diff; confirm scope with `git diff --name-only BASE FIX`. Never base a C
   proposal on Neo master or the workbench branch.
