@@ -1,0 +1,281 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The secret-door search judged a grid by its north-west neighbour&#x27;s search count</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The secret-door search judged a grid by its north-west neighbour&#x27;s search count</h1><p>When a bored Borg has nothing left to explore it searches grids next to walls for secret doors. It remembers how often each grid has been searched (every search counts for the nine grids around the Borg) and gives up on a grid once it has been searched enough. When scoring a candidate grid, the count it subtracted was not the candidate&#x27;s own: it was the count of the candidate&#x27;s north-west neighbour, left over from the neighbour checks just above. So a grid that had never been searched was refused because its north-west neighbour had been, and a grid already searched three times was searched again because its north-west neighbour had not been. The correction uses the candidate grid&#x27;s own count.</p><p><label>Scenario: <select id="scenario"><option value="fresh">P never searched; its north-west neighbour searched three times</option><option value="searched">P already searched three times; its north-west neighbour never</option><option value="plain">Control: the Borg searches on P from the start</option></select></label></p><section class="scenario" data-mode="fresh"><p class="summary">Searching two grids west raised the count of P&#x27;s north-west neighbour to 15 but left P at 0. Original: P is scored with the neighbour&#x27;s 15, comes out negative and is never searched (0). Corrected: P is scored with its own 0 and searched three times, exactly like the control.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>searches recorded at P (grid under test)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(8,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (8,2)...value:0
+DECISION call=start3 borg=(8,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(8,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (8,2)...value:5
+DECISION call=start5 borg=(8,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(8,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (8,2)...value:10
+DECISION call=start7 borg=(8,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=start8 borg=(8,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">3</div><p>searches recorded at P (grid under test)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(8,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (8,2)...value:0
+DECISION call=start3 borg=(8,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(8,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (8,2)...value:5
+DECISION call=start5 borg=(8,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(8,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (8,2)...value:10
+DECISION call=start7 borg=(8,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=start8 borg=(8,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0-&gt;5 nw_count=15 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=5-&gt;5 nw_count=20 searched=0
+TRACK P3 # Flowing toward spastic at cost 0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=5-&gt;10 nw_count=20 searched=1
+TRACK P4 # Spastic Searching at (10,2)...value:5
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=10-&gt;10 nw_count=25 searched=0
+TRACK P5 # Flowing toward spastic at cost 0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=10-&gt;15 nw_count=25 searched=1
+TRACK P6 # Spastic Searching at (10,2)...value:10
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=30 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=30 searched=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/spasticscore-147: starting...
+SETUP seed=147 mode=fresh class=Warrior clevel=20 depth=5 borg=(8,2)
+  spastic_search_scores_the_candidate_grid  DECISION call=start1 borg=(8,2) rc=0 key=0 own_count=0-&gt;0 nw_count=0 searched=0
+TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(8,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (8,2)...value:0
+DECISION call=start3 borg=(8,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(8,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (8,2)...value:5
+DECISION call=start5 borg=(8,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(8,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (8,2)...value:10
+DECISION call=start7 borg=(8,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=start8 borg=(8,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+STATE start_searches=3
+STATE at_P=(10,2) P_count=0 P_northwest_count=15
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+OUTCOME searches_at_P=0 P_count=0
+Failed
+    native-c/spasticscore-147:179: requirement &#x27;at_p == 3&#x27; failed
+native-c/spasticscore-147 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/spasticscore-147: starting...
+SETUP seed=147 mode=fresh class=Warrior clevel=20 depth=5 borg=(8,2)
+  spastic_search_scores_the_candidate_grid  DECISION call=start1 borg=(8,2) rc=0 key=0 own_count=0-&gt;0 nw_count=0 searched=0
+TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(8,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (8,2)...value:0
+DECISION call=start3 borg=(8,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(8,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (8,2)...value:5
+DECISION call=start5 borg=(8,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(8,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (8,2)...value:10
+DECISION call=start7 borg=(8,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=start8 borg=(8,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+STATE start_searches=3
+STATE at_P=(10,2) P_count=0 P_northwest_count=15
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=15 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0-&gt;5 nw_count=15 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=5-&gt;5 nw_count=20 searched=0
+TRACK P3 # Flowing toward spastic at cost 0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=5-&gt;10 nw_count=20 searched=1
+TRACK P4 # Spastic Searching at (10,2)...value:5
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=10-&gt;10 nw_count=25 searched=0
+TRACK P5 # Flowing toward spastic at cost 0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=10-&gt;15 nw_count=25 searched=1
+TRACK P6 # Spastic Searching at (10,2)...value:10
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=30 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=30 searched=0
+OUTCOME searches_at_P=3 P_count=15
+Passed
+native-c/spasticscore-147 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="searched"><p class="summary">Searching one grid east raised P&#x27;s count to 15 but not its north-west neighbour&#x27;s. Original: P is scored with the neighbour&#x27;s 0 and searched a fourth time (count 20). Corrected: P&#x27;s own 15 makes the score negative; no further search.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>searches recorded at P (grid under test)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(11,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (11,2)...value:0
+DECISION call=start3 borg=(11,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(11,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (11,2)...value:5
+DECISION call=start5 borg=(11,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(11,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (11,2)...value:10
+DECISION call=start7 borg=(11,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=start8 borg=(11,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=15-&gt;20 nw_count=0 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:15
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>searches recorded at P (grid under test)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(11,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (11,2)...value:0
+DECISION call=start3 borg=(11,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(11,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (11,2)...value:5
+DECISION call=start5 borg=(11,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(11,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (11,2)...value:10
+DECISION call=start7 borg=(11,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=start8 borg=(11,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/spasticscore-147: starting...
+SETUP seed=147 mode=searched class=Warrior clevel=20 depth=5 borg=(11,2)
+  spastic_search_scores_the_candidate_grid  DECISION call=start1 borg=(11,2) rc=0 key=0 own_count=0-&gt;0 nw_count=0 searched=0
+TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(11,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (11,2)...value:0
+DECISION call=start3 borg=(11,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(11,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (11,2)...value:5
+DECISION call=start5 borg=(11,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(11,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (11,2)...value:10
+DECISION call=start7 borg=(11,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=start8 borg=(11,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+STATE start_searches=3
+STATE at_P=(10,2) P_count=15 P_northwest_count=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=15-&gt;20 nw_count=0 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:15
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=20-&gt;20 nw_count=5 searched=0
+OUTCOME searches_at_P=1 P_count=20
+Failed
+    native-c/spasticscore-147:182: requirement &#x27;at_p == 0&#x27; failed
+native-c/spasticscore-147 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/spasticscore-147: starting...
+SETUP seed=147 mode=searched class=Warrior clevel=20 depth=5 borg=(11,2)
+  spastic_search_scores_the_candidate_grid  DECISION call=start1 borg=(11,2) rc=0 key=0 own_count=0-&gt;0 nw_count=0 searched=0
+TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(11,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (11,2)...value:0
+DECISION call=start3 borg=(11,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(11,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (11,2)...value:5
+DECISION call=start5 borg=(11,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(11,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (11,2)...value:10
+DECISION call=start7 borg=(11,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=start8 borg=(11,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+STATE start_searches=3
+STATE at_P=(10,2) P_count=15 P_northwest_count=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=0 searched=0
+OUTCOME searches_at_P=0 P_count=15
+Passed
+native-c/spasticscore-147 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="plain"><p class="summary">P and its north-west neighbour are always searched together, so the two counts are equal: both versions search P three times and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">3</div><p>searches recorded at P (grid under test)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=0 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK P3 # Flowing toward spastic at cost 0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK P4 # Spastic Searching at (10,2)...value:5
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK P5 # Flowing toward spastic at cost 0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK P6 # Spastic Searching at (10,2)...value:10
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">3</div><p>searches recorded at P (grid under test)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=0 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK P3 # Flowing toward spastic at cost 0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK P4 # Spastic Searching at (10,2)...value:5
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK P5 # Flowing toward spastic at cost 0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK P6 # Spastic Searching at (10,2)...value:10
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/spasticscore-147: starting...
+SETUP seed=147 mode=plain class=Warrior clevel=20 depth=5 borg=(10,2)
+  spastic_search_scores_the_candidate_grid  STATE at_P=(10,2) P_count=0 P_northwest_count=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=0 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK P3 # Flowing toward spastic at cost 0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK P4 # Spastic Searching at (10,2)...value:5
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK P5 # Flowing toward spastic at cost 0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK P6 # Spastic Searching at (10,2)...value:10
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+OUTCOME searches_at_P=3 P_count=15
+Passed
+native-c/spasticscore-147 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/spasticscore-147: starting...
+SETUP seed=147 mode=plain class=Warrior clevel=20 depth=5 borg=(10,2)
+  spastic_search_scores_the_candidate_grid  STATE at_P=(10,2) P_count=0 P_northwest_count=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0-&gt;0 nw_count=0 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0-&gt;5 nw_count=0 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=5-&gt;5 nw_count=5 searched=0
+TRACK P3 # Flowing toward spastic at cost 0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=5-&gt;10 nw_count=5 searched=1
+TRACK P4 # Spastic Searching at (10,2)...value:5
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=10-&gt;10 nw_count=10 searched=0
+TRACK P5 # Flowing toward spastic at cost 0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=10-&gt;15 nw_count=10 searched=1
+TRACK P6 # Spastic Searching at (10,2)...value:10
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15-&gt;15 nw_count=15 searched=0
+OUTCOME searches_at_P=3 P_count=15
+Passed
+native-c/spasticscore-147 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 147, level 20, depth 5, alone in a closed 22x22 room with a granite north wall, no stairs or monsters, just arrived on the level (level timer 0). The grid under test P is (10,2), against the north wall. &#x27;fresh&#x27;: the Borg first searches at (8,2), two grids west, until that grid is used up (three searches), then is moved to P. &#x27;searched&#x27;: the same from (11,2), one grid east. Control &#x27;plain&#x27;: the Borg starts on P. At each position the production borg_flow_spastic(true) (the bored call) runs eight times in a row and each call reports whether it recorded a search at the Borg&#x27;s grid. Fixture interventions: the granite north wall (the arena helper builds permanent rock) and the move to P (monster_swap; the walk is not under test). On the pristine source the search can only choose the Borg&#x27;s own grid (issue #146), which is why the Borg is moved between positions.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/147">issue 147</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

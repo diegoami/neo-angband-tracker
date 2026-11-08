@@ -1,0 +1,32 @@
+native-c/spasticscore-147: starting...
+SETUP seed=147 mode=searched class=Warrior clevel=20 depth=5 borg=(11,2)
+  spastic_search_scores_the_candidate_grid  DECISION call=start1 borg=(11,2) rc=0 key=0 own_count=0->0 nw_count=0 searched=0
+TRACK start1 # Flowing toward spastic at cost 0
+DECISION call=start2 borg=(11,2) rc=0 key=0 own_count=0->5 nw_count=0 searched=1
+TRACK start2 # Spastic Searching at (11,2)...value:0
+DECISION call=start3 borg=(11,2) rc=0 key=0 own_count=5->5 nw_count=5 searched=0
+TRACK start3 # Flowing toward spastic at cost 0
+DECISION call=start4 borg=(11,2) rc=0 key=0 own_count=5->10 nw_count=5 searched=1
+TRACK start4 # Spastic Searching at (11,2)...value:5
+DECISION call=start5 borg=(11,2) rc=0 key=0 own_count=10->10 nw_count=10 searched=0
+TRACK start5 # Flowing toward spastic at cost 0
+DECISION call=start6 borg=(11,2) rc=0 key=0 own_count=10->15 nw_count=10 searched=1
+TRACK start6 # Spastic Searching at (11,2)...value:10
+DECISION call=start7 borg=(11,2) rc=0 key=0 own_count=15->15 nw_count=15 searched=0
+DECISION call=start8 borg=(11,2) rc=0 key=0 own_count=15->15 nw_count=15 searched=0
+STATE start_searches=3
+STATE at_P=(10,2) P_count=15 P_northwest_count=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=15->15 nw_count=0 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=15->20 nw_count=0 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:15
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=20->20 nw_count=5 searched=0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=20->20 nw_count=5 searched=0
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=20->20 nw_count=5 searched=0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=20->20 nw_count=5 searched=0
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=20->20 nw_count=5 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=20->20 nw_count=5 searched=0
+OUTCOME searches_at_P=1 P_count=20
+Failed
+    native-c/spasticscore-147:182: requirement 'at_p == 0' failed
+native-c/spasticscore-147 finished: 0/1 passed
