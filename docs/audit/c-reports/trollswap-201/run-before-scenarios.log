@@ -1,0 +1,2 @@
+troll-orc {'exit': 0, 'passed': False, 'state': {'troll_slot': 4, 'other_slot': 5, 'swap_slot': 5}, 'outcome': {'sells_other': 0, 'sells_troll': 1}}
+troll-plain {'exit': 0, 'passed': True, 'state': {'troll_slot': 5, 'other_slot': 4, 'swap_slot': 5}, 'outcome': {'sells_other': 1, 'sells_troll': 0}}

@@ -1,0 +1,16 @@
+native-c/trollswap-201: starting...
+SETUP seed=201 mode=troll-orc class=Warrior clevel=30 maxdepth=50 gold=0
+  troll_slay_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 1 tval=28 desc=[Rations of Food] ego=0 value=3
+PACK 2 tval=25 desc=[Scroll of Word of Recall] ego=0 value=125
+PACK 3 tval=19 desc=[Wooden Torches (5000 turns)] ego=0 value=2
+PACK 4 tval=7 desc=[Mace of Slay Troll (2d4) (+0,+1)] ego=21 value=2730
+PACK 5 tval=7 desc=[Mace of Slay Orc (2d4) (+0,+0)] ego=20 value=2630
+STATE troll_slot=4 other_slot=5 swap_slot=4
+TRACK swap_value=4899
+TRACK swap_weapon=Mace of Slay Troll (2d4) (+0,+1)
+TRACK sells=1 item_slot=5 item=Mace of Slay Orc (2d4) (+0,+0)
+DECISION sell_slot=5 keeps_troll_weapon=1
+OUTCOME sells_other=1 sells_troll=0
+Passed
+native-c/trollswap-201 finished: 1/1 passed

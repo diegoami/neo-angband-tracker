@@ -1,0 +1,28 @@
+{
+  "troll-orc": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "troll_slot": 4,
+      "other_slot": 5,
+      "swap_slot": 4
+    },
+    "outcome": {
+      "sells_other": 1,
+      "sells_troll": 0
+    }
+  },
+  "troll-plain": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "troll_slot": 5,
+      "other_slot": 4,
+      "swap_slot": 5
+    },
+    "outcome": {
+      "sells_other": 1,
+      "sells_troll": 0
+    }
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "issue": "diegoami/neo-angband-tracker#201",
+  "report": "trollswap-201",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "4fe83bc81a2208e76481e09fa66a66481052cd44",
+  "fix_branch": "task/trollswap-201",
+  "fixtures_ref": "600adff3dfc087f59e842bf2a896b742f0de1ac9",
+  "cases": {
+    "troll-orc": {
+      "before": {
+        "passed": false,
+        "state": {
+          "troll_slot": 4,
+          "other_slot": 5,
+          "swap_slot": 5
+        },
+        "outcome": {
+          "sells_other": 0,
+          "sells_troll": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "troll_slot": 4,
+          "other_slot": 5,
+          "swap_slot": 4
+        },
+        "outcome": {
+          "sells_other": 1,
+          "sells_troll": 0
+        }
+      }
+    },
+    "troll-plain": {
+      "before": {
+        "passed": true,
+        "state": {
+          "troll_slot": 5,
+          "other_slot": 4,
+          "swap_slot": 5
+        },
+        "outcome": {
+          "sells_other": 1,
+          "sells_troll": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "troll_slot": 5,
+          "other_slot": 4,
+          "swap_slot": 5
+        },
+        "outcome": {
+          "sells_other": 1,
+          "sells_troll": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "troll-plain"
+  ],
+  "claim": "With two spare maces that differ only in a x3 slay, the original Borg valued the Slay Troll mace at 2.5 times the base damage against 3 times for Slay Orc, kept the Slay Orc mace as its swap weapon and offered the Slay Troll mace for sale. With the troll multiplier used in both halves the Borg keeps the Slay Troll mace and offers the Slay Orc mace. A plain-mace control, where the Slay Troll mace wins either way, is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-trait-swap.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-trait-swap.c": "d0f83bfeb77c6877890793c44ee6868b4fddfdb8ee9352342dd46558a5fc5cae"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "9a0848f42dc1d8824cc47c06d411135218ffb05a91d781d8689fb8395988fbbd",
+    "after-results.json": "c67d2dad5bceee114d7a3e8e76a7434e9464bdb8f5fc734ed9c837f038446231",
+    "after-troll-orc.log": "0badbc9bbd513c786b1e690085e63d537e9b4017ecc1a0f267d6f7150d04d597",
+    "after-troll-plain.log": "4c13aff2b9d3095f605fd2450618f45100ddbd83071080eb884642d19e9f06ae",
+    "before-results.json": "545ff927db2a13d46e32fc1240f04819d4ef33e4d2749887724d3623bf1afdb1",
+    "before-troll-orc.log": "ecea2126cfe343374dd4d0414603ca28848887df28dc65d4bd84fb876b4bb5ca",
+    "before-troll-plain.log": "4c13aff2b9d3095f605fd2450618f45100ddbd83071080eb884642d19e9f06ae",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "49cac11e24edd3814fd33d6b8524e30ae09a8ec115b280dfcdd8c02d5227046b",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "3070311601ff8981f64d17538d75304d32ba7862b86f413b764749d39900c777",
+    "replay.html": "55b252de7aff585feed8c69063ee7708ba87ac4fad045bd243aaa770eb217b69",
+    "reproduce.py": "964150d5278511a544ee1a96ba86eb64dfce6233230924ff403bb4a084f425f0",
+    "result.json": "2b117445afab2b023be818111ae3a4e2bbfece1bd77e32b666ee9700d56e1e39",
+    "run-after-alltests.log": "471647c516578943582c21df7f56aa44108e6c3cea25c918fba3b11a4deca65d",
+    "run-after-build.log": "d65e3bab5edd4c3e12b9e951205637c24d39591903c1f17f57256bb427143ba5",
+    "run-after-scenarios.log": "3df524a0c5c2206a99b6fe13eb5a1673ff3ca4dade970e6da803882d038a99f1",
+    "run-before-alltests.log": "7b4ac4619084019d6c178e00cea4e41dc8ab2794105d9dc634e2fd5911c702bb",
+    "run-before-build.log": "fbeabff3d74b1e346f9c5ad836140cfe8f7e0167adc5db7be1214b0bb648eb37",
+    "run-before-scenarios.log": "9fd2b7506b6e5ff5bc99df462b1a6a0ee4d007cb2e9e400046f074b6f05c7b04",
+    "run-cases.py": "94e736e5e27d1f84635fab1aed6269b0b7cb5d37333ab2a7084cdb2fe3f69afd",
+    "run-configure.log": "75c9917bf988387607e1a38e47a3716cbb470fbbb1d1d1e554f8e39dc549bfcc",
+    "scenario.c": "bafbd589a55b9e6d236772e732bccca9b1a4e5c8f57e3cb6af267c4276c933b6"
+  }
+}
