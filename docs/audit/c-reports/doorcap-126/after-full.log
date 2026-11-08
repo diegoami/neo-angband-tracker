@@ -1,0 +1,7 @@
+native-c/doorcap-126: starting...
+SETUP seed=126 mode=full class=Rogue clevel=25 depth=5 breeder=1 doors=100/100
+  play_step         DECISION rc=1 keys=1 sequence=c
+TRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)
+OUTCOME close=1 door_x=10 door_y=11 noted=0
+Passed
+native-c/doorcap-126 finished: 1/1 passed

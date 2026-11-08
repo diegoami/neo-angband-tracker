@@ -1,0 +1,152 @@
+{
+  "issue": "diegoami/neo-angband-tracker#126",
+  "report": "doorcap-126",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "f6f0d37cd6173f88b3132f5c038a222a2a449f1a",
+  "fix_branch": "task/doorcap-126",
+  "fixtures_ref": "65041720c259005b9ae1f88009377f94d5f82d7c",
+  "cases": {
+    "onedoor": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "close": 1,
+          "door_x": 10,
+          "door_y": 11,
+          "noted": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "close": 1,
+          "door_x": 10,
+          "door_y": 11,
+          "noted": 1
+        }
+      }
+    },
+    "twodoors": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "close": 1,
+          "door_x": 10,
+          "door_y": 13,
+          "noted": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "close": 1,
+          "door_x": 10,
+          "door_y": 13,
+          "noted": 1
+        }
+      }
+    },
+    "full": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "close": 1,
+          "door_x": 10,
+          "door_y": 11,
+          "noted": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "close": 1,
+          "door_x": 10,
+          "door_y": 11,
+          "noted": 0
+        }
+      }
+    },
+    "nobreeder": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "close": 0,
+          "door_x": -1,
+          "door_y": -1,
+          "noted": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "close": 0,
+          "door_x": -1,
+          "door_y": -1,
+          "noted": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "onedoor",
+    "twodoors",
+    "full",
+    "nobreeder"
+  ],
+  "claim": "The removed test in borg_play_step() is unreachable: track_door is created with 100 entries (borg_init_track(&track_door, 100)), the only place that raises track_door.num does so while it is below track_door.size, and every other write resets it to 0. Four native scenarios that run borg_play_step() through the production dark flow, three on a breeder level (one door, two doors, the door list full at 100) and one off it, give byte-identical logs before and after, and both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow.c": "bf38cb2a80f9d92d248a523eff0d25584f7d40b8a57b099b484220fffd9d6e81"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "29ecc908b4a6b1e81012936086c8358ea531a726982365442543b74fbd331625",
+    "after-full.log": "9cdd2a0cd808f055397d5746d7f843e2f6314858760c822da197fa26728046b9",
+    "after-nobreeder.log": "d74a630015bcfadd8709dd618b9505b7a6c63cc275f0e64aa6b35b5fbea23a89",
+    "after-onedoor.log": "417b97a3c7caf2b909dce9b529d40ac5bfab9526a48369a0a5791508e3d59e6b",
+    "after-results.json": "d63e41fcbe5ed7af721ffc51d8ea176ac1562a49c7f5bc5852ba3915ed5f6aca",
+    "after-twodoors.log": "133445db6bd7ab75735dc2635394b068b1599c9ee3b53c45a7dfcadc993811a4",
+    "before-full.log": "9cdd2a0cd808f055397d5746d7f843e2f6314858760c822da197fa26728046b9",
+    "before-nobreeder.log": "d74a630015bcfadd8709dd618b9505b7a6c63cc275f0e64aa6b35b5fbea23a89",
+    "before-onedoor.log": "417b97a3c7caf2b909dce9b529d40ac5bfab9526a48369a0a5791508e3d59e6b",
+    "before-results.json": "d63e41fcbe5ed7af721ffc51d8ea176ac1562a49c7f5bc5852ba3915ed5f6aca",
+    "before-twodoors.log": "133445db6bd7ab75735dc2635394b068b1599c9ee3b53c45a7dfcadc993811a4",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "e7e0347ad25994478b8d72ae5ee1128dfe95d5cbbaeffe85c377a9033b288406",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "44435f3ab0ea69de4d826198e4258b491404116599325d948bd7b3d21df145cd",
+    "replay.html": "0c9f65e1ad9b63446c0255a238b1762c0091db7ba7a516d78a00bef25b65c9d7",
+    "reproduce.py": "522fe760919481eb146d1567ed9be5da71d8cfb7be9d19e550dd1322b368f7aa",
+    "result.json": "2c576fb86606b9e44198eedf6ec391859cf4dab443a7451ca0e4ec67e3fc882d",
+    "run-after-alltests.log": "607d07f84366b0cca3b7b26aff3f25191eada298e1368a93cf28d013faacfdff",
+    "run-after-build.log": "6dd55e044b2246b8c075dee01a08520c3e60bc2893686d2dac3eb3cb4ab31cb9",
+    "run-after-scenarios.log": "906c910e98a88ec60d797480e9f1715cd568bcbab6322985fc68dea76c13b2b7",
+    "run-before-alltests.log": "6ab05cd0a91f0a170c9274682001289127327c1832a225bee87438fa9e02e7b2",
+    "run-before-build.log": "3e3373be22fd5d44d69e3b076699b4391939e9f87b321b5add145e3cbb703240",
+    "run-before-scenarios.log": "906c910e98a88ec60d797480e9f1715cd568bcbab6322985fc68dea76c13b2b7",
+    "run-cases.py": "360d933471b94b18efd20d9794ea38c5b1467c3765b0c4030e2bebca997aa3c2",
+    "run-configure.log": "28cc116a91f2e730fbbe263f2900edcf91a39b3ccbab04edfc2df3da8f128a62",
+    "scenario.c": "b4d253f23c6bd3863bf763a9c89ab4e3a3029094c73e03abd77b9e817d635257"
+  }
+}

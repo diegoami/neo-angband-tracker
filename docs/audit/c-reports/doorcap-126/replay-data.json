@@ -1,0 +1,134 @@
+{
+  "onedoor": {
+    "label": "Control: breeder level, one open door north",
+    "explanation": "Both versions close the door north (goal (10,11), 'c' queued) instead of stepping east, and note it in the door list (0 to 1). Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/doorcap-126: starting...\nSETUP seed=126 mode=onedoor class=Rogue clevel=25 depth=5 breeder=1 doors=0/100\n  play_step         DECISION rc=1 keys=1 sequence=c\nTRACK goal=(10,11) doors_before=0 doors_after=1 last=(10,11)\nOUTCOME close=1 door_x=10 door_y=11 noted=1\nPassed\nnative-c/doorcap-126 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "close": 1,
+        "door_x": 10,
+        "door_y": 11,
+        "noted": 1
+      },
+      "notes": [
+        "TRACK goal=(10,11) doors_before=0 doors_after=1 last=(10,11)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/doorcap-126: starting...\nSETUP seed=126 mode=onedoor class=Rogue clevel=25 depth=5 breeder=1 doors=0/100\n  play_step         DECISION rc=1 keys=1 sequence=c\nTRACK goal=(10,11) doors_before=0 doors_after=1 last=(10,11)\nOUTCOME close=1 door_x=10 door_y=11 noted=1\nPassed\nnative-c/doorcap-126 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "close": 1,
+        "door_x": 10,
+        "door_y": 11,
+        "noted": 1
+      },
+      "notes": [
+        "TRACK goal=(10,11) doors_before=0 doors_after=1 last=(10,11)"
+      ],
+      "value": 1
+    }
+  },
+  "twodoors": {
+    "label": "Control: breeder level, open doors north and south",
+    "explanation": "Both versions close the last door scanned, the one south (10,13), and note it. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/doorcap-126: starting...\nSETUP seed=126 mode=twodoors class=Rogue clevel=25 depth=5 breeder=1 doors=0/100\n  play_step         DECISION rc=1 keys=1 sequence=c\nTRACK goal=(10,13) doors_before=0 doors_after=1 last=(10,13)\nOUTCOME close=1 door_x=10 door_y=13 noted=1\nPassed\nnative-c/doorcap-126 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "close": 1,
+        "door_x": 10,
+        "door_y": 13,
+        "noted": 1
+      },
+      "notes": [
+        "TRACK goal=(10,13) doors_before=0 doors_after=1 last=(10,13)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/doorcap-126: starting...\nSETUP seed=126 mode=twodoors class=Rogue clevel=25 depth=5 breeder=1 doors=0/100\n  play_step         DECISION rc=1 keys=1 sequence=c\nTRACK goal=(10,13) doors_before=0 doors_after=1 last=(10,13)\nOUTCOME close=1 door_x=10 door_y=13 noted=1\nPassed\nnative-c/doorcap-126 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "close": 1,
+        "door_x": 10,
+        "door_y": 13,
+        "noted": 1
+      },
+      "notes": [
+        "TRACK goal=(10,13) doors_before=0 doors_after=1 last=(10,13)"
+      ],
+      "value": 1
+    }
+  },
+  "full": {
+    "label": "Control: breeder level, door list full (100 of 100)",
+    "explanation": "The list is at its real limit of 100, below the removed test's 255: both versions still close the door north, and neither can note it (the list stays at 100). Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/doorcap-126: starting...\nSETUP seed=126 mode=full class=Rogue clevel=25 depth=5 breeder=1 doors=100/100\n  play_step         DECISION rc=1 keys=1 sequence=c\nTRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)\nOUTCOME close=1 door_x=10 door_y=11 noted=0\nPassed\nnative-c/doorcap-126 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "close": 1,
+        "door_x": 10,
+        "door_y": 11,
+        "noted": 0
+      },
+      "notes": [
+        "TRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/doorcap-126: starting...\nSETUP seed=126 mode=full class=Rogue clevel=25 depth=5 breeder=1 doors=100/100\n  play_step         DECISION rc=1 keys=1 sequence=c\nTRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)\nOUTCOME close=1 door_x=10 door_y=11 noted=0\nPassed\nnative-c/doorcap-126 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "close": 1,
+        "door_x": 10,
+        "door_y": 11,
+        "noted": 0
+      },
+      "notes": [
+        "TRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)"
+      ],
+      "value": 1
+    }
+  },
+  "nobreeder": {
+    "label": "Control: not a breeder level, one open door north",
+    "explanation": "Without the breeder flag the door scan is skipped and both versions step east (key 6). Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/doorcap-126: starting...\nSETUP seed=126 mode=nobreeder class=Rogue clevel=25 depth=5 breeder=0 doors=0/100\n  play_step         DECISION rc=1 keys=1 sequence=6\nTRACK goal=(11,12) doors_before=0 doors_after=0 last=(-1,-1)\nOUTCOME close=0 door_x=-1 door_y=-1 noted=0\nPassed\nnative-c/doorcap-126 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "close": 0,
+        "door_x": -1,
+        "door_y": -1,
+        "noted": 0
+      },
+      "notes": [
+        "TRACK goal=(11,12) doors_before=0 doors_after=0 last=(-1,-1)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/doorcap-126: starting...\nSETUP seed=126 mode=nobreeder class=Rogue clevel=25 depth=5 breeder=0 doors=0/100\n  play_step         DECISION rc=1 keys=1 sequence=6\nTRACK goal=(11,12) doors_before=0 doors_after=0 last=(-1,-1)\nOUTCOME close=0 door_x=-1 door_y=-1 noted=0\nPassed\nnative-c/doorcap-126 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "close": 0,
+        "door_x": -1,
+        "door_y": -1,
+        "noted": 0
+      },
+      "notes": [
+        "TRACK goal=(11,12) doors_before=0 doors_after=0 last=(-1,-1)"
+      ],
+      "value": 0
+    }
+  }
+}

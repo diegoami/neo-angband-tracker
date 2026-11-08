@@ -1,0 +1,42 @@
+{
+  "onedoor": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "close": 1,
+      "door_x": 10,
+      "door_y": 11,
+      "noted": 1
+    }
+  },
+  "twodoors": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "close": 1,
+      "door_x": 10,
+      "door_y": 13,
+      "noted": 1
+    }
+  },
+  "full": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "close": 1,
+      "door_x": 10,
+      "door_y": 11,
+      "noted": 0
+    }
+  },
+  "nobreeder": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "close": 0,
+      "door_x": -1,
+      "door_y": -1,
+      "noted": 0
+    }
+  }
+}
