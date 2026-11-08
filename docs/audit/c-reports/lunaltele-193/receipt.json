@@ -1,0 +1,192 @@
+{
+  "issue": "diegoami/neo-angband-tracker#193",
+  "report": "lunaltele-193",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "4ee9a38f305d0e44624efdd45c5358d784852754",
+  "fix_branch": "task/lunaltele-193",
+  "fixtures_ref": "f781e1389112154fe13891482409506b81cd57f4",
+  "cases": {
+    "teleto": {
+      "before": {
+        "passed": false,
+        "state": {
+          "before": 1,
+          "after": 1
+        },
+        "outcome": {
+          "lunal_after": 1,
+          "heads_down": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "before": 1,
+          "after": 0
+        },
+        "outcome": {
+          "lunal_after": 0,
+          "heads_down": 0
+        }
+      }
+    },
+    "teleaway": {
+      "before": {
+        "passed": false,
+        "state": {
+          "before": 1,
+          "after": 1
+        },
+        "outcome": {
+          "lunal_after": 1,
+          "heads_down": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "before": 1,
+          "after": 0
+        },
+        "outcome": {
+          "lunal_after": 0,
+          "heads_down": 0
+        }
+      }
+    },
+    "teleaway-unseen": {
+      "before": {
+        "passed": false,
+        "state": {
+          "before": 1,
+          "after": 1
+        },
+        "outcome": {
+          "lunal_after": 1,
+          "heads_down": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "before": 1,
+          "after": 0
+        },
+        "outcome": {
+          "lunal_after": 0,
+          "heads_down": 0
+        }
+      }
+    },
+    "shriek": {
+      "before": {
+        "passed": true,
+        "state": {
+          "before": 1,
+          "after": 1
+        },
+        "outcome": {
+          "lunal_after": 1,
+          "heads_down": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "before": 1,
+          "after": 1
+        },
+        "outcome": {
+          "lunal_after": 1,
+          "heads_down": 1
+        }
+      }
+    },
+    "teleto-nolunal": {
+      "before": {
+        "passed": true,
+        "state": {
+          "before": 0,
+          "after": 0
+        },
+        "outcome": {
+          "lunal_after": 0,
+          "heads_down": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "before": 0,
+          "after": 0
+        },
+        "outcome": {
+          "lunal_after": 0,
+          "heads_down": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "shriek",
+    "teleto-nolunal"
+  ],
+  "claim": "borg_parse_aux() queues every monster spell line as SPELL_nnn and returns (borg-messages.c:636-658), so the Lunal-off test at borg-messages.c:1281-1289 (which also uses prefix() on lines that start with the monster's name) never runs. borg_update() now clears borg.lunal_mode when it handles a SPELL_ reaction for RSF_TELE_TO or RSF_TELE_AWAY. With Lunal mode off, borg_flow_stair_more() applies its preparedness filter (borg-flow-stairs.c:196) and refuses the descent; with it on, the filter is skipped.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-update.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-update.c": "ea6847f76c74c1826d0e851c38c4cd199f5ae0df4889c2253767130ea38db3ea"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 27,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "f18dabee249aa712b17722554218b6993c0af3673e63834fb4e93fd5ae9eecab",
+    "after-results.json": "4546e6c939c043fe4f285378401ad00a5626360cca8389e6a3ae9c2f20bb7bd7",
+    "after-shriek.log": "750a799e6246502e1867243f38d87c6087739145c2980e2f2d598f1fdc7802e2",
+    "after-teleaway-unseen.log": "72670253f6e0137fff0b9a7f1da97c9feb3d1c206c292ac1655121c39670f5c7",
+    "after-teleaway.log": "5b530544d856dff2e797422e5800e4124d4f09bec7a4d9ca5fd21cb611fbc1f5",
+    "after-teleto-nolunal.log": "4a6567028d6dd0c8c52e72b126dab6452e47cd5e5d2820d33a2addc2c41978c5",
+    "after-teleto.log": "635873f489844c8c215d682762df262d4bce7d7a2be57ad384419bfb5deb5e66",
+    "before-results.json": "887c25f927fda159478a12a0cf0fdf7b0af451d5d5733a664c50ec5ad4b065d9",
+    "before-shriek.log": "750a799e6246502e1867243f38d87c6087739145c2980e2f2d598f1fdc7802e2",
+    "before-teleaway-unseen.log": "e8d90c8a9adda659130324330a7f4911033da1c9abcbf75a91cc4d09ae02877d",
+    "before-teleaway.log": "da73242b834c3191c393460343a1866189a03081a5046a41d4f2ac052b6d8d7c",
+    "before-teleto-nolunal.log": "4a6567028d6dd0c8c52e72b126dab6452e47cd5e5d2820d33a2addc2c41978c5",
+    "before-teleto.log": "f94caf231e25594382331d29d8786ab292ab0a7057e9b3a0fbd621c6dc5e12d6",
+    "borg.txt": "8ae77e2a5998784e5d5a708d1478c66d25f803e354cdad135fba3c47ea231031",
+    "make_replay.py": "f26f3e1239156bb6d646ca2a0299e511681e82964d8c2722d9cc77879e1eabe9",
+    "profile/borg.txt": "8ae77e2a5998784e5d5a708d1478c66d25f803e354cdad135fba3c47ea231031",
+    "replay-data.json": "27216d55b20323408d335c49b59ee51a644daa11aff870b90d9814058e267135",
+    "replay.html": "6a6e9eab15728786e85fd582fd083e7ca6da9fb903aa19edfd282f5995f93d8d",
+    "reproduce.py": "f26306646c89b91e149b8e6fc0a0185db1983b61275b3dc4be2da6c377832be4",
+    "result.json": "0eccfa3c67d9c29dffcf345f296157b079e7266499da3338afac8d5529a7afba",
+    "run-after-alltests.log": "92a3a9d79d73c6d39c2465ab0762fedb1c30c49100ca30dd5baddbcba9178d37",
+    "run-after-build.log": "eb2058feec274f1759945f3f703dd9809a6ca1fc9d6fb52ef0e968f107e80a76",
+    "run-after-scenarios.log": "30fe80fe43b3ca53d47677164056d558f83b7a7d9fa0b92de8932048c154a0c8",
+    "run-before-alltests.log": "4be9c54b29533b0ddf38a41ae009084d72d63cf5ff677d5383d614b6bca35fbd",
+    "run-before-build.log": "76a0c4173a3c6d8e988501f861410b888efc2407042ed32435d92f9c28d4c056",
+    "run-before-scenarios.log": "c34716969be4798cdea2db9bbcf6f435289223d4c19e6122da2fe3be0ab46afd",
+    "run-cases.py": "f58eef1de733e643bcf86acd65e57548899b38c78ecc3e34c696a1d5dfc92a41",
+    "run-configure.log": "1188536da9eb1187ad85661eeda701fd76cb9418fdfe83df81351ec6895aa1fb",
+    "scenario.c": "ff78d13efee9225c44bc3877b48023836119c31e84f838f32095957fbc0f6789"
+  }
+}

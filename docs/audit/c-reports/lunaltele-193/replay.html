@@ -1,0 +1,134 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A monster teleport did not end the Borg&#x27;s Lunal mode</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A monster teleport did not end the Borg&#x27;s Lunal mode</h1><p>Lunal mode is a Borg setting (borg_lunal_mode in borg.txt, or engaged by the Borg itself when it is far stronger than the level) in which the Borg bounces between staircases to dive quickly. While it is on, the Borg skips its usual safety checks: it walks without checking how dangerous each grid is, it refuses to rest, and it takes the stairs down even when it is not prepared for the next depth. The Borg&#x27;s code intends to switch Lunal mode off when a monster spell moves it away from its grid (&quot;he is not on the stairs anymore&quot;), but that check never fires: every monster spell line is recognised earlier as a spell reaction. In this run a tengu commands the Borg to return (and, separately, a mage commands it to go away). The original Borg stays in Lunal mode and immediately starts walking to the down staircase, although its own preparedness check says it is not ready for depth 11 (&quot;restock phase door&quot;). After the fix the Borg leaves Lunal mode when the teleport reaction is handled, and the same stair decision refuses to go down. A spell that does not move the Borg (a shrieker&#x27;s shriek) leaves Lunal mode on in both versions.</p><p><label>Scenario: <select id="scenario"><option value="teleto">Tengu: &#x27;The tengu commands you to return.&#x27;</option><option value="teleaway">Mage: &#x27;The mage commands you to go away.&#x27;</option><option value="teleaway-unseen">Unseen caster: &#x27;Something commands you to go away.&#x27;</option><option value="shriek">Control: &#x27;The shrieker mushroom patch makes a high-pitched shriek.&#x27;</option><option value="teleto-nolunal">Control: tengu teleport-to with Lunal mode not in effect</option></select></label></p><section class="scenario" data-mode="teleto"><p class="summary">The tengu&#x27;s teleport-to moves the Borg from (10,12) to (12,12), next to the tengu. Original: Lunal mode stays on (lunal_mode after=1) and the stair decision starts walking to the down staircase although the Borg is not prepared for depth 11. Corrected: Lunal mode is switched off when the SPELL_068 reaction is handled, and the same decision refuses the descent.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK game-message &lt;The tengu commands you to return.&gt;
+TRACK borg-reaction &lt;SPELL_068:The tengu&gt;
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=51</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;The tengu commands you to return.&gt;
+TRACK borg-reaction &lt;SPELL_068:The tengu&gt;
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleto class=Warrior clevel=15 depth=10 caster=tengu(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(12,12) caster-at (13,12)
+TRACK game-message &lt;The tengu commands you to return.&gt;
+TRACK borg-reaction &lt;SPELL_068:The tengu&gt;
+STATE lunal_mode before=1 after=1 borg=(12,12)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=51
+OUTCOME lunal_after=1 heads_down=1
+Failed
+    native-c/lunaltele-193:215: requirement &#x27;!lunal_after&#x27; failed
+native-c/lunaltele-193 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleto class=Warrior clevel=15 depth=10 caster=tengu(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(12,12) caster-at (13,12)
+TRACK game-message &lt;The tengu commands you to return.&gt;
+TRACK borg-reaction &lt;SPELL_068:The tengu&gt;
+STATE lunal_mode before=1 after=0 borg=(12,12)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0
+OUTCOME lunal_after=0 heads_down=0
+Passed
+native-c/lunaltele-193 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="teleaway"><p class="summary">The mage&#x27;s teleport-away moves the Borg from (10,12) to (38,1). Original: Lunal mode stays on and the Borg heads for the down staircase. Corrected: Lunal mode is off after the SPELL_070 reaction and the descent is refused.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK game-message &lt;The mage commands you to go away.&gt;
+TRACK borg-reaction &lt;SPELL_070:The mage&gt;
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=50</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;The mage commands you to go away.&gt;
+TRACK borg-reaction &lt;SPELL_070:The mage&gt;
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleaway class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(38,1) caster-at (13,12)
+TRACK game-message &lt;The mage commands you to go away.&gt;
+TRACK borg-reaction &lt;SPELL_070:The mage&gt;
+STATE lunal_mode before=1 after=1 borg=(38,1)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=50
+OUTCOME lunal_after=1 heads_down=1
+Failed
+    native-c/lunaltele-193:215: requirement &#x27;!lunal_after&#x27; failed
+native-c/lunaltele-193 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleaway class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(38,1) caster-at (13,12)
+TRACK game-message &lt;The mage commands you to go away.&gt;
+TRACK borg-reaction &lt;SPELL_070:The mage&gt;
+STATE lunal_mode before=1 after=0 borg=(38,1)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0
+OUTCOME lunal_after=0 heads_down=0
+Passed
+native-c/lunaltele-193 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="teleaway-unseen"><p class="summary">The same teleport-away, cast as by a monster the player cannot see. The Borg recognises it as SPELL_070:Something. Original: stays in Lunal mode and heads down. Corrected: Lunal mode off, descent refused.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK game-message &lt;Something commands you to go away.&gt;
+TRACK borg-reaction &lt;SPELL_070:Something&gt;
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=50</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;Something commands you to go away.&gt;
+TRACK borg-reaction &lt;SPELL_070:Something&gt;
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleaway-unseen class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(38,1) caster-at (13,12)
+TRACK game-message &lt;Something commands you to go away.&gt;
+TRACK borg-reaction &lt;SPELL_070:Something&gt;
+STATE lunal_mode before=1 after=1 borg=(38,1)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=50
+OUTCOME lunal_after=1 heads_down=1
+Failed
+    native-c/lunaltele-193:215: requirement &#x27;!lunal_after&#x27; failed
+native-c/lunaltele-193 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleaway-unseen class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(38,1) caster-at (13,12)
+TRACK game-message &lt;Something commands you to go away.&gt;
+TRACK borg-reaction &lt;SPELL_070:Something&gt;
+STATE lunal_mode before=1 after=0 borg=(38,1)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0
+OUTCOME lunal_after=0 heads_down=0
+Passed
+native-c/lunaltele-193 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="shriek"><p class="summary">A monster spell that does not move the Borg goes through the same spell-reaction code. Lunal mode stays on and the Borg heads for the down staircase in both versions; byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;The shrieker mushroom patch makes a high-pitched shriek.&gt;
+TRACK borg-reaction &lt;SPELL_001:The shrieker mushroom patch&gt;
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=54</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;The shrieker mushroom patch makes a high-pitched shriek.&gt;
+TRACK borg-reaction &lt;SPELL_001:The shrieker mushroom patch&gt;
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=54</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=shriek class=Warrior clevel=15 depth=10 caster=shrieker mushroom patch(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(10,12) caster-at (13,12)
+TRACK game-message &lt;The shrieker mushroom patch makes a high-pitched shriek.&gt;
+TRACK borg-reaction &lt;SPELL_001:The shrieker mushroom patch&gt;
+STATE lunal_mode before=1 after=1 borg=(10,12)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=54
+OUTCOME lunal_after=1 heads_down=1
+Passed
+native-c/lunaltele-193 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=shriek class=Warrior clevel=15 depth=10 caster=shrieker mushroom patch(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(10,12) caster-at (13,12)
+TRACK game-message &lt;The shrieker mushroom patch makes a high-pitched shriek.&gt;
+TRACK borg-reaction &lt;SPELL_001:The shrieker mushroom patch&gt;
+STATE lunal_mode before=1 after=1 borg=(10,12)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=54
+OUTCOME lunal_after=1 heads_down=1
+Passed
+native-c/lunaltele-193 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="teleto-nolunal"><p class="summary">The same tengu teleport-to with Lunal mode already off. Both versions refuse the descent because the Borg is not prepared for depth 11; byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;The tengu commands you to return.&gt;
+TRACK borg-reaction &lt;SPELL_068:The tengu&gt;
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>Borg starts walking to the down staircase to depth 11, for which it is not prepared (1 yes, 0 no)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game-message &lt;The tengu commands you to return.&gt;
+TRACK borg-reaction &lt;SPELL_068:The tengu&gt;
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleto-nolunal class=Warrior clevel=15 depth=10 caster=tengu(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(12,12) caster-at (13,12)
+TRACK game-message &lt;The tengu commands you to return.&gt;
+TRACK borg-reaction &lt;SPELL_068:The tengu&gt;
+STATE lunal_mode before=0 after=0 borg=(12,12)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0
+OUTCOME lunal_after=0 heads_down=0
+Passed
+native-c/lunaltele-193 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleto-nolunal class=Warrior clevel=15 depth=10 caster=tengu(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)-&gt;(12,12) caster-at (13,12)
+TRACK game-message &lt;The tengu commands you to return.&gt;
+TRACK borg-reaction &lt;SPELL_068:The tengu&gt;
+STATE lunal_mode before=0 after=0 borg=(12,12)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0
+OUTCOME lunal_after=0 heads_down=0
+Passed
+native-c/lunaltele-193 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 193, character level 15, depth 10, lit open 24x40 arena with one down staircase at (24,18) and one up staircase at (3,3); profile borg.txt with borg_lunal_mode = TRUE (the configured Lunal mode, read by borg_init). Real code: the game&#x27;s monster spell code (do_mon_spell with the game&#x27;s teleport-to/teleport-away/shriek effects, which really move the player), the Borg&#x27;s production message parser (borg_parse), its map/message update (borg_update, three passes), borg_notice, borg_prepared and the production stair decision borg_flow_stair_more(GOAL_BORE, false, false) as called from borg_leave_level when the Borg is bored on a level. Fixture interventions: the arena, stairs and caster are placed directly; the spell is cast by calling do_mon_spell directly (the monster&#x27;s own spell choice is not run; the tengu and mage have the cast spell in their stock spell lists, the shrieker has SHRIEK); an EVENT_MESSAGE handler records each line the game prints and hands it to borg_parse instead of the Borg scraping it from the screen; in teleaway-unseen the spell is cast as by an unseen caster (seen=false) so the game prints its &#x27;Something ...&#x27; line; in teleto-nolunal the fixture sets borg.lunal_mode = false after borg_init.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/193">issue 193</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
