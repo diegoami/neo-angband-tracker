@@ -94,3 +94,52 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+**Why.** The original run's phase logs were never committed: the repository's
+`*.log` ignore rule dropped them although `receipt.json` above lists and hashes
+them. This section records a second native run at the same pins; the earlier
+text of this guide is unchanged.
+
+Pins: base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `b30afa1a67436d59b070e3509a7e92b932d01f75` (draft PR #333), fixtures
+`ba3b1c83dcf8739c59dc07605c9ecc7f92611019` (the original receipt's `fixtures_ref`). The generators (`scenario.c`, `run-cases.py`, `make_replay.py`, `reproduce.py`, `borg.txt`) are byte-identical between the run pin `ba3b1c83d` and every later commit of this branch, so the earlier commands that pin a later evidence commit run the same fixture.
+
+Every case reproduced the recorded result (pass/fail and every recorded
+outcome field are equal to the original receipt):
+
+| Case | Original: recorded → re-run | Corrected: recorded → re-run |
+| --- | --- | --- |
+| `brand` | passed=False `need_brand=20` → passed=False, same | passed=True `need_brand=10` → passed=True, same |
+| `control` | passed=True `need_brand=0` → passed=True, same | passed=True `need_brand=0` → passed=True, same |
+
+- Controls: `control` byte-identical.
+- Full native gates, parsed from the committed alltests logs: before: 965/965 and 5/5 (0 failed lines); after: 965/965 and 5/5 (0 failed lines).
+- Byte identity with the original receipt's hashes: 9 of 14 re-run files are byte-identical
+  to the hashes the original receipt recorded (`after-brand.log`, `after-control.log`, `after-results.json`, `after-scenarios.log`, `before-brand.log`, `before-control.log`, `before-results.json`, `before-scenarios.log`, `result.json`).
+  The others (`after-alltests.log`, `after-build.log`, `before-alltests.log`, `before-build.log`, `configure.log`) carry build paths, timings and toolchain output:
+  this run used gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0 and cmake version 3.28.3; the original used gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0 and cmake version 4.2.3.
+- Render check of the committed `replay.html` (sha256 `d7e9c6936046…`) with
+  `tools/c-evidence/render-smoke.js` (headless Chromium, clicks every scenario option and button):
+  `RENDER-SMOKE actions=4 errors=0 OK`.
+
+The logs, both results JSONs and `result.json` of this run are in
+[`reverify-2026-11-08/`](reverify-2026-11-08/); its
+[`receipt.json`](reverify-2026-11-08/receipt.json) records the pins, per-case results,
+gate totals, toolchain, render result and the sha256 of every file there.
+
+Repeat (fixtures and fix pinned; `reproduce.py` hard-codes the base and fix
+commits and refuses any other source hunk, so it has no `--fix-ref` flag):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/brand-240-evidence
+git show ba3b1c83dcf8739c59dc07605c9ecc7f92611019:docs/audit/c-reports/brand-240/reproduce.py > /tmp/reproduce-brand-240.py
+python3 /tmp/reproduce-brand-240.py --full-tests --fixtures-ref ba3b1c83dcf8739c59dc07605c9ecc7f92611019
+```
+
+## Errata (2026-11-08)
+
+- The "Source proposal" link near the top labelled `PR-SOURCE` points at an unfilled placeholder URL. The source proposal is draft PR [#333](https://github.com/diegoami/neo-angband-tracker/pull/333); this evidence is draft PR [#334](https://github.com/diegoami/neo-angband-tracker/pull/334).
+- The repeat commands above pin `e215578134eb8118b712ec117434ae2112988c98` while `receipt.json` records `fixtures_ref` `ba3b1c83dcf8739c59dc07605c9ecc7f92611019`, the commit the native run actually executed at. Both carry the same generators (see the re-verification note); prefer the `ba3b1c83dcf8739c59dc07605c9ecc7f92611019` pin given in the Re-verification section.
+- `receipt.json` hashes phase logs that were never committed (the `*.log` ignore rule). The re-verification run's logs, under `reverify-2026-11-08/`, replace them; where the original hash is reproduced byte for byte, that is listed above. Its `browser` entry records the original Chrome-for-Testing render check; the re-verification adds the render-smoke result above.
