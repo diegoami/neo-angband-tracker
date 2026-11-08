@@ -1,0 +1,8 @@
+native-c/flowcache-404: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Priest mhp=13 light=2
+  danger_cache_survives_emergency_mode  CASE retreat-after-normal
+STATE normal_icky_16=1 later_retreat_reaches_16=0 later_retreat_reaches_G=1
+OUTCOME reaches_16=0
+Passed
+native-c/flowcache-404 finished: 1/1 passed

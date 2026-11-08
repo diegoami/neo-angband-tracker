@@ -1,0 +1,37 @@
+BORG 10807 # Standing on up-stairs
+BORG 10807 # Flowing toward dark-2 at cost 3
+BORG 10817 # HIT_BY:The grey mold (+)
+BORG 10817 # HIT_BY:The grey mold (+)
+BORG 10817 # Creating a monster 'grey mold' at (8,55), HP: 2, Index: 17
+BORG 10817 # HIT_BY:The grey mold (4)
+BORG 10817 # HIT_BY:The grey mold (4)
+BORG 10817 # Loc:7,54 Dep:1 Lev:1 HP:6/13 SP:2/2 Danger:p=16
+BORG 10817 # Quaffing Potions of Cure Light Wounds.
+BORG 10817 # Healing Level 1.
+BORG 10827 # HIT_BY:The grey mold (+)
+BORG 10827 # HIT_BY:The grey mold (+)
+BORG 10827 # HIT_BY:The grey mold (3)
+BORG 10827 # HIT_BY:The grey mold (3)
+BORG 10827 # Loc:7,54 Dep:1 Lev:1 HP:7/13 SP:2/2 Danger:p=16
+BORG 10827 # Flowing toward up-stairs at cost 1
+BORG 10827 # Desperate for Stairs (two)
+BORG 10837 # There was a monster 'grey mold' at (8,55)
+BORG 10837 # Standing on up-stairs
+BORG 10837 # heading up (bored and unable to dive: Clevel < depth)
+BORG 10837 # Looking for up stairs.  Going up.
+BORG 10837 # Flowing toward up-stairs at cost 0
+BORG 10837 # Bored but unable to flow to up stairs.
+BORG 10837 # Boosting bravery (1) from 7 to 14!
+BORG 10837 # heading up (bored and unable to dive: Clevel < depth)
+BORG 10837 # Looking for up stairs.  Going up.
+BORG 10837 # Flowing toward up-stairs at cost 0
+BORG 10837 # Bored but unable to flow to up stairs.
+BORG 10837 # Considering Phase (twitchy)
+BORG 10837 # Reading Scrolls of Phase Door.
+BORG 10847 # Creating an object '& Flask~ of oil' at (43,15)
+BORG 10847 # Flowing toward dark-3 at cost 4
+BORG 10887 # Flowing toward dark-2 at cost 3
+BORG 10917 # Flowing toward dark-2 at cost 3
+BORG 10927 # FEELING_STUFF:10 (+)
+BORG 10927 # FEELING_STUFF:10 (1)
+BORG 10937 # Resting to recover HP/SP...

@@ -1,0 +1,70 @@
+BORG 10807 # Standing on up-stairs
+BORG 10807 # Flowing toward dark-2 at cost 3
+BORG 10817 # HIT_BY:The grey mold (+)
+BORG 10817 # HIT_BY:The grey mold (+)
+BORG 10817 # Creating a monster 'grey mold' at (8,55), HP: 2, Index: 17
+BORG 10817 # HIT_BY:The grey mold (4)
+BORG 10817 # HIT_BY:The grey mold (4)
+BORG 10817 # Loc:7,54 Dep:1 Lev:1 HP:6/13 SP:2/2 Danger:p=16
+BORG 10817 # Quaffing Potions of Cure Light Wounds.
+BORG 10817 # Healing Level 1.
+BORG 10827 # HIT_BY:The grey mold (+)
+BORG 10827 # HIT_BY:The grey mold (+)
+BORG 10827 # HIT_BY:The grey mold (3)
+BORG 10827 # HIT_BY:The grey mold (3)
+BORG 10827 # Loc:7,54 Dep:1 Lev:1 HP:7/13 SP:2/2 Danger:p=16
+BORG 10827 # Flowing toward up-stairs at cost 1
+BORG 10827 # Desperate for Stairs (two)
+BORG 10837 # There was a monster 'grey mold' at (8,55)
+BORG 10837 # Standing on up-stairs
+BORG 10837 # Flowing toward dark-3 at cost 3
+BORG 10847 # HIT_BY:The grey mold (+)
+BORG 10847 # HIT_BY:The grey mold (+)
+BORG 10847 # HIT_BY:The grey mold (3)
+BORG 10847 # HIT_BY:The grey mold (3)
+BORG 10847 # Loc:7,54 Dep:1 Lev:1 HP:2/13 SP:2/2 Danger:p=16
+BORG 10847 # Quaffing Potions of Cure Light Wounds.
+BORG 10847 # Healing Level 1.
+BORG 10857 # Loc:7,54 Dep:1 Lev:1 HP:13/13 SP:2/2 Danger:p=16
+BORG 10857 # Flowing toward up-stairs at cost 1
+BORG 10857 # Desperate for Stairs (two)
+BORG 10867 # There was a monster 'grey mold' at (8,55)
+BORG 10867 # Standing on up-stairs
+BORG 10867 # Flowing toward dark-3 at cost 3
+BORG 10877 # HIT_BY:The grey mold (+)
+BORG 10877 # HIT_BY:The grey mold (+)
+BORG 10877 # HIT_BY:The grey mold (3)
+BORG 10877 # HIT_BY:The grey mold (3)
+BORG 10877 # Loc:7,54 Dep:1 Lev:1 HP:8/13 SP:2/2 Danger:p=16
+BORG 10877 # Quaffing Potion of Cure Light Wounds.
+BORG 10877 # Healing Level 1.
+BORG 10887 # HIT_BY:The grey mold (+)
+BORG 10887 # HIT_BY:The grey mold (+)
+BORG 10887 # HIT_BY:The grey mold (3)
+BORG 10887 # HIT_BY:The grey mold (3)
+BORG 10887 # Loc:7,54 Dep:1 Lev:1 HP:11/13 SP:2/2 Danger:p=16
+BORG 10887 # Flowing toward up-stairs at cost 1
+BORG 10887 # Desperate for Stairs (two)
+BORG 10897 # There was a monster 'grey mold' at (8,55)
+BORG 10897 # Standing on up-stairs
+BORG 10897 # Flowing toward dark-3 at cost 3
+BORG 10907 # HIT_BY:The grey mold (+)
+BORG 10907 # HIT_BY:The grey mold (+)
+BORG 10907 # HIT_BY:The grey mold (3)
+BORG 10907 # HIT_BY:The grey mold (3)
+BORG 10907 # Loc:7,54 Dep:1 Lev:1 HP:8/13 SP:2/2 Danger:p=16
+BORG 10907 # Flowing toward up-stairs at cost 1
+BORG 10907 # Desperate for Stairs (two)
+BORG 10917 # There was a monster 'grey mold' at (8,55)
+BORG 10917 # Standing on up-stairs
+BORG 10917 # Flowing toward dark-3 at cost 3
+BORG 10927 # HIT_BY:The grey mold (+)
+BORG 10927 # HIT_BY:The grey mold (+)
+BORG 10927 # HIT_BY:The grey mold (3)
+BORG 10927 # HIT_BY:The grey mold (3)
+BORG 10927 # Loc:7,54 Dep:1 Lev:1 HP:2/13 SP:2/2 Danger:p=16
+BORG 10927 # Flowing toward up-stairs at cost 1
+BORG 10927 # Desperate for Stairs (two)
+BORG 10937 # There was a monster 'grey mold' at (8,55)
+BORG 10937 # Standing on up-stairs
+BORG 10937 # Flowing toward dark-3 at cost 3
