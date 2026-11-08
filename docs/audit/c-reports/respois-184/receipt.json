@@ -1,0 +1,113 @@
+{
+  "issue": "diegoami/neo-angband-tracker#184",
+  "report": "respois-184",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "5e8d4c5e6c1006ce4c90e21a973b0f95bb9fa0db",
+  "fix_branch": "task/respois-184",
+  "fixtures_ref": "af01d73ccfcbe6ad55e7fddb7f863a4e54999e0e",
+  "cases": {
+    "apples": {
+      "before": {
+        "passed": false,
+        "state": {
+          "food_lo": 4,
+          "arespois": 3,
+          "potion_reward": 0
+        },
+        "outcome": {
+          "potions_kept": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "food_lo": 4,
+          "arespois": 3,
+          "potion_reward": 900
+        },
+        "outcome": {
+          "potions_kept": 1
+        }
+      }
+    },
+    "rations": {
+      "before": {
+        "passed": true,
+        "state": {
+          "food_lo": 0,
+          "arespois": 3,
+          "potion_reward": 900
+        },
+        "outcome": {
+          "potions_kept": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "food_lo": 0,
+          "arespois": 3,
+          "potion_reward": 900
+        },
+        "outcome": {
+          "potions_kept": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "rations"
+  ],
+  "claim": "The Resist Poison potion reward in borg_power_inventory() does not reset its counter, so it starts at the low-calorie food count; a Mage with 4 apples values 3 Resist Poison potions at 0 instead of 900. Resetting the counter restores the reward; the no-apple control is byte-identical. The junk pass drops the apples first in both versions; selling/buying/full-pack consequences were not exercised.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-power.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-power.c": "dccc4df02fbf2f434c71a06fcf6be1a1fb6e2e64067a51e6f7077d6fe542bd92"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "c87d006bda88ffbfad4f88470ea1affcbac166dcd92658f668f3fe9091c3a5aa",
+    "after-apples.log": "13c8b4462723133025b12b1c2528c1c8c4093a02da44ffda40c770bc48ad860b",
+    "after-rations.log": "6b2cf86f7477465d4fcc6e66cb43e6da42189a7a6b959264e41153a3a107ccfc",
+    "after-results.json": "6627a08ae7ff146938987bdd591f087b8244a433704ba27586aeb86a3ca4eeaf",
+    "before-apples.log": "10d321a4ad538540f8f19cf3b57065a7755cab8d0caff866567b74b888f01c37",
+    "before-rations.log": "6b2cf86f7477465d4fcc6e66cb43e6da42189a7a6b959264e41153a3a107ccfc",
+    "before-results.json": "983d9af024a17718f46869b6a4dc3e7b5f44f31ab7fd061a218ac9362e803180",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "7dc9592f2706d4e45ae5f42469d84086cdb20219ebb4427fb8495b67c248cccc",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "6185fc530acc97d53842e7b20c3c2666638ffd85616a8279930f31e263be70f8",
+    "replay.html": "82e91da4de7946fef50246cadc26391bae92515d2dffc22140c9869e37cbd35c",
+    "reproduce.py": "d2a5eeb5e495532408a629223f354e6bb6da0f24e3f1c9f3394a1d89415e91bd",
+    "result.json": "5393ab3325840ce179156fef48d143864c031555d9390308b6495ed8d7100f03",
+    "run-after-alltests.log": "41574a7f9c3d1a9d77afbf747dee06df2b0cdd0a7154e605d3d3ea5a2f8f7605",
+    "run-after-build.log": "f24729169de0c500a5d3af55055912cebe9fab361244269743e66f9507ae36d2",
+    "run-after-scenarios.log": "cc49271bc823542513133bffb9dbb0eb6ab8596bd8dca16964a46c27fe9c569d",
+    "run-before-alltests.log": "c513e24d4e2d1a3902086688e4648a3cbe04986290ac1c88c32f850eadf07d27",
+    "run-before-build.log": "cf2ba4dfb595a1c4fa82a4306ef7d07440ed995489ba5f6554b8239e375f673e",
+    "run-before-scenarios.log": "d05477c92a9bf625db112870917f0c940425b7d41f4dc4f1ebf0676d65cdc1d6",
+    "run-cases.py": "dc4a0d7cc07039a72abbd0d53bf9907ab56c7229525e4dd5a4c2ce137d581fc0",
+    "run-configure.log": "a2a2e4d2d7e99e5ae99bce135acaecfc15cde5860d6772cb7a2e47d9c98f3e33",
+    "scenario.c": "0e753127338006d3e76a8c0de473dbde0da19aa523d1460f473e61ac1c8d24cc"
+  }
+}

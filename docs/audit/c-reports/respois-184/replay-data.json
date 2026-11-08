@@ -1,0 +1,78 @@
+{
+  "apples": {
+    "label": "Carrying 4 apples as well",
+    "explanation": "Original: the reward loop starts at the apple count (4) and adds nothing: the potions are worth 0. Corrected: 900 (3 x 300). Both versions then drop the apples as junk.",
+    "control": false,
+    "before": {
+      "raw": "native-c/respois-184: starting...\nSETUP seed=184 mode=apples class=Mage clevel=25 depth=20\n  resist_poison_potions_are_valued  STATE food_lo=4 arespois=3\nSTATE potion_reward=0\nTRACK # Dropping junk Apples (valued at 2)\nDECISION junk=1\nOUTCOME potions_kept=1\nFailed\n    native-c/respois-184:192: requirement 'with > without' failed\nnative-c/respois-184 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "food_lo": 4,
+        "arespois": 3,
+        "potion_reward": 0
+      },
+      "outcome": {
+        "potions_kept": 1
+      },
+      "notes": [
+        "TRACK # Dropping junk Apples (valued at 2)",
+        "DECISION junk=1"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/respois-184: starting...\nSETUP seed=184 mode=apples class=Mage clevel=25 depth=20\n  resist_poison_potions_are_valued  STATE food_lo=4 arespois=3\nSTATE potion_reward=900\nTRACK # Dropping junk Apples (valued at 2)\nDECISION junk=1\nOUTCOME potions_kept=1\nPassed\nnative-c/respois-184 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "food_lo": 4,
+        "arespois": 3,
+        "potion_reward": 900
+      },
+      "outcome": {
+        "potions_kept": 1
+      },
+      "notes": [
+        "TRACK # Dropping junk Apples (valued at 2)",
+        "DECISION junk=1"
+      ],
+      "value": 900
+    }
+  },
+  "rations": {
+    "label": "Control: no low-calorie food",
+    "explanation": "The counter is already 0; both versions value the potions at 900 and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/respois-184: starting...\nSETUP seed=184 mode=rations class=Mage clevel=25 depth=20\n  resist_poison_potions_are_valued  STATE food_lo=0 arespois=3\nSTATE potion_reward=900\nDECISION junk=0\nOUTCOME potions_kept=1\nPassed\nnative-c/respois-184 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "food_lo": 0,
+        "arespois": 3,
+        "potion_reward": 900
+      },
+      "outcome": {
+        "potions_kept": 1
+      },
+      "notes": [
+        "DECISION junk=0"
+      ],
+      "value": 900
+    },
+    "after": {
+      "raw": "native-c/respois-184: starting...\nSETUP seed=184 mode=rations class=Mage clevel=25 depth=20\n  resist_poison_potions_are_valued  STATE food_lo=0 arespois=3\nSTATE potion_reward=900\nDECISION junk=0\nOUTCOME potions_kept=1\nPassed\nnative-c/respois-184 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "food_lo": 0,
+        "arespois": 3,
+        "potion_reward": 900
+      },
+      "outcome": {
+        "potions_kept": 1
+      },
+      "notes": [
+        "DECISION junk=0"
+      ],
+      "value": 900
+    }
+  }
+}

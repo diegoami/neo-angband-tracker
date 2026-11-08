@@ -1,0 +1,38 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Four apples made Resist Poison potions worthless</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Four apples made Resist Poison potions worthless</h1><p>The Borg judges its pack by a &#x27;power&#x27; score; carrying up to four Resist Poison potions should add 300 each. The counter for that reward was not reset, so it started where the previous reward (low-calorie food) left it. A Mage carrying four apples therefore valued its three Resist Poison potions at 0 instead of 900. The correction starts the count at zero.</p><p><label>Scenario: <select id="scenario"><option value="apples">Carrying 4 apples as well</option><option value="rations">Control: no low-calorie food</option></select></label></p><section class="scenario" data-mode="apples"><p class="summary">Original: the reward loop starts at the apple count (4) and adds nothing: the potions are worth 0. Corrected: 900 (3 x 300). Both versions then drop the apples as junk.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>power added by 3 Resist Poison potions (expected 900)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK # Dropping junk Apples (valued at 2)
+DECISION junk=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">900</div><p>power added by 3 Resist Poison potions (expected 900)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Dropping junk Apples (valued at 2)
+DECISION junk=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/respois-184: starting...
+SETUP seed=184 mode=apples class=Mage clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE food_lo=4 arespois=3
+STATE potion_reward=0
+TRACK # Dropping junk Apples (valued at 2)
+DECISION junk=1
+OUTCOME potions_kept=1
+Failed
+    native-c/respois-184:192: requirement &#x27;with &gt; without&#x27; failed
+native-c/respois-184 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/respois-184: starting...
+SETUP seed=184 mode=apples class=Mage clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE food_lo=4 arespois=3
+STATE potion_reward=900
+TRACK # Dropping junk Apples (valued at 2)
+DECISION junk=1
+OUTCOME potions_kept=1
+Passed
+native-c/respois-184 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="rations"><p class="summary">The counter is already 0; both versions value the potions at 900 and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">900</div><p>power added by 3 Resist Poison potions (expected 900)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION junk=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">900</div><p>power added by 3 Resist Poison potions (expected 900)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION junk=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/respois-184: starting...
+SETUP seed=184 mode=rations class=Mage clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE food_lo=0 arespois=3
+STATE potion_reward=900
+DECISION junk=0
+OUTCOME potions_kept=1
+Passed
+native-c/respois-184 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/respois-184: starting...
+SETUP seed=184 mode=rations class=Mage clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE food_lo=0 arespois=3
+STATE potion_reward=900
+DECISION junk=0
+OUTCOME potions_kept=1
+Passed
+native-c/respois-184 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Mage, seed 184, level 25, depth 20, a lantern, 5 Rations of Food and 3 Resist Poison potions; in the main case also 4 Apples (low-calorie food). The value of the potions is the production borg_power() with the potion stack minus without it. The production junk pass (borg_drop_junk) then runs once: in both versions it drops the apples first, so this fixture shows the lost valuation, not a lost potion. Uses of the score (selling, buying, dropping when the pack is full) were not exercised.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/184">issue 184</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

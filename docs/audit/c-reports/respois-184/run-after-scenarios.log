@@ -1,0 +1,2 @@
+apples {'exit': 0, 'passed': True, 'state': {'food_lo': 4, 'arespois': 3, 'potion_reward': 900}, 'outcome': {'potions_kept': 1}}
+rations {'exit': 0, 'passed': True, 'state': {'food_lo': 0, 'arespois': 3, 'potion_reward': 900}, 'outcome': {'potions_kept': 1}}
