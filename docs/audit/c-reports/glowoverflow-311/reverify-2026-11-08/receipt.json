@@ -137,5 +137,27 @@
     "configure-asan.log": "1f35526bb7b1f673288829e95df6887b10061c94a82ce10193c4d615528474c4",
     "configure.log": "b654c0df444d0cc75c1c22b413b358bfba618cede510d2e5e9f9d9d64bee4682",
     "result.json": "28daa43cbcaefe0f0bde078ee03a8a068ec76155f1c0115f827f04b3854d7441"
-  }
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "field": "sha256.README.md",
+      "old": "34c06c22216f9781b1b26e43c3a792dd9e63807f09f19064f936c076cc8e8088",
+      "new": "84de21f4393b1881ab14546bd9722bee8f0569be8676385c48541bb60263f90d",
+      "reason": "README.md gained the 2026-11-08 Re-verification and Errata sections (append-only); no other hashed file changed"
+    },
+    {
+      "file": "receipt.json",
+      "field": "render_check",
+      "old": null,
+      "new": {
+        "date": "2026-11-08",
+        "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button)",
+        "result": "RENDER-SMOKE actions=2 errors=0 FAILED: rendered text contains \"undefined\"",
+        "exit": 1,
+        "note": "added by the 2026-11-08 re-verification; the original run's browser record is under 'browser'"
+      },
+      "reason": "the original receipt recorded its browser check under 'browser', which the package checker does not read"
+    }
+  ]
 }

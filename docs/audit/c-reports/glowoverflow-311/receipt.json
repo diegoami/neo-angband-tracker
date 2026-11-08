@@ -71,7 +71,7 @@
   },
   "maintenance_base": "f186aa1fce2e590eb9bbcb91dc369f3f8b6af688",
   "sha256": {
-    "README.md": "34c06c22216f9781b1b26e43c3a792dd9e63807f09f19064f936c076cc8e8088",
+    "README.md": "84de21f4393b1881ab14546bd9722bee8f0569be8676385c48541bb60263f90d",
     "after-alltests.log": "2e67fa6b5a46e0fe9520a0be5a687e702c8e4733da29d2188cab3ba234a4d581",
     "after-asan-glow.log": "ba8269a34abf6de0ec164cca8a20339fb74d808dfc85524003920f0987df36af",
     "after-build-asan.log": "0fb5fade9cb7aa7784b35e0f5f819b1ad4c6e02deacf43c470b067a857d04356",
@@ -98,5 +98,12 @@
     "result.json": "a730056662a61bc42ddbf1aeeb760e279167444b95e391d5cdafe7cf6e9748ca",
     "run-cases.py": "ee806768016bb7ab717be41e970347033024d2cd20e8bfb46a1e45a654276bb6",
     "scenario.c": "6d7d5288c5ed285c2ec8de8170396922fc989f95068e8321ba865375d371c105"
+  },
+  "render_check": {
+    "date": "2026-11-08",
+    "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless; every select option and visible button)",
+    "result": "RENDER-SMOKE actions=2 errors=0 FAILED: rendered text contains \"undefined\"",
+    "exit": 1,
+    "note": "added by the 2026-11-08 re-verification; the original run's browser record is under 'browser'"
   }
 }
