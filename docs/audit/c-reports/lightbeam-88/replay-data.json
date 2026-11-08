@@ -1,0 +1,139 @@
+{
+  "scrolled": {
+    "label": "Dark corridor ahead to the north, map panel scrolled to row 24 (dungeon row 30)",
+    "explanation": "A Warrior with a Wand of Light stands at dungeon row 30, which is row 6 of a 22-row map panel scrolled to row 24. The grid just beyond the torch light to the north is unknown, so the Borg wants to light the corridor. Original: the panel-edge test compares row 30 with 22 - 2 = 20 and refuses. Corrected: it compares row 6 and aims the wand north (keys a e 8).",
+    "control": false,
+    "before": {
+      "raw": "native-c/lightbeam-88: starting...\nSETUP seed=88 mode=scrolled class=Warrior hp=20/20 depth=5\n  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5\nDECISION beam_cast=0 keys=\"\"\nOUTCOME beam_cast=0\nFailed\n    native-c/lightbeam-88:162: requirement 'cast' failed\nnative-c/lightbeam-88 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "row": 30,
+        "panel_offset": 24,
+        "row_on_panel": 6,
+        "panel_height": 22,
+        "light": 2,
+        "wand_charges": 5
+      },
+      "outcome": {
+        "beam_cast": 0
+      },
+      "notes": [
+        "DECISION beam_cast=0 keys=\"\""
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/lightbeam-88: starting...\nSETUP seed=88 mode=scrolled class=Warrior hp=20/20 depth=5\n  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5\nDECISION beam_cast=1 keys=\"a e 8\"\nTRACK # Aiming Wand of Light (5 charges).\nTRACK # Illuminating this hallway\nOUTCOME beam_cast=1\nPassed\nnative-c/lightbeam-88 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "row": 30,
+        "panel_offset": 24,
+        "row_on_panel": 6,
+        "panel_height": 22,
+        "light": 2,
+        "wand_charges": 5
+      },
+      "outcome": {
+        "beam_cast": 1
+      },
+      "notes": [
+        "DECISION beam_cast=1 keys=\"a e 8\"",
+        "TRACK # Aiming Wand of Light (5 charges).",
+        "TRACK # Illuminating this hallway"
+      ],
+      "value": 1
+    }
+  },
+  "scrolled_south": {
+    "label": "The same with the unknown grid to the south",
+    "explanation": "The same position with the unknown grid to the south. Original: refused for the same reason. Corrected: the wand is aimed south (keys a e 2).",
+    "control": false,
+    "before": {
+      "raw": "native-c/lightbeam-88: starting...\nSETUP seed=88 mode=scrolled_south class=Warrior hp=20/20 depth=5\n  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5\nDECISION beam_cast=0 keys=\"\"\nOUTCOME beam_cast=0\nFailed\n    native-c/lightbeam-88:162: requirement 'cast' failed\nnative-c/lightbeam-88 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "row": 30,
+        "panel_offset": 24,
+        "row_on_panel": 6,
+        "panel_height": 22,
+        "light": 2,
+        "wand_charges": 5
+      },
+      "outcome": {
+        "beam_cast": 0
+      },
+      "notes": [
+        "DECISION beam_cast=0 keys=\"\""
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/lightbeam-88: starting...\nSETUP seed=88 mode=scrolled_south class=Warrior hp=20/20 depth=5\n  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5\nDECISION beam_cast=1 keys=\"a e 2\"\nTRACK # Aiming Wand of Light (5 charges).\nTRACK # Illuminating this hallway\nOUTCOME beam_cast=1\nPassed\nnative-c/lightbeam-88 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "row": 30,
+        "panel_offset": 24,
+        "row_on_panel": 6,
+        "panel_height": 22,
+        "light": 2,
+        "wand_charges": 5
+      },
+      "outcome": {
+        "beam_cast": 1
+      },
+      "notes": [
+        "DECISION beam_cast=1 keys=\"a e 2\"",
+        "TRACK # Aiming Wand of Light (5 charges).",
+        "TRACK # Illuminating this hallway"
+      ],
+      "value": 1
+    }
+  },
+  "top": {
+    "label": "Control: dungeon row 10, panel at the top",
+    "explanation": "The same corridor at dungeon row 10 with the panel at row 0, where the absolute row and the row on the panel are the same. The wand is aimed north before and after, with an identical log.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lightbeam-88: starting...\nSETUP seed=88 mode=top class=Warrior hp=20/20 depth=5\n  light_beam_north  STATE row=10 panel_offset=0 row_on_panel=10 panel_height=22 light=2 wand_charges=5\nDECISION beam_cast=1 keys=\"a e 8\"\nTRACK # Aiming Wand of Light (5 charges).\nTRACK # Illuminating this hallway\nOUTCOME beam_cast=1\nPassed\nnative-c/lightbeam-88 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "row": 10,
+        "panel_offset": 0,
+        "row_on_panel": 10,
+        "panel_height": 22,
+        "light": 2,
+        "wand_charges": 5
+      },
+      "outcome": {
+        "beam_cast": 1
+      },
+      "notes": [
+        "DECISION beam_cast=1 keys=\"a e 8\"",
+        "TRACK # Aiming Wand of Light (5 charges).",
+        "TRACK # Illuminating this hallway"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lightbeam-88: starting...\nSETUP seed=88 mode=top class=Warrior hp=20/20 depth=5\n  light_beam_north  STATE row=10 panel_offset=0 row_on_panel=10 panel_height=22 light=2 wand_charges=5\nDECISION beam_cast=1 keys=\"a e 8\"\nTRACK # Aiming Wand of Light (5 charges).\nTRACK # Illuminating this hallway\nOUTCOME beam_cast=1\nPassed\nnative-c/lightbeam-88 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "row": 10,
+        "panel_offset": 0,
+        "row_on_panel": 10,
+        "panel_height": 22,
+        "light": 2,
+        "wand_charges": 5
+      },
+      "outcome": {
+        "beam_cast": 1
+      },
+      "notes": [
+        "DECISION beam_cast=1 keys=\"a e 8\"",
+        "TRACK # Aiming Wand of Light (5 charges).",
+        "TRACK # Illuminating this hallway"
+      ],
+      "value": 1
+    }
+  }
+}

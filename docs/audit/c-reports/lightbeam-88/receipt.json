@@ -1,0 +1,157 @@
+{
+  "issue": "diegoami/neo-angband-tracker#88",
+  "report": "lightbeam-88",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "828318ab58cbedc3f90cfe1a343ebd314257933b",
+  "fix_branch": "task/lightbeam-88",
+  "fixtures_ref": "05e527351d607583b9c30316369f8d00934a7fe0",
+  "cases": {
+    "scrolled": {
+      "before": {
+        "passed": false,
+        "state": {
+          "row": 30,
+          "panel_offset": 24,
+          "row_on_panel": 6,
+          "panel_height": 22,
+          "light": 2,
+          "wand_charges": 5
+        },
+        "outcome": {
+          "beam_cast": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "row": 30,
+          "panel_offset": 24,
+          "row_on_panel": 6,
+          "panel_height": 22,
+          "light": 2,
+          "wand_charges": 5
+        },
+        "outcome": {
+          "beam_cast": 1
+        }
+      }
+    },
+    "scrolled_south": {
+      "before": {
+        "passed": false,
+        "state": {
+          "row": 30,
+          "panel_offset": 24,
+          "row_on_panel": 6,
+          "panel_height": 22,
+          "light": 2,
+          "wand_charges": 5
+        },
+        "outcome": {
+          "beam_cast": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "row": 30,
+          "panel_offset": 24,
+          "row_on_panel": 6,
+          "panel_height": 22,
+          "light": 2,
+          "wand_charges": 5
+        },
+        "outcome": {
+          "beam_cast": 1
+        }
+      }
+    },
+    "top": {
+      "before": {
+        "passed": true,
+        "state": {
+          "row": 10,
+          "panel_offset": 0,
+          "row_on_panel": 10,
+          "panel_height": 22,
+          "light": 2,
+          "wand_charges": 5
+        },
+        "outcome": {
+          "beam_cast": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "row": 10,
+          "panel_offset": 0,
+          "row_on_panel": 10,
+          "panel_height": 22,
+          "light": 2,
+          "wand_charges": 5
+        },
+        "outcome": {
+          "beam_cast": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "top"
+  ],
+  "claim": "At dungeon row 30 with the panel scrolled to row 24 the original refused the north and the south beam; the corrected Borg aims the wand in both directions. At dungeon row 10 (panel at the top) both aim north with identical logs.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-light.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-light.c": "291467c22bcdd9e7eca43d0ad10cd8174d79685019393ecaf0e3ec54459256ae"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "87900b552aafcec67bd001c14148720d04103bd60622706820dad77a41c75542",
+    "after-results.json": "f907324c1834e204b7c03e3306e316603bba398c65507331f4d54c331d5ac922",
+    "after-scrolled.log": "816f7d8b5c150bffb11fa0e329fde80fbdf68d915380175cb1971ee75131ea45",
+    "after-scrolled_south.log": "d0f5015ed3f5de690d76dedef20dae786013d5d2937a2874b4a52d00f302d37b",
+    "after-top.log": "b1339ef4e989cec558de0bb1599d5dda60586cebc35ef5fbe2d5b15b4d97d4a5",
+    "before-results.json": "282766707b60fac500443b09db10cba7e438b7fd50449002bb2db1024504faca",
+    "before-scrolled.log": "dc38773636b2cbd33ad9be5f5cf1d8b33d0f7534e59125c7de8e1bb450d6a3b0",
+    "before-scrolled_south.log": "e797d3664085dc7ee2738d17bc9074b03fd164f824bd04c9cbf2f52502e3b997",
+    "before-top.log": "b1339ef4e989cec558de0bb1599d5dda60586cebc35ef5fbe2d5b15b4d97d4a5",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "634b14f026f51c640bef35eef49a288f075b720d3a738a78a5230effeb082ce4",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "b3468fb7a5cd52acf8042b6de7a0727923d2e22252ed6d0763fec275ef9e5e8c",
+    "replay.html": "9621deaea3074e4a926d5e4810657feb043d0ded9d0f3c990fb654f3b4b9e23b",
+    "reproduce.py": "a2ab3c132d91bfe9b98a481c196f0d14fb72144ede1208c44f4380bd3521a0ae",
+    "result.json": "ba4dbcbab6b8d9fc7a857b1ecfc5cabd3fb0496c7e50120e510f44f9c635f061",
+    "run-after-alltests.log": "bfd6399de41a3c8aa902b7d5423182ede28024e4ce595ee9bf155686597f7ce5",
+    "run-after-build.log": "967f74e1fd80ec6bf931b3bf0a7be423a546c7371bf3a4f95ea97ff088d8df75",
+    "run-after-scenarios.log": "4135854bd7f0babc168061b63a213f59dfb795459d9f07c808770cafca4b2ae9",
+    "run-before-alltests.log": "da46b11a1b94a1ab8983da472ce611888261100940668b30a188d8037a57de58",
+    "run-before-build.log": "6e9ec81aec5e6eae06e590ba2ace15864fce68268e15b3888bc396b0aa2caeeb",
+    "run-before-scenarios.log": "f7982da84c1f0e340fb7d16d70af480ceed2de809acc00cf4483b734f22b23b5",
+    "run-cases.py": "47c7749cc51eb6d217f05d64c9b0fe0f620571fed2d9f326cad58d51300c42ae",
+    "run-configure.log": "81a40ebdcd87d0d7c8856f2b71a594b4c034fa2a3de273fc9f06dc198d7d36cd",
+    "scenario.c": "628e763cc86188814711dc241eba1bb80578381cbfae3c5b25feac1c9a467b1c"
+  }
+}
