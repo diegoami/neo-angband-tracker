@@ -521,16 +521,19 @@ static int borg_danger_physical(int i, bool full_damage)
         if (!full_damage) {
             /* figure out chance that monster will hit you. */
             /* add a 50% bonus in to account for bad luck. */
-            if (borg.near.unique || (r_ptr->level + power) > 0)
-                chance
-                    = 150
-                      - (((ac * 300) / 4) / 1 + ((r_ptr->level + power) * 3));
+            if ((r_ptr->level + power) > 0)
+                chance = 150
+                         - (((ac * 300) / 4) / ((r_ptr->level + power) * 3));
             else
                 chance = -1;
 
             /* always have a 5% chance of hitting. */
             if (chance < 5)
                 chance = 5;
+
+            /* never estimate more than the full damage of the blow. */
+            if (chance > 100)
+                chance = 100;
 
             /* Modify the damage by the chance of getting hit */
             z = (z * chance) / 100;
