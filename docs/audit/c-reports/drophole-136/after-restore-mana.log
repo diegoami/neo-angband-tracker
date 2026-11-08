@@ -1,0 +1,14 @@
+native-c/drophole-136: starting...
+SETUP seed=136 mode=restore-mana class=Warrior clevel=40 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Restore Mana value=350 weight=4
+PACK c Amulet of Slow Digestion value=200 weight=3
+TRACK # Junking 44352267 gold (full)
+TRACK # Dropping Amulet of Slow Digestion.
+KEYS {cborg ignore$dc
+ENGINE You drop an Amulet of Slow Digestion (c).
+ENGINE You have no more Amulets of Slow Digestion (c).
+DECISION drop=1 slot=c item=an Amulet of Slow Digestion
+OUTCOME dropped_amulet=1 dropped_potion=0 floor_items=1
+Passed
+native-c/drophole-136 finished: 1/1 passed

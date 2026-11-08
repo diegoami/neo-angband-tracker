@@ -1,0 +1,139 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A full-pack Borg above level 35 dropped a spare amulet and kept a worthless potion</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A full-pack Borg above level 35 dropped a spare amulet and kept a worthless potion</h1><p>When the Borg&#x27;s pack is full it drops the item whose loss costs it least. Above character level 35 the drop code is meant to protect a short list of valuable consumables (healing and mana potions, a few attack rods and wands, two protective scrolls) by giving them a very high value. The protection test was written as &#x27;not A or not B&#x27;, which is true for every item, so every potion, rod and wand counted as worth 300,000 gold and every scroll 30,000. A level-40 Warrior with a full pack therefore kept a Potion of Salt Water (worth nothing) and dropped a spare Amulet of ESP (25,000 gold), or a spare Amulet of Slow Digestion, inscribed for the Borg to destroy. With the comparisons corrected to &#x27;is A or is B&#x27;, only the listed items are protected and the Salt Water is dropped.</p><p><label>Scenario: <select id="scenario"><option value="salt-water">Level 40: spare Amulet of Slow Digestion and a Potion of Salt Water</option><option value="spare-esp">Level 40: wearing an Amulet of ESP, carrying a second one and a Potion of Salt Water</option><option value="restore-mana">Control: level 40, spare Amulet of Slow Digestion and a Potion of Restore Mana</option><option value="level30">Control: level 30, spare Amulet of Slow Digestion and a Potion of Salt Water</option></select></label></p><section class="scenario" data-mode="salt-water"><p class="summary">Original: the Salt Water counts as worth 300,000 gold, so the Borg drops the amulet (worth 200 gold). Corrected: the Salt Water counts as worth nothing and is dropped.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>dropped the spare amulet (1 = amulet dropped, 0 = potion dropped)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK # Junking 44352267 gold (full)
+TRACK # Dropping Amulet of Slow Digestion.
+KEYS {cborg ignore$dc
+DECISION drop=1 slot=c item=an Amulet of Slow Digestion</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>dropped the spare amulet (1 = amulet dropped, 0 = potion dropped)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Junking 44352257 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+DECISION drop=1 slot=b item=a Potion of Salt Water</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/drophole-136: starting...
+SETUP seed=136 mode=salt-water class=Warrior clevel=40 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Salt Water value=0 weight=4
+PACK c Amulet of Slow Digestion value=200 weight=3
+TRACK # Junking 44352267 gold (full)
+TRACK # Dropping Amulet of Slow Digestion.
+KEYS {cborg ignore$dc
+ENGINE You drop an Amulet of Slow Digestion (c).
+ENGINE You have no more Amulets of Slow Digestion (c).
+DECISION drop=1 slot=c item=an Amulet of Slow Digestion
+OUTCOME dropped_amulet=1 dropped_potion=0 floor_items=1
+Failed
+    native-c/drophole-136:212: requirement &#x27;potion &amp;&amp; !amulet&#x27; failed
+native-c/drophole-136 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/drophole-136: starting...
+SETUP seed=136 mode=salt-water class=Warrior clevel=40 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Salt Water value=0 weight=4
+PACK c Amulet of Slow Digestion value=200 weight=3
+TRACK # Junking 44352257 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+ENGINE You drop a Potion of Salt Water (b).
+ENGINE You have no more Potions of Salt Water (b).
+DECISION drop=1 slot=b item=a Potion of Salt Water
+OUTCOME dropped_amulet=0 dropped_potion=1 floor_items=1
+Passed
+native-c/drophole-136 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="spare-esp"><p class="summary">Original: the Borg drops the spare 25,000-gold Amulet of ESP and keeps the Salt Water. Corrected: it drops the Salt Water and keeps the amulet.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>dropped the spare amulet (1 = amulet dropped, 0 = potion dropped)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK # Junking 62173507 gold (full)
+TRACK # Dropping Amulet of ESP.
+KEYS {cborg ignore$dc
+DECISION drop=1 slot=c item=an Amulet of ESP</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>dropped the spare amulet (1 = amulet dropped, 0 = potion dropped)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Junking 62172257 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+DECISION drop=1 slot=b item=a Potion of Salt Water</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/drophole-136: starting...
+SETUP seed=136 mode=spare-esp class=Warrior clevel=40 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Salt Water value=0 weight=4
+PACK c Amulet of ESP value=25000 weight=3
+TRACK # Junking 62173507 gold (full)
+TRACK # Dropping Amulet of ESP.
+KEYS {cborg ignore$dc
+ENGINE You drop an Amulet of ESP (c).
+ENGINE You have no more Amulets of ESP (c).
+DECISION drop=1 slot=c item=an Amulet of ESP
+OUTCOME dropped_amulet=1 dropped_potion=0 floor_items=1
+Failed
+    native-c/drophole-136:212: requirement &#x27;potion &amp;&amp; !amulet&#x27; failed
+native-c/drophole-136 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/drophole-136: starting...
+SETUP seed=136 mode=spare-esp class=Warrior clevel=40 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Salt Water value=0 weight=4
+PACK c Amulet of ESP value=25000 weight=3
+TRACK # Junking 62172257 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+ENGINE You drop a Potion of Salt Water (b).
+ENGINE You have no more Potions of Salt Water (b).
+DECISION drop=1 slot=b item=a Potion of Salt Water
+OUTCOME dropped_amulet=0 dropped_potion=1 floor_items=1
+Passed
+native-c/drophole-136 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="restore-mana"><p class="summary">Restore Mana is on the protected list. The changed potion test runs in both versions and values it at 300,000 gold either way, so both drop the amulet; the logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>dropped the spare amulet (1 = amulet dropped, 0 = potion dropped)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Junking 44352267 gold (full)
+TRACK # Dropping Amulet of Slow Digestion.
+KEYS {cborg ignore$dc
+DECISION drop=1 slot=c item=an Amulet of Slow Digestion</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>dropped the spare amulet (1 = amulet dropped, 0 = potion dropped)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Junking 44352267 gold (full)
+TRACK # Dropping Amulet of Slow Digestion.
+KEYS {cborg ignore$dc
+DECISION drop=1 slot=c item=an Amulet of Slow Digestion</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/drophole-136: starting...
+SETUP seed=136 mode=restore-mana class=Warrior clevel=40 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Restore Mana value=350 weight=4
+PACK c Amulet of Slow Digestion value=200 weight=3
+TRACK # Junking 44352267 gold (full)
+TRACK # Dropping Amulet of Slow Digestion.
+KEYS {cborg ignore$dc
+ENGINE You drop an Amulet of Slow Digestion (c).
+ENGINE You have no more Amulets of Slow Digestion (c).
+DECISION drop=1 slot=c item=an Amulet of Slow Digestion
+OUTCOME dropped_amulet=1 dropped_potion=0 floor_items=1
+Passed
+native-c/drophole-136 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/drophole-136: starting...
+SETUP seed=136 mode=restore-mana class=Warrior clevel=40 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Restore Mana value=350 weight=4
+PACK c Amulet of Slow Digestion value=200 weight=3
+TRACK # Junking 44352267 gold (full)
+TRACK # Dropping Amulet of Slow Digestion.
+KEYS {cborg ignore$dc
+ENGINE You drop an Amulet of Slow Digestion (c).
+ENGINE You have no more Amulets of Slow Digestion (c).
+DECISION drop=1 slot=c item=an Amulet of Slow Digestion
+OUTCOME dropped_amulet=1 dropped_potion=0 floor_items=1
+Passed
+native-c/drophole-136 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="level30"><p class="summary">Below level 36 the drop code skips the high-level valuation block entirely; both versions drop the Salt Water and the logs are byte-identical. This shows the rest of the drop choice is unchanged.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>dropped the spare amulet (1 = amulet dropped, 0 = potion dropped)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Junking 40374734 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+DECISION drop=1 slot=b item=a Potion of Salt Water</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>dropped the spare amulet (1 = amulet dropped, 0 = potion dropped)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # Junking 40374734 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+DECISION drop=1 slot=b item=a Potion of Salt Water</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/drophole-136: starting...
+SETUP seed=136 mode=level30 class=Warrior clevel=30 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Salt Water value=0 weight=4
+PACK c Amulet of Slow Digestion value=200 weight=3
+TRACK # Junking 40374734 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+ENGINE You drop a Potion of Salt Water (b).
+ENGINE You have no more Potions of Salt Water (b).
+DECISION drop=1 slot=b item=a Potion of Salt Water
+OUTCOME dropped_amulet=0 dropped_potion=1 floor_items=1
+Passed
+native-c/drophole-136 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/drophole-136: starting...
+SETUP seed=136 mode=level30 class=Warrior clevel=30 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Salt Water value=0 weight=4
+PACK c Amulet of Slow Digestion value=200 weight=3
+TRACK # Junking 40374734 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+ENGINE You drop a Potion of Salt Water (b).
+ENGINE You have no more Potions of Salt Water (b).
+DECISION drop=1 slot=b item=a Potion of Salt Water
+OUTCOME dropped_amulet=0 dropped_potion=1 floor_items=1
+Passed
+native-c/drophole-136 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 136, depth 20, every rune known, standing on an open floor with no monsters. The starting kit&#x27;s carried items are removed (the wielded torch stays), then the pack holds 3 rations, one spare amulet, one potion, and is filled to the last slot with fully known artifact weapons, which the full-pack drop never considers. The production borg_drop_hole(false) runs once; the queued keys are read back and checked to be the inscribe-and-drop sequence for one inventory letter, and that item is then dropped with the game&#x27;s own inven_drop(). Fixture interventions: experience granted directly to reach the level, pack contents built directly, the Borg&#x27;s map copied from the arena. This isolates the choice of item to drop; it does not play the later crushing of the dropped item or any trip to sell.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/136">issue 136</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

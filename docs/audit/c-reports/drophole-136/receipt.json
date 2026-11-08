@@ -1,0 +1,142 @@
+{
+  "issue": "diegoami/neo-angband-tracker#136",
+  "report": "drophole-136",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "ca904787777ca8fed7e113f52f1a6ae4fa02daeb",
+  "fix_branch": "task/drophole-136",
+  "fixtures_ref": "29ebf656d76555971255c63701b9d8de7d6acd9d",
+  "cases": {
+    "salt-water": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "dropped_amulet": 1,
+          "dropped_potion": 0,
+          "floor_items": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "dropped_amulet": 0,
+          "dropped_potion": 1,
+          "floor_items": 1
+        }
+      }
+    },
+    "spare-esp": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "dropped_amulet": 1,
+          "dropped_potion": 0,
+          "floor_items": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "dropped_amulet": 0,
+          "dropped_potion": 1,
+          "floor_items": 1
+        }
+      }
+    },
+    "restore-mana": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "dropped_amulet": 1,
+          "dropped_potion": 0,
+          "floor_items": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "dropped_amulet": 1,
+          "dropped_potion": 0,
+          "floor_items": 1
+        }
+      }
+    },
+    "level30": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "dropped_amulet": 0,
+          "dropped_potion": 1,
+          "floor_items": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "dropped_amulet": 0,
+          "dropped_potion": 1,
+          "floor_items": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "restore-mana",
+    "level30"
+  ],
+  "claim": "In borg_drop_hole() the high-level 'don't crush cool stuff' checks for rods, staffs, wands, scrolls and potions compared svals with != joined by ||, which is always true. A level-40 Warrior with a full pack dropped a spare Amulet of Slow Digestion (200 gold) or a spare Amulet of ESP (25,000 gold) and kept a Potion of Salt Water. With == the Salt Water is dropped. A protected Restore Mana potion at level 40 and the same pack at level 30 give byte-identical logs.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-junk.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-junk.c": "04399572c00bd645abbe2e04e7cfd8d37f5d9073023b7f5fd6b6d782bfe59c3d"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "c25e0ff7c32615d825f6ee3dfcaaff0b92f8ba63b2d63c5fb9e609c3b35b4e58",
+    "after-level30.log": "653845206b6437524acea4b9b3fa4856dfcfd9435cc59e2c2d564b5847e5aaae",
+    "after-restore-mana.log": "7d6c24e1b5adf4185c63674f60449fc0eb0ee72480712a9bd69a5a827c381b35",
+    "after-results.json": "7b6331298a0a5300a6504ccf00dfb9e3dd9f8d3f53956a7284c7dd383aa9752c",
+    "after-salt-water.log": "779ba969a745e2b9c1c6d0e9328d07204726e5eadd690f19025497ebdce69fa7",
+    "after-spare-esp.log": "119b17c2a8e1f696b547168b2138ff9773e2425731e2b4b2b32bf5258f8f058d",
+    "before-level30.log": "653845206b6437524acea4b9b3fa4856dfcfd9435cc59e2c2d564b5847e5aaae",
+    "before-restore-mana.log": "7d6c24e1b5adf4185c63674f60449fc0eb0ee72480712a9bd69a5a827c381b35",
+    "before-results.json": "12bcb782416b602c24bd8b7728df0321df178afd09fc66389e1576ce9f1bdfad",
+    "before-salt-water.log": "4f1ce115e560a10737e0e0ab4bc54cc6ec00778108a93c32f8fc0859174c7dea",
+    "before-spare-esp.log": "f7ae5a9d4a1685149a495028b66d2ebd3a5a492ee190d55b72aa37628a81955d",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "e98833a1a26896ee127ca2a9836c18f742217247c1a92bbd51bb5fc8a307ecda",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "cf36e1437aa727b07542f0aa16a5861f10f4942efbe84e788a5b48d004d2fd56",
+    "replay.html": "8d2709512394aeda8ae0584af0c07b40ac218daa53f0610400e7539e9f336cc2",
+    "reproduce.py": "f1a1e36216203eecd60000da0a7ed64ad4ff9475a6042a9bb13d9540cf8b3072",
+    "result.json": "2247b0e96cdf070bc7f5a1d8087203b64cf86349257a7f662b7356c2cf9097ba",
+    "run-after-alltests.log": "4c73ff1a88b20280e668b02adb30a149e142aaf8b1ae3f6b48b8278016031e99",
+    "run-after-build.log": "27d831b5c4a9142d1eb37dfd1688787833b400e56f3d70e1ad4bfc0c7feede09",
+    "run-after-scenarios.log": "6909b0bf764a72d88e5132b0dc23990701f4a60eed38c833a7b6282e15b5fa0c",
+    "run-before-alltests.log": "97c4a682f5ce5e20596fe70fa9352e889926714fbc34543475dffe4e18b7ef08",
+    "run-before-build.log": "ef29aa0faed732d982cea6c7dac390091f443936aa1360569333b62d51ecf8e3",
+    "run-before-scenarios.log": "f61b22f8604ddaf1259c4b12942cbb71e2e5821943832cb05de0657c8aab04b1",
+    "run-cases.py": "0c70eec89e14864afc6e524bcb96dfe9847a100870eb47390d1f130ec0fad400",
+    "run-configure.log": "e8c3637d874c33df5444ad2a49aaecca0428cbe8178b33edfa565e926fa9856d",
+    "scenario.c": "8285405170e06365da486f3bf37a3f681e172ddda322149733a8360cefbc97bb"
+  }
+}
