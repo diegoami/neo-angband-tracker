@@ -73,6 +73,7 @@ Prospective survival and long-term progress evaluation remains the consumer's se
 
 ## Repeat
 
-The scripts use absolute paths to the consumer's local bundle and to build directories of the author's machine;
-adjust `ORIGINAL`/`O` at the top of `run_d0008.py` and `run_live.py` and the build paths in `sweep.sh`.
+Set `D0008_BUNDLE` to the local copy of the recorded bundle (`artifacts/death-workflow/collections/20261107T230736.548607Z/game-001-seed-1668846659` in the consumer checkout);
+`sweep.sh` expects the two engine builds in `build-ctrl/` and `build-fix/` next to it. In the two `*-verification.json` files the only change from the generated output is that the
+bundle's absolute local path was replaced by a placeholder (this repository is public).
 The consumer's tools at the recorded harness commit (`tools/`, `replay-borg.py`) are required next to `run_d0008.py`.

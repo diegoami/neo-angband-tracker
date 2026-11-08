@@ -3,7 +3,7 @@
 usage: run_live.py <engine> <new output dir> [cap] [timeout_s]"""
 import os, shutil, subprocess, sys
 from pathlib import Path
-O = Path('/home/diego/projects/angband/better-borg-c/artifacts/death-workflow/collections/20261107T230736.548607Z/game-001-seed-1668846659')
+O = Path(os.environ['D0008_BUNDLE'])
 engine, out = Path(sys.argv[1]).resolve(), Path(sys.argv[2]).resolve()
 cap = sys.argv[3] if len(sys.argv) > 3 else '200000'
 timeout = int(sys.argv[4]) if len(sys.argv) > 4 else 300
