@@ -170,5 +170,14 @@
     "before-scenarios.log": "efa34c1f72d94e4d5c290f0807634b9704802900ed6697f4ec9fcdb494e8b134",
     "configure.log": "c0d695a496b75036476ffe4bbf7a0e677e08553f0bbb67927b3409a163632739",
     "result.json": "5055e19ef97c6429bb168253aac2d42bf1ec343108f2cd16df01cb71d650d1fe"
-  }
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "field": "sha256.README.md",
+      "old": "795415a22306f311adaa98271f7010e6b5e71a0296ae8a64b3d771e13301c82d",
+      "new": "521637806a71aad8dbd87f3239ec579ffe88731e30728362da3e68662b731571",
+      "reason": "README.md gained the 2026-11-08 Re-verification and Errata sections (append-only); no other hashed file changed"
+    }
+  ]
 }
