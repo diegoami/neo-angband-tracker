@@ -1,0 +1,96 @@
+{
+  "pfe": {
+    "label": "Level-35 Priest after casting Protection from Evil",
+    "explanation": "A level-35 Priest at full hit points and spell points, with Protection from Evil learned, prepares to leave the level. The production prep routine chooses Protection from Evil and sets the no-rest timer to level times 1000. Original: the 16-bit timer wraps to -30536, the \"no resting just after a prep spell\" test does not apply, and borg_check_rest() allows resting. Corrected: the timer is 35000 and resting is refused.",
+    "control": false,
+    "before": {
+      "raw": "native-c/restprep-108: starting...\nSETUP seed=108 mode=pfe class=Priest clevel=35 hp=273/273 sp=57/57 food=8999 depth=5\n  no_rest_after_prep_spell  STATE clevel=35 cursp=57 maxsp=57 pfe_castable=1 depth=5\nDECISION prepared=1 key=109 no_rest_prep=-30536\nDECISION may_rest=1\nTRACK # Casting Protection from Evil (1,4).\nTRACK # Casting PFE before leaving level.\nOUTCOME rests_after_prep=1\nFailed\n    native-c/restprep-108:155: requirement '!may_rest' failed\nnative-c/restprep-108 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "clevel": 35,
+        "cursp": 57,
+        "maxsp": 57,
+        "pfe_castable": 1,
+        "depth": 5
+      },
+      "outcome": {
+        "rests_after_prep": 1
+      },
+      "notes": [
+        "DECISION prepared=1 key=109 no_rest_prep=-30536",
+        "DECISION may_rest=1",
+        "TRACK # Casting Protection from Evil (1,4).",
+        "TRACK # Casting PFE before leaving level."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/restprep-108: starting...\nSETUP seed=108 mode=pfe class=Priest clevel=35 hp=273/273 sp=57/57 food=8999 depth=5\n  no_rest_after_prep_spell  STATE clevel=35 cursp=57 maxsp=57 pfe_castable=1 depth=5\nDECISION prepared=1 key=109 no_rest_prep=35000\nDECISION may_rest=0\nTRACK # Casting Protection from Evil (1,4).\nTRACK # Casting PFE before leaving level.\nOUTCOME rests_after_prep=0\nPassed\nnative-c/restprep-108 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 35,
+        "cursp": 57,
+        "maxsp": 57,
+        "pfe_castable": 1,
+        "depth": 5
+      },
+      "outcome": {
+        "rests_after_prep": 0
+      },
+      "notes": [
+        "DECISION prepared=1 key=109 no_rest_prep=35000",
+        "DECISION may_rest=0",
+        "TRACK # Casting Protection from Evil (1,4).",
+        "TRACK # Casting PFE before leaving level."
+      ],
+      "value": 0
+    }
+  },
+  "clevel30": {
+    "label": "Control: level-30 Priest after casting Protection from Evil",
+    "explanation": "The same Priest at level 30. The timer is 30000, which fits in 16 bits, so resting is refused before and after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/restprep-108: starting...\nSETUP seed=108 mode=clevel30 class=Priest clevel=30 hp=226/226 sp=49/49 food=8999 depth=5\n  no_rest_after_prep_spell  STATE clevel=30 cursp=49 maxsp=49 pfe_castable=1 depth=5\nDECISION prepared=1 key=109 no_rest_prep=30000\nDECISION may_rest=0\nTRACK # Casting Protection from Evil (1,4).\nTRACK # Casting PFE before leaving level.\nOUTCOME rests_after_prep=0\nPassed\nnative-c/restprep-108 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 30,
+        "cursp": 49,
+        "maxsp": 49,
+        "pfe_castable": 1,
+        "depth": 5
+      },
+      "outcome": {
+        "rests_after_prep": 0
+      },
+      "notes": [
+        "DECISION prepared=1 key=109 no_rest_prep=30000",
+        "DECISION may_rest=0",
+        "TRACK # Casting Protection from Evil (1,4).",
+        "TRACK # Casting PFE before leaving level."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/restprep-108: starting...\nSETUP seed=108 mode=clevel30 class=Priest clevel=30 hp=226/226 sp=49/49 food=8999 depth=5\n  no_rest_after_prep_spell  STATE clevel=30 cursp=49 maxsp=49 pfe_castable=1 depth=5\nDECISION prepared=1 key=109 no_rest_prep=30000\nDECISION may_rest=0\nTRACK # Casting Protection from Evil (1,4).\nTRACK # Casting PFE before leaving level.\nOUTCOME rests_after_prep=0\nPassed\nnative-c/restprep-108 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 30,
+        "cursp": 49,
+        "maxsp": 49,
+        "pfe_castable": 1,
+        "depth": 5
+      },
+      "outcome": {
+        "rests_after_prep": 0
+      },
+      "notes": [
+        "DECISION prepared=1 key=109 no_rest_prep=30000",
+        "DECISION may_rest=0",
+        "TRACK # Casting Protection from Evil (1,4).",
+        "TRACK # Casting PFE before leaving level."
+      ],
+      "value": 0
+    }
+  }
+}

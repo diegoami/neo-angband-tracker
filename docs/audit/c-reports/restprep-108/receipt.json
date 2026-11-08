@@ -1,0 +1,121 @@
+{
+  "issue": "diegoami/neo-angband-tracker#108",
+  "report": "restprep-108",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "9d1a7f1d2a9b14a60261ce01381e79d940ef7532",
+  "fix_branch": "task/restprep-108",
+  "fixtures_ref": "0653738eeaa460db189cc3126e8a791705db613d",
+  "cases": {
+    "pfe": {
+      "before": {
+        "passed": false,
+        "state": {
+          "clevel": 35,
+          "cursp": 57,
+          "maxsp": 57,
+          "pfe_castable": 1,
+          "depth": 5
+        },
+        "outcome": {
+          "rests_after_prep": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "clevel": 35,
+          "cursp": 57,
+          "maxsp": 57,
+          "pfe_castable": 1,
+          "depth": 5
+        },
+        "outcome": {
+          "rests_after_prep": 0
+        }
+      }
+    },
+    "clevel30": {
+      "before": {
+        "passed": true,
+        "state": {
+          "clevel": 30,
+          "cursp": 49,
+          "maxsp": 49,
+          "pfe_castable": 1,
+          "depth": 5
+        },
+        "outcome": {
+          "rests_after_prep": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "clevel": 30,
+          "cursp": 49,
+          "maxsp": 49,
+          "pfe_castable": 1,
+          "depth": 5
+        },
+        "outcome": {
+          "rests_after_prep": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "clevel30"
+  ],
+  "claim": "At character level 35 the original timer after Protection from Evil was -30536, the resting check did not see a recent prep spell and the Borg was allowed to rest. With an int timer the value is 35000 and resting is refused, as at level 30 (30000, unchanged).",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg.h"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg.h": "33164ba397296380d66cbe73e7f94ec43a512dcc071ad42f58f7ac105aea0130"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "bbf3b91bd2672d6d8539d07333e1c598e8eb19d2d3f0ea710dfd854849b2a98b",
+    "after-clevel30.log": "323960aaf5af6bc9ea1024af3fce2c39a4495b87000b333d3ece62d7f61573e0",
+    "after-pfe.log": "506bc60ee511105d2c890132057c4bf14de0468c9bedfb57c4bec53d7e3b1e42",
+    "after-results.json": "4bcb2acc05b5187e9d3ab67c003922ef3f8753d2727f969b8a4fa1fe2340d53f",
+    "before-clevel30.log": "323960aaf5af6bc9ea1024af3fce2c39a4495b87000b333d3ece62d7f61573e0",
+    "before-pfe.log": "7e310a0cd42acf9bd62f01fb21848e263f79335d7ddac5a9e956164d720c2156",
+    "before-results.json": "1daa65872e280d7ccdc1665d58cd2a35256b64cdd3c854ff3b6b86bec7aeb83c",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "b26416feb3811f227bd49c2ec682867790fc465ea604456f8caf72aaf4f458b2",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "805e7c8ec8d07bfe3ab9cfd0c230e07e02cd21fdef18a1c73b85b427dee4bb37",
+    "replay.html": "0667a04f1806471b37a87f272615c9521d3054f13dbc16d4bc3381df8ff310e8",
+    "reproduce.py": "5d5c9d24282ab82ac5ba4233b429c6a3b5e5089e5d8289299ca7c93ee04d454a",
+    "result.json": "737d62b00dfdf330b0375da30c9e77b94c60156e6dc47dddf6558fd25a0ca3f7",
+    "run-after-alltests.log": "cffc60cb6c0f6aae70e11eae911f67a507285379d9d50917d0950a43e3c2d9cd",
+    "run-after-build.log": "82333cb037f17cbb8c5e77691f126cfd5b8e43a728eba43962ddd7e05433e4a5",
+    "run-after-scenarios.log": "6fbad363962e569b62cc99e96b5b1de4c4bdacbeabeac254ee001ec175468eb6",
+    "run-before-alltests.log": "d7a3839f06495160b9829bed45409bdb1f877eb6393598a455cc0fb84925dc1d",
+    "run-before-build.log": "d81fe245a10f9b1cc3509ce8dc041972f3878e39e753c68fba1c02c9c7a6a352",
+    "run-before-scenarios.log": "3020bb3c223fb0432a8fe88c24d7726174cca1762858bc8e599e32773b50052d",
+    "run-cases.py": "7afcb3c4c93733f596de5d1ca01a45d31173c15fcaafe4f841500877a93cc0b3",
+    "run-configure.log": "5d1654a7828f1ce9d44b4b623b0164f9bffcdc065f434d5af42006c2f461143c",
+    "scenario.c": "e97e33baa411f71b1053aff665e037b01aa7f4b3a1a59e3a6f4ab1b0bfe4e88f"
+  }
+}

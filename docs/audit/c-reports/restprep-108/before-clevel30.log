@@ -1,0 +1,10 @@
+native-c/restprep-108: starting...
+SETUP seed=108 mode=clevel30 class=Priest clevel=30 hp=226/226 sp=49/49 food=8999 depth=5
+  no_rest_after_prep_spell  STATE clevel=30 cursp=49 maxsp=49 pfe_castable=1 depth=5
+DECISION prepared=1 key=109 no_rest_prep=30000
+DECISION may_rest=0
+TRACK # Casting Protection from Evil (1,4).
+TRACK # Casting PFE before leaving level.
+OUTCOME rests_after_prep=0
+Passed
+native-c/restprep-108 finished: 1/1 passed
