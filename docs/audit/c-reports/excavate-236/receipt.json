@@ -3,7 +3,7 @@
   "issue": 236,
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
   "fix": "8e0f8448e9ebc6d164e4e621840acb0005094f81",
-  "fixtures_ref": "be69260bfcf7c51ce762ccf75282b18fbb5f7ad2",
+  "fixtures_ref": "4478e689cf5518cbb72a9a34efa1f6b0e3b58f61",
   "cases": {
     "before": {
       "excavate": {
@@ -125,7 +125,7 @@
   "cmake": "4.2.3",
   "browser": "Chrome for Testing chromium-1248",
   "sha256": {
-    "README.md": "77b4c798cf07642dfe5cc0e226320abdcddcc72efb1454b5697f205cdbbea812",
+    "README.md": "abca8c8656b0b81c6bd5f695ab8859ac81df3db4f376c7ef6f4d64aeeada845c",
     "after-alltests.log": "dde0619515223c8e881bfaaf0668c98ffb38337492105b2fdba2fe17f0fb666a",
     "after-build.log": "927a1e8549b1e7686ec57590cbf1b501dc23c676ca6a1fe5e64233b22cd3d512",
     "after-excavate.log": "ca5eb43c1f56bc85dac34ba757064769b9bdecc45dfbd82965577b74942af71e",

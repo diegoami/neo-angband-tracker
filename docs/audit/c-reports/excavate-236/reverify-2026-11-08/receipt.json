@@ -143,5 +143,34 @@
   "before-scenarios.log": "f74527767eb2349156b2975ba168081499d2eaab9e456d907820b64ced61a9ee",
   "configure.log": "4f525addf09183dc96f783be754e6916507a4c01270e2dd1b932612ae5a4b22f",
   "result.json": "19eb6f6345be298dd12ec3e9695d4202f4bf1433b2efe5b1466b96c974142f16"
- }
+ },
+ "restored_at_original_paths": [
+  "after-excavate.log",
+  "after-no-target.log",
+  "after-scenarios.log",
+  "before-excavate.log",
+  "before-no-target.log",
+  "before-scenarios.log"
+ ],
+ "not_restored_differ_from_original_hash": [
+  "after-alltests.log",
+  "after-build.log",
+  "before-alltests.log",
+  "before-build.log",
+  "configure.log"
+ ],
+ "receipt_amendments": [
+  {
+   "field": "sha256.README.md",
+   "old": "77b4c798cf07642dfe5cc0e226320abdcddcc72efb1454b5697f205cdbbea812",
+   "new": "abca8c8656b0b81c6bd5f695ab8859ac81df3db4f376c7ef6f4d64aeeada845c",
+   "why": "README.md gained the appended Re-verification (and Errata) sections on 2026-11-08"
+  },
+  {
+   "field": "fixtures_ref",
+   "old": "be69260bfcf7c51ce762ccf75282b18fbb5f7ad2",
+   "new": "4478e689cf5518cbb72a9a34efa1f6b0e3b58f61",
+   "why": "the recorded fixtures_ref does not exist; the real fixtures commit's generators match this receipt's hashes (README Errata)"
+  }
+ ]
 }
