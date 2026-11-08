@@ -1,0 +1,9 @@
+native-c/respois-184: starting...
+SETUP seed=184 mode=apples class=Mage clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE food_lo=4 arespois=3
+STATE potion_reward=900
+TRACK # Dropping junk Apples (valued at 2)
+DECISION junk=1
+OUTCOME potions_kept=1
+Passed
+native-c/respois-184 finished: 1/1 passed
