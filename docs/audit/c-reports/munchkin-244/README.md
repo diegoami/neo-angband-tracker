@@ -33,7 +33,7 @@ repeat-forever stuck state. No death or survival claim is made.
 
 Canonical report: [issue244](https://github.com/diegoami/neo-angband-tracker/issues/244).
 Lead supplied by borg-rs; independently validated and reproduced
-natively here. Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+natively here. Source proposal [#301](https://github.com/diegoami/neo-angband-tracker/pull/301).
 
 ## Verification
 
@@ -118,3 +118,54 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 option when staging it), `result.json`/`receipt.json` (outcomes and
 hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the original run's phase, build and gate logs were listed and hashed in
+`receipt.json` but never committed (the repository's `*.log` ignore rule
+dropped them), so the receipt could not be checked against published bytes.
+The same pinned runner was run again on 2026-11-08 at the receipt's own pins
+(base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `5b31e13d1023a64bf4f8613352e738757b5f56ec`, fixtures `e735a4fcedda19cac11f493b8c429893cf19a553`) with `--full-tests`.
+Every case reproduced the recorded outcome; the runner's per-case results
+(`result.json` `cases`) are identical to the committed original.
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `phantom` (plain floor, remembered stair on the NW neighbour) | `keys=">" stair_key=62 own_is_stair=0` (take-stair key queued on floor); 0/1 | `keys="" stair_key=0`; 1/1 |
+| `on-stair` (control) | `keys=">"`, `own_is_stair=1`; 1/1 | byte-identical log |
+
+Gates from the re-run's alltests logs: before Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines); after Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines).
+Re-run toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, cmake version 3.28.3 (the original receipt records
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, cmake version 4.2.3; the toolchain differs, and the files listed
+below as byte-identical are identical nonetheless).
+Corrected source sha256 matches the original receipt.
+Render check of the committed `replay.html` with `tools/c-evidence/render-smoke.js`
+(Playwright Chromium, every option and button clicked): `RENDER-SMOKE actions=4 errors=0 OK`.
+The original receipt records its own headless check under the `browser` key.
+The re-run at the receipt pin completed (exit 0). Its regenerated `replay-data.json` is byte-identical to the committed one; its regenerated `replay.html` differs because `make_replay.py` changed after the run pin (see Errata). The generator from `4873ed2a9` regenerates the committed `replay.html` byte-identically from this re-run's logs, so the repeat command below pins `4873ed2a9`, the guide's own pin.
+
+Where the logs are: [`reverify-2026-11-08/`](reverify-2026-11-08/) holds every log,
+`result.json` and per-mode results of the re-run, with
+[`reverify-2026-11-08/receipt.json`](reverify-2026-11-08/receipt.json) (pins, per-case
+results, gate lines, toolchain, render result, sha256 of every file there).
+9 re-run files are byte-identical to the hashes in the original
+`receipt.json`; those not already committed were also placed at their original paths in this directory, so the original receipt now resolves for them: `after-on-stair.log`, `after-phantom.log`, `after-scenarios.log`, `before-on-stair.log`, `before-phantom.log`, `before-scenarios.log`.
+The rest (`after-alltests.log`, `after-build.log`, `before-alltests.log`, `before-build.log`, `configure.log`) differ in
+run-specific content (temporary paths, timings, build output of the different toolchain) and are
+published only under `reverify-2026-11-08/`.
+
+Repeat (fixtures pinned by sha; the fix sha is fixed inside `reproduce.py` at that pin, and the runner
+refuses any other source diff):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/munchkin-244-evidence
+git show 4873ed2a9e2992752b603758c058ef0940068054:docs/audit/c-reports/munchkin-244/reproduce.py > /tmp/reproduce-munchkin-244.py
+python3 /tmp/reproduce-munchkin-244.py --full-tests --fixtures-ref 4873ed2a9e2992752b603758c058ef0940068054
+```
+
+## Errata (2026-11-08)
+
+- `make_replay.py` changed after the run pin `e735a4fce`: the capture commit `4873ed2a9` changes one expression so the replay's "Queued keys" panel reads the recorded `rating` field (at the run pin it read a non-existent `RATING` field and showed `n/a`). No other generator changed between `e735a4fce` and `f5b3c50e2`; no native log differs.
+- The source-proposal link near the top of this README was a placeholder; it now points to the source PR [#301](https://github.com/diegoami/neo-angband-tracker/pull/301) (evidence PR #302, canonical issue #244).
+- `receipt.json` was amended on 2026-11-08 for this only: its `README.md` hash now covers the README with these sections and the link fix, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.

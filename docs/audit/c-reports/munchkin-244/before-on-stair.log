@@ -1,0 +1,9 @@
+native-c/munchkin-244: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20 track_more=2
+  stair_key_only_on_own_stair  MODE on-stair
+GEOMETRY player=(11,11) own_feat=6 nw_feat=6 far_stair=(30,30) track_more=2
+RATING acted=1 keys=">" stair_key=62
+OUTCOME acted=1 stair_key=62 own_is_stair=1
+Passed
+native-c/munchkin-244 finished: 1/1 passed
