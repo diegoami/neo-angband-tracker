@@ -1,0 +1,3 @@
+excessive {'exit': 0, 'passed': False, 'state': {'danger': 20, 'avoidance': 8, 'hp': 8, 'fleeing': 1}, 'outcome': {'excessive_flee': 0, 'desperate_stairs': 0}}
+morgoth {'exit': 0, 'passed': False, 'state': {'danger': 20, 'avoidance': 8, 'hp': 8, 'fleeing': 1}, 'outcome': {'excessive_flee': 1, 'desperate_stairs': 1}}
+hurt {'exit': 0, 'passed': True, 'state': {'danger': 20, 'avoidance': 15, 'hp': 15, 'fleeing': 1}, 'outcome': {'excessive_flee': 0, 'desperate_stairs': 0}}
