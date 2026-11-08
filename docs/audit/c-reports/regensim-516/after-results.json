@@ -1,0 +1,59 @@
+{
+  "haste_active": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "clevel": 50,
+      "cursp": 401,
+      "maxsp": 401,
+      "cdepth": 20,
+      "haste_okay": 1,
+      "haste_fail": 0,
+      "regen_okay": 1,
+      "regen_fail": 0,
+      "haste_on": 1,
+      "regen_on": 0
+    },
+    "outcome": {
+      "casts_queued": 1
+    }
+  },
+  "haste_wins": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "clevel": 50,
+      "cursp": 401,
+      "maxsp": 401,
+      "cdepth": 20,
+      "haste_okay": 1,
+      "haste_fail": 0,
+      "regen_okay": 1,
+      "regen_fail": 0,
+      "haste_on": 0,
+      "regen_on": 0
+    },
+    "outcome": {
+      "casts_queued": 1
+    }
+  },
+  "regen_active": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "clevel": 50,
+      "cursp": 401,
+      "maxsp": 401,
+      "cdepth": 20,
+      "haste_okay": 1,
+      "haste_fail": 0,
+      "regen_okay": 1,
+      "regen_fail": 0,
+      "haste_on": 0,
+      "regen_on": 1
+    },
+    "outcome": {
+      "casts_queued": 1
+    }
+  }
+}

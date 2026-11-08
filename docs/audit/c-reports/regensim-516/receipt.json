@@ -1,0 +1,181 @@
+{
+  "issue": "diegoami/neo-angband-tracker#516",
+  "report": "regensim-516",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "3553ca8ac550d6510cc51663b0d611b8cc72aa45",
+  "fix_branch": "task/regensim-516",
+  "fixtures_ref": "a7f567ec8745d6c43f22d7e3b9773f6aa5d07223",
+  "cases": {
+    "haste_active": {
+      "before": {
+        "passed": false,
+        "state": {
+          "clevel": 50,
+          "cursp": 401,
+          "maxsp": 401,
+          "cdepth": 20,
+          "haste_okay": 1,
+          "haste_fail": 0,
+          "regen_okay": 1,
+          "regen_fail": 0,
+          "haste_on": 1,
+          "regen_on": 0
+        },
+        "outcome": {
+          "casts_queued": 2
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "clevel": 50,
+          "cursp": 401,
+          "maxsp": 401,
+          "cdepth": 20,
+          "haste_okay": 1,
+          "haste_fail": 0,
+          "regen_okay": 1,
+          "regen_fail": 0,
+          "haste_on": 1,
+          "regen_on": 0
+        },
+        "outcome": {
+          "casts_queued": 1
+        }
+      }
+    },
+    "haste_wins": {
+      "before": {
+        "passed": false,
+        "state": {
+          "clevel": 50,
+          "cursp": 401,
+          "maxsp": 401,
+          "cdepth": 20,
+          "haste_okay": 1,
+          "haste_fail": 0,
+          "regen_okay": 1,
+          "regen_fail": 0,
+          "haste_on": 0,
+          "regen_on": 0
+        },
+        "outcome": {
+          "casts_queued": 2
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "clevel": 50,
+          "cursp": 401,
+          "maxsp": 401,
+          "cdepth": 20,
+          "haste_okay": 1,
+          "haste_fail": 0,
+          "regen_okay": 1,
+          "regen_fail": 0,
+          "haste_on": 0,
+          "regen_on": 0
+        },
+        "outcome": {
+          "casts_queued": 1
+        }
+      }
+    },
+    "regen_active": {
+      "before": {
+        "passed": true,
+        "state": {
+          "clevel": 50,
+          "cursp": 401,
+          "maxsp": 401,
+          "cdepth": 20,
+          "haste_okay": 1,
+          "haste_fail": 0,
+          "regen_okay": 1,
+          "regen_fail": 0,
+          "haste_on": 0,
+          "regen_on": 1
+        },
+        "outcome": {
+          "casts_queued": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "clevel": 50,
+          "cursp": 401,
+          "maxsp": 401,
+          "cdepth": 20,
+          "haste_okay": 1,
+          "haste_fail": 0,
+          "regen_okay": 1,
+          "regen_fail": 0,
+          "haste_on": 0,
+          "regen_on": 1
+        },
+        "outcome": {
+          "casts_queued": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "regen_active"
+  ],
+  "claim": "With Haste Self as the best perma spell the original also queued Rapid Regeneration (two casts); with Rapid Regeneration as the only choice it queued it twice. After the correction each case queues the one cast that was chosen.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-fight-perm.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-fight-perm.c": "dbb405ad9ada079d466572f249236bccf0b7e5b98f32ae415c6382a71275da2a"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "f67f15e2e56809db080ec60993801f9e6574fb52cd9483b42b0d71ed850e2796",
+    "after-haste_active.log": "d8c7983966d62b4c1ea87b071b53093f58a57366a34fbcffc7fe9f8441f2e352",
+    "after-haste_wins.log": "e497ae474050644e7439eb28b80e3beb082b8359a46453c8c6273e0edce4e09d",
+    "after-regen_active.log": "6f08b6766b4828b7c8baf6be91372e50051100c2be3dec8d452cc132c6a18794",
+    "after-results.json": "c9b52404a3ab85971e2b29e4a5e4113c228403385fd854cbf3f50ff989cc93c4",
+    "before-haste_active.log": "29b3acd35060eaf16628560d414d05a758babcefa4669a5ad7a251c8b9a50128",
+    "before-haste_wins.log": "562278efc5c3402c881efd065136840738f0be3ef3dc16822af6e320cb3682ed",
+    "before-regen_active.log": "6f08b6766b4828b7c8baf6be91372e50051100c2be3dec8d452cc132c6a18794",
+    "before-results.json": "e5fcef008d685a3d4e0d68026b1ca24bc6ccfc22105fc7b43bb0b3c6cf77ba95",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "8c1e4c5bc6a200604dfd922055bd5a7ba71e12baae4eaaa136fd159a5316e2a0",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "ace784549b1d3474e675a6f0da415113524f8ab3be9285cfb1ad6e4e86f1fa75",
+    "replay.html": "21ddd929f512102515000dad064a160b5df3deb0702c7dff8f8920b7d320cc41",
+    "reproduce.py": "5d91206748ac22f889c5f64db2af3f6320063c77e8e020d0d1da66fe3ef8d281",
+    "result.json": "008e1d48c18b64c5c42454f3e20f2e6f1860d0cf73a2098cc9370b0af0886e84",
+    "run-after-alltests.log": "70ad507fe93f69bc649c568bf62b0dcbed6c6b8c8f897ffa9c59b731529f9bd0",
+    "run-after-build.log": "56cbc943091290f8fcfaf53dac798331b7f886d2ef7fcb2fe94b2edf5631acb3",
+    "run-after-scenarios.log": "aa549879ce0762e076e261d1de8cc4260a4e250f0a0ba13bb8ad946f848fcdbc",
+    "run-before-alltests.log": "211fa66deeee379dd0c95f74c4b2569830a4f1ef5be3ce5e06005b602749bfe8",
+    "run-before-build.log": "8e0fa6f69a8d5d9de08ff22cb7231ded99cbc6001a01147e12692ed9ae5d3075",
+    "run-before-scenarios.log": "489313be917479b106b59534b2c19d7f3007d322c659a3d88ea1582d38498528",
+    "run-cases.py": "a17a293a8bc90968c1104496554d5a1b4d62824b1a3b5c0e757d9272c6fa0281",
+    "run-configure.log": "139737a5dfac3474bc46ef9e9cfe3d46e32a1b82e08e7df43c40ba059d6ddb5e",
+    "scenario.c": "204d76302ba20c716347555a0dd9cc3cea9a45065abe3adf5a00d0300f410f13"
+  }
+}

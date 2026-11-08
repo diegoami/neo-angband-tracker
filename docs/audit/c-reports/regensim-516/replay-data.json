@@ -1,0 +1,169 @@
+{
+  "haste_active": {
+    "label": "Rapid Regeneration is the only choice (Haste Self already active)",
+    "explanation": "A level-50 Druid at full spell points, 20 levels down, with Haste Self already on. Rapid Regeneration is the only perma spell left, so it wins. Original: the scoring pass queues the cast and the real pass queues it again, six keys, two casts. Corrected: one cast, three keys.",
+    "control": false,
+    "before": {
+      "raw": "native-c/regensim-516: starting...\nSETUP seed=516 mode=haste_active class=Druid clevel=50 hp=986/986 sp=401/401 depth=20\n  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=1 regen_on=0\nDECISION acted=1 keys=6 key_sequence=\"m e d m e d\"\nTRACK # Casting Rapid Regeneration (4,3).\nTRACK # Performing perma-spell type 12 with value 1\nTRACK # Casting Rapid Regeneration (4,3).\nOUTCOME casts_queued=2\nFailed\n    native-c/regensim-516:179: requirement 'keys == 3' failed\nnative-c/regensim-516 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "clevel": 50,
+        "cursp": 401,
+        "maxsp": 401,
+        "cdepth": 20,
+        "haste_okay": 1,
+        "haste_fail": 0,
+        "regen_okay": 1,
+        "regen_fail": 0,
+        "haste_on": 1,
+        "regen_on": 0
+      },
+      "outcome": {
+        "casts_queued": 2
+      },
+      "notes": [
+        "DECISION acted=1 keys=6 key_sequence=\"m e d m e d\"",
+        "TRACK # Casting Rapid Regeneration (4,3).",
+        "TRACK # Performing perma-spell type 12 with value 1",
+        "TRACK # Casting Rapid Regeneration (4,3)."
+      ],
+      "value": 2
+    },
+    "after": {
+      "raw": "native-c/regensim-516: starting...\nSETUP seed=516 mode=haste_active class=Druid clevel=50 hp=986/986 sp=401/401 depth=20\n  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=1 regen_on=0\nDECISION acted=1 keys=3 key_sequence=\"m e d\"\nTRACK # Performing perma-spell type 12 with value 1\nTRACK # Casting Rapid Regeneration (4,3).\nOUTCOME casts_queued=1\nPassed\nnative-c/regensim-516 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 50,
+        "cursp": 401,
+        "maxsp": 401,
+        "cdepth": 20,
+        "haste_okay": 1,
+        "haste_fail": 0,
+        "regen_okay": 1,
+        "regen_fail": 0,
+        "haste_on": 1,
+        "regen_on": 0
+      },
+      "outcome": {
+        "casts_queued": 1
+      },
+      "notes": [
+        "DECISION acted=1 keys=3 key_sequence=\"m e d\"",
+        "TRACK # Performing perma-spell type 12 with value 1",
+        "TRACK # Casting Rapid Regeneration (4,3)."
+      ],
+      "value": 1
+    }
+  },
+  "haste_wins": {
+    "label": "Haste Self is the best choice; Rapid Regeneration is also available",
+    "explanation": "The same Druid with no spell active. Haste Self scores 5 and Rapid Regeneration 1, so Haste Self should be the only cast. Original: the scoring pass has already queued Rapid Regeneration, so the keys are Rapid Regeneration then Haste Self, two casts. Corrected: Haste Self only.",
+    "control": false,
+    "before": {
+      "raw": "native-c/regensim-516: starting...\nSETUP seed=516 mode=haste_wins class=Druid clevel=50 hp=986/986 sp=401/401 depth=20\n  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=0\nDECISION acted=1 keys=6 key_sequence=\"m e d m e b\"\nTRACK # Casting Rapid Regeneration (4,3).\nTRACK # Performing perma-spell type 0 with value 5\nTRACK # Casting Haste Self (4,1).\nOUTCOME casts_queued=2\nFailed\n    native-c/regensim-516:179: requirement 'keys == 3' failed\nnative-c/regensim-516 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "clevel": 50,
+        "cursp": 401,
+        "maxsp": 401,
+        "cdepth": 20,
+        "haste_okay": 1,
+        "haste_fail": 0,
+        "regen_okay": 1,
+        "regen_fail": 0,
+        "haste_on": 0,
+        "regen_on": 0
+      },
+      "outcome": {
+        "casts_queued": 2
+      },
+      "notes": [
+        "DECISION acted=1 keys=6 key_sequence=\"m e d m e b\"",
+        "TRACK # Casting Rapid Regeneration (4,3).",
+        "TRACK # Performing perma-spell type 0 with value 5",
+        "TRACK # Casting Haste Self (4,1)."
+      ],
+      "value": 2
+    },
+    "after": {
+      "raw": "native-c/regensim-516: starting...\nSETUP seed=516 mode=haste_wins class=Druid clevel=50 hp=986/986 sp=401/401 depth=20\n  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=0\nDECISION acted=1 keys=3 key_sequence=\"m e b\"\nTRACK # Performing perma-spell type 0 with value 5\nTRACK # Casting Haste Self (4,1).\nOUTCOME casts_queued=1\nPassed\nnative-c/regensim-516 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 50,
+        "cursp": 401,
+        "maxsp": 401,
+        "cdepth": 20,
+        "haste_okay": 1,
+        "haste_fail": 0,
+        "regen_okay": 1,
+        "regen_fail": 0,
+        "haste_on": 0,
+        "regen_on": 0
+      },
+      "outcome": {
+        "casts_queued": 1
+      },
+      "notes": [
+        "DECISION acted=1 keys=3 key_sequence=\"m e b\"",
+        "TRACK # Performing perma-spell type 0 with value 5",
+        "TRACK # Casting Haste Self (4,1)."
+      ],
+      "value": 1
+    }
+  },
+  "regen_active": {
+    "label": "Control: Rapid Regeneration already active",
+    "explanation": "The same Druid with Rapid Regeneration already running. The routine returns before the changed lines, so only Haste Self is queued, before and after. This control only shows that the rest of the perma-spell choice is unchanged; every path that reaches the changed lines changes its output.",
+    "control": true,
+    "before": {
+      "raw": "native-c/regensim-516: starting...\nSETUP seed=516 mode=regen_active class=Druid clevel=50 hp=986/986 sp=401/401 depth=20\n  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=1\nDECISION acted=1 keys=3 key_sequence=\"m e b\"\nTRACK # Performing perma-spell type 0 with value 5\nTRACK # Casting Haste Self (4,1).\nOUTCOME casts_queued=1\nPassed\nnative-c/regensim-516 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 50,
+        "cursp": 401,
+        "maxsp": 401,
+        "cdepth": 20,
+        "haste_okay": 1,
+        "haste_fail": 0,
+        "regen_okay": 1,
+        "regen_fail": 0,
+        "haste_on": 0,
+        "regen_on": 1
+      },
+      "outcome": {
+        "casts_queued": 1
+      },
+      "notes": [
+        "DECISION acted=1 keys=3 key_sequence=\"m e b\"",
+        "TRACK # Performing perma-spell type 0 with value 5",
+        "TRACK # Casting Haste Self (4,1)."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/regensim-516: starting...\nSETUP seed=516 mode=regen_active class=Druid clevel=50 hp=986/986 sp=401/401 depth=20\n  perma_spell_queue  STATE clevel=50 cursp=401 maxsp=401 cdepth=20 haste_okay=1 haste_fail=0 regen_okay=1 regen_fail=0 haste_on=0 regen_on=1\nDECISION acted=1 keys=3 key_sequence=\"m e b\"\nTRACK # Performing perma-spell type 0 with value 5\nTRACK # Casting Haste Self (4,1).\nOUTCOME casts_queued=1\nPassed\nnative-c/regensim-516 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "clevel": 50,
+        "cursp": 401,
+        "maxsp": 401,
+        "cdepth": 20,
+        "haste_okay": 1,
+        "haste_fail": 0,
+        "regen_okay": 1,
+        "regen_fail": 0,
+        "haste_on": 0,
+        "regen_on": 1
+      },
+      "outcome": {
+        "casts_queued": 1
+      },
+      "notes": [
+        "DECISION acted=1 keys=3 key_sequence=\"m e b\"",
+        "TRACK # Performing perma-spell type 0 with value 5",
+        "TRACK # Casting Haste Self (4,1)."
+      ],
+      "value": 1
+    }
+  }
+}
