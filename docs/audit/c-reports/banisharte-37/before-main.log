@@ -1,0 +1,10 @@
+native-c/banisharte-37: starting...
+SETUP seed=37 mode=main class=Warrior clevel=35 hp=431 depth=5 
+  banish_evil_with_the_artifact  STATE hp=431 avoidance=431 danger=138 wielding=[Great Axe of Eönwë (5d4) (+15,+18) [+8] <+2>] axe_activation_known=1
+DECISION rc=1 keys=113,98
+TRACK # Performing defense type 13 with value 5
+TRACK # Quaffing Potion of Berserk Strength.
+OUTCOME banishes_evil=0
+Failed
+    native-c/banisharte-37:197: requirement 'rc && banished' failed
+native-c/banisharte-37 finished: 0/1 passed

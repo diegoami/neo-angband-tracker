@@ -1,0 +1,117 @@
+{
+  "issue": "diegoami/neo-angband-tracker#37",
+  "report": "banisharte-37",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "caa6c6acc70c35ced4bfaaf2781036d99b5d32e5",
+  "fix_branch": "task/banisharte-37",
+  "fixtures_ref": "97bcf2a980749472b5ce1dba44ac7cb054ca274d",
+  "cases": {
+    "main": {
+      "before": {
+        "passed": false,
+        "state": {
+          "hp": 431,
+          "avoidance": 431,
+          "danger": 138,
+          "axe_activation_known": 1
+        },
+        "outcome": {
+          "banishes_evil": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 431,
+          "avoidance": 431,
+          "danger": 138,
+          "axe_activation_known": 1
+        },
+        "outcome": {
+          "banishes_evil": 1
+        }
+      }
+    },
+    "hurt": {
+      "before": {
+        "passed": true,
+        "state": {
+          "hp": 90,
+          "avoidance": 90,
+          "danger": 138,
+          "axe_activation_known": 1
+        },
+        "outcome": {
+          "banishes_evil": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 90,
+          "avoidance": 90,
+          "danger": 138,
+          "axe_activation_known": 1
+        },
+        "outcome": {
+          "banishes_evil": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "hurt"
+  ],
+  "claim": "With three cave trolls adjacent, the original Borg could not use the Eönwë axe (its hit-point test read the wrong array) and quaffed a Potion of Berserk Strength; with the current hit points tested it activates the axe and banishes the trolls. With 90 hit points both versions refuse the artifact route, and that control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-fight-defend.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-fight-defend.c": "9b2b2c3afe3cef7bc81241e93b894674f4cc7cdb7c1331e76bb18f7639f52af4"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "fac77bc6db26cbec4f151dba93d9528f39da3d90584258c37b688262bfe86e43",
+    "after-hurt.log": "b7437b1f0a6a54d81cfd055328a0c5254cbad7d3792db6e037ec77222e88b2af",
+    "after-main.log": "6bd87a8350705a758b8c4d673f7206b839cf3a7bd00059dc76b27a52232fe339",
+    "after-results.json": "94541f4458746cf0e0df4ae66d3a60525f430737c346dcf15981e5555ed91a1c",
+    "before-hurt.log": "b7437b1f0a6a54d81cfd055328a0c5254cbad7d3792db6e037ec77222e88b2af",
+    "before-main.log": "dc6cf740ad73e04963110947e1c9320ff880205512a737ff1a910fe8bb9e29c8",
+    "before-results.json": "27ca3ad8a3b15aa2fd33f72421c3d7865a87ffd691cf6bb67eb590f1351ab1de",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "963ce711948682e3eb74f70672a2177c7a68b62038e2fdbce2058ab04b1d93bf",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "a37c22dcaaf3d2776e1c5222b9166bfe137892dc9b113e97f735bdb455f8e28b",
+    "replay.html": "e2164d96aa62fc8d6db1bae6bbc0de311f5a6b53077358651f7441b2f07e79b9",
+    "reproduce.py": "ab1b1000757395a9eec41f56b5691939fd6b307a3a5ae7f5bae3f72e6625402f",
+    "result.json": "8fadb9f0dfdb825f0c42b583a04462f3fd12ad766d4fba50982595dfedafb710",
+    "run-after-alltests.log": "c8d94ffd0112ec16d477fad1d01c728cede13106a3eaf82dae6a8f1e061886cf",
+    "run-after-build.log": "e468f978f4bb6ed000c460a736a14f43ad0d31126173c9e6d39d6659e712de68",
+    "run-after-scenarios.log": "5f273060d388e76d1cd17d55b299d922257083cba9ff8f4fe70b805e1578c5cf",
+    "run-before-alltests.log": "31659cc4087283803e81d266c23705613e019d0937512ccf3ebc1415cbb139d6",
+    "run-before-build.log": "490d8c419070a65929f945b1eec815a63a9126393f4429ff43d34fae31c435d6",
+    "run-before-scenarios.log": "fc3ec849ab962a203e9403bf00069d11723f6604c97d9ada6e97c1456185c5f6",
+    "run-cases.py": "86890339377a11e1981a995c683e4c6abff4ca3179dddb6a0e305ac2ee12d045",
+    "run-configure.log": "f812b894d2015e404c4d3754bd2b972c66a2794978d4aeb4468ea57bfaee150c",
+    "scenario.c": "db806cd8821a06ad6ae6b77f09bf227ea90a92f9bb9c1d9b16849361af3700b8"
+  }
+}

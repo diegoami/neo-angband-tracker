@@ -1,0 +1,93 @@
+{
+  "main": {
+    "label": "Three cave trolls next to a healthy Warrior wielding the Axe of E\u00f6nw\u00eb",
+    "explanation": "A level-35 Warrior with 431 hit points wields the Great Axe of E\u00f6nw\u00eb, whose activation banishes evil monsters, and three awake cave trolls stand next to it (danger 138). The production defence routine chooses a defence. Original: the artifact test reads an unrelated object-kind count, is false, and the Banishment defence is not available; the Borg quaffs a Potion of Berserk Strength (value 5). Corrected: the Borg activates the axe and banishes the three trolls (value 138).",
+    "control": false,
+    "before": {
+      "raw": "native-c/banisharte-37: starting...\nSETUP seed=37 mode=main class=Warrior clevel=35 hp=431 depth=5 \n  banish_evil_with_the_artifact  STATE hp=431 avoidance=431 danger=138 wielding=[Great Axe of E\u00f6nw\u00eb (5d4) (+15,+18) [+8] <+2>] axe_activation_known=1\nDECISION rc=1 keys=113,98\nTRACK # Performing defense type 13 with value 5\nTRACK # Quaffing Potion of Berserk Strength.\nOUTCOME banishes_evil=0\nFailed\n    native-c/banisharte-37:197: requirement 'rc && banished' failed\nnative-c/banisharte-37 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "hp": 431,
+        "avoidance": 431,
+        "danger": 138,
+        "axe_activation_known": 1
+      },
+      "outcome": {
+        "banishes_evil": 0
+      },
+      "notes": [
+        "DECISION rc=1 keys=113,98",
+        "TRACK # Performing defense type 13 with value 5",
+        "TRACK # Quaffing Potion of Berserk Strength."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/banisharte-37: starting...\nSETUP seed=37 mode=main class=Warrior clevel=35 hp=431 depth=5 \n  banish_evil_with_the_artifact  STATE hp=431 avoidance=431 danger=138 wielding=[Great Axe of E\u00f6nw\u00eb (5d4) (+15,+18) [+8] <+2>] axe_activation_known=1\nDECISION rc=1 keys=65,97\nTRACK # Performing defense type 24 with value 138\nTRACK # Banishing Evil: (11,11): cave troll, danger 0. is considered.\nTRACK # Banishing Evil: (11,11): cave troll, danger 46. Booted.\nTRACK # Forgetting a monster 'cave troll' at (11,11)\nTRACK # Banishing Evil: (12,11): cave troll, danger 0. is considered.\nTRACK # Banishing Evil: (12,11): cave troll, danger 46. Booted.\nTRACK # Forgetting a monster 'cave troll' at (12,11)\nTRACK # Banishing Evil: (13,11): cave troll, danger 0. is considered.\nTRACK # Banishing Evil: (13,11): cave troll, danger 46. Booted.\nTRACK # Forgetting a monster 'cave troll' at (13,11)\nTRACK # Activating item Great Axe of E\u00f6nw\u00eb (5d4) (+15,+18) [+8] <+2>.\nOUTCOME banishes_evil=1\nPassed\nnative-c/banisharte-37 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 431,
+        "avoidance": 431,
+        "danger": 138,
+        "axe_activation_known": 1
+      },
+      "outcome": {
+        "banishes_evil": 1
+      },
+      "notes": [
+        "DECISION rc=1 keys=65,97",
+        "TRACK # Performing defense type 24 with value 138",
+        "TRACK # Banishing Evil: (11,11): cave troll, danger 0. is considered.",
+        "TRACK # Banishing Evil: (11,11): cave troll, danger 46. Booted.",
+        "TRACK # Forgetting a monster 'cave troll' at (11,11)",
+        "TRACK # Banishing Evil: (12,11): cave troll, danger 0. is considered.",
+        "TRACK # Banishing Evil: (12,11): cave troll, danger 46. Booted.",
+        "TRACK # Forgetting a monster 'cave troll' at (12,11)",
+        "TRACK # Banishing Evil: (13,11): cave troll, danger 0. is considered.",
+        "TRACK # Banishing Evil: (13,11): cave troll, danger 46. Booted.",
+        "TRACK # Forgetting a monster 'cave troll' at (13,11)",
+        "TRACK # Activating item Great Axe of E\u00f6nw\u00eb (5d4) (+15,+18) [+8] <+2>."
+      ],
+      "value": 1
+    }
+  },
+  "hurt": {
+    "label": "Control: the same scene with 90 hit points",
+    "explanation": "The same Warrior with 90 hit points. The artifact route needs more than 100, so it is refused before and after, and the routine does nothing in both.",
+    "control": true,
+    "before": {
+      "raw": "native-c/banisharte-37: starting...\nSETUP seed=37 mode=hurt class=Warrior clevel=35 hp=90 depth=5 \n  banish_evil_with_the_artifact  STATE hp=90 avoidance=90 danger=138 wielding=[Great Axe of E\u00f6nw\u00eb (5d4) (+15,+18) [+8] <+2>] axe_activation_known=1\nDECISION rc=0 keys=0,0\nOUTCOME banishes_evil=0\nPassed\nnative-c/banisharte-37 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 90,
+        "avoidance": 90,
+        "danger": 138,
+        "axe_activation_known": 1
+      },
+      "outcome": {
+        "banishes_evil": 0
+      },
+      "notes": [
+        "DECISION rc=0 keys=0,0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/banisharte-37: starting...\nSETUP seed=37 mode=hurt class=Warrior clevel=35 hp=90 depth=5 \n  banish_evil_with_the_artifact  STATE hp=90 avoidance=90 danger=138 wielding=[Great Axe of E\u00f6nw\u00eb (5d4) (+15,+18) [+8] <+2>] axe_activation_known=1\nDECISION rc=0 keys=0,0\nOUTCOME banishes_evil=0\nPassed\nnative-c/banisharte-37 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 90,
+        "avoidance": 90,
+        "danger": 138,
+        "axe_activation_known": 1
+      },
+      "outcome": {
+        "banishes_evil": 0
+      },
+      "notes": [
+        "DECISION rc=0 keys=0,0"
+      ],
+      "value": 0
+    }
+  }
+}

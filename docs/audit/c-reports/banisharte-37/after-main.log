@@ -1,0 +1,18 @@
+native-c/banisharte-37: starting...
+SETUP seed=37 mode=main class=Warrior clevel=35 hp=431 depth=5 
+  banish_evil_with_the_artifact  STATE hp=431 avoidance=431 danger=138 wielding=[Great Axe of Eönwë (5d4) (+15,+18) [+8] <+2>] axe_activation_known=1
+DECISION rc=1 keys=65,97
+TRACK # Performing defense type 24 with value 138
+TRACK # Banishing Evil: (11,11): cave troll, danger 0. is considered.
+TRACK # Banishing Evil: (11,11): cave troll, danger 46. Booted.
+TRACK # Forgetting a monster 'cave troll' at (11,11)
+TRACK # Banishing Evil: (12,11): cave troll, danger 0. is considered.
+TRACK # Banishing Evil: (12,11): cave troll, danger 46. Booted.
+TRACK # Forgetting a monster 'cave troll' at (12,11)
+TRACK # Banishing Evil: (13,11): cave troll, danger 0. is considered.
+TRACK # Banishing Evil: (13,11): cave troll, danger 46. Booted.
+TRACK # Forgetting a monster 'cave troll' at (13,11)
+TRACK # Activating item Great Axe of Eönwë (5d4) (+15,+18) [+8] <+2>.
+OUTCOME banishes_evil=1
+Passed
+native-c/banisharte-37 finished: 1/1 passed

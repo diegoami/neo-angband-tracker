@@ -1,0 +1,7 @@
+native-c/banisharte-37: starting...
+SETUP seed=37 mode=hurt class=Warrior clevel=35 hp=90 depth=5 
+  banish_evil_with_the_artifact  STATE hp=90 avoidance=90 danger=138 wielding=[Great Axe of Eönwë (5d4) (+15,+18) [+8] <+2>] axe_activation_known=1
+DECISION rc=0 keys=0,0
+OUTCOME banishes_evil=0
+Passed
+native-c/banisharte-37 finished: 1/1 passed

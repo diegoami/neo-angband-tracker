@@ -1,0 +1,2 @@
+main {'exit': 0, 'passed': False, 'state': {'hp': 431, 'avoidance': 431, 'danger': 138, 'axe_activation_known': 1}, 'outcome': {'banishes_evil': 0}}
+hurt {'exit': 0, 'passed': True, 'state': {'hp': 90, 'avoidance': 90, 'danger': 138, 'axe_activation_known': 1}, 'outcome': {'banishes_evil': 0}}
