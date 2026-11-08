@@ -1,0 +1,5 @@
+[  1%] Built target OurUnitTestLib
+[  1%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-formulas-calc.c.o
+[100%] Built target OurCoreLib
+[100%] Linking C executable game/T323Observer
+[100%] Built target T323Observer

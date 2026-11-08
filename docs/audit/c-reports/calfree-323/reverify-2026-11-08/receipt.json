@@ -127,5 +127,34 @@
     "configure-asan.log": "70d8a83ebebfc4a0efb80e0f84cce008c9961f944929752114dff057cbda892c",
     "configure.log": "5b9d23765ea1ee921f6236a76bcb0c9c56d11ca3c80dcaed725dd9d89682ed48",
     "result.json": "c10ec3ca80956ff3400306b54c8281d9785174d4f127299a0d843f6d73134d2d"
+  },
+  "receipt_amendments": {
+    "date": "2026-11-08",
+    "receipt.json sha256.README.md": {
+      "old": "79f59a9eb2b54d246b5f385a89b155a4d6a1ece13d0cc829dc754097754853a7",
+      "new": "5facb7ca72726dbc73e91209a903bc4087d5849f4ccb1767ac749443e1a64128",
+      "why": "README gained the Re-verification and Errata sections"
+    },
+    "receipt.json render_check": "added (original receipt only had a 'browser' entry); points at this receipt's render_check",
+    "README placeholder link": "PR-SOURCE -> #341",
+    "restored_at_original_paths": [
+      "after-build-asan.log",
+      "after-control.log",
+      "after-free.log",
+      "after-scenarios.log",
+      "before-control.log",
+      "before-free.log",
+      "before-scenarios.log"
+    ],
+    "asan_logs_replaced_at_original_paths": {
+      "after-asan-free.log": {
+        "old": "a28c247f2d23eb1744562385c7bd4ceeed93047a80c0ff91b4cb8087c69c34f1",
+        "new": "89158f6e16be1e75f9e89cfc8da90a2225fe2056b5f1367670d32f313e036aa9"
+      },
+      "before-asan-free.log": {
+        "old": "aa77fbe978d61a2580bd5a71bade8f6eff28de5a6815bfbc78130536447a7ebd",
+        "new": "75875ef053c7bf08180d2b8320ca41966a99fcde36ff64a2f246d1b20abf9161"
+      }
+    }
   }
 }
