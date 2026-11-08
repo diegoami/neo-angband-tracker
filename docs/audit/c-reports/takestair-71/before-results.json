@@ -1,0 +1,30 @@
+{
+  "take": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "goes_for_item": 0
+    }
+  },
+  "scum": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "goes_for_item": 0
+    }
+  },
+  "lunal": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "goes_for_item": 0
+    }
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "goes_for_item": 1
+    }
+  }
+}

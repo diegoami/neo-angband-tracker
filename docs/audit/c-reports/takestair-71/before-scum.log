@@ -1,0 +1,8 @@
+native-c/takestair-71: starting...
+SETUP seed=71 mode=scum class=Warrior clevel=1 depth=1 up=2 takes=1 leash_take=12 leash_explore=12
+  steps_toward_the_flask_near_its_stair  TAKE k=1 kind=& Flask~ of oil pos=(13,12) value=3
+DECISION fn=borg_flow_take_scum(true, 6) rc=0 key=0 goal=0
+OUTCOME goes_for_item=0
+Failed
+    native-c/takestair-71:170: requirement 'go' failed
+native-c/takestair-71 finished: 0/1 passed
