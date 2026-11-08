@@ -639,10 +639,6 @@ static bool borg_play_step(int y2, int x2)
                 if (ag->kill)
                     continue;
 
-                /* Skip repeatedly closed doors */
-                if (track_door.num >= 255)
-                    continue;
-
                 /* skip our original goal */
                 if ((oy + borg.c.y == y2) && (ox + borg.c.x == x2))
                     continue;
