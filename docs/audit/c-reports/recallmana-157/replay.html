@@ -1,0 +1,66 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Waiting for recall, the low-mana caster never restored its mana</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Waiting for recall, the low-mana caster never restored its mana</h1><p>When the Borg has read Word of Recall and is in danger while it waits, it &#x27;buys time&#x27;. Its first step restores mana if it is a caster below a quarter of its maximum mana, so it can cast its escapes. The test compared the current mana with a quarter of the current mana, which is never true, so the step never ran. A badly hurt level-35 Mage with 19 of 193 mana and two Restore Mana potions, a cave bear beside it, therefore did nothing here. The correction compares with the maximum mana, and the Mage quaffs Restore Mana.</p><p><label>Scenario: <select id="scenario"><option value="lowmana">19 of 193 mana</option><option value="halfmana">Control: 96 of 193 mana</option></select></label></p><section class="scenario" data-mode="lowmana"><p class="summary">Original: the mana test is never true; after the failed teleport attempt, caution takes no action (rc 0). Corrected: &#x27;Quaffing Potions of Restore Mana&#x27; / &#x27;Buying time waiting for Recall.(1)&#x27; (key q).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>quaffed Restore Mana while waiting for recall (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:19/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>quaffed Restore Mana while waiting for recall (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:19/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Quaffing Potions of Restore Mana.
+TRACK # Buying time waiting for Recall.(1)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/recallmana-157: starting...
+SETUP seed=157 mode=lowmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0
+  restore_mana_while_waiting_for_recall  STATE sp=19 maxsp=193 recalling=150
+KILL k=1 r=140 pos=(11,13) awake=1 power=25
+STATE danger=20 avoidance=9 hp=9 fleeing=1
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:19/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+OUTCOME restore_mana=0
+Failed
+    native-c/recallmana-157:184: requirement &#x27;restore&#x27; failed
+native-c/recallmana-157 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/recallmana-157: starting...
+SETUP seed=157 mode=lowmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0
+  restore_mana_while_waiting_for_recall  STATE sp=19 maxsp=193 recalling=150
+KILL k=1 r=140 pos=(11,13) awake=1 power=25
+STATE danger=20 avoidance=9 hp=9 fleeing=1
+DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:19/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Quaffing Potions of Restore Mana.
+TRACK # Buying time waiting for Recall.(1)
+OUTCOME restore_mana=1
+Passed
+native-c/recallmana-157 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="halfmana"><p class="summary">Mana is above a quarter of the maximum; neither version quaffs and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>quaffed Restore Mana while waiting for recall (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>quaffed Restore Mana while waiting for recall (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/recallmana-157: starting...
+SETUP seed=157 mode=halfmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0
+  restore_mana_while_waiting_for_recall  STATE sp=96 maxsp=193 recalling=150
+KILL k=1 r=140 pos=(11,13) awake=1 power=25
+STATE danger=20 avoidance=9 hp=9 fleeing=1
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+OUTCOME restore_mana=0
+Passed
+native-c/recallmana-157 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/recallmana-157: starting...
+SETUP seed=157 mode=halfmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0
+  restore_mana_while_waiting_for_recall  STATE sp=96 maxsp=193 recalling=150
+KILL k=1 r=140 pos=(11,13) awake=1 power=25
+STATE danger=20 avoidance=9 hp=9 fleeing=1
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+OUTCOME restore_mana=0
+Passed
+native-c/recallmana-157 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Mage, seed 157, level 35, depth 30, 9 hit points, starting kit plus 2 Restore Mana potions, an awake cave bear adjacent (Borg danger 20, above twice the hit points), an up staircase two steps west. Word of Recall is active (the game&#x27;s recall timer is set, as after reading the scroll). The Borg has not been given its spells in this fixture, so it cannot cast Phase Door; the production borg_caution() runs once and the first queued key is read back. Main case 19 of 193 mana; control 96 of 193 (above a quarter). This isolates the first &#x27;buy time&#x27; step; it does not play out the recall.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/157">issue 157</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
