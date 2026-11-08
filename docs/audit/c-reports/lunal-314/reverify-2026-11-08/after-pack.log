@@ -1,0 +1,9 @@
+native-c/lunal-314: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior depth=2
+  leaving_scumming_clears_the_lunal_pair  MODE pack
+GEOMETRY lunal_mode=1 fleeing_lunal=1
+RATING lunal_mode=1 fleeing_lunal=1
+OUTCOME lunal_mode=1 fleeing_lunal=1
+Passed
+native-c/lunal-314 finished: 1/1 passed

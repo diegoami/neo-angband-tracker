@@ -1,0 +1,10 @@
+native-c/lunal-314: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Warrior depth=0
+  leaving_scumming_clears_the_lunal_pair  MODE town
+GEOMETRY lunal_mode=0 fleeing_lunal=1
+RATING lunal_mode=0 fleeing_lunal=1
+OUTCOME lunal_mode=0 fleeing_lunal=1
+Failed
+    native-c/lunal-314:136: requirement '!borg.goal.fleeing_lunal' failed
+native-c/lunal-314 finished: 0/1 passed
