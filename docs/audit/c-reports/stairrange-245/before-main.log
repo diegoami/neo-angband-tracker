@@ -15,5 +15,5 @@ NOTE 10
 NOTE 11 ====================
 OUTCOME climb_decision=0
 Failed
-    native-c/stairrange-245:130: requirement 'borg.goal.less' failed
+    native-c/stairrange-245:182: requirement 'borg.goal.less' failed
 native-c/stairrange-245 finished: 0/1 passed
