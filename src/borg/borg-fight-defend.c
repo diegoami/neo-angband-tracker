@@ -1147,10 +1147,6 @@ static int borg_defend_aux_tele_away(int p1)
         /* scary */
         if (p1 > borg.avoidance * 2)
             fail_allowed -= 5;
-        else
-            /* a little scary */
-            if (p1 > (borg.avoidance * 5) / 2)
-                fail_allowed += 5;
 
     /* do I have the ability? */
     if (borg_spell_okay_fail(TELEPORT_OTHER, fail_allowed)
