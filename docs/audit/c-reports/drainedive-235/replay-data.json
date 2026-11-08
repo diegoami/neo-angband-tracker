@@ -1,0 +1,22 @@
+{
+  "main": {
+    "label": "The drained Borg power-dived anyway",
+    "explanation": "A drained Borg (experience below its maximum) at depth 15 is otherwise fully prepared: borg_prepared(15) and borg_prepared(20) are NULL, nothing has chosen a direction, and the power-dive check borg_prepared(CDEPTH + 5) is satisfied. The \"do not dive when drained\" guard read if (g && BI_ISFIXEXP), but g is only non-zero there when an earlier branch already decided to head up - so for a Borg that had not yet chosen a direction the guard was dead and the drained Borg took the dive. The correction applies the guard unconditionally, matching the sibling \"full of items\" check and the original dive-cancellation shape.",
+    "before": {
+      "raw": "native-c/drainedive-235: starting...\nSETUP seed=235 class=Warrior depth=15 clevel=49\n  drained_borg_does_not_power_dive  PROBE sinv=1 fract=1 fixexp=1\nPRE exp=0 max_exp=10000 fixexp=1\nPOST fixexp=1 active=1\nNOTE 00 # power dive, playing too shallow.\nNOTE 01 # Ready...\nNOTE 02 Initializing the Borg... done.\nNOTE 03 Initializing the Borg... (various)\nNOTE 04 Initializing the Borg... (options)\nNOTE 05 Initializing the Borg... (borg.txt)\nNOTE 06 Initializing the Borg... (memory)\nNOTE 07 You are wearing a Ring of Free Action {??} (d).\nNOTE 08 You combine some items in your pack.\nNOTE 09 You are wearing a Ring of See Invisible (c).\nNOTE 10 You have learned the rune of see invisible.\nNOTE 11 You combine some items in your pack.\nNOTE 12 Your light source is a Lantern (2000 turns) (f).\nNOTE 13  \nOUTCOME dive_notes=1 drained=1\nFailed\n    native-c/drainedive-235:174: requirement 'dives == 0' failed\nnative-c/drainedive-235 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "dive_notes": 1,
+        "drained": 1
+      }
+    },
+    "after": {
+      "raw": "native-c/drainedive-235: starting...\nSETUP seed=235 class=Warrior depth=15 clevel=49\n  drained_borg_does_not_power_dive  PROBE sinv=1 fract=1 fixexp=1\nPRE exp=0 max_exp=10000 fixexp=1\nPOST fixexp=1 active=1\nNOTE 00 # Ready...\nNOTE 01 Initializing the Borg... done.\nNOTE 02 Initializing the Borg... (various)\nNOTE 03 Initializing the Borg... (options)\nNOTE 04 Initializing the Borg... (borg.txt)\nNOTE 05 Initializing the Borg... (memory)\nNOTE 06 You are wearing a Ring of Free Action {??} (d).\nNOTE 07 You combine some items in your pack.\nNOTE 08 You are wearing a Ring of See Invisible (c).\nNOTE 09 You have learned the rune of see invisible.\nNOTE 10 You combine some items in your pack.\nNOTE 11 Your light source is a Lantern (2000 turns) (f).\nNOTE 12  \nNOTE 13   \nOUTCOME dive_notes=0 drained=1\nPassed\nnative-c/drainedive-235 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "dive_notes": 0,
+        "drained": 1
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "main": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "dive_notes": 0,
+      "drained": 1
+    }
+  }
+}
