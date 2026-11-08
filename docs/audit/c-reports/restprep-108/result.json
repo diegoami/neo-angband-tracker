@@ -1,0 +1,83 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "9d1a7f1d2a9b14a60261ce01381e79d940ef7532",
+  "fixtures_ref": "0653738eeaa460db189cc3126e8a791705db613d",
+  "cases": {
+    "before": {
+      "pfe": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "clevel": 35,
+          "cursp": 57,
+          "maxsp": 57,
+          "pfe_castable": 1,
+          "depth": 5
+        },
+        "outcome": {
+          "rests_after_prep": 1
+        }
+      },
+      "clevel30": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "clevel": 30,
+          "cursp": 49,
+          "maxsp": 49,
+          "pfe_castable": 1,
+          "depth": 5
+        },
+        "outcome": {
+          "rests_after_prep": 0
+        }
+      }
+    },
+    "after": {
+      "pfe": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "clevel": 35,
+          "cursp": 57,
+          "maxsp": 57,
+          "pfe_castable": 1,
+          "depth": 5
+        },
+        "outcome": {
+          "rests_after_prep": 0
+        }
+      },
+      "clevel30": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "clevel": 30,
+          "cursp": 49,
+          "maxsp": 49,
+          "pfe_castable": 1,
+          "depth": 5
+        },
+        "outcome": {
+          "rests_after_prep": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "clevel30"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg.h": "33164ba397296380d66cbe73e7f94ec43a512dcc071ad42f58f7ac105aea0130"
+  }
+}

@@ -1,0 +1,2 @@
+pfe {'exit': 0, 'passed': True, 'state': {'clevel': 35, 'cursp': 57, 'maxsp': 57, 'pfe_castable': 1, 'depth': 5}, 'outcome': {'rests_after_prep': 0}}
+clevel30 {'exit': 0, 'passed': True, 'state': {'clevel': 30, 'cursp': 49, 'maxsp': 49, 'pfe_castable': 1, 'depth': 5}, 'outcome': {'rests_after_prep': 0}}

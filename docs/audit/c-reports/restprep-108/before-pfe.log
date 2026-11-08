@@ -1,0 +1,11 @@
+native-c/restprep-108: starting...
+SETUP seed=108 mode=pfe class=Priest clevel=35 hp=273/273 sp=57/57 food=8999 depth=5
+  no_rest_after_prep_spell  STATE clevel=35 cursp=57 maxsp=57 pfe_castable=1 depth=5
+DECISION prepared=1 key=109 no_rest_prep=-30536
+DECISION may_rest=1
+TRACK # Casting Protection from Evil (1,4).
+TRACK # Casting PFE before leaving level.
+OUTCOME rests_after_prep=1
+Failed
+    native-c/restprep-108:155: requirement '!may_rest' failed
+native-c/restprep-108 finished: 0/1 passed
