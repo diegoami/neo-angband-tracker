@@ -1,0 +1,10 @@
+native-c/swapacid-199: starting...
+SETUP seed=199 mode=elec class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger 'Dethanc' (1d4) (+9,+12) [+10]
+STATE swap=1 swap_acid=0 swap_elec=1 swap_fire=0
+STATE sracid=0 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=resist acid
+OUTCOME prepared30=0 acid_counted=0
+Passed
+native-c/swapacid-199 finished: 1/1 passed
