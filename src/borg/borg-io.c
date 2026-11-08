@@ -32,8 +32,9 @@ bool borg_confirm_target;
  * Query the "attr/chars" at a given location on the screen
  *
  * Note that "a" points to a single "attr", and "s" to an array
- * of "chars", into which the attribute and text at the given
- * location are stored.
+ * of "size" "chars", into which the attribute and text at the given
+ * location are stored.  The text is truncated to fit and always
+ * terminated.
  *
  * We will not grab more than "ABS(n)" characters for the string.
  * If "n" is "positive", we will grab exactly "n" chars, or fail.
@@ -51,9 +52,10 @@ bool borg_confirm_target;
  *
  * XXX XXX XXX We assume the given location is legal
  */
-errr borg_what_text(int x, int y, int n, uint8_t *a, char *s)
+errr borg_what_text(int x, int y, int n, uint8_t *a, char *s, size_t size)
 {
     int     i;
+    size_t  len;
     wchar_t screen_str[1024];
 
     int     t_a;
@@ -122,14 +124,10 @@ errr borg_what_text(int x, int y, int n, uint8_t *a, char *s)
     /* Save the attribute */
     (*a) = d_a;
 
-    /* Convert back to a char string.  Each wide character can become
-     * several bytes, so a byte limit of one per wide character can
-     * truncate exactly at the limit and leave the destination
-     * unterminated; bound the conversion by the widest encoding
-     * instead, and fall back to an empty string on a conversion
-     * error. */
-    if (wcstombs(s, screen_str, ABS(n) * MB_CUR_MAX) == (size_t)-1)
-        s[0] = '\0';
+    /* Convert back to a char string that fits the buffer; wcstombs()
+     * does not terminate a result it had to truncate */
+    len = wcstombs(s, screen_str, size - 1);
+    s[(len == (size_t)-1) ? 0 : len] = '\0';
     /* Too short */
     if ((n > 0) && (i != n))
         return 1;
