@@ -3327,7 +3327,7 @@ void borg_init_flow_kill(void)
             continue;
 
         /* Skip non-uniques */
-        if (rf_has(r_ptr->flags, RF_UNIQUE))
+        if (!rf_has(r_ptr->flags, RF_UNIQUE))
             continue;
 
         /* Mega-Hack -- Access "dead unique" list */
