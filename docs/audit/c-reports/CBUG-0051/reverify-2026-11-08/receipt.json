@@ -259,5 +259,26 @@
     "before-two-phase.log": "1924fc904ca35204f5040ebda7df9855bb365efecedfe24b29b1b15e66320879",
     "configure.log": "6126cbe154bf3c9fa41a22684cdbd9d972a8ef016be327b7bb7df81efb8b823c",
     "result.json": "bc26b2278c890545833c2466d791b67531ea5cad2b085e54686e10afc05bc39d"
-  }
+  },
+  "receipt_amendments": [
+    {
+      "file": "../receipt.json",
+      "key": "sha256.README.md",
+      "old": "168bbf5e3599eed1355f958664efe6540dcb6591d2dc9da132fd915c46dc8dc5",
+      "new": "a485bad7317907583b2b34226835cc81d852e216245b473c37f6b095363daa60",
+      "why": "README.md gained the 2026-11-08 Re-verification/Errata sections (and any placeholder replacement listed there)"
+    },
+    {
+      "file": "../receipt.json",
+      "key": "render_check",
+      "old": null,
+      "new": {
+        "date": "2026-11-08",
+        "tool": "tools/c-evidence/render-smoke.js",
+        "result": "RENDER-SMOKE actions=12 errors=0 OK",
+        "page": "replay.html (committed)",
+        "note": "The original run's own headless check is recorded under the 'browser' key; this key adds the 2026-11-08 smoke check."
+      }
+    }
+  ]
 }
