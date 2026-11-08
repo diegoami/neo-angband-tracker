@@ -2,7 +2,7 @@ import json,os,re,subprocess,sys
 from pathlib import Path
 phase,binary,directory=sys.argv[1:];root=Path(directory)
 SUITE='native-c/modcredit-70'
-MODES=['statring', 'speed', 'nomods']
+MODES=['statring', 'speed', 'nomods', 'inertia', 'thror']
 rows={}
 for mode in MODES:
  env=os.environ|{'MC70'+'_PROFILE':str(root/'profile'),'MC70'+'_MODE':mode}

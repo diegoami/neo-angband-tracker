@@ -77,6 +77,8 @@ int setup_tests(void **state)
     if (streq(mode, "statring")) { name_a = "ring:Strength"; name_b = "ring:Soulkeeping"; }
     else if (streq(mode, "speed")) { name_a = "art:Colannon"; name_b = "amulet:ESP"; }
     else if (streq(mode, "nomods")) { name_a = "ring:Free Action"; name_b = "ring:Bodykeeping"; }
+    else if (streq(mode, "inertia")) { name_a = "amulet:Inertia"; name_b = "ring:Soulkeeping"; }
+    else if (streq(mode, "thror")) { name_a = "art:of Thr\xc3\xb3r"; name_b = "ring:Soulkeeping"; }
     else { printf("SETUPFAIL mode\n"); return 1; }
     set_file_paths();
     string_free(ANGBAND_DIR_USER); ANGBAND_DIR_USER = string_make(profile);
@@ -205,7 +207,10 @@ static int scenario_sell(void *state)
     /* Correct contract: the ring with the modifier bonus (strength, speed)
      * is valued with that bonus, so the other ring is the cheaper one and
      * is sold first.  With no modifiers at all the cheaper kind (Ring of
-     * Bodykeeping) is sold first in both versions. */
+     * Bodykeeping) is sold first in both versions.  An Amulet of Inertia
+     * (negative speed) is worth nothing to a shop, so the Borg should keep
+     * it out of the sale and sell the other item; the Boots of Thror keep
+     * their credit despite a stealth penalty, so the ring is sold first. */
     require(kept_a && !kept_b);
     ok;
 }
