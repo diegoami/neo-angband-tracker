@@ -1,0 +1,28 @@
+{
+  "brute": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "avoidance": 177,
+      "half_avoidance": 88,
+      "hp": 177,
+      "ac": 10
+    },
+    "outcome": {
+      "shoots": 0
+    }
+  },
+  "wretch": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "avoidance": 177,
+      "half_avoidance": 88,
+      "hp": 177,
+      "ac": 10
+    },
+    "outcome": {
+      "shoots": 1
+    }
+  }
+}

@@ -1,0 +1,42 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg shot at a sleeping troll because its melee danger came out at 5%</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg shot at a sleeping troll because its melee danger came out at 5%</h1><p>Before it attacks a sleeping monster from a distance, the Borg asks how dangerous that monster would be if it woke, and leaves hard sleeping monsters alone. That estimate scales a monster&#x27;s melee damage by the chance that its blows hit. The chance was computed as 150 minus the armour term armour*75 minus 3*(level+power) where it should divide the armour term by the monster&#x27;s to-hit. Any armour class of 2 or more therefore gave the 5% floor, and a higher monster level lowered the chance. A sleeping cave troll counted as harmless and the Borg shot at it. The correction divides armour by the to-hit, so the chance falls as armour rises and rises with the monster&#x27;s level, and the check works.</p><p><label>Scenario: <select id="scenario"><option value="brute">Sleeping cave troll six grids away</option><option value="wretch">Control: sleeping boil-covered wretch</option></select></label></p><section class="scenario" data-mode="brute"><p class="summary">A level-15 Warrior at full hit points (177) with 10 armour sees a sleeping cave troll six grids east. The production ranged-attack scorer rates a bolt at it. Original: the partial melee danger of the troll is 0 (a 5% hit chance), so the check that avoids waking a hard sleeping monster does not trigger and the bolt scores 12. Corrected: the partial melee danger is 234 (full-damage danger is 162), well above half the Borg&#x27;s avoidance (88), so the scorer refuses the attack.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg shoots at the sleeping monster (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK partial_danger=0 full_danger=162
+DECISION bolt_score=12</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg shoots at the sleeping monster (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK partial_danger=234 full_danger=162
+DECISION bolt_score=-1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/hitchance-63: starting...
+SETUP seed=63 mode=brute class=Warrior clevel=15 hp=177 depth=5 
+  ranged_attack_on_a_sleeping_monster  KILL k=1 r=361 name=cave troll pos=(16,12) awake=0 power=180
+STATE avoidance=177 half_avoidance=88 hp=177 ac=10
+TRACK partial_danger=0 full_danger=162
+DECISION bolt_score=12
+OUTCOME shoots=1
+Failed
+    native-c/hitchance-63:177: requirement &#x27;score &lt;= 0&#x27; failed
+native-c/hitchance-63 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/hitchance-63: starting...
+SETUP seed=63 mode=brute class=Warrior clevel=15 hp=177 depth=5 
+  ranged_attack_on_a_sleeping_monster  KILL k=1 r=361 name=cave troll pos=(16,12) awake=0 power=180
+STATE avoidance=177 half_avoidance=88 hp=177 ac=10
+TRACK partial_danger=234 full_danger=162
+DECISION bolt_score=-1
+OUTCOME shoots=0
+Passed
+native-c/hitchance-63 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="wretch"><p class="summary">The same Warrior and a sleeping boil-covered wretch, a level-0 monster whose only blow does no damage. It goes through the same hit-chance lines, the danger is 0 before and after, and the bolt scores 12 in both.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg shoots at the sleeping monster (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK partial_danger=0 full_danger=0
+DECISION bolt_score=12</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg shoots at the sleeping monster (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK partial_danger=0 full_danger=0
+DECISION bolt_score=12</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/hitchance-63: starting...
+SETUP seed=63 mode=wretch class=Warrior clevel=15 hp=177 depth=5 
+  ranged_attack_on_a_sleeping_monster  KILL k=1 r=6 name=boil-covered wretch pos=(16,12) awake=0 power=3
+STATE avoidance=177 half_avoidance=88 hp=177 ac=10
+TRACK partial_danger=0 full_danger=0
+DECISION bolt_score=12
+OUTCOME shoots=1
+Passed
+native-c/hitchance-63 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/hitchance-63: starting...
+SETUP seed=63 mode=wretch class=Warrior clevel=15 hp=177 depth=5 
+  ranged_attack_on_a_sleeping_monster  KILL k=1 r=6 name=boil-covered wretch pos=(16,12) awake=0 power=3
+STATE avoidance=177 half_avoidance=88 hp=177 ac=10
+TRACK partial_danger=0 full_danger=0
+DECISION bolt_score=12
+OUTCOME shoots=1
+Passed
+native-c/hitchance-63 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 63, character level 15, 177 hit points, 10 armour, depth 5, a lit open arena, a lit torch. The production borg_launch_bolt() scores a bolt of damage 12 (about a Magic Missile) at the monster; the fixture builds the target list for the one monster in view and sets the attacking flag exactly as borg_attack() does, and the monster is marked asleep in the game and in the Borg&#x27;s monster list. Nothing is fired or played. All partial-damage callers share the corrected estimate; only this one decision is measured.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/63">issue 63</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

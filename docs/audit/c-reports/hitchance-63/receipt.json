@@ -1,0 +1,117 @@
+{
+  "issue": "diegoami/neo-angband-tracker#63",
+  "report": "hitchance-63",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "5c7950a25e7fb62eec1987f0fe8a4f43f4bf3984",
+  "fix_branch": "task/hitchance-63",
+  "fixtures_ref": "d1ac3dce6c21906d049d8589e16ab43b1afe8390",
+  "cases": {
+    "brute": {
+      "before": {
+        "passed": false,
+        "state": {
+          "avoidance": 177,
+          "half_avoidance": 88,
+          "hp": 177,
+          "ac": 10
+        },
+        "outcome": {
+          "shoots": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 177,
+          "half_avoidance": 88,
+          "hp": 177,
+          "ac": 10
+        },
+        "outcome": {
+          "shoots": 0
+        }
+      }
+    },
+    "wretch": {
+      "before": {
+        "passed": true,
+        "state": {
+          "avoidance": 177,
+          "half_avoidance": 88,
+          "hp": 177,
+          "ac": 10
+        },
+        "outcome": {
+          "shoots": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 177,
+          "half_avoidance": 88,
+          "hp": 177,
+          "ac": 10
+        },
+        "outcome": {
+          "shoots": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "wretch"
+  ],
+  "claim": "The original partial melee estimate gave the sleeping cave troll a danger of 0, so a level-15 Warrior's ranged-attack scorer rated a bolt at it at 12 and the troll would be woken. With armour divided by the monster's to-hit the estimate is 234, above half the Borg's avoidance, and the scorer refuses the attack. A control with a harmless sleeping monster is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-danger.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "cea893f08a04c8cacfa80a3615ffd9eb59d51c5af498fe8f7fb009c954b8b81c"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "2eece36c2deef907c3e0fd916fa3c6bb0579774cc6a5cf6f9381d1bf5fee8d6c",
+    "after-brute.log": "912a8ff84490b7b1f249ab700b92bf8c81f574b2c81778d749e42a04d4a641db",
+    "after-results.json": "8558beb4b9d413d106b58253cb4a58b9656c736e4c6dce3ab997c0c99ec7f8a8",
+    "after-wretch.log": "228d91a3e4687ffb74b771e04debdec115a028a679df63d8486447b45f68fa08",
+    "before-brute.log": "138e5a85fdf7bf2f6ba4f105422d554769c71f4fe432ac2e5f233e082f9191cb",
+    "before-results.json": "5fe8e856991d0db2f310fbd28985050252b653f3850c1f5ef5c25f97717ef755",
+    "before-wretch.log": "228d91a3e4687ffb74b771e04debdec115a028a679df63d8486447b45f68fa08",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "f8dd7ba78eafcb4bf65c27fa93c1e398e8b72b26a7e59b30ac88af1284f561d3",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "cc4697bef6296e08b7d553da36504777a4b1d660ac86132e1a4c5daa6659a218",
+    "replay.html": "38851ed4d279134f120da74c6c5c0005c9c59a8bdbe0658d736a746d6d841e6f",
+    "reproduce.py": "2bea90e2d84fec081a6523c31d88fbdaaf568cb1a23f3ef5b8ec09c5aad2ace2",
+    "result.json": "908a561b6dc7998a4211659caba135840fc637d8ed02e8af5ffbf1b80e8ca266",
+    "run-after-alltests.log": "3d5b46cd171e58c7c6de02f1c0dcb6b43fc96353e1b1d8b7c9f66e013987ed6f",
+    "run-after-build.log": "4a1a51f85719a4119a8fc8a8d84c44acf060bbe0cc438b0104d9a5cad5e5e86f",
+    "run-after-scenarios.log": "268e2e436c0250897aafbf11411e5f5a16e10d085a84a0d834a2281d8e1f3bd7",
+    "run-before-alltests.log": "169c28b503f23885505623f4ec68dd17f508b9060176cf3d767ec3a50dd49183",
+    "run-before-build.log": "88027b786f72dc7c67c9cc9f48598b75fcec088d97a30e79fade566c92db71eb",
+    "run-before-scenarios.log": "b0b641c71f6ddf55264d9c58cfdfa4bb735b649827cf809158147565a7022f5f",
+    "run-cases.py": "1aa922403737a2988f7bac01331500b9d54f5e58690793639ec508f26ab15da8",
+    "run-configure.log": "8979897f1a4ac3c819a0996faa8040231e3760805b2463f3b9a86f9cfdaad9f8",
+    "scenario.c": "64d121d50646aeaa9aa9242e133853487a0bcae28f50ac1cfd4a02f8848e9649"
+  }
+}
