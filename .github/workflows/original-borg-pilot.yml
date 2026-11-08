@@ -1,0 +1,48 @@
+name: original-borg-pilot
+on:
+  pull_request:
+    paths: ['tools/original-borg/**', '.github/workflows/original-borg-pilot.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pilot:
+    if: github.repository == 'diegoami/neo-angband-tracker'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          path: toolkit
+      - uses: actions/checkout@v7
+        with:
+          repository: neostryder/neo-angband
+          ref: 5a9cab20621278b74f8376996eba1f6fda14c523
+          path: engine
+      - uses: actions/checkout@v7
+        with:
+          repository: neostryder/neo-angband-mod-borg
+          ref: 014c810466ec7ac0b9b7a83416e075238c72edd0
+          path: borg
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 12.3.4
+          run_install: false
+      - name: Build original Core and SDK only
+        working-directory: engine
+        run: pnpm install --frozen-lockfile && pnpm exec tsc -b packages/core packages/content packages/mod-sdk
+      - name: Build sealed original-source measurement bundle
+        run: node toolkit/tools/original-borg/build.mjs --engine-dir engine --borg-dir borg --out built
+      - name: Bounded recording and determinism controls
+        run: node toolkit/tools/original-borg/pilot.mjs built/bundle.mjs evidence
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: original-borg-pilot
+          path: |
+            evidence/
+            built/build.json
+          if-no-files-found: error
