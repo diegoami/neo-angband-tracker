@@ -1,0 +1,56 @@
+{
+  "multibyte": {
+    "exit": 0,
+    "passed": true,
+    "geometry": "rc=0 strnlen=81 terminated=1",
+    "rating": "terminated=1 strnlen=81",
+    "outcome": "terminated=1 strnlen=81"
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "geometry": "rc=0 strnlen=80 terminated=1",
+    "rating": "terminated=1 strnlen=80",
+    "outcome": "terminated=1 strnlen=80"
+  },
+  "wide": {
+    "exit": 0,
+    "passed": false,
+    "geometry": "rc=0 term_wid=301 n=300 strnlen=1024 terminated=0",
+    "rating": "terminated=0 strnlen=1024 guard_overwritten=177",
+    "outcome": "terminated=0 strnlen=1024 guard_overwritten=177"
+  },
+  "asan": {
+    "multibyte": {
+      "exit": 0,
+      "passed": true,
+      "sanitizer_report": null,
+      "access": null,
+      "frames": [],
+      "geometry": "rc=0 strnlen=81 terminated=1",
+      "rating": "terminated=1 strnlen=81",
+      "outcome": "terminated=1 strnlen=81"
+    },
+    "control": {
+      "exit": 0,
+      "passed": true,
+      "sanitizer_report": null,
+      "access": null,
+      "frames": [],
+      "geometry": "rc=0 strnlen=80 terminated=1",
+      "rating": "terminated=1 strnlen=80",
+      "outcome": "terminated=1 strnlen=80"
+    },
+    "wide": {
+      "exit": 1,
+      "passed": false,
+      "sanitizer_report": "stack-buffer-overflow",
+      "access": "WRITE of size 1201",
+      "frames": [
+        "wcstombs",
+        "borg_what_text",
+        "wide_case"
+      ]
+    }
+  }
+}

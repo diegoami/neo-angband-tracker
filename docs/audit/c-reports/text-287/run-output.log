@@ -1,0 +1,19 @@
+Native evidence directory: /tmp/angband-text-287-5jkdskop
+Preparing worktree (detached HEAD e473720ed)
+HEAD is now at e473720ed Term_clear() and loop over height calling Term_erase() are not synonyms
+configure: shared validation lock; log /tmp/angband-text-287-5jkdskop/configure.log
+configure-asan: shared validation lock; log /tmp/angband-text-287-5jkdskop/configure-asan.log
+before-build: shared validation lock; log /tmp/angband-text-287-5jkdskop/before-build.log
+before-build-asan: shared validation lock; log /tmp/angband-text-287-5jkdskop/before-build-asan.log
+before-scenarios: shared validation lock; log /tmp/angband-text-287-5jkdskop/before-scenarios.log
+before-alltests: shared validation lock; log /tmp/angband-text-287-5jkdskop/before-alltests.log
+interim-build: shared validation lock; log /tmp/angband-text-287-5jkdskop/interim-build.log
+interim-build-asan: shared validation lock; log /tmp/angband-text-287-5jkdskop/interim-build-asan.log
+interim-scenarios: shared validation lock; log /tmp/angband-text-287-5jkdskop/interim-scenarios.log
+after-build: shared validation lock; log /tmp/angband-text-287-5jkdskop/after-build.log
+after-build-asan: shared validation lock; log /tmp/angband-text-287-5jkdskop/after-build-asan.log
+after-scenarios: shared validation lock; log /tmp/angband-text-287-5jkdskop/after-scenarios.log
+after-alltests: shared validation lock; log /tmp/angband-text-287-5jkdskop/after-alltests.log
+Open in your browser: /tmp/angband-text-287-5jkdskop/evidence/replay.html
+VERIFIED: multibyte - the original leaves the text unterminated (1024 stale bytes), the correction terminates at 81; wide (301 columns, 4-byte text) - the original is unterminated without overflow, the earlier character-count bound writes 177 bytes past the 1024-byte buffer (AddressSanitizer: stack-buffer-overflow, WRITE of size 1201), the buffer-size bound terminates at 1020 with nothing past the buffer; control identical; no sanitizer report for the original or the correction.
+Logs and result.json: /tmp/angband-text-287-5jkdskop

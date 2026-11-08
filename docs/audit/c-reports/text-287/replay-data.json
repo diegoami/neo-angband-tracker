@@ -1,0 +1,77 @@
+{
+  "multibyte": {
+    "label": "The message line that never ended",
+    "explanation": "The screen row holds eighty characters, one of them two bytes wide, so the text needs eighty-one bytes plus its terminator - one byte past the wide-count limit the conversion used. The original truncates exactly at the limit and writes no terminator, and the caller measures the buffer as a string: with the buffer junked and no zero anywhere, the measurement runs through all thousand twenty-four stale bytes. The correction bounds the conversion by the size of the caller buffer, so the full text converts and terminates at eighty-one.",
+    "before": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE multibyte\nGEOMETRY rc=0 strnlen=1024 terminated=0\nRATING terminated=0 strnlen=1024\nOUTCOME terminated=0 strnlen=1024\nFailed\n    native-c/text-287:191: requirement 'terminated' failed\nnative-c/text-287 finished: 0/1 passed\n",
+      "passed": false,
+      "rating": "terminated=0 strnlen=1024",
+      "outcome": "terminated=0 strnlen=1024",
+      "asan": "no report"
+    },
+    "interim": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE multibyte\nGEOMETRY rc=0 strnlen=81 terminated=1\nRATING terminated=1 strnlen=81\nOUTCOME terminated=1 strnlen=81\nPassed\nnative-c/text-287 finished: 1/1 passed\n",
+      "passed": true,
+      "rating": "terminated=1 strnlen=81",
+      "outcome": "terminated=1 strnlen=81",
+      "asan": "no report"
+    },
+    "after": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE multibyte\nGEOMETRY rc=0 strnlen=81 terminated=1\nRATING terminated=1 strnlen=81\nOUTCOME terminated=1 strnlen=81\nPassed\nnative-c/text-287 finished: 1/1 passed\n",
+      "passed": true,
+      "rating": "terminated=1 strnlen=81",
+      "outcome": "terminated=1 strnlen=81",
+      "asan": "no report"
+    }
+  },
+  "wide": {
+    "label": "A wide terminal: 301 columns of four-byte text",
+    "explanation": "The message line is read the way the Borg reads it: the full terminal width (three hundred characters here, each four bytes in UTF-8) into a 1024-byte buffer followed by a guard area. The original limit of one byte per character stops after seventy-five characters without a terminator: unterminated, but nothing written past the buffer. The earlier fix shape, a limit of MB_CUR_MAX bytes per character, is not tied to the buffer: it writes 1201 bytes, 177 of them past the buffer (AddressSanitizer: stack-buffer-overflow). The buffer-size bound converts the 255 characters that fit, terminates at 1020 and writes nothing past the buffer.",
+    "before": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE wide\nLAYOUT guarded buffer\nGEOMETRY rc=0 term_wid=301 n=300 strnlen=1024 terminated=0\nRATING terminated=0 strnlen=1024 guard_overwritten=0\nOUTCOME terminated=0 strnlen=1024 guard_overwritten=0\nFailed\n    native-c/text-287:152: requirement 'terminated' failed\nnative-c/text-287 finished: 0/1 passed\n",
+      "passed": false,
+      "rating": "terminated=0 strnlen=1024 guard_overwritten=0",
+      "outcome": "terminated=0 strnlen=1024 guard_overwritten=0",
+      "asan": "no report"
+    },
+    "interim": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE wide\nLAYOUT guarded buffer\nGEOMETRY rc=0 term_wid=301 n=300 strnlen=1024 terminated=0\nRATING terminated=0 strnlen=1024 guard_overwritten=177\nOUTCOME terminated=0 strnlen=1024 guard_overwritten=177\nFailed\n    native-c/text-287:151: requirement 'overwritten == 0' failed\nnative-c/text-287 finished: 0/1 passed\n",
+      "passed": false,
+      "rating": "terminated=0 strnlen=1024 guard_overwritten=177",
+      "outcome": "terminated=0 strnlen=1024 guard_overwritten=177",
+      "asan": "stack-buffer-overflow"
+    },
+    "after": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE wide\nLAYOUT guarded buffer\nGEOMETRY rc=0 term_wid=301 n=300 strnlen=1020 terminated=1\nRATING terminated=1 strnlen=1020 guard_overwritten=0\nOUTCOME terminated=1 strnlen=1020 guard_overwritten=0\nPassed\nnative-c/text-287 finished: 1/1 passed\n",
+      "passed": true,
+      "rating": "terminated=1 strnlen=1020 guard_overwritten=0",
+      "outcome": "terminated=1 strnlen=1020 guard_overwritten=0",
+      "asan": "no report"
+    }
+  },
+  "control": {
+    "label": "Control: a pure-ASCII row",
+    "explanation": "The same row with every character one byte wide fits the old limit too: both variants terminate identically at eighty, and the complete log is byte-identical.",
+    "before": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE control\nGEOMETRY rc=0 strnlen=80 terminated=1\nRATING terminated=1 strnlen=80\nOUTCOME terminated=1 strnlen=80\nPassed\nnative-c/text-287 finished: 1/1 passed\n",
+      "passed": true,
+      "rating": "terminated=1 strnlen=80",
+      "outcome": "terminated=1 strnlen=80",
+      "asan": "no report"
+    },
+    "interim": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE control\nGEOMETRY rc=0 strnlen=80 terminated=1\nRATING terminated=1 strnlen=80\nOUTCOME terminated=1 strnlen=80\nPassed\nnative-c/text-287 finished: 1/1 passed\n",
+      "passed": true,
+      "rating": "terminated=1 strnlen=80",
+      "outcome": "terminated=1 strnlen=80",
+      "asan": "no report"
+    },
+    "after": {
+      "raw": "native-c/text-287: starting...\nSETUPSTEP profile\nSETUP mb_cur_max=6\n  converted_screen_text_is_terminated  MODE control\nGEOMETRY rc=0 strnlen=80 terminated=1\nRATING terminated=1 strnlen=80\nOUTCOME terminated=1 strnlen=80\nPassed\nnative-c/text-287 finished: 1/1 passed\n",
+      "passed": true,
+      "rating": "terminated=1 strnlen=80",
+      "outcome": "terminated=1 strnlen=80",
+      "asan": "no report"
+    }
+  }
+}

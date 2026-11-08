@@ -1,0 +1,193 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "interim": "3e7fe8a8399352c4fe67f5de2d8d48b5e0bd04c1",
+  "fix": "e7f670fa4d4f0672dc346637fc7be20c814a4b62",
+  "fixtures_ref": "f9706564e0a667670fb024e9e1f87da137f21c9c",
+  "cases": {
+    "before": {
+      "multibyte": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "rc=0 strnlen=1024 terminated=0",
+        "rating": "terminated=0 strnlen=1024",
+        "outcome": "terminated=0 strnlen=1024"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=80 terminated=1",
+        "rating": "terminated=1 strnlen=80",
+        "outcome": "terminated=1 strnlen=80"
+      },
+      "wide": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "rc=0 term_wid=301 n=300 strnlen=1024 terminated=0",
+        "rating": "terminated=0 strnlen=1024 guard_overwritten=0",
+        "outcome": "terminated=0 strnlen=1024 guard_overwritten=0"
+      },
+      "asan": {
+        "multibyte": {
+          "exit": 0,
+          "passed": false,
+          "sanitizer_report": null,
+          "access": null,
+          "frames": [],
+          "geometry": "rc=0 strnlen=1024 terminated=0",
+          "rating": "terminated=0 strnlen=1024",
+          "outcome": "terminated=0 strnlen=1024"
+        },
+        "control": {
+          "exit": 0,
+          "passed": true,
+          "sanitizer_report": null,
+          "access": null,
+          "frames": [],
+          "geometry": "rc=0 strnlen=80 terminated=1",
+          "rating": "terminated=1 strnlen=80",
+          "outcome": "terminated=1 strnlen=80"
+        },
+        "wide": {
+          "exit": 0,
+          "passed": false,
+          "sanitizer_report": null,
+          "access": null,
+          "frames": [],
+          "geometry": "rc=0 term_wid=301 n=300 strnlen=1024 terminated=0",
+          "rating": "terminated=0 strnlen=1024 guard_overwritten=0",
+          "outcome": "terminated=0 strnlen=1024 guard_overwritten=0"
+        }
+      }
+    },
+    "interim": {
+      "multibyte": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=81 terminated=1",
+        "rating": "terminated=1 strnlen=81",
+        "outcome": "terminated=1 strnlen=81"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=80 terminated=1",
+        "rating": "terminated=1 strnlen=80",
+        "outcome": "terminated=1 strnlen=80"
+      },
+      "wide": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "rc=0 term_wid=301 n=300 strnlen=1024 terminated=0",
+        "rating": "terminated=0 strnlen=1024 guard_overwritten=177",
+        "outcome": "terminated=0 strnlen=1024 guard_overwritten=177"
+      },
+      "asan": {
+        "multibyte": {
+          "exit": 0,
+          "passed": true,
+          "sanitizer_report": null,
+          "access": null,
+          "frames": [],
+          "geometry": "rc=0 strnlen=81 terminated=1",
+          "rating": "terminated=1 strnlen=81",
+          "outcome": "terminated=1 strnlen=81"
+        },
+        "control": {
+          "exit": 0,
+          "passed": true,
+          "sanitizer_report": null,
+          "access": null,
+          "frames": [],
+          "geometry": "rc=0 strnlen=80 terminated=1",
+          "rating": "terminated=1 strnlen=80",
+          "outcome": "terminated=1 strnlen=80"
+        },
+        "wide": {
+          "exit": 1,
+          "passed": false,
+          "sanitizer_report": "stack-buffer-overflow",
+          "access": "WRITE of size 1201",
+          "frames": [
+            "wcstombs",
+            "borg_what_text",
+            "wide_case"
+          ]
+        }
+      }
+    },
+    "after": {
+      "multibyte": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=81 terminated=1",
+        "rating": "terminated=1 strnlen=81",
+        "outcome": "terminated=1 strnlen=81"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=80 terminated=1",
+        "rating": "terminated=1 strnlen=80",
+        "outcome": "terminated=1 strnlen=80"
+      },
+      "wide": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 term_wid=301 n=300 strnlen=1020 terminated=1",
+        "rating": "terminated=1 strnlen=1020 guard_overwritten=0",
+        "outcome": "terminated=1 strnlen=1020 guard_overwritten=0"
+      },
+      "asan": {
+        "multibyte": {
+          "exit": 0,
+          "passed": true,
+          "sanitizer_report": null,
+          "access": null,
+          "frames": [],
+          "geometry": "rc=0 strnlen=81 terminated=1",
+          "rating": "terminated=1 strnlen=81",
+          "outcome": "terminated=1 strnlen=81"
+        },
+        "control": {
+          "exit": 0,
+          "passed": true,
+          "sanitizer_report": null,
+          "access": null,
+          "frames": [],
+          "geometry": "rc=0 strnlen=80 terminated=1",
+          "rating": "terminated=1 strnlen=80",
+          "outcome": "terminated=1 strnlen=80"
+        },
+        "wide": {
+          "exit": 0,
+          "passed": true,
+          "sanitizer_report": null,
+          "access": null,
+          "frames": [],
+          "geometry": "rc=0 term_wid=301 n=300 strnlen=1020 terminated=1",
+          "rating": "terminated=1 strnlen=1020 guard_overwritten=0",
+          "outcome": "terminated=1 strnlen=1020 guard_overwritten=0"
+        }
+      }
+    }
+  },
+  "identical_full_logs": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-io.c": "80d414153fffaa78582e5d1ce17788044e551a5c3a493f45e7c619e2a15ab5c1",
+    "src/borg/borg-io.h": "515d7d036fb082c1e5193a1fedcad90dd0d3681da9d1dc02c587f950b1b46e97",
+    "src/borg/borg-messages.c": "db71e6f4871cf626388a757d253ae212c44d0ba9e3d26f0e3e17e0e0fc4c5124",
+    "src/borg/borg-think.c": "551b5f5653d15877e7f4403217418bdcb3cc2ead81e2c9f16bcb53c27a044cbf"
+  }
+}

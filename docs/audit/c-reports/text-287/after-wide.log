@@ -1,0 +1,10 @@
+native-c/text-287: starting...
+SETUPSTEP profile
+SETUP mb_cur_max=6
+  converted_screen_text_is_terminated  MODE wide
+LAYOUT guarded buffer
+GEOMETRY rc=0 term_wid=301 n=300 strnlen=1020 terminated=1
+RATING terminated=1 strnlen=1020 guard_overwritten=0
+OUTCOME terminated=1 strnlen=1020 guard_overwritten=0
+Passed
+native-c/text-287 finished: 1/1 passed

@@ -1,0 +1,181 @@
+{
+  "purpose": "Re-verification at the original pins: the original run's logs were dropped by the repository's *.log ignore rule although the original receipt hashed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "3e7fe8a8399352c4fe67f5de2d8d48b5e0bd04c1",
+  "fixtures_ref": "b4f23f90723a46ad155d92127fdcad7c561cf65c",
+  "original_fixtures_ref": "b4f23f90723a46ad155d92127fdcad7c561cf65c",
+  "command": "git show b4f23f90723a46ad155d92127fdcad7c561cf65c:docs/audit/c-reports/text-287/reproduce.py > /tmp/reproduce-text-287.py && python3 /tmp/reproduce-text-287.py --full-tests --fixtures-ref b4f23f90723a46ad155d92127fdcad7c561cf65c",
+  "fix_pin_note": "reproduce.py hard-codes BASE and FIX and asserts the exact source hunk; it has no --fix-ref flag.",
+  "cases": {
+    "before": {
+      "multibyte": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "rc=0 strnlen=1024 terminated=0",
+        "rating": "terminated=0 strnlen=1024",
+        "outcome": "terminated=0 strnlen=1024"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=80 terminated=1",
+        "rating": "terminated=1 strnlen=80",
+        "outcome": "terminated=1 strnlen=80"
+      }
+    },
+    "after": {
+      "multibyte": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=81 terminated=1",
+        "rating": "terminated=1 strnlen=81",
+        "outcome": "terminated=1 strnlen=81"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=80 terminated=1",
+        "rating": "terminated=1 strnlen=80",
+        "outcome": "terminated=1 strnlen=80"
+      }
+    }
+  },
+  "matches_original_receipt_cases": true,
+  "case_differences": [],
+  "identical_controls": {
+    "control": true
+  },
+  "byte_identical_to_original_hash": {
+    "after-alltests.log": false,
+    "after-build.log": false,
+    "after-scenarios.log": true,
+    "before-alltests.log": false,
+    "before-build.log": false,
+    "before-scenarios.log": true,
+    "configure.log": false,
+    "result.json": true,
+    "after-control.log": true,
+    "after-multibyte.log": true,
+    "after-results.json": true,
+    "before-control.log": true,
+    "before-multibyte.log": true,
+    "before-results.json": true
+  },
+  "full_tests": {
+    "before": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "original_compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "original_cmake": "cmake version 4.2.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "target": "committed replay.html",
+    "replay_sha256": "bdb409d755e8491b0e67d4ce6db97b1338951f7ccaaaa1888da9bb9e83d561ac",
+    "result": "RENDER-SMOKE actions=4 errors=0 OK",
+    "exit": 0
+  },
+  "sha256": {
+    "after-alltests.log": "f5f37f314f42e134930019d7ae2094a2cd1c0d40f81fb456ee43b9424a5950c8",
+    "after-build-asan.log": "5ee46c182cc6a2c7e8879a6e672b8ef0a7fba0bf275c786310d47cf1501b8ff7",
+    "after-build.log": "1ed9cf9fd69cfbd7c06f474f10d2dc3cd09373062fdf0ddffdff63a37c453588",
+    "after-control.log": "e5bf1ca09204936e06a678040d7465177126870b0d20b8cac2bc787477af54e7",
+    "after-multibyte.log": "8474005f32294bb9b91df5a3b38fc2789a1cbb179f8d1463886d41b171f0128b",
+    "after-results.json": "0d38dbbf23a6489c8e599025d98879345eca2e095f135e583a03c3efdc68ef72",
+    "after-scenarios.log": "0838fa1a2bef0f02dc8be30302924a984f598a1b124a7d67462b0f066de60e9e",
+    "asan-after-control.log": "e5bf1ca09204936e06a678040d7465177126870b0d20b8cac2bc787477af54e7",
+    "asan-after-multibyte.log": "8474005f32294bb9b91df5a3b38fc2789a1cbb179f8d1463886d41b171f0128b",
+    "asan-after-results.json": "0d38dbbf23a6489c8e599025d98879345eca2e095f135e583a03c3efdc68ef72",
+    "asan-before-control.log": "e5bf1ca09204936e06a678040d7465177126870b0d20b8cac2bc787477af54e7",
+    "asan-before-multibyte.log": "125a26ac9f0e8f380e04f125689cb70bbe5a43dcf7f605ebda1c5af11f2bd122",
+    "asan-before-results.json": "96424c1155d6170c1ddcb0f26bf3f74247fe11db495edc75cea26e5b74690d6a",
+    "before-alltests.log": "44780a65f172fd037bb2b527c23d6147f401ed4b341235709e5ec870b22c8746",
+    "before-build-asan.log": "1ed9cf9fd69cfbd7c06f474f10d2dc3cd09373062fdf0ddffdff63a37c453588",
+    "before-build.log": "58c8f3a6dc3da14116d11f48d94f7a411536984829798a1fd1a81fa683970352",
+    "before-control.log": "e5bf1ca09204936e06a678040d7465177126870b0d20b8cac2bc787477af54e7",
+    "before-multibyte.log": "125a26ac9f0e8f380e04f125689cb70bbe5a43dcf7f605ebda1c5af11f2bd122",
+    "before-results.json": "96424c1155d6170c1ddcb0f26bf3f74247fe11db495edc75cea26e5b74690d6a",
+    "before-scenarios.log": "10377ca31f6583cd512ee39f3bc873124fc36e9170acdd96055db7c40d506372",
+    "bound-model-wide-asan.log": "ddc088e8240168da5cc0bf508121807ea08f5dda569f89da21ee51eebd3ad3e7",
+    "bound-model-wide.c": "fb83f544e10195866af5c54ce7353d3904b4ad7c37dcd34dabcc8cd244d80d1c",
+    "configure-asan.log": "791626c6ace00d504282fbf413b947a6e9d351aceaa4aae09ca9935db862e0f9",
+    "configure.log": "870be12b3030370ae17411b6b574cd2e49194a0f96b76ef2486033c672d7d835",
+    "result.json": "74885c526a3582e763139a74bd5105b4977b8ab8638ce2e1265fad0b1cd5aa0e"
+  },
+  "asan_manual": {
+    "why": "reproduce.py at this pin has no AddressSanitizer variant; this is a manual ASAN build of the same disposable tree (same base/fix sources, same fixture), run with run-cases.py",
+    "configure": "cmake -S source -B build-asan -DSUPPORT_BORG=ON -DSUPPORT_TEST_FRONTEND=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_FLAGS='-fsanitize=address -g' -DCMAKE_EXE_LINKER_FLAGS=-fsanitize=address; full tree built per variant",
+    "asan_options": "detect_leaks=1 (default leak detection on)",
+    "before": {
+      "multibyte": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "rc=0 strnlen=1024 terminated=0",
+        "rating": "terminated=0 strnlen=1024",
+        "outcome": "terminated=0 strnlen=1024"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=80 terminated=1",
+        "rating": "terminated=1 strnlen=80",
+        "outcome": "terminated=1 strnlen=80"
+      }
+    },
+    "after": {
+      "multibyte": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=81 terminated=1",
+        "rating": "terminated=1 strnlen=81",
+        "outcome": "terminated=1 strnlen=81"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "rc=0 strnlen=80 terminated=1",
+        "rating": "terminated=1 strnlen=80",
+        "outcome": "terminated=1 strnlen=80"
+      }
+    },
+    "sanitizer_reports": {
+      "before": 0,
+      "after": 0
+    },
+    "control_logs_identical": true,
+    "interpretation": "No sanitizer report in either variant. The fixture measures the converted text with strnlen bounded by the 1024-byte buffer, so the original's missing terminator is shown by the measurement (strnlen=1024, terminated=0) but is not an out-of-bounds access inside the fixture; the unbounded read happens in the production caller (strlen in borg_get_messages), which this fixture does not exercise. The correction introduces no sanitizer report at 80 columns.",
+    "bound_model": "bound-model-wide.c / bound-model-wide-asan.log: a standalone program (not the game) that copies only the corrected wcstombs line into a 1024-byte stack buffer; ASAN reports stack-buffer-overflow for n=256 (WRITE of size 1025) and n=300 (1201) with 4-byte characters. Owner decision requested on issue 287."
+  },
+  "receipt_amendments": {
+    "date": "2026-11-08",
+    "receipt.json sha256.README.md": {
+      "old": "94a32a5fd9cab126a71ad03246ca38930d40dbbcdd8ef81bdc71b4e18cc00486",
+      "new": "94afbade1a033649f8ccb1dffee83f6ed6822d898bc5a29e6a0c168ebdac463f",
+      "why": "README gained the Re-verification and Errata sections"
+    },
+    "receipt.json render_check": "added (original receipt only had a 'browser' entry); points at this receipt's render_check",
+    "README placeholder link": "PR-SOURCE -> #335",
+    "restored_at_original_paths": [
+      "after-control.log",
+      "after-multibyte.log",
+      "after-scenarios.log",
+      "before-control.log",
+      "before-multibyte.log",
+      "before-scenarios.log"
+    ]
+  }
+}

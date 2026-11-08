@@ -1,0 +1,102 @@
+n=79 MB_CUR_MAX=6 limit=474 wrote=316 buffer=1024
+n=255 MB_CUR_MAX=6 limit=1530 wrote=1020 buffer=1024
+=================================================================
+==11865==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7f5386c014a0 at pc 0x7f5388a80fff bp 0x7ffd20621e10 sp 0x7ffd206215b8
+WRITE of size 1025 at 0x7f5386c014a0 thread T0
+    #0 0x7f5388a80ffe in wcstombs ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:3695
+    #1 0x560e07bb6569 in main /tmp/claude-0/-home-user-neo-angband-tracker/ccb56efe-174c-58ce-8508-7ebff57fd5b7/scratchpad/g3/wide/wide.c:16
+    #2 0x7f538862a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x7f538862a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #4 0x560e07bb6224 in _start (/tmp/claude-0/-home-user-neo-angband-tracker/ccb56efe-174c-58ce-8508-7ebff57fd5b7/scratchpad/g3/wide/wide+0x1224) (BuildId: ea2cd74b8536899000a263d156229e635eb16f6d)
+
+Address 0x7f5386c014a0 is located in stack of thread T0 at offset 5280 in frame
+    #0 0x560e07bb62f8 in main /tmp/claude-0/-home-user-neo-angband-tracker/ccb56efe-174c-58ce-8508-7ebff57fd5b7/scratchpad/g3/wide/wide.c:9
+
+  This frame has 2 object(s):
+    [32, 4128) 'screen_str' (line 11)
+    [4256, 5280) 'buffer' (line 12) <== Memory access at offset 5280 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:3695 in wcstombs
+Shadow bytes around the buggy address:
+  0x7f5386c01200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f5386c01280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f5386c01300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f5386c01380: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f5386c01400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x7f5386c01480: 00 00 00 00[f3]f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3
+  0x7f5386c01500: f3 f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f5386c01580: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f5386c01600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f5386c01680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7f5386c01700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==11865==ABORTING
+=================================================================
+==11886==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ff1242014a0 at pc 0x7ff126080fff bp 0x7ffce025c380 sp 0x7ffce025bb28
+WRITE of size 1201 at 0x7ff1242014a0 thread T0
+    #0 0x7ff126080ffe in wcstombs ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:3695
+    #1 0x55ae77b2b569 in main /tmp/claude-0/-home-user-neo-angband-tracker/ccb56efe-174c-58ce-8508-7ebff57fd5b7/scratchpad/g3/wide/wide.c:16
+    #2 0x7ff125c2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #3 0x7ff125c2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #4 0x55ae77b2b224 in _start (/tmp/claude-0/-home-user-neo-angband-tracker/ccb56efe-174c-58ce-8508-7ebff57fd5b7/scratchpad/g3/wide/wide+0x1224) (BuildId: ea2cd74b8536899000a263d156229e635eb16f6d)
+
+Address 0x7ff1242014a0 is located in stack of thread T0 at offset 5280 in frame
+    #0 0x55ae77b2b2f8 in main /tmp/claude-0/-home-user-neo-angband-tracker/ccb56efe-174c-58ce-8508-7ebff57fd5b7/scratchpad/g3/wide/wide.c:9
+
+  This frame has 2 object(s):
+    [32, 4128) 'screen_str' (line 11)
+    [4256, 5280) 'buffer' (line 12) <== Memory access at offset 5280 overflows this variable
+HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+      (longjmp and C++ exceptions *are* supported)
+SUMMARY: AddressSanitizer: stack-buffer-overflow ../../../../src/libsanitizer/sanitizer_common/sanitizer_common_interceptors.inc:3695 in wcstombs
+Shadow bytes around the buggy address:
+  0x7ff124201200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7ff124201280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7ff124201300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7ff124201380: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7ff124201400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x7ff124201480: 00 00 00 00[f3]f3 f3 f3 f3 f3 f3 f3 f3 f3 f3 f3
+  0x7ff124201500: f3 f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7ff124201580: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7ff124201600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7ff124201680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x7ff124201700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==11886==ABORTING
