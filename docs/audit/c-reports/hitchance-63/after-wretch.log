@@ -1,0 +1,10 @@
+native-c/hitchance-63: starting...
+SETUP seed=63 mode=wretch class=Warrior clevel=15 hp=177 depth=5 
+  ranged_attack_on_a_sleeping_monster  KILL k=1 r=6 name=boil-covered wretch pos=(16,12) awake=0 power=3
+STATE avoidance=177 half_avoidance=88 hp=177 ac=10
+TRACK partial_danger=0 full_danger=0
+DECISION bolt_score=12
+OUTCOME shoots=1
+OUTCOME partial_danger=0 full_danger=0 partial_le_full=1
+Passed
+native-c/hitchance-63 finished: 1/1 passed

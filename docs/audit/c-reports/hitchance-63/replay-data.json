@@ -1,0 +1,96 @@
+{
+  "brute": {
+    "label": "Sleeping cave troll six grids away",
+    "explanation": "A level-15 Warrior at full hit points (177) with 10 armour sees a sleeping cave troll six grids east. The production ranged-attack scorer rates a bolt at it. Original: the partial melee danger of the troll is 0 (a 5% hit chance), so the check that avoids waking a hard sleeping monster does not trigger and the bolt scores 12. Corrected: every blow's hit chance reaches the 100% cap, so the partial melee danger is 162, equal to the full-damage danger and well above half the Borg's avoidance (88), and the scorer refuses the attack. In both runs the partial estimate does not exceed the full-damage figure.",
+    "control": false,
+    "before": {
+      "raw": "native-c/hitchance-63: starting...\nSETUP seed=63 mode=brute class=Warrior clevel=15 hp=177 depth=5 \n  ranged_attack_on_a_sleeping_monster  KILL k=1 r=361 name=cave troll pos=(16,12) awake=0 power=180\nSTATE avoidance=177 half_avoidance=88 hp=177 ac=10\nTRACK partial_danger=0 full_danger=162\nDECISION bolt_score=12\nOUTCOME shoots=1\nOUTCOME partial_danger=0 full_danger=162 partial_le_full=1\nFailed\n    native-c/hitchance-63:182: requirement 'score <= 0' failed\nnative-c/hitchance-63 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "avoidance": 177,
+        "half_avoidance": 88,
+        "hp": 177,
+        "ac": 10
+      },
+      "outcome": {
+        "shoots": 1,
+        "partial_danger": 0,
+        "full_danger": 162,
+        "partial_le_full": 1
+      },
+      "notes": [
+        "TRACK partial_danger=0 full_danger=162",
+        "DECISION bolt_score=12"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/hitchance-63: starting...\nSETUP seed=63 mode=brute class=Warrior clevel=15 hp=177 depth=5 \n  ranged_attack_on_a_sleeping_monster  KILL k=1 r=361 name=cave troll pos=(16,12) awake=0 power=180\nSTATE avoidance=177 half_avoidance=88 hp=177 ac=10\nTRACK partial_danger=162 full_danger=162\nDECISION bolt_score=-1\nOUTCOME shoots=0\nOUTCOME partial_danger=162 full_danger=162 partial_le_full=1\nPassed\nnative-c/hitchance-63 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "avoidance": 177,
+        "half_avoidance": 88,
+        "hp": 177,
+        "ac": 10
+      },
+      "outcome": {
+        "shoots": 0,
+        "partial_danger": 162,
+        "full_danger": 162,
+        "partial_le_full": 1
+      },
+      "notes": [
+        "TRACK partial_danger=162 full_danger=162",
+        "DECISION bolt_score=-1"
+      ],
+      "value": 0
+    }
+  },
+  "wretch": {
+    "label": "Control: sleeping boil-covered wretch",
+    "explanation": "The same Warrior and a sleeping boil-covered wretch, a level-0 monster whose only blow does no damage. It goes through the same hit-chance lines, the partial and full danger are 0 before and after, and the bolt scores 12 in both.",
+    "control": true,
+    "before": {
+      "raw": "native-c/hitchance-63: starting...\nSETUP seed=63 mode=wretch class=Warrior clevel=15 hp=177 depth=5 \n  ranged_attack_on_a_sleeping_monster  KILL k=1 r=6 name=boil-covered wretch pos=(16,12) awake=0 power=3\nSTATE avoidance=177 half_avoidance=88 hp=177 ac=10\nTRACK partial_danger=0 full_danger=0\nDECISION bolt_score=12\nOUTCOME shoots=1\nOUTCOME partial_danger=0 full_danger=0 partial_le_full=1\nPassed\nnative-c/hitchance-63 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "avoidance": 177,
+        "half_avoidance": 88,
+        "hp": 177,
+        "ac": 10
+      },
+      "outcome": {
+        "shoots": 1,
+        "partial_danger": 0,
+        "full_danger": 0,
+        "partial_le_full": 1
+      },
+      "notes": [
+        "TRACK partial_danger=0 full_danger=0",
+        "DECISION bolt_score=12"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/hitchance-63: starting...\nSETUP seed=63 mode=wretch class=Warrior clevel=15 hp=177 depth=5 \n  ranged_attack_on_a_sleeping_monster  KILL k=1 r=6 name=boil-covered wretch pos=(16,12) awake=0 power=3\nSTATE avoidance=177 half_avoidance=88 hp=177 ac=10\nTRACK partial_danger=0 full_danger=0\nDECISION bolt_score=12\nOUTCOME shoots=1\nOUTCOME partial_danger=0 full_danger=0 partial_le_full=1\nPassed\nnative-c/hitchance-63 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "avoidance": 177,
+        "half_avoidance": 88,
+        "hp": 177,
+        "ac": 10
+      },
+      "outcome": {
+        "shoots": 1,
+        "partial_danger": 0,
+        "full_danger": 0,
+        "partial_le_full": 1
+      },
+      "notes": [
+        "TRACK partial_danger=0 full_danger=0",
+        "DECISION bolt_score=12"
+      ],
+      "value": 1
+    }
+  }
+}
