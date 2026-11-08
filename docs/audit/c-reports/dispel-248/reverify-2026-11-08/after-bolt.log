@@ -1,0 +1,7 @@
+native-c/dispel-248: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Necromancer level=26 depth=30 hp=158/158 sp=144/144 target=hill giant hp=225 undead=0
+  dispel_life_rates_living_monsters  MODE bolt
+RATING bolt_control=11
+Passed
+native-c/dispel-248 finished: 1/1 passed

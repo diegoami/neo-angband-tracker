@@ -106,3 +106,55 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the original run's phase, build and gate logs were listed and hashed in
+`receipt.json` but never committed (the repository's `*.log` ignore rule
+dropped them), so the receipt could not be checked against published bytes.
+The same pinned runner was run again on 2026-11-08 at the receipt's own pins
+(base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `6912b85cb7b902616ad786dfc20afe3b4cf28b10`, fixtures `77bddc19421eaff33c70f6cebc2588c8ca632ce8`) with `--full-tests`.
+Every case reproduced the recorded outcome; the runner's per-case results
+(`result.json` `cases`) are identical to the committed original.
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `living` (hill giant) | rating `value=-21` (expected average 39), launch `direct=-1`; native cast removes 66 HP; 0/1 | `value=19`, `direct=39`; same 66 HP cast; 1/1 |
+| `undead` (control of the game's own rule) | `value=-21`, cast removes 0 HP; 1/1 | same values, 1/1 |
+| `bolt` (control) | `bolt_control=11`; 1/1 | byte-identical log |
+
+Gates from the re-run's alltests logs: before Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines); after Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines).
+Re-run toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, cmake version 3.28.3 (the original receipt records
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, cmake version 4.2.3; the toolchain differs, and the files listed
+below as byte-identical are identical nonetheless).
+Corrected source sha256 matches the original receipt.
+Render check of the committed `replay.html` with `tools/c-evidence/render-smoke.js`
+(Playwright Chromium, every option and button clicked): `RENDER-SMOKE actions=9 errors=0 OK`.
+The original receipt records its own headless check under the `browser` key.
+At the receipt pin `77bddc194` the runner finished every native step, assertion and gate and wrote `result.json`, then stopped with exit 1 in the last step because `make_replay.py` at that pin has a Python syntax error (see Errata and `reverify-2026-11-08/runner-stdout.txt`). Running the fixed generator from `6df50d2e5` on this re-run's logs regenerates `replay.html` and `replay-data.json` byte-identical to the committed ones. The repeat command below therefore pins `6df50d2e5`, the guide's own pin, whose generators differ from `77bddc194` only by that fix.
+
+Where the logs are: [`reverify-2026-11-08/`](reverify-2026-11-08/) holds every log,
+`result.json` and per-mode results of the re-run, with
+[`reverify-2026-11-08/receipt.json`](reverify-2026-11-08/receipt.json) (pins, per-case
+results, gate lines, toolchain, render result, sha256 of every file there).
+12 re-run files are byte-identical to the hashes in the original
+`receipt.json`; those not already committed were also placed at their original paths in this directory, so the original receipt now resolves for them: `after-bolt.log`, `after-build.log`, `after-living.log`, `after-scenarios.log`, `after-undead.log`, `before-bolt.log`, `before-living.log`, `before-scenarios.log`, `before-undead.log`.
+The rest (`after-alltests.log`, `before-alltests.log`, `before-build.log`, `configure.log`) differ in
+run-specific content (temporary paths, timings, build output of the different toolchain) and are
+published only under `reverify-2026-11-08/`.
+
+Repeat (fixtures pinned by sha; the fix sha is fixed inside `reproduce.py` at that pin, and the runner
+refuses any other source diff):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/dispel-248-evidence
+git show 6df50d2e5ad605ec8d3898ca1b653985a373480c:docs/audit/c-reports/dispel-248/reproduce.py > /tmp/reproduce-dispel-248.py
+python3 /tmp/reproduce-dispel-248.py --full-tests --fixtures-ref 6df50d2e5ad605ec8d3898ca1b653985a373480c
+```
+
+## Errata (2026-11-08)
+
+- `make_replay.py` at the receipt's `fixtures_ref` `77bddc194` does not parse (a `}` closes a `(` on line 7), so a run at that pin ends with exit 1 after all native checks. The capture commit `466cdf8db` fixed it; `git diff 77bddc194 6df50d2e5` touches no other generator. Use the guide's pin `6df50d2e5`.
+- Committed file that differs from its receipt hash (before this amendment): `README.md`. The receipt was hashed at `efd476b45`; commit `98292a983` then replaced the `pull/SOURCE` placeholder with `pull/291` in the README without re-hashing. No log, generator or replay file was affected.
+- `receipt.json` was amended on 2026-11-08 for this only: its `README.md` hash now covers the README with these sections, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
