@@ -1,0 +1,26 @@
+native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=1 tracked=25 monster=skeleton human at (33,10) visible=1
+  first_key_after_level_change  MODE rune-inside
+SCREEN level=198x66 prompt=command top=""
+KEY 57344
+SCREEN level=198x66 prompt=command top=""
+KEY 57344
+SCREEN level=198x66 prompt=command top=""
+KEY 57344
+SCREEN level=198x66 prompt=command top=""
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top="The rune of protection is broken! You feel yourself yanked upwards! -more-"
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(30,10) borg_in_bounds=1 tracked=25
+SCREEN level=66x22 prompt=command top=""
+KEY 50
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed

@@ -1,0 +1,623 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg crashed reading a rune message after Word of Recall</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg crashed reading a rune message after Word of Recall</h1><p>When a monster breaks one of the Borg&#x27;s Runes of Protection, or hits the Borg while it is tracking runes, the Borg forgets its rune list and checks whether a rune is still under its own position. If Word of Recall fires in the same game turn, the game shows that message with -more- just before it leaves the level. The Borg stores the line and parses it at its next keypress, which is the first prompt on the new level, before its map update has moved its own position there. Its position is still the old level&#x27;s grid, (113,48) here, which lies outside the 66x22 town, and the rune check reads outside the town&#x27;s map. In a normal debug build the game aborts on an assertion; in a release-style build (asserts off) AddressSanitizer reports a heap-buffer-overflow read. The correction skips the rune check when the position is not on the current level; the rune list is still cleared, and the Borg goes on to make its first town move.</p><p><label>Scenario: <select id="scenario"><option value="rune-town">Sea of Runes, rune broken, recall to town</option><option value="hit-town">Hit while tracking a rune, recall to town</option><option value="rune-inside">Control: rune broken, old grid inside the town</option><option value="hit-inside">Control: hit while tracking a rune, old grid inside the town</option><option value="hit-noglyph">Control: hit with no rune tracked</option></select></label></p><section class="scenario" data-mode="rune-town"><p class="summary">Line stored at -more-: &#x27;The rune of protection is broken! You feel yourself yanked upwards!&#x27;. Original: at the first town prompt the parse checks the old grid (113,48) in the 66x22 town: assertion failure in square_istrap (debug), heap-buffer-overflow read (AddressSanitizer). Corrected: the rune list is cleared (25 to 0), the check is skipped, the map update moves the Borg to its town grid and it chooses a move (key 50).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>failed</strong></p><pre>STATE old borg=(113,48) on_rune=1 tracked=25 monster=skeleton human at (116,48) visible=1
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(43,1) borg=(113,48) borg_in_bounds=0 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+ISW198Observer: /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:490: square_istrap: Assertion `square_in_bounds(c, grid)&#x27; failed.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>passed</strong></p><pre>STATE old borg=(113,48) on_rune=1 tracked=25 monster=skeleton human at (116,48) visible=1
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(43,1) borg=(113,48) borg_in_bounds=0 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=1 tracked=25 monster=skeleton human at (116,48) visible=1
+  first_key_after_level_change  MODE rune-town
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(113,48) borg_in_bounds=0 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+ISW198Observer: /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:490: square_istrap: Assertion `square_in_bounds(c, grid)&#x27; failed.
+</pre><h3>Corrected</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=1 tracked=25 monster=skeleton human at (116,48) visible=1
+  first_key_after_level_change  MODE rune-town
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(113,48) borg_in_bounds=0 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 50
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Original, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=1 tracked=25 monster=skeleton human at (116,48) visible=1
+  first_key_after_level_change  MODE rune-town
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(113,48) borg_in_bounds=0 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+=================================================================
+==22478==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x50d000029230 at pc 0x556648f8623f bp 0x7fff6372ca80 sp 0x7fff6372ca70
+READ of size 8 at 0x50d000029230 thread T0
+    #0 0x556648f8623e in square_istrap /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:491
+    #1 0x5566491d3e58 in square_trap_specific /tmp/angband-iswarded-198-w4l6xu9o/source/src/trap.c:73
+    #2 0x556648f86ebe in square_iswarded /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:753
+    #3 0x55664940bd42 in borg_parse_aux /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg-messages.c:1188
+    #4 0x55664940ce8f in borg_parse /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg-messages.c:1342
+    #5 0x5566494a0550 in generate_keypress /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg.c:311
+    #6 0x55664949f6ef in borg_entry_point /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg.c:78
+    #7 0x556648f7d667 in observed_hook /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:90
+    #8 0x556648f801c1 in scenario /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:286
+    #9 0x5566494a19dc in main /tmp/angband-iswarded-198-w4l6xu9o/source/src/tests/unit-test.c:53
+    #10 0x7ff92dc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #11 0x7ff92dc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #12 0x556648f7ce44 in _start (/tmp/angband-iswarded-198-w4l6xu9o/build-asan/game/ISW198Observer+0x120e44) (BuildId: 80796b2855e69ec65bee2b8a2cc0ce55c1ff811d)
+
+0x50d000029230 is located 28 bytes after 132-byte region [0x50d000029190,0x50d000029214)
+allocated by thread T0 here:
+    #0 0x7ff92e0fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x5566492faaaf in mem_alloc /tmp/angband-iswarded-198-w4l6xu9o/source/src/z-virt.c:38
+    #2 0x5566492faaeb in mem_zalloc /tmp/angband-iswarded-198-w4l6xu9o/source/src/z-virt.c:46
+    #3 0x556648f91057 in cave_new /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave.c:361
+    #4 0x55664904d49a in cave_generate /tmp/angband-iswarded-198-w4l6xu9o/source/src/generate.c:1249
+    #5 0x55664904fd0d in prepare_next_level /tmp/angband-iswarded-198-w4l6xu9o/source/src/generate.c:1617
+    #6 0x556648f7fc56 in scenario /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:271
+    #7 0x5566494a19dc in main /tmp/angband-iswarded-198-w4l6xu9o/source/src/tests/unit-test.c:53
+    #8 0x7ff92dc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #9 0x7ff92dc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #10 0x556648f7ce44 in _start (/tmp/angband-iswarded-198-w4l6xu9o/build-asan/game/ISW198Observer+0x120e44) (BuildId: 80796b2855e69ec65bee2b8a2cc0ce55c1ff811d)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:491 in square_istrap
+Shadow bytes around the buggy address:
+  0x50d000028f80: 00 00 00 00 04 fa fa fa fa fa fa fa fa fa 00 00
+  0x50d000029000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 04 fa
+  0x50d000029080: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+  0x50d000029100: 00 00 00 00 00 00 00 00 04 fa fa fa fa fa fa fa
+  0x50d000029180: fa fa 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x50d000029200: 00 00 04 fa fa fa[fa]fa fa fa fa fa 00 00 00 00
+  0x50d000029280: 00 00 00 00 00 00 00 00 00 00 00 00 04 fa fa fa
+  0x50d000029300: fa fa fa fa fa fa 00 00 00 00 00 00 00 00 00 00
+  0x50d000029380: 00 00 00 00 00 00 04 fa fa fa fa fa fa fa fa fa
+  0x50d000029400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x50d000029480: 04 fa fa fa fa fa fa fa fa fa 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==22478==ABORTING
+</pre><h3>Corrected, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=1 tracked=25 monster=skeleton human at (116,48) visible=1
+  first_key_after_level_change  MODE rune-town
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(113,48) borg_in_bounds=0 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 50
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="hit-town"><p class="summary">Line stored at -more-: &#x27;The skeleton human hits you. You feel yourself yanked upwards!&#x27;. Original: the hit-by branch checks the old grid (113,48) in the town and aborts the same way. Corrected: the rune list is cleared (1 to 0) and the Borg chooses a town move (key 51).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>failed</strong></p><pre>STATE old borg=(113,48) on_rune=0 tracked=1 monster=skeleton human at (114,48) visible=1
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(27,2) borg=(113,48) borg_in_bounds=0 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+ISW198Observer: /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:490: square_istrap: Assertion `square_in_bounds(c, grid)&#x27; failed.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>passed</strong></p><pre>STATE old borg=(113,48) on_rune=0 tracked=1 monster=skeleton human at (114,48) visible=1
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(27,2) borg=(113,48) borg_in_bounds=0 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=1 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-town
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(113,48) borg_in_bounds=0 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+ISW198Observer: /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:490: square_istrap: Assertion `square_in_bounds(c, grid)&#x27; failed.
+</pre><h3>Corrected</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=1 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-town
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(113,48) borg_in_bounds=0 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 51
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Original, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=1 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-town
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(113,48) borg_in_bounds=0 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+=================================================================
+==22479==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x50d000029230 at pc 0x56239288d23f bp 0x7ffceaccf390 sp 0x7ffceaccf380
+READ of size 8 at 0x50d000029230 thread T0
+    #0 0x56239288d23e in square_istrap /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:491
+    #1 0x562392adae58 in square_trap_specific /tmp/angband-iswarded-198-w4l6xu9o/source/src/trap.c:73
+    #2 0x56239288debe in square_iswarded /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:753
+    #3 0x562392d0fb29 in borg_parse_aux /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg-messages.c:625
+    #4 0x562392d13e8f in borg_parse /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg-messages.c:1342
+    #5 0x562392da7550 in generate_keypress /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg.c:311
+    #6 0x562392da66ef in borg_entry_point /tmp/angband-iswarded-198-w4l6xu9o/source/src/borg/borg.c:78
+    #7 0x562392884667 in observed_hook /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:90
+    #8 0x5623928871c1 in scenario /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:286
+    #9 0x562392da89dc in main /tmp/angband-iswarded-198-w4l6xu9o/source/src/tests/unit-test.c:53
+    #10 0x7fe558a2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #11 0x7fe558a2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #12 0x562392883e44 in _start (/tmp/angband-iswarded-198-w4l6xu9o/build-asan/game/ISW198Observer+0x120e44) (BuildId: 80796b2855e69ec65bee2b8a2cc0ce55c1ff811d)
+
+0x50d000029230 is located 28 bytes after 132-byte region [0x50d000029190,0x50d000029214)
+allocated by thread T0 here:
+    #0 0x7fe558efd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x562392c01aaf in mem_alloc /tmp/angband-iswarded-198-w4l6xu9o/source/src/z-virt.c:38
+    #2 0x562392c01aeb in mem_zalloc /tmp/angband-iswarded-198-w4l6xu9o/source/src/z-virt.c:46
+    #3 0x562392898057 in cave_new /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave.c:361
+    #4 0x56239295449a in cave_generate /tmp/angband-iswarded-198-w4l6xu9o/source/src/generate.c:1249
+    #5 0x562392956d0d in prepare_next_level /tmp/angband-iswarded-198-w4l6xu9o/source/src/generate.c:1617
+    #6 0x562392886c56 in scenario /tmp/angband-iswarded-198-w4l6xu9o/evidence/scenario.c:271
+    #7 0x562392da89dc in main /tmp/angband-iswarded-198-w4l6xu9o/source/src/tests/unit-test.c:53
+    #8 0x7fe558a2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #9 0x7fe558a2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #10 0x562392883e44 in _start (/tmp/angband-iswarded-198-w4l6xu9o/build-asan/game/ISW198Observer+0x120e44) (BuildId: 80796b2855e69ec65bee2b8a2cc0ce55c1ff811d)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-iswarded-198-w4l6xu9o/source/src/cave-square.c:491 in square_istrap
+Shadow bytes around the buggy address:
+  0x50d000028f80: 00 00 00 00 04 fa fa fa fa fa fa fa fa fa 00 00
+  0x50d000029000: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 04 fa
+  0x50d000029080: fa fa fa fa fa fa fa fa 00 00 00 00 00 00 00 00
+  0x50d000029100: 00 00 00 00 00 00 00 00 04 fa fa fa fa fa fa fa
+  0x50d000029180: fa fa 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x50d000029200: 00 00 04 fa fa fa[fa]fa fa fa fa fa 00 00 00 00
+  0x50d000029280: 00 00 00 00 00 00 00 00 00 00 00 00 04 fa fa fa
+  0x50d000029300: fa fa fa fa fa fa 00 00 00 00 00 00 00 00 00 00
+  0x50d000029380: 00 00 00 00 00 00 04 fa fa fa fa fa fa fa fa fa
+  0x50d000029400: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x50d000029480: 04 fa fa fa fa fa fa fa fa fa 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==22479==ABORTING
+</pre><h3>Corrected, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-town class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=1 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-town
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(113,48) borg_in_bounds=0 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 51
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="rune-inside"><p class="summary">Same sequence from old grid (30,10), which exists in the town: the check reads a real town grid (no rune) in both versions; byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>passed</strong></p><pre>STATE old borg=(30,10) on_rune=1 tracked=25 monster=skeleton human at (33,10) visible=1
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(43,1) borg=(30,10) borg_in_bounds=1 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>passed</strong></p><pre>STATE old borg=(30,10) on_rune=1 tracked=25 monster=skeleton human at (33,10) visible=1
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(43,1) borg=(30,10) borg_in_bounds=1 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=1 tracked=25 monster=skeleton human at (33,10) visible=1
+  first_key_after_level_change  MODE rune-inside
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(30,10) borg_in_bounds=1 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 50
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=1 tracked=25 monster=skeleton human at (33,10) visible=1
+  first_key_after_level_change  MODE rune-inside
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(30,10) borg_in_bounds=1 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 50
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Original, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=1 tracked=25 monster=skeleton human at (33,10) visible=1
+  first_key_after_level_change  MODE rune-inside
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(30,10) borg_in_bounds=1 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 50
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Corrected, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=rune-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=1 tracked=25 monster=skeleton human at (33,10) visible=1
+  first_key_after_level_change  MODE rune-inside
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+SCREEN level=198x66 prompt=command top=&quot;&quot;
+KEY 57344
+ENGINE turn=1 level=198x66: The rune of protection is broken!
+STATE monster_rounds=5 broken=1 bites=0 hp=354/354 tracked=25
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The rune of protection is broken! You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(43,1) borg=(30,10) borg_in_bounds=1 tracked=25
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 50
+DECISION first_key=50
+STATE after borg=(43,1) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="hit-inside"><p class="summary">Same hit sequence from old grid (30,10): the hit-by branch runs the guarded check on a real town grid in both versions; byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>passed</strong></p><pre>STATE old borg=(30,10) on_rune=0 tracked=1 monster=skeleton human at (31,10) visible=1
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(27,2) borg=(30,10) borg_in_bounds=1 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>passed</strong></p><pre>STATE old borg=(30,10) on_rune=0 tracked=1 monster=skeleton human at (31,10) visible=1
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(27,2) borg=(30,10) borg_in_bounds=1 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=0 tracked=1 monster=skeleton human at (31,10) visible=1
+  first_key_after_level_change  MODE hit-inside
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(30,10) borg_in_bounds=1 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 51
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=0 tracked=1 monster=skeleton human at (31,10) visible=1
+  first_key_after_level_change  MODE hit-inside
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(30,10) borg_in_bounds=1 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 51
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Original, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=0 tracked=1 monster=skeleton human at (31,10) visible=1
+  first_key_after_level_change  MODE hit-inside
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(30,10) borg_in_bounds=1 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 51
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Corrected, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-inside class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(30,10) on_rune=0 tracked=1 monster=skeleton human at (31,10) visible=1
+  first_key_after_level_change  MODE hit-inside
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=350/354 tracked=1
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,2) borg=(30,10) borg_in_bounds=1 tracked=1
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 51
+DECISION first_key=51
+STATE after borg=(27,2) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="hit-noglyph"><p class="summary">Same hit sequence from (113,48) with no rune tracked: the hit-by branch skips the rune check in both versions; byte-identical logs. A hit alone never reaches the read.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>passed</strong></p><pre>STATE old borg=(113,48) on_rune=0 tracked=0 monster=skeleton human at (114,48) visible=1
+STATE monster_rounds=1 broken=0 bites=1 hp=351/354 tracked=0
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(27,4) borg=(113,48) borg_in_bounds=0 tracked=0
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+DECISION first_key=54
+STATE after borg=(27,4) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>first new-level keypress completed (1); n/a means the run aborted before it finished</p><p>Scenario check: <strong>passed</strong></p><pre>STATE old borg=(113,48) on_rune=0 tracked=0 monster=skeleton human at (114,48) visible=1
+STATE monster_rounds=1 broken=0 bites=1 hp=351/354 tracked=0
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+STATE new level=66x22 depth=0 player=(27,4) borg=(113,48) borg_in_bounds=0 tracked=0
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+DECISION first_key=54
+STATE after borg=(27,4) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-noglyph class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=0 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-noglyph
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=351/354 tracked=0
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,4) borg=(113,48) borg_in_bounds=0 tracked=0
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 54
+DECISION first_key=54
+STATE after borg=(27,4) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-noglyph class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=0 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-noglyph
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=351/354 tracked=0
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,4) borg=(113,48) borg_in_bounds=0 tracked=0
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 54
+DECISION first_key=54
+STATE after borg=(27,4) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Original, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-noglyph class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=0 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-noglyph
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=351/354 tracked=0
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,4) borg=(113,48) borg_in_bounds=0 tracked=0
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 54
+DECISION first_key=54
+STATE after borg=(27,4) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre><h3>Corrected, AddressSanitizer build</h3><pre>native-c/iswarded-198: starting...
+SETUP seed=198 mode=hit-noglyph class=Warrior clevel=30 depth=40 hp=354 level=198x66 screen=80x24
+STATE old borg=(113,48) on_rune=0 tracked=0 monster=skeleton human at (114,48) visible=1
+  first_key_after_level_change  MODE hit-noglyph
+ENGINE turn=1 level=198x66: The skeleton human hits you.
+STATE monster_rounds=1 broken=0 bites=1 hp=351/354 tracked=0
+ENGINE turn=1 level=198x66: You feel yourself yanked upwards!
+STATE recall generate_level=1 depth=0
+SCREEN level=198x66 prompt=more top=&quot;The skeleton human hits you. You feel yourself yanked upwards! -more-&quot;
+KEY 32
+STATE new level=66x22 depth=0 player=(27,4) borg=(113,48) borg_in_bounds=0 tracked=0
+SCREEN level=66x22 prompt=command top=&quot;&quot;
+KEY 54
+DECISION first_key=54
+STATE after borg=(27,4) borg_in_bounds=1 tracked=0 depth=0
+OUTCOME survived=1
+Passed
+native-c/iswarded-198 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 198, character level 30, depth 40, on a full-size open level (198x66), standard 80x24 screen. Fixture interventions: the arena and the runes the Borg laid earlier (placed with the Borg&#x27;s own rune records, as its rune-reading code writes them); an awake skeleton human (level 12, one blow, no spells, never afraid); Word of Recall set to fire on the next world tick; Escape answers at the old-level prompts between monster rounds; the EVENT_MESSAGE_FLUSH signal and the panel recentring that the game&#x27;s static leave-level and new-level display code performs. Real code: monster turns (process_monsters), the recall (process_world), the game&#x27;s own message line and -more- prompt (display_message and message_flush from ui-input.c), town generation (prepare_next_level) and the Borg&#x27;s keypress hook, including its think and map update at the first town prompt. rune-*: a 5x5 Sea of Runes with the Borg on the centre rune; the monster breaks an outer rune. hit-*: one rune west of the Borg; the monster hits the Borg. -town: old position (113,48), outside the town; -inside: old position (30,10), also a town grid. The AddressSanitizer variant builds with -DNDEBUG (as a release build does), so the assertion that stops a debug build does not mask the read.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/198">issue 198</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
