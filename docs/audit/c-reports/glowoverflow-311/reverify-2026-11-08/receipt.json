@@ -205,6 +205,13 @@
         "note": "regenerated replay after the make_replay.py fix; the first 2026-11-08 smoke of the original page failed (Control view showed 'undefined')"
       },
       "reason": "render smoke re-run on the regenerated replay"
+    },
+    {
+      "file": "receipt.json",
+      "field": "sha256.README.md",
+      "old": "8e4d72da13b7bde584e8ef61e5d767dbf24a057d9a3cc97af55e82aaa32febcd",
+      "new": "654721492074b92ebf62c6c2ac3b25be2759cacc307455e70eb31d2865b25a73",
+      "reason": "README Errata render-check note replaced with 'fixed in 2cf938b2d'"
     }
   ],
   "before_asan_glow_log": "The re-run's before-asan-glow.log differs from the original by sanitizer addresses and temporary paths, which change per run, so it cannot be byte-reproduced. The original file was recovered byte-exact from the committed replay-data.json (glow.before.asan_raw, sha256 matches the original receipt) and committed at the receipt path on 2026-11-08; the re-run copy stays here."
