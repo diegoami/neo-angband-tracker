@@ -562,7 +562,12 @@ static int case_prod(const char *state)
     int stepped_east = (key2 == '6');
     printf("OUTCOME stepped_east=%d mold_remembered=%d\n", stepped_east, kill_alive);
     if (streq(state, "expired")) {
-        /* Nothing is left to detect: both builds are expected to agree. */
+        /* Nothing is left to detect: both builds must agree, and the Borg
+         * must explore east.  This also shows that the exploring flow works
+         * in this geometry, so a blocked step in the other cases is the
+         * danger check and not an unrelated failure of the flow. */
+        require(moved);
+        require(stepped_east);
         ok;
     }
     require(!stepped_east);
