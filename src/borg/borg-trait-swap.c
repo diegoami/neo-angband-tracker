@@ -711,7 +711,7 @@ void borg_notice_weapon_swap(void)
         weapon_swap_immune_elec = true;
 
     /* Resistance flags */
-    if (item->el_info[ELEM_ELEC].res_level > 0)
+    if (item->el_info[ELEM_ACID].res_level > 0)
         weapon_swap_resist_acid = true;
     if (item->el_info[ELEM_ELEC].res_level > 0)
         weapon_swap_resist_elec = true;
