@@ -1,0 +1,7 @@
+held {'exit': 0, 'passed': True, 'state': {'effect_started': 1, 'game_messages': 1, 'reactions': 1}, 'outcome': {'recognised': 1, 'matched_to_kobold': 1}}
+command {'exit': 0, 'passed': True, 'state': {'effect_started': 1, 'game_messages': 1, 'reactions': 1}, 'outcome': {'recognised': 1, 'matched_to_kobold': 1}}
+uncommand {'exit': 0, 'passed': True, 'state': {'effect_started': 1, 'game_messages': 1, 'reactions': 1}, 'outcome': {'recognised': 1, 'matched_to_kobold': 1}}
+shapefail {'exit': 0, 'passed': True, 'state': {'effect_started': 1, 'game_messages': 1, 'reactions': 1}, 'outcome': {'recognised': 1, 'matched_to_kobold': 1}}
+stun {'exit': 0, 'passed': True, 'state': {'effect_started': 1, 'game_messages': 1, 'reactions': 1}, 'outcome': {'recognised': 1, 'matched_to_kobold': 1}}
+hurt {'exit': 0, 'passed': True, 'state': {'effect_started': 1, 'game_messages': 1, 'reactions': 1}, 'outcome': {'recognised': 1, 'matched_to_kobold': 1}}
+puff {'exit': 0, 'passed': False, 'state': {'effect_started': 1, 'game_messages': 1, 'reactions': 0}, 'outcome': {'recognised': 0, 'matched_to_kobold': 0}}

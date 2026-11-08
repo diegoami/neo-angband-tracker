@@ -1,0 +1,10 @@
+native-c/painmsg-197: starting...
+SETUP seed=197 mode=puff class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1
+  monster_status_message_recognised  STATE effect_started=1
+TRACK game-message <There is a puff of smoke!>
+TRACK borg-reaction <none>
+STATE game_messages=1 reactions=0
+OUTCOME recognised=0 matched_to_kobold=0
+Failed
+    native-c/painmsg-197:225: requirement 'pain' failed
+native-c/painmsg-197 finished: 0/1 passed

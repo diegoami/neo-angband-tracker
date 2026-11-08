@@ -1,0 +1,303 @@
+{
+  "held": {
+    "label": "Held monster is free again: 'The kobold can move again.'",
+    "explanation": "The game holds the kobold, then ends the hold and prints 'The kobold can move again.'. Original: no reaction queued; the line is ignored. Corrected: reaction 'PAIN:The kobold' queued and matched to the kobold on the Borg's monster list in the next map update.",
+    "control": false,
+    "before": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=held class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK start-message <The kobold is frozen to the spot!>\nTRACK game-message <The kobold can move again.>\nTRACK borg-reaction <none>\nSTATE game_messages=1 reactions=0\nOUTCOME recognised=0 matched_to_kobold=0\nFailed\n    native-c/painmsg-197:225: requirement 'pain' failed\nnative-c/painmsg-197 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 0
+      },
+      "outcome": {
+        "recognised": 0,
+        "matched_to_kobold": 0
+      },
+      "notes": [
+        "TRACK start-message <The kobold is frozen to the spot!>",
+        "TRACK game-message <The kobold can move again.>",
+        "TRACK borg-reaction <none>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=held class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK start-message <The kobold is frozen to the spot!>\nTRACK game-message <The kobold can move again.>\nTRACK borg-reaction <PAIN:The kobold>\nTRACK reaction-use <PAIN:The kobold> use=2\nSTATE game_messages=1 reactions=1\nOUTCOME recognised=1 matched_to_kobold=1\nPassed\nnative-c/painmsg-197 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 1
+      },
+      "outcome": {
+        "recognised": 1,
+        "matched_to_kobold": 1
+      },
+      "notes": [
+        "TRACK start-message <The kobold is frozen to the spot!>",
+        "TRACK game-message <The kobold can move again.>",
+        "TRACK borg-reaction <PAIN:The kobold>",
+        "TRACK reaction-use <PAIN:The kobold> use=2"
+      ],
+      "value": 1
+    }
+  },
+  "command": {
+    "label": "'The kobold falls under your spell!'",
+    "explanation": "The game puts the kobold under the player's command and prints 'The kobold falls under your spell!'. Original: ignored. Corrected: recognised and matched to the kobold.",
+    "control": false,
+    "before": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=command class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK game-message <The kobold falls under your spell!>\nTRACK borg-reaction <none>\nSTATE game_messages=1 reactions=0\nOUTCOME recognised=0 matched_to_kobold=0\nFailed\n    native-c/painmsg-197:225: requirement 'pain' failed\nnative-c/painmsg-197 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 0
+      },
+      "outcome": {
+        "recognised": 0,
+        "matched_to_kobold": 0
+      },
+      "notes": [
+        "TRACK game-message <The kobold falls under your spell!>",
+        "TRACK borg-reaction <none>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=command class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK game-message <The kobold falls under your spell!>\nTRACK borg-reaction <PAIN:The kobold>\nTRACK reaction-use <PAIN:The kobold> use=2\nSTATE game_messages=1 reactions=1\nOUTCOME recognised=1 matched_to_kobold=1\nPassed\nnative-c/painmsg-197 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 1
+      },
+      "outcome": {
+        "recognised": 1,
+        "matched_to_kobold": 1
+      },
+      "notes": [
+        "TRACK game-message <The kobold falls under your spell!>",
+        "TRACK borg-reaction <PAIN:The kobold>",
+        "TRACK reaction-use <PAIN:The kobold> use=2"
+      ],
+      "value": 1
+    }
+  },
+  "uncommand": {
+    "label": "'The kobold is no longer under your control.'",
+    "explanation": "The command effect ends and the game prints 'The kobold is no longer under your control.'. Original: ignored. Corrected: recognised and matched to the kobold.",
+    "control": false,
+    "before": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=uncommand class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK start-message <The kobold falls under your spell!>\nTRACK game-message <The kobold is no longer under your control.>\nTRACK borg-reaction <none>\nSTATE game_messages=1 reactions=0\nOUTCOME recognised=0 matched_to_kobold=0\nFailed\n    native-c/painmsg-197:225: requirement 'pain' failed\nnative-c/painmsg-197 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 0
+      },
+      "outcome": {
+        "recognised": 0,
+        "matched_to_kobold": 0
+      },
+      "notes": [
+        "TRACK start-message <The kobold falls under your spell!>",
+        "TRACK game-message <The kobold is no longer under your control.>",
+        "TRACK borg-reaction <none>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=uncommand class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK start-message <The kobold falls under your spell!>\nTRACK game-message <The kobold is no longer under your control.>\nTRACK borg-reaction <PAIN:The kobold>\nTRACK reaction-use <PAIN:The kobold> use=2\nSTATE game_messages=1 reactions=1\nOUTCOME recognised=1 matched_to_kobold=1\nPassed\nnative-c/painmsg-197 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 1
+      },
+      "outcome": {
+        "recognised": 1,
+        "matched_to_kobold": 1
+      },
+      "notes": [
+        "TRACK start-message <The kobold falls under your spell!>",
+        "TRACK game-message <The kobold is no longer under your control.>",
+        "TRACK borg-reaction <PAIN:The kobold>",
+        "TRACK reaction-use <PAIN:The kobold> use=2"
+      ],
+      "value": 1
+    }
+  },
+  "shapefail": {
+    "label": "'The kobold shimmers for a moment.'",
+    "explanation": "The game's monster-message code prints the failed-shapechange line 'The kobold shimmers for a moment.'. Original: ignored. Corrected: recognised and matched to the kobold.",
+    "control": false,
+    "before": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=shapefail class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK game-message <The kobold shimmers for a moment.>\nTRACK borg-reaction <none>\nSTATE game_messages=1 reactions=0\nOUTCOME recognised=0 matched_to_kobold=0\nFailed\n    native-c/painmsg-197:225: requirement 'pain' failed\nnative-c/painmsg-197 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 0
+      },
+      "outcome": {
+        "recognised": 0,
+        "matched_to_kobold": 0
+      },
+      "notes": [
+        "TRACK game-message <The kobold shimmers for a moment.>",
+        "TRACK borg-reaction <none>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=shapefail class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK game-message <The kobold shimmers for a moment.>\nTRACK borg-reaction <PAIN:The kobold>\nTRACK reaction-use <PAIN:The kobold> use=2\nSTATE game_messages=1 reactions=1\nOUTCOME recognised=1 matched_to_kobold=1\nPassed\nnative-c/painmsg-197 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 1
+      },
+      "outcome": {
+        "recognised": 1,
+        "matched_to_kobold": 1
+      },
+      "notes": [
+        "TRACK game-message <The kobold shimmers for a moment.>",
+        "TRACK borg-reaction <PAIN:The kobold>",
+        "TRACK reaction-use <PAIN:The kobold> use=2"
+      ],
+      "value": 1
+    }
+  },
+  "stun": {
+    "label": "Control: 'The kobold is no longer stunned.'",
+    "explanation": "Same sequence with the stun effect, whose ending has [is|are] markup and was always stored whole: recognised and matched in both versions; byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=stun class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK start-message <The kobold is stunned.>\nTRACK game-message <The kobold is no longer stunned.>\nTRACK borg-reaction <PAIN:The kobold>\nTRACK reaction-use <PAIN:The kobold> use=2\nSTATE game_messages=1 reactions=1\nOUTCOME recognised=1 matched_to_kobold=1\nPassed\nnative-c/painmsg-197 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 1
+      },
+      "outcome": {
+        "recognised": 1,
+        "matched_to_kobold": 1
+      },
+      "notes": [
+        "TRACK start-message <The kobold is stunned.>",
+        "TRACK game-message <The kobold is no longer stunned.>",
+        "TRACK borg-reaction <PAIN:The kobold>",
+        "TRACK reaction-use <PAIN:The kobold> use=2"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=stun class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK start-message <The kobold is stunned.>\nTRACK game-message <The kobold is no longer stunned.>\nTRACK borg-reaction <PAIN:The kobold>\nTRACK reaction-use <PAIN:The kobold> use=2\nSTATE game_messages=1 reactions=1\nOUTCOME recognised=1 matched_to_kobold=1\nPassed\nnative-c/painmsg-197 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 1
+      },
+      "outcome": {
+        "recognised": 1,
+        "matched_to_kobold": 1
+      },
+      "notes": [
+        "TRACK start-message <The kobold is stunned.>",
+        "TRACK game-message <The kobold is no longer stunned.>",
+        "TRACK borg-reaction <PAIN:The kobold>",
+        "TRACK reaction-use <PAIN:The kobold> use=2"
+      ],
+      "value": 1
+    }
+  },
+  "hurt": {
+    "label": "Control: pain message 'The kobold grunts with pain.'",
+    "explanation": "The game's pain message after 3 damage, from the pain message table: recognised and matched in both versions; byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=hurt class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK game-message <The kobold grunts with pain.>\nTRACK borg-reaction <PAIN:The kobold>\nTRACK reaction-use <PAIN:The kobold> use=2\nSTATE game_messages=1 reactions=1\nOUTCOME recognised=1 matched_to_kobold=1\nPassed\nnative-c/painmsg-197 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 1
+      },
+      "outcome": {
+        "recognised": 1,
+        "matched_to_kobold": 1
+      },
+      "notes": [
+        "TRACK game-message <The kobold grunts with pain.>",
+        "TRACK borg-reaction <PAIN:The kobold>",
+        "TRACK reaction-use <PAIN:The kobold> use=2"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=hurt class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK game-message <The kobold grunts with pain.>\nTRACK borg-reaction <PAIN:The kobold>\nTRACK reaction-use <PAIN:The kobold> use=2\nSTATE game_messages=1 reactions=1\nOUTCOME recognised=1 matched_to_kobold=1\nPassed\nnative-c/painmsg-197 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 1
+      },
+      "outcome": {
+        "recognised": 1,
+        "matched_to_kobold": 1
+      },
+      "notes": [
+        "TRACK game-message <The kobold grunts with pain.>",
+        "TRACK borg-reaction <PAIN:The kobold>",
+        "TRACK reaction-use <PAIN:The kobold> use=2"
+      ],
+      "value": 1
+    }
+  },
+  "puff": {
+    "label": "Not changed: 'There is a puff of smoke!'",
+    "explanation": "The fifth ending named in the report. The game prints it without a monster name; the Borg stores it with a leading space, which the printed line does not have, so it is not recognised before or after this fix (and there is no monster name to note). Byte-identical logs; outside this fix.",
+    "control": false,
+    "before": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=puff class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK game-message <There is a puff of smoke!>\nTRACK borg-reaction <none>\nSTATE game_messages=1 reactions=0\nOUTCOME recognised=0 matched_to_kobold=0\nFailed\n    native-c/painmsg-197:225: requirement 'pain' failed\nnative-c/painmsg-197 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 0
+      },
+      "outcome": {
+        "recognised": 0,
+        "matched_to_kobold": 0
+      },
+      "notes": [
+        "TRACK game-message <There is a puff of smoke!>",
+        "TRACK borg-reaction <none>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/painmsg-197: starting...\nSETUP seed=197 mode=puff class=Warrior clevel=11 depth=5 kobold=(12,12) borg_kill=1\n  monster_status_message_recognised  STATE effect_started=1\nTRACK game-message <There is a puff of smoke!>\nTRACK borg-reaction <none>\nSTATE game_messages=1 reactions=0\nOUTCOME recognised=0 matched_to_kobold=0\nFailed\n    native-c/painmsg-197:225: requirement 'pain' failed\nnative-c/painmsg-197 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "effect_started": 1,
+        "game_messages": 1,
+        "reactions": 0
+      },
+      "outcome": {
+        "recognised": 0,
+        "matched_to_kobold": 0
+      },
+      "notes": [
+        "TRACK game-message <There is a puff of smoke!>",
+        "TRACK borg-reaction <none>"
+      ],
+      "value": 0
+    }
+  }
+}
