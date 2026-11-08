@@ -158,7 +158,7 @@
   "browser": "Chrome for Testing chromium-1248",
   "seed_note": "chooser 2% simulation paranoia checked across 15 seeds at this call position; none hits",
   "sha256": {
-    "README.md": "39d8d410afffb972185d8792a155605a9ceefd635bf82183a70444a8bd735b6f",
+    "README.md": "a0b42921f5f6aa0b6ac008bbff00f9f471ac8fd0fe964a867c561dc9e7feed4c",
     "after-alltests.log": "9728a68b859549cb3b7f9bfc15b957a1e51666a42a058e5804edb7b278899dad",
     "after-build.log": "2b67dda146bef68d9b72bf4d7ffd9d1422f06380fdcc218d1d78fb2248897c7a",
     "after-edge.log": "d4a00b98dba31e73221527c4e52f2ffefcd134729b7913cd573a16ce5460d079",
