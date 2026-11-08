@@ -136,6 +136,13 @@
         "note": "added by the 2026-11-08 re-verification; the original run's browser record is under 'browser'"
       },
       "reason": "the original receipt recorded its browser check under 'browser', which the package checker does not read"
+    },
+    {
+      "file": "receipt.json",
+      "field": "sha256.README.md",
+      "old": "c1f3c4b85f0c811f5b6f28885495aa27879f04dc5bf33884ff4b810a5f74283b",
+      "new": "8c5be791f1e65fbb1f0a2116eba111c8ac9ccb9e291f8c6f7cf2c9a00d23a86c",
+      "reason": "README.md source-proposal placeholder link corrected in place to #355 (2026-11-08)"
     }
   ]
 }
