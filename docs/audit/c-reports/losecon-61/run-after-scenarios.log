@@ -1,0 +1,4 @@
+lowcon {'exit': 0, 'passed': True, 'state': {'danger': 756, 'avoidance': 500, 'hp': 500, 'cstr': 17, 'ccon': 7}, 'outcome': {'escape': 1}}
+lowstr {'exit': 0, 'passed': True, 'state': {'danger': 456, 'avoidance': 500, 'hp': 500, 'cstr': 7, 'ccon': 16}, 'outcome': {'escape': 0}}
+neither {'exit': 0, 'passed': True, 'state': {'danger': 456, 'avoidance': 500, 'hp': 500, 'cstr': 17, 'ccon': 16}, 'outcome': {'escape': 0}}
+bothlow {'exit': 0, 'passed': True, 'state': {'danger': 756, 'avoidance': 500, 'hp': 500, 'cstr': 7, 'ccon': 7}, 'outcome': {'escape': 1}}

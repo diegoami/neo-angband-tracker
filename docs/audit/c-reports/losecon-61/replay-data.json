@@ -1,0 +1,182 @@
+{
+  "lowcon": {
+    "label": "Constitution drained to 7, strength 17",
+    "explanation": "Original: danger 456 (no extra fear, strength is 17), below the 500 hit points; the Borg does not escape. Corrected: danger 756; it reads a Scroll of Teleportation ('# Danger Level 2.1').",
+    "control": false,
+    "before": {
+      "raw": "native-c/losecon-61: starting...\nSETUP seed=61 mode=lowcon class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=17 str_max=17 con_cur=7 con_max=16\n  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1\nDANGER cstr=17 ccon=7 danger=456\nSTATE danger=456 avoidance=500 hp=500 cstr=17 ccon=7\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=456\nOUTCOME escape=0\nFailed\n    native-c/losecon-61:179: requirement 'danger == 756' failed\nnative-c/losecon-61 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 456,
+        "avoidance": 500,
+        "hp": 500,
+        "cstr": 17,
+        "ccon": 7
+      },
+      "outcome": {
+        "escape": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=456"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/losecon-61: starting...\nSETUP seed=61 mode=lowcon class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=17 str_max=17 con_cur=7 con_max=16\n  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1\nDANGER cstr=17 ccon=7 danger=756\nSTATE danger=756 avoidance=500 hp=500 cstr=17 ccon=7\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756\nTRACK # Reading Scrolls of Teleportation.\nTRACK # Danger Level 1.\nOUTCOME escape=1\nPassed\nnative-c/losecon-61 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 756,
+        "avoidance": 500,
+        "hp": 500,
+        "cstr": 17,
+        "ccon": 7
+      },
+      "outcome": {
+        "escape": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756",
+        "TRACK # Reading Scrolls of Teleportation.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 1
+    }
+  },
+  "lowstr": {
+    "label": "Strength drained to 7, constitution 16",
+    "explanation": "Original: danger 756 because strength is below 8; the Borg reads a Scroll of Teleportation. Corrected: danger 456; it keeps the scroll.",
+    "control": false,
+    "before": {
+      "raw": "native-c/losecon-61: starting...\nSETUP seed=61 mode=lowstr class=Warrior clevel=49 hp=500 mhp=622 depth=30 str_cur=7 str_max=17 con_cur=16 con_max=16\n  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1\nDANGER cstr=7 ccon=16 danger=756\nSTATE danger=756 avoidance=500 hp=500 cstr=7 ccon=16\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=756\nTRACK # Reading Scrolls of Teleportation.\nTRACK # Danger Level 1.\nOUTCOME escape=1\nFailed\n    native-c/losecon-61:183: requirement 'danger == 456' failed\nnative-c/losecon-61 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 756,
+        "avoidance": 500,
+        "hp": 500,
+        "cstr": 7,
+        "ccon": 16
+      },
+      "outcome": {
+        "escape": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=756",
+        "TRACK # Reading Scrolls of Teleportation.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/losecon-61: starting...\nSETUP seed=61 mode=lowstr class=Warrior clevel=49 hp=500 mhp=622 depth=30 str_cur=7 str_max=17 con_cur=16 con_max=16\n  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1\nDANGER cstr=7 ccon=16 danger=456\nSTATE danger=456 avoidance=500 hp=500 cstr=7 ccon=16\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456\nOUTCOME escape=0\nPassed\nnative-c/losecon-61 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 456,
+        "avoidance": 500,
+        "hp": 500,
+        "cstr": 7,
+        "ccon": 16
+      },
+      "outcome": {
+        "escape": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456"
+      ],
+      "value": 0
+    }
+  },
+  "neither": {
+    "label": "Control: strength 17, constitution 16",
+    "explanation": "Neither stat below 8: danger 456 and no escape in both versions; logs identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/losecon-61: starting...\nSETUP seed=61 mode=neither class=Warrior clevel=49 hp=500 mhp=622 depth=30 str_cur=17 str_max=17 con_cur=16 con_max=16\n  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1\nDANGER cstr=17 ccon=16 danger=456\nSTATE danger=456 avoidance=500 hp=500 cstr=17 ccon=16\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456\nOUTCOME escape=0\nPassed\nnative-c/losecon-61 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 456,
+        "avoidance": 500,
+        "hp": 500,
+        "cstr": 17,
+        "ccon": 16
+      },
+      "outcome": {
+        "escape": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/losecon-61: starting...\nSETUP seed=61 mode=neither class=Warrior clevel=49 hp=500 mhp=622 depth=30 str_cur=17 str_max=17 con_cur=16 con_max=16\n  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1\nDANGER cstr=17 ccon=16 danger=456\nSTATE danger=456 avoidance=500 hp=500 cstr=17 ccon=16\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456\nOUTCOME escape=0\nPassed\nnative-c/losecon-61 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 456,
+        "avoidance": 500,
+        "hp": 500,
+        "cstr": 17,
+        "ccon": 16
+      },
+      "outcome": {
+        "escape": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456"
+      ],
+      "value": 0
+    }
+  },
+  "bothlow": {
+    "label": "Control: strength and constitution both drained to 7",
+    "explanation": "Both stats below 8, so the extra fear applies either way: danger 756 and a Teleportation read in both versions; logs identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/losecon-61: starting...\nSETUP seed=61 mode=bothlow class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=7 str_max=17 con_cur=7 con_max=16\n  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1\nDANGER cstr=7 ccon=7 danger=756\nSTATE danger=756 avoidance=500 hp=500 cstr=7 ccon=7\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756\nTRACK # Reading Scrolls of Teleportation.\nTRACK # Danger Level 1.\nOUTCOME escape=1\nPassed\nnative-c/losecon-61 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 756,
+        "avoidance": 500,
+        "hp": 500,
+        "cstr": 7,
+        "ccon": 7
+      },
+      "outcome": {
+        "escape": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756",
+        "TRACK # Reading Scrolls of Teleportation.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/losecon-61: starting...\nSETUP seed=61 mode=bothlow class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=7 str_max=17 con_cur=7 con_max=16\n  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1\nDANGER cstr=7 ccon=7 danger=756\nSTATE danger=756 avoidance=500 hp=500 cstr=7 ccon=7\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756\nTRACK # Reading Scrolls of Teleportation.\nTRACK # Danger Level 1.\nOUTCOME escape=1\nPassed\nnative-c/losecon-61 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 756,
+        "avoidance": 500,
+        "hp": 500,
+        "cstr": 7,
+        "ccon": 7
+      },
+      "outcome": {
+        "escape": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756",
+        "TRACK # Reading Scrolls of Teleportation.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 1
+    }
+  }
+}
