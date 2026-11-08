@@ -1,0 +1,112 @@
+{
+  "purpose": "Re-verification at the original pins: the original run's logs were dropped by the repository's *.log ignore rule although the original receipt hashed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "a49b7a6c15f6353cd427af28903355fe258af4d5",
+  "fixtures_ref": "9cc297fe75ad6c2dd3f9e52a06896832852b59aa",
+  "original_fixtures_ref": "9cc297fe75ad6c2dd3f9e52a06896832852b59aa",
+  "command": "git show 9cc297fe75ad6c2dd3f9e52a06896832852b59aa:docs/audit/c-reports/blind-261/reproduce.py > /tmp/reproduce-blind-261.py && python3 /tmp/reproduce-blind-261.py --full-tests --fixtures-ref 9cc297fe75ad6c2dd3f9e52a06896832852b59aa",
+  "fix_pin_note": "reproduce.py hard-codes BASE and FIX and asserts the exact source hunk; it has no --fix-ref flag.",
+  "cases": {
+    "before": {
+      "blind": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "player=(5,20) jelly=(10,20) temp_n=4 avoidance=20",
+        "fearprobe": "p1=488 p2=488 fear_delta=0 conf_delta=408",
+        "rating": "blind=955 frighten=-5",
+        "outcome": "blind=955 frighten=-5"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) jelly=(10,20) temp_n=4 avoidance=20",
+        "fearprobe": "p1=488 p2=488 fear_delta=0 conf_delta=408",
+        "rating": "frighten=-5",
+        "outcome": "frighten=-5"
+      }
+    },
+    "after": {
+      "blind": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) jelly=(10,20) temp_n=4 avoidance=20",
+        "fearprobe": "p1=488 p2=488 fear_delta=0 conf_delta=408",
+        "rating": "blind=-5 frighten=-5",
+        "outcome": "blind=-5 frighten=-5"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(5,20) jelly=(10,20) temp_n=4 avoidance=20",
+        "fearprobe": "p1=488 p2=488 fear_delta=0 conf_delta=408",
+        "rating": "frighten=-5",
+        "outcome": "frighten=-5"
+      }
+    }
+  },
+  "matches_original_receipt_cases": true,
+  "case_differences": [],
+  "identical_controls": {
+    "control": true
+  },
+  "byte_identical_to_original_hash": {
+    "after-alltests.log": false,
+    "after-build.log": true,
+    "after-scenarios.log": true,
+    "before-alltests.log": false,
+    "before-build.log": false,
+    "before-scenarios.log": true,
+    "configure.log": false,
+    "result.json": true,
+    "after-blind.log": true,
+    "after-control.log": true,
+    "after-results.json": true,
+    "before-blind.log": true,
+    "before-control.log": true,
+    "before-results.json": true
+  },
+  "full_tests": {
+    "before": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "original_compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "original_cmake": "cmake version 4.2.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "target": "committed replay.html",
+    "replay_sha256": "5409e7bbb584e555b73fec3529c16f5acd3f27e9dcd31f30498453afcbc94ba1",
+    "result": "RENDER-SMOKE actions=4 errors=0 OK",
+    "exit": 0
+  },
+  "sha256": {
+    "after-alltests.log": "c5d0667badbb64f3177cf42bf094ed00b29b430139b6b5a58fd51041454a03be",
+    "after-blind.log": "08d1938678549023f38c42eb638d34141c68d8824f34f59ccbc58cbaadececda",
+    "after-build.log": "84b5e75ee1da420d14c1a62d96a4d9f6870abe83c6722a49d0c740a6d5712e1d",
+    "after-control.log": "4a3ffe0bcfad25d2df134d6102a0aaaa6ba750ff218a95a1f11ef3d12a03c1e7",
+    "after-results.json": "37dc565ff30a8821cefaf74231332861a2049a8aa25a5a2b75c7cfb3ea5885ea",
+    "after-scenarios.log": "8997362cb86855c863928b061e3d2501288c831a25433b0c25107dae05b1dbd1",
+    "before-alltests.log": "17f9e7eb9ccc992d51e823970e211ea4ea2222eb3381b40ce384f2eb34d489ea",
+    "before-blind.log": "062e8581d1d80349799dd01603e0fc071c3c2ac1957b8ce4f481d027f539e342",
+    "before-build.log": "94ad65bb5dfa2e8d9dfe57dfb67e4f99de726fcf98b4e4a5f7928c20414bcc6b",
+    "before-control.log": "4a3ffe0bcfad25d2df134d6102a0aaaa6ba750ff218a95a1f11ef3d12a03c1e7",
+    "before-results.json": "8eb761fa2bb846c71a5efd24553d113412b03781ec74bfff0c37e9fe4d53441e",
+    "before-scenarios.log": "1ac26b8cbcc48884c422ccb4ace9b810ca10bf066296b5fa39672f15a5bf51d6",
+    "configure.log": "0715cff1a0fbb67c293375ee7dbeb6b6bcf4cc970a3be157d5382b874a202077",
+    "result.json": "c9e961a13eec1be84a7e669d60148216b5e2bac9f7128ce1a6e5a89b672d905b"
+  }
+}

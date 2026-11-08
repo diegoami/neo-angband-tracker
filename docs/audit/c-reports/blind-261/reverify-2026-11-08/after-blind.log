@@ -1,0 +1,10 @@
+native-c/blind-261: starting...
+SETUPSTEP profile
+FEARPROBE p1=488 p2=488 fear_delta=0 conf_delta=408
+SETUP seed=1000 class=Necromancer level=50 depth=30 sp=81/81
+  los_dispel_reaches_its_blast  MODE blind
+GEOMETRY player=(5,20) jelly=(10,20) temp_n=4 avoidance=20
+RATING blind=-5 frighten=-5
+OUTCOME blind=-5 frighten=-5
+Passed
+native-c/blind-261 finished: 1/1 passed
