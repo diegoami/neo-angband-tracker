@@ -83,7 +83,7 @@ def status(issue_no, now, open_prs):
         if m:
             last = (m.group(1), m.group("who"), parse_time(m.group("at")) or parse_time(c["created_at"]),
                     parse_time(m.group("exp") or "") if m.group("exp") else None, c["created_at"])
-    if (not last or last[0] == "RELEASE") and triaged and (not last or triaged[1] >= last[4]):
+    if (not last or last[0] == "RELEASE") and triaged:
         return "TRIAGED", f"{triaged[0]} ({triaged[1]}); not a fix candidate unless the owner reopens it"
     if not last or last[0] == "RELEASE":
         note = f"label {LABEL} still set" if LABEL in labels else ""
