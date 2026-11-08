@@ -1,0 +1,9 @@
+native-c/recalldepth-310: starting...
+SETUPSTEP profile
+SETUP maxdepth=99 curdepth=65 hunted=30 live_uniques=2
+SETUP seed=1000 class=Warrior level=1 depth=30 hp=20/20 scroll_slot=3
+  endgame_branch_resets_recall_depth  MODE mismatch
+DECISION acted=1 keys=6 sequence=<Escape> <Escape> r d n <Escape>
+OUTCOME acted=1 keys=6 reset_y=0 keep_n=1
+Passed
+native-c/recalldepth-310 finished: 1/1 passed
