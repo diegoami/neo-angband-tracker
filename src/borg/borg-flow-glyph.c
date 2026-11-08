@@ -125,7 +125,7 @@ bool borg_flow_glyph(void)
                 /* Stop if we already new about this glyph */
                 if ((track_glyph.x[i] == borg.c.x)
                     && (track_glyph.y[i] == borg.c.y))
-                    return false;
+                    return true;
             }
 
             /* Track the newly discovered glyph */
