@@ -1,0 +1,14 @@
+{
+  "main": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "time_after": 1,
+      "active": 1
+    },
+    "outcome": {
+      "kept_playing": 1,
+      "time_reset": 1
+    }
+  }
+}

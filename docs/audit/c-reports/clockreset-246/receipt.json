@@ -1,0 +1,21 @@
+{
+  "issue": "diegoami/neo-angband-tracker#246",
+  "report": "clockreset-246",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "7cc0ebbd2016afeaaf57c5e976251b67f7c0e147",
+  "fix_branch": "task/clockreset-246",
+  "fixtures_ref": "85ff225404d99acfdf22568b4bc5ec64afd4218b",
+  "cases": {
+    "before": {"passed": false, "state": {"time_after": 2147480647, "active": 0}},
+    "after": {"passed": true, "state": {"time_after": 1, "active": 1}}
+  },
+  "claim": "The graceful clock reset in borg_think() fired at BORG_TIME_MAX - 100 while borg_think_dungeon() aborted the borg at BORG_TIME_MAX - 3000, so the abort always won and the reset was unreachable. The owner-decided correction resets the clock in place at the threshold (the same borg.time.now = 1 assignment) and keeps playing; the borg_think() check remains as a failsafe.",
+  "full_tests": {
+    "before": {"unit_checks": "965/965", "frontend_tests": "5/5"},
+    "after": {"unit_checks": "965/965", "frontend_tests": "5/5"}
+  },
+  "fixed_sources": ["src/borg/borg-think-dungeon.c"],
+  "runner_asserts": "The corrected file must equal the base file with exactly the graceful reset replacing the panic; the source scope must be that single file.",
+  "render_check": "Chrome headless planned after packaging; matrix replay generated.",
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+}

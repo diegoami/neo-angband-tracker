@@ -1,0 +1,16 @@
+native-c/clockreset-246: starting...
+SETUP seed=246 class=Warrior depth=9 hp=20
+  threshold_resets_and_keeps_playing  STATE time_after=1 active=1
+NOTE 00 # Removing Soft Leather Armour [8,+0].  Power with: (0) Power w/o (433943)
+NOTE 01 *****WARNING***** Borg Clock Overflow
+NOTE 02 # Ready...
+NOTE 03 Initializing the Borg... done.
+NOTE 04 Initializing the Borg... (various)
+NOTE 05 Initializing the Borg... (options)
+NOTE 06 Initializing the Borg... (borg.txt)
+NOTE 07 Initializing the Borg... (memory)
+NOTE 08  
+NOTE 09   
+OUTCOME kept_playing=1 time_reset=1
+Passed
+native-c/clockreset-246 finished: 1/1 passed

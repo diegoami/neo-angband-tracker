@@ -1,0 +1,17 @@
+native-c/clockreset-246: starting...
+SETUP seed=246 class=Warrior depth=9 hp=20
+  threshold_resets_and_keeps_playing  STATE time_after=2147480647 active=0
+NOTE 00 # Aborting (clock overflow).
+NOTE 01 # Ready...
+NOTE 02 Initializing the Borg... done.
+NOTE 03 Initializing the Borg... (various)
+NOTE 04 Initializing the Borg... (options)
+NOTE 05 Initializing the Borg... (borg.txt)
+NOTE 06 Initializing the Borg... (memory)
+NOTE 07  
+NOTE 08   
+NOTE 09 ====================
+OUTCOME kept_playing=0 time_reset=0
+Failed
+    native-c/clockreset-246:109: requirement 'borg.time.now < 1000' failed
+native-c/clockreset-246 finished: 0/1 passed

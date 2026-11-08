@@ -1,0 +1,30 @@
+{
+  "main": {
+    "label": "The clock-overflow abort fired before the graceful reset could",
+    "explanation": "The borg clock sits exactly on the abort threshold (BORG_TIME_MAX - 3000). The original deactivates the borg there (borg_oops, clock overflow), about 2900 turns before the graceful reset threshold in borg_think can ever fire, so the borg stops and the clock stays frozen. The correction resets the clock in place and keeps playing; the borg_think overflow check remains as a failsafe.",
+    "before": {
+      "raw": "native-c/clockreset-246: starting...\nSETUP seed=246 class=Warrior depth=9 hp=20\n  threshold_resets_and_keeps_playing  STATE time_after=2147480647 active=0\nNOTE 00 # Aborting (clock overflow).\nNOTE 01 # Ready...\nNOTE 02 Initializing the Borg... done.\nNOTE 03 Initializing the Borg... (various)\nNOTE 04 Initializing the Borg... (options)\nNOTE 05 Initializing the Borg... (borg.txt)\nNOTE 06 Initializing the Borg... (memory)\nNOTE 07  \nNOTE 08   \nNOTE 09 ====================\nOUTCOME kept_playing=0 time_reset=0\nFailed\n    native-c/clockreset-246:109: requirement 'borg.time.now < 1000' failed\nnative-c/clockreset-246 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "time_after": 2147480647,
+        "active": 0
+      },
+      "outcome": {
+        "kept_playing": 0,
+        "time_reset": 0
+      }
+    },
+    "after": {
+      "raw": "native-c/clockreset-246: starting...\nSETUP seed=246 class=Warrior depth=9 hp=20\n  threshold_resets_and_keeps_playing  STATE time_after=1 active=1\nNOTE 00 # Removing Soft Leather Armour [8,+0].  Power with: (0) Power w/o (433943)\nNOTE 01 *****WARNING***** Borg Clock Overflow\nNOTE 02 # Ready...\nNOTE 03 Initializing the Borg... done.\nNOTE 04 Initializing the Borg... (various)\nNOTE 05 Initializing the Borg... (options)\nNOTE 06 Initializing the Borg... (borg.txt)\nNOTE 07 Initializing the Borg... (memory)\nNOTE 08  \nNOTE 09   \nOUTCOME kept_playing=1 time_reset=1\nPassed\nnative-c/clockreset-246 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "time_after": 1,
+        "active": 1
+      },
+      "outcome": {
+        "kept_playing": 1,
+        "time_reset": 1
+      }
+    }
+  }
+}
