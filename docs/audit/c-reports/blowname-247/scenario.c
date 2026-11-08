@@ -18,6 +18,7 @@
 #include "borg/borg-trait.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static term screen;
 
@@ -50,6 +51,20 @@ int teardown_tests(void *state)
 
 static int scenario(void *state)
 {
+    const char *mode = getenv("BW247_MODE");
+    if (mode && !strcmp(mode, "known")) {
+        /* Control: only names that are in the table. BLACK_BREATH is the
+         * last real entry, so the loop runs through every entry before
+         * the NULL end marker (the bound the correction changes) and
+         * returns before reaching it in both versions. */
+        int first = borg_mon_blow_effect("HURT");
+        int last = borg_mon_blow_effect("BLACK_BREATH");
+        printf("KNOWN value=%d expected=%d\n", first, MONBLOW_HURT);
+        printf("LAST value=%d expected=%d\n", last, MONBLOW_BLACK_BREATH);
+        eq(first, MONBLOW_HURT);
+        eq(last, MONBLOW_BLACK_BREATH);
+        ok;
+    }
     /* In-table lookup still resolves. */
     int hurt = borg_mon_blow_effect("HURT");
     printf("KNOWN value=%d expected=%d\n", hurt, MONBLOW_HURT);

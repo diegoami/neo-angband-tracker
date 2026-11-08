@@ -16,6 +16,7 @@ FIX = "541e03b1e6e0bed42e0b71ec520cb6ced8f29d65"
 DIRECTORY = "docs/audit/c-reports/blowname-247/"
 SOURCE = "src/borg/borg-fight-attack.c"
 PHASES = ("before", "after")
+CONTROLS = ("known",)
 OLD_LOOP = (
     "    unsigned long i;\n"
     "    for (i = 0; i < sizeof(monblow) / sizeof(monblow[0]); ++i)\n"
@@ -122,14 +123,20 @@ add_compile_definitions(PRIVATE_USER_PATH="{root/'test-user'}")
         raise RuntimeError("Corrected asan variant failed")
     if "borg_sort_comp_hook" not in (evidence/"before-asan-main.log").read_text():
         raise RuntimeError("Expected the documented unrelated init-time sort-hook report in the before asan log")
+    for mode in CONTROLS:
+        for phase in PHASES:
+            if not rows[phase][mode]["passed"] or rows[phase][mode]["signal"]!="clean":
+                raise RuntimeError(f"{phase} control failed: "+mode)
+        if (evidence/f"before-{mode}.log").read_bytes()!=(evidence/f"after-{mode}.log").read_bytes():
+            raise RuntimeError("Changed control log: "+mode)
     if (source/SOURCE).read_text()!=fixed:
         raise RuntimeError("Disposable source not restored to the correction")
     summary={"base":BASE,"fix":FIX,"fixtures_ref":ref,"cases":rows,
-             "identical_full_logs":[],"full_tests":gates,
+             "identical_full_logs":list(CONTROLS),"full_tests":gates,
              "fixed_source_sha256":hashlib.sha256((source/SOURCE).read_bytes()).hexdigest()}
     (root/"result.json").write_text(json.dumps(summary,indent=2)+"\n")
     subprocess.run([sys.executable,str(evidence/"make_replay.py"),str(evidence)],check=True)
-    print("VERIFIED: the original segfaults on an unknown blow name (strcmp against the NULL end entry), the correction returns NONE; asan report kept for the original.",flush=True)
+    print("VERIFIED: the original segfaults on an unknown blow name (strcmp against the NULL end entry), the correction returns NONE; asan report kept for the original; in-table control log identical.",flush=True)
     print(f"Logs and result.json: {root}",flush=True)
 
 if __name__=="__main__":

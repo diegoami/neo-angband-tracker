@@ -4,6 +4,14 @@ root=Path(sys.argv[1]);data={}
 CASES={
  'main':('An unknown blow name is looked up',"A modded blow_effects.txt can supply a blow name that is not in the Borg's lookup table. The lookup loop visits every table entry including the NULL end marker, so the original crashes (strcmp against NULL); the corrected loop stops before the marker and returns NONE. The in-table name HURT keeps resolving.")}
 results=json.loads((root/'before-results.json').read_text())
+ctl={}
+for phase in ('before','after'):
+ raw=(root/f'{phase}-known.log').read_text()
+ ctl[phase]={'raw':raw,'passed':'native-c/blowname-247 finished: 1/1 passed' in raw}
+ for t,key in (('KNOWN ','known'),('LAST ','last')):
+  m=re.search(re.escape(t)+r'(.*)',raw)
+  if m:ctl[phase][key]={k:int(v) for k,v in re.findall(r'(\w+)=(-?\d+)',m[1])}
+ctl['identical']=ctl['before']['raw']==ctl['after']['raw']
 for mode,(label,explanation) in CASES.items():
  item={'label':label,'explanation':explanation}
  for phase in ('before','after'):
@@ -19,6 +27,7 @@ for mode,(label,explanation) in CASES.items():
   entry['asan_snippet']=m2.group(0) if m2 else ''
   item[phase]=entry
  data[mode]=item
+data['known']={'label':'Control: in-table names only','explanation':'HURT and the last real entry BLACK_BREATH are looked up; the loop returns before the NULL marker in both versions.',**ctl}
 CSS=("body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}"
      "main{max-width:1100px;margin:auto;padding:32px 24px}"
      "h1{font-size:40px;line-height:1.2}h2{font-size:24px}"
@@ -55,19 +64,26 @@ html=('<!doctype html><html lang="en"><meta charset="utf-8">'
  '<p>The in-table name HURT resolves in both versions (value 1); the made-up name crashes the original '
  '&#8212; under the address sanitizer the report names the null dereference &#8212; and returns NONE in the '
  'corrected build.</p>'
+ '<h2>Control: in-table names only</h2>'
+ '<p id="control">HURT resolves to '+str(ctl['before']['known']['value'])+' and BLACK_BREATH (the last real entry) to '
+ +str(ctl['before']['last']['value'])+' in the original; the corrected build gives '+str(ctl['after']['known']['value'])+' and '
+ +str(ctl['after']['last']['value'])+'. The complete control logs are '+('byte-identical' if ctl['identical'] else 'DIFFERENT')+
+ ' before and after.</p>'
  '<details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 1000. '
  'The lookup function is called directly with an in-table name and a made-up name; no game simulation runs. '
  'This isolates the table lookup, not full autonomous play.</p></details>'
  '<details><summary>Recorded native output</summary><h3>Original</h3><pre id="original-log"></pre>'
- '<h3>Corrected</h3><pre id="compared-log"></pre></details>'
+ '<h3>Corrected</h3><pre id="compared-log"></pre><h3>Control (identical in both)</h3><pre id="control-log"></pre></details>'
  '<p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/247">issue247</a>.</p>'
  '</main><script>'
  'document.getElementById("original-log").textContent=d_before_raw;'
  'document.getElementById("compared-log").textContent=d_after_raw;'
+ 'document.getElementById("control-log").textContent=d_control_raw;'
  '</script></html>')
 # splice the raw logs into placeholders (kept out of the JS to avoid escaping issues)
 html=html.replace('d_before_raw', json.dumps(d['before']['raw']))
 html=html.replace('d_after_raw', json.dumps(d['after']['raw']))
+html=html.replace('d_control_raw', json.dumps(ctl['after']['raw']))
 (root/'replay.html').write_text(html)
 (root/'replay-data.json').write_text(json.dumps(data,indent=2)+'\n')
 print('Open in your browser:',root/'replay.html')
