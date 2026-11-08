@@ -1,0 +1,132 @@
+{
+  "purpose": "Re-verification at the original pins: the original run's logs were dropped by the repository's *.log ignore rule although the original receipt hashed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "253ab11468bd91f47f2a458ecc3f333a00eaa677",
+  "fixtures_ref": "9f6ee40d7005abe79a07767e48ca8deaa921b96d",
+  "original_fixtures_ref": "9f6ee40d7005abe79a07767e48ca8deaa921b96d",
+  "command": "git show 9f6ee40d7005abe79a07767e48ca8deaa921b96d:docs/audit/c-reports/calcreload-325/reproduce.py > /tmp/reproduce-calcreload-325.py && python3 /tmp/reproduce-calcreload-325.py --full-tests --fixtures-ref 9f6ee40d7005abe79a07767e48ca8deaa921b96d",
+  "fix_pin_note": "reproduce.py hard-codes BASE and FIX and asserts the exact source hunk; it has no --fix-ref flag.",
+  "cases": {
+    "before": {
+      "reload": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "freed retained=1 count=0",
+        "rating": "retained=1 reload_value=7 reload_count=1",
+        "outcome": "retained=1 reload_value=7 reload_count=1"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "control count=1",
+        "rating": "control_value=3 control_count=1",
+        "outcome": "control_value=3 control_count=1"
+      },
+      "asan": {
+        "passed": false,
+        "summary": "320 byte(s) leaked in 4 allocation(s).",
+        "calc_array_leak": true,
+        "operator_block_leaks": 2,
+        "token_array_leaks": 1
+      }
+    },
+    "after": {
+      "reload": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "freed retained=0 count=0",
+        "rating": "retained=0 reload_value=7 reload_count=1",
+        "outcome": "retained=0 reload_value=7 reload_count=1"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "control count=1",
+        "rating": "control_value=3 control_count=1",
+        "outcome": "control_value=3 control_count=1"
+      },
+      "asan": {
+        "passed": true,
+        "summary": "240 byte(s) leaked in 3 allocation(s).",
+        "calc_array_leak": false,
+        "operator_block_leaks": 2,
+        "token_array_leaks": 1
+      }
+    }
+  },
+  "matches_original_receipt_cases": true,
+  "case_differences": [],
+  "identical_controls": {
+    "control": true
+  },
+  "byte_identical_to_original_hash": {
+    "after-alltests.log": false,
+    "after-build-asan.log": true,
+    "after-build.log": false,
+    "after-scenarios.log": true,
+    "before-alltests.log": false,
+    "before-build-asan.log": false,
+    "before-build.log": false,
+    "before-scenarios.log": true,
+    "configure-asan.log": false,
+    "configure.log": false,
+    "result.json": true,
+    "after-asan-reload.log": false,
+    "after-control.log": true,
+    "after-reload.log": true,
+    "after-results.json": true,
+    "before-asan-reload.log": false,
+    "before-control.log": true,
+    "before-reload.log": true,
+    "before-results.json": true
+  },
+  "full_tests": {
+    "before": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "totals": [
+        "965/965",
+        "5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "original_compiler": "gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "original_cmake": "cmake version 4.2.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "target": "committed replay.html",
+    "replay_sha256": "bb54f24e29836b728dcdb963dd40bbf5b399b78d1ec1e766989769194116db3d",
+    "result": "RENDER-SMOKE actions=2 errors=0 OK",
+    "exit": 0
+  },
+  "sha256": {
+    "after-alltests.log": "353661e78858093e3bfe065e8890134e30a1ca8dcdbba0e8ea87bbcb7cad0c9c",
+    "after-asan-reload.log": "b9968955d3cd307d346d869638aae9efbb0ea003a8b653cbc8d41d7aa58fc414",
+    "after-build-asan.log": "3966b8697c08f4f7c16f8d1f9e88cd1266c096fb1c688ee569eb4492790ea109",
+    "after-build.log": "5e2c41a704114a893967ed286b77b5e666477e816d7a7bd1fc6df20ec949fbf9",
+    "after-control.log": "6d80fb5d22c779b285086c091c18ccd7232244f2f4c3793c04fb103ca881a1d0",
+    "after-reload.log": "9f62699ed2945596e526f26520710a623523e22c7fb1251cdb24ddb4dc1eeef9",
+    "after-results.json": "42df6fa2e702893c55acb79fdc6e4463bceaa6b5e23cbd4b5e8bd861761ef6f9",
+    "after-scenarios.log": "f13184b81d8792cfd9f386ce2dd8c5c97946f0df12f5efba6a971f0e06002844",
+    "before-alltests.log": "3e134afa7c177dce812af221cd4e1d591d85888f9c09017cea9d02f92cffa32f",
+    "before-asan-reload.log": "11fd342fa58b4795d82ba8ed35308d103adbb4c29d2261d029e8510d5822042a",
+    "before-build-asan.log": "c0a02b83b3ad269eee12ad2b4d147f17a0daaa04828f994544467be00e0d9924",
+    "before-build.log": "f194a6003130367472fd939d637176ad0a09793afa79c62d6f23fc339ce99664",
+    "before-control.log": "6d80fb5d22c779b285086c091c18ccd7232244f2f4c3793c04fb103ca881a1d0",
+    "before-reload.log": "26b35248c345312333c022bcd3e37e8c940e6aa18aa658732393e0e7a457bfca",
+    "before-results.json": "5beaeebb9ede23773e9c6eb0dc7062fb55f5aa417b768d3218869783ccdebdeb",
+    "before-scenarios.log": "29f8274311265639c8520272d9d7f971c811bc9d94be33bc92bef4129e942119",
+    "configure-asan.log": "9d8342b4b6c2194af7924eb3b5c2da1750815c675c2343b646613d182c573d1b",
+    "configure.log": "ee1ed8f6754032671762f9f99baaec4e5957011678660bc97b64443a1d45b3f1",
+    "result.json": "e46023a4c8173d29dda1a041666c8e824863b52500203c626e538fa331b9d34b"
+  }
+}
