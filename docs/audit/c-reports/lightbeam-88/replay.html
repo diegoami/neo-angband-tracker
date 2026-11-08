@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg did not light dark corridors to the north or south in most of the dungeon</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg did not light dark corridors to the north or south in most of the dungeon</h1><p>When a corridor ahead is unlit, the Borg can cast Spear of Light or aim a Wand or Rod of Light along it. A north or south beam is skipped when the Borg is &quot;on the edge of shifting the panel&quot;. The test compared the Borg&#x27;s row in the whole dungeon with the height of the visible map panel instead of its row on the panel, so on a 22-row panel a north or south beam was refused everywhere below dungeon row 20. The correction subtracts the panel offset, as the panel-shift code in borg-fight-defend.c already does.</p><p><label>Scenario: <select id="scenario"><option value="scrolled">Dark corridor ahead to the north, map panel scrolled to row 24 (dungeon row 30)</option><option value="scrolled_south">The same with the unknown grid to the south</option><option value="top">Control: dungeon row 10, panel at the top</option></select></label></p><section class="scenario" data-mode="scrolled"><p class="summary">A Warrior with a Wand of Light stands at dungeon row 30, which is row 6 of a 22-row map panel scrolled to row 24. The grid just beyond the torch light to the north is unknown, so the Borg wants to light the corridor. Original: the panel-edge test compares row 30 with 22 - 2 = 20 and refuses. Corrected: it compares row 6 and aims the wand north (keys a e 8).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg aims the light beam (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION beam_cast=0 keys=&quot;&quot;</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg aims the light beam (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION beam_cast=1 keys=&quot;a e 8&quot;
+TRACK # Aiming Wand of Light (5 charges).
+TRACK # Illuminating this hallway</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lightbeam-88: starting...
+SETUP seed=88 mode=scrolled class=Warrior hp=20/20 depth=5
+  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5
+DECISION beam_cast=0 keys=&quot;&quot;
+OUTCOME beam_cast=0
+Failed
+    native-c/lightbeam-88:162: requirement &#x27;cast&#x27; failed
+native-c/lightbeam-88 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lightbeam-88: starting...
+SETUP seed=88 mode=scrolled class=Warrior hp=20/20 depth=5
+  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5
+DECISION beam_cast=1 keys=&quot;a e 8&quot;
+TRACK # Aiming Wand of Light (5 charges).
+TRACK # Illuminating this hallway
+OUTCOME beam_cast=1
+Passed
+native-c/lightbeam-88 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="scrolled_south"><p class="summary">The same position with the unknown grid to the south. Original: refused for the same reason. Corrected: the wand is aimed south (keys a e 2).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg aims the light beam (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION beam_cast=0 keys=&quot;&quot;</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg aims the light beam (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION beam_cast=1 keys=&quot;a e 2&quot;
+TRACK # Aiming Wand of Light (5 charges).
+TRACK # Illuminating this hallway</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lightbeam-88: starting...
+SETUP seed=88 mode=scrolled_south class=Warrior hp=20/20 depth=5
+  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5
+DECISION beam_cast=0 keys=&quot;&quot;
+OUTCOME beam_cast=0
+Failed
+    native-c/lightbeam-88:162: requirement &#x27;cast&#x27; failed
+native-c/lightbeam-88 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lightbeam-88: starting...
+SETUP seed=88 mode=scrolled_south class=Warrior hp=20/20 depth=5
+  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5
+DECISION beam_cast=1 keys=&quot;a e 2&quot;
+TRACK # Aiming Wand of Light (5 charges).
+TRACK # Illuminating this hallway
+OUTCOME beam_cast=1
+Passed
+native-c/lightbeam-88 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="top"><p class="summary">The same corridor at dungeon row 10 with the panel at row 0, where the absolute row and the row on the panel are the same. The wand is aimed north before and after, with an identical log.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg aims the light beam (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION beam_cast=1 keys=&quot;a e 8&quot;
+TRACK # Aiming Wand of Light (5 charges).
+TRACK # Illuminating this hallway</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg aims the light beam (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION beam_cast=1 keys=&quot;a e 8&quot;
+TRACK # Aiming Wand of Light (5 charges).
+TRACK # Illuminating this hallway</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lightbeam-88: starting...
+SETUP seed=88 mode=top class=Warrior hp=20/20 depth=5
+  light_beam_north  STATE row=10 panel_offset=0 row_on_panel=10 panel_height=22 light=2 wand_charges=5
+DECISION beam_cast=1 keys=&quot;a e 8&quot;
+TRACK # Aiming Wand of Light (5 charges).
+TRACK # Illuminating this hallway
+OUTCOME beam_cast=1
+Passed
+native-c/lightbeam-88 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lightbeam-88: starting...
+SETUP seed=88 mode=top class=Warrior hp=20/20 depth=5
+  light_beam_north  STATE row=10 panel_offset=0 row_on_panel=10 panel_height=22 light=2 wand_charges=5
+DECISION beam_cast=1 keys=&quot;a e 8&quot;
+TRACK # Aiming Wand of Light (5 charges).
+TRACK # Illuminating this hallway
+OUTCOME beam_cast=1
+Passed
+native-c/lightbeam-88 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 88, depth 5, a 60-row open arena lit and known, an 80 by 24 terminal (map panel 22 rows), a lit torch (light 2), rations and a Wand of Light with 5 charges. Fixture interventions: the one grid just beyond the light is set to unknown so the Borg wants to light the corridor, the panel offset is set by the fixture (the UI sets it in play) and the panel-contains hook is unset, so any grid counts as on the panel; the Borg&#x27;s map update is not run, so the aim is queued, not played. The production borg_light_beam() decides.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/88">issue 88</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

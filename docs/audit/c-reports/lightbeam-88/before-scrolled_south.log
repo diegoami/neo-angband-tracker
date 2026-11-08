@@ -1,0 +1,8 @@
+native-c/lightbeam-88: starting...
+SETUP seed=88 mode=scrolled_south class=Warrior hp=20/20 depth=5
+  light_beam_north  STATE row=30 panel_offset=24 row_on_panel=6 panel_height=22 light=2 wand_charges=5
+DECISION beam_cast=0 keys=""
+OUTCOME beam_cast=0
+Failed
+    native-c/lightbeam-88:162: requirement 'cast' failed
+native-c/lightbeam-88 finished: 0/1 passed
