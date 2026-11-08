@@ -70,7 +70,7 @@
   },
   "maintenance_base": "f186aa1fce2e590eb9bbcb91dc369f3f8b6af688",
   "sha256": {
-    "README.md": "fb7ee339a8054f0c2980a2b0a633ec998fe062f9c6667f535f0d50ae5e9bf448",
+    "README.md": "cc29591a3e8dde835d6a8513a47faea6ec5841c75e2c5743f4e56daf9c84beb0",
     "after-alltests.log": "a415597a892ff2609c64f99270753d6d822eebddd54d7cbc0284c372c3500379",
     "after-asan-operators.log": "e409328a7f603cb51d6e69de2ea139dde3e3861f7de9444fa728028fe66482ad",
     "after-build-asan.log": "c286ea3a852a76f7d037b654c9bdd5631214e7a0b517ef47070c6386d2998b75",
@@ -80,7 +80,7 @@
     "after-results.json": "4fc728a67b791bc3363276acc231279396979d9ca827f8cbdc4891b8c149d656",
     "after-scenarios.log": "ed2bb4f91a96a5743b74bf4938bfce845498ef23b551df18533deeee35ccadba",
     "before-alltests.log": "a1899d013a02bfa15fc57a1d304a05680f0cb1521d3392d39ecd585737ba24e8",
-    "before-asan-operators.log": "9e214ac3c14f39b6d3b912afb986dd18989abf51e602ce2629c4abbbdb85ad5e",
+    "before-asan-operators.log": "8ce7ea2f3f30a2660754ef4888134541800148895b6630a8c8fc1e73779b8f62",
     "before-build-asan.log": "b6bb2c0eef034908443d0cddd58a66cfbd63e009821712864f0a587b835ba7f3",
     "before-build.log": "458ba913b65aa6fa5d7733e92d882e94d0fad29780442da61b83885bfbf8b132",
     "before-control.log": "d45d78cebae749560f01c2d65012eb8310062d4ff8f7e622159029f18b1e455d",
@@ -97,5 +97,12 @@
     "result.json": "303ff9528cc0ad105635194f999c5076a7855b2cf7e3592b10dd04fce8b1680f",
     "run-cases.py": "46b1973d5f1bd586ece3eccb40f944c023a92a6a4facb0d598ddba5e799511af",
     "scenario.c": "60095e0edbad423f1f85c41d923215116bb4720e120e45e462a81924823e17ab"
+  },
+  "render_check": {
+    "date": "2026-11-08",
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "result": "RENDER-SMOKE actions=2 errors=0 OK",
+    "replay_sha256": "f6a16bd80cd8c9d5f0e551a18cc1615552fe8535c4835000af9463343484e1ae",
+    "receipt": "reverify-2026-11-08/receipt.json"
   }
 }

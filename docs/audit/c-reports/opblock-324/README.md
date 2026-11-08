@@ -24,7 +24,7 @@ corruption or crash, no death or survival claim.
 
 Canonical report: [issue324](https://github.com/diegoami/neo-angband-tracker/issues/324).
 Lead supplied by borg-rs; independently validated and reproduced
-natively here. Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+natively here. Source proposal [#339](https://github.com/diegoami/neo-angband-tracker/pull/339).
 
 ## Verification
 
@@ -148,8 +148,11 @@ python3 /tmp/reproduce-opblock-324.py --full-tests --fixtures-ref 4b9ab473a51a05
 
 ## Errata (2026-11-08)
 
-- The "Source proposal" link near the top labelled `PR-SOURCE` points at an unfilled placeholder URL. The source proposal is draft PR [#339](https://github.com/diegoami/neo-angband-tracker/pull/339); this evidence is draft PR [#340](https://github.com/diegoami/neo-angband-tracker/pull/340).
+- The "Source proposal" link near the top was labelled `PR-SOURCE` and pointed at an unfilled placeholder URL; on 2026-11-08 it was corrected in place to the real link. The source proposal is draft PR [#339](https://github.com/diegoami/neo-angband-tracker/pull/339); this evidence is draft PR [#340](https://github.com/diegoami/neo-angband-tracker/pull/340).
 - The repeat commands above pin `b6eac1ed1f7b93bc42ecc5877e235bc92b19ffdf` while `receipt.json` records `fixtures_ref` `4b9ab473a51a05b8b428115b79bbea72cc4b86cb`, the commit the native run actually executed at. Both carry the same generators (see the re-verification note); prefer the `4b9ab473a51a05b8b428115b79bbea72cc4b86cb` pin given in the Re-verification section.
 - `receipt.json` hashes phase logs that were never committed (the `*.log` ignore rule). The re-verification run's logs, under `reverify-2026-11-08/`, replace them; where the original hash is reproduced byte for byte, that is listed above. Its `browser` entry records the original Chrome-for-Testing render check; the re-verification adds the render-smoke result above.
 - `receipt.json` records `cases.before.asan.passed: true`. That field only says the scenario's functional assertion passed inside the AddressSanitizer build; it is **not** a clean sanitizer verdict. The original variant leaks: LeakSanitizer reports `160 byte(s) leaked in 2 allocation(s)` with `operator_block_leaks: 1` (the operator list's backing array, allocated via `borg_array_add` from `adjust_order_ops_depth_block`). The sanitizer result is the `summary` and `operator_block_leaks` fields: 1 before, 0 after (`no leaks reported`).
 - `receipt.json` lists `operators` under `identical_controls`. `operators` is the **defect case**, not an unchanged-situation control: its functional log is byte-identical before and after only because the defect is a leak that does not change the computed value (formula = 7 in both variants); the defect is visible only in the asan log (`before-asan-operators.log` vs `after-asan-operators.log`). The only unchanged-situation control is `control` (value 42, byte-identical logs).
+- Re-run files whose bytes reproduce the original receipt's sha256 exactly are also committed at their original paths in this directory, so the original receipt's hashes check against them: `after-asan-operators.log`, `after-build-asan.log`, `after-build.log`, `after-control.log`, `after-operators.log`, `after-scenarios.log`, `before-control.log`, `before-operators.log`, `before-scenarios.log`. The original run's build, configure and gate logs cannot be reproduced byte for byte; the complete re-run set is under `reverify-2026-11-08/`.
+- The original sanitizer scenario logs (`before-asan-operators.log`) cannot be reproduced byte for byte: they carry process ids, memory addresses and the run's temporary paths. The re-run's sanitizer logs, which give the same verdicts recorded in the original receipt, are committed at those paths and `receipt.json` now hashes them; the original hashes are kept under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
+- `receipt.json` was amended on 2026-11-08 for this append: its `README.md` hash now matches this README, and a `render_check` entry points at the re-verification render result. The old and new values are recorded under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.
