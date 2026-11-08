@@ -1,0 +1,4 @@
+stack {'exit': 0, 'passed': True, 'state': {'device_charges_after_scan': 10}, 'outcome': {'takes_recall_out': 0, 'stores_device': 1}}
+stack-emptyhome {'exit': 0, 'passed': True, 'state': {'device_charges_after_scan': 10}, 'outcome': {'takes_recall_out': 0, 'stores_device': 1}}
+single {'exit': 0, 'passed': True, 'state': {'device_charges_after_scan': 5}, 'outcome': {'takes_recall_out': 0, 'stores_device': 0}}
+none {'exit': 0, 'passed': True, 'outcome': {'takes_recall_out': 0, 'stores_device': 0}}

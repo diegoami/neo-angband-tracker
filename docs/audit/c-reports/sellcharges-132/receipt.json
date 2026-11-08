@@ -1,0 +1,153 @@
+{
+  "issue": "diegoami/neo-angband-tracker#132",
+  "report": "sellcharges-132",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "58a2638c7acc7c684fc7e6fca6df3921e93b0d9a",
+  "fix_branch": "task/sellcharges-132",
+  "fixtures_ref": "93253cd7250235f2f7ac0d9b878086f638dbea01",
+  "cases": {
+    "stack": {
+      "before": {
+        "passed": false,
+        "state": {
+          "device_charges_after_scan": 10
+        },
+        "outcome": {
+          "takes_recall_out": 1,
+          "stores_device": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 10
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 1
+        }
+      }
+    },
+    "stack-emptyhome": {
+      "before": {
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 10
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 10
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 1
+        }
+      }
+    },
+    "single": {
+      "before": {
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 5
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "device_charges_after_scan": 5
+        },
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 0
+        }
+      }
+    },
+    "none": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "takes_recall_out": 0,
+          "stores_device": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "stack-emptyhome",
+    "single",
+    "none"
+  ],
+  "claim": "borg_think_home_sell_best() took one staff's share of charges off the pack stack on every trial and never put it back until the caller's final restore. With two Staffs of Teleportation (10 charges) and a Word of Recall at home, the 'add beside the scroll' trial was valued with 2 charges instead of 5, so 'replace the scroll' won and the Borg set out to take the scroll out of the home. Restoring the charges with the count makes it store a staff instead. Controls with an empty home, a single staff and no device are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-sell.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-sell.c": "85b6090b111d13c8d8ef79ece8c9a1b3722c59e7f0c8b32a9ba956e9de7df18b"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "d53330db49b878049283017e9b141b17d7100cefa42e4192cbdba6f3c2567b1c",
+    "after-none.log": "2812bb037fbb3a19e3151cf6d5697c8eb6baa7d27b6f1dea817ab8da8cc0ce24",
+    "after-results.json": "2334d143a1485ccd7988bc19b1d0b8cbe883eaa45f926c28691d8dab3812f9c9",
+    "after-single.log": "ea6fbfae94dd78a58c130494370d6620818285e339f0acf5f56ff1bd98724fb4",
+    "after-stack-emptyhome.log": "4769b31c72fd4ac503c72d9c47ce23545ec73cbe9d23fbb655d000a96fe9098b",
+    "after-stack.log": "32becb7ac83f80fa1854ea85630b2f76c8193d856f33c9bf40ac771b3a37b570",
+    "before-none.log": "2812bb037fbb3a19e3151cf6d5697c8eb6baa7d27b6f1dea817ab8da8cc0ce24",
+    "before-results.json": "712ea5cf0a7ecab56f584f1ab58d66880060b301e1bb67ff36635b1bfe0bc56c",
+    "before-single.log": "ea6fbfae94dd78a58c130494370d6620818285e339f0acf5f56ff1bd98724fb4",
+    "before-stack-emptyhome.log": "4769b31c72fd4ac503c72d9c47ce23545ec73cbe9d23fbb655d000a96fe9098b",
+    "before-stack.log": "5dc1b118b63776305adc53453d551bdab0896eeb2dc48ef94826404dc5b21688",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "59b6be23f5e8fb7f5a0b88f82525b4ccb355208ca35ed6389b17934837bc56f9",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "9b9368bd06f22b297c863a5adccc181e03d003b87a18838e4678dd0df20609eb",
+    "replay.html": "24230ecf868e20038524aabd7f1e71e7b322be57a17dd5376afe16280d7b0345",
+    "reproduce.py": "d377dbb29a5b51aa9adf878c08fc7dcfa0ce9ba9db1b061fc4632ac1ef8e2fd5",
+    "result.json": "832f19fb2be251168ad7755fdb4a400c77cef69ad1ee747e8121d19a17011a5c",
+    "run-after-alltests.log": "140edf2f4d873f169e83319ac7440796b8b9daefc4c97bfaec6951d86ce90501",
+    "run-after-build.log": "66df2785a1ca14d299bbc4d2a62d19149aa982364b7e10160c64faacab1016e6",
+    "run-after-scenarios.log": "5c7d9873757539e27f137d6ce7f51995b5717d0762a1fd66cc1842bb19c5fb10",
+    "run-before-alltests.log": "b64dd7c24d8a5fcc3d033944e02739c82141ae7848da12f47f10ea9090a0a60f",
+    "run-before-build.log": "695373cc43405b3a478b27fe8a912ac6dd6fcd1217131619d4138c0b3d70411e",
+    "run-before-scenarios.log": "155685fb41896bc36dacb493edd13755cde3d5fe2ede0dde64c968aa2514a793",
+    "run-cases.py": "4f516b054e3825ba091a6a6715bc14680dec8b65ab10cf1b7008bb733589efcf",
+    "run-configure.log": "57500b855c0948e7ba00b651ad9afd57dc8378b1dbf580651ee43003fcdcbbd2",
+    "scenario.c": "6d36b70abeccd0763f282551cc805e3321a7919e0f48f17c01289239a3dfd850"
+  }
+}

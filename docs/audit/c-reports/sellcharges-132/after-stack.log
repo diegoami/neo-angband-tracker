@@ -1,0 +1,14 @@
+native-c/sellcharges-132: starting...
+SETUP seed=132 mode=stack class=Mage clevel=26 gold=5000
+  home_keeps_recall_when_storing_staff  PACK 0 qty=1 pval=0 desc=[Book of Magic Spells [First Spells]]
+PACK 1 qty=1 pval=0 desc=[Ration of Food]
+PACK 2 qty=1 pval=0 desc=[Scroll of Word of Recall]
+PACK 3 qty=2 pval=10 desc=[Staves of Teleportation (10 charges)]
+PACK 4 qty=2 pval=0 desc=[Wooden Torches (5000 turns)]
+HOME 0 qty=1 desc=[Scroll of Word of Recall]
+TRACK power_now=1156394
+DECISION acts=1 best_home_power=10014 goal_item=3 goal_ware=-1 what=[Staves of Teleportation (10 charges)]
+STATE device_charges_after_scan=10
+OUTCOME takes_recall_out=0 stores_device=1
+Passed
+native-c/sellcharges-132 finished: 1/1 passed
