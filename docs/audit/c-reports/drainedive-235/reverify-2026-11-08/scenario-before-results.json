@@ -1,0 +1,18 @@
+{
+  "main": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "dive_notes": 1,
+      "drained": 1
+    }
+  },
+  "not-drained": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "dive_notes": 1,
+      "drained": 0
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "issue": "diegoami/neo-angband-tracker#235",
+  "report": "drainedive-235",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "6d909bf5216c1e6c5ed199595d9ed3e5baf4b0d8",
+  "fix_branch": "task/drainedive-235",
+  "fixtures_ref": "d948ef62041a1b26780bc8e08cf24a8f328f4f33",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "dive_notes": 1,
+          "drained": 1
+        }
+      },
+      "not-drained": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "dive_notes": 1,
+          "drained": 0
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "dive_notes": 0,
+          "drained": 1
+        }
+      },
+      "not-drained": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "dive_notes": 1,
+          "drained": 0
+        }
+      }
+    }
+  },
+  "claim": "The \"do not dive when drained\" guard read if (g && BI_ISFIXEXP), but g is only non-zero there when an earlier branch already decided to head up, so for a drained Borg that had not yet chosen a direction the guard was dead and the power-dive branch (\"playing too shallow\") fired anyway. The correction applies the guard unconditionally, matching the sibling \"full of items\" guard and the original dive-cancellation shape. Control not-drained (exp == max_exp): both versions take the power dive (dive_notes=1); byte-identical logs.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-think-dungeon-util.c"
+  ],
+  "runner_asserts": "The corrected file must equal the base file with exactly the unconditioned drained guard; the source scope must be that single file.",
+  "render_check": "node tools/c-evidence/render-smoke.js (Playwright headless) on the committed replay.html, 2026-11-08: RENDER-SMOKE actions=0 errors=0 OK",
+  "run_log": "reproduce.py --full-tests at fixtures d948ef620 / fix 6d909bf52: VERIFIED; logs in reverify-2026-11-08/",
+  "superseded_run": {
+    "fixtures_ref": "557c85260f8b836ab2c8725fe8baa0910be38261",
+    "cases": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "dive_notes": 1,
+          "drained": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "dive_notes": 0,
+          "drained": 1
+        }
+      }
+    },
+    "render_check": "Chrome headless planned after packaging; matrix replay generated.",
+    "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+  },
+  "identical_controls": [
+    "not-drained"
+  ],
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "sha256": {
+    "README.md": "95bed34bc1000d5e4b27b66868f7607c31e9d4723955143988f0c9ddf87fe271",
+    "after-main.log": "0e3618fb7472c14f7446bebda4da0a9a1dc227bc70f07d364f2c18c5c8bd8c92",
+    "after-not-drained.log": "92ed3151fbac10031dd22a5d27fed9931c6238621813e5314fac7191ad3130de",
+    "after-results.json": "338741f13f21237d952a10e3e8c05764112540d91d1af5ee9e5847035873bb8c",
+    "before-main.log": "0d1f5d0c4e36742fd9830d6f05e933a5ecebbfaa0ca9f583832778dd31cf0a7d",
+    "before-not-drained.log": "92ed3151fbac10031dd22a5d27fed9931c6238621813e5314fac7191ad3130de",
+    "before-results.json": "e7498138d9dbeea7a33a5cff20ef1d342c8f28dd48d4ad9c08b6edd20a726ad7",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "fe4fdc962f466a36f7fc9b0cdc749ae0d2b742311ce9bd4f5696f2e5deb688f0",
+    "matrix-result.json": "252703e4c60889bca7075ccb7883b71650e505d682c557182946c71c02cf106c",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "e99cace71fa28016323871f581a9c91c48dd896e47a7bf8d1a5da7c542da067b",
+    "replay.html": "11a3684a1e5c720f487959fed98a8d47bf171c4e9599c5fcbc048ed2afbf70da",
+    "reproduce.py": "02da61e19613faf850186779ff1b7337e07361bcbde208735e281cb635f3bde8",
+    "reverify-2026-11-08/after-alltests.log": "91e0486d11cc1f4174abfb77a2a915a3a54eff7c6baccffcfd8a43212c263c1d",
+    "reverify-2026-11-08/after-build.log": "ebc1071dfe230a56c45ac11372d85a21e08ad0de9fa6437b1e7c1def2e82b158",
+    "reverify-2026-11-08/after-scenarios.log": "308ca92f8dc4b44e0cd21992591049af18445b093994dcbc936f69becb31a23f",
+    "reverify-2026-11-08/before-alltests.log": "6b52ca4d02fd591f2ab41e423fd086888072e44599f4e97f8574bacf1a981e7a",
+    "reverify-2026-11-08/before-build.log": "fd28566334e06d4934baf4354b5ba05cb5ae3e1573497d3c36afe3573ab8e4e5",
+    "reverify-2026-11-08/before-scenarios.log": "488134161cfeff712ce95eab606ad742752052bdf654a146023aa468c219288c",
+    "reverify-2026-11-08/configure.log": "1cbe0198d6d65d10cf36ffd8398797159b967b758155437fcabd1cbf15fd230e",
+    "reverify-2026-11-08/receipt.json": "7ca2f06c8057c65834e4f8b5449af0a367fc063c035bdaff2b824fe1348fdbb9",
+    "reverify-2026-11-08/result.json": "8cdf5ae864a55d39c2ad430ac1fa58f3505feb74450a8aaee5a065610da2f5a5",
+    "reverify-2026-11-08/scenario-after-main.log": "0e3618fb7472c14f7446bebda4da0a9a1dc227bc70f07d364f2c18c5c8bd8c92",
+    "reverify-2026-11-08/scenario-after-not-drained.log": "92ed3151fbac10031dd22a5d27fed9931c6238621813e5314fac7191ad3130de",
+    "reverify-2026-11-08/scenario-after-results.json": "338741f13f21237d952a10e3e8c05764112540d91d1af5ee9e5847035873bb8c",
+    "reverify-2026-11-08/scenario-before-main.log": "0d1f5d0c4e36742fd9830d6f05e933a5ecebbfaa0ca9f583832778dd31cf0a7d",
+    "reverify-2026-11-08/scenario-before-not-drained.log": "92ed3151fbac10031dd22a5d27fed9931c6238621813e5314fac7191ad3130de",
+    "reverify-2026-11-08/scenario-before-results.json": "e7498138d9dbeea7a33a5cff20ef1d342c8f28dd48d4ad9c08b6edd20a726ad7",
+    "run-cases.py": "f74ad81359c7c6020ad43fae13640d9b6d52f36ccc3b8b1ff9392680eba4b2cf",
+    "scenario.c": "3b79b5a897575211420eac58f529cba339abb02d643d0a8f56fc0af64272416b"
+  }
+}
