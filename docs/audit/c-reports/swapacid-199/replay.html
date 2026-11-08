@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A lightning-resisting swap weapon counted as acid resistance</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A lightning-resisting swap weapon counted as acid resistance</h1><p>A level-50 Warrior keeps a second weapon in its pack to swap to when it needs that weapon&#x27;s protection. When the Borg records what its chosen swap weapon protects against, it reads the acid entry from the weapon&#x27;s lightning resistance. A dagger that resists only lightning therefore counts as acid protection, and the Borg&#x27;s depth-readiness check (which demands acid protection from depth 26 down) says it is ready although nothing it owns resists acid. A dagger that really resists acid is not counted. The correction reads the acid entry from the acid resistance.</p><p><label>Scenario: <select id="scenario"><option value="elec">Swap weapon resists lightning only (Dethanc)</option><option value="acid">Swap weapon resists acid (Angrist)</option><option value="fire">Control: swap weapon resists fire only (Narthanc)</option><option value="none">Control: no swap weapon</option></select></label></p><section class="scenario" data-mode="elec"><p class="summary">Original: the lightning-only dagger is recorded as acid protection, so the Borg believes it resists acid and the depth-30 readiness check answers ready. Corrected: acid is not counted and the readiness check answers resist acid.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>acid resistance counted (1 = the Borg believes it can resist acid)</p><p>Scenario check: <strong>failed</strong></p><pre>SWAP item=Dagger &#x27;Dethanc&#x27; (1d4) (+9,+12) [+10]
+PREPARED depth=30 reason=ready</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>acid resistance counted (1 = the Borg believes it can resist acid)</p><p>Scenario check: <strong>passed</strong></p><pre>SWAP item=Dagger &#x27;Dethanc&#x27; (1d4) (+9,+12) [+10]
+PREPARED depth=30 reason=resist acid</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/swapacid-199: starting...
+SETUP seed=199 mode=elec class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger &#x27;Dethanc&#x27; (1d4) (+9,+12) [+10]
+STATE swap=1 swap_acid=1 swap_elec=1 swap_fire=0
+STATE sracid=1 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=ready
+OUTCOME prepared30=1 acid_counted=1
+Failed
+    native-c/swapacid-199:191: requirement &#x27;!borg.trait[BI_SRACID]&#x27; failed
+native-c/swapacid-199 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/swapacid-199: starting...
+SETUP seed=199 mode=elec class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger &#x27;Dethanc&#x27; (1d4) (+9,+12) [+10]
+STATE swap=1 swap_acid=0 swap_elec=1 swap_fire=0
+STATE sracid=0 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=resist acid
+OUTCOME prepared30=0 acid_counted=0
+Passed
+native-c/swapacid-199 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="acid"><p class="summary">Original: the acid-resisting dagger is chosen as the swap, but its acid resistance is not recorded, so the readiness check still answers resist acid. Corrected: the acid resistance is counted and the check answers ready.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>acid resistance counted (1 = the Borg believes it can resist acid)</p><p>Scenario check: <strong>failed</strong></p><pre>SWAP item=Dagger &#x27;Angrist&#x27; (2d7) (+18,+16) [+5] &lt;+4&gt;
+PREPARED depth=30 reason=resist acid</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>acid resistance counted (1 = the Borg believes it can resist acid)</p><p>Scenario check: <strong>passed</strong></p><pre>SWAP item=Dagger &#x27;Angrist&#x27; (2d7) (+18,+16) [+5] &lt;+4&gt;
+PREPARED depth=30 reason=ready</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/swapacid-199: starting...
+SETUP seed=199 mode=acid class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger &#x27;Angrist&#x27; (2d7) (+18,+16) [+5] &lt;+4&gt;
+STATE swap=1 swap_acid=0 swap_elec=0 swap_fire=0
+STATE sracid=0 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=resist acid
+OUTCOME prepared30=0 acid_counted=0
+Failed
+    native-c/swapacid-199:193: requirement &#x27;borg.trait[BI_SRACID]&#x27; failed
+native-c/swapacid-199 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/swapacid-199: starting...
+SETUP seed=199 mode=acid class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger &#x27;Angrist&#x27; (2d7) (+18,+16) [+5] &lt;+4&gt;
+STATE swap=1 swap_acid=1 swap_elec=0 swap_fire=0
+STATE sracid=1 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=ready
+OUTCOME prepared30=1 acid_counted=1
+Passed
+native-c/swapacid-199 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="fire"><p class="summary">Neither version counts acid protection; the readiness answer is resist acid in both.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>acid resistance counted (1 = the Borg believes it can resist acid)</p><p>Scenario check: <strong>passed</strong></p><pre>SWAP item=Dagger &#x27;Narthanc&#x27; (1d4) (+9,+12) [+10]
+PREPARED depth=30 reason=resist acid</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>acid resistance counted (1 = the Borg believes it can resist acid)</p><p>Scenario check: <strong>passed</strong></p><pre>SWAP item=Dagger &#x27;Narthanc&#x27; (1d4) (+9,+12) [+10]
+PREPARED depth=30 reason=resist acid</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/swapacid-199: starting...
+SETUP seed=199 mode=fire class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger &#x27;Narthanc&#x27; (1d4) (+9,+12) [+10]
+STATE swap=1 swap_acid=0 swap_elec=0 swap_fire=1
+STATE sracid=0 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=resist acid
+OUTCOME prepared30=0 acid_counted=0
+Passed
+native-c/swapacid-199 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/swapacid-199: starting...
+SETUP seed=199 mode=fire class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=Dagger &#x27;Narthanc&#x27; (1d4) (+9,+12) [+10]
+STATE swap=1 swap_acid=0 swap_elec=0 swap_fire=1
+STATE sracid=0 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=resist acid
+OUTCOME prepared30=0 acid_counted=0
+Passed
+native-c/swapacid-199 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="none"><p class="summary">No swap weapon; neither version counts acid protection.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>acid resistance counted (1 = the Borg believes it can resist acid)</p><p>Scenario check: <strong>passed</strong></p><pre>SWAP item=(none)
+PREPARED depth=30 reason=resist acid</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>acid resistance counted (1 = the Borg believes it can resist acid)</p><p>Scenario check: <strong>passed</strong></p><pre>SWAP item=(none)
+PREPARED depth=30 reason=resist acid</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/swapacid-199: starting...
+SETUP seed=199 mode=none class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=(none)
+STATE swap=0 swap_acid=0 swap_elec=0 swap_fire=0
+STATE sracid=0 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=resist acid
+OUTCOME prepared30=0 acid_counted=0
+Passed
+native-c/swapacid-199 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/swapacid-199: starting...
+SETUP seed=199 mode=none class=Warrior clevel=50 max_depth=50 depth=30
+  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1
+SWAP item=(none)
+STATE swap=0 swap_acid=0 swap_elec=0 swap_fire=0
+STATE sracid=0 srelec=1 srfire=1 srcold=1
+PREPARED depth=30 reason=resist acid
+OUTCOME prepared30=0 acid_counted=0
+Passed
+native-c/swapacid-199 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 199, character level 50, maximum depth 50 (the Borg only keeps swap weapons from depth 50), standing on depth 30. Worn: a Ring of Resist Fire and Cold, a Ring of Free Action, an Amulet of ESP, Metal Scale Mail of Resist Lightning, a Long Sword and a lantern; carried: food, recall, phase and teleport scrolls, cure potions. Nothing worn resists acid. The pack holds one swap weapon per scenario (Dethanc: lightning only; Angrist: acid; Narthanc: fire only; or none). All runes are learned so the Borg sees each item&#x27;s real properties. The production notice pass picks the swap weapon and the production readiness check runs once for depth 30. This isolates the swap reading and the readiness answer; it does not measure autonomous play or a later acid attack.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/199">issue 199</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

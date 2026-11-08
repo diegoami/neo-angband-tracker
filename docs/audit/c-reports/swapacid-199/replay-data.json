@@ -1,0 +1,238 @@
+{
+  "elec": {
+    "label": "Swap weapon resists lightning only (Dethanc)",
+    "explanation": "Original: the lightning-only dagger is recorded as acid protection, so the Borg believes it resists acid and the depth-30 readiness check answers ready. Corrected: acid is not counted and the readiness check answers resist acid.",
+    "control": false,
+    "before": {
+      "raw": "native-c/swapacid-199: starting...\nSETUP seed=199 mode=elec class=Warrior clevel=50 max_depth=50 depth=30\n  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1\nSWAP item=Dagger 'Dethanc' (1d4) (+9,+12) [+10]\nSTATE swap=1 swap_acid=1 swap_elec=1 swap_fire=0\nSTATE sracid=1 srelec=1 srfire=1 srcold=1\nPREPARED depth=30 reason=ready\nOUTCOME prepared30=1 acid_counted=1\nFailed\n    native-c/swapacid-199:191: requirement '!borg.trait[BI_SRACID]' failed\nnative-c/swapacid-199 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "base_racid": 0,
+        "base_relec": 1,
+        "base_rfire": 1,
+        "base_rcold": 1,
+        "swap": 1,
+        "swap_acid": 1,
+        "swap_elec": 1,
+        "swap_fire": 0,
+        "sracid": 1,
+        "srelec": 1,
+        "srfire": 1,
+        "srcold": 1
+      },
+      "outcome": {
+        "prepared30": 1,
+        "acid_counted": 1
+      },
+      "notes": [
+        "SWAP item=Dagger 'Dethanc' (1d4) (+9,+12) [+10]",
+        "PREPARED depth=30 reason=ready"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/swapacid-199: starting...\nSETUP seed=199 mode=elec class=Warrior clevel=50 max_depth=50 depth=30\n  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1\nSWAP item=Dagger 'Dethanc' (1d4) (+9,+12) [+10]\nSTATE swap=1 swap_acid=0 swap_elec=1 swap_fire=0\nSTATE sracid=0 srelec=1 srfire=1 srcold=1\nPREPARED depth=30 reason=resist acid\nOUTCOME prepared30=0 acid_counted=0\nPassed\nnative-c/swapacid-199 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "base_racid": 0,
+        "base_relec": 1,
+        "base_rfire": 1,
+        "base_rcold": 1,
+        "swap": 1,
+        "swap_acid": 0,
+        "swap_elec": 1,
+        "swap_fire": 0,
+        "sracid": 0,
+        "srelec": 1,
+        "srfire": 1,
+        "srcold": 1
+      },
+      "outcome": {
+        "prepared30": 0,
+        "acid_counted": 0
+      },
+      "notes": [
+        "SWAP item=Dagger 'Dethanc' (1d4) (+9,+12) [+10]",
+        "PREPARED depth=30 reason=resist acid"
+      ],
+      "value": 0
+    }
+  },
+  "acid": {
+    "label": "Swap weapon resists acid (Angrist)",
+    "explanation": "Original: the acid-resisting dagger is chosen as the swap, but its acid resistance is not recorded, so the readiness check still answers resist acid. Corrected: the acid resistance is counted and the check answers ready.",
+    "control": false,
+    "before": {
+      "raw": "native-c/swapacid-199: starting...\nSETUP seed=199 mode=acid class=Warrior clevel=50 max_depth=50 depth=30\n  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1\nSWAP item=Dagger 'Angrist' (2d7) (+18,+16) [+5] <+4>\nSTATE swap=1 swap_acid=0 swap_elec=0 swap_fire=0\nSTATE sracid=0 srelec=1 srfire=1 srcold=1\nPREPARED depth=30 reason=resist acid\nOUTCOME prepared30=0 acid_counted=0\nFailed\n    native-c/swapacid-199:193: requirement 'borg.trait[BI_SRACID]' failed\nnative-c/swapacid-199 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "base_racid": 0,
+        "base_relec": 1,
+        "base_rfire": 1,
+        "base_rcold": 1,
+        "swap": 1,
+        "swap_acid": 0,
+        "swap_elec": 0,
+        "swap_fire": 0,
+        "sracid": 0,
+        "srelec": 1,
+        "srfire": 1,
+        "srcold": 1
+      },
+      "outcome": {
+        "prepared30": 0,
+        "acid_counted": 0
+      },
+      "notes": [
+        "SWAP item=Dagger 'Angrist' (2d7) (+18,+16) [+5] <+4>",
+        "PREPARED depth=30 reason=resist acid"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/swapacid-199: starting...\nSETUP seed=199 mode=acid class=Warrior clevel=50 max_depth=50 depth=30\n  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1\nSWAP item=Dagger 'Angrist' (2d7) (+18,+16) [+5] <+4>\nSTATE swap=1 swap_acid=1 swap_elec=0 swap_fire=0\nSTATE sracid=1 srelec=1 srfire=1 srcold=1\nPREPARED depth=30 reason=ready\nOUTCOME prepared30=1 acid_counted=1\nPassed\nnative-c/swapacid-199 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "base_racid": 0,
+        "base_relec": 1,
+        "base_rfire": 1,
+        "base_rcold": 1,
+        "swap": 1,
+        "swap_acid": 1,
+        "swap_elec": 0,
+        "swap_fire": 0,
+        "sracid": 1,
+        "srelec": 1,
+        "srfire": 1,
+        "srcold": 1
+      },
+      "outcome": {
+        "prepared30": 1,
+        "acid_counted": 1
+      },
+      "notes": [
+        "SWAP item=Dagger 'Angrist' (2d7) (+18,+16) [+5] <+4>",
+        "PREPARED depth=30 reason=ready"
+      ],
+      "value": 1
+    }
+  },
+  "fire": {
+    "label": "Control: swap weapon resists fire only (Narthanc)",
+    "explanation": "Neither version counts acid protection; the readiness answer is resist acid in both.",
+    "control": true,
+    "before": {
+      "raw": "native-c/swapacid-199: starting...\nSETUP seed=199 mode=fire class=Warrior clevel=50 max_depth=50 depth=30\n  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1\nSWAP item=Dagger 'Narthanc' (1d4) (+9,+12) [+10]\nSTATE swap=1 swap_acid=0 swap_elec=0 swap_fire=1\nSTATE sracid=0 srelec=1 srfire=1 srcold=1\nPREPARED depth=30 reason=resist acid\nOUTCOME prepared30=0 acid_counted=0\nPassed\nnative-c/swapacid-199 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "base_racid": 0,
+        "base_relec": 1,
+        "base_rfire": 1,
+        "base_rcold": 1,
+        "swap": 1,
+        "swap_acid": 0,
+        "swap_elec": 0,
+        "swap_fire": 1,
+        "sracid": 0,
+        "srelec": 1,
+        "srfire": 1,
+        "srcold": 1
+      },
+      "outcome": {
+        "prepared30": 0,
+        "acid_counted": 0
+      },
+      "notes": [
+        "SWAP item=Dagger 'Narthanc' (1d4) (+9,+12) [+10]",
+        "PREPARED depth=30 reason=resist acid"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/swapacid-199: starting...\nSETUP seed=199 mode=fire class=Warrior clevel=50 max_depth=50 depth=30\n  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1\nSWAP item=Dagger 'Narthanc' (1d4) (+9,+12) [+10]\nSTATE swap=1 swap_acid=0 swap_elec=0 swap_fire=1\nSTATE sracid=0 srelec=1 srfire=1 srcold=1\nPREPARED depth=30 reason=resist acid\nOUTCOME prepared30=0 acid_counted=0\nPassed\nnative-c/swapacid-199 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "base_racid": 0,
+        "base_relec": 1,
+        "base_rfire": 1,
+        "base_rcold": 1,
+        "swap": 1,
+        "swap_acid": 0,
+        "swap_elec": 0,
+        "swap_fire": 1,
+        "sracid": 0,
+        "srelec": 1,
+        "srfire": 1,
+        "srcold": 1
+      },
+      "outcome": {
+        "prepared30": 0,
+        "acid_counted": 0
+      },
+      "notes": [
+        "SWAP item=Dagger 'Narthanc' (1d4) (+9,+12) [+10]",
+        "PREPARED depth=30 reason=resist acid"
+      ],
+      "value": 0
+    }
+  },
+  "none": {
+    "label": "Control: no swap weapon",
+    "explanation": "No swap weapon; neither version counts acid protection.",
+    "control": true,
+    "before": {
+      "raw": "native-c/swapacid-199: starting...\nSETUP seed=199 mode=none class=Warrior clevel=50 max_depth=50 depth=30\n  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1\nSWAP item=(none)\nSTATE swap=0 swap_acid=0 swap_elec=0 swap_fire=0\nSTATE sracid=0 srelec=1 srfire=1 srcold=1\nPREPARED depth=30 reason=resist acid\nOUTCOME prepared30=0 acid_counted=0\nPassed\nnative-c/swapacid-199 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "base_racid": 0,
+        "base_relec": 1,
+        "base_rfire": 1,
+        "base_rcold": 1,
+        "swap": 0,
+        "swap_acid": 0,
+        "swap_elec": 0,
+        "swap_fire": 0,
+        "sracid": 0,
+        "srelec": 1,
+        "srfire": 1,
+        "srcold": 1
+      },
+      "outcome": {
+        "prepared30": 0,
+        "acid_counted": 0
+      },
+      "notes": [
+        "SWAP item=(none)",
+        "PREPARED depth=30 reason=resist acid"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/swapacid-199: starting...\nSETUP seed=199 mode=none class=Warrior clevel=50 max_depth=50 depth=30\n  swap_weapon_acid_resistance  STATE base_racid=0 base_relec=1 base_rfire=1 base_rcold=1\nSWAP item=(none)\nSTATE swap=0 swap_acid=0 swap_elec=0 swap_fire=0\nSTATE sracid=0 srelec=1 srfire=1 srcold=1\nPREPARED depth=30 reason=resist acid\nOUTCOME prepared30=0 acid_counted=0\nPassed\nnative-c/swapacid-199 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "base_racid": 0,
+        "base_relec": 1,
+        "base_rfire": 1,
+        "base_rcold": 1,
+        "swap": 0,
+        "swap_acid": 0,
+        "swap_elec": 0,
+        "swap_fire": 0,
+        "sracid": 0,
+        "srelec": 1,
+        "srfire": 1,
+        "srcold": 1
+      },
+      "outcome": {
+        "prepared30": 0,
+        "acid_counted": 0
+      },
+      "notes": [
+        "SWAP item=(none)",
+        "PREPARED depth=30 reason=resist acid"
+      ],
+      "value": 0
+    }
+  }
+}
