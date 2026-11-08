@@ -90,7 +90,7 @@
   },
   "maintenance_base": "f186aa1fce2e590eb9bbcb91dc369f3f8b6af688",
   "sha256": {
-    "README.md": "2e6aae7725421f84576caae00a440ef5583b32a12b45e44ba62d18792a3f5eae",
+    "README.md": "50e7fcf879cd3ba3f4e0f6488f19feb200f910c26a9cc7b668553c4f5d20e686",
     "after-alltests.log": "c1b7343f7f969c33b4692c72bf3bf6f8cc58984c2e3448329664e8c5a0837944",
     "after-arc-both.log": "77482b1923422b07f1e0a89c9b5f7db4e32285b6d34af2ba059f22262240df39",
     "after-arc-bystander.log": "f44dbec9ac88c01bb1acc74eddcd8d294dc52f7f6d378bd9d529091f9378937f",
@@ -112,5 +112,13 @@
     "result.json": "d251447b2d5304db5825ee2d04d501035a442002e71db460c3d0a78b2f2f70af",
     "run-cases.py": "78d06c79d202166aec9379bc27836b583e2dc22eefa5713a3d5bef4930f288e0",
     "scenario.c": "1d97d37f033eaade1b596c4579f35a70af40b8f42c5f06514ca4071b970f7335"
-  }
+  },
+  "render_check": {
+    "date": "2026-11-08",
+    "tool": "tools/c-evidence/render-smoke.js",
+    "result": "RENDER-SMOKE actions=4 errors=0 OK",
+    "page": "replay.html (committed)",
+    "note": "The original run's own headless check is recorded under the 'browser' key; this key adds the 2026-11-08 smoke check."
+  },
+  "amended": "2026-11-08: see reverify-2026-11-08/receipt.json receipt_amendments"
 }

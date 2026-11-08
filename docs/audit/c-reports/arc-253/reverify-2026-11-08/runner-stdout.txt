@@ -1,0 +1,16 @@
+Native evidence directory: /tmp/angband-arc-253-yu7wq3b1
+Preparing worktree (detached HEAD e473720ed)
+HEAD is now at e473720ed Term_clear() and loop over height calling Term_erase() are not synonyms
+configure: shared validation lock; log /tmp/angband-arc-253-yu7wq3b1/configure.log
+before-build: shared validation lock; log /tmp/angband-arc-253-yu7wq3b1/before-build.log
+before-scenarios: shared validation lock; log /tmp/angband-arc-253-yu7wq3b1/before-scenarios.log
+before-alltests: shared validation lock; log /tmp/angband-arc-253-yu7wq3b1/before-alltests.log
+after-build: shared validation lock; log /tmp/angband-arc-253-yu7wq3b1/after-build.log
+after-scenarios: shared validation lock; log /tmp/angband-arc-253-yu7wq3b1/after-scenarios.log
+after-alltests: shared validation lock; log /tmp/angband-arc-253-yu7wq3b1/after-alltests.log
+  File "/tmp/angband-arc-253-yu7wq3b1/evidence/make_replay.py", line 6
+    'arc-both':('Control: two monsters inside the spray','Two kobolds stand north, both within the sixty-degree arc. Both versions count both monsters, and the complete log is byte-identical before and after the correction: the fix removes only the off-angle counting.'}
+                                                                                                                                                                                                                                                                             ^
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '('
+Reproduction failed: Command '['/usr/local/bin/python3', '/tmp/angband-arc-253-yu7wq3b1/evidence/make_replay.py', '/tmp/angband-arc-253-yu7wq3b1/evidence']' returned non-zero exit status 1.
+EXIT 1

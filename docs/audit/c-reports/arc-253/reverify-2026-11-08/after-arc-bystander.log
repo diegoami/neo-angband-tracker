@@ -1,0 +1,9 @@
+native-c/arc-253: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Mage level=26 depth=30 hp=134/134 sp=144/144
+  arc_counts_only_monsters_inside_the_angle  MODE arc-bystander
+GEOMETRY front=(11,7) behind=(11,15) player=(11,11) temp_n=2
+RATING reference=6 value=6
+OUTCOME reference=6 value=6
+Passed
+native-c/arc-253 finished: 1/1 passed
