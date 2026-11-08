@@ -1,0 +1,41 @@
+{
+  "twostairs": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "danger": 20,
+      "avoidance": 15,
+      "hp": 15,
+      "fleeing": 1
+    },
+    "outcome": {
+      "desperate_stairs": 0
+    }
+  },
+  "twodown": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "danger": 20,
+      "avoidance": 15,
+      "hp": 15,
+      "fleeing": 1
+    },
+    "outcome": {
+      "desperate_stairs": 0
+    }
+  },
+  "onestair": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 20,
+      "avoidance": 15,
+      "hp": 15,
+      "fleeing": 0
+    },
+    "outcome": {
+      "desperate_stairs": 1
+    }
+  }
+}

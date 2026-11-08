@@ -1,0 +1,14 @@
+native-c/deskstair-153: starting...
+SETUP seed=153 mode=twostairs class=Warrior clevel=5 hp=15 depth=5 up=2 down=0
+  desperate_dash_to_the_near_stair  KILL k=1 r=140 pos=(11,13) awake=1 power=43
+STATE danger=20 avoidance=15 hp=15 fleeing=1
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)
+OUTCOME desperate_stairs=0
+Failed
+    native-c/deskstair-153:180: requirement 'desperate' failed
+native-c/deskstair-153 finished: 0/1 passed

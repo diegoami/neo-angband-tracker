@@ -1,0 +1,95 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A far staircase hid the one two steps away</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A far staircase hid the one two steps away</h1><p>When the Borg is in trouble and a staircase is only a step or two away, it dashes for it. To decide, it looks up how far the nearest free staircase is. Both look-ups (up and down staircases) kept the farthest staircase instead of the nearest, so if the Borg also knew a second staircase far away, the near one did not count. A badly hurt level-5 Warrior with a cave bear beside it and an up staircase two steps away then skipped the dash and read Word of Recall, which only takes effect many turns later, while staying next to the bear. The correction keeps the nearest staircase, and the Borg steps toward it.</p><p><label>Scenario: <select id="scenario"><option value="twostairs">Up staircases: one 2 steps away, one 25 steps away</option><option value="twodown">Down staircases: one 2 steps away, one 25 steps away</option><option value="onestair">Control: only the near up staircase</option></select></label></p><section class="scenario" data-mode="twostairs"><p class="summary">Original: the far staircase is kept as the &#x27;nearest&#x27;, the dash is skipped; teleport fails (none carried) and the Borg reads Word of Recall, staying next to the bear. Corrected: &#x27;Desperate for Stairs (two)&#x27;, a step west toward the staircase two squares away (key 52).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>dash for the near staircase (1 = steps toward it)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>dash for the near staircase (1 = steps toward it)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward up-stairs at cost 2
+TRACK # Desperate for Stairs (two)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/deskstair-153: starting...
+SETUP seed=153 mode=twostairs class=Warrior clevel=5 hp=15 depth=5 up=2 down=0
+  desperate_dash_to_the_near_stair  KILL k=1 r=140 pos=(11,13) awake=1 power=43
+STATE danger=20 avoidance=15 hp=15 fleeing=1
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)
+OUTCOME desperate_stairs=0
+Failed
+    native-c/deskstair-153:180: requirement &#x27;desperate&#x27; failed
+native-c/deskstair-153 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/deskstair-153: starting...
+SETUP seed=153 mode=twostairs class=Warrior clevel=5 hp=15 depth=5 up=2 down=0
+  desperate_dash_to_the_near_stair  KILL k=1 r=140 pos=(11,13) awake=1 power=43
+STATE danger=20 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward up-stairs at cost 2
+TRACK # Desperate for Stairs (two)
+OUTCOME desperate_stairs=1
+Passed
+native-c/deskstair-153 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="twodown"><p class="summary">The same with down staircases. Original: reads Word of Recall. Corrected: &#x27;Desperate for Stairs (four)&#x27;, a step west toward the near down staircase.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>dash for the near staircase (1 = steps toward it)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>dash for the near staircase (1 = steps toward it)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward down-stairs at cost 2
+TRACK # Desperate for Stairs (four)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/deskstair-153: starting...
+SETUP seed=153 mode=twodown class=Warrior clevel=5 hp=15 depth=5 up=0 down=2
+  desperate_dash_to_the_near_stair  KILL k=1 r=140 pos=(11,13) awake=1 power=43
+STATE danger=20 avoidance=15 hp=15 fleeing=1
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)
+OUTCOME desperate_stairs=0
+Failed
+    native-c/deskstair-153:180: requirement &#x27;desperate&#x27; failed
+native-c/deskstair-153 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/deskstair-153: starting...
+SETUP seed=153 mode=twodown class=Warrior clevel=5 hp=15 depth=5 up=0 down=2
+  desperate_dash_to_the_near_stair  KILL k=1 r=140 pos=(11,13) awake=1 power=43
+STATE danger=20 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward down-stairs at cost 2
+TRACK # Desperate for Stairs (four)
+OUTCOME desperate_stairs=1
+Passed
+native-c/deskstair-153 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="onestair"><p class="summary">With a single staircase nearest and farthest are the same; both versions dash for it and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>dash for the near staircase (1 = steps toward it)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward up-stairs at cost 2
+TRACK # Desperate for Stairs (two)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>dash for the near staircase (1 = steps toward it)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward up-stairs at cost 2
+TRACK # Desperate for Stairs (two)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/deskstair-153: starting...
+SETUP seed=153 mode=onestair class=Warrior clevel=5 hp=15 depth=5 up=1 down=0
+  desperate_dash_to_the_near_stair  KILL k=1 r=140 pos=(11,13) awake=1 power=43
+STATE danger=20 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward up-stairs at cost 2
+TRACK # Desperate for Stairs (two)
+OUTCOME desperate_stairs=1
+Passed
+native-c/deskstair-153 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/deskstair-153: starting...
+SETUP seed=153 mode=onestair class=Warrior clevel=5 hp=15 depth=5 up=1 down=0
+  desperate_dash_to_the_near_stair  KILL k=1 r=140 pos=(11,13) awake=1 power=43
+STATE danger=20 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=52
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/86 SP:0/0 Danger:p=20
+TRACK # Flowing toward up-stairs at cost 2
+TRACK # Desperate for Stairs (two)
+OUTCOME desperate_stairs=1
+Passed
+native-c/deskstair-153 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 153, level 5, depth 5, 15 of 86 hit points, starting kit (no teleport), a lit 38x22 room. A cave bear stands awake next to the Borg (south-east); the Borg&#x27;s danger estimate (20) exceeds its hit points. A staircase is two steps west; in the main cases a second staircase of the same kind is 25 steps east, both tracked by the Borg. The production borg_caution() runs once and the first queued key is read back. This isolates the escape decision; it does not play out the fight or the recall.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/153">issue 153</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

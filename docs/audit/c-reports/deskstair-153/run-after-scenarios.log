@@ -1,0 +1,3 @@
+twostairs {'exit': 0, 'passed': True, 'state': {'danger': 20, 'avoidance': 15, 'hp': 15, 'fleeing': 0}, 'outcome': {'desperate_stairs': 1}}
+twodown {'exit': 0, 'passed': True, 'state': {'danger': 20, 'avoidance': 15, 'hp': 15, 'fleeing': 0}, 'outcome': {'desperate_stairs': 1}}
+onestair {'exit': 0, 'passed': True, 'state': {'danger': 20, 'avoidance': 15, 'hp': 15, 'fleeing': 0}, 'outcome': {'desperate_stairs': 1}}
