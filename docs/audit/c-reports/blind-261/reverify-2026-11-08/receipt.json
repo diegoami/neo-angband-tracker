@@ -108,5 +108,24 @@
     "before-scenarios.log": "1ac26b8cbcc48884c422ccb4ace9b810ca10bf066296b5fa39672f15a5bf51d6",
     "configure.log": "0715cff1a0fbb67c293375ee7dbeb6b6bcf4cc970a3be157d5382b874a202077",
     "result.json": "c9e961a13eec1be84a7e669d60148216b5e2bac9f7128ce1a6e5a89b672d905b"
+  },
+  "receipt_amendments": {
+    "date": "2026-11-08",
+    "receipt.json sha256.README.md": {
+      "old": "ee88c548d76b59835da43458f20d2796b4d0cadf721c6c0ee5c8755c508136ba",
+      "new": "e163f72755e0ddae2f9cb37db41de242e731cb9457171f0a03bc96bf08b3838a",
+      "why": "README gained the Re-verification and Errata sections"
+    },
+    "receipt.json render_check": "added (original receipt only had a 'browser' entry); points at this receipt's render_check",
+    "README placeholder link": "PR-SOURCE -> #331",
+    "restored_at_original_paths": [
+      "after-blind.log",
+      "after-build.log",
+      "after-control.log",
+      "after-scenarios.log",
+      "before-blind.log",
+      "before-control.log",
+      "before-scenarios.log"
+    ]
   }
 }
