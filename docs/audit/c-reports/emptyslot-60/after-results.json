@@ -1,0 +1,16 @@
+{
+  "empty": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "buys_food": 1
+    }
+  },
+  "oil": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "buys_food": 1
+    }
+  }
+}

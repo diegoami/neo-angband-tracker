@@ -1,0 +1,55 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "adcb53459ca9fabaa0c457231cd56dbd8b789698",
+  "fixtures_ref": "e550240591a3ba6c99ecf09ba8268667971ba52d",
+  "cases": {
+    "before": {
+      "empty": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "buys_food": 0
+        }
+      },
+      "oil": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "buys_food": 1
+        }
+      }
+    },
+    "after": {
+      "empty": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "buys_food": 1
+        }
+      },
+      "oil": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "buys_food": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "oil"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-inventory.c": "07a6c945e3efa0013f171a03514600d4523ff1c58d5703d27b99774f9c5cc096"
+  }
+}
