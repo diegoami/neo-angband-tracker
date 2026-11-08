@@ -58,7 +58,7 @@
   },
   "maintenance_base": "f186aa1fce2e590eb9bbcb91dc369f3f8b6af688",
   "sha256": {
-    "README.md": "0d019a3642a04abfc15b28f9c1e144b8a3bf626c7a606346815f75744a662f17",
+    "README.md": "8447d0d87b4c16df591f31fb2241ff0b8b0d2fcccae56d62de1e5feda0a2bc3d",
     "after-alltests.log": "3186502ad7260202218650c29203965161efa57e3d3d62ea740b410e167e9b01",
     "after-build.log": "2cf91dd3217240ee473ef75382a112c874c0a3e78ea853b47be49fba26a239ae",
     "after-control.log": "f79510db70398ace43fa845015b05d57654e247f2a69acf7660145fa1035d9a2",
@@ -80,5 +80,12 @@
     "result.json": "8f57065f8f4f3d3a0fa2e86d9b559a3556bf563fa853405ee6d9357cf835ba83",
     "run-cases.py": "17dec37c5873ad43ae702b8a9593e2146bb0afeccf6255da3b03ad9f29de8fe0",
     "scenario.c": "7edf2dd671fb93571c6b542f1cb44e351e8f1d3492be6877bed024530f0e5fe9"
+  },
+  "render_check": {
+    "date": "2026-11-08",
+    "tool": "tools/c-evidence/render-smoke.js (Playwright chromium) at task/c-evidence-tooling 45626eecd",
+    "result": "RENDER-SMOKE actions=4 errors=0 OK",
+    "replay_sha256": "4c09ba5a6a2abe0ac78cde773f0439ac0bc7b27a8c3609b71bc9b630f7f65f79",
+    "receipt": "reverify-2026-11-08/receipt.json"
   }
 }

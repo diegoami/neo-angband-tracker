@@ -104,5 +104,23 @@
     "before-veto.log": "800a6f129785616bf8f2f771f2838246cba86ce741ecb4d390edf229a326049f",
     "configure.log": "89a8efd02a876282d288511d6137066a6dd2baef8f3d10b1842de6152fca32f9",
     "result.json": "8f57065f8f4f3d3a0fa2e86d9b559a3556bf563fa853405ee6d9357cf835ba83"
+  },
+  "receipt_amendments": {
+    "date": "2026-11-08",
+    "receipt.json sha256.README.md": {
+      "old": "0d019a3642a04abfc15b28f9c1e144b8a3bf626c7a606346815f75744a662f17",
+      "new": "8447d0d87b4c16df591f31fb2241ff0b8b0d2fcccae56d62de1e5feda0a2bc3d",
+      "why": "README gained the Re-verification and Errata sections"
+    },
+    "receipt.json render_check": "added (original receipt only had a 'browser' entry); points at this receipt's render_check",
+    "README placeholder link": "PR-SOURCE -> #318",
+    "restored_at_original_paths": [
+      "after-control.log",
+      "after-scenarios.log",
+      "after-veto.log",
+      "before-control.log",
+      "before-scenarios.log",
+      "before-veto.log"
+    ]
   }
 }
