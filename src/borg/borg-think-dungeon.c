@@ -1278,13 +1278,15 @@ bool borg_think_dungeon(void)
         return true;
     }
 
-    /* Prevent clock wrapping Step 2 */
+    /* Prevent clock wrapping Step 2: reset the clock gracefully and keep
+     * playing.  This must run before any panic: the borg_think() overflow
+     * check remains as a failsafe in case the reset was somehow missed.
+     * The previous version aborted the borg here, which fired about 2900
+     * turns earlier than the reset threshold and made the graceful reset
+     * unreachable. */
     if (borg.time.now >= BORG_TIME_MAX - 3000) {
-        /* Panic */
-        borg_oops("clock overflow");
-
-        /* Oops */
-        return true;
+        borg.time.now = 1;
+        borg_warning("*****WARNING***** Borg Clock Overflow");
     }
 
     /* no longer trying an unknown object */
