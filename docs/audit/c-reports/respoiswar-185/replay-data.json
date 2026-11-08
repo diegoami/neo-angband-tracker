@@ -1,0 +1,76 @@
+{
+  "cold": {
+    "label": "Also carrying 4 Resist Cold potions",
+    "explanation": "Original: the warrior poison loop starts at the Resist Cold count (4) and adds nothing: 900 (the all-classes reward only). Corrected: 2400.",
+    "control": false,
+    "before": {
+      "raw": "native-c/respoiswar-185: starting...\nSETUP seed=185 mode=cold class=Warrior clevel=25 depth=20\n  resist_poison_potions_are_valued  STATE arescold=4 arespois=3\nSTATE potion_reward=900\nDECISION junk=0\nOUTCOME potions_kept=1\nFailed\n    native-c/respoiswar-185:194: requirement 'with - without == 2400' failed\nnative-c/respoiswar-185 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "arescold": 4,
+        "arespois": 3,
+        "potion_reward": 900
+      },
+      "outcome": {
+        "potions_kept": 1
+      },
+      "notes": [
+        "DECISION junk=0"
+      ],
+      "value": 900
+    },
+    "after": {
+      "raw": "native-c/respoiswar-185: starting...\nSETUP seed=185 mode=cold class=Warrior clevel=25 depth=20\n  resist_poison_potions_are_valued  STATE arescold=4 arespois=3\nSTATE potion_reward=2400\nDECISION junk=0\nOUTCOME potions_kept=1\nPassed\nnative-c/respoiswar-185 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "arescold": 4,
+        "arespois": 3,
+        "potion_reward": 2400
+      },
+      "outcome": {
+        "potions_kept": 1
+      },
+      "notes": [
+        "DECISION junk=0"
+      ],
+      "value": 2400
+    }
+  },
+  "plain": {
+    "label": "Control: no Resist Cold potions",
+    "explanation": "The counter is already 0 after the cold loop; both versions value the potions at 2400 and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/respoiswar-185: starting...\nSETUP seed=185 mode=plain class=Warrior clevel=25 depth=20\n  resist_poison_potions_are_valued  STATE arescold=0 arespois=3\nSTATE potion_reward=2400\nDECISION junk=0\nOUTCOME potions_kept=1\nPassed\nnative-c/respoiswar-185 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "arescold": 0,
+        "arespois": 3,
+        "potion_reward": 2400
+      },
+      "outcome": {
+        "potions_kept": 1
+      },
+      "notes": [
+        "DECISION junk=0"
+      ],
+      "value": 2400
+    },
+    "after": {
+      "raw": "native-c/respoiswar-185: starting...\nSETUP seed=185 mode=plain class=Warrior clevel=25 depth=20\n  resist_poison_potions_are_valued  STATE arescold=0 arespois=3\nSTATE potion_reward=2400\nDECISION junk=0\nOUTCOME potions_kept=1\nPassed\nnative-c/respoiswar-185 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "arescold": 0,
+        "arespois": 3,
+        "potion_reward": 2400
+      },
+      "outcome": {
+        "potions_kept": 1
+      },
+      "notes": [
+        "DECISION junk=0"
+      ],
+      "value": 2400
+    }
+  }
+}
