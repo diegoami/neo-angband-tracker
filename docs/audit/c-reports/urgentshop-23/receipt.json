@@ -1,0 +1,111 @@
+{
+  "issue": "diegoami/neo-angband-tracker#23",
+  "report": "urgentshop-23",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "09c28cd59c948fa03fb49349d30e7236b6d067ed",
+  "fix_branch": "task/urgentshop-23",
+  "fixtures_ref": "dbd9ddf1bddabb4c2b3d35099f9d0efd065ae2a3",
+  "cases": {
+    "poisoned": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "buys_cure": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "buys_cure": 1
+        }
+      }
+    },
+    "bleeding": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "buys_cure": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "buys_cure": 1
+        }
+      }
+    },
+    "healthy": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "buys_cure": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "buys_cure": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "healthy"
+  ],
+  "claim": "The poison/cut shop filter in borg_think_shop_buy_useful() and the forced shop in borg_choose_shop() used store index 3, the Bookseller in 4.2 (formerly the Temple). A poisoned or bleeding level-1 Warrior with 500 gold and Cure Light Wounds on sale in the Alchemy shop chose no shop; with index 4 it chooses the potions. A healthy Borg chooses the same potions in both versions, byte-identically.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-buy.c",
+    "src/borg/borg-think-store.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "bdaf11eae791099c66395ef308de17563d679adc331214c1f53c200a8fd511c8",
+    "src/borg/borg-think-store.c": "5dd6f2f7aeab6c6cfc2bbcdb6c0a14f7c368cce2ef760b09b53bd631381b4072"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "e6c8cf597f6a8b3563ca4bfc83529d0952f5e8a45329862c9dc584c4caa9fabd",
+    "after-bleeding.log": "f039cf98f350470c3844f937433bc0c7a2d196110a3005dad525e3eab09b25dc",
+    "after-healthy.log": "97cff8b0579126c2580fcfb88f55f079e8839dba57853d523c9344867df03950",
+    "after-poisoned.log": "b4ca3412a2ebf69e1a08c5dfa8d8e5a3555c987f5106fe443941c97bce1e75c5",
+    "after-results.json": "38965b79d0f35c3d9b952650a40dee5d06b491f81dd228e2a74eabad8852613d",
+    "before-bleeding.log": "109dbeeca3610024f2c5fec90ed60dc116c4d6ba3d643f9737a24353cb886766",
+    "before-healthy.log": "97cff8b0579126c2580fcfb88f55f079e8839dba57853d523c9344867df03950",
+    "before-poisoned.log": "77e1e30513ee5ed88406578a86e93b803900c88e912016f80b54801acfe4c333",
+    "before-results.json": "598e66a94ebe1aa5a855d1c3aeaa13d5db2376ed51a34d01ccbd2efb61c801df",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "6ae724d5af565787f5dadb7c46d8d74550c0eed6845854502266a21090716b66",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "96bf4447130e5acd16ae8cd8ac3e4afe909087a18688cd3be310acea20aac76c",
+    "replay.html": "4525436759fbb205a3ec9e01903497ec10adedb5bd31ab5656168f8ca43fd65d",
+    "reproduce.py": "e9b793ec8d05450eb5519b83b4a8217fb6ccd0c9f97bbaefa59884e6b2b56167",
+    "result.json": "063be53ace0163f2e92ba64df515756926082e85e573c7258d2e7d080d245f47",
+    "run-after-alltests.log": "bab840c963b5becf78acd0d75311a71d58904f24f7b97a42e55a27d133bb88af",
+    "run-after-build.log": "5883b7d507220bb2978f6d3f62b1208d4ac71acf03fe8e6de0e4af709f559fc3",
+    "run-after-scenarios.log": "ec79c05e1bb5e63c8cc9dd760301009d69a47c91e54361b023f381a161ab95e6",
+    "run-before-alltests.log": "58db2967431bc032417917fe5c058ce6028ca2f2514cbf4e14ca85d1ead4f7bf",
+    "run-before-build.log": "bcf4d714fe9d5c6d67e43b2edec3115a55837caa45450d1886c3c0ea54ca3bbd",
+    "run-before-scenarios.log": "f566bb55b9a9b207fe9ddb5ca586a7dcc90841d0db0a9a7c7f9e453d1bd5ade0",
+    "run-cases.py": "c5577e2747cbcf628e6a9006a5ffc871d78c14b26162b165fb4a455322040099",
+    "run-configure.log": "8f3599d56f23e11100f9ec478c1fdc2763fe2a7c40972cf2094bd8895e17cea7",
+    "scenario.c": "b2ab531b6e6767321ecbb83273b88c1c3517817899145572dbf41515b968ee58"
+  }
+}

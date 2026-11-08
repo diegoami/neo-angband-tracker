@@ -1,0 +1,24 @@
+native-c/urgentshop-23: starting...
+TIMED poisoned=10 cut=0
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=3 [Bookseller] 1x [First Spells]
+SETUP seed=23 mode=poisoned class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=1 cut=0 aclw=0
+  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+TRACK power=460431 do_best=0 goal_item=-1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]
+TRACK goal_item=-1 item=[(none)]
+OUTCOME buys_cure=0
+Failed
+    native-c/urgentshop-23:186: requirement 'buys_cure' failed
+native-c/urgentshop-23 finished: 0/1 passed

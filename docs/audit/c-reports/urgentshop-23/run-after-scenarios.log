@@ -1,0 +1,3 @@
+poisoned {'exit': 0, 'passed': True, 'outcome': {'buys_cure': 1}}
+bleeding {'exit': 0, 'passed': True, 'outcome': {'buys_cure': 1}}
+healthy {'exit': 0, 'passed': True, 'outcome': {'buys_cure': 1}}

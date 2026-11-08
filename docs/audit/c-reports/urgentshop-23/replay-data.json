@@ -1,0 +1,95 @@
+{
+  "poisoned": {
+    "label": "Poisoned, Cure Light Wounds on sale",
+    "explanation": "Original: the immediate-purchase step and step 3 only look at store 3 (the Bookseller), where nothing helps a Warrior, so borg_choose_shop() returns false with no goal. Corrected: they look at store 4 and the Borg chooses the Alchemy shop, ware 0 (Potions of Cure Light Wounds).",
+    "control": false,
+    "before": {
+      "raw": "native-c/urgentshop-23: starting...\nTIMED poisoned=10 cut=0\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=3 [Bookseller] 1x [First Spells]\nSETUP seed=23 mode=poisoned class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=1 cut=0 aclw=0\n  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nTRACK power=460431 do_best=0 goal_item=-1\nDECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]\nTRACK goal_item=-1 item=[(none)]\nOUTCOME buys_cure=0\nFailed\n    native-c/urgentshop-23:186: requirement 'buys_cure' failed\nnative-c/urgentshop-23 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "buys_cure": 0
+      },
+      "notes": [
+        "TRACK power=460431 do_best=0 goal_item=-1",
+        "DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]",
+        "TRACK goal_item=-1 item=[(none)]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/urgentshop-23: starting...\nTIMED poisoned=10 cut=0\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=3 [Bookseller] 1x [First Spells]\nSETUP seed=23 mode=poisoned class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=1 cut=0 aclw=0\n  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nTRACK power=460431 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]\nTRACK goal_item=-1 item=[(none)]\nOUTCOME buys_cure=1\nPassed\nnative-c/urgentshop-23 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_cure": 1
+      },
+      "notes": [
+        "TRACK power=460431 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]",
+        "TRACK goal_item=-1 item=[(none)]"
+      ],
+      "value": 1
+    }
+  },
+  "bleeding": {
+    "label": "Bleeding, Cure Light Wounds on sale",
+    "explanation": "Same as poisoned: the original chooses no shop; the corrected Borg chooses the Alchemy shop's Cure Light Wounds, which reduce cuts.",
+    "control": false,
+    "before": {
+      "raw": "native-c/urgentshop-23: starting...\nTIMED poisoned=0 cut=10\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=3 [Bookseller] 1x [First Spells]\nSETUP seed=23 mode=bleeding class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=0 cut=1 aclw=0\n  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nTRACK power=460431 do_best=0 goal_item=-1\nDECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]\nTRACK goal_item=-1 item=[(none)]\nOUTCOME buys_cure=0\nFailed\n    native-c/urgentshop-23:186: requirement 'buys_cure' failed\nnative-c/urgentshop-23 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "buys_cure": 0
+      },
+      "notes": [
+        "TRACK power=460431 do_best=0 goal_item=-1",
+        "DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]",
+        "TRACK goal_item=-1 item=[(none)]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/urgentshop-23: starting...\nTIMED poisoned=0 cut=10\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=3 [Bookseller] 1x [First Spells]\nSETUP seed=23 mode=bleeding class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=0 cut=1 aclw=0\n  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nTRACK power=460431 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]\nTRACK goal_item=-1 item=[(none)]\nOUTCOME buys_cure=1\nPassed\nnative-c/urgentshop-23 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_cure": 1
+      },
+      "notes": [
+        "TRACK power=460431 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]",
+        "TRACK goal_item=-1 item=[(none)]"
+      ],
+      "value": 1
+    }
+  },
+  "healthy": {
+    "label": "Control: healthy, same stock",
+    "explanation": "Not poisoned or bleeding, the store filter does not apply and both versions weigh every store and choose the Alchemy shop's Cure Light Wounds in step 3; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/urgentshop-23: starting...\nTIMED poisoned=0 cut=0\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=3 [Bookseller] 1x [First Spells]\nSETUP seed=23 mode=healthy class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=0 cut=0 aclw=0\n  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nTRACK power=460431 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]\nTRACK goal_item=-1 item=[(none)]\nOUTCOME buys_cure=1\nPassed\nnative-c/urgentshop-23 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_cure": 1
+      },
+      "notes": [
+        "TRACK power=460431 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]",
+        "TRACK goal_item=-1 item=[(none)]"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/urgentshop-23: starting...\nTIMED poisoned=0 cut=0\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=3 [Bookseller] 1x [First Spells]\nSETUP seed=23 mode=healthy class=Warrior clevel=1 gold=500 food=2 light=2 poisoned=0 cut=0 aclw=0\n  borg_in_town_buys_cure_potion  PACK 0 qty=2 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 3 ware 0 qty=1 cost=25 desc=[Book of Magic Spells [First Spells]]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nTRACK power=460431 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]\nTRACK goal_item=-1 item=[(none)]\nOUTCOME buys_cure=1\nPassed\nnative-c/urgentshop-23 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_cure": 1
+      },
+      "notes": [
+        "TRACK power=460431 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]",
+        "TRACK goal_item=-1 item=[(none)]"
+      ],
+      "value": 1
+    }
+  }
+}

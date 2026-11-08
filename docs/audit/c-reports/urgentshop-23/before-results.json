@@ -1,0 +1,23 @@
+{
+  "poisoned": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "buys_cure": 0
+    }
+  },
+  "bleeding": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "buys_cure": 0
+    }
+  },
+  "healthy": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "buys_cure": 1
+    }
+  }
+}
