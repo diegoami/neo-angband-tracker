@@ -88,3 +88,52 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the receipt above hashes the original run's phase logs, but they were
+never committed (the repository's `*.log` ignore rule dropped them), so the
+package could not be checked against its own receipt. The run was repeated
+at the same pins (base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `d366ef4e75e40f17fb293135c05fa74524f2e184`, fixtures
+`72e61f67abf33aca68ee7f4e29db9e4e823de306`) with `--full-tests`, and every case reproduced the recorded
+outcome exactly (the `cases` block of the new `result.json` equals the
+original receipt's):
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `traps` | fail: `surrounded=1` | pass: `surrounded=0` |
+| `walls` (control) | pass: `surrounded=0` | pass: `surrounded=0` |
+
+Controls byte-identical before/after: `walls`. Full native gates from the
+`*-alltests.log` summaries: before: Total: 965/965 passed (100.0%), Total: 5/5; after: Total: 965/965 passed (100.0%), Total: 5/5. Toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0; cmake version 3.28.3.
+
+These re-run files have the same sha256 as the original receipt lists, i.e.
+they are byte-identical to the original run's: `after-scenarios.log`, `before-scenarios.log`, `result.json`, `before-results.json`, `before-traps.log`, `before-walls.log`, `after-results.json`, `after-traps.log`, `after-walls.log`. Files that differ
+only by the run's temporary paths and build timing: `after-alltests.log`, `after-build.log`, `before-alltests.log`, `before-build.log`, `configure.log`.
+
+Render check: `node tools/c-evidence/render-smoke.js replay.html` on the
+committed page (every scenario option and visible button):
+`RENDER-SMOKE actions=2 errors=0 OK`.
+
+Logs, `result.json` and a receipt with the sha256 of every re-run file are
+in [`reverify-2026-11-08/`](reverify-2026-11-08/). Repeat, both pins fixed
+(the fix sha is the runner's built-in `FIX` constant, checked against the
+branch diff before building):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/surrounded-312-evidence
+git show 72e61f67abf33aca68ee7f4e29db9e4e823de306:docs/audit/c-reports/surrounded-312/reproduce.py > /tmp/reproduce-surrounded-312.py
+python3 /tmp/reproduce-surrounded-312.py --full-tests --fixtures-ref 72e61f67abf33aca68ee7f4e29db9e4e823de306
+```
+
+The earlier text of this guide is left as written.
+
+## Errata (2026-11-08)
+
+- **Source proposal link.** The opening's "Source proposal" link above points to a placeholder URL. The source proposal is [#351](https://github.com/diegoami/neo-angband-tracker/pull/351) (branch `task/c-borg-surrounded-elseif`); the evidence PR is [#352](https://github.com/diegoami/neo-angband-tracker/pull/352); the canonical issue is [#312](https://github.com/diegoami/neo-angband-tracker/issues/312).
+- **Fixtures pins.** The receipt's `fixtures_ref` is `72e61f67abf33aca68ee7f4e29db9e4e823de306` (the commit the native run executed at). The commands above pin `2685a3340819668aa6a23c2d3645f90b89c24721` and the issue's commands pinned `44334c6fc0ccad023b5c632eef39d955e36c19eb`; all three commits carry byte-identical `scenario.c`, `run-cases.py`, `make_replay.py`, `reproduce.py` and `borg.txt` (`git diff --stat 72e61f67abf33aca68ee7f4e29db9e4e823de306 44334c6fc0ccad023b5c632eef39d955e36c19eb -- docs/audit/c-reports/surrounded-312/` lists only README/receipt/replay/result artifacts), so any of them reproduces the same run. The re-verification above used `72e61f67abf33aca68ee7f4e29db9e4e823de306`.
+- **Missing logs and render record.** The file inventory and receipt list phase logs that were not committed with the original package; the re-run's logs are in `reverify-2026-11-08/`. The receipt records its browser check under `browser`; the generic render-smoke result above is the 2026-11-08 record.
+- **README hash.** Because this section was appended, `README.md` no longer matches the `README.md` hash in `receipt.json` (that hash is for the guide before this section was appended); every other hashed file is unchanged.
+- **Constructed state (caveat from issue #312, 2026-11-07).** The measured board (three trapped walls, three trap-only floors) is a constructed state: the Borg marks a trap only on grids the game reports as a visible trap, which are floor grids, so a wall carrying the trap flag needs the map to change under a remembered trap. The ordinary trigger is a monster (awake or asleep) standing on a known trap, counted once by the monster branch and again by the trap test; a sleeping monster adds to the non-safe count without adding to `monsters`, so four sleeping monsters on traps plus one trapped floor gives `safe_grids = -1` and "surrounded" with no awake monster. That case was worked through in the standalone `docs/audit/c-reports/spec-checks/surrounded_test.c` (PR #317, branch `task/borg-spec-audit`), not run in this native fixture. The opening's "a wall that also carried the trap flag" should be read with this caveat.
+- **Restored original logs.** The re-run files whose sha256 equals the value in the original `receipt.json` (`after-scenarios.log`, `before-scenarios.log`, `before-traps.log`, `before-walls.log`, `after-traps.log`, `after-walls.log`) are byte-for-byte the original run's files, so they are also committed here at the paths the receipt names. `after-alltests.log`, `after-build.log`, `before-alltests.log`, `before-build.log`, `configure.log` differ by temporary paths and timing and stay only in `reverify-2026-11-08/`.
