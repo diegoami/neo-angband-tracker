@@ -1306,8 +1306,8 @@ bool borg_caution(void)
             if (ag->kill)
                 continue;
 
-            /* skip the closer ones */
-            if (b_j >= j)
+            /* skip the farther ones */
+            if (b_j <= j && b_j != -1)
                 continue;
 
             /* track it */
@@ -1321,15 +1321,15 @@ bool borg_caution(void)
 
             ag = &borg_grids[y][x];
 
-            /* How far is the nearest up stairs */
+            /* How far is the nearest down stairs */
             m = distance(borg.c, loc(x, y));
 
             /* Skip stairs if a monster is on the stair */
             if (ag->kill)
                 continue;
 
-            /* skip the closer ones */
-            if (b_m >= m)
+            /* skip the farther ones */
+            if (b_m <= m && b_m != -1)
                 continue;
 
             /* track it */
