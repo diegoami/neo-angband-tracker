@@ -4,18 +4,208 @@
   "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
   "fix": "da9934216eb15d421220050b374c72b65b9cd680",
   "fix_branch": "task/glowtrace-213",
-  "fixtures_ref": "5edc188e4e37c4ccf351dd5657b83bc5f1167244",
+  "fixtures_ref": "50d4911e0bdfdcc980c5de287b9e90247aed2d0f",
   "cases": {
-    "before": {"passed": false, "state": {"distant_glow": 0, "near_glow": 0, "wall_glow": 0, "lit": 1}},
-    "after": {"passed": true, "state": {"distant_glow": 1, "near_glow": 1, "wall_glow": 0, "lit": 1}, "outcome": {"glow_n": 484}}
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "distant_glow": 0,
+          "near_glow": 0,
+          "wall_glow": 0,
+          "marked": 1,
+          "lit": 1,
+          "pcmem": 1,
+          "info33": 41,
+          "info1211": 57
+        }
+      },
+      "door": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "door_feat": 3,
+          "door_info": 57,
+          "door_glow": 0,
+          "door_dark": 0,
+          "wall_info": 41,
+          "wall_glow": 0
+        },
+        "outcome": {
+          "door_is_open": 1,
+          "wall_glow": 0
+        }
+      },
+      "torchlit": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_isglow": 0,
+          "near_light": 1,
+          "near_islit": 1,
+          "near_glow": 0,
+          "near_dark": 0,
+          "near_light_flag": 1,
+          "far_isglow": 0,
+          "far_light": 0,
+          "far_islit": 0,
+          "far_glow": 0,
+          "far_dark": 0
+        },
+        "outcome": {
+          "torchlit_marked_glow": 0,
+          "glow_n": 0
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "distant_glow": 1,
+          "near_glow": 1,
+          "wall_glow": 0,
+          "marked": 1,
+          "lit": 1,
+          "pcmem": 1,
+          "info33": 43,
+          "info1211": 59
+        },
+        "outcome": {
+          "glow_n": 484
+        }
+      },
+      "door": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "door_feat": 3,
+          "door_info": 57,
+          "door_glow": 0,
+          "door_dark": 0,
+          "wall_info": 41,
+          "wall_glow": 0
+        },
+        "outcome": {
+          "door_is_open": 1,
+          "wall_glow": 0
+        }
+      },
+      "torchlit": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_isglow": 0,
+          "near_light": 1,
+          "near_islit": 1,
+          "near_glow": 1,
+          "near_dark": 0,
+          "near_light_flag": 1,
+          "far_isglow": 0,
+          "far_light": 0,
+          "far_islit": 0,
+          "far_glow": 0,
+          "far_dark": 1
+        },
+        "outcome": {
+          "torchlit_marked_glow": 1,
+          "glow_n": 9
+        }
+      }
+    }
   },
-  "claim": "The map update's Floors branch repeated the Darkness branch's condition (g.f_idx == FEAT_NONE) and was never taken, so the game's permanent lighting never reached the borg's grid flags and the flow-toward-light consumer found an empty target list. The correction restores the original FEAT_FLOOR condition (transcription slip from the 2023 borg-source reorg; the 2011 original cased FEAT_FLOOR) and reads glow from square_islit(), matching the original CAVE_GLOW test.",
+  "claim": "The map update's Floors branch repeated the Darkness branch's condition (g.f_idx == FEAT_NONE) and was never taken, so the game's permanent lighting never reached the borg's grid flags and the flow-toward-light consumer found an empty target list. The correction restores the original FEAT_FLOOR condition (transcription slip from the 2023 borg-source reorg; the 2011 original cased FEAT_FLOOR) and reads glow from square_islit(), matching the original CAVE_GLOW test. Control door (open door and permanent wall in the glowing arena): identical flags and byte-identical logs. Diagnostic torchlit (no permanent glow): the corrected branch marks the torch-lit floor BORG_GLOW (square_islit is the current light level, not SQUARE_GLOW) and glow_n goes 0 -> 9; owner decision recorded on the issue.",
   "full_tests": {
-    "before": {"unit_checks": "965/965", "frontend_tests": "5/5"},
-    "after": {"unit_checks": "965/965", "frontend_tests": "5/5"}
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
   },
-  "fixed_sources": ["src/borg/borg-update.c"],
+  "fixed_sources": [
+    "src/borg/borg-update.c"
+  ],
   "runner_asserts": "The corrected file must equal the base file with exactly the Floors branch restoration; the source scope must be that single file.",
-  "render_check": "Chrome headless planned after packaging; matrix replay generated.",
-  "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+  "render_check": "node tools/c-evidence/render-smoke.js (Playwright headless) on the committed replay.html, 2026-11-08: RENDER-SMOKE actions=0 errors=0 OK",
+  "run_log": "reproduce.py --full-tests at fixtures 50d4911e0 / fix da9934216: VERIFIED; logs in reverify-2026-11-08/",
+  "superseded_run": {
+    "fixtures_ref": "5edc188e4e37c4ccf351dd5657b83bc5f1167244",
+    "cases": {
+      "before": {
+        "passed": false,
+        "state": {
+          "distant_glow": 0,
+          "near_glow": 0,
+          "wall_glow": 0,
+          "lit": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "distant_glow": 1,
+          "near_glow": 1,
+          "wall_glow": 0,
+          "lit": 1
+        },
+        "outcome": {
+          "glow_n": 484
+        }
+      }
+    },
+    "render_check": "Chrome headless planned after packaging; matrix replay generated.",
+    "run_log": "matrix exit 0; VERIFIED line in reproduce output"
+  },
+  "identical_controls": [
+    "door"
+  ],
+  "diagnostics": [
+    "torchlit"
+  ],
+  "diagnostics_note": "torchlit is a diagnostic, not a control: an arena with no SQUARE_GLOW where the floor beside the Borg is lit only by its own light source. Recorded to inform the owner decision on square_islit() versus square_isglow(); its logs are expected to differ.",
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "sha256": {
+    "README.md": "648fa0698e4e53f195b77d8c4ab7847400316b26d15e20383f0453e5cb7c5140",
+    "after-door.log": "2620cdb7fc0550e035f9da958834003bac762def8a2a5dac45dc74d9fcf57ac4",
+    "after-main.log": "699d45d7078bbdaeb71346784116adc606de0e510c9248027e9284f9c9e668c2",
+    "after-results.json": "c3c60c3cc832181a6f3952a6e3efe193386ecba70ea4754ff9efd6ac62e258d3",
+    "after-torchlit.log": "a6eb77328c57f313379b2d282f3f49f2cacd743b18440eac042650e936dce0c2",
+    "before-door.log": "2620cdb7fc0550e035f9da958834003bac762def8a2a5dac45dc74d9fcf57ac4",
+    "before-main.log": "6b310ae4ab888832888e4922c802f86325507abeaba395b0d1399fd3fe9b7e07",
+    "before-results.json": "60b07ff7d977cfc3df1757d150e94d5728c54aaebb574ff14a530f61c276ec24",
+    "before-torchlit.log": "0be76063537dd210c08b8f16908afbec5fbec72a6550478665d2dea8a575ff49",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "75a084a7fae274369de95caa748e116a84ae831cf49b06fdb4d128f5f720f7b0",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "13ce8ee180c7f962ba2564a5293b871bc12aa5118f3cf4423fb3f85686d7a971",
+    "replay.html": "05369fea8ad41e6ebeafe0d8c8f7f6a2c4b8e169ab7dcc800561a578c65f188f",
+    "reproduce.py": "b0468eaf0e0ab0d201039a79def95f0ba077a63f56a9d5525525b629438c5713",
+    "reverify-2026-11-08/after-alltests.log": "8574fd90e4464e881b395349b53b0f001e78a548d2d3c13fb840bae8ccb220bf",
+    "reverify-2026-11-08/after-build.log": "28d09a75144b22cf2d38b4519397b86c73abb2c558abe3f447f9bb5077af58b4",
+    "reverify-2026-11-08/after-scenarios.log": "344a94094b84628d97c220f2d239b3eb3b6b575325c7d342b30dd98e7d274893",
+    "reverify-2026-11-08/before-alltests.log": "432ab08b4e7d49811de9bfa8489e527b785f1306caa4014c58f952708e2c81d0",
+    "reverify-2026-11-08/before-build.log": "c1d790ed3a3c4935d2225920242e512c4f90b83333e46473cdaf7cfde8f4a920",
+    "reverify-2026-11-08/before-scenarios.log": "7636cbe8dbeafec69a1a07f1821fb8a8415c5d549c1543b304e264aa828348ca",
+    "reverify-2026-11-08/configure.log": "d8ff25828c644712a9a970f045093be74b36aa114c07e6fb1240f95a84e1c917",
+    "reverify-2026-11-08/receipt.json": "bbdf6e6d1b7edef9c64d08f51223d16a4fe807599f1aaca2d36fc757aa8cd595",
+    "reverify-2026-11-08/result.json": "c28ee498c76e0d04ddff82612c66eb16e471f2c4322ce8f37dd6765dbd1b4030",
+    "reverify-2026-11-08/scenario-after-door.log": "2620cdb7fc0550e035f9da958834003bac762def8a2a5dac45dc74d9fcf57ac4",
+    "reverify-2026-11-08/scenario-after-main.log": "699d45d7078bbdaeb71346784116adc606de0e510c9248027e9284f9c9e668c2",
+    "reverify-2026-11-08/scenario-after-results.json": "c3c60c3cc832181a6f3952a6e3efe193386ecba70ea4754ff9efd6ac62e258d3",
+    "reverify-2026-11-08/scenario-after-torchlit.log": "a6eb77328c57f313379b2d282f3f49f2cacd743b18440eac042650e936dce0c2",
+    "reverify-2026-11-08/scenario-before-door.log": "2620cdb7fc0550e035f9da958834003bac762def8a2a5dac45dc74d9fcf57ac4",
+    "reverify-2026-11-08/scenario-before-main.log": "6b310ae4ab888832888e4922c802f86325507abeaba395b0d1399fd3fe9b7e07",
+    "reverify-2026-11-08/scenario-before-results.json": "60b07ff7d977cfc3df1757d150e94d5728c54aaebb574ff14a530f61c276ec24",
+    "reverify-2026-11-08/scenario-before-torchlit.log": "0be76063537dd210c08b8f16908afbec5fbec72a6550478665d2dea8a575ff49",
+    "run-cases.py": "c8d571a7683825103bb51c984aed900699d4d9d4b3e8f390350757c782841bc1",
+    "scenario.c": "fd8eb2fe9c694ab3fc3fc0eef4c357d056002b9cba85ea24b6a0379359bca89a"
+  }
 }

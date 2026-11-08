@@ -1,0 +1,180 @@
+{
+  "slug": "glowtrace-213",
+  "date": "2026-11-08",
+  "kind": "newrun",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "da9934216eb15d421220050b374c72b65b9cd680",
+  "fixtures_ref": "50d4911e0bdfdcc980c5de287b9e90247aed2d0f",
+  "command": "python3 reproduce.py --full-tests --fixtures-ref 50d4911e0bdfdcc980c5de287b9e90247aed2d0f --fix-ref da9934216eb15d421220050b374c72b65b9cd680",
+  "cases": {
+    "before": {
+      "main": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "distant_glow": 0,
+          "near_glow": 0,
+          "wall_glow": 0,
+          "marked": 1,
+          "lit": 1,
+          "pcmem": 1,
+          "info33": 41,
+          "info1211": 57
+        }
+      },
+      "door": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "door_feat": 3,
+          "door_info": 57,
+          "door_glow": 0,
+          "door_dark": 0,
+          "wall_info": 41,
+          "wall_glow": 0
+        },
+        "outcome": {
+          "door_is_open": 1,
+          "wall_glow": 0
+        }
+      },
+      "torchlit": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_isglow": 0,
+          "near_light": 1,
+          "near_islit": 1,
+          "near_glow": 0,
+          "near_dark": 0,
+          "near_light_flag": 1,
+          "far_isglow": 0,
+          "far_light": 0,
+          "far_islit": 0,
+          "far_glow": 0,
+          "far_dark": 0
+        },
+        "outcome": {
+          "torchlit_marked_glow": 0,
+          "glow_n": 0
+        }
+      }
+    },
+    "after": {
+      "main": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "distant_glow": 1,
+          "near_glow": 1,
+          "wall_glow": 0,
+          "marked": 1,
+          "lit": 1,
+          "pcmem": 1,
+          "info33": 43,
+          "info1211": 59
+        },
+        "outcome": {
+          "glow_n": 484
+        }
+      },
+      "door": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "door_feat": 3,
+          "door_info": 57,
+          "door_glow": 0,
+          "door_dark": 0,
+          "wall_info": 41,
+          "wall_glow": 0
+        },
+        "outcome": {
+          "door_is_open": 1,
+          "wall_glow": 0
+        }
+      },
+      "torchlit": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "near_isglow": 0,
+          "near_light": 1,
+          "near_islit": 1,
+          "near_glow": 1,
+          "near_dark": 0,
+          "near_light_flag": 1,
+          "far_isglow": 0,
+          "far_light": 0,
+          "far_islit": 0,
+          "far_glow": 0,
+          "far_dark": 1
+        },
+        "outcome": {
+          "torchlit_marked_glow": 1,
+          "glow_n": 9
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "door"
+  ],
+  "diagnostics": [
+    "torchlit"
+  ],
+  "full_tests_parsed_from_alltests_logs": {
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    },
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5",
+      "failed_lines": 0
+    }
+  },
+  "toolchain": {
+    "c_compiler": "GNU 13.3.0",
+    "cmake": "cmake version 3.28.3"
+  },
+  "render_smoke": {
+    "replay.html": {
+      "output": "RENDER-SMOKE actions=0 errors=0 OK",
+      "exit": 0,
+      "sha256": "05369fea8ad41e6ebeafe0d8c8f7f6a2c4b8e169ab7dcc800561a578c65f188f"
+    }
+  },
+  "run_root": "/tmp/angband-glowtrace-213-nz_lgf88",
+  "sha256": {
+    "after-alltests.log": "8574fd90e4464e881b395349b53b0f001e78a548d2d3c13fb840bae8ccb220bf",
+    "after-build.log": "28d09a75144b22cf2d38b4519397b86c73abb2c558abe3f447f9bb5077af58b4",
+    "after-scenarios.log": "344a94094b84628d97c220f2d239b3eb3b6b575325c7d342b30dd98e7d274893",
+    "before-alltests.log": "432ab08b4e7d49811de9bfa8489e527b785f1306caa4014c58f952708e2c81d0",
+    "before-build.log": "c1d790ed3a3c4935d2225920242e512c4f90b83333e46473cdaf7cfde8f4a920",
+    "before-scenarios.log": "7636cbe8dbeafec69a1a07f1821fb8a8415c5d549c1543b304e264aa828348ca",
+    "configure.log": "d8ff25828c644712a9a970f045093be74b36aa114c07e6fb1240f95a84e1c917",
+    "result.json": "c28ee498c76e0d04ddff82612c66eb16e471f2c4322ce8f37dd6765dbd1b4030",
+    "scenario-after-door.log": "2620cdb7fc0550e035f9da958834003bac762def8a2a5dac45dc74d9fcf57ac4",
+    "scenario-after-main.log": "699d45d7078bbdaeb71346784116adc606de0e510c9248027e9284f9c9e668c2",
+    "scenario-after-results.json": "c3c60c3cc832181a6f3952a6e3efe193386ecba70ea4754ff9efd6ac62e258d3",
+    "scenario-after-torchlit.log": "a6eb77328c57f313379b2d282f3f49f2cacd743b18440eac042650e936dce0c2",
+    "scenario-before-door.log": "2620cdb7fc0550e035f9da958834003bac762def8a2a5dac45dc74d9fcf57ac4",
+    "scenario-before-main.log": "6b310ae4ab888832888e4922c802f86325507abeaba395b0d1399fd3fe9b7e07",
+    "scenario-before-results.json": "60b07ff7d977cfc3df1757d150e94d5728c54aaebb574ff14a530f61c276ec24",
+    "scenario-before-torchlit.log": "0be76063537dd210c08b8f16908afbec5fbec72a6550478665d2dea8a575ff49"
+  },
+  "receipt_amendments": [
+    {
+      "file": "receipt.json",
+      "change": "fixtures_ref, cases, full_tests, render_check, run_log, claim updated to this run; identical_controls, toolchain, sha256 added; previous values kept under superseded_run. The original receipt had no sha256 map."
+    },
+    {
+      "file": "README.md",
+      "old_sha256": "ad0bf78b52232c3cf7bd91ea98e17fb20f3855550875bfefbf9b30343c0a84c4",
+      "new_sha256": "648fa0698e4e53f195b77d8c4ab7847400316b26d15e20383f0453e5cb7c5140",
+      "change": "appended \"Re-verification with a control (2026-11-08)\""
+    }
+  ]
+}
