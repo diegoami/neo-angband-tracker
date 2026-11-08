@@ -582,8 +582,12 @@ static bool borg_think_dungeon_munchkin(void)
     borg.goal.fleeing_munchkin = true;
     borg.goal.fleeing          = true;
 
-    /* Increase the range of the borg a bit */
-    if (borg.trait[BI_CDEPTH] <= 10)
+    /* Increase the range of the borg a bit.  Only when the character
+     * level term can be positive: below level 10 it is negative and the
+     * "increase" would shrink the range instead (a level-5 borg at depth
+     * 10 would get range 3 against the base 8, and stop climbing toward
+     * stairs it can see). */
+    if (borg.trait[BI_CDEPTH] <= 10 && borg.trait[BI_CLEVEL] > 10)
         closeness
             += (borg.trait[BI_CLEVEL] - 10) + (10 - borg.trait[BI_CDEPTH]);
 
