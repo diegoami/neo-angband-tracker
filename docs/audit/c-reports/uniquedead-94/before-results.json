@@ -1,0 +1,36 @@
+{
+  "grip": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "live_uniques": 56,
+      "hunted_depth": 41,
+      "grip_dead": 1,
+      "quaker_dead": 1
+    },
+    "outcome": {
+      "grip_dead": 1,
+      "live_uniques": 56,
+      "hunted_depth": 41,
+      "reset_recall": 0,
+      "recall_depth": 60
+    }
+  },
+  "slot5": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "live_uniques": 57,
+      "hunted_depth": 17,
+      "grip_dead": 0,
+      "quaker_dead": 1
+    },
+    "outcome": {
+      "grip_dead": 0,
+      "live_uniques": 57,
+      "hunted_depth": 17,
+      "reset_recall": 1,
+      "recall_depth": 15
+    }
+  }
+}

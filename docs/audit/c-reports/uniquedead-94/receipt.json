@@ -1,0 +1,133 @@
+{
+  "issue": "diegoami/neo-angband-tracker#94",
+  "report": "uniquedead-94",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "ea3e7213955bfa1125b84ded987b0adee56c0ee3",
+  "fix_branch": "task/uniquedead-94",
+  "fixtures_ref": "cf21e7cf57d9d282173d8d5e0844fae2153dc04b",
+  "cases": {
+    "grip": {
+      "before": {
+        "passed": false,
+        "state": {
+          "live_uniques": 56,
+          "hunted_depth": 41,
+          "grip_dead": 1,
+          "quaker_dead": 1
+        },
+        "outcome": {
+          "grip_dead": 1,
+          "live_uniques": 56,
+          "hunted_depth": 41,
+          "reset_recall": 0,
+          "recall_depth": 60
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "grip_dead": 0,
+          "quaker_dead": 1
+        },
+        "outcome": {
+          "grip_dead": 0,
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "reset_recall": 1,
+          "recall_depth": 15
+        }
+      }
+    },
+    "slot5": {
+      "before": {
+        "passed": true,
+        "state": {
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "grip_dead": 0,
+          "quaker_dead": 1
+        },
+        "outcome": {
+          "grip_dead": 0,
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "reset_recall": 1,
+          "recall_depth": 15
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "grip_dead": 0,
+          "quaker_dead": 1
+        },
+        "outcome": {
+          "grip_dead": 0,
+          "live_uniques": 57,
+          "hunted_depth": 17,
+          "reset_recall": 1,
+          "recall_depth": 15
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "slot5"
+  ],
+  "claim": "borg_update_kill_old() marked borg_race_death[i] with the Borg's monster-record index i instead of the race index when it saw a monster whose race is an already-killed unique. A Maia of Aulë in the shape of the dead Quaker, seen as record 47, marked Grip (race 47, alive) dead for the rest of the session; the Borg's living-unique list then lost Grip and its recall-depth answer at depth 15 changed from 'y' (recall depth 15) to 'n' (recall depth 60). Using kill->r_idx marks the race actually seen. The record-5 control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-kill.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "07de83c4e075049959ab863bfaf1c898269ed2868939cdcf2abe66619daf7698"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "d05756bdfa1df56164fa6175266a1813ec0fcee2d5203811fe240781e03998f1",
+    "after-grip.log": "bff19f818599d8f74e1de93527d601aa74d6f837c67dac1f097c5f82ec5d0f55",
+    "after-results.json": "ddf595e3db80e20a934810b86d0a33bbea92c99bd1595504b339530009a2a305",
+    "after-slot5.log": "debfe8ba51397e476f1b7ebbdf823f4771ad5c78d3478c72758352484711a2c9",
+    "before-grip.log": "fd65fe6c98e0817cf80118e5f05738a432113b610fb9f10fc4ba806b2902085a",
+    "before-results.json": "d79cc77ed4b3cd89025c43c3bc1662b98d33dcb7172a3160691103f05950dc2e",
+    "before-slot5.log": "debfe8ba51397e476f1b7ebbdf823f4771ad5c78d3478c72758352484711a2c9",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "1be01631302136c7fd832f25861179080c5d0cd5e1274ac292c08cdb8be261b5",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "94faacde4c0aed2b69d628217e662722a0da31286749c4c8c4d01a59db3d6bfa",
+    "replay.html": "ea288f3565d995736324e810140ec025278a157c57ef944c651facb6538a06f3",
+    "reproduce.py": "e81edf6fdcc8ad3f6f8591293c267578a1357a91d93006d640f4dc35f15568c7",
+    "result.json": "3831c1d878730394f20d3a72ee4f0f7437f0cdd606d8c07d4a6a0cb4758fadca",
+    "run-after-alltests.log": "0285547147e05eebcb83a289ab9c615c3306f45a38fb0f7d899c964962490d3d",
+    "run-after-build.log": "3357e2fcddc21ea4ec58cf84981cafe25854aa788ce0ccd65ffa4b704b91ef93",
+    "run-after-scenarios.log": "959d8e794850e5189d065af33795583eb9ad0ad602f2840cf34c46eae7375971",
+    "run-before-alltests.log": "99b48873911bca829d50a26760c976ee1edfda89468ff62acc79cab0b4088fae",
+    "run-before-build.log": "3e21778a0d99b546b2b44dd7bd58121ea934fd135e4197fd9a288a3a4a0d59e9",
+    "run-before-scenarios.log": "e247c8e7948bf8d29db4a540a6261ae284dd12ce6bbe0c564a16ee5fe7fd1b99",
+    "run-cases.py": "06a81264e2ee7f1465261f85f2a87b8e1d8a71c32effc7da632fec1b6730a062",
+    "run-configure.log": "76f33d16fbf85601c01418594a078bb4a9ce3c8b4199e5f22b6549fe57849ec7",
+    "scenario.c": "1d4290a829135d157e3aef611b4eec8239d0bae88e4e76d238d9385ccf0220ea"
+  }
+}
