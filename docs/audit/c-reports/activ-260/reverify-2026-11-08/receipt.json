@@ -1,0 +1,145 @@
+{
+  "purpose": "Re-verification run at the original receipt pins; the original run's logs were dropped by the repository's *.log ignore rule although its receipt listed them.",
+  "date": "2026-11-08",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "891d0cb9cc9057a2004dfeba7b21b19913f5a2b6",
+  "fixtures_ref": "7e1a5f6887301faabdc72396fd83f91d01452181",
+  "original_receipt_pins": {
+    "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+    "fix": "891d0cb9cc9057a2004dfeba7b21b19913f5a2b6",
+    "fixtures_ref": "7e1a5f6887301faabdc72396fd83f91d01452181"
+  },
+  "cases_match_original_result_json": true,
+  "case_differences": [],
+  "cases": {
+    "before": {
+      "miswired": {
+        "exit": 0,
+        "passed": false,
+        "geometry": "player=(11,11) target=(11,15) temp_n=0",
+        "rating": "bolt3=0 bolt2=0",
+        "outcome": "bolt3=0 bolt2=0"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(11,11) target=(11,15) temp_n=0",
+        "rating": "bolt2=52",
+        "outcome": "bolt2=52"
+      }
+    },
+    "after": {
+      "miswired": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(11,11) target=(11,15) temp_n=0",
+        "rating": "bolt3=52 bolt2=0",
+        "outcome": "bolt3=52 bolt2=0"
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "geometry": "player=(11,11) target=(11,15) temp_n=0",
+        "rating": "bolt2=52",
+        "outcome": "bolt2=52"
+      }
+    }
+  },
+  "identical_full_logs": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "gate_lines_from_alltests_logs": {
+    "before": {
+      "total_lines": [
+        "Total: 965/965 passed (100.0%)",
+        "Total: 5/5"
+      ],
+      "failed_lines": 0
+    },
+    "after": {
+      "total_lines": [
+        "Total: 965/965 passed (100.0%)",
+        "Total: 5/5"
+      ],
+      "failed_lines": 0
+    }
+  },
+  "fixed_source_sha256": "fb1ecb8ea55db97ed764ce4b9659a62310dab9ba14f87740ffdff734f27f90c7",
+  "fixed_source_sha256_matches_original": true,
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium, clicks every option/button)",
+    "page": "../replay.html (committed)",
+    "result": "RENDER-SMOKE actions=4 errors=0 OK"
+  },
+  "regenerated_replay_vs_committed": {
+    "replay-data.json": "byte-identical to committed",
+    "replay.html": "byte-identical to committed"
+  },
+  "files_byte_identical_to_original_receipt_hash": [
+    "after-control.log",
+    "after-miswired.log",
+    "after-results.json",
+    "after-scenarios.log",
+    "before-control.log",
+    "before-miswired.log",
+    "before-results.json",
+    "before-scenarios.log",
+    "result.json"
+  ],
+  "files_differing_from_original_receipt_hash": [
+    "after-alltests.log",
+    "after-build.log",
+    "before-alltests.log",
+    "before-build.log",
+    "configure.log"
+  ],
+  "sha256": {
+    "after-alltests.log": "ade34b8c7a869838225e06d6cc3ea146132bd8d3e2066df96ad90156a6ab1bb6",
+    "after-build.log": "cb21aa11a04f26e82937dc0879a876d91dde69181e5b3a2d5741638f5503820b",
+    "after-control.log": "4d4f219e105b31a483116653159a38ab6c5455c6424b1ee79d76ab6653046b08",
+    "after-miswired.log": "8f4b2a4a94837efaed8324bb62cd0af42e00360e3696ab4fef6e8a46b695f49e",
+    "after-results.json": "3d78a7d2af076fca3a6de39c12ded9c8310918d46176b6b3a702177112f59084",
+    "after-scenarios.log": "fbb6a916bbfa1f74439ffaa7529df9fd7cd801d6c3d2018f794db006271216db",
+    "before-alltests.log": "74c4dfcedce3cbdfd5e9975647199f1018c50058ffd2038b76757c6a6e686c54",
+    "before-build.log": "6f168439a789631b8a17aeeffcbf5ef423d7e1760a76e16fcc521c1c1a757621",
+    "before-control.log": "4d4f219e105b31a483116653159a38ab6c5455c6424b1ee79d76ab6653046b08",
+    "before-miswired.log": "729a05f89dbf0149fb43666f7b97be556b28512193b42ff8c38db2d957c6d769",
+    "before-results.json": "6f67eb98e11a3a2837875057870a7dabe02cf1a9e64d0d0d6baad576ca4b9978",
+    "before-scenarios.log": "ce3cf37a87130a70b27d8e161339441bc16c286e3c1ceba5ea9891eeba8eea23",
+    "configure.log": "cd0d794986e8f72643871df4a051e7267dc338b081e32e52803b1ac618dcaeda",
+    "result.json": "e6fc972584e8944a58c0fe4888e6044abeb379d5b8f2213996e20751614fa777"
+  },
+  "receipt_amendments": [
+    {
+      "file": "../receipt.json",
+      "key": "sha256.README.md",
+      "old": "b3bae2a22b345da7640032f0fc81a22c3b3748807f23d2037f86ce1ae000d355",
+      "new": "9a571b81721861fa962a736f7bb431bd5eaddd086737ce2ccb3647419c0e62f9",
+      "why": "README.md gained the 2026-11-08 Re-verification/Errata sections (and any placeholder replacement listed there)"
+    },
+    {
+      "file": "../receipt.json",
+      "key": "render_check",
+      "old": null,
+      "new": {
+        "date": "2026-11-08",
+        "tool": "tools/c-evidence/render-smoke.js",
+        "result": "RENDER-SMOKE actions=4 errors=0 OK",
+        "page": "replay.html (committed)",
+        "note": "The original run's own headless check is recorded under the 'browser' key; this key adds the 2026-11-08 smoke check."
+      }
+    }
+  ]
+}

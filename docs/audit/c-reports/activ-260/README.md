@@ -34,7 +34,7 @@ lookup defect itself is measured directly.
 
 Canonical report: [issue260](https://github.com/diegoami/neo-angband-tracker/issues/260).
 Lead supplied by borg-rs; independently validated and reproduced
-natively here. Source proposal [PR-SOURCE](https://github.com/diegoami/neo-angband-tracker/pull/SOURCE).
+natively here. Source proposal [#308](https://github.com/diegoami/neo-angband-tracker/pull/308).
 
 ## Verification
 
@@ -112,3 +112,55 @@ Files in this directory: `scenario.c` (native observer), `run-cases.py`
 (disposable profile configuration), `result.json`/`receipt.json`
 (outcomes and hashes), and the captured phase logs. [Full
 receipt](receipt.json).
+
+
+## Re-verification (2026-11-08)
+
+Why: the original run's phase, build and gate logs were listed and hashed in
+`receipt.json` but never committed (the repository's `*.log` ignore rule
+dropped them), so the receipt could not be checked against published bytes.
+The same pinned runner was run again on 2026-11-08 at the receipt's own pins
+(base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `891d0cb9cc9057a2004dfeba7b21b19913f5a2b6`, fixtures `7e1a5f6887301faabdc72396fd83f91d01452181`) with `--full-tests`.
+Every case reproduced the recorded outcome; the runner's per-case results
+(`result.json` `cases`) are identical to the committed original.
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `miswired` (ring with ACID_BOLT3) | `bolt3=0 bolt2=0` (greater-bolt maneuver never considers the ring); 0/1 | `bolt3=52 bolt2=0`; 1/1 |
+| `control` (ring with ACID_BOLT2) | `bolt2=52`; 1/1 | byte-identical log |
+
+Gates from the re-run's alltests logs: before Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines); after Total: 965/965 passed (100.0%), Total: 5/5 (0 `... Failed` lines).
+Re-run toolchain: cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, cmake version 3.28.3 (the original receipt records
+gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0, cmake version 4.2.3; the toolchain differs, and the files listed
+below as byte-identical are identical nonetheless).
+Corrected source sha256 matches the original receipt.
+Render check of the committed `replay.html` with `tools/c-evidence/render-smoke.js`
+(Playwright Chromium, every option and button clicked): `RENDER-SMOKE actions=4 errors=0 OK`.
+The original receipt records its own headless check under the `browser` key.
+The regenerated `replay.html` and `replay-data.json` are byte-identical to the committed ones. The repeat command below pins the guide's own pin `460ca1570` (generators identical to the run pin `7e1a5f688`).
+
+**Not tested: the DISPEL_ALL half of the correction.** The source diff changes two tokens; only the ACID_BOLT3 token is asserted by any case (rows above). The `BF_ACT_DISPEL_ALL` token (`act_dispel_undead` → `act_dispel_all`) is the same one-line shape and is verified by reading the code only; no committed log measures its before/after behavior. The development observation mentioned in the opening is not part of this evidence.
+
+Where the logs are: [`reverify-2026-11-08/`](reverify-2026-11-08/) holds every log,
+`result.json` and per-mode results of the re-run, with
+[`reverify-2026-11-08/receipt.json`](reverify-2026-11-08/receipt.json) (pins, per-case
+results, gate lines, toolchain, render result, sha256 of every file there).
+9 re-run files are byte-identical to the hashes in the original
+`receipt.json`; those not already committed were also placed at their original paths in this directory, so the original receipt now resolves for them: `after-control.log`, `after-miswired.log`, `after-scenarios.log`, `before-control.log`, `before-miswired.log`, `before-scenarios.log`.
+The rest (`after-alltests.log`, `after-build.log`, `before-alltests.log`, `before-build.log`, `configure.log`) differ in
+run-specific content (temporary paths, timings, build output of the different toolchain) and are
+published only under `reverify-2026-11-08/`.
+
+Repeat (fixtures pinned by sha; the fix sha is fixed inside `reproduce.py` at that pin, and the runner
+refuses any other source diff):
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/activ-260-evidence
+git show 460ca1570b2801fed38cc853e82599cd87e8acd2:docs/audit/c-reports/activ-260/reproduce.py > /tmp/reproduce-activ-260.py
+python3 /tmp/reproduce-activ-260.py --full-tests --fixtures-ref 460ca1570b2801fed38cc853e82599cd87e8acd2
+```
+
+## Errata (2026-11-08)
+
+- The source-proposal link near the top of this README was a placeholder; it now points to the source PR [#308](https://github.com/diegoami/neo-angband-tracker/pull/308) (evidence PR #309, canonical issue #260).
+- `receipt.json` was amended on 2026-11-08 for this only: its `README.md` hash now covers the README with these sections and the link fix, and a `render_check` key records the smoke check above; the old→new values are listed under `receipt_amendments` in `reverify-2026-11-08/receipt.json`.

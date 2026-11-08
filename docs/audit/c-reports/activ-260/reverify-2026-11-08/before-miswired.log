@@ -1,0 +1,10 @@
+native-c/activ-260: starting...
+SETUPSTEP profile
+SETUP seed=1000 class=Mage level=41 depth=30
+  maneuvers_find_their_activations  MODE miswired
+GEOMETRY player=(11,11) target=(11,15) temp_n=0
+RATING bolt3=0 bolt2=0
+OUTCOME bolt3=0 bolt2=0
+Failed
+    native-c/activ-260:222: requirement 'v_bolt3 > 0' failed
+native-c/activ-260 finished: 0/1 passed
