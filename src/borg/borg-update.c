@@ -327,12 +327,16 @@ static void borg_update_map(void)
 
             /* this checks that the trap is visible so it isn't really */
             /* a cheat of any information the borg couldn't get another way*/
-            } else if (square_isdisarmabletrap(cave, l)) {
+            /* A glyph (rune of protection) is not a player trap, so it is */
+            /* taken from the trap the player remembers on this grid. */
+            } else if (square_isdisarmabletrap(cave, l)
+                       || (g.trap && trf_has(g.trap->flags, TRF_GLYPH))) {
                 /* Minor cheat for the borg.  If the borg is running
                  * in the graphics mode (not the AdamBolt Tiles) he will
                  * mis-id the glyph of warding as a trap
                  */
-                ag->trap      = true;
+                if (square_isdisarmabletrap(cave, l))
+                    ag->trap = true;
                 uint8_t t_idx = square(cave, l)->trap->t_idx;
                 if (trf_has(trap_info[t_idx].flags, TRF_GLYPH)) {
                     ag->glyph = true;
