@@ -1,0 +1,116 @@
+{
+  "full-unid": {
+    "label": "13 spare swords plus one unidentified mace",
+    "explanation": "Original: the count stops at the unidentified mace and returns 0, so the 'need to sell, don't go down' check passes and the Borg flows to the down staircase (key 54). Corrected: 15 sellable items counted; the Borg does not go down.",
+    "control": false,
+    "before": {
+      "raw": "native-c/countsell-134: starting...\nSETUP seed=134 mode=full-unid class=Warrior clevel=4 depth=1 gold=0\n  full_pack_goes_up_to_sell  STATE sellable=0 unidentified=1 prepared_next=1\nTRACK # Flowing toward down-stairs at cost 3\nDECISION flow_down=1 key=54\nOUTCOME went_down=1\nFailed\n    native-c/countsell-134:197: requirement '!down' failed\nnative-c/countsell-134 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "sellable": 0,
+        "unidentified": 1,
+        "prepared_next": 1
+      },
+      "outcome": {
+        "went_down": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward down-stairs at cost 3",
+        "DECISION flow_down=1 key=54"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/countsell-134: starting...\nSETUP seed=134 mode=full-unid class=Warrior clevel=4 depth=1 gold=0\n  full_pack_goes_up_to_sell  STATE sellable=15 unidentified=1 prepared_next=1\nDECISION flow_down=0 key=0\nOUTCOME went_down=0\nPassed\nnative-c/countsell-134 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "sellable": 15,
+        "unidentified": 1,
+        "prepared_next": 1
+      },
+      "outcome": {
+        "went_down": 0
+      },
+      "notes": [
+        "DECISION flow_down=0 key=0"
+      ],
+      "value": 0
+    }
+  },
+  "full": {
+    "label": "Control: 13 spare swords, nothing unidentified",
+    "explanation": "Both versions count 15 sellable items and decline to go down; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/countsell-134: starting...\nSETUP seed=134 mode=full class=Warrior clevel=4 depth=1 gold=0\n  full_pack_goes_up_to_sell  STATE sellable=15 unidentified=0 prepared_next=1\nDECISION flow_down=0 key=0\nOUTCOME went_down=0\nPassed\nnative-c/countsell-134 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "sellable": 15,
+        "unidentified": 0,
+        "prepared_next": 1
+      },
+      "outcome": {
+        "went_down": 0
+      },
+      "notes": [
+        "DECISION flow_down=0 key=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/countsell-134: starting...\nSETUP seed=134 mode=full class=Warrior clevel=4 depth=1 gold=0\n  full_pack_goes_up_to_sell  STATE sellable=15 unidentified=0 prepared_next=1\nDECISION flow_down=0 key=0\nOUTCOME went_down=0\nPassed\nnative-c/countsell-134 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "sellable": 15,
+        "unidentified": 0,
+        "prepared_next": 1
+      },
+      "outcome": {
+        "went_down": 0
+      },
+      "notes": [
+        "DECISION flow_down=0 key=0"
+      ],
+      "value": 0
+    }
+  },
+  "light": {
+    "label": "Only the unidentified mace",
+    "explanation": "Little to sell in either version (0 before, 2 after); both go down. The count line differs, the decision does not.",
+    "control": false,
+    "before": {
+      "raw": "native-c/countsell-134: starting...\nSETUP seed=134 mode=light class=Warrior clevel=4 depth=1 gold=0\n  full_pack_goes_up_to_sell  STATE sellable=0 unidentified=1 prepared_next=1\nTRACK # Flowing toward down-stairs at cost 3\nDECISION flow_down=1 key=54\nOUTCOME went_down=1\nPassed\nnative-c/countsell-134 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "sellable": 0,
+        "unidentified": 1,
+        "prepared_next": 1
+      },
+      "outcome": {
+        "went_down": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward down-stairs at cost 3",
+        "DECISION flow_down=1 key=54"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/countsell-134: starting...\nSETUP seed=134 mode=light class=Warrior clevel=4 depth=1 gold=0\n  full_pack_goes_up_to_sell  STATE sellable=2 unidentified=1 prepared_next=1\nTRACK # Flowing toward down-stairs at cost 3\nDECISION flow_down=1 key=54\nOUTCOME went_down=1\nPassed\nnative-c/countsell-134 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "sellable": 2,
+        "unidentified": 1,
+        "prepared_next": 1
+      },
+      "outcome": {
+        "went_down": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward down-stairs at cost 3",
+        "DECISION flow_down=1 key=54"
+      ],
+      "value": 1
+    }
+  }
+}

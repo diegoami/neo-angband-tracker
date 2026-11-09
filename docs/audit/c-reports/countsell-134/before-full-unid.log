@@ -1,0 +1,9 @@
+native-c/countsell-134: starting...
+SETUP seed=134 mode=full-unid class=Warrior clevel=4 depth=1 gold=0
+  full_pack_goes_up_to_sell  STATE sellable=0 unidentified=1 prepared_next=1
+TRACK # Flowing toward down-stairs at cost 3
+DECISION flow_down=1 key=54
+OUTCOME went_down=1
+Failed
+    native-c/countsell-134:197: requirement '!down' failed
+native-c/countsell-134 finished: 0/1 passed

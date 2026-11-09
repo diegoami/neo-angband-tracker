@@ -1,0 +1,3 @@
+full-unid {'exit': 0, 'passed': True, 'state': {'sellable': 15, 'unidentified': 1, 'prepared_next': 1}, 'outcome': {'went_down': 0}}
+full {'exit': 0, 'passed': True, 'state': {'sellable': 15, 'unidentified': 0, 'prepared_next': 1}, 'outcome': {'went_down': 0}}
+light {'exit': 0, 'passed': True, 'state': {'sellable': 2, 'unidentified': 1, 'prepared_next': 1}, 'outcome': {'went_down': 1}}
