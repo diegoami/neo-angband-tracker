@@ -123,7 +123,7 @@ FACT (`src/mon-move.c:process_monsters()`, `monster_check_active()`,
    in damaging terrain. Inactive monsters skip their turn entirely.
 5. Timed effects tick: a **sleeping** monster only tries to wake (and acts on a later
    turn); fear decreases by `1d(level/10 + 1)`; hold (paralysis) and command make it
-   skip the turn; a stunned monster skips 1 turn in `STUN_MISS_CHANCE`.
+   skip the turn; a stunned monster skips 1 turn in 10 (`STUN_MISS_CHANCE`).
 6. `monster_turn()`:
    1. Rouse sleeping group members it can see (1 in distance×20 each).
    2. Try to **breed** ([8.10](#810-breeders)).
@@ -162,7 +162,7 @@ FACT (`src/mon-move.c:get_move_advance()`, `monster_can_hear()`, `monster_can_sm
 5. Otherwise follow a group member who is tracking, keep going to the last target, or
    wander.
 
-The `COVERTRACKS` timed effect (from a spell; see [Chapter 3](03-magic-and-spells.md))
+The `COVERTRACKS` timed effect (the Ranger spell *Cover Tracks*, `class.txt`)
 lays no scent and hides you from sight beyond a quarter of max sight.
 
 ADVICE: after you teleport, monsters that were chasing you by sound/scent converge on
@@ -331,7 +331,7 @@ Damage scales with spell power (= level by default). The most important formulas
 | BA_NETH / BA_DARK | `4P + 10d10` | 135 | 255 | 375 | 455 |
 | BA_MANA | `5P + 10d10` | 155 | 305 | 455 | 555 |
 | BA_WATE | `50 + 1d(2.5P)` | 75 | 113 | 150 | 175 |
-| STORM (3 balls) | water+elec+ice | ~110 | ~165 | ~225 | ~265 |
+| STORM (3 balls at once) | water `30+(P/3)d5`, elec and ice `20+(P/3)d5` each | ~124 | ~214 | ~304 | ~367 |
 | MIND_BLAST (save) | `8d8` + confusion | 36 | 36 | 36 | 36 |
 | BRAIN_SMASH (save) | `12d15` + slow, conf, paralysis, blind | 96 | 96 | 96 | 96 |
 | DRAIN_MANA | `1d(P/2+1)` SP, heals monster 6×drained | ~6 | ~13 | ~21 | ~26 |
@@ -545,7 +545,7 @@ ADVICE built on FACT from `monster_spell.txt` and the effect handlers.
 | Spell | What it does | Counter |
 |---|---|---|
 | **TELE_TO** | Teleports you next to the monster | Not blocked by rNexus. Be ready to escape again; fight casters with it only if you can beat them adjacent |
-| **TELE_LEVEL** | Moves you up or down a level (save allowed) | **rNexus blocks it** (`effect_handler_TELEPORT_LEVEL`); never works on quest levels (you can't be sent down from DL99/100) |
+| **TELE_LEVEL** | Moves you up or down a level (save allowed) | **rNexus blocks it** (`effect_handler_TELEPORT_LEVEL`); on a quest level (DL99/100) it can only send you **up** |
 | **TELE_AWAY** | Teleports you 100 grids away | Annoying, rarely deadly; can separate you from your loot or stairs |
 | **BLIND** | 11–15 turns blind (save) | rBlind; carry CLW/CSW (cure blindness); you cannot read scrolls while blind |
 | **CONF** | 3–7 turns confused (save) | pConf (rConf); CLW/CSW cure; confused you cannot read scrolls |
@@ -1359,7 +1359,7 @@ FACT (`lib/gamedata/quest.txt`, `src/player-quest.c`, `src/player-util.c:dungeon
 - **You cannot go below a quest level until its monster is dead**: stairs, deep descent
   and level teleport stop at it (`dungeon_get_next_level()` returns the first quest level
   in the way), quest levels are generated with no down staircases, and TELE_LEVEL
-  cannot send you down from one.
+  cannot send you down from one (only up).
 - Quest levels always use the classic profile at full size.
 - Killing the quest monster creates a magical down staircase where it died. Killing
   Morgoth (both quests done) wins the game.
@@ -1385,8 +1385,8 @@ FACT (`monster.txt`):
 
 ADVICE (what is needed):
 
-- **Resists:** all base, poison, nether, dark, chaos, disenchantment, nexus (TELE_LEVEL is
-  blocked by rNexus, and on DL99 he cannot send you down anyway), confusion protection,
+- **Resists:** all base, poison, nether, dark, chaos, disenchantment, nexus (his
+  TELE_LEVEL would throw you up to DL98, away from the fight; rNexus blocks it), confusion protection,
   blindness protection, Free Action, See Invisible, Hold Life (Vampire-Sauron, the
   Nazgûl escort).
 - **HP and speed:** a dark or nether ball of ~575 is roughly 1/3–1/2 of that resisted
