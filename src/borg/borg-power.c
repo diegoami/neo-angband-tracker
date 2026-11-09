@@ -1185,6 +1185,7 @@ static int32_t borg_power_inventory(void)
             && borg.trait[BI_MAXCLEVEL] < borg_cfg[BORG_MUNCHKIN_LEVEL]) {
             /* Do not carry these until later */
         } else {
+            k = 0;
             for (; k < 4 && k < borg.trait[BI_ARESPOIS]; k++)
                 value += 300L;
         }
