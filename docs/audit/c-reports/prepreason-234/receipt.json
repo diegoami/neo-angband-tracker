@@ -1,0 +1,116 @@
+{
+  "issue": "diegoami/neo-angband-tracker#234",
+  "report": "prepreason-234",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "52792d3e51f76efeb7c649905a6de7fa9d626162",
+  "fix_branch": "task/prepreason-234",
+  "fixtures_ref": "f1443b56915456ec9991d5f103a91143832e20dc",
+  "cases": {
+    "nodeeper100": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "collect": 0,
+          "recall": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "collect": 1,
+          "recall": 1
+        }
+      }
+    },
+    "default127": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "collect": 1,
+          "recall": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "collect": 1,
+          "recall": 1
+        }
+      }
+    },
+    "prepared97": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "collect": 0,
+          "recall": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "collect": 0,
+          "recall": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "default127",
+    "prepared97"
+  ],
+  "claim": "borg_leave_level() kept the pointer borg_prepared() returned for the current depth while later borg_prepared() calls rewrote the same static buffer. A level-50 Warrior at depth 99 with 20 Potions of *Healing* at home and borg_no_deeper = 100 printed 'No deeper 100.' as its reason for the current level and skipped the 'Collect from house' return, walking to an up staircase instead of reading Word of Recall. Copying the reason first restores the decision; the same-reason and prepared controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-think-dungeon-util.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-think-dungeon-util.c": "f2f360924ee50ca7992b2c865ec442520f6fdfa2fd53776ff8a11d4c1acf96d7"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "349c02e31a5169c911b38bd478bf0ce11c338724835a5628262e0e626cf075c5",
+    "after-default127.log": "7b1159a1cdfe9006a3e2cb51ddeab900738366bf1e076b893e075893742432e5",
+    "after-nodeeper100.log": "56272b197950b7f0688d6794684c2419abe39ffc47b104dc5a2e014ca62a15f6",
+    "after-prepared97.log": "4549a024c21168290af91347e5a399963b5c095443861025bf872a44ff0e2630",
+    "after-results.json": "63735b9e87c4f5142ad85caa023ab58568337fa3c65ff4ccf3b591346e0e4711",
+    "before-default127.log": "7b1159a1cdfe9006a3e2cb51ddeab900738366bf1e076b893e075893742432e5",
+    "before-nodeeper100.log": "b19232ace233220d7c920cbc9cfbf144e7d8db0bd17776d3140f7f17373d1c61",
+    "before-prepared97.log": "4549a024c21168290af91347e5a399963b5c095443861025bf872a44ff0e2630",
+    "before-results.json": "efe06ba0f3935fe436c3f49b793f069fa3f3742728907b7e660c03fa53e3c5bb",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "e840f8d380a610b823b41cb98fab4f155c08edaa6629beaab22b0b1e24c594c3",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "0607d3921d5b9abc70245767fede56f33732d4c65044e7643b99af9cd9bd648c",
+    "replay.html": "3cb2f8d1a4ac94e4a3d620aa002848a54841a417f827089e6e7cc2bd5798a5b0",
+    "reproduce.py": "56b986dd74dc8a43f1dc97aafb01b1083d6d4e7f0131f008721807c3bffaf603",
+    "result.json": "876e685c0a50dcba0736654b8cfff88161af5c2a95431cd04547cc8fc35a5eeb",
+    "run-after-alltests.log": "c91c4010a48025203e2c2aaabfea23465288155cce9ee06c3397cd6dbd770493",
+    "run-after-build.log": "7fe08a4761c9f022973d23b0f3d094ba88ed06cb1977c8a5e0ea966e76984d18",
+    "run-after-scenarios.log": "25916a8b8164ca0b22233216b617b2a0ef4e1663124892ac5e55a111a4b063bf",
+    "run-before-alltests.log": "b15bdcc340e77ed95f4a0a204357d1a7b893f9bc067336ca8c52350588db22ec",
+    "run-before-build.log": "a4f56faa05498871cada258ac5632240f0edddb4956c3523821de92dce64f20b",
+    "run-before-scenarios.log": "314100d72cbd5958c1dbe58d19a855987029117b05a78952a548d7a4141f674e",
+    "run-cases.py": "553fc439588893aaef2fea15c52758240f911ba62a658ed8498052fcc03294bc",
+    "run-configure.log": "a56787411976b547ae7cdb20dafbcdea15578089393b7908dd6fc4544c1a4597",
+    "scenario.c": "f6bed95c1a91d86bce76c22e313d1a3326bb56f0668dcd2e8531fa4ffdd7aaff"
+  }
+}

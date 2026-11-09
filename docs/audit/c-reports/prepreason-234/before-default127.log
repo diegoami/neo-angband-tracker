@@ -1,0 +1,15 @@
+native-c/prepreason-234: starting...
+SETUP seed=234 mode=default127 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=127
+  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0
+PREP cur=Collect from house (20 potions). next=Collect from house (20 potions).
+HOME ezheal=20
+TRACK # heading up, not prep for current level: Collect from house (20 potions).)
+TRACK # Climbing (too deep: Collect from house (20 potions).)
+TRACK # Returning to town to Collect stock.
+TRACK # Looking for up stairs.  Going up.
+TRACK # Reading Scrolls of Word of Recall.
+TRACK # Recalling to town (goal rising)
+DECISION rc=1 rising=1 keys=??rm?
+OUTCOME collect=1 recall=1
+Passed
+native-c/prepreason-234 finished: 1/1 passed

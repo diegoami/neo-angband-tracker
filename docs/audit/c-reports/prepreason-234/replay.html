@@ -1,0 +1,106 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The next depth&#x27;s reason hid &#x27;Collect from house&#x27;</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The next depth&#x27;s reason hid &#x27;Collect from house&#x27;</h1><p>When the Borg decides whether to leave a level, it asks borg_prepared() why it is not ready for the current depth and for the next one. Every formatted reason is written into the same static text buffer, so asking about the next depth overwrote the current depth&#x27;s answer before it was used. At depth 99 with Potions of *Healing* waiting at home, the current depth&#x27;s reason is &#x27;Collect from house (20 potions).&#x27;, which should send the Borg back to town to fetch them. With borg_no_deeper set to 100 (stop before Morgoth&#x27;s level), the next depth&#x27;s reason is &#x27;No deeper 100.&#x27;, and that text replaced it: the Borg printed the wrong reason, did not decide to collect, and walked to an up staircase instead of reading Word of Recall. The correction copies the current depth&#x27;s reason before the next call; the Borg then recalls to town to collect.</p><p><label>Scenario: <select id="scenario"><option value="nodeeper100">Depth 99, borg_no_deeper = 100: current &#x27;Collect from house&#x27;, next &#x27;No deeper 100.&#x27;</option><option value="default127">Control: depth 99, borg_no_deeper = 127: both depths say &#x27;Collect from house&#x27;</option><option value="prepared97">Control: depth 97 with 30 *Healing* carried: current depth prepared</option></select></label></p><section class="scenario" data-mode="nodeeper100"><p class="summary">Original: the depth-100 call overwrites the buffer, so the notes say &#x27;not prep for current level: No deeper 100.&#x27;, the &#x27;Collect from house&#x27; test fails, and the Borg flows toward the up staircase (key 6). Corrected: the notes give &#x27;Collect from house (20 potions).&#x27;, the Borg decides &#x27;Returning to town to Collect stock.&#x27; and reads Word of Recall.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>decided to collect from the house (1 = &#x27;Returning to town to Collect stock&#x27;)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK # heading up, not prep for current level: No deeper 100.)
+TRACK # Climbing (too deep: No deeper 100.)
+TRACK # Looking for up stairs.  Going up.
+TRACK # Flowing toward up-stairs at cost 25
+TRACK # Going to stairs up. I&#x27;m bored.
+DECISION rc=1 rising=0 keys=6</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>decided to collect from the house (1 = &#x27;Returning to town to Collect stock&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # heading up, not prep for current level: Collect from house (20 potions).)
+TRACK # Climbing (too deep: Collect from house (20 potions).)
+TRACK # Returning to town to Collect stock.
+TRACK # Looking for up stairs.  Going up.
+TRACK # Reading Scrolls of Word of Recall.
+TRACK # Recalling to town (goal rising)
+DECISION rc=1 rising=1 keys=??rm?</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/prepreason-234: starting...
+SETUP seed=234 mode=nodeeper100 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=100
+  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0
+PREP cur=Collect from house (20 potions). next=No deeper 100.
+HOME ezheal=20
+TRACK # heading up, not prep for current level: No deeper 100.)
+TRACK # Climbing (too deep: No deeper 100.)
+TRACK # Looking for up stairs.  Going up.
+TRACK # Flowing toward up-stairs at cost 25
+TRACK # Going to stairs up. I&#x27;m bored.
+DECISION rc=1 rising=0 keys=6
+OUTCOME collect=0 recall=0
+Failed
+    native-c/prepreason-234:276: requirement &#x27;collect &amp;&amp; recall&#x27; failed
+native-c/prepreason-234 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/prepreason-234: starting...
+SETUP seed=234 mode=nodeeper100 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=100
+  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0
+PREP cur=Collect from house (20 potions). next=No deeper 100.
+HOME ezheal=20
+TRACK # heading up, not prep for current level: Collect from house (20 potions).)
+TRACK # Climbing (too deep: Collect from house (20 potions).)
+TRACK # Returning to town to Collect stock.
+TRACK # Looking for up stairs.  Going up.
+TRACK # Reading Scrolls of Word of Recall.
+TRACK # Recalling to town (goal rising)
+DECISION rc=1 rising=1 keys=??rm?
+OUTCOME collect=1 recall=1
+Passed
+native-c/prepreason-234 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="default127"><p class="summary">The next depth gives the same text, so the overwrite changes nothing; both versions decide to collect and read Word of Recall, and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>decided to collect from the house (1 = &#x27;Returning to town to Collect stock&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # heading up, not prep for current level: Collect from house (20 potions).)
+TRACK # Climbing (too deep: Collect from house (20 potions).)
+TRACK # Returning to town to Collect stock.
+TRACK # Looking for up stairs.  Going up.
+TRACK # Reading Scrolls of Word of Recall.
+TRACK # Recalling to town (goal rising)
+DECISION rc=1 rising=1 keys=??rm?</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>decided to collect from the house (1 = &#x27;Returning to town to Collect stock&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # heading up, not prep for current level: Collect from house (20 potions).)
+TRACK # Climbing (too deep: Collect from house (20 potions).)
+TRACK # Returning to town to Collect stock.
+TRACK # Looking for up stairs.  Going up.
+TRACK # Reading Scrolls of Word of Recall.
+TRACK # Recalling to town (goal rising)
+DECISION rc=1 rising=1 keys=??rm?</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/prepreason-234: starting...
+SETUP seed=234 mode=default127 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=127
+  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0
+PREP cur=Collect from house (20 potions). next=Collect from house (20 potions).
+HOME ezheal=20
+TRACK # heading up, not prep for current level: Collect from house (20 potions).)
+TRACK # Climbing (too deep: Collect from house (20 potions).)
+TRACK # Returning to town to Collect stock.
+TRACK # Looking for up stairs.  Going up.
+TRACK # Reading Scrolls of Word of Recall.
+TRACK # Recalling to town (goal rising)
+DECISION rc=1 rising=1 keys=??rm?
+OUTCOME collect=1 recall=1
+Passed
+native-c/prepreason-234 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/prepreason-234: starting...
+SETUP seed=234 mode=default127 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=127
+  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0
+PREP cur=Collect from house (20 potions). next=Collect from house (20 potions).
+HOME ezheal=20
+TRACK # heading up, not prep for current level: Collect from house (20 potions).)
+TRACK # Climbing (too deep: Collect from house (20 potions).)
+TRACK # Returning to town to Collect stock.
+TRACK # Looking for up stairs.  Going up.
+TRACK # Reading Scrolls of Word of Recall.
+TRACK # Recalling to town (goal rising)
+DECISION rc=1 rising=1 keys=??rm?
+OUTCOME collect=1 recall=1
+Passed
+native-c/prepreason-234 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="prepared97"><p class="summary">No reason for the current depth; neither version takes the collect branch (both power-dive), and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>decided to collect from the house (1 = &#x27;Returning to town to Collect stock&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # power dive, head deep.
+DECISION rc=0 rising=0 keys=</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>decided to collect from the house (1 = &#x27;Returning to town to Collect stock&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK # power dive, head deep.
+DECISION rc=0 rising=0 keys=</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/prepreason-234: starting...
+SETUP seed=234 mode=prepared97 class=Warrior clevel=50 depth=97 max_depth=99 no_deeper=100
+  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=30 heal=5 aspeed=15 bigfight=0
+PREP cur=(prepared) next=(prepared)
+HOME ezheal=20
+TRACK # power dive, head deep.
+DECISION rc=0 rising=0 keys=
+OUTCOME collect=0 recall=0
+Passed
+native-c/prepreason-234 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/prepreason-234: starting...
+SETUP seed=234 mode=prepared97 class=Warrior clevel=50 depth=97 max_depth=99 no_deeper=100
+  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=30 heal=5 aspeed=15 bigfight=0
+PREP cur=(prepared) next=(prepared)
+HOME ezheal=20
+TRACK # power dive, head deep.
+DECISION rc=0 rising=0 keys=
+OUTCOME collect=0 recall=0
+Passed
+native-c/prepreason-234 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 234, character level 50, maximum depth 99, at depth 99 (&#x27;nodeeper100&#x27;, &#x27;default127&#x27;) or 97 (&#x27;prepared97&#x27;), in a lit 40x24 arena with one up staircase 25 steps east that the Borg has seen. Endgame kit from real game items with every rune known: &#x27;Bladeturner&#x27; (all resists, blind, confusion, hold life), &#x27;Dal-i-thalion&#x27; (free action, +5 speed), an Amulet of ESP, two Rings of Speed, a Mace of Disruption, a Lantern; carried: food, oil, Word of Recall x4, Teleportation x8, Teleport Level x3, Phase Door x10, Healing x5, Speed x15, and *Healing* x15 (x30 in &#x27;prepared97&#x27;). The home holds 20 Potions of *Healing*. Fixture interventions, disclosed: STR, DEX and CON set to 18/100; the Borg&#x27;s clock set so it has just arrived on the level and was last in town 5000 game turns ago; borg_cfg[BORG_NO_DEEPER] set to 100 (the same as the borg.txt line &#x27;borg_no_deeper = 100&#x27;) except in &#x27;default127&#x27;, which keeps the profile&#x27;s 127. The production borg_leave_level(false) runs once; its notes, goal and first queued keys are read back. This isolates the leave-level decision; it does not play the recall or the visit home.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/234">issue 234</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

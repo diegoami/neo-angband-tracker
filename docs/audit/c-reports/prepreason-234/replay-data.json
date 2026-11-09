@@ -1,0 +1,114 @@
+{
+  "nodeeper100": {
+    "label": "Depth 99, borg_no_deeper = 100: current 'Collect from house', next 'No deeper 100.'",
+    "explanation": "Original: the depth-100 call overwrites the buffer, so the notes say 'not prep for current level: No deeper 100.', the 'Collect from house' test fails, and the Borg flows toward the up staircase (key 6). Corrected: the notes give 'Collect from house (20 potions).', the Borg decides 'Returning to town to Collect stock.' and reads Word of Recall.",
+    "control": false,
+    "before": {
+      "raw": "native-c/prepreason-234: starting...\nSETUP seed=234 mode=nodeeper100 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=100\n  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0\nPREP cur=Collect from house (20 potions). next=No deeper 100.\nHOME ezheal=20\nTRACK # heading up, not prep for current level: No deeper 100.)\nTRACK # Climbing (too deep: No deeper 100.)\nTRACK # Looking for up stairs.  Going up.\nTRACK # Flowing toward up-stairs at cost 25\nTRACK # Going to stairs up. I'm bored.\nDECISION rc=1 rising=0 keys=6\nOUTCOME collect=0 recall=0\nFailed\n    native-c/prepreason-234:276: requirement 'collect && recall' failed\nnative-c/prepreason-234 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "collect": 0,
+        "recall": 0
+      },
+      "notes": [
+        "TRACK # heading up, not prep for current level: No deeper 100.)",
+        "TRACK # Climbing (too deep: No deeper 100.)",
+        "TRACK # Looking for up stairs.  Going up.",
+        "TRACK # Flowing toward up-stairs at cost 25",
+        "TRACK # Going to stairs up. I'm bored.",
+        "DECISION rc=1 rising=0 keys=6"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/prepreason-234: starting...\nSETUP seed=234 mode=nodeeper100 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=100\n  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0\nPREP cur=Collect from house (20 potions). next=No deeper 100.\nHOME ezheal=20\nTRACK # heading up, not prep for current level: Collect from house (20 potions).)\nTRACK # Climbing (too deep: Collect from house (20 potions).)\nTRACK # Returning to town to Collect stock.\nTRACK # Looking for up stairs.  Going up.\nTRACK # Reading Scrolls of Word of Recall.\nTRACK # Recalling to town (goal rising)\nDECISION rc=1 rising=1 keys=??rm?\nOUTCOME collect=1 recall=1\nPassed\nnative-c/prepreason-234 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "collect": 1,
+        "recall": 1
+      },
+      "notes": [
+        "TRACK # heading up, not prep for current level: Collect from house (20 potions).)",
+        "TRACK # Climbing (too deep: Collect from house (20 potions).)",
+        "TRACK # Returning to town to Collect stock.",
+        "TRACK # Looking for up stairs.  Going up.",
+        "TRACK # Reading Scrolls of Word of Recall.",
+        "TRACK # Recalling to town (goal rising)",
+        "DECISION rc=1 rising=1 keys=??rm?"
+      ],
+      "value": 1
+    }
+  },
+  "default127": {
+    "label": "Control: depth 99, borg_no_deeper = 127: both depths say 'Collect from house'",
+    "explanation": "The next depth gives the same text, so the overwrite changes nothing; both versions decide to collect and read Word of Recall, and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/prepreason-234: starting...\nSETUP seed=234 mode=default127 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=127\n  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0\nPREP cur=Collect from house (20 potions). next=Collect from house (20 potions).\nHOME ezheal=20\nTRACK # heading up, not prep for current level: Collect from house (20 potions).)\nTRACK # Climbing (too deep: Collect from house (20 potions).)\nTRACK # Returning to town to Collect stock.\nTRACK # Looking for up stairs.  Going up.\nTRACK # Reading Scrolls of Word of Recall.\nTRACK # Recalling to town (goal rising)\nDECISION rc=1 rising=1 keys=??rm?\nOUTCOME collect=1 recall=1\nPassed\nnative-c/prepreason-234 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "collect": 1,
+        "recall": 1
+      },
+      "notes": [
+        "TRACK # heading up, not prep for current level: Collect from house (20 potions).)",
+        "TRACK # Climbing (too deep: Collect from house (20 potions).)",
+        "TRACK # Returning to town to Collect stock.",
+        "TRACK # Looking for up stairs.  Going up.",
+        "TRACK # Reading Scrolls of Word of Recall.",
+        "TRACK # Recalling to town (goal rising)",
+        "DECISION rc=1 rising=1 keys=??rm?"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/prepreason-234: starting...\nSETUP seed=234 mode=default127 class=Warrior clevel=50 depth=99 max_depth=99 no_deeper=127\n  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=15 heal=5 aspeed=15 bigfight=0\nPREP cur=Collect from house (20 potions). next=Collect from house (20 potions).\nHOME ezheal=20\nTRACK # heading up, not prep for current level: Collect from house (20 potions).)\nTRACK # Climbing (too deep: Collect from house (20 potions).)\nTRACK # Returning to town to Collect stock.\nTRACK # Looking for up stairs.  Going up.\nTRACK # Reading Scrolls of Word of Recall.\nTRACK # Recalling to town (goal rising)\nDECISION rc=1 rising=1 keys=??rm?\nOUTCOME collect=1 recall=1\nPassed\nnative-c/prepreason-234 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "collect": 1,
+        "recall": 1
+      },
+      "notes": [
+        "TRACK # heading up, not prep for current level: Collect from house (20 potions).)",
+        "TRACK # Climbing (too deep: Collect from house (20 potions).)",
+        "TRACK # Returning to town to Collect stock.",
+        "TRACK # Looking for up stairs.  Going up.",
+        "TRACK # Reading Scrolls of Word of Recall.",
+        "TRACK # Recalling to town (goal rising)",
+        "DECISION rc=1 rising=1 keys=??rm?"
+      ],
+      "value": 1
+    }
+  },
+  "prepared97": {
+    "label": "Control: depth 97 with 30 *Healing* carried: current depth prepared",
+    "explanation": "No reason for the current depth; neither version takes the collect branch (both power-dive), and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/prepreason-234: starting...\nSETUP seed=234 mode=prepared97 class=Warrior clevel=50 depth=97 max_depth=99 no_deeper=100\n  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=30 heal=5 aspeed=15 bigfight=0\nPREP cur=(prepared) next=(prepared)\nHOME ezheal=20\nTRACK # power dive, head deep.\nDECISION rc=0 rising=0 keys=\nOUTCOME collect=0 recall=0\nPassed\nnative-c/prepreason-234 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "collect": 0,
+        "recall": 0
+      },
+      "notes": [
+        "TRACK # power dive, head deep.",
+        "DECISION rc=0 rising=0 keys="
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/prepreason-234: starting...\nSETUP seed=234 mode=prepared97 class=Warrior clevel=50 depth=97 max_depth=99 no_deeper=100\n  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=30 heal=5 aspeed=15 bigfight=0\nPREP cur=(prepared) next=(prepared)\nHOME ezheal=20\nTRACK # power dive, head deep.\nDECISION rc=0 rising=0 keys=\nOUTCOME collect=0 recall=0\nPassed\nnative-c/prepreason-234 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "collect": 0,
+        "recall": 0
+      },
+      "notes": [
+        "TRACK # power dive, head deep.",
+        "DECISION rc=0 rising=0 keys="
+      ],
+      "value": 0
+    }
+  }
+}
