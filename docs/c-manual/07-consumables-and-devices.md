@@ -501,8 +501,8 @@ fail  = 380 - 370 * x / (5 + |x|)          (out of 1000, integer arithmetic)
 The use succeeds unless `randint1(1000) < fail` (`src/cmd-obj.c:check_devices()`). A failed use
 costs a turn. **Since 4.2.6 a failed use is automatically retried until it succeeds or you are
 disturbed** (changes.txt; `use_aux()` returns "repeat" when the check failed but the rate is under
-100%). A wand or staff with no charges just reports "no charges left" (the command still
-takes a turn) and is not retried.
+100%). A wand or staff with no charges is refused before any roll ("That staff has no
+charges", `do_cmd_use_staff()`/`do_cmd_aim_wand()`), costing no turn.
 
 | skill - level | -30 | -20 | -10 | -5 | -3 | -1 | 0 | +1 | +3 | +5 | +10 | +15 | +20 | +30 | +40 | +60 |
 |---------------|-----|-----|-----|----|----|----|---|----|----|----|-----|-----|-----|-----|-----|-----|
