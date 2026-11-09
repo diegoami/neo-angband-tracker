@@ -12,6 +12,9 @@ coverage/
 .env
 .env.*
 *.log
+# Native C evidence packages keep their phase and gate logs: receipts hash
+# them, and reviewers compare control logs byte for byte.
+!docs/audit/c-reports/**/*.log
 
 # Reference C-tree build artifacts (built locally as the parity oracle)
 reference/build*/
