@@ -1,0 +1,10 @@
+native-c/torodpower-560: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=560 mode=mage class=Mage clevel=30 gold=20000 msp=49
+  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK power_now=1516641 power_with_rod=1516641
+STATE atportother=1000 power_gain=0
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1
+OUTCOME buys_rod=0
+Passed
+native-c/torodpower-560 finished: 1/1 passed

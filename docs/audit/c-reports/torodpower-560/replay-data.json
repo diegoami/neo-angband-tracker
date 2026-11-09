@@ -1,0 +1,113 @@
+{
+  "rod": {
+    "label": "Warrior with 20000 gold, no Teleport Other",
+    "explanation": "Original: Teleport Other count 0 with the rod too, power 805500 with and without it, so borg_think_shop_buy_useful() chooses nothing (buy_useful=0). Corrected: the rod counts as 1, power rises to 865500 (+60000: 5000 for having Teleport Other, 50000 more for a Warrior, 5000 for the charge), and the shop step chooses Black Market ware 0, the rod (buy_useful=1 goal_shop=6 goal_ware=0).",
+    "control": false,
+    "before": {
+      "raw": "native-c/torodpower-560: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=560 mode=rod class=Warrior clevel=30 gold=20000 msp=0\n  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK power_now=805500 power_with_rod=805500\nSTATE atportother=0 power_gain=0\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1\nOUTCOME buys_rod=0\nFailed\n    native-c/torodpower-560:205: requirement 'buys' failed\nnative-c/torodpower-560 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "atportother": 0,
+        "power_gain": 0
+      },
+      "outcome": {
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK power_now=805500 power_with_rod=805500",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/torodpower-560: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=560 mode=rod class=Warrior clevel=30 gold=20000 msp=0\n  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK power_now=805500 power_with_rod=865500\nSTATE atportother=0 power_gain=60000\nDECISION buy_useful=1 goal_shop=6 goal_ware=0\nOUTCOME buys_rod=1\nPassed\nnative-c/torodpower-560 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 0,
+        "power_gain": 60000
+      },
+      "outcome": {
+        "buys_rod": 1
+      },
+      "notes": [
+        "TRACK power_now=805500 power_with_rod=865500",
+        "DECISION buy_useful=1 goal_shop=6 goal_ware=0"
+      ],
+      "value": 1
+    }
+  },
+  "wand": {
+    "label": "Control: Warrior already carrying Wands of Teleport Other (16 charges)",
+    "explanation": "The Warrior's count is already 16 from the wand charges. The corrected code counts the rod as one more (the changed line runs while the shop step evaluates the rod), but the reward per charge stops at 15, so power stays 935500 and neither version buys the rod. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/torodpower-560: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=560 mode=wand class=Warrior clevel=30 gold=20000 msp=0\n  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK power_now=935500 power_with_rod=935500\nSTATE atportother=16 power_gain=0\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1\nOUTCOME buys_rod=0\nPassed\nnative-c/torodpower-560 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 16,
+        "power_gain": 0
+      },
+      "outcome": {
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK power_now=935500 power_with_rod=935500",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/torodpower-560: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=560 mode=wand class=Warrior clevel=30 gold=20000 msp=0\n  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK power_now=935500 power_with_rod=935500\nSTATE atportother=16 power_gain=0\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1\nOUTCOME buys_rod=0\nPassed\nnative-c/torodpower-560 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 16,
+        "power_gain": 0
+      },
+      "outcome": {
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK power_now=935500 power_with_rod=935500",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1"
+      ],
+      "value": 0
+    }
+  },
+  "mage": {
+    "label": "Control: Mage who knows Teleport Other",
+    "explanation": "The Mage's count is already 1000 from the spell. The rod adds one in the corrected code (the changed line runs), power stays 1516641 and neither version buys the rod. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/torodpower-560: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=560 mode=mage class=Mage clevel=30 gold=20000 msp=49\n  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK power_now=1516641 power_with_rod=1516641\nSTATE atportother=1000 power_gain=0\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1\nOUTCOME buys_rod=0\nPassed\nnative-c/torodpower-560 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 1000,
+        "power_gain": 0
+      },
+      "outcome": {
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK power_now=1516641 power_with_rod=1516641",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/torodpower-560: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=560 mode=mage class=Mage clevel=30 gold=20000 msp=49\n  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK power_now=1516641 power_with_rod=1516641\nSTATE atportother=1000 power_gain=0\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1\nOUTCOME buys_rod=0\nPassed\nnative-c/torodpower-560 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 1000,
+        "power_gain": 0
+      },
+      "outcome": {
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK power_now=1516641 power_with_rod=1516641",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1"
+      ],
+      "value": 0
+    }
+  }
+}
