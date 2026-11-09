@@ -1,0 +1,99 @@
+{
+  "issue": "diegoami/neo-angband-tracker#20",
+  "report": "tradehist-20",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "9ae5e4585599aa4f3c5dce7c2259fe7e2604cea1",
+  "fix_branch": "task/tradehist-20",
+  "fixtures_ref": "942c80a50ecd986daa5629c7903139bdfa1866f7",
+  "cases": {
+    "rations-only": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "stashed_rations": 3,
+          "retrieved_rations": 2
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "stashed_rations": 3,
+          "retrieved_rations": 0
+        }
+      }
+    },
+    "with-recall": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "stashed_rations": 3,
+          "retrieved_rations": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "stashed_rations": 3,
+          "retrieved_rations": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "with-recall"
+  ],
+  "claim": "borg_think_shop_sell() and borg_think_shop_buy() stored the index of the entry just written in sold_item_num / bought_item_num, while every reader scans p < num, so the newest sale or purchase was never checked. A level-6 Warrior that stored 3 of its 11 rations at home took 2 back out over its next two store turns. Counting the slots in use restores the check; the control in which the stored rations are not the newest entry is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-buy.c",
+    "src/borg/borg-store-sell.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-sell.c": "0729fabaa643bd5e157fa42c7597ec2e91ec05b73b262d5be0ec16e6700d579c",
+    "src/borg/borg-store-buy.c": "d850dcc2681cb923da69dc44d25121673ed6b99de34a42071c4ce4adf5fa8e1a"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "303f2e15cc11e2d5a8b4f3a7b7ae06718ddf9f6acf7a4765e7fb6a0005725c77",
+    "after-rations-only.log": "1bbf0651941e0f9a96b4afc1cb9088897159af8ad66da4ac055a988796d94ec0",
+    "after-results.json": "43ebbebe1dfd9cc46215d48c5c645aecd9e74ae56cd94bb124a3f15083a4fe4b",
+    "after-with-recall.log": "4562368686963b565512e38e4e495e0021424bbb31108507a357facfac940d0e",
+    "before-rations-only.log": "8a4e121717c87b4f5350fa6d1b05e37659eaeba681e696b17bed1ad0bb916134",
+    "before-results.json": "3cf54a615c9c07401a32ebeb8f40e89cf51bd2adf50afb576b94e89ac5d1e024",
+    "before-with-recall.log": "4562368686963b565512e38e4e495e0021424bbb31108507a357facfac940d0e",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "9c4e58e7941e8f559da36a43b6d45d98cc2739abdfd1508c73fbfcbcfaf7d108",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "7846048f73bde5660d8c43e42dc0efa4fc3dac0ebba30a25868b422ae1f2a15a",
+    "replay.html": "c5433ca374766f0e82a7bb1aa2d2c3555d95e2decabe7b547588b718a1b7156e",
+    "reproduce.py": "d920e3a776b53e3ad5bcdf0ba8b7be6fef18c06598351f619922f27da85aef95",
+    "result.json": "59d2d813cf9052070b126d6b615e2b2199c200cdd7ad140a2a21fb115e01c8eb",
+    "run-after-alltests.log": "67546f3d511c20dd411670a29a83fb231f6fbb497db38cffdc17a86d85b04f75",
+    "run-after-build.log": "962c969d41bff6ffedc5c0e980e231de51b8a465353657f02374f0c8efd6bfdb",
+    "run-after-scenarios.log": "97edc1aecfbf087f2adc3d4fe180b09acc17bea0368c8873f59c9b534360b7a3",
+    "run-before-alltests.log": "35822862dfe941e54aa5410a20718a73ebd749a7c481d5c7a5861fc4e5a90efe",
+    "run-before-build.log": "421f87e2ca6988f820873eb93181a7e4fdb05d751f1ed07156c90617fcd7425e",
+    "run-before-scenarios.log": "6ae741cc9dd78476674b9d8b1b7aac1b455bf3b4be70cb886f551da7a456286b",
+    "run-cases.py": "3d53aa98969f3d211584ea4fc3a453835cc9a1e06737f0c9302b3fb77a033c11",
+    "run-configure.log": "409493d584d594c77cdc0500f46c148d57e14ca023013ca065359fbee139a9fe",
+    "scenario.c": "44bffb06af63f3352e9337d49c7ffd5d103137c2a204db50f375e5698774ec95"
+  }
+}

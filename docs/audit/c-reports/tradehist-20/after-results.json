@@ -1,0 +1,18 @@
+{
+  "rations-only": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "stashed_rations": 3,
+      "retrieved_rations": 0
+    }
+  },
+  "with-recall": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "stashed_rations": 3,
+      "retrieved_rations": 0
+    }
+  }
+}
