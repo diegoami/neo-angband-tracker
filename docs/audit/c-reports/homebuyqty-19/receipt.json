@@ -1,0 +1,156 @@
+{
+  "issue": "diegoami/neo-angband-tracker#19",
+  "report": "homebuyqty-19",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "e075f0ac7c618fdd32eb5bd4b49d1936e8738da4",
+  "fix_branch": "task/homebuyqty-19",
+  "fixtures_ref": "40495b33a5136be40b09b317f731f60841686c00",
+  "cases": {
+    "single": {
+      "before": {
+        "passed": false,
+        "state": {
+          "home_ware0_qty_after_step4": 0,
+          "home_ware0_qty_after_steps": 0
+        },
+        "outcome": {
+          "buys_home_ware0": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_step4": 1,
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      }
+    },
+    "pair": {
+      "before": {
+        "passed": false,
+        "state": {
+          "home_ware0_qty_after_step4": 1,
+          "home_ware0_qty_after_steps": 2
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_step4": 2,
+          "home_ware0_qty_after_steps": 2
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      }
+    },
+    "roomy": {
+      "before": {
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      }
+    },
+    "stack": {
+      "before": {
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_step4": 1,
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_step4": 1,
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "roomy",
+    "stack"
+  ],
+  "claim": "borg_think_home_buy_useful() subtracted the trial quantity from its home record before the two 'require two empty slots' checks, and those checks skipped the ware with a bare continue that bypassed the end-of-loop restore. With one free pack slot and a single Tulwar at home the record read 0 Tulwars, so the next store step that reads it (step 7A, backup weapon from home) skipped the Tulwar and the Borg took nothing. Restoring the ware before each skip makes step 7A buy the Tulwar. Controls with two free slots and with a stacking potion are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-buy.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "f23228c401477f67c46f11fba474b9fb633777aaf523f6d0c3940ee1af732335"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "a47f3d7c8d13d38177f773d9b757f85027b78e2b8ca2b023d9b5ed39a9e11dfa",
+    "after-pair.log": "424a2fe5f3de29349061ad888671b5d5644a06eb8621a6a80b17c85e64e1ecb1",
+    "after-results.json": "6427a4325946bba700895acf4e0b226ba07808a7bd7fb192497ee3151f9e2065",
+    "after-roomy.log": "a96be6685b4ddd95bae2cf3d2fd5fd10c73587523918a3dd6720d4034dec4507",
+    "after-single.log": "de211b0ffd92a402397da197b31e1779546354957c1a1135e0bafa99e804744b",
+    "after-stack.log": "de8d85cbd95d7736f2fc8e8afa6f387652fccaa6567ed9a45d4f83470824b4f9",
+    "before-pair.log": "8a40b8f30f1fe96ad5053ca1a2690baae6ab913c022c64986d158802b6ae95cd",
+    "before-results.json": "ce2835ff5c8de8ae82a627e39b26b24e7a389284f493c8bcf02cabf9b4796b3f",
+    "before-roomy.log": "a96be6685b4ddd95bae2cf3d2fd5fd10c73587523918a3dd6720d4034dec4507",
+    "before-single.log": "bd0dcabbbebe3e37e6a2617542a89273ce0ffdb8e9a867aba6670d4291e6f6d1",
+    "before-stack.log": "de8d85cbd95d7736f2fc8e8afa6f387652fccaa6567ed9a45d4f83470824b4f9",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "49e10f55af36a50b8237ba1bc5d0807c9fef47dafc7c6a84116c78d246ae0d8c",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "e79c7fcc97e16d1619abed2d8bbe1874b6fd09e5daf0ad77ae7b67e81670bb4e",
+    "replay.html": "debfbe8f8e1e7c6f7d0b3b0f22fbec35a1fe9289de74d5373c2f40db735e1834",
+    "reproduce.py": "e3b1e9d7742942afe1fe0e76ed1186ee04e61ec42b48af7ea0855600d15a5328",
+    "result.json": "8dfc653ccbf8c3bcfc4db014edbbdd3568634ecc49cf5f782315fbca21d54838",
+    "run-after-alltests.log": "ea5ca791dfe2c410cd6be24a67c6ec5870920bb1ba76ec852e45f87cb8ff1ca7",
+    "run-after-build.log": "b6f5bf117d5c98eda0dc841f4178a978b8c239a9e68b15749e5fb810da127434",
+    "run-after-scenarios.log": "b0c1c8e12334fc9ed1a3ac23df202b162892512608357b3b54f1402216a60477",
+    "run-before-alltests.log": "5a254a6dd65017523bcaede786ca4360d0cc79a5605c9a4711055c87091876c7",
+    "run-before-build.log": "20bfa5455cdae613232cd36a636ee08e2ecdd82a214b409bbd939f96a8b70184",
+    "run-before-scenarios.log": "9938a16ab7dda228e252361f1866d08426a5662ee3b4a34f7fb6e8cdf2a7e8d8",
+    "run-cases.py": "a619f92ee01ddfb1b88e0045fcd583d51a1b84cec5a22ea79c66e3bd9db7efb7",
+    "run-configure.log": "113676adc006d8ed567e141bad979e8849734c8de739879e23f9245d4ebf2ad6",
+    "scenario.c": "6dd3e4dae6753b727df902e3baeb5c1656d6c236fa1fef0bf2c40d5ed18f246e"
+  }
+}

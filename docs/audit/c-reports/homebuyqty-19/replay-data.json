@@ -1,0 +1,148 @@
+{
+  "single": {
+    "label": "One Tulwar at home, one free pack slot",
+    "explanation": "Original: step 4 takes the Tulwar off its home record, finds only one free pack slot and skips it, leaving the record at 0 Tulwars; step 7A then skips home slot 0 as empty and no step sets a goal. Corrected: the record is restored to 1, step 7A tries the Tulwar as a backup weapon and the Borg sets out to buy it from the home.",
+    "control": false,
+    "before": {
+      "raw": "native-c/homebuyqty-19: starting...\nSETUP seed=19 mode=single class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=22\n  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]\nPACK 1 qty=1 desc=[Potion of Cure Light Wounds]\nPACK 2 qty=1 desc=[Potion of Cure Serious Wounds]\nPACK 3 qty=1 desc=[Potion of Cure Critical Wounds]\nPACK 4 qty=1 desc=[Potion of Healing]\nPACK 5 qty=1 desc=[Potion of Neutralize Poison]\nPACK 6 qty=1 desc=[Potion of Speed]\nPACK 7 qty=1 desc=[Potion of Heroism]\nPACK 8 qty=1 desc=[Potion of Berserk Strength]\nPACK 9 qty=1 desc=[Potion of Resist Heat]\nPACK 10 qty=1 desc=[Potion of Resist Cold]\nPACK 11 qty=1 desc=[Potion of Resist Poison]\nPACK 12 qty=1 desc=[Potion of True Seeing]\nPACK 13 qty=1 desc=[Scroll of Phase Door]\nPACK 14 qty=1 desc=[Scroll of Teleportation]\nPACK 15 qty=1 desc=[Scroll of Teleport Level]\nPACK 16 qty=1 desc=[Scroll of Magic Mapping]\nPACK 17 qty=1 desc=[Scroll of Light]\nPACK 18 qty=1 desc=[Scroll of Word of Recall]\nPACK 19 qty=1 desc=[Scroll of Deep Descent]\nPACK 20 qty=1 desc=[Scroll of Blessing]\nPACK 21 qty=1 desc=[Scroll of Holy Chant]\nHOME 0 qty=1 desc=[Tulwar (2d4)]\nTRACK power_now=502483 uses_swaps=1 weapon_swap=0\nSTATE home_ware0_qty_after_step4=0\nSTEP decided_by=[none]\nSTATE home_ware0_qty_after_steps=0\nDECISION acts=0 goal_shop=-1 goal_ware=-1 goal_item=-1\nOUTCOME buys_home_ware0=0\nFailed\n    native-c/homebuyqty-19:217: requirement 'qty_after4 == qty_before' failed\nnative-c/homebuyqty-19 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "home_ware0_qty_after_step4": 0,
+        "home_ware0_qty_after_steps": 0
+      },
+      "outcome": {
+        "buys_home_ware0": 0
+      },
+      "notes": [
+        "TRACK power_now=502483 uses_swaps=1 weapon_swap=0",
+        "DECISION acts=0 goal_shop=-1 goal_ware=-1 goal_item=-1"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/homebuyqty-19: starting...\nSETUP seed=19 mode=single class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=22\n  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]\nPACK 1 qty=1 desc=[Potion of Cure Light Wounds]\nPACK 2 qty=1 desc=[Potion of Cure Serious Wounds]\nPACK 3 qty=1 desc=[Potion of Cure Critical Wounds]\nPACK 4 qty=1 desc=[Potion of Healing]\nPACK 5 qty=1 desc=[Potion of Neutralize Poison]\nPACK 6 qty=1 desc=[Potion of Speed]\nPACK 7 qty=1 desc=[Potion of Heroism]\nPACK 8 qty=1 desc=[Potion of Berserk Strength]\nPACK 9 qty=1 desc=[Potion of Resist Heat]\nPACK 10 qty=1 desc=[Potion of Resist Cold]\nPACK 11 qty=1 desc=[Potion of Resist Poison]\nPACK 12 qty=1 desc=[Potion of True Seeing]\nPACK 13 qty=1 desc=[Scroll of Phase Door]\nPACK 14 qty=1 desc=[Scroll of Teleportation]\nPACK 15 qty=1 desc=[Scroll of Teleport Level]\nPACK 16 qty=1 desc=[Scroll of Magic Mapping]\nPACK 17 qty=1 desc=[Scroll of Light]\nPACK 18 qty=1 desc=[Scroll of Word of Recall]\nPACK 19 qty=1 desc=[Scroll of Deep Descent]\nPACK 20 qty=1 desc=[Scroll of Blessing]\nPACK 21 qty=1 desc=[Scroll of Holy Chant]\nHOME 0 qty=1 desc=[Tulwar (2d4)]\nTRACK power_now=502483 uses_swaps=1 weapon_swap=0\nSTATE home_ware0_qty_after_step4=1\nSTEP decided_by=[7A buy backup weapon from home]\nSTATE home_ware0_qty_after_steps=1\nDECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1\nOUTCOME buys_home_ware0=1\nPassed\nnative-c/homebuyqty-19 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "home_ware0_qty_after_step4": 1,
+        "home_ware0_qty_after_steps": 1
+      },
+      "outcome": {
+        "buys_home_ware0": 1
+      },
+      "notes": [
+        "TRACK power_now=502483 uses_swaps=1 weapon_swap=0",
+        "DECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1"
+      ],
+      "value": 1
+    }
+  },
+  "pair": {
+    "label": "Two Tulwars at home, one free pack slot",
+    "explanation": "The same early skip leaves the record at 1 of 2 Tulwars in the original (2 corrected), so the record check fails before and passes after. One Tulwar is still visible, so step 7A buys a backup weapon in both versions: the decision is unchanged here, only the recorded quantity differs.",
+    "control": false,
+    "before": {
+      "raw": "native-c/homebuyqty-19: starting...\nSETUP seed=19 mode=pair class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=22\n  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]\nPACK 1 qty=1 desc=[Potion of Cure Light Wounds]\nPACK 2 qty=1 desc=[Potion of Cure Serious Wounds]\nPACK 3 qty=1 desc=[Potion of Cure Critical Wounds]\nPACK 4 qty=1 desc=[Potion of Healing]\nPACK 5 qty=1 desc=[Potion of Neutralize Poison]\nPACK 6 qty=1 desc=[Potion of Speed]\nPACK 7 qty=1 desc=[Potion of Heroism]\nPACK 8 qty=1 desc=[Potion of Berserk Strength]\nPACK 9 qty=1 desc=[Potion of Resist Heat]\nPACK 10 qty=1 desc=[Potion of Resist Cold]\nPACK 11 qty=1 desc=[Potion of Resist Poison]\nPACK 12 qty=1 desc=[Potion of True Seeing]\nPACK 13 qty=1 desc=[Scroll of Phase Door]\nPACK 14 qty=1 desc=[Scroll of Teleportation]\nPACK 15 qty=1 desc=[Scroll of Teleport Level]\nPACK 16 qty=1 desc=[Scroll of Magic Mapping]\nPACK 17 qty=1 desc=[Scroll of Light]\nPACK 18 qty=1 desc=[Scroll of Word of Recall]\nPACK 19 qty=1 desc=[Scroll of Deep Descent]\nPACK 20 qty=1 desc=[Scroll of Blessing]\nPACK 21 qty=1 desc=[Scroll of Holy Chant]\nHOME 0 qty=2 desc=[Tulwars (2d4)]\nTRACK power_now=502483 uses_swaps=1 weapon_swap=0\nSTATE home_ware0_qty_after_step4=1\nSTEP decided_by=[7A buy backup weapon from home]\nSTATE home_ware0_qty_after_steps=2\nDECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1\nOUTCOME buys_home_ware0=1\nFailed\n    native-c/homebuyqty-19:217: requirement 'qty_after4 == qty_before' failed\nnative-c/homebuyqty-19 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "home_ware0_qty_after_step4": 1,
+        "home_ware0_qty_after_steps": 2
+      },
+      "outcome": {
+        "buys_home_ware0": 1
+      },
+      "notes": [
+        "TRACK power_now=502483 uses_swaps=1 weapon_swap=0",
+        "DECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/homebuyqty-19: starting...\nSETUP seed=19 mode=pair class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=22\n  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]\nPACK 1 qty=1 desc=[Potion of Cure Light Wounds]\nPACK 2 qty=1 desc=[Potion of Cure Serious Wounds]\nPACK 3 qty=1 desc=[Potion of Cure Critical Wounds]\nPACK 4 qty=1 desc=[Potion of Healing]\nPACK 5 qty=1 desc=[Potion of Neutralize Poison]\nPACK 6 qty=1 desc=[Potion of Speed]\nPACK 7 qty=1 desc=[Potion of Heroism]\nPACK 8 qty=1 desc=[Potion of Berserk Strength]\nPACK 9 qty=1 desc=[Potion of Resist Heat]\nPACK 10 qty=1 desc=[Potion of Resist Cold]\nPACK 11 qty=1 desc=[Potion of Resist Poison]\nPACK 12 qty=1 desc=[Potion of True Seeing]\nPACK 13 qty=1 desc=[Scroll of Phase Door]\nPACK 14 qty=1 desc=[Scroll of Teleportation]\nPACK 15 qty=1 desc=[Scroll of Teleport Level]\nPACK 16 qty=1 desc=[Scroll of Magic Mapping]\nPACK 17 qty=1 desc=[Scroll of Light]\nPACK 18 qty=1 desc=[Scroll of Word of Recall]\nPACK 19 qty=1 desc=[Scroll of Deep Descent]\nPACK 20 qty=1 desc=[Scroll of Blessing]\nPACK 21 qty=1 desc=[Scroll of Holy Chant]\nHOME 0 qty=2 desc=[Tulwars (2d4)]\nTRACK power_now=502483 uses_swaps=1 weapon_swap=0\nSTATE home_ware0_qty_after_step4=2\nSTEP decided_by=[7A buy backup weapon from home]\nSTATE home_ware0_qty_after_steps=2\nDECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1\nOUTCOME buys_home_ware0=1\nPassed\nnative-c/homebuyqty-19 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "home_ware0_qty_after_step4": 2,
+        "home_ware0_qty_after_steps": 2
+      },
+      "outcome": {
+        "buys_home_ware0": 1
+      },
+      "notes": [
+        "TRACK power_now=502483 uses_swaps=1 weapon_swap=0",
+        "DECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1"
+      ],
+      "value": 1
+    }
+  },
+  "roomy": {
+    "label": "Control: one Tulwar, two free pack slots",
+    "explanation": "With two free slots the room check passes, the trial runs to the end and the record is restored as before; step 4 itself picks the Tulwar in both versions. The logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/homebuyqty-19: starting...\nSETUP seed=19 mode=roomy class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=21\n  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]\nPACK 1 qty=1 desc=[Potion of Cure Light Wounds]\nPACK 2 qty=1 desc=[Potion of Cure Serious Wounds]\nPACK 3 qty=1 desc=[Potion of Cure Critical Wounds]\nPACK 4 qty=1 desc=[Potion of Healing]\nPACK 5 qty=1 desc=[Potion of Neutralize Poison]\nPACK 6 qty=1 desc=[Potion of Speed]\nPACK 7 qty=1 desc=[Potion of Heroism]\nPACK 8 qty=1 desc=[Potion of Berserk Strength]\nPACK 9 qty=1 desc=[Potion of Resist Heat]\nPACK 10 qty=1 desc=[Potion of Resist Cold]\nPACK 11 qty=1 desc=[Potion of Resist Poison]\nPACK 12 qty=1 desc=[Potion of True Seeing]\nPACK 13 qty=1 desc=[Scroll of Phase Door]\nPACK 14 qty=1 desc=[Scroll of Teleportation]\nPACK 15 qty=1 desc=[Scroll of Teleport Level]\nPACK 16 qty=1 desc=[Scroll of Magic Mapping]\nPACK 17 qty=1 desc=[Scroll of Word of Recall]\nPACK 18 qty=1 desc=[Scroll of Deep Descent]\nPACK 19 qty=1 desc=[Scroll of Blessing]\nPACK 20 qty=1 desc=[Scroll of Holy Chant]\nHOME 0 qty=1 desc=[Tulwar (2d4)]\nTRACK power_now=502523 uses_swaps=1 weapon_swap=0\nSTEP decided_by=[4 buy useful from home]\nSTATE home_ware0_qty_after_steps=1\nDECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1\nOUTCOME buys_home_ware0=1\nPassed\nnative-c/homebuyqty-19 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "home_ware0_qty_after_steps": 1
+      },
+      "outcome": {
+        "buys_home_ware0": 1
+      },
+      "notes": [
+        "TRACK power_now=502523 uses_swaps=1 weapon_swap=0",
+        "DECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/homebuyqty-19: starting...\nSETUP seed=19 mode=roomy class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=21\n  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]\nPACK 1 qty=1 desc=[Potion of Cure Light Wounds]\nPACK 2 qty=1 desc=[Potion of Cure Serious Wounds]\nPACK 3 qty=1 desc=[Potion of Cure Critical Wounds]\nPACK 4 qty=1 desc=[Potion of Healing]\nPACK 5 qty=1 desc=[Potion of Neutralize Poison]\nPACK 6 qty=1 desc=[Potion of Speed]\nPACK 7 qty=1 desc=[Potion of Heroism]\nPACK 8 qty=1 desc=[Potion of Berserk Strength]\nPACK 9 qty=1 desc=[Potion of Resist Heat]\nPACK 10 qty=1 desc=[Potion of Resist Cold]\nPACK 11 qty=1 desc=[Potion of Resist Poison]\nPACK 12 qty=1 desc=[Potion of True Seeing]\nPACK 13 qty=1 desc=[Scroll of Phase Door]\nPACK 14 qty=1 desc=[Scroll of Teleportation]\nPACK 15 qty=1 desc=[Scroll of Teleport Level]\nPACK 16 qty=1 desc=[Scroll of Magic Mapping]\nPACK 17 qty=1 desc=[Scroll of Word of Recall]\nPACK 18 qty=1 desc=[Scroll of Deep Descent]\nPACK 19 qty=1 desc=[Scroll of Blessing]\nPACK 20 qty=1 desc=[Scroll of Holy Chant]\nHOME 0 qty=1 desc=[Tulwar (2d4)]\nTRACK power_now=502523 uses_swaps=1 weapon_swap=0\nSTEP decided_by=[4 buy useful from home]\nSTATE home_ware0_qty_after_steps=1\nDECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1\nOUTCOME buys_home_ware0=1\nPassed\nnative-c/homebuyqty-19 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "home_ware0_qty_after_steps": 1
+      },
+      "outcome": {
+        "buys_home_ware0": 1
+      },
+      "notes": [
+        "TRACK power_now=502523 uses_swaps=1 weapon_swap=0",
+        "DECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1"
+      ],
+      "value": 1
+    }
+  },
+  "stack": {
+    "label": "Control: a potion at home that stacks with the pack",
+    "explanation": "The home potion would join an existing pack stack, so the inventory trial needs no free slot and runs to the end; the record is restored as before and no step takes anything. The logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/homebuyqty-19: starting...\nSETUP seed=19 mode=stack class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=22\n  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]\nPACK 1 qty=1 desc=[Potion of Cure Light Wounds]\nPACK 2 qty=1 desc=[Potion of Cure Serious Wounds]\nPACK 3 qty=1 desc=[Potion of Cure Critical Wounds]\nPACK 4 qty=1 desc=[Potion of Healing]\nPACK 5 qty=1 desc=[Potion of Neutralize Poison]\nPACK 6 qty=1 desc=[Potion of Speed]\nPACK 7 qty=1 desc=[Potion of Heroism]\nPACK 8 qty=1 desc=[Potion of Berserk Strength]\nPACK 9 qty=1 desc=[Potion of Resist Heat]\nPACK 10 qty=1 desc=[Potion of Resist Cold]\nPACK 11 qty=1 desc=[Potion of Resist Poison]\nPACK 12 qty=1 desc=[Potion of True Seeing]\nPACK 13 qty=1 desc=[Scroll of Phase Door]\nPACK 14 qty=1 desc=[Scroll of Teleportation]\nPACK 15 qty=1 desc=[Scroll of Teleport Level]\nPACK 16 qty=1 desc=[Scroll of Magic Mapping]\nPACK 17 qty=1 desc=[Scroll of Light]\nPACK 18 qty=1 desc=[Scroll of Word of Recall]\nPACK 19 qty=1 desc=[Scroll of Deep Descent]\nPACK 20 qty=1 desc=[Scroll of Blessing]\nPACK 21 qty=1 desc=[Scroll of Holy Chant]\nHOME 0 qty=1 desc=[Potion of Cure Light Wounds]\nTRACK power_now=502483 uses_swaps=1 weapon_swap=0\nSTATE home_ware0_qty_after_step4=1\nSTEP decided_by=[none]\nSTATE home_ware0_qty_after_steps=1\nDECISION acts=0 goal_shop=-1 goal_ware=-1 goal_item=-1\nOUTCOME buys_home_ware0=0\nPassed\nnative-c/homebuyqty-19 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "home_ware0_qty_after_step4": 1,
+        "home_ware0_qty_after_steps": 1
+      },
+      "outcome": {
+        "buys_home_ware0": 0
+      },
+      "notes": [
+        "TRACK power_now=502483 uses_swaps=1 weapon_swap=0",
+        "DECISION acts=0 goal_shop=-1 goal_ware=-1 goal_item=-1"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/homebuyqty-19: starting...\nSETUP seed=19 mode=stack class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=22\n  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]\nPACK 1 qty=1 desc=[Potion of Cure Light Wounds]\nPACK 2 qty=1 desc=[Potion of Cure Serious Wounds]\nPACK 3 qty=1 desc=[Potion of Cure Critical Wounds]\nPACK 4 qty=1 desc=[Potion of Healing]\nPACK 5 qty=1 desc=[Potion of Neutralize Poison]\nPACK 6 qty=1 desc=[Potion of Speed]\nPACK 7 qty=1 desc=[Potion of Heroism]\nPACK 8 qty=1 desc=[Potion of Berserk Strength]\nPACK 9 qty=1 desc=[Potion of Resist Heat]\nPACK 10 qty=1 desc=[Potion of Resist Cold]\nPACK 11 qty=1 desc=[Potion of Resist Poison]\nPACK 12 qty=1 desc=[Potion of True Seeing]\nPACK 13 qty=1 desc=[Scroll of Phase Door]\nPACK 14 qty=1 desc=[Scroll of Teleportation]\nPACK 15 qty=1 desc=[Scroll of Teleport Level]\nPACK 16 qty=1 desc=[Scroll of Magic Mapping]\nPACK 17 qty=1 desc=[Scroll of Light]\nPACK 18 qty=1 desc=[Scroll of Word of Recall]\nPACK 19 qty=1 desc=[Scroll of Deep Descent]\nPACK 20 qty=1 desc=[Scroll of Blessing]\nPACK 21 qty=1 desc=[Scroll of Holy Chant]\nHOME 0 qty=1 desc=[Potion of Cure Light Wounds]\nTRACK power_now=502483 uses_swaps=1 weapon_swap=0\nSTATE home_ware0_qty_after_step4=1\nSTEP decided_by=[none]\nSTATE home_ware0_qty_after_steps=1\nDECISION acts=0 goal_shop=-1 goal_ware=-1 goal_item=-1\nOUTCOME buys_home_ware0=0\nPassed\nnative-c/homebuyqty-19 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "home_ware0_qty_after_step4": 1,
+        "home_ware0_qty_after_steps": 1
+      },
+      "outcome": {
+        "buys_home_ware0": 0
+      },
+      "notes": [
+        "TRACK power_now=502483 uses_swaps=1 weapon_swap=0",
+        "DECISION acts=0 goal_shop=-1 goal_ware=-1 goal_item=-1"
+      ],
+      "value": 0
+    }
+  }
+}
