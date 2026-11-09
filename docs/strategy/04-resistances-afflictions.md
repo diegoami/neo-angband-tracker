@@ -69,8 +69,10 @@ Consequences you can exploit:
   The one partial exception is `OPP_CONF` ("RConf"), which is a timed version
   of *protection from confusion* (a flag, not an element).
 * Race/class freebies: Elf and High-Elf `RES_LIGHT`, Half-Orc `RES_DARK`,
-  Kobold `RES_POIS`; Necromancers get dark resistance set to 1 when `UNLIGHT`
-  is active, and `EVIL` sets nether to 1 and holy orb to −1.
+  Kobold `RES_POIS`. Necromancers have the player flags `UNLIGHT` and `EVIL`:
+  in the dungeon their dark res_level is forced to 1, nether to 1 and holy orb
+  to −1 (set *after* equipment is counted, so gear can't
+  raise these further).
 
 ### 1.2 `adjust_dam`: the damage formula
 
@@ -110,8 +112,8 @@ Notes:
 * Unresistable elements can still be **vulnerable** in principle (the
   vulnerability check is generic) — in practice only Necromancers vs. holy orbs.
 * After `adjust_dam`, `player_apply_damage_reduction` subtracts the flat
-  `DAM_RED` modifier and percentage reduction, and `INVULN` (Potion of
-  Invulnerability style effect; `TMD_INVULN`) zeroes any hit under 9000.
+  `DAM_RED` modifier and percentage reduction, and the rare `INVULN` timed
+  effect (`TMD_INVULN`) zeroes any hit under 9000.
   Damage reduction does **not** reduce side effects — those are computed from
   the post-resist, pre-reduction damage.
 
@@ -1259,7 +1261,7 @@ reduces confusion), and running out of Phase Door.
 
 | Threat | DL | What it does | Defence |
 |---|---|---|---|
-| illusionist, druid | 13 | **HOLD**, BLIND, CONF; druid also stinking cloud | saving throw, **Free Action** |
+| illusionist, druid | 13 | **HOLD**, BLIND, CONF, SLOW; druid also BO_FIRE/BO_POIS | saving throw, **Free Action** |
 | moaning spirit | 12 | invisible ghost, terrify, LOSE_DEX | See Invisible, Sustain DEX |
 | homunculus | 15 | `HIT:PARALYZE` | FA |
 | light / dark hounds | 15 | packs, blind | pBlind or rLight/rDark |
@@ -1302,7 +1304,7 @@ is the first monster that makes rPois worth a slot.
 | Threat | DL | What it does | Defence |
 |---|---|---|---|
 | shadow / crystal / chaos / law / balance drakes | 33 | nether 44, shards 66, chaos/disen 73, sound/shards 73, all four 88 | rChaos or pConf, rSound/pStun, rShards |
-| ethereal drake | 33 | light/dark 58, passes walls | pBlind |
+| ethereal drake | 33 | light/dark 58; invisible, passes walls | pBlind, SI |
 | lich | 34 | BRAIN_SMASH, DRAIN_MANA, `DRAIN_CHARGES`, `LOSE_DEX`, `EXP_40` | save, FA, HL |
 | master thief | 34 | +20 speed, `EAT_ITEM` | DEX + level |
 | gravity hound | 35 | gravity 64: blink, slow (ignores FA), stun | pStun; HP |
@@ -1313,9 +1315,9 @@ is the first monster that makes rPois worth a slot.
 | emperor wight | 37 | `EXP_80` melee, BO_NETH | Hold Life |
 | time vortex | 38 | **time 58** (unresistable drains), +20 speed | kill it from range |
 | death knight | 38 | BO_NETH 92–112 | HP / rNether |
-| abyss spider | 38 | poison + dark breath, packs | rPois, pBlind |
+| abyss spider | 38 | poison + dark breath (spell power only 10), CONF, SLOW, BLIND | rPois, pBlind, FA |
 | mature white/blue/green dragons | 39 | breath ~233 | base + rPois |
-| sorcerer | 40 | +20 speed, BA_FIRE 11–150, BA_COLD, summons undead | resists, HP |
+| sorcerer | 40 | +20 speed, BA_FIRE 11–150, BA_COLD, TELE_TO, summons dragons/undead | resists, HP |
 
 Verdict: by **DL 35–40 you want rPois** (mature green dragon 233, mature
 multi-hued 333 at DL43), confusion protection (chaos drakes, umber hulks,
@@ -1341,7 +1343,7 @@ unresisted.
 | time / nether / plasma hounds | 51 | packs; time 110 at +20 speed, nether 55, plasma 55 | speed, pStun, rNether |
 | ancient multi-hued dragon | 53 | **five breaths 800** (poison capped 800) | **rPois mandatory** (266) |
 | drolem | 54 | **poison 733–800** | **rPois mandatory** |
-| dreadmaster | 54 | TELE_LEVEL, BO_NETH 116–136, HOLD, packs through walls | rNexus, FA, rNether |
+| dreadmaster | 54 | TELE_LEVEL, BO_NETH 116–136, HOLD, WOUND; a ghost that passes walls | rNexus, FA, rNether, SI |
 | The Phoenix (U) | 54 | fire 1200, light 500, plasma 150 | rFire + temp, rLight, pStun |
 | dracolich / dracolisk | 55 | cold or fire 1026; nether 513 / nexus 400 | base + temp, rNether, rNexus |
 | Shelob (U) | 55 | poison 800, dark 500, `BITE:PARALYZE:5d10` | rPois, rDark, FA |
@@ -1364,7 +1366,7 @@ Resist Heat/Cold/Poison for the Balrog of Moria and dracolich/dracolisk.
 | chaos hound | 64 | packs, **chaos 155 each** | **rChaos** |
 | archlich | 64 | BA_NETH 266–356, S_HI_UNDEAD | rNether |
 | **The Mouth of Sauron (U)** | 65 | invisible; **BA_MANA 335–425**, BA_NETH/BA_DARK 270–360, BA_WATE, HOLD, disenchant + drain-charges melee | SI, FA, rDisen, HP |
-| jabberwock | 68 | chaos 469 at +20 speed | rChaos (313) |
+| jabberwock | 68 | chaos 469 at +20 speed | rChaos (≤312) |
 | hound of Tindalos | 69 | +20 speed packs: time 150, nether 80, disen 80 | rNether, rDisen; HP for time |
 | gelugon | 69 | cold 1026, shards 500, `HIT:PARALYZE` | rCold+temp, rShards, FA |
 | great storm / ice / swamp wyrms | 70 | elec / cold 1400, poison 800 | resist + temp (155 / 88) |

@@ -211,6 +211,9 @@ it.
 | Curses | Wielding reveals a curse's obvious effects; others as they trigger | `object_curses_find_*()` |
 | Device/potion/scroll effects | First use | `object_learn_on_use()` |
 
+**Selling or giving an item to any shop** (even with `birth_no_selling`)
+learns *all* of its runes at once ([§11.3](#113-prices-selling-and-birth_no_selling)).
+
 **Scroll of Identify Rune** (level 1, 200 gold, alloc 50 from DL5, not sold in
 town) teaches exactly one unknown rune of the item you choose
 (`effect_handler_IDENTIFY` → `object_learn_unknown_rune()`). Spend it on the
@@ -1608,6 +1611,265 @@ recharge (`ui-object.c`).
 | **Staff of Banishment / Power / Holiness** | clear rooms, heal and cure | DL70+ |
 | **Staff of the Magi** (casters) | full mana refill | DL70+ |
 | **Rod of Healing** | renewable 500 HP heal | DL80+ |
+
+---
+
+## 11. The stores
+
+### 11.1 The town
+
+`lib/gamedata/store.txt` defines seven shops and your home. "Always" items
+are staples that are restocked whenever they sell out (`store_is_staple()`);
+"normal" items are drawn at random from the store's list.
+
+| # | Store | Always stocks | Sometimes stocks | Buys (if selling is on) |
+|---|---|---|---|---|
+| 1 | **General Store** | Rations, Wooden Torches, **Flasks of oil**, Cloaks, Shovel, Pick, Iron Shots, Arrows, Bolts | Fine Wine, Slime Molds, Whisky, Hard Biscuits, mushrooms of Stoneskin and Purging | food, lights, flasks, diggers, cloaks, ammo |
+| 2 | **Armoury** | — | sandals/leather/iron-shod boots, leather/metal caps, iron helm, robe to Leather Scale Mail, Metal Scale and Chain Mail, leather gloves, gauntlets, wicker/small metal/leather shields | all armour |
+| 3 | **Weaponsmith** | — | daggers to bastard swords and katanas, spear to lucerne hammer, whip; sling, short bow, long bow, light crossbow; shots, arrows, bolts | weapons, launchers, ammo, diggers |
+| 4 | **Bookseller** | every **town** book of all four realms | — | books |
+| 5 | **Alchemist** | **Cure Light Wounds**, **Phase Door**, **Word of Recall**, Remove Curse | CSW, CCW, Neutralize Poison, Restore Life Levels, Boldness, Berserk, Resist Heat/Cold; Magic Mapping, Detect Invisible, Recharging, Remove Hunger, Blessing, Holy Chant, Monster Confusion | potions, scrolls |
+| 6 | **Magic shop** | — | rings of Searching, Feather Falling, Protection, Open Wounds; amulets of Slow Digestion, Resist Acid; wands of Light, Slow/Confuse Monster, Magic Missile, Stinking Cloud, **Stone to Mud**; staffs of **Teleportation**, Light, **Mapping**, Detect Invisible, **Detect Evil** | jewellery, devices, magic books |
+| 7 | **Black market** | — | random items of DL `max_depth+5` to `max_depth+20` (ego, enchanted, or kinds no other shop has) | — (pays half) |
+| 8 | **Home** | your storage (24 item slots, `store:inven-max:24`) | | |
+
+The town books (`class.txt`): Magic — *First Spells* (25 g), *Attacks and
+Knowledge* (400), *Magical Defences* (1600); Nature — *Lesser Charms* (25),
+*Gifts of Nature* (400); Divine — *Novice's Handbook* (25), *Cleansing Power*
+(100); Shadow — *Into the Shadows* (25), *Dark Rituals* (400), *Fear and
+Torment* (1600). Dungeon books are only found in the dungeon (see
+[Chapter 3](03-magic.md)).
+
+### 11.2 Stock quality improves with your depth
+
+`store_create_random()` generates normal-store items at a level between 1 and
+`5 + max(max_depth − 20, 0)` (capped at 70), and Black Market items at
+`max_depth + 5` to `max_depth + 20` (min capped at 55, max at 70). Items with
+negative bonuses or curses are rejected. So:
+
+* Until your max depth passes DL20, shops only roll level-1–5 items.
+* At max depth 40 the Weaponsmith and Armoury can roll level-25 items, which
+  includes "good" (+hit/+dam/+AC) and occasionally ego weapons/armour
+  (`apply_magic()` is called with that level). It is worth checking the
+  shops after each trip deeper.
+* The **Black Market** at max depth 30+ regularly offers Potions of Speed,
+  Healing, egos and rods — at triple price.
+
+Stores turn over part of their stock once per game "day" — every
+10 × 1000 game turns (`store:turns:1000`, `game-world.c`) spent in the dungeon;
+the changes are applied when you return. A shop's owner changes with a
+1-in-25 chance per day (`store:shuffle:25`).
+
+### 11.3 Prices, selling and `birth_no_selling`
+
+`src/store.c:price_item()`:
+
+* Normal shops **sell** at the item's value; the **Black Market sells at 3×**
+  (`price × 2`, then the 150% adjustment).
+* There is **no charisma** stat and no racial price adjustment in 4.2.
+* Shops **buy** at 2/3 of value (the Black Market at 1/3), capped by the
+  owner's purse (5000 to 30000 gold depending on owner; listed in
+  `store.txt`).
+* **`birth_no_selling` is ON by default** (`list-options.h`). With it, shops
+  pay **0 gold** for anything you "sell" (you can still give items away), and **gold found in the dungeon is multiplied by
+  5** (`obj-make.c:make_gold()`, applied when `player->depth > 0`).
+
+With no-selling, your income is the gold you pick up. That makes treasure
+detection (Rod of Treasure Location, Scrolls of Treasure Detection) and digging
+gold veins much more valuable, and loot hauling pointless — don't carry heavy
+items back to town for money.
+
+**Selling (or giving) an item to a shop teaches you every rune on it**, and
+buying one does too: `do_cmd_sell()` and `do_cmd_buy()` (`src/store.c`) call
+`object_learn_unknown_rune()` until the item is fully known, and make its
+flavour known. Since runes are global ([§2.2](#22-how-rune-based-id-works)),
+handing a shop one unwanted ego item with an unknown rune (say, a cloak of
+Aman with an unidentified high resist) teaches you that rune for good. This is
+the cheapest identification in the game.
+
+### 11.4 The essential town shopping list
+
+| Phase | Buy |
+|---|---|
+| Character creation (with `birth_start_kit`) | a few Flasks of oil (General), 5 CLW (Alchemist), 5+ Phase Door, a Soft Leather Armour/cap/boots if gold remains |
+| First return (CL5–10) | Flasks of oil to 20+, Lantern (if the Black Market has one), Long Bow or Sling + ammo, **Wand of Stone to Mud**, Wand of Magic Missile/Stinking Cloud (non-casters), CSW |
+| CL15–25 | **Staff of Teleportation**, Staff of Detect Evil / Mapping, 2nd town spellbook, Word of Recall spares, Potions of CCW |
+| CL25+ | Magical Defences / Fear and Torment etc.; Scrolls of Recharging; check the Black Market for Speed/Healing potions, egos and rods |
+
+---
+
+## 12. Artifacts
+
+### 12.1 Standard and random artifacts
+
+There are 138 standard artifacts (`artifact.txt`; full table in
+[Appendix A4](A4-artifacts.md)). With `birth_randarts` on, the game builds a new
+set with the same slots and similar total power (`src/obj-randart.c`, using
+the power formulas of `src/obj-power.c`); everything in this section about
+specific names then no longer applies, but the slot-by-slot principles do.
+`birth_no_artifacts` removes artifacts entirely.
+
+**Each artifact exists once.** When you leave a level (`generate.c:
+forget_cave()`):
+
+* an artifact you **had seen** (known) but left on the floor is **lost
+  forever** ("history_lose_artifact");
+* an artifact you **never saw** is returned to the pool and can be generated
+  again later;
+* with `birth_lose_arts` every artifact left behind is lost, and the level
+  feeling gives a special warning ("you sense an item of wondrous power!").
+
+So: never leave a level with an artifact you have seen lying on the floor.
+
+### 12.2 Early "gift" artifacts
+
+Several artifacts have high allocation weights and shallow depths, so most
+characters find some of them before DL20:
+
+| Artifact | Slot | Alloc, depth | What it does for you |
+|---|---|---|---|
+| **Phial of Galadriel** | light | 40, DL5+ | radius 4, no fuel, room-lighting activation |
+| 'Narthanc' / 'Nimthanc' / 'Dethanc' | dagger | 40 each, DL1–50 | +9/+12, brand, rFire/rCold/rElec, bolt activation |
+| 'Forasgil' | rapier | 38, DL5–50 | 1d12 +12/+19, cold brand, slay animal, rCold, rLight |
+| 'Elvagil' | long sword | 50, DL10–50 | slay orc/troll, SI, feather fall, DEX/stealth +2 |
+| 'Paurhach' / 'Pauraegen' / 'Paurnen' | gauntlets | 40/23/30, DL10–75 | a base resist and a bolt activation |
+| 'Cammithrim' | gloves | 18, DL10–80 | FA, rLight, magic missile activation |
+| of Thorongil | cloak | 10, DL5–75 | **FA, SI, pFear**, rAcid |
+| of Thengel / 'Holhenneth' | helm | 18, DL10/20+ | pConf, WIS / SI, pBlind, pConf, detection |
+| 'Hithlomir' | soft armour | 20, DL20–80 | base four + rDark + rNether, stealth +3 |
+| of Arvedui | chain mail | 30, DL20–75 | base four + rShards + rNexus |
+| of Himring | hard leather | 20, DL25–90 | rPois, rChaos, rNether; Protection from Evil |
+
+### 12.3 The most important artifacts by slot
+
+(Abbreviations: FA Free Action, SI See Invisible, ESP telepathy.)
+
+| Slot | Top choices (standard set) |
+|---|---|
+| Weapon | 'Ringil', 'Andúril', of Eönwë, 'Deathwreaker', of Ulmo, of Durin, of Aulë, 'Aranrúth', 'Sting' (early-mid) — see [§3.8](#38-endgame-weapons) |
+| Launcher | 'Belthronding', of Bard, 'Cubragol' (+10 speed), of Umbar |
+| Ring | 'Vilya', 'Nenya', 'Narya'; of Tulkas; of Barahir |
+| Amulet | 'Elessar' (+2 speed, Heal), of Ingwë, of the Dwarves, 'Evenstar' |
+| Light | Arkenstone of Thráin, Star of Elendil, Phial |
+| Body | 'Bladeturner' (every high resist), 'Mediator', 'Razorback', of Isildur, of Celeborn, 'Soulkeeper', 'Belegennon' |
+| Cloak | 'Colluin', of Thingol, of Lúthien, of Tuor (acid immunity, FA, SI), 'Colannon' |
+| Shield | of Thorin, of Celegorm, of Anárion, of Gil-galad, of Elros |
+| Helm/crown | of Dor-Lómin, of Thranduil (ESP), of Gondor, of Númenor, 'Holhenneth' |
+| Gloves | of Fingolfin (FA, DEX +4, +10/+10), 'Cambeleg', of Eöl (rPois, fire immunity, mana bolt — but aggravates) |
+| Boots | **of Fëanor** (+15 speed), 'Stormwalker' (+6), 'Dal-i-thalion' (+5) |
+
+### 12.4 The Rings of Power and the quest items
+
+* **'Narya'** (Ring of Fire; DL70+): +5 speed, all stats +1, FA, SI, ESP,
+  regeneration, slow digestion, **fire immunity**, pFear; Protection from
+  Evil activation.
+* **'Nenya'** (Ring of Adamant; DL80+): +5 speed, all stats +2, FA, SI, ESP,
+  Hold Life, feather fall, regeneration, pBlind, **cold immunity**; Restore
+  Life Levels activation.
+* **'Vilya'** (Ring of Firmament; DL90+): +5 speed, all stats +3, FA, SI, ESP,
+  Hold Life, **lightning immunity**, rPois, rDark; **Heal 1000** activation.
+* **'The One Ring'** (Ring of Power; DL100, alloc 1): +5 speed, all stats +5,
+  +15/+15, immunity to all four base elements, rPois, rDark, rDisen, rNether,
+  ESP, SI, regeneration — and **aggravation, experience drain and STICKY**
+  (cannot be removed once worn); activation BIZARRE (random strong effect,
+  level 80). It is a gamble: it fixes four immunities and gives you a free
+  ESP slot, but aggravation wakes the entire level.
+* **'Grond'** (Mighty Hammer, 9d9 +5/+25) and **the Massive Iron Crown of
+  Morgoth** (+50 to all stats, ESP, SI, nearly every resist, STICKY) are
+  `QUEST_ART`: they are dropped only by Morgoth (`mon-make.c:mon_create_drop()`),
+  i.e. after you have already won.
+
+### 12.5 How artifacts are generated
+
+* **Normal artifacts** are rolled when an item of the right base is generated
+  as a *great* item (`make_artifact()`): 1 roll for a great item, 2 if the
+  drop was forced great (`DROP_GREAT`), +2 more for uniques' drops and
+  Acquirement. For each candidate artifact of that base: it must not exist
+  yet; if the level is shallower than its minimum depth it passes only with
+  probability `1/(2 × (min_depth − depth))`; it may never appear below its max
+  depth; then it must pass its `alloc` percentage roll.
+* **Special artifacts** (lights, the Rings of Power and other jewellery
+  artifacts — their bases have `INSTA_ART`) are tried first in
+  `make_object()`: 1 in 1000 for an ordinary object, **1 in 10 for a good
+  drop**; if the roll is made but no artifact qualifies, the item is upgraded
+  to *good*.
+* No artifacts are generated in town or in stores.
+
+---
+
+## 13. How items are generated: good, great, ego and artifact rolls
+
+### 13.1 Floor and monster objects
+
+`src/obj-make.c:make_object()` and `apply_magic()`:
+
+1. **Kind selection.** The kind is drawn from the allocation table at the
+   object level (`get_obj_num()`). With probability 1 in 20 (`great-obj`) the
+   level is boosted to `1 + level × 100 / 1d100` — an out-of-depth item. A
+   *good* drop draws at `level + 10` from a table restricted to "good" kinds
+   (weapons, armour, launchers, arrows/bolts and anything flagged `GOOD` such as
+   Rings of Speed and the 70+ amulets; `kind_is_good()`).
+2. **Quality roll.** An object is *good* with probability `33 + level` %
+   (forced if the drop is good), and a good object is *great* with probability
+   **30%** (forced if the drop is great).
+3. **Artifact rolls** for great objects (above).
+4. **Ego roll.** Every great object that isn't an artifact becomes an **ego
+   item** if any ego fits the base and level (`make_ego_item()` →
+   `ego_find_random()`). Egos have their own min/max depth with a small
+   out-of-depth chance.
+5. **Magic.** Good weapons get +1d5+m_bonus(5) to-hit and to-dam; great ones
+   another m_bonus(10) each, and possibly super-charged dice
+   (`apply_magic_weapon()`). Armour similarly gets +1d5+m_bonus(5) AC, +m_bonus(10)
+   if great.
+6. **Curses**: 1 in 20 wearables get curses (BLESSED items are immune).
+
+Consequences: at DL10 an item is good 43% of the time and great 13%; at DL40
+good 73%, great 22%; from DL67 every item is at least good and 30% are great.
+This is why ego items become common in the 30s and why deep-diving is the
+fastest way to gear up.
+
+### 13.2 Monster drops
+
+`src/mon-make.c:mon_create_drop()`:
+
+* The drop level is `max((monster level + depth)/2, monster level)`, so killing
+  out-of-depth monsters rewards you with deeper items.
+* **Uniques** use `min(level + 15, level × 2)` as their level and get the
+  two extra artifact rolls (`extra_roll`).
+* `DROP_GOOD` monsters drop only good items; `DROP_GREAT` monsters drop only
+  great items (so every non-artifact item they drop is an ego). `ONLY_ITEM` /
+  `ONLY_GOLD` restrict the type; `DROP_40`, `DROP_60`, `DROP_1`… set counts;
+  some monsters have specific drops (e.g. potions from alchemist-type
+  monsters).
+* Monster lore (`/` or `r` in the monster recall) tells you what a monster
+  drops once you have seen enough kills; the [unique cards](A2-uniques.md) list
+  every unique's drop flags.
+
+### 13.3 Level feelings for objects
+
+With `birth_feelings` on, after you have seen 10 squares of a level
+(`feeling-need:10`) you get the object half of the level feeling
+(`generate.c:calc_obj_feeling()`, text in `cmd-cave.c`). The feeling is the
+sum of `(item value/100)²` of everything generated, divided by depth:
+
+| Rating / depth | Feeling |
+|---|---|
+| artifact with `birth_lose_arts` | "you sense an item of wondrous power!" |
+| > 160000 | "there are superb treasures here." |
+| > 40000 | "there are excellent treasures here." |
+| > 10000 | "there are very good treasures here." |
+| > 2500 | "there are good treasures here." |
+| > 640 (or any artifact) | "there may be something worthwhile here." |
+| > 160 | "there may not be much interesting here." |
+| > 40 | "there aren't many treasures here." |
+| > 10 | "there are only scraps of junk here." |
+| else | "there is naught but cobwebs here." |
+
+An artifact anywhere on the level guarantees at least "something
+worthwhile". "Superb" or "excellent" feelings usually mean a vault or an ego
+with a very high value (a Ring of Speed is worth 100000) and are worth
+exploring carefully. "Scraps of junk" means you can take the next stairs
+without regret.
 
 ---
 

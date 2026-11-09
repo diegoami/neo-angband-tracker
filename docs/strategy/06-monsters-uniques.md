@@ -1282,3 +1282,497 @@ Each band below starts with a table giving **every** unique in it:
 
 Then the notable uniques get a paragraph of tactics.
 
+### 6.3 DL0–10: the town and the first levels
+
+@@BAND 0-10@@
+
+**Farmer Maggot** (town/DL0, 350 HP, no attacks but `MOAN`) is harmless and
+drops 1–2 mushrooms (`drop-base:mushroom:100:1:2`) plus a good object
+(`DROP_1 | DROP_GOOD`). Free XP-less loot for a level-1 character; kill him.
+
+**Grip and Fang, Farmer Maggot's Dogs** (DL2, +10, 25 HP, bite 1d4,
+`RAND_25`). The first lesson in speed: they get two moves to your one and you
+cannot run from them. Each bite is weak; the danger is a fragile mage with 10
+HP meeting both. Fight them in a corridor so only one can bite, or fight
+with your back to a wall. They have no drop. A warrior or a character with
+any armour at clvl 5+ kills them easily.
+
+**Sméagol** (DL3, **+20**, 400 HP, `INVISIBLE`, `RAND_25 | RAND_50`,
+`HURT_LIGHT`, touch to steal gold, `DROP_GREAT`). He cannot hurt you; he steals
+gold and teleports away. 400 HP at +20 with 75% random movement and
+invisibility is very hard to kill early. Options: ignore him (keep gold low),
+or later light-beam him (`HURT_LIGHT`) once you have See Invisible. His
+`DROP_GREAT` makes him a worthwhile mid-game kill when you meet him again at
+DL20+ with See Invisible and a decent weapon.
+
+**Bullroarer the Hobbit** (DL5, +10, 60 HP, 2 × 1d8). Comes with up to seven
+scruffy hobbits (thieves). Double speed plus 16 max damage per round means 32
+per normal turn against a clvl-5 character — a common early death. Fight at
+clvl 10+ or with Flasks of oil from range; he drops 1–3 good items.
+
+**Mughash the Kobold Lord** (DL7, 150 HP, 3 × 1d10) brings a full kobold army
+(small kobolds, kobolds, 1d3 shamans, 1d5 archers, 1d5 large kobolds as
+bodyguards). The army is the threat. Retreat into a corridor and kill them in
+order: archers and shamans first if you can reach them.
+
+**Wormtongue, Agent of Saruman** (DL8, 250 HP, spells 1/5: `HEAL SLOW TRAPS
+BA_POIS BO_COLD`, `DROP_GREAT`). His frost bolt is 2+6d8 at spell power 8
+(avg 29, max 50) — enough to kill a clvl-8 mage in two casts — and he heals
+himself (6×8 = 48 HP per cast) and creates traps around you. He is slow
+(+0), so a melee character should close and keep hitting; a caster should
+fight from just inside a corridor so he must come into view. `DROP_GREAT`
+makes him one of the best early kills in the game. He reappears as
+Saruman's servant at DL60.
+
+**Lagduf, the Snaga** (DL8, 190 HP, 4 hits up to 38 per round) with 5d4 snagas
+and 2d7 wolves (80%); **Grishnákh, the Hill Orc** (DL10, 230 HP) with cave
+orcs, snagas and wolves; **Brodda, the Easterling** (DL9, 210 HP, 4 × 1d12,
+alone). All +0 melee bruisers. Fight in corridors, use slay orc / HURT_LIGHT
+for the orcs, and bring CLW potions. Each drops one good item.
+
+**Orfax, Son of Boldor** (DL10, +10, 120 HP, spells 1/4: `BLINK CONF HEAL SLOW
+TELE_TO S_MONSTER`, immune to acid as a yeek). Weak in melee but annoying:
+he teleports you to him, confuses and slows you, heals, and summons. Kill him
+fast with your best attack before he heals.
+
+### 6.4 DL11–20: orc captains, dwarves and the Willow
+
+@@BAND 11-20@@
+
+**Golfimbul, the Hill Orc Chief** (DL12, 240 HP, 4 hits up to 44, immune to
+cold, electricity, fire and poison) arrives with **Bullroarer and
+Grishnákh**, 5d4 cave orcs, 4d4 snagas and wargs. Elemental attacks do
+nothing to him; use physical damage. This is the first "army" encounter;
+handle it in a long corridor, or leave.
+
+**Boldor, King of the Yeeks** (DL13, +10, 180 HP, spells 1/3: `BLIND BLINK
+HEAL SLOW TPORT S_KIN S_MONSTER`) comes with Orfax and yeeks. Harmless melee;
+he teleports away when hurt (`TPORT`). Corner him or ignore.
+
+**Ufthak of Cirith Ungol** (DL14, 320 HP, 4 × 3d4, immune to cold) with orc
+archers, snagas and cave orcs. Solid melee check for a clvl-15 character.
+
+**Ulfast, Son of Ulfang** (DL16, 340 HP, 4 × 3d5 = up to 60) with 1d3
+warriors. Pure melee. Return later as part of Ulfang's war band.
+
+**Nár, the Dwarf** (DL17, 450 HP, 4 × 3d5, spells 1/6: `BLIND WOUND CONF HEAL
+MIND_BLAST`, immune to cold/fire/poison, `NO_CONF | NO_SLEEP | NO_HOLD`). A
+real early wall: `MIND_BLAST` (8d8 + confusion), `WOUND` (10d5 at P=17),
+blindness and confusion, and he heals 102 per cast. Without pConf/pBlind keep
+CLW/CSW potions handy (they cure blindness and reduce confusion). A good
+saving throw helps. Fight him at clvl 20+.
+
+**Shagrat and Gorbag, the Orc Captains** (DL19, 400 HP, 4 hits up to 78 per
+round). Each brings an escort of snagas, cave orcs, orc trackers, orc archers
+and **uruks**. They are often generated together on the same level. The
+uruk escort (arrows) is as dangerous as the captain. Corridor fight with slay
+orc; drops 1 good item each.
+
+**Old Man Willow** (DL19, +0, 1000 HP, `NEVER_MOVE`, two paralysing touches
+1d14 + crush 2d12, spells 1/10: `TELE_TO HOLD`, immune to poison, acid and
+water, `HURT_FIRE`, `REGENERATE`). He never moves, but his `TELE_TO` pulls you
+next to him and `HOLD` paralyses you there; without **Free Action** that is a
+death sentence (two paralysing touches every turn). With Free Action he is a
+punching bag that hits back for at most 52 per round, and fire does double
+damage. 3000 XP per level makes him lucrative for a clvl-20 character with
+FA and fire. Without FA: leave his line of sight immediately and don't come
+back.
+
+**Bolg, Son of Azog** (DL20, **+10**, 500 HP, 4 × 3d6 = up to 72 per round,
+`MOVE_BODY`) with 4d4 Uruk bodyguards, 4d2 orc archers, trackers and wargs.
+At +10 he deals up to 144 per normal-speed turn. This is the first unique
+that demands speed or a big HP pool. Corridor, slay orc, potions of Cure
+Serious Wounds. Do not fight him and his archers in a room.
+
+### 6.5 DL21–30: the uruks, the Mîm family and the stone trolls
+
+@@BAND 21-30@@
+
+**Lugdush** (DL21, 640 HP) and **Uglúk** (DL22, 720 HP, immune to
+cold/fire/poison, `NO_CONF | NO_SLEEP | NO_HOLD`) are pure melee uruks
+(up to 72 and 78 per round) with uruk bodyguards, half-orcs, wargs and orc
+captains; Uglúk brings Lugdush. Slay orc and a corridor. They are slow (+0)
+and their escort's arrows are the main ranged threat.
+
+**Azog, Enemy of the Dwarves** (DL23, **+10**, 900 HP, 3 × 5d5 = up to 75 per
+round, `MOVE_BODY`) brings **Bolg**, 4d4 Uruks, orc archers, trackers,
+wargs and captains. Double-speed melee of up to 150 per normal turn plus
+Bolg's 144: this is the deadliest orc encounter in the game. Fight only with
+speed ≥ +10 or with a way to separate them (Teleport Other one of them).
+Two-to-three good drops each.
+
+**Ibun and Khîm, Sons of Mîm** (DL24, 820 HP each, 3 × 3d6 + a **disenchant**
+hit, spells 1/8: `HEAL SLOW BO_FIRE`, immune to cold and fire). Disenchanting
+melee damages your weapon/armour enchantments — fight them with gear you do
+not mind losing pluses on, or from range. `SLOW` needs Free Action.
+
+**Mîm, Betrayer of Turin** (DL27, +10, 1100 HP, 3 × 3d8 + disenchant, spells
+1/6: `HEAL SCARE BA_ACID BO_ACID` — acid ball up to 96, acid bolt up to 65 —
+immune to acid/cold/elec/fire/poison, `DROP_GREAT`) comes with **both sons**.
+Three disenchanters, two of them healers. rAcid and pFear help; ranged
+physical damage (arrows, thrown weapons) is ideal because elements do nothing.
+His `DROP_GREAT` drop is worth the effort at clvl 28–30.
+
+**Sangahyando and Angamaitë of Umbar** (DL24, 800 HP each, 4 × 4d6 = up to 96
+per round, spells 1/4: `CONF SLOW`, immune to elec/fire, always together).
+Two heavy hitters that confuse and slow: pConf and Free Action turn this from
+deadly into routine. Split them with a corridor, kill one at a time.
+
+**Ulwarth, Son of Ulfang** (DL26, 850 HP, 3 × 4d6) with Easterling champions
+and Ulfast; **Uldor the Accursed** (DL28, 1000 HP, 4 × 4d6, `S_KIN` 1/10 —
+summons other people) — melee Easterlings; no special tricks.
+
+**Draebor, the Imp** (DL28, +10, 520 HP, `INVISIBLE`, `SMART`, `RAND_25`,
+spells 1/5: `BLIND BLINK CONF SCARE TELE_AWAY TELE_LEVEL TELE_TO TPORT
+S_KIN`, poison hits, immune to fire, `DROP_4`) with up to 9 minor demons and
+2d4 imps. He is all teleportation: he will throw you off the level
+(`TELE_LEVEL` — rNexus or the save stops it), away, or to him. Without See
+Invisible you cannot fight him. With SI and rNexus, he is a good drop
+(2–6 good items).
+
+**Beorn, the Shape-Changer** (DL28, 1400 HP, spells 1/2: `SHAPECHANGE`) with
+2d3 each of cave bears, grizzly bears and werebears. In human form he is
+mild (4 hits up to 56); half his turns he becomes **Beorn, the Mountain Bear**
+(+10 speed, `CLAW 2d10 ×2, BITE 4d8, CRUSH 3d6` = up to 90 per round, 180
+per normal turn). Not evil. Fight him only with good AC, +10 speed and 300+
+HP.
+
+**Bert, Bill and Tom the Stone Trolls** (DL30, +10, 1100 HP each, 2 × 6d6 +
+bite 3d10 = up to 102 per round, boulders innate 1/7 (5d12), immune to
+cold, `HURT_ROCK`, `HURT_LIGHT`, always generated together). Three
+double-speed trolls at once is a lot of melee — up to ~600 per normal turn
+if all three reach you. Fight them in a corridor so only one can, and use
+Stone to Mud (20+1d30 each zap, `HURT_ROCK`) and light (`HURT_LIGHT`) as
+free extra damage; slay troll. 2000 XP per level each.
+
+### 6.6 DL31–40: Easterling chiefs, ogres and Castamir
+
+@@BAND 31-40@@
+
+**Ulfang the Black** (DL34, +10, 1000 HP, 4 × 5d5 = up to 100 per round,
+`S_KIN` 1/10) brings Ulfast, Ulwarth, 3d3 Easterling champions and sometimes
+mûmakil. A war band; corridor and separation.
+
+**Lokkak, the Ogre Chieftain** (DL35, +10, 1500 HP, 3 × 6d6 = up to 108 per
+round, `MOVE_BODY`) with 3d3 each of ogres, black ogres and cave ogres plus
+ogre mages, shamans and chieftains. Slay giant (ogres are `GIANT`).
+Free Action against the shamans' and mages' `HOLD`.
+
+**Lorgan, Chief of the Easterlings** (DL36, +10, 1800 HP, up to 120 per
+round, spells 1/4: `TELE_TO S_MONSTERS`, immune to all five base elements).
+`TELE_TO` + summons + double-speed melee. Physical damage only.
+
+**Castamir the Usurper** (DL38, +10, 880 HP, `SMART`, spells **1/2**: `HEAL
+TRAPS BO_COLD BO_ELEC BO_FIRE BO_ICE`). Casts every other turn at double
+speed: four bolt types (ice bolt avg 59, max 74, plus cuts and stun) and
+heals 228 per cast. Base resists cut the elemental bolts to a third; the ice
+bolt is cold-resisted but still stuns (pStun). Low HP for his depth — kill
+him quickly before he heals.
+
+### 6.7 DL41–50: Gorlim, Kavlax, the elementals, Eöl and Durin's Bane
+
+@@BAND 41-50@@
+
+**Gorlim, Betrayer of Barahir** (DL41, +10, 1600 HP, 2 × 8d6 + 2 × 6d8
+disenchant hits = up to 192 per round, spells **1/2**: `WOUND BO_MANA
+BO_WATE`, immune to acid/cold/elec/poison, 7000 XP/level). One of the most
+dangerous mid-game uniques: mana bolt (avg 102, max 152, unresistable), water
+bolt (avg 96, max 141, confusion + stun) and `WOUND` (up to 130, save) every
+other turn at double speed, plus disenchanting melee. Need 400+ HP, pConf,
+pStun, a good saving throw. High reward.
+
+**Kavlax the Many-Headed** (DL41, +10, 1300 HP, innate 1/4: breathes acid,
+cold, elec, fire **433**; chaos, nexus, shards, sound **216**; gravity
+**200**; immune to the base elements and nexus). Nine breath types — the
+first test of high resists. Gravity (200, unresistable, blink/slow/stun)
+and sound (stun) are the killers. Fight him wounded-first: every point of
+damage lowers his breaths. Drops 2–6 good items.
+
+**The Queen Ant** (DL42, +10, 1500 HP, `S_KIN` 1/2) with a horde of soldier,
+army, fire, blue, grey and silver ants. She summons ants every other turn —
+fight her in a corridor (summons need open floor near *her*) or not at all.
+
+**Rogrog the Black Troll** (DL42, +10, 2000 HP, up to 156 per round incl.
+an acid spit, boulders, `REGENERATE`) with 4d4 ologs and other trolls.
+Slay troll, corridor, and enough damage to outpace regeneration.
+
+**Vargo, Tyrant of Fire / Waldern, King of Water / Quaker, Master of Earth /
+Ariel, Queen of Air** (DL43, 2400–2800 HP, `POWERFUL`, `KILL_BODY`): the
+elemental lords.
+* *Vargo* (+10): fire hits 4 × 4d6, fire ball (max 160), **plasma bolt**
+  (max 109 + stun); `HURT_COLD`.
+* *Waldern* (+10): water ball (max 157, confusion + stun) and bolts, ice
+  bolts.
+* *Quaker* (+0, `PASS_WALL`, `HURT_ROCK`): **SHATTER** hit 10d10 (causes
+  earthquakes), acid ball (max 144), shard ball.
+* *Ariel* (+20): confusing hits, lightning/cold balls; erratic.
+None drops anything (no DROP flags); they are XP only. Avoid unless you need
+the experience.
+
+**Eöl, the Dark Elf** (DL49, **+20**, 2400 HP, `SMART`, spells **1/2**: blind,
+confuse, `WOUND`, darkness, heal, `TELE_TO`, acid/cold/elec/fire balls,
+**nether ball** (avg 251, max 296), mana bolt (max 172), summons demons,
+dragons, monsters and undead; 25000 XP/level). A triple-speed caster that
+casts every other turn — about 1.5 spells per normal-speed turn of yours.
+Requires rNether, pBlind, pConf, base resists, 500+ HP and speed; `HURT_LIGHT`
+helps a little. Excellent `DROP_4 | DROP_GOOD` loot.
+
+**The Balrog of Moria** (Durin's Bane; DL50, **+20**, 3000 HP, fire hits
+2 × 6d12 + crush 5d12 + drain charges, **fire breath 1000** (innate 1/15),
+spells 1/5: `CONF SCARE S_DEMON S_UNDEAD`, immune to fire, `POWERFUL`) comes
+with 4d4 cave orcs and 3d4 cave trolls. A single unresisted breath is 1000;
+with rFire it is 333, with rFire + temporary resistance 111, and with fire
+immunity 0. **Get fire immunity or double resistance before fighting him**,
+plus pConf and pFear (he cannot be meleed while you are afraid). Drops 2–6
+good items. He reappears as Gothmog's servant at DL95.
+
+### 6.8 DL51–60: thieves, drakes, Shelob and Saruman
+
+@@BAND 51-60@@
+
+**Harowen the Black Hand** (DL51, **+30**, 2500 HP, touches steal gold and
+items, hits blind 10d5 and poison 8d5, spells 1/4: `TELE_TO TELE_SELF_TO
+BLINK TRAPS DARKNESS BLIND HOLD`). A master thief: he teleports to you,
+steals, and blinks away. pBlind, Free Action, and keep valuable consumables
+in quantity (he takes one stack). Very hard to pin down at +30.
+
+**Itangast the Fire Drake** (DL52, +10, 2200 HP, fire breath **733**) and
+**Scatha the Worm** (DL53, +10, 2500 HP, cold breath **833**): ancient
+dragons with `WOUND` and `CONF` (1/8) and heavy melee (up to 208 per round).
+Double resistance to their element is the requirement; then they are
+excellent drops (`DROP_GOOD`; their base gives `DROP_4`).
+
+**The Phoenix** (DL54, +10, 3600 HP, fire bites/hits up to 360 per round,
+breath fire **1200**, light **500**, plasma **150**, fire ball/bolt, plasma
+bolt, `S_KIN`, immune to acid/elec/fire/poison/plasma). Fire immunity makes
+it manageable; without it, don't.
+
+**Shelob, Spider of Darkness** (DL55, +10, 3500 HP, poison claws, paralysing
+bite 5d10, STR sting, dark breath **500**, poison breath **800**, spells 1/4:
+blind, confuse, WOUND, heal, scare, slow, webs, `S_KIN`; with 4d4 uruks and
+3d7 Mirkwood spiders). Needs FA, rPois (800!), rDark/pBlind, pConf.
+`HURT_LIGHT`. She webs the area — clear webs or tunnel to move.
+
+**Ar-Pharazôn the Golden** (DL55, **+20**, 4000 HP, 4 × 8d8 = up to 256 per
+round, spells 1/6: `HEAL TELE_AWAY S_KIN S_MONSTERS`, `DROP_GREAT`). A
+triple-speed melee monster that heals (330 per cast) and summons people.
+Low AC (54) — easy to hit. Speed and big damage; `DROP_GREAT` is the prize.
+
+**Baphomet the Minotaur Lord** (DL58, **+20**, 4700 HP, butts 2 × 12d13 + hits
+2 × 10d10 = **up to 512 per round**, arrows, slow, lightning ball, mana bolt,
+plasma bolt, **force breath 200**). The hardest-hitting melee monster before
+the DL70s. Do not melee him without +20 speed and 700+ HP; ranged combat in a
+long corridor is the standard answer.
+
+**Fundin Bluecloak** (DL59, +20, 5000 HP, 4 × 8d8, spells 1/4: `BLIND
+BRAIN_SMASH WOUND CONF HEAL SCARE S_ANIMAL S_MONSTERS`, immune to all base
+elements). A priest-dwarf: full status protection and saving throw needed.
+
+**Gilim, the Giant of Eruman** (DL60, +10, 4000 HP, cold hits 9d10 ×2, 10d9,
+confusing 10d9 = up to 360 per round, `BOULDER`, `BO_ICE`, `STORM`,
+`S_MONSTERS`). Slay giant; pConf; ranged.
+
+**Saruman of Many Colours** (DL60, +10, 5000 HP, `SMART`, spells **1/2**:
+blind, `WOUND` (max 200), `FORGET`, **HASTE**, heal (360), `MIND_BLAST`,
+scare, `TELE_AWAY`, `TPORT`, `TRAPS`, acid/fire/water balls (max
+195–220), cold ball (max 100), ice bolt; summons animals, demons, **ancient dragons**, monsters and
+undead; disenchanting melee; brings **Wormtongue**; `DROP_GREAT`; immune to
+elec, plus cold/fire/poison from the `ainu` base). He hastes himself to +20,
+teleports away when hurt, heals, and fills the room with ancient dragons. Have
+every status protection, a big saving throw, and a plan to finish him in a
+few turns once he starts (anti-summon corridor helps). He is one of the best
+`DROP_GREAT` uniques in the game.
+
+### 6.9 DL61–70: Smaug, the Mouth of Sauron and the vampires
+
+@@BAND 61-70@@
+
+**Smaug the Golden** (DL62, +10, 4200 HP, fire breath **1400**, claws 6d12 ×2
+and fire bites 7d14 ×2 = up to 340 per round, `WOUND`/`CONF` 1/8). Fire
+immunity or double rFire is required (1400 → 467 → 156). A classic big-loot
+dragon.
+
+**The Mouth of Sauron** (DL65, **+20**, 7000 HP, `INVISIBLE`, `SMART`, spells
+**1/2**: `WOUND`, `HOLD`, `TELE_TO`, `TRAPS`, darkness/fire/mana/nether/water
+balls — **mana storm avg 380, max 425**, nether/dark max 360 — plasma bolt,
+`S_HI_DEMON`, `S_HI_UNDEAD`; melee disenchants and drains charges). One of
+the deadliest casters in the game: invisible, triple speed, casting every
+other turn, unresistable mana storms. See Invisible, FA, rNether, rDark,
+rDisen and 800+ HP. Avoid until well equipped.
+
+**Tevildo, Prince of Cats** (DL66, +20, 4800 HP, `INVISIBLE`, claws confuse
+12d12, drain DEX, blind 10d5, **paralysing bite**, `TELE_TO` + `S_KIN` 1/3,
+escorted by tigers, sabre-tooths and displacer beasts). FA, pConf, pBlind,
+SI. Pure melee threat — ranged attacks while he is pulled into a corridor.
+
+**Thuringwethil, the Vampire Messenger** (DL67, +20, 5000 HP, XP-draining
+bites, confusing hits, spells 1/3: `BLIND BRAIN_SMASH WOUND DRAIN_MANA BA_NETH
+S_HI_UNDEAD S_KIN HOLD SCARE`, `HURT_LIGHT`, `HURT_FIRE`). Hold Life, rNether,
+FA, pConf; fire and light do extra damage.
+
+**Tselakus, the Dreadlord** (DL68, +20, 6500 HP, ghost base: **invisible,
+PASS_WALL**; 2 × 10d10 + STR drains; spells 1/3: blind, confuse, hold,
+darkness and nether balls (max 372), `S_HI_UNDEAD`, `S_KIN` — more dreads).
+SI and FA; slay undead; he will not be stopped by walls.
+
+**Nan, the Giant** (DL69, +10, 3344 HP, 4 × 12d12 incl. 2 confusing = up to
+**576 per round**, boulders 13d12, plasma bolt, fire ball, `S_MONSTERS`).
+Never melee range without pConf; slay giant and ranged attacks.
+
+### 6.10 DL71–80: Ainur, Glaurung, Ungoliant and the first Nazgûl
+
+@@BAND 71-80@@
+
+**Ossë, Herald of Ulmo** (DL72, +20, 6000 HP, disenchant hits, spells 1/2:
+`BLIND TELE_TO WHIP`, water ball, **storm** (avg 286, max 430), mana and water
+bolts, disenchant breath **500**, `S_AINU`). rDisen, pConf, pStun (water and
+storms stun and confuse), pBlind. Not evil.
+
+**Omarax, the Eye Tyrant** (DL73, +20, 6500 HP, gazes disenchant, drain
+charges, drain INT, XP bite; spells **1/2**: brain smash, blind, conf, drain
+mana, forget, scare, acid/cold/dark/fire/nether balls (max 392), mana bolt,
+`S_KIN`). Saving throw, all protections, rNether, rDark.
+
+**Glaurung, Father of the Dragons** (DL75, +20, 7500 HP, fire breath **1600**,
+poison breath **800**, `BRAIN_SMASH`, `FORGET`, `SCARE`, `S_HI_DRAGON`,
+claws/bites up to 368 per round, `DROP_GREAT`). Fire immunity strongly
+recommended; rPois mandatory; saving throw (brain smash, forget).
+
+**Ungoliant, the Unlight** (DL75, +20, **13000 HP**, poison claws 8d6,
+paralysing bite 8d10, STR sting, dark breath 500, poison breath 800, dark
+ball (max 400), webs, `S_KIN`). The biggest HP pool before Morgoth. FA, rPois,
+rDark, pBlind, pConf. Long fight — bring lots of healing.
+
+**Makar, the Warrior** (DL76, +10, 6000 HP, **2 × SHATTER 13d13 + 2 × confusing
+13d13 = up to 676 per round**, `KILL_WALL`, `KILL_BODY`, no spells). The
+hardest single melee round in the game apart from Morgoth's and Baphomet's.
+SHATTER blows also cause earthquakes. Never let him reach you: ranged
+attacks only, or avoid. He bores through walls (`KILL_WALL`).
+
+**Feagwath, the Undead Sorcerer** (DL77, +20, 5000 HP, touches drain XP,
+charges and DEX; spells **1/2**: brain smash, blind, blink, `WOUND`, hold,
+scare, `TELE_TO`, traps, **mana storm (max 485)**, nether ball (max 408),
+mana bolt, `S_KIN`, `S_MONSTERS`, `S_UNDEAD`; escorted by dreads,
+dreadmasters, dreadlords, liches, master liches and archliches;
+`DROP_GREAT`). A whole undead army with a mana-storming general.
+
+**The Nazgûl** (Ringwraiths): **Uvatha the Horseman** (DL77), **Adunaphel the
+Quiet** (DL78), **Akhorahil the Blind** (DL79), **Ren the Unclean** (DL80),
+**Ji Indur Dawndeath** (DL81), **Dwar, Dog Lord of Waw** (DL82),
+**Hoarmurath of Dir** (DL83), **Khamûl, the Black Easterling** (DL84) and
+**the Witch-King of Angmar** (DL85). All are wraiths (`UNDEAD | EVIL |
+HURT_LIGHT | IM_COLD | IM_POIS | NO_CONF | NO_SLEEP | NO_STUN | NO_HOLD`),
+all have a **`BLACK_BREATH`** hit, `EXP_80` or `EXP_40` touches, spells 1/3
+(1/2 for Khamûl and the Witch-king) including `BLIND WOUND HOLD SCARE`, and
+all summon **ringwraiths** (`S_WRAITH` — the other Nazgûl). Ren and Ji Indur
+are **invisible**. See §6.11 for the Black Breath and their full tactics.
+
+**Qlzqqlzuup, the Emperor Quylthulg** (DL79, +20, 5000 HP, invisible, never
+moves, never attacks, spells **every turn** (1/1): `S_AINU S_ANIMAL
+S_HI_DEMON S_HI_DRAGON S_HI_UNDEAD S_HOUND S_HYDRA S_KIN S_MONSTERS S_SPIDER
+S_UNIQUE`). The single most dangerous thing to stand in line of sight of:
+every one of its turns (at +20) summons something, including uniques. If you
+detect it, either kill it in one or two actions (it has only 5000 HP and AC 1)
+or break line of sight and leave. Summons need open floor near *it*, not
+you — you cannot box it in.
+
+**Wiruin, the Maelstrom** (DL80, **+30**, 3500 HP, never moves, engulfs,
+breathes cold **1166** and sound **500**, `S_KIN`). Stay out of its line of
+sight; rCold+temp and rSound if you must pass.
+
+### 6.11 DL81–95: the Nazgûl, Ancalagon, the Balrogs, Carcharoth and Vecna
+
+@@BAND 81-95@@
+
+**The Nazgûl, in detail.** Their damage is moderate for their depth —
+melee up to 156–298 per round, `WOUND` up to 250–280, nether balls (Dwar,
+Hoarmurath, Ji Indur, Khamûl, the Witch-king) up to ~430–440, mana bolts
+(Khamûl, the Witch-king) up to 260 — but their **side effects are
+permanent**:
+
+* **Black Breath** (`HIT:BLACK_BREATH`): on a hit, 1 in 5 chance to add
+  `damage/10` turns of `TMD_BLACKBREATH` (`melee_effect_handler_BLACK_BREATH`
+  in `mon-blows.c`). While it lasts, **every player turn** has a 1/2 chance
+  to drain CON, 1/2 to drain STR and 1/2 to drain experience
+  (`process_world()` in `game-world.c`). It calls `player_stat_dec()` and
+  `player_exp_lose()` directly, so **neither sustains nor Hold Life protect**
+  against it (temporary drains — restorable). The only
+  cure in 4.2.6 is the **Herbal Curing** spell (Rangers at clvl 9, Druids at
+  clvl 40, `class.txt`); otherwise wait it out and restore afterwards.
+* **Experience drain** touches — Hold Life.
+* **`HOLD`, `BLIND`, `SCARE`, `WOUND`** — FA, pBlind, pFear, saving throw.
+* **`S_WRAITH`** — each Nazgûl can summon the others. Fight them one at a time:
+  kill fast, use corridors, and leave if three show up.
+* **Khamûl** has `TELE_LEVEL` (rNexus blocks); **the Witch-king** has
+  `TELE_AWAY`, `BRAIN_SMASH`, summons greater demons, ancient dragons and greater
+  undead, comes with a winged horror 50% of the time, moves at **+20** and casts
+  1/2. He is `DROP_GREAT` and the most dangerous of the nine.
+* All are `HURT_LIGHT` (light beams/balls ×2) and undead (slay/kill undead;
+  immune to nether).
+
+**Maeglin, the Traitor of Gondolin** (DL81, +20, 6000 HP, 4 × 8d8 = up to
+256, `KILL_WALL`, spells 1/6: summons animals, greater demons, ancient
+dragons, greater undead, monsters and **uniques**; `DROP_GREAT`). A summoner
+who digs to you.
+
+**Pazuzu, Lord of Air** (DL82, **+30**, 5500 HP, **invisible**, 4 lightning hits
+12d12 = up to 576 per round, `MIND_BLAST`, lightning ball/bolt, mana bolt
+(max 255), `S_HI_DEMON`, escort of giant rocs, immune to all base elements).
+Electricity immunity makes his melee harmless-ish (the elemental part is
+cancelled; check your immunity before closing). SI is a must.
+
+**Draugluin, Sire of All Werewolves** (DL83, +20, 7000 HP, `S_HOUND`,
+`S_MONSTERS`, scare; werewolves and wolf chieftains). Summons hound packs
+every few turns — fight in a corridor.
+
+**Cantoras, the Skeletal Lord** (DL84, **+30**, 7500 HP, spell power 110,
+spells **1/2**: brain smash, `WOUND` (max 360), scare, `TELE_TO`, **nether ball
+(max 540)**, water ball, ice bolt, mana bolt (max 325), `S_HI_UNDEAD`;
+XP-draining gazes; `DROP_GREAT`). Fast, durable and casting every other turn
+— the single most dangerous undead after the Witch-king. Needs +30 speed or
+a lot of HP.
+
+**Ancalagon the Black** (DL85, +20, 10000 HP, breathes acid, cold, elec, fire
+**1600** and poison **800**, `S_HI_DRAGON`, `S_KIN`; brings **Kavlax,
+Scatha, Itangast, Smaug and Glaurung**; `DROP_GREAT`). The great dragon
+army. Double resists or immunities in every base element; ideally meet him
+when the other five are already dead (they are only generated with him if
+they are still alive).
+
+**The Tarrasque** (DL86, +20, 8500 HP, breath cold/fire **1600**,
+disenchantment **500**, innate 1/2). It has both `IM_COLD` (its own flags)
+and `HURT_COLD` (from the `reptile` base); immunity is checked first in
+`project_monster_hurt_immune()`, so cold spells do 1/9 — don't bother. Drains charges in melee.
+No `DROP_GREAT` but `DROP_4 | DROP_GOOD`.
+
+**Meássë, the Bloody** (DL87, +10, 7000 HP, 4 confusing hits 12d12 = up to
+576, sound breath 500, shard ball, boulders, heal, `HEAL_KIN`, `S_KIN`,
+`S_MONSTERS`; brings Makar and Maiar/titans). pConf, pStun/rSound.
+
+**Lungorthin, the Balrog of White Fire** (DL88, +20, 7000 HP, fire breath
+**1600**, plasma 150, fire hits 8d12 ×2 + crush 8d12, `BLIND CONF SCARE
+S_HI_DEMON S_UNDEAD`; brings lesser and greater Balrogs and the Balrog of
+Moria). Fire immunity is close to mandatory.
+
+**Huan, Wolfhound of the Valar** (DL90, +20, 8000 HP, cold claws/bites up to
+432 per round, breath cold **1600**, light/shards/sound **500**, innate 1/5;
+not evil; `NO_STUN`). rCold+temp or immunity, rLight, rShards, rSound.
+**Carcharoth, the Jaws of Thirst** (DL90, +20, 8000 HP, fire claws/bites up
+to 432, breath fire **1600**, nether 600, dark 500, poison 800, `S_HOUND`).
+Fire immunity, rPois, rNether, rDark.
+
+**Vecna, the Emperor Lich** (DL92, +20, 6000 HP, spells **1/2**: blind,
+`WOUND` (max 300), scare, teleport, brain smash, fire ball (max 332),
+**mana storm (max 560)**, nether ball (max 468), mana bolt; summons greater
+demons, greater undead, kin and monsters; touches drain XP, DEX and charges;
+a huge undead escort; `DROP_GREAT`). As dangerous as Sauron's spellcasting
+apart from summoning uniques. Saving throw, all protections, 800+ HP.
+
+**Gothmog, the High Captain of Balrogs** (DL95, +20, 8000 HP, fire breath
+**1600**, plasma 150, fire hits 9d12 ×2 + crush 8d12, `BLIND CONF SCARE
+S_HI_DEMON S_HI_UNDEAD`; brings 1d5 lesser Balrogs, 1d2 greater Balrogs,
+the Balrog of Moria, Lungorthin and possibly osyluths, gelugons and pit
+fiends; `DROP_GREAT`; immune to elec, fire, plasma). Fire immunity, pConf,
+pBlind, pFear; anti-summon corridor; enough damage to kill 8000 HP before the
+Balrogs surround you.
+
