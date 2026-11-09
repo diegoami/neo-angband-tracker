@@ -1,0 +1,61 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A newly seen wall-walker made the Borg forget the wall</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A newly seen wall-walker made the Borg forget the wall</h1><p>Some monsters, such as an earth spirit, can stand inside solid rock. The Borg has a rule not to shoot at such a monster unless it is on known floor, because the game stops a missile in front of a wall. When the Borg first sees a monster it creates a tracking record; the last step of that routine looked up the monster&#x27;s race before the record was filled in, so it read an empty race (one with no wall-walking ability) and overwrote the grid in the Borg&#x27;s map with floor. An earth spirit seen inside a granite pillar four steps away therefore turned the pillar into floor in the Borg&#x27;s map, and on that turn the Borg fired a sling shot at it: the real fire command spent the turn and the shot, and the earth spirit took no damage. The correction drops that last step, because the routine has already placed the monster on floor or wall with the right race a few lines earlier; the Borg&#x27;s map keeps the granite and it does not shoot into the rock.</p><p><label>Scenario: <select id="scenario"><option value="wall">Earth spirit inside a granite pillar</option><option value="floor">Control: earth spirit on open floor</option></select></label></p><section class="scenario" data-mode="wall"><p class="summary">Original: the first sighting overwrites the pillar with floor in the Borg&#x27;s map (map_granite=0); the Borg fires (keys *p66665f05); the real fire command uses a full turn (energy 100) and one shot, the shot stops at the wall and the earth spirit keeps 56/56 hit points. Corrected: the map keeps granite (map_granite=1), the Borg&#x27;s own &#x27;never shoot walls&#x27; rule holds and no attack is queued.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>fires a sling shot at the earth spirit (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=granite after_sighting=floor game=granite
+DECISION acted=1 keys=&quot;*p66665f05&quot; fired=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>fires a sling shot at the earth spirit (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=granite after_sighting=granite game=granite
+DECISION acted=0 keys=&quot;&quot; fired=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/newkill-95: starting...
+SETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=wall
+TERRAIN game=granite borg_map=granite at (11,15)
+  newly_seen_pass_wall_monster_keeps_wall  MODE wall
+TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=granite after_sighting=floor game=granite
+DECISION acted=1 keys=&quot;*p66665f05&quot; fired=1
+MSG You have 19 Iron Shots (1d4) (+0,+0) (0).
+ENGINE monster_hp=56-&gt;56 quiver_shots=20-&gt;19 energy_used=100
+OUTCOME map_granite=0 fired=1 damage=0
+Failed
+    native-c/newkill-95:221: requirement &#x27;after_feat&#x27; == &#x27;FEAT_GRANITE&#x27; failed
+      after_feat:                1
+      FEAT_GRANITE:               21
+native-c/newkill-95 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/newkill-95: starting...
+SETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=wall
+TERRAIN game=granite borg_map=granite at (11,15)
+  newly_seen_pass_wall_monster_keeps_wall  MODE wall
+TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=granite after_sighting=granite game=granite
+DECISION acted=0 keys=&quot;&quot; fired=0
+ENGINE monster_hp=56-&gt;56 quiver_shots=20-&gt;20 energy_used=0
+OUTCOME map_granite=1 fired=0 damage=0
+Passed
+native-c/newkill-95 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="floor"><p class="summary">The same earth spirit on a floor grid. Both versions keep the grid as floor and fire; the shot hits for 4 damage. The logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>fires a sling shot at the earth spirit (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=floor after_sighting=floor game=floor
+DECISION acted=1 keys=&quot;*p66665f05&quot; fired=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>fires a sling shot at the earth spirit (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=floor after_sighting=floor game=floor
+DECISION acted=1 keys=&quot;*p66665f05&quot; fired=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/newkill-95: starting...
+SETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=floor
+TERRAIN game=floor borg_map=floor at (11,15)
+  newly_seen_pass_wall_monster_keeps_wall  MODE floor
+TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=floor after_sighting=floor game=floor
+DECISION acted=1 keys=&quot;*p66665f05&quot; fired=1
+MSG Your Iron Shot (1d4) (+0,+0) hits the earth spirit.
+MSG You have 19 Iron Shots (1d4) (+0,+0) (0).
+ENGINE monster_hp=56-&gt;52 quiver_shots=20-&gt;19 energy_used=100
+OUTCOME map_granite=0 fired=1 damage=4
+Passed
+native-c/newkill-95 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/newkill-95: starting...
+SETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=floor
+TERRAIN game=floor borg_map=floor at (11,15)
+  newly_seen_pass_wall_monster_keeps_wall  MODE floor
+TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=floor after_sighting=floor game=floor
+DECISION acted=1 keys=&quot;*p66665f05&quot; fired=1
+MSG Your Iron Shot (1d4) (+0,+0) hits the earth spirit.
+MSG You have 19 Iron Shots (1d4) (+0,+0) (0).
+ENGINE monster_hp=56-&gt;52 quiver_shots=20-&gt;19 energy_used=100
+OUTCOME map_granite=0 fired=1 damage=4
+Passed
+native-c/newkill-95 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 1000, character level 1, depth 20, wielding a sling with 20 iron shots, in a lit 38x38 room. The fixture&#x27;s terrain change is one granite grid four steps east of the Borg (wall case only); the Borg&#x27;s map is filled from the real terrain, as borg_update_map() does for seen grids. A stock earth spirit is placed one grid further east and moved into that grid with the game&#x27;s monster_swap(); it is awake and visible. The production first-sighting path observe_kill_diff() -&gt; borg_new_kill() runs once, then the production borg_attack(false) chooses an action and its queued keys are read back. When the Borg chose to fire, the fixture carries it out with the real CMD_FIRE command (quiver shot, target = the monster&#x27;s grid); game messages are printed as MSG lines. This isolates one decision turn; it does not play out the fight.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/95">issue 95</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

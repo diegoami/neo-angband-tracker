@@ -1,0 +1,20 @@
+{
+  "wall": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "map_granite": 0,
+      "fired": 1,
+      "damage": 0
+    }
+  },
+  "floor": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "map_granite": 0,
+      "fired": 1,
+      "damage": 4
+    }
+  }
+}

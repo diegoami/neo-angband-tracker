@@ -1,0 +1,101 @@
+{
+  "issue": "diegoami/neo-angband-tracker#95",
+  "report": "newkill-95",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "1a220cb2db15c4d142f2ee8a97fa111b42d7d806",
+  "fix_branch": "task/newkill-95",
+  "fixtures_ref": "f56325e33a1ea1e074dab923fa84f1a620eb292c",
+  "cases": {
+    "wall": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "map_granite": 0,
+          "fired": 1,
+          "damage": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "map_granite": 1,
+          "fired": 0,
+          "damage": 0
+        }
+      }
+    },
+    "floor": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "map_granite": 0,
+          "fired": 1,
+          "damage": 4
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "map_granite": 0,
+          "fired": 1,
+          "damage": 4
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "floor"
+  ],
+  "claim": "borg_new_kill() read the race of the reused tracking slot before storing the new race, so its final floor/wall step used an empty race and marked every newly seen monster's grid as floor. A pass-wall monster first seen inside rock thus turned the rock into floor in the Borg's map, defeating the 'never shoot walls' check: a level-1 Warrior fired a sling shot at an earth spirit inside a granite pillar, losing the turn and the shot for 0 damage. borg_update_kill_old(), called just before, already does that step with the right race; removing the stale duplicate keeps the wall and the shot is not taken. The open-floor control (shot hits for 4) is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-kill.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "6a3f071fa329e51d427ef2142b5786f1e63244f42e513775e47a5ffbaf859a8c"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "9c3d4def2e7a111aa6ab5d08b9b01e5b33e2c4c57c4239a549a166e3dfa29fb4",
+    "after-floor.log": "00cb271280249123b0ba1130cca75de456be0ff946bc2f6b5f4acac510ae6418",
+    "after-results.json": "66b9e77be020ed189d597c1a4450f761928f20faf9478ff8a754d570ef5bc205",
+    "after-wall.log": "35dfdb89ca1c162facd1979d44e39094c2c97cf9a8451b35f1e301aba86558a5",
+    "before-floor.log": "00cb271280249123b0ba1130cca75de456be0ff946bc2f6b5f4acac510ae6418",
+    "before-results.json": "acfdee87b46a3d1880dcfb00d7422eb2c450d528268c85478f7b72de8986b752",
+    "before-wall.log": "1b21d56b2d241cdf5cd1701d607a7b437d811595af2bddf6033988e5faff8b65",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "34cc6513941bef852d8a83d6a335f118602315560e7a5f590ff6611ca3541c4c",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "431b412d02c879fb82a00dc7722f1cf183217403f1143a277702c608bddc72a9",
+    "replay.html": "a58cb93e90405e9415bd85b69cb9080e01c5cbfcfce3ed48ac376a220e1499d6",
+    "reproduce.py": "83552b651d53a84a2150186a8fb6bee36634de39551b174125f19f38129f6d72",
+    "result.json": "913da067b2c1ef0ace684ac31980e1655df1379223285c6c1a6a16c9ee6d9653",
+    "run-after-alltests.log": "cb6106522fc7ae5395fac2aa7660731572cb78c6258b1adc129b375cdabd7b85",
+    "run-after-build.log": "bdda63b61151b0ca296cdaa627a8240b6d35bc6dfae345d804346a4dc28c3135",
+    "run-after-scenarios.log": "34f964162adb086db06fe8ce78ad996819dc110ea40a768ed034fcfacb2d3235",
+    "run-before-alltests.log": "7888ca8126bcab83c56cb8a519e549da0cc34f180d7745e62c38e695a07c5c39",
+    "run-before-build.log": "7c756b9fced987746a631ee29fe5ab17642ae8ed376d4b79a9564ea5220e974b",
+    "run-before-scenarios.log": "ae363ff6a81a4e49b1c312e54593c76637bbe388d28ab40a05638a814e6db9a5",
+    "run-cases.py": "a6ca568b9cf1fca30a5e1d9d4af2690d68f39a7bdd8df4123ad8da1c314a824c",
+    "run-configure.log": "b4ca914db62eedf39244a054fdf6774e2652fd74e99fa367d63bd0fe8865878d",
+    "scenario.c": "6d25e5856443198550a898225a281c83e042d21eafc812016ae2fa13cf5c095f"
+  }
+}

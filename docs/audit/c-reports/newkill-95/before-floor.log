@@ -1,0 +1,13 @@
+native-c/newkill-95: starting...
+SETUP seed=1000 class=Warrior level=1 depth=20 hp=20/20 mode=floor
+TERRAIN game=floor borg_map=floor at (11,15)
+  newly_seen_pass_wall_monster_keeps_wall  MODE floor
+TRACK seen=1 kill=1 race=earth spirit pass_wall=1
+TRACK borg_map before_sighting=floor after_sighting=floor game=floor
+DECISION acted=1 keys="*p66665f05" fired=1
+MSG Your Iron Shot (1d4) (+0,+0) hits the earth spirit.
+MSG You have 19 Iron Shots (1d4) (+0,+0) (0).
+ENGINE monster_hp=56->52 quiver_shots=20->19 energy_used=100
+OUTCOME map_granite=0 fired=1 damage=4
+Passed
+native-c/newkill-95 finished: 1/1 passed
