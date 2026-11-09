@@ -1,0 +1,116 @@
+{
+  "offcenter": {
+    "label": "Control: on an unglyphed grid next to the laid centre",
+    "explanation": "Both versions score the Borg's own grid in the old-centre branch (cost 0, score 500), choose it and read a Rune of Protection on the next call. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/glyphterm-115: starting...\nSETUP seed=115 mode=offcenter class=Warrior clevel=50 depth=99 runes=40\n  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)\nTRACK choose # Flowing toward Glyph at cost 0\nDECISION call=arrive rc=1 key=57344 borg=(99,33)\nTRACK arrive # Glyph Creating at (99,33)\nTRACK arrive # Reading Scrolls of Rune of Protection.\nTRACK arrive # Noting the creation of a glyph.\nDECISION call=outlying rc=0 key=0 borg=(100,33)\nTRACK outlying # Flowing toward Glyph at cost 0\nDECISION call=follow rc=1 key=57344 borg=(100,33)\nTRACK follow # Glyph Creating at (100,33)\nTRACK follow # Reading Scrolls of Rune of Protection.\nTRACK follow # Noting the creation of a glyph.\nSTATE center_rune=1 ring_runes=0 read=1\nOUTCOME progress=1\nPassed\nnative-c/glyphterm-115 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "center_rune": 1,
+        "ring_runes": 0,
+        "read": 1
+      },
+      "outcome": {
+        "progress": 1
+      },
+      "notes": [
+        "TRACK choose # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive rc=1 key=57344 borg=(99,33)",
+        "TRACK arrive # Glyph Creating at (99,33)",
+        "TRACK arrive # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive # Noting the creation of a glyph.",
+        "DECISION call=outlying rc=0 key=0 borg=(100,33)",
+        "TRACK outlying # Flowing toward Glyph at cost 0",
+        "DECISION call=follow rc=1 key=57344 borg=(100,33)",
+        "TRACK follow # Glyph Creating at (100,33)",
+        "TRACK follow # Reading Scrolls of Rune of Protection.",
+        "TRACK follow # Noting the creation of a glyph."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/glyphterm-115: starting...\nSETUP seed=115 mode=offcenter class=Warrior clevel=50 depth=99 runes=40\n  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)\nTRACK choose # Flowing toward Glyph at cost 0\nDECISION call=arrive rc=1 key=57344 borg=(99,33)\nTRACK arrive # Glyph Creating at (99,33)\nTRACK arrive # Reading Scrolls of Rune of Protection.\nTRACK arrive # Noting the creation of a glyph.\nDECISION call=outlying rc=0 key=0 borg=(100,33)\nTRACK outlying # Flowing toward Glyph at cost 0\nDECISION call=follow rc=1 key=57344 borg=(100,33)\nTRACK follow # Glyph Creating at (100,33)\nTRACK follow # Reading Scrolls of Rune of Protection.\nTRACK follow # Noting the creation of a glyph.\nSTATE center_rune=1 ring_runes=0 read=1\nOUTCOME progress=1\nPassed\nnative-c/glyphterm-115 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "center_rune": 1,
+        "ring_runes": 0,
+        "read": 1
+      },
+      "outcome": {
+        "progress": 1
+      },
+      "notes": [
+        "TRACK choose # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive rc=1 key=57344 borg=(99,33)",
+        "TRACK arrive # Glyph Creating at (99,33)",
+        "TRACK arrive # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive # Noting the creation of a glyph.",
+        "DECISION call=outlying rc=0 key=0 borg=(100,33)",
+        "TRACK outlying # Flowing toward Glyph at cost 0",
+        "DECISION call=follow rc=1 key=57344 borg=(100,33)",
+        "TRACK follow # Glyph Creating at (100,33)",
+        "TRACK follow # Reading Scrolls of Rune of Protection.",
+        "TRACK follow # Noting the creation of a glyph."
+      ],
+      "value": 1
+    }
+  },
+  "ring": {
+    "label": "Control: as above, with twelve runes already laid in the block",
+    "explanation": "Same choice with a partly built sea: the existing runes do not enter the old-centre score in either version. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/glyphterm-115: starting...\nSETUP seed=115 mode=ring class=Warrior clevel=50 depth=99 runes=40\n  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)\nTRACK choose # Flowing toward Glyph at cost 0\nDECISION call=arrive rc=1 key=57344 borg=(99,33)\nTRACK arrive # Glyph Creating at (99,33)\nTRACK arrive # Reading Scrolls of Rune of Protection.\nTRACK arrive # Noting the creation of a glyph.\nDECISION call=outlying rc=0 key=0 borg=(100,33)\nTRACK outlying # Flowing toward Glyph at cost 0\nDECISION call=follow rc=1 key=57344 borg=(100,33)\nTRACK follow # Glyph Creating at (100,33)\nTRACK follow # Reading Scrolls of Rune of Protection.\nTRACK follow # Noting the creation of a glyph.\nSTATE center_rune=1 ring_runes=12 read=1\nOUTCOME progress=1\nPassed\nnative-c/glyphterm-115 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "center_rune": 1,
+        "ring_runes": 12,
+        "read": 1
+      },
+      "outcome": {
+        "progress": 1
+      },
+      "notes": [
+        "TRACK choose # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive rc=1 key=57344 borg=(99,33)",
+        "TRACK arrive # Glyph Creating at (99,33)",
+        "TRACK arrive # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive # Noting the creation of a glyph.",
+        "DECISION call=outlying rc=0 key=0 borg=(100,33)",
+        "TRACK outlying # Flowing toward Glyph at cost 0",
+        "DECISION call=follow rc=1 key=57344 borg=(100,33)",
+        "TRACK follow # Glyph Creating at (100,33)",
+        "TRACK follow # Reading Scrolls of Rune of Protection.",
+        "TRACK follow # Noting the creation of a glyph."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/glyphterm-115: starting...\nSETUP seed=115 mode=ring class=Warrior clevel=50 depth=99 runes=40\n  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)\nTRACK choose # Flowing toward Glyph at cost 0\nDECISION call=arrive rc=1 key=57344 borg=(99,33)\nTRACK arrive # Glyph Creating at (99,33)\nTRACK arrive # Reading Scrolls of Rune of Protection.\nTRACK arrive # Noting the creation of a glyph.\nDECISION call=outlying rc=0 key=0 borg=(100,33)\nTRACK outlying # Flowing toward Glyph at cost 0\nDECISION call=follow rc=1 key=57344 borg=(100,33)\nTRACK follow # Glyph Creating at (100,33)\nTRACK follow # Reading Scrolls of Rune of Protection.\nTRACK follow # Noting the creation of a glyph.\nSTATE center_rune=1 ring_runes=12 read=1\nOUTCOME progress=1\nPassed\nnative-c/glyphterm-115 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "center_rune": 1,
+        "ring_runes": 12,
+        "read": 1
+      },
+      "outcome": {
+        "progress": 1
+      },
+      "notes": [
+        "TRACK choose # Flowing toward Glyph at cost 0",
+        "DECISION call=arrive rc=1 key=57344 borg=(99,33)",
+        "TRACK arrive # Glyph Creating at (99,33)",
+        "TRACK arrive # Reading Scrolls of Rune of Protection.",
+        "TRACK arrive # Noting the creation of a glyph.",
+        "DECISION call=outlying rc=0 key=0 borg=(100,33)",
+        "TRACK outlying # Flowing toward Glyph at cost 0",
+        "DECISION call=follow rc=1 key=57344 borg=(100,33)",
+        "TRACK follow # Glyph Creating at (100,33)",
+        "TRACK follow # Reading Scrolls of Rune of Protection.",
+        "TRACK follow # Noting the creation of a glyph."
+      ],
+      "value": 1
+    }
+  }
+}

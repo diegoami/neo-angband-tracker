@@ -1,0 +1,113 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Drop the always-zero glyph count from the outlying rune score</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Drop the always-zero glyph count from the outlying rune score</h1><p>Cleanup, no behaviour change; owner decision. Before fighting Morgoth the Borg builds a Sea of Runes, a 5x5 block of Runes of Protection around a centre. Once the centre is laid, borg_flow_glyph() scores each unglyphed grid of the block as 500 + (tmp_glyph * 500) - cost. tmp_glyph is only counted when a new sea is being placed, so in this branch it is always 0 and the score is simply 500 - cost: the Borg glyphs the nearest unglyphed grid next. The change writes the score as 500 - cost, one line, which makes that nearest-first choice explicit.</p><p><label>Scenario: <select id="scenario"><option value="offcenter">Control: on an unglyphed grid next to the laid centre</option><option value="ring">Control: as above, with twelve runes already laid in the block</option></select></label></p><section class="scenario" data-mode="offcenter"><p class="summary">Both versions score the Borg&#x27;s own grid in the old-centre branch (cost 0, score 500), choose it and read a Rune of Protection on the next call. The logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>outlying-rune progress (1 = the Borg chose an outlying grid and read a rune on it)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>outlying-rune progress (1 = the Borg chose an outlying grid and read a rune on it)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/glyphterm-115: starting...
+SETUP seed=115 mode=offcenter class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.
+STATE center_rune=1 ring_runes=0 read=1
+OUTCOME progress=1
+Passed
+native-c/glyphterm-115 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/glyphterm-115: starting...
+SETUP seed=115 mode=offcenter class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.
+STATE center_rune=1 ring_runes=0 read=1
+OUTCOME progress=1
+Passed
+native-c/glyphterm-115 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="ring"><p class="summary">Same choice with a partly built sea: the existing runes do not enter the old-centre score in either version. The logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>outlying-rune progress (1 = the Borg chose an outlying grid and read a rune on it)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>outlying-rune progress (1 = the Borg chose an outlying grid and read a rune on it)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/glyphterm-115: starting...
+SETUP seed=115 mode=ring class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.
+STATE center_rune=1 ring_runes=12 read=1
+OUTCOME progress=1
+Passed
+native-c/glyphterm-115 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/glyphterm-115: starting...
+SETUP seed=115 mode=ring class=Warrior clevel=50 depth=99 runes=40
+  sea_of_runes_outlying_rune  DECISION call=choose rc=0 key=0 borg=(99,33)
+TRACK choose # Flowing toward Glyph at cost 0
+DECISION call=arrive rc=1 key=57344 borg=(99,33)
+TRACK arrive # Glyph Creating at (99,33)
+TRACK arrive # Reading Scrolls of Rune of Protection.
+TRACK arrive # Noting the creation of a glyph.
+DECISION call=outlying rc=0 key=0 borg=(100,33)
+TRACK outlying # Flowing toward Glyph at cost 0
+DECISION call=follow rc=1 key=57344 borg=(100,33)
+TRACK follow # Glyph Creating at (100,33)
+TRACK follow # Reading Scrolls of Rune of Protection.
+TRACK follow # Noting the creation of a glyph.
+STATE center_rune=1 ring_runes=12 read=1
+OUTCOME progress=1
+Passed
+native-c/glyphterm-115 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 115, level 50, depth 99, a full-size open level (198x66), 40 known Rune of Protection scrolls. The production borg_flow_glyph() runs as the Borg would call it: the first call chooses the Borg&#x27;s own grid as the centre, the second arrives and reads a Rune of Protection (the fixture then lays that rune on the grid, the result of the read). The fixture then moves the Borg one grid east, onto an unglyphed grid of the 5x5 block, and up to two further calls must choose a grid in the changed old-centre branch and read a rune there. &#x27;ring&#x27;: twelve grids of the block west of the Borg already carry runes (laid by the fixture). Fixture interventions: the arena, lighting and the Borg&#x27;s map are set directly; runes are laid by the fixture after a successful read; the player is moved by the fixture.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/115">issue 115</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
