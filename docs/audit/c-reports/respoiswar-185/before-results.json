@@ -1,0 +1,26 @@
+{
+  "cold": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "arescold": 4,
+      "arespois": 3,
+      "potion_reward": 900
+    },
+    "outcome": {
+      "potions_kept": 1
+    }
+  },
+  "plain": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "arescold": 0,
+      "arespois": 3,
+      "potion_reward": 2400
+    },
+    "outcome": {
+      "potions_kept": 1
+    }
+  }
+}

@@ -1,0 +1,34 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Resist Cold potions cancelled a warrior&#x27;s Resist Poison reward</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Resist Cold potions cancelled a warrior&#x27;s Resist Poison reward</h1><p>Warriors past depth 20 get an extra &#x27;power&#x27; reward for carrying up to four potions each of Resist Heat, Resist Cold and Resist Poison. The counter was reset before the heat and cold loops but not before the poison loop, so the poison count started where the cold count stopped. A warrior with four Resist Cold potions got no warrior reward for its three Resist Poison potions: 900 instead of 2400. The correction resets the counter before the poison loop too.</p><p><label>Scenario: <select id="scenario"><option value="cold">Also carrying 4 Resist Cold potions</option><option value="plain">Control: no Resist Cold potions</option></select></label></p><section class="scenario" data-mode="cold"><p class="summary">Original: the warrior poison loop starts at the Resist Cold count (4) and adds nothing: 900 (the all-classes reward only). Corrected: 2400.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">900</div><p>power added by 3 Resist Poison potions (expected 2400)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION junk=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">2400</div><p>power added by 3 Resist Poison potions (expected 2400)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION junk=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/respoiswar-185: starting...
+SETUP seed=185 mode=cold class=Warrior clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE arescold=4 arespois=3
+STATE potion_reward=900
+DECISION junk=0
+OUTCOME potions_kept=1
+Failed
+    native-c/respoiswar-185:194: requirement &#x27;with - without == 2400&#x27; failed
+native-c/respoiswar-185 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/respoiswar-185: starting...
+SETUP seed=185 mode=cold class=Warrior clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE arescold=4 arespois=3
+STATE potion_reward=2400
+DECISION junk=0
+OUTCOME potions_kept=1
+Passed
+native-c/respoiswar-185 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="plain"><p class="summary">The counter is already 0 after the cold loop; both versions value the potions at 2400 and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">2400</div><p>power added by 3 Resist Poison potions (expected 2400)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION junk=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">2400</div><p>power added by 3 Resist Poison potions (expected 2400)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION junk=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/respoiswar-185: starting...
+SETUP seed=185 mode=plain class=Warrior clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE arescold=0 arespois=3
+STATE potion_reward=2400
+DECISION junk=0
+OUTCOME potions_kept=1
+Passed
+native-c/respoiswar-185 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/respoiswar-185: starting...
+SETUP seed=185 mode=plain class=Warrior clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE arescold=0 arespois=3
+STATE potion_reward=2400
+DECISION junk=0
+OUTCOME potions_kept=1
+Passed
+native-c/respoiswar-185 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 185, level 25, maximum depth 25 (on depth 20), a lantern, 5 Rations of Food and 3 Resist Poison potions; in the main case also 4 Resist Cold potions. The value of the poison potions is the production borg_power() with the stack minus without it (expected 3 x 300 for all classes plus 3 x 500 for warriors). The production junk pass then runs once and drops nothing in either version. Uses of the score (selling, buying, dropping when the pack is full) were not exercised.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/185">issue 185</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

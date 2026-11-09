@@ -1,0 +1,8 @@
+native-c/respoiswar-185: starting...
+SETUP seed=185 mode=cold class=Warrior clevel=25 depth=20
+  resist_poison_potions_are_valued  STATE arescold=4 arespois=3
+STATE potion_reward=2400
+DECISION junk=0
+OUTCOME potions_kept=1
+Passed
+native-c/respoiswar-185 finished: 1/1 passed
