@@ -1,0 +1,229 @@
+{
+  "issue": "diegoami/neo-angband-tracker#364",
+  "report": "healchance-364",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "b366550f776d4d7a6ac52031529f3254a5914d38",
+  "fix_branch": "task/healchance-364",
+  "fixtures_ref": "3adc1b8128edfe31ca9a395d64f860b995396ec6",
+  "cases": {
+    "danger": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 192,
+          "curhp": 149,
+          "maxhp": 374,
+          "pct_down": 60,
+          "unique": 0,
+          "risky": 0,
+          "in_band": 1
+        },
+        "outcome": {
+          "heals": 0,
+          "plain_heals": -1,
+          "witness_healed": 0,
+          "drank_healing": 0,
+          "hp_after": 149
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 192,
+          "curhp": 149,
+          "maxhp": 374,
+          "pct_down": 60,
+          "unique": 0,
+          "risky": 0,
+          "in_band": 1
+        },
+        "outcome": {
+          "heals": 100,
+          "plain_heals": -1,
+          "witness_healed": 1,
+          "drank_healing": 1,
+          "hp_after": 374
+        }
+      }
+    },
+    "unique": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 44,
+          "curhp": 149,
+          "maxhp": 374,
+          "pct_down": 60,
+          "unique": 1,
+          "risky": 0,
+          "in_band": 0
+        },
+        "outcome": {
+          "heals": 18,
+          "plain_heals": -1,
+          "witness_healed": 0,
+          "drank_healing": 0,
+          "hp_after": 179
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 44,
+          "curhp": 149,
+          "maxhp": 374,
+          "pct_down": 60,
+          "unique": 1,
+          "risky": 0,
+          "in_band": 0
+        },
+        "outcome": {
+          "heals": 32,
+          "plain_heals": -1,
+          "witness_healed": 0,
+          "drank_healing": 0,
+          "hp_after": 179
+        }
+      }
+    },
+    "risky": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 8,
+          "curhp": 149,
+          "maxhp": 374,
+          "pct_down": 60,
+          "unique": 0,
+          "risky": 1,
+          "in_band": 0
+        },
+        "outcome": {
+          "heals": 27,
+          "plain_heals": 23,
+          "witness_healed": 0,
+          "drank_healing": 0,
+          "hp_after": 149
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 8,
+          "curhp": 149,
+          "maxhp": 374,
+          "pct_down": 60,
+          "unique": 0,
+          "risky": 1,
+          "in_band": 0
+        },
+        "outcome": {
+          "heals": 20,
+          "plain_heals": 23,
+          "witness_healed": 0,
+          "drank_healing": 0,
+          "hp_after": 149
+        }
+      }
+    },
+    "control": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 8,
+          "curhp": 149,
+          "maxhp": 374,
+          "pct_down": 60,
+          "unique": 0,
+          "risky": 0,
+          "in_band": 0
+        },
+        "outcome": {
+          "heals": 23,
+          "plain_heals": -1,
+          "witness_healed": 0,
+          "drank_healing": 0,
+          "hp_after": 149
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 8,
+          "curhp": 149,
+          "maxhp": 374,
+          "pct_down": 60,
+          "unique": 0,
+          "risky": 0,
+          "in_band": 0
+        },
+        "outcome": {
+          "heals": 23,
+          "plain_heals": -1,
+          "witness_healed": 0,
+          "drank_healing": 0,
+          "hp_after": 149
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "claim": "borg_heal() skips healing when chance is below the band threshold, but the unique (-10), danger-at-or-above-HP (-75) and risky (+5) adjustments push chance the opposite way from their comments. In a native scenario a level-31 Warrior on 149/374 HP beside a fire giant (danger 192) with three Potions of Healing healed in 0 of 100 decisions and read Word of Recall; with the three signs flipped it heals in 100 of 100 and the real quaff restores it to 374 HP. Near a unique heals go 18 -> 32 of 100 (23 without a unique); a risky Borg goes 27 -> 20 (against 23 not risky). The ordinary-danger control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-caution.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "bce7444989619911af3a45b9fcdfcb9509825025d60f5f3ec5efc61d0ec2d40e"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "fac1ae1d96ba490007e58974a66e9f5a85ae1f2dd3eb05775099b3c34db404b6",
+    "after-control.log": "3b25a0b3eefd23f81bbc0843767a1f0c35d060feafdc0eb979b63d1c24004230",
+    "after-danger.log": "113647eaf57ff7816d839a8d2ab254a26cf060dcd227b41dbdf9a4942857e330",
+    "after-results.json": "0f281e5190895c41a1a1aa7942c12853a66f4581757b8e35bed0cebcbb1dc30e",
+    "after-risky.log": "6e8a44b8985a3db78211934f05419c5712636982586f97ccee42d293cb8644da",
+    "after-unique.log": "c2bf5b01a53eca81a880e56ffe1587fe2eef43a41354c123ae3e9015a51ee4be",
+    "before-control.log": "3b25a0b3eefd23f81bbc0843767a1f0c35d060feafdc0eb979b63d1c24004230",
+    "before-danger.log": "5b1476fcf573df5d2ed9211424f86dc740879fa5c0248350f068d3b99ff6e238",
+    "before-results.json": "cf2ac87cc3978b06d47dc6ea583f6da920c7640eab0a39488cf190a791bb1bb4",
+    "before-risky.log": "76d34e1243dca0fdd5ffb182074d76de43653b474006039390f9774688744dce",
+    "before-unique.log": "e6f21391cf1745160826d06913ee0e4b043634e9964f096e23771ea207b345f9",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "d0920e02f8cb88aa705509579f1624ebc5ab3c549c475a84520383ee2865097c",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "6509a4c5f17f65c185c4b3a0c8c9c41e5ef6960b125668e515e31cb6d9e0f7ef",
+    "replay.html": "fbbb8bb6ec8d9d368d695a48d599345cdf112c63160f113979e814b6b611feec",
+    "reproduce.py": "dec2ca9dd2d53aef529158b24d28c0d8c3e5a45b4e561ef22e8976b632667506",
+    "result.json": "c6bbe477ce795fae5b69693d75ddd20458a4b3da3301bc69f1053a1b90db4fd6",
+    "run-after-alltests.log": "7fc9efe2bbd31423921f6fe167c65ae5122ad5a3c486e8b3ef1e23bb00efa894",
+    "run-after-build.log": "aae64eb88951fb77c2aec83056462af2080dfa68a3e3b6662a7b015aeab9d225",
+    "run-after-scenarios.log": "8005bfda2d13d617ea07dd8b1c1501bad85863511a257e839a5024722a86fe16",
+    "run-before-alltests.log": "f773c65f771f62c926d38db7af98cf0d27a237fc5f4263452f7796e7181ff941",
+    "run-before-build.log": "42b94947cd1b7cf778aac4cc51674e6da256464c15069c1a9f4b0d225f6287fa",
+    "run-before-scenarios.log": "9b5ef19845869f6e7d76a5543bb05e0da679fdde043184b535016969c6e8538d",
+    "run-cases.py": "b818c7493c852d732c5d2723c6ff90506a9e199f512ce563d4cad939fbe146e9",
+    "run-configure.log": "bf20760a1bce6f48ba96c4b77a4ce2b520b877f8eba8ffa5ca391f117055b579",
+    "scenario.c": "a326f3e1c8f16c85998fcc58545f5524ec17c7885fdde00444137e4568d95bb6"
+  }
+}
