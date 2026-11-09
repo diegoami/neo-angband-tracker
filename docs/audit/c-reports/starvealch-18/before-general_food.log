@@ -1,0 +1,25 @@
+native-c/starvealch-18: starting...
+TIMED food=1499 hungry_below=1500
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Remove Hunger
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=0 [General Store] 5x Flask of Oil
+STOCK store=0 [General Store] 5x Ration of Food
+SETUP seed=18 mode=general_food class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2
+  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]
+SHOP 0 ware 1 qty=5 cost=3 desc=[Flasks of oil {??}]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+SHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]
+TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]
+OUTCOME buys_food=1 buys_remove_hunger=0
+Passed
+native-c/starvealch-18 finished: 1/1 passed

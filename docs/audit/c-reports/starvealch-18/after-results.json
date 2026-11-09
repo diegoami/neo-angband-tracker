@@ -1,0 +1,26 @@
+{
+  "starving": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "buys_food": 0,
+      "buys_remove_hunger": 1
+    }
+  },
+  "general_food": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "buys_food": 1,
+      "buys_remove_hunger": 0
+    }
+  },
+  "fed": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "buys_food": 0,
+      "buys_remove_hunger": 0
+    }
+  }
+}
