@@ -1,0 +1,62 @@
+{
+  "over3": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "avoidance": 82,
+      "p1": 287,
+      "grid_danger": 0,
+      "fail": 41,
+      "afraid": 1
+    },
+    "outcome": {
+      "cast": 0,
+      "keys": 0
+    }
+  },
+  "upper": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "avoidance": 82,
+      "p1": 225,
+      "grid_danger": 0,
+      "fail": 41,
+      "afraid": 1
+    },
+    "outcome": {
+      "cast": 1,
+      "keys": 10
+    }
+  },
+  "lower": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "avoidance": 82,
+      "p1": 184,
+      "grid_danger": 0,
+      "fail": 41,
+      "afraid": 1
+    },
+    "outcome": {
+      "cast": 1,
+      "keys": 10
+    }
+  },
+  "under2": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "avoidance": 82,
+      "p1": 123,
+      "grid_danger": 0,
+      "fail": 41,
+      "afraid": 1
+    },
+    "outcome": {
+      "cast": 1,
+      "keys": 10
+    }
+  }
+}

@@ -1,0 +1,7 @@
+native-c/teleotier-176: starting...
+SETUP seed=176 mode=lower class=Mage clevel=16 depth=15 hp=82 sp=26/26 monster=hill giant
+  defend_tele_away  STATE avoidance=82 p1=184 grid_danger=0 fail=41 afraid=1
+DECISION defend=1 keys=10 sequence=*p6665mbc5
+OUTCOME cast=1 keys=10
+Passed
+native-c/teleotier-176 finished: 1/1 passed
