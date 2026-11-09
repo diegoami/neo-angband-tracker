@@ -1,0 +1,239 @@
+{
+  "wear": {
+    "label": "Sauron dead, 5 Mass Banishment: spare Hard Leather Cap",
+    "explanation": "Original: the first pass's reference power is 1,513,679 while the same gear scores 1,526,179 once Sauron is known dead; the Hard Leather Cap scores 1,524,179 (2,000 below the worn Metal Cap) and still beats the stale reference, so the Borg sends 'w' and swaps the Metal Cap [3] for the Hard Leather Cap [2]. Corrected: the reference is 1,526,179 and no swap is made.",
+    "control": false,
+    "before": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=wear class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=0 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=1 baseline_power=1513679 same_gear_power_now=1526179 mass_banishment=5 prep_big_fight=0\nTRACK keys=<wi>\nDECISION wear=1 item=<a Hard Leather Cap [2,+0]>\nENGINE helm before=<Metal Cap [3,+0]> after=<Hard Leather Cap [2,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1513679 power_after_decision=1524179 sauron_dead_trait=1\nOUTCOME acts=1 baseline_stale=1\nFailed\n    native-c/deaduniq-101:244: requirement 'baseline == consistent' failed\nnative-c/deaduniq-101 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "baseline_power": 1513679,
+        "power_after_decision": 1524179,
+        "sauron_dead_trait": 1
+      },
+      "outcome": {
+        "acts": 1,
+        "baseline_stale": 1
+      },
+      "notes": [
+        "TRACK keys=<wi>",
+        "DECISION wear=1 item=<a Hard Leather Cap [2,+0]>"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=wear class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=1 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=1 table_after_update=1 baseline_power=1526179 same_gear_power_now=1526179 mass_banishment=5 prep_big_fight=0\nDECISION wear=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1526179 power_after_decision=1526179 sauron_dead_trait=1\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1526179,
+        "power_after_decision": 1526179,
+        "sauron_dead_trait": 1
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION wear=0 item=<none>"
+      ],
+      "value": 0
+    }
+  },
+  "junk": {
+    "label": "Sauron dead, 5 Mass Banishment: junk decision",
+    "explanation": "Original: borg_drop_junk() (enabled by the first map update's new-level branch) compares each possible drop with the stale reference, finds the Potion of Berserk Strength's removal 'better', and requests '{' 'borg ignore' then 'd': the potion is dropped and marked for destruction. Corrected: nothing is dropped.",
+    "control": false,
+    "before": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=junk class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=0 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=1 baseline_power=1598679 same_gear_power_now=1611179 mass_banishment=5 prep_big_fight=0\nTRACK keys=<{fborg ignore.df>\nDECISION junk=1 item=<Potion of Berserk Strength>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=1\nSTATE baseline_power=1598679 power_after_decision=1611179 sauron_dead_trait=1\nOUTCOME acts=1 baseline_stale=1\nFailed\n    native-c/deaduniq-101:244: requirement 'baseline == consistent' failed\nnative-c/deaduniq-101 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "baseline_power": 1598679,
+        "power_after_decision": 1611179,
+        "sauron_dead_trait": 1
+      },
+      "outcome": {
+        "acts": 1,
+        "baseline_stale": 1
+      },
+      "notes": [
+        "TRACK keys=<{fborg ignore.df>",
+        "DECISION junk=1 item=<Potion of Berserk Strength>"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=junk class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=1 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=1 table_after_update=1 baseline_power=1611179 same_gear_power_now=1611179 mass_banishment=5 prep_big_fight=0\nDECISION junk=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1611179 power_after_decision=1611179 sauron_dead_trait=1\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1611179,
+        "power_after_decision": 1611179,
+        "sauron_dead_trait": 1
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION junk=0 item=<none>"
+      ],
+      "value": 0
+    }
+  },
+  "junk-nokitpotion": {
+    "label": "Sauron dead, 5 Mass Banishment, no birth-kit potions: junk decision",
+    "explanation": "The same junk decision without the birth-kit potions. Original: the cheapest removal is one Scroll of Mass Banishment, which the Borg drops and marks 'borg ignore'. Corrected: nothing is dropped.",
+    "control": false,
+    "before": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=junk-nokitpotion class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=0 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=1 baseline_power=1598679 same_gear_power_now=1611179 mass_banishment=5 prep_big_fight=0\nTRACK keys=<{gborg ignore.dg1.>\nDECISION junk=1 item=<Scroll of Mass Banishment>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=1\nSTATE baseline_power=1598679 power_after_decision=1608679 sauron_dead_trait=1\nOUTCOME acts=1 baseline_stale=1\nFailed\n    native-c/deaduniq-101:244: requirement 'baseline == consistent' failed\nnative-c/deaduniq-101 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "baseline_power": 1598679,
+        "power_after_decision": 1608679,
+        "sauron_dead_trait": 1
+      },
+      "outcome": {
+        "acts": 1,
+        "baseline_stale": 1
+      },
+      "notes": [
+        "TRACK keys=<{gborg ignore.dg1.>",
+        "DECISION junk=1 item=<Scroll of Mass Banishment>"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=junk-nokitpotion class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=1 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=1 table_after_update=1 baseline_power=1611179 same_gear_power_now=1611179 mass_banishment=5 prep_big_fight=0\nDECISION junk=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1611179 power_after_decision=1611179 sauron_dead_trait=1\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1611179,
+        "power_after_decision": 1611179,
+        "sauron_dead_trait": 1
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION junk=0 item=<none>"
+      ],
+      "value": 0
+    }
+  },
+  "alive-wear": {
+    "label": "Control: Sauron alive, spare Hard Leather Cap",
+    "explanation": "No unique is dead, so the table is empty in both versions and the reference score is consistent. No swap in either version; byte-identical logs (the corrected start-up loop runs over every race).",
+    "control": true,
+    "before": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=alive-wear class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=1 sauron_table_at_init=0 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=0 baseline_power=1513679 same_gear_power_now=1513679 mass_banishment=5 prep_big_fight=0\nDECISION wear=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1513679 power_after_decision=1513679 sauron_dead_trait=0\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1513679,
+        "power_after_decision": 1513679,
+        "sauron_dead_trait": 0
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION wear=0 item=<none>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=alive-wear class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=1 sauron_table_at_init=0 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=0 baseline_power=1513679 same_gear_power_now=1513679 mass_banishment=5 prep_big_fight=0\nDECISION wear=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1513679 power_after_decision=1513679 sauron_dead_trait=0\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1513679,
+        "power_after_decision": 1513679,
+        "sauron_dead_trait": 0
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION wear=0 item=<none>"
+      ],
+      "value": 0
+    }
+  },
+  "alive-junk": {
+    "label": "Control: Sauron alive, junk decision",
+    "explanation": "Sauron alive, same pack as the junk case. Nothing is dropped in either version; byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=alive-junk class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=1 sauron_table_at_init=0 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=0 baseline_power=1598679 same_gear_power_now=1598679 mass_banishment=5 prep_big_fight=0\nDECISION junk=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1598679 power_after_decision=1598679 sauron_dead_trait=0\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1598679,
+        "power_after_decision": 1598679,
+        "sauron_dead_trait": 0
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION junk=0 item=<none>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=alive-junk class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=1 sauron_table_at_init=0 mass_banishment=5\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=0 baseline_power=1598679 same_gear_power_now=1598679 mass_banishment=5 prep_big_fight=0\nDECISION junk=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1598679 power_after_decision=1598679 sauron_dead_trait=0\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1598679,
+        "power_after_decision": 1598679,
+        "sauron_dead_trait": 0
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION junk=0 item=<none>"
+      ],
+      "value": 0
+    }
+  },
+  "wear-noscrolls": {
+    "label": "Sauron dead, no Mass Banishment scrolls: spare Hard Leather Cap",
+    "explanation": "Sauron dead but no Mass Banishment scrolls, so his death changes no power term. The first examination still reads Sauron as alive in the original (sauron_dead_trait=0) and as dead after the fix, but the reference score is the same and neither version swaps. Not byte-identical (the trait line differs); shown to bound the effect.",
+    "control": false,
+    "before": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=wear-noscrolls class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=0 mass_banishment=0\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=0 table_after_update=1 baseline_power=1513679 same_gear_power_now=1513679 mass_banishment=0 prep_big_fight=0\nDECISION wear=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1513679 power_after_decision=1513679 sauron_dead_trait=1\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1513679,
+        "power_after_decision": 1513679,
+        "sauron_dead_trait": 1
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION wear=0 item=<none>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/deaduniq-101: starting...\nSETUP seed=101 mode=wear-noscrolls class=Warrior clevel=41 depth=98 max_depth=99 sauron_max_num=0 sauron_table_at_init=1 mass_banishment=0\n  first_pass_after_borg_start  TRACK first-pass sauron_dead_trait=1 table_after_update=1 baseline_power=1513679 same_gear_power_now=1513679 mass_banishment=0 prep_big_fight=0\nDECISION wear=0 item=<none>\nENGINE helm before=<Metal Cap [3,+0]> after=<Metal Cap [3,+0]> items_dropped_on_floor=0\nSTATE baseline_power=1513679 power_after_decision=1513679 sauron_dead_trait=1\nOUTCOME acts=0 baseline_stale=0\nPassed\nnative-c/deaduniq-101 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "baseline_power": 1513679,
+        "power_after_decision": 1513679,
+        "sauron_dead_trait": 1
+      },
+      "outcome": {
+        "acts": 0,
+        "baseline_stale": 0
+      },
+      "notes": [
+        "DECISION wear=0 item=<none>"
+      ],
+      "value": 0
+    }
+  }
+}
