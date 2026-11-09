@@ -1,0 +1,9 @@
+native-c/necrolight-296: starting...
+SETUP seed=296 class=Mage level=26 depth=30 hp=149/149 sp=118/118 light=2
+  necromancer_lit_square_fail_estimate  MODE mage
+TRACK square_islit=1 square_light=3 glow=1 borg_light_flag=0 borg_glow_flag=0
+TRACK spell="Magic Missile" game_spell_chance=2 borg_estimate=2 threshold=25 borg_okay_fail=1
+DECISION acted=1 keys=12 sequence=*p222225mba5
+OUTCOME borg_estimate=2 game_chance=2 estimate_matches_game=1 cast_spell=1 game_chance_over_threshold=0
+Passed
+native-c/necrolight-296 finished: 1/1 passed

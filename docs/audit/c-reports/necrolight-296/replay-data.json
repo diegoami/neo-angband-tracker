@@ -1,0 +1,119 @@
+{
+  "lit": {
+    "label": "Torchless Necromancer on a permanently lit square",
+    "explanation": "Original: the Borg estimates 8% failure while the game's spell_chance() is 33%; the estimate passes the 25% limit and the Borg casts Vampire Strike (keys m b b). Corrected: the estimate is 33%, equal to the game's; the Borg does not cast.",
+    "control": false,
+    "before": {
+      "raw": "native-c/necrolight-296: starting...\nSETUP seed=296 class=Necromancer level=26 depth=30 hp=172/172 sp=118/118 light=0\n  necromancer_lit_square_fail_estimate  MODE lit\nTRACK square_islit=1 square_light=1 glow=1 borg_light_flag=0 borg_glow_flag=0\nTRACK spell=\"Vampire Strike\" game_spell_chance=33 borg_estimate=8 threshold=25 borg_okay_fail=1\nDECISION acted=1 keys=3 sequence=mbb\nOUTCOME borg_estimate=8 game_chance=33 estimate_matches_game=0 cast_spell=1 game_chance_over_threshold=1\nFailed\n    native-c/necrolight-296:197: requirement 'estimate' == 'game' failed\n      estimate:                8\n      game:               33\nnative-c/necrolight-296 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "borg_estimate": 8,
+        "game_chance": 33,
+        "estimate_matches_game": 0,
+        "cast_spell": 1,
+        "game_chance_over_threshold": 1
+      },
+      "notes": [
+        "TRACK square_islit=1 square_light=1 glow=1 borg_light_flag=0 borg_glow_flag=0",
+        "TRACK spell=\"Vampire Strike\" game_spell_chance=33 borg_estimate=8 threshold=25 borg_okay_fail=1",
+        "DECISION acted=1 keys=3 sequence=mbb"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/necrolight-296: starting...\nSETUP seed=296 class=Necromancer level=26 depth=30 hp=172/172 sp=118/118 light=0\n  necromancer_lit_square_fail_estimate  MODE lit\nTRACK square_islit=1 square_light=1 glow=1 borg_light_flag=0 borg_glow_flag=0\nTRACK spell=\"Vampire Strike\" game_spell_chance=33 borg_estimate=33 threshold=25 borg_okay_fail=0\nDECISION acted=0 keys=0 sequence=\nOUTCOME borg_estimate=33 game_chance=33 estimate_matches_game=1 cast_spell=0 game_chance_over_threshold=1\nPassed\nnative-c/necrolight-296 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "borg_estimate": 33,
+        "game_chance": 33,
+        "estimate_matches_game": 1,
+        "cast_spell": 0,
+        "game_chance_over_threshold": 1
+      },
+      "notes": [
+        "TRACK square_islit=1 square_light=1 glow=1 borg_light_flag=0 borg_glow_flag=0",
+        "TRACK spell=\"Vampire Strike\" game_spell_chance=33 borg_estimate=33 threshold=25 borg_okay_fail=0",
+        "DECISION acted=0 keys=0 sequence="
+      ],
+      "value": 0
+    }
+  },
+  "dark": {
+    "label": "Control: the same Necromancer, its own square unlit",
+    "explanation": "No light on the Borg's square: the game uses 8%, both versions estimate 8% and cast Vampire Strike. Logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/necrolight-296: starting...\nSETUP seed=296 class=Necromancer level=26 depth=30 hp=172/172 sp=118/118 light=0\n  necromancer_lit_square_fail_estimate  MODE dark\nTRACK square_islit=0 square_light=0 glow=0 borg_light_flag=0 borg_glow_flag=0\nTRACK spell=\"Vampire Strike\" game_spell_chance=8 borg_estimate=8 threshold=25 borg_okay_fail=1\nDECISION acted=1 keys=3 sequence=mbb\nOUTCOME borg_estimate=8 game_chance=8 estimate_matches_game=1 cast_spell=1 game_chance_over_threshold=0\nPassed\nnative-c/necrolight-296 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "borg_estimate": 8,
+        "game_chance": 8,
+        "estimate_matches_game": 1,
+        "cast_spell": 1,
+        "game_chance_over_threshold": 0
+      },
+      "notes": [
+        "TRACK square_islit=0 square_light=0 glow=0 borg_light_flag=0 borg_glow_flag=0",
+        "TRACK spell=\"Vampire Strike\" game_spell_chance=8 borg_estimate=8 threshold=25 borg_okay_fail=1",
+        "DECISION acted=1 keys=3 sequence=mbb"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/necrolight-296: starting...\nSETUP seed=296 class=Necromancer level=26 depth=30 hp=172/172 sp=118/118 light=0\n  necromancer_lit_square_fail_estimate  MODE dark\nTRACK square_islit=0 square_light=0 glow=0 borg_light_flag=0 borg_glow_flag=0\nTRACK spell=\"Vampire Strike\" game_spell_chance=8 borg_estimate=8 threshold=25 borg_okay_fail=1\nDECISION acted=1 keys=3 sequence=mbb\nOUTCOME borg_estimate=8 game_chance=8 estimate_matches_game=1 cast_spell=1 game_chance_over_threshold=0\nPassed\nnative-c/necrolight-296 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "borg_estimate": 8,
+        "game_chance": 8,
+        "estimate_matches_game": 1,
+        "cast_spell": 1,
+        "game_chance_over_threshold": 0
+      },
+      "notes": [
+        "TRACK square_islit=0 square_light=0 glow=0 borg_light_flag=0 borg_glow_flag=0",
+        "TRACK spell=\"Vampire Strike\" game_spell_chance=8 borg_estimate=8 threshold=25 borg_okay_fail=1",
+        "DECISION acted=1 keys=3 sequence=mbb"
+      ],
+      "value": 1
+    }
+  },
+  "mage": {
+    "label": "Control: a Mage on the lit square",
+    "explanation": "Mages have no light penalty: the game and both versions use 2% for Magic Missile and the Borg casts it. Logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/necrolight-296: starting...\nSETUP seed=296 class=Mage level=26 depth=30 hp=149/149 sp=118/118 light=2\n  necromancer_lit_square_fail_estimate  MODE mage\nTRACK square_islit=1 square_light=3 glow=1 borg_light_flag=0 borg_glow_flag=0\nTRACK spell=\"Magic Missile\" game_spell_chance=2 borg_estimate=2 threshold=25 borg_okay_fail=1\nDECISION acted=1 keys=12 sequence=*p222225mba5\nOUTCOME borg_estimate=2 game_chance=2 estimate_matches_game=1 cast_spell=1 game_chance_over_threshold=0\nPassed\nnative-c/necrolight-296 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "borg_estimate": 2,
+        "game_chance": 2,
+        "estimate_matches_game": 1,
+        "cast_spell": 1,
+        "game_chance_over_threshold": 0
+      },
+      "notes": [
+        "TRACK square_islit=1 square_light=3 glow=1 borg_light_flag=0 borg_glow_flag=0",
+        "TRACK spell=\"Magic Missile\" game_spell_chance=2 borg_estimate=2 threshold=25 borg_okay_fail=1",
+        "DECISION acted=1 keys=12 sequence=*p222225mba5"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/necrolight-296: starting...\nSETUP seed=296 class=Mage level=26 depth=30 hp=149/149 sp=118/118 light=2\n  necromancer_lit_square_fail_estimate  MODE mage\nTRACK square_islit=1 square_light=3 glow=1 borg_light_flag=0 borg_glow_flag=0\nTRACK spell=\"Magic Missile\" game_spell_chance=2 borg_estimate=2 threshold=25 borg_okay_fail=1\nDECISION acted=1 keys=12 sequence=*p222225mba5\nOUTCOME borg_estimate=2 game_chance=2 estimate_matches_game=1 cast_spell=1 game_chance_over_threshold=0\nPassed\nnative-c/necrolight-296 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "borg_estimate": 2,
+        "game_chance": 2,
+        "estimate_matches_game": 1,
+        "cast_spell": 1,
+        "game_chance_over_threshold": 0
+      },
+      "notes": [
+        "TRACK square_islit=1 square_light=3 glow=1 borg_light_flag=0 borg_glow_flag=0",
+        "TRACK spell=\"Magic Missile\" game_spell_chance=2 borg_estimate=2 threshold=25 borg_okay_fail=1",
+        "DECISION acted=1 keys=12 sequence=*p222225mba5"
+      ],
+      "value": 1
+    }
+  }
+}
