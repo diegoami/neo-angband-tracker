@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg gives a Rod of Teleport Other no value and never buys one</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg gives a Rod of Teleport Other no value and never buys one</h1><p>The Borg values Teleport Other highly, especially for a Warrior, who cannot cast it: its power score rises by 60000 for the first charge of a Wand of Teleport Other. But only the wand and the spell count. A Rod of Teleport Other adds nothing to the Borg&#x27;s Teleport Other count, so its power score does not move for the rod and the shop step never buys one. A level-30 Warrior with 20000 gold standing in front of a Black Market that offers the rod for 15000 leaves it there. After the correction each carried rod counts like one wand charge: the same Warrior sees its power rise by 60000 and the production shop step chooses to buy the rod. A Warrior who already carries Wands of Teleport Other with 16 charges, and a Mage who knows the Teleport Other spell, gain nothing from the rod and behave exactly as before.</p><p><label>Scenario: <select id="scenario"><option value="rod">Warrior with 20000 gold, no Teleport Other</option><option value="wand">Control: Warrior already carrying Wands of Teleport Other (16 charges)</option><option value="mage">Control: Mage who knows Teleport Other</option></select></label></p><section class="scenario" data-mode="rod"><p class="summary">Original: Teleport Other count 0 with the rod too, power 805500 with and without it, so borg_think_shop_buy_useful() chooses nothing (buy_useful=0). Corrected: the rod counts as 1, power rises to 865500 (+60000: 5000 for having Teleport Other, 50000 more for a Warrior, 5000 for the charge), and the shop step chooses Black Market ware 0, the rod (buy_useful=1 goal_shop=6 goal_ware=0).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK power_now=805500 power_with_rod=805500
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=805500 power_with_rod=865500
+DECISION buy_useful=1 goal_shop=6 goal_ware=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/torodpower-560: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=560 mode=rod class=Warrior clevel=30 gold=20000 msp=0
+  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK power_now=805500 power_with_rod=805500
+STATE atportother=0 power_gain=0
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1
+OUTCOME buys_rod=0
+Failed
+    native-c/torodpower-560:205: requirement &#x27;buys&#x27; failed
+native-c/torodpower-560 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/torodpower-560: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=560 mode=rod class=Warrior clevel=30 gold=20000 msp=0
+  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK power_now=805500 power_with_rod=865500
+STATE atportother=0 power_gain=60000
+DECISION buy_useful=1 goal_shop=6 goal_ware=0
+OUTCOME buys_rod=1
+Passed
+native-c/torodpower-560 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="wand"><p class="summary">The Warrior&#x27;s count is already 16 from the wand charges. The corrected code counts the rod as one more (the changed line runs while the shop step evaluates the rod), but the reward per charge stops at 15, so power stays 935500 and neither version buys the rod. The logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=935500 power_with_rod=935500
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=935500 power_with_rod=935500
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/torodpower-560: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=560 mode=wand class=Warrior clevel=30 gold=20000 msp=0
+  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK power_now=935500 power_with_rod=935500
+STATE atportother=16 power_gain=0
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1
+OUTCOME buys_rod=0
+Passed
+native-c/torodpower-560 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/torodpower-560: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=560 mode=wand class=Warrior clevel=30 gold=20000 msp=0
+  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK power_now=935500 power_with_rod=935500
+STATE atportother=16 power_gain=0
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1
+OUTCOME buys_rod=0
+Passed
+native-c/torodpower-560 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="mage"><p class="summary">The Mage&#x27;s count is already 1000 from the spell. The rod adds one in the corrected code (the changed line runs), power stays 1516641 and neither version buys the rod. The logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1516641 power_with_rod=1516641
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power_now=1516641 power_with_rod=1516641
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/torodpower-560: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=560 mode=mage class=Mage clevel=30 gold=20000 msp=49
+  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK power_now=1516641 power_with_rod=1516641
+STATE atportother=1000 power_gain=0
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1
+OUTCOME buys_rod=0
+Passed
+native-c/torodpower-560 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/torodpower-560: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=560 mode=mage class=Mage clevel=30 gold=20000 msp=49
+  black_market_teleport_other_rod_value  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK power_now=1516641 power_with_rod=1516641
+STATE atportother=1000 power_gain=0
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1
+OUTCOME buys_rod=0
+Passed
+native-c/torodpower-560 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human, seed 560, character level 30 by real experience gain, 20000 gold, in town (depth 0). The starting kit is off; the character carries a lit Wooden Torch (worn) and 5 Rations of Food, plus per case: nothing else (Warrior), two Wands of Teleport Other with 16 charges in all (Warrior, wand control; object.txt gives 6+d5 charges per wand), or Magical Defences with its spells studied through the game&#x27;s spell_learn() (Mage control). Every store&#x27;s stock is emptied and the Black Market is given one Rod of Teleport Other through store_carry() (price 15000); no normal store stocks this rod (store.txt). The Borg reads inventory and stores with borg_find_all_items(), then the production shop step borg_think_shop_buy_useful() runs. A TRACK line reports, as a diagnostic, the Borg&#x27;s power with and without the rod in an empty pack slot (the same evaluation the shop step makes). Only the purchase decision is recorded; the fixture does not walk to the shop or carry out the buy command.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/560">issue 560</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

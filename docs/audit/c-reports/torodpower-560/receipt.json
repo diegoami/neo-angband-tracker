@@ -1,0 +1,134 @@
+{
+  "issue": "diegoami/neo-angband-tracker#560",
+  "report": "torodpower-560",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "fc444ab17e8dee8ccdbb908f4e3bb760114089b8",
+  "fix_branch": "task/torodpower-560",
+  "fixtures_ref": "12a59c5c4d20ec9b66e2d151f9646a8c7937b7b6",
+  "cases": {
+    "rod": {
+      "before": {
+        "passed": false,
+        "state": {
+          "atportother": 0,
+          "power_gain": 0
+        },
+        "outcome": {
+          "buys_rod": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "atportother": 0,
+          "power_gain": 60000
+        },
+        "outcome": {
+          "buys_rod": 1
+        }
+      }
+    },
+    "wand": {
+      "before": {
+        "passed": true,
+        "state": {
+          "atportother": 16,
+          "power_gain": 0
+        },
+        "outcome": {
+          "buys_rod": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "atportother": 16,
+          "power_gain": 0
+        },
+        "outcome": {
+          "buys_rod": 0
+        }
+      }
+    },
+    "mage": {
+      "before": {
+        "passed": true,
+        "state": {
+          "atportother": 1000,
+          "power_gain": 0
+        },
+        "outcome": {
+          "buys_rod": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "atportother": 1000,
+          "power_gain": 0
+        },
+        "outcome": {
+          "buys_rod": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "wand",
+    "mage"
+  ],
+  "claim": "borg_notice_inventory() (borg-trait.c:2401-2440 at e473720ed) filled BI_ATPORTOTHER only from a Wand of Teleport Other's charges (:2454) and the Teleport Other spell (:2718-2719); the rod case was missing, so borg_power() (borg-power.c:1644-1653) never rewarded the rod and borg_think_shop_buy_useful() rejected it (p <= b_p). The correction adds each carried Rod of Teleport Other to BI_ATPORTOTHER as one, like one wand charge. A Warrior with gold now buys the rod at the Black Market; a Warrior with 16 wand charges and a Mage with the spell are byte-identical controls that run the changed line.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-trait.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-trait.c": "9198d9b0bf54ecb108cff6d24a19091266025c9f6c88e664ffd73ef3aa47ea9e"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "7f9ae8498449d4f4a9e1075d07bcb8790622f1682d6b70cfa4181a39f8a4aba9",
+    "after-mage.log": "e914400ad4ac8766eabcbdf2bbb3439913f2a60862f5b72810bea5771e33b86c",
+    "after-results.json": "f793e6e4b10581c51451253d099278a1c07f031e9eb30203ede015084752b55b",
+    "after-rod.log": "82a3cda02e716d33b43baf63ffd0eccb00819c13c492bf330659edb109050d27",
+    "after-wand.log": "e138ca844385d0f2a77096849a238480a7e78f7dbdf74e5a2ce9abeeee4a2900",
+    "before-mage.log": "e914400ad4ac8766eabcbdf2bbb3439913f2a60862f5b72810bea5771e33b86c",
+    "before-results.json": "e3ca16b7fdd67ac48324e7ecc1aa7fb0745a2c2cc0c2be1299da4182a89795e9",
+    "before-rod.log": "b3d102657be53ef2ec9aadf7c1c252f8f73888a470326b12455c8398068e7538",
+    "before-wand.log": "e138ca844385d0f2a77096849a238480a7e78f7dbdf74e5a2ce9abeeee4a2900",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "6694e85d39bbaff6942455d7d079e680d78af051e662005611fb35349c83e74b",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "aa10009f669e4f975cbb646f4bb6124464a4740c7da90f1ef207371bcef055ff",
+    "replay.html": "d3e7c5d3a38b3addd45bbc1e9bfe31fd453a6b0645080765be7516a8c30a8f34",
+    "reproduce.py": "7025941e0dc2d70a9673b336ade1377556d6c382048e2cd0c2872be80d04723e",
+    "result.json": "ad67cc8d8f921c8cc2864371c2966179f2be983c2c49f255f31a77a86f71d60c",
+    "run-after-alltests.log": "38dbbeae3dabd8d407e5ba13dcf96da4f950f3a4e9d957d199ab8548a94692a5",
+    "run-after-build.log": "e008c14b1cb3ba8b6f855af81a76b2ece36626d5504777e473025d02f3d07a83",
+    "run-after-scenarios.log": "992f6e1dcd00c47b05001cdbac62994fa475ae6d70e5a7762f4917eb47a5a906",
+    "run-before-alltests.log": "4c895b1d3226f7a3915ac064ff46c00371b8117a623139eaf4502049922204ad",
+    "run-before-build.log": "b2d0a11be809432c785c0bd4a42a42d424279b14d0343ab2ca9d85df575811ea",
+    "run-before-scenarios.log": "e1fc9eaf38db33939ad560d95c24ca05330cab57ae197e1e4e148f5832f0aebd",
+    "run-cases.py": "d0b0ab66906f07e500cdb4b5e70f1c9905ea911ff26df3bfa300eea423c7c124",
+    "run-configure.log": "8e36f0b9e54e0e3389d2c63d1034d8d4693d6735a7487f93d963fef3cfd594ea",
+    "scenario.c": "360cb479412ee3bf1222039af4f1ebc3d007764344e62de4c9aef67639a6ea19"
+  }
+}

@@ -1,0 +1,3 @@
+rod {'exit': 0, 'passed': True, 'state': {'atportother': 0, 'power_gain': 60000}, 'outcome': {'buys_rod': 1}}
+wand {'exit': 0, 'passed': True, 'state': {'atportother': 16, 'power_gain': 0}, 'outcome': {'buys_rod': 0}}
+mage {'exit': 0, 'passed': True, 'state': {'atportother': 1000, 'power_gain': 0}, 'outcome': {'buys_rod': 0}}
