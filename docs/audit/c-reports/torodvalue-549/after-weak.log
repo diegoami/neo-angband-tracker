@@ -1,0 +1,10 @@
+native-c/torodvalue-549: starting...
+SETUP seed=549 mode=weak class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=soldier ant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=2 monster_power=6 atportother=0
+DECISION caution=0 keys=""
+DECISION attack=1 keys="+6"
+TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0
+ENGINE monster_grid=(11,12)->(11,12) distance=1->1 rod_charging=0
+OUTCOME used_teleport_other=0 monster_moved=0
+Passed
+native-c/torodvalue-549 finished: 1/1 passed

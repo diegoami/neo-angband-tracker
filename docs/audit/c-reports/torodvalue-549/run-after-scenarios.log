@@ -1,0 +1,3 @@
+rod {'exit': 0, 'passed': True, 'state': {'avoidance': 106, 'grid_danger': 64, 'monster_power': 232, 'atportother': 0}, 'outcome': {'used_teleport_other': 1, 'monster_moved': 1}}
+wand {'exit': 0, 'passed': True, 'state': {'avoidance': 106, 'grid_danger': 64, 'monster_power': 232, 'atportother': 11}, 'outcome': {'used_teleport_other': 1, 'monster_moved': 1}}
+weak {'exit': 0, 'passed': True, 'state': {'avoidance': 106, 'grid_danger': 2, 'monster_power': 6, 'atportother': 0}, 'outcome': {'used_teleport_other': 0, 'monster_moved': 0}}

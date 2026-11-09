@@ -1,0 +1,137 @@
+{
+  "rod": {
+    "label": "Warrior with a Rod of Teleport Other next to a hill giant",
+    "explanation": "Grid danger 64 against 106 hit points. Original: borg_caution() chooses nothing (the defence never considers the rod), and the attack step queues melee on the giant (keys +6); the rod is not used. Corrected: borg_caution() chooses the Teleport Other defence and queues *p65zb5 (target the giant, zap the rod in slot b, use the target). The real zap command fails three times (the game's device failure chance for this Warrior is 24.2%) and succeeds on the fourth attempt: the giant is moved from (11,12) to (38,22), 33 grids away, and the rod starts recharging.",
+    "control": false,
+    "before": {
+      "raw": "native-c/torodvalue-549: starting...\nSETUP seed=549 mode=rod class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent\n  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=0\nDECISION caution=0 keys=\"\"\nDECISION attack=1 keys=\"+6\"\nTRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0\nENGINE monster_grid=(11,12)->(11,12) distance=1->1 rod_charging=0\nOUTCOME used_teleport_other=0 monster_moved=0\nFailed\n    native-c/torodvalue-549:255: requirement 'used_device' == '1' failed\n      used_device:                0\n      1:                1\nnative-c/torodvalue-549 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "avoidance": 106,
+        "grid_danger": 64,
+        "monster_power": 232,
+        "atportother": 0
+      },
+      "outcome": {
+        "used_teleport_other": 0,
+        "monster_moved": 0
+      },
+      "notes": [
+        "DECISION caution=0 keys=\"\"",
+        "DECISION attack=1 keys=\"+6\"",
+        "TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/torodvalue-549: starting...\nSETUP seed=549 mode=rod class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent\n  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=0\nDECISION caution=1 keys=\"*p65zb5\"\nTRACK step=caution zap=1 aim=0 slot=1 item=Teleport Other target_key=1\nTRACK device_fail_permille=242\nMSG You failed to zap the rod properly.\nENGINE attempt=1 energy_used=100 monster_grid=(11,12)\nMSG You failed to zap the rod properly.\nENGINE attempt=2 energy_used=100 monster_grid=(11,12)\nMSG You failed to zap the rod properly.\nENGINE attempt=3 energy_used=100 monster_grid=(11,12)\nENGINE attempt=4 energy_used=100 monster_grid=(38,22)\nENGINE monster_grid=(11,12)->(38,22) distance=1->33 rod_charging=1\nOUTCOME used_teleport_other=1 monster_moved=1\nPassed\nnative-c/torodvalue-549 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "avoidance": 106,
+        "grid_danger": 64,
+        "monster_power": 232,
+        "atportother": 0
+      },
+      "outcome": {
+        "used_teleport_other": 1,
+        "monster_moved": 1
+      },
+      "notes": [
+        "DECISION caution=1 keys=\"*p65zb5\"",
+        "TRACK step=caution zap=1 aim=0 slot=1 item=Teleport Other target_key=1",
+        "TRACK device_fail_permille=242"
+      ],
+      "value": 1
+    }
+  },
+  "wand": {
+    "label": "Control: the same Warrior with a Wand of Teleport Other",
+    "explanation": "The same scene with the wand instead of the rod. Both versions choose the defence, aim the wand (keys *p65ab5), and the real aim command teleports the giant to (38,22) at the first attempt (10 charges left). This case runs through both changed lines (the wand is accepted before the rod check and aimed before the zap). The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/torodvalue-549: starting...\nSETUP seed=549 mode=wand class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent\n  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=11\nDECISION caution=1 keys=\"*p65ab5\"\nTRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1\nTRACK device_fail_permille=59\nMSG You have 10 charges remaining.\nENGINE attempt=1 energy_used=100 monster_grid=(38,22)\nENGINE monster_grid=(11,12)->(38,22) distance=1->33 rod_charging=0\nOUTCOME used_teleport_other=1 monster_moved=1\nPassed\nnative-c/torodvalue-549 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "avoidance": 106,
+        "grid_danger": 64,
+        "monster_power": 232,
+        "atportother": 11
+      },
+      "outcome": {
+        "used_teleport_other": 1,
+        "monster_moved": 1
+      },
+      "notes": [
+        "DECISION caution=1 keys=\"*p65ab5\"",
+        "TRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1",
+        "TRACK device_fail_permille=59"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/torodvalue-549: starting...\nSETUP seed=549 mode=wand class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent\n  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=11\nDECISION caution=1 keys=\"*p65ab5\"\nTRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1\nTRACK device_fail_permille=59\nMSG You have 10 charges remaining.\nENGINE attempt=1 energy_used=100 monster_grid=(38,22)\nENGINE monster_grid=(11,12)->(38,22) distance=1->33 rod_charging=0\nOUTCOME used_teleport_other=1 monster_moved=1\nPassed\nnative-c/torodvalue-549 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "avoidance": 106,
+        "grid_danger": 64,
+        "monster_power": 232,
+        "atportother": 11
+      },
+      "outcome": {
+        "used_teleport_other": 1,
+        "monster_moved": 1
+      },
+      "notes": [
+        "DECISION caution=1 keys=\"*p65ab5\"",
+        "TRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1",
+        "TRACK device_fail_permille=59"
+      ],
+      "value": 1
+    }
+  },
+  "weak": {
+    "label": "Control: rod carried, harmless soldier ant adjacent",
+    "explanation": "The same Warrior with the rod, next to a soldier ant (grid danger 2 against 106 hit points). No danger to speak of, so borg_caution() chooses nothing and neither version zaps the rod; both queue melee (keys +6). The logs are byte-identical. This control shows the rod is not zapped at harmless monsters; it does not reach the changed lines.",
+    "control": true,
+    "before": {
+      "raw": "native-c/torodvalue-549: starting...\nSETUP seed=549 mode=weak class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=soldier ant adjacent\n  teleport_other_device  STATE avoidance=106 grid_danger=2 monster_power=6 atportother=0\nDECISION caution=0 keys=\"\"\nDECISION attack=1 keys=\"+6\"\nTRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0\nENGINE monster_grid=(11,12)->(11,12) distance=1->1 rod_charging=0\nOUTCOME used_teleport_other=0 monster_moved=0\nPassed\nnative-c/torodvalue-549 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "avoidance": 106,
+        "grid_danger": 2,
+        "monster_power": 6,
+        "atportother": 0
+      },
+      "outcome": {
+        "used_teleport_other": 0,
+        "monster_moved": 0
+      },
+      "notes": [
+        "DECISION caution=0 keys=\"\"",
+        "DECISION attack=1 keys=\"+6\"",
+        "TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/torodvalue-549: starting...\nSETUP seed=549 mode=weak class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=soldier ant adjacent\n  teleport_other_device  STATE avoidance=106 grid_danger=2 monster_power=6 atportother=0\nDECISION caution=0 keys=\"\"\nDECISION attack=1 keys=\"+6\"\nTRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0\nENGINE monster_grid=(11,12)->(11,12) distance=1->1 rod_charging=0\nOUTCOME used_teleport_other=0 monster_moved=0\nPassed\nnative-c/torodvalue-549 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "avoidance": 106,
+        "grid_danger": 2,
+        "monster_power": 6,
+        "atportother": 0
+      },
+      "outcome": {
+        "used_teleport_other": 0,
+        "monster_moved": 0
+      },
+      "notes": [
+        "DECISION caution=0 keys=\"\"",
+        "DECISION attack=1 keys=\"+6\"",
+        "TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0"
+      ],
+      "value": 0
+    }
+  }
+}
