@@ -1,0 +1,57 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Remove an unreachable door-count test from breeder-level door closing</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Remove an unreachable door-count test from breeder-level door closing</h1><p>Cleanup, no behaviour change; owner decision. On levels with breeding monsters the Borg closes doors to contain them: before each step, borg_play_step() looks for an open door next to it and closes it, and notes closed doors in a list (track_door). The scan skipped every door when the list held 255 or more entries, under the comment &#x27;Skip repeatedly closed doors&#x27;. The list has room for 100 entries and only grows while it is below that size, so the test is never true (and it counts the whole list, not the door being looked at). The change removes the test and its comment. Neither &#x27;skip doors already listed&#x27; nor a cap is implemented.</p><p><label>Scenario: <select id="scenario"><option value="onedoor">Control: breeder level, one open door north</option><option value="twodoors">Control: breeder level, open doors north and south</option><option value="full">Control: breeder level, door list full (100 of 100)</option><option value="nobreeder">Control: not a breeder level, one open door north</option></select></label></p><section class="scenario" data-mode="onedoor"><p class="summary">Both versions close the door north (goal (10,11), &#x27;c&#x27; queued) instead of stepping east, and note it in the door list (0 to 1). Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>borg_play_step() closed a door (&#x27;c&#x27; queued; 0 = stepped instead)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK goal=(10,11) doors_before=0 doors_after=1 last=(10,11)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>borg_play_step() closed a door (&#x27;c&#x27; queued; 0 = stepped instead)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK goal=(10,11) doors_before=0 doors_after=1 last=(10,11)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/doorcap-126: starting...
+SETUP seed=126 mode=onedoor class=Rogue clevel=25 depth=5 breeder=1 doors=0/100
+  play_step         DECISION rc=1 keys=1 sequence=c
+TRACK goal=(10,11) doors_before=0 doors_after=1 last=(10,11)
+OUTCOME close=1 door_x=10 door_y=11 noted=1
+Passed
+native-c/doorcap-126 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/doorcap-126: starting...
+SETUP seed=126 mode=onedoor class=Rogue clevel=25 depth=5 breeder=1 doors=0/100
+  play_step         DECISION rc=1 keys=1 sequence=c
+TRACK goal=(10,11) doors_before=0 doors_after=1 last=(10,11)
+OUTCOME close=1 door_x=10 door_y=11 noted=1
+Passed
+native-c/doorcap-126 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="twodoors"><p class="summary">Both versions close the last door scanned, the one south (10,13), and note it. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>borg_play_step() closed a door (&#x27;c&#x27; queued; 0 = stepped instead)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK goal=(10,13) doors_before=0 doors_after=1 last=(10,13)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>borg_play_step() closed a door (&#x27;c&#x27; queued; 0 = stepped instead)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK goal=(10,13) doors_before=0 doors_after=1 last=(10,13)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/doorcap-126: starting...
+SETUP seed=126 mode=twodoors class=Rogue clevel=25 depth=5 breeder=1 doors=0/100
+  play_step         DECISION rc=1 keys=1 sequence=c
+TRACK goal=(10,13) doors_before=0 doors_after=1 last=(10,13)
+OUTCOME close=1 door_x=10 door_y=13 noted=1
+Passed
+native-c/doorcap-126 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/doorcap-126: starting...
+SETUP seed=126 mode=twodoors class=Rogue clevel=25 depth=5 breeder=1 doors=0/100
+  play_step         DECISION rc=1 keys=1 sequence=c
+TRACK goal=(10,13) doors_before=0 doors_after=1 last=(10,13)
+OUTCOME close=1 door_x=10 door_y=13 noted=1
+Passed
+native-c/doorcap-126 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="full"><p class="summary">The list is at its real limit of 100, below the removed test&#x27;s 255: both versions still close the door north, and neither can note it (the list stays at 100). Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>borg_play_step() closed a door (&#x27;c&#x27; queued; 0 = stepped instead)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>borg_play_step() closed a door (&#x27;c&#x27; queued; 0 = stepped instead)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/doorcap-126: starting...
+SETUP seed=126 mode=full class=Rogue clevel=25 depth=5 breeder=1 doors=100/100
+  play_step         DECISION rc=1 keys=1 sequence=c
+TRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)
+OUTCOME close=1 door_x=10 door_y=11 noted=0
+Passed
+native-c/doorcap-126 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/doorcap-126: starting...
+SETUP seed=126 mode=full class=Rogue clevel=25 depth=5 breeder=1 doors=100/100
+  play_step         DECISION rc=1 keys=1 sequence=c
+TRACK goal=(10,11) doors_before=100 doors_after=100 last=(20,5)
+OUTCOME close=1 door_x=10 door_y=11 noted=0
+Passed
+native-c/doorcap-126 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="nobreeder"><p class="summary">Without the breeder flag the door scan is skipped and both versions step east (key 6). Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>borg_play_step() closed a door (&#x27;c&#x27; queued; 0 = stepped instead)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK goal=(11,12) doors_before=0 doors_after=0 last=(-1,-1)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>borg_play_step() closed a door (&#x27;c&#x27; queued; 0 = stepped instead)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK goal=(11,12) doors_before=0 doors_after=0 last=(-1,-1)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/doorcap-126: starting...
+SETUP seed=126 mode=nobreeder class=Rogue clevel=25 depth=5 breeder=0 doors=0/100
+  play_step         DECISION rc=1 keys=1 sequence=6
+TRACK goal=(11,12) doors_before=0 doors_after=0 last=(-1,-1)
+OUTCOME close=0 door_x=-1 door_y=-1 noted=0
+Passed
+native-c/doorcap-126 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/doorcap-126: starting...
+SETUP seed=126 mode=nobreeder class=Rogue clevel=25 depth=5 breeder=0 doors=0/100
+  play_step         DECISION rc=1 keys=1 sequence=6
+TRACK goal=(11,12) doors_before=0 doors_after=0 last=(-1,-1)
+OUTCOME close=0 door_x=-1 door_y=-1 noted=0
+Passed
+native-c/doorcap-126 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Dwarf Rogue, seed 126, clevel 25, depth 5, full HP, a lantern, in a lit, open 24x40 arena. The Borg&#x27;s map is seeded from the real cave; the columns from x=30 eastward are unknown, so the production borg_flow_dark(false) commits a route east and takes its first step through borg_flow_old() and borg_play_step(). &#x27;onedoor&#x27;: an open door directly north of the player. &#x27;twodoors&#x27;: open doors north and south. &#x27;full&#x27;: one door north, with the door list already at its capacity of 100 entries (recorded at other grids). &#x27;nobreeder&#x27;: one door north, not a breeder level. The first queued key, the goal grid and the door list are read back. Fixture interventions: the arena, doors and lighting are set directly, borg_grids is seeded from the cave with BORG_OKAY|BORG_MARK, borg.avoidance is set to current HP, the breeder flag (borg.near.breeder, set by borg_check_breeders() when three breeders are known) is set directly, and in &#x27;full&#x27; the door list is filled directly.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/126">issue 126</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
