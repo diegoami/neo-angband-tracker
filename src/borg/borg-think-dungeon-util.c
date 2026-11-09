@@ -1004,9 +1004,10 @@ bool borg_excavate_vault(int range)
 
     /* Danger/bad idea checks */
 
-    /* build the array -- Scan screen */
-    for (y = w_y; y < w_y + SCREEN_HGT; y++) {
-        for (x = w_x; x < w_x + SCREEN_WID; x++) {
+    /* build the array -- Scan screen (a large terminal can show more than
+     * the map) */
+    for (y = w_y; y < w_y + SCREEN_HGT && y < AUTO_MAX_Y; y++) {
+        for (x = w_x; x < w_x + SCREEN_WID && x < AUTO_MAX_X; x++) {
 
             /* only bother with near ones */
             if (distance(borg.c, loc(x, y)) > range)
