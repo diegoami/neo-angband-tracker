@@ -30,3 +30,13 @@ The original `createApi2Host`, `createIntentGate`, `modPluginContext` and `build
 Stores use the original Core registered buy/sell/exit transactions and observe stock only while the adapter's store modal is open. The adapter mirrors the frontend's distinction between store modal state and shop terrain; it does not repair the original Borg's shop knowledge. Frontend rendering, message pauses and the browser's interactive cast/item/modal flows are outside this profile. An actual Core item-choice request immediately becomes harness_failure; the tool never chooses an item or synthesizes a policy answer. This suite can establish behavior in the named headless profile, not that every difference from C originates in Borg policy.
 
 The stock `pnpm mod-runner` is unsuitable for a life suite: it starts at depth1 and runs a short fixed conformance script with no life cap/birth-class API. This independent entry point does not change that command or production source.
+
+## Browse existing recordings
+
+The [Python-only desktop log browser](browser/README.md) opens native C and Neo evidence without Node/npm or a game installation:
+
+```sh
+python3 tools/original-borg/browse.py --github-run 42534228784
+```
+
+It downloads compact catalogues first, fetches a selected raw shard only on explicit action, preserves existing evidence and exposes a read-only JSON API. It adds no replay or gameplay behavior. The running original-source benchmark retains its frozen2668 measurement-toolkit pin.

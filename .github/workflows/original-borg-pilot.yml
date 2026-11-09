@@ -1,11 +1,21 @@
 name: original-borg-pilot
 on:
   pull_request:
-    paths: ['tools/original-borg/**', '.github/workflows/original-borg-pilot.yml']
+    paths:
+      ["tools/original-borg/**", ".github/workflows/original-borg-pilot.yml"]
   workflow_dispatch:
 permissions:
   contents: read
 jobs:
+  browser:
+    if: github.repository == 'diegoami/neo-angband-tracker'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: python3 -m unittest discover -s tools/original-borg/browser -p '*_test.py' -v
   pilot:
     if: github.repository == 'diegoami/neo-angband-tracker'
     runs-on: ubuntu-24.04

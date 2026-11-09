@@ -1,0 +1,784 @@
+<!doctype html>
+<html lang="en">
+	<meta charset="utf-8" /><meta
+		name="viewport"
+		content="width=device-width,initial-scale=1"
+	/><title>Borg recorded-life browser</title>
+	<style>
+		:root {
+			font:
+				15px system-ui,
+				sans-serif;
+			color: #dae2e9;
+			background: #12171c;
+		}
+		* {
+			box-sizing: border-box;
+		}
+		body {
+			margin: 0;
+		}
+		header {
+			padding: 16px 22px;
+			border-bottom: 1px solid #34414d;
+			background: #1c252d;
+		}
+		h1 {
+			font-size: 22px;
+			margin: 0 0 5px;
+		}
+		p {
+			margin: 6px 0;
+			color: #aebbc7;
+		}
+		button,
+		input,
+		select {
+			font: inherit;
+			background: #22313d;
+			color: #eef6ff;
+			border: 1px solid #536c80;
+			border-radius: 5px;
+			padding: 7px;
+		}
+		button {
+			cursor: pointer;
+		}
+		button:hover {
+			background: #344b5d;
+		}
+		button:disabled {
+			opacity: 0.4;
+			cursor: default;
+		}
+		.layout {
+			display: grid;
+			grid-template-columns: minmax(360px, 38%) 1fr;
+			height: calc(100vh - 100px);
+		}
+		aside,
+		main {
+			overflow: auto;
+			padding: 16px;
+		}
+		aside {
+			border-right: 1px solid #34414d;
+		}
+		.filters {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 8px;
+		}
+		label {
+			display: flex;
+			flex-direction: column;
+			gap: 4px;
+			color: #aebbc7;
+			font-size: 13px;
+		}
+		.wide {
+			grid-column: 1/-1;
+		}
+		.toolbar {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 8px;
+			margin: 12px 0;
+		}
+		.notice {
+			padding: 10px;
+			border-left: 3px solid #f0b95a;
+			background: #28251d;
+			color: #f5dab0;
+			margin: 10px 0;
+			white-space: pre-wrap;
+		}
+		.error {
+			border-color: #e77;
+			color: #fcc;
+		}
+		.life {
+			display: block;
+			width: 100%;
+			text-align: left;
+			margin: 6px 0;
+			padding: 10px;
+		}
+		.life small {
+			display: block;
+			color: #b5c6d4;
+			margin-top: 4px;
+		}
+		.selected {
+			border-color: #7dc8ff;
+			background: #243f53;
+		}
+		.pill {
+			background: #30414e;
+			border-radius: 4px;
+			padding: 2px 5px;
+			font-size: 12px;
+		}
+		h2 {
+			margin: 4px 0 10px;
+			font-size: 21px;
+		}
+		h3 {
+			font-size: 16px;
+		}
+		pre {
+			white-space: pre-wrap;
+			word-break: break-word;
+			font:
+				12px ui-monospace,
+				monospace;
+			line-height: 1.5;
+			background: #0c1116;
+			padding: 12px;
+			border: 1px solid #293a48;
+			max-height: 65vh;
+			overflow: auto;
+		}
+		pre.map {
+			white-space: pre;
+			word-break: normal;
+			overflow-x: auto;
+		}
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 13px;
+		}
+		td,
+		th {
+			padding: 7px;
+			text-align: left;
+			border-bottom: 1px solid #34414d;
+			vertical-align: top;
+		}
+		th {
+			position: sticky;
+			top: 0;
+			background: #1c252d;
+		}
+		.ok {
+			color: #8fdaad;
+		}
+		.bad {
+			color: #ffabab;
+		}
+		.tab.active {
+			background: #40627c;
+		}
+		details {
+			margin: 10px 0;
+		}
+		summary {
+			cursor: pointer;
+		}
+		.empty {
+			padding: 40px 10px;
+			color: #aebbc7;
+		}
+		@media (max-width: 900px) {
+			.layout {
+				grid-template-columns: 1fr;
+				height: auto;
+			}
+			aside {
+				max-height: 55vh;
+				border-bottom: 1px solid #34414d;
+			}
+			main {
+				min-height: 50vh;
+			}
+		}
+	</style>
+	<header>
+		<h1>Borg recorded-life browser</h1>
+		<p>
+			Original C and Neo evidence · read-only observations · no replay or
+			automatic diagnosis
+		</p>
+	</header>
+	<div class="layout">
+		<aside>
+			<div class="filters">
+				<label
+					>Engine/profile<select id="source_profile">
+						<option value="">All</option>
+					</select></label
+				><label
+					>Outcome<select id="outcome">
+						<option value="">All</option>
+					</select></label
+				>
+				<label
+					>Class<select id="class">
+						<option value="">All</option>
+					</select></label
+				><label
+					>Race<select id="race">
+						<option value="">All</option>
+					</select></label
+				>
+				<label>Seed<input id="seed" placeholder="Any seed" /></label
+				><label
+					>Cause contains<input
+						id="cause"
+						placeholder="e.g. floating eye"
+				/></label>
+			</div>
+			<div class="toolbar">
+				<button id="refresh">Apply / refresh cache</button
+				><button id="fetchCatalogues" hidden>
+					Check GitHub for new catalogues</button
+				><span id="count"></span>
+			</div>
+			<div id="cacheStatus"></div>
+			<div id="lives"></div>
+			<div class="toolbar">
+				<button id="previous">Previous lives</button
+				><button id="more">Next lives</button>
+			</div>
+		</aside>
+		<main>
+			<div id="title" class="empty">
+				Select a recorded life. Pending or unavailable artifacts are not
+				counted as deaths.
+			</div>
+			<div id="detail" hidden>
+				<div class="notice">
+					Unassessed recorded facts. A mismatch or cause string is not
+					a verified bug. C and Neo seeds describe different games.
+				</div>
+				<div id="rawStatus"></div>
+				<div class="toolbar">
+					<button id="download" hidden>Download raw shard</button
+					><button id="verify">Verify recorded hashes</button>
+				</div>
+				<div id="integrity"></div>
+				<div class="toolbar" id="tabs"></div>
+				<div id="fileTools" hidden>
+					<label>Recorded file<select id="file"></select></label>
+				</div>
+				<div id="content"></div>
+				<div class="toolbar" id="lineNav" hidden>
+					<button id="backLines">Previous page</button
+					><button id="recent">Recent / last 100</button
+					><span id="lineStatus"></span
+					><button id="nextLines">Next page</button>
+				</div>
+			</div>
+		</main>
+	</div>
+	<script>
+		const token = "__TOKEN__";
+		const $ = (id) => document.getElementById(id);
+		let offset = 0,
+			total = 0,
+			current = null,
+			tab = "Summary",
+			lineOffset = 0,
+			nextOffset = null;
+		const filters = [
+			"source_profile",
+			"outcome",
+			"class",
+			"race",
+			"seed",
+			"cause",
+		];
+		async function api(path, method = "GET") {
+			const r = await fetch(path, {
+				method,
+				headers: method === "POST" ? { "X-Browser-Token": token } : {},
+			});
+			const data = await r.json();
+			if (!r.ok) throw Error(data.error || r.statusText);
+			return data;
+		}
+		function text(tag, value, cls) {
+			const e = document.createElement(tag);
+			e.textContent = value ?? "—";
+			if (cls) e.className = cls;
+			return e;
+		}
+		function showError(error) {
+			$("rawStatus").replaceChildren(
+				text("div", String(error), "notice error"),
+			);
+		}
+		function pretty(value) {
+			return text("pre", JSON.stringify(value, null, 2));
+		}
+		async function catalogue() {
+			try {
+				const q = new URLSearchParams({ offset, limit: 50 });
+				for (const f of filters) if ($(f).value) q.set(f, $(f).value);
+				const data = await api("/api/lives?" + q);
+				total = data.total;
+				$("count").textContent =
+					`${total} matches / ${data.cached_total} cached`;
+				for (const f of [
+					"source_profile",
+					"outcome",
+					"class",
+					"race",
+				]) {
+					const selected = $(f).value;
+					$(f).replaceChildren(
+						new Option("All", ""),
+						...data.facets[f].map(
+							(v) =>
+								new Option(
+									f === "source_profile"
+										? v === "better-borg-c"
+											? "Native C"
+											: v === "neo-original"
+												? "Neo (developer host)"
+												: v
+										: v,
+									v,
+								),
+						),
+					);
+					$(f).value = selected;
+				}
+				$("cacheStatus").replaceChildren(text("p", data.notice));
+				$("fetchCatalogues").hidden = !data.downloads_enabled;
+				if (data.pending_artifacts.length)
+					$("cacheStatus").append(
+						text(
+							"div",
+							`${data.pending_artifacts.length} artifact folders pending or without download receipts (standard gh caches are supported)`,
+							"notice",
+						),
+					);
+				for (const e of data.errors)
+					$("cacheStatus").append(
+						text(
+							"div",
+							e.artifact + ": " + e.error,
+							"notice error",
+						),
+					);
+				$("lives").replaceChildren();
+				if (!data.rows.length)
+					$("lives").append(
+						text(
+							"div",
+							"No matching completed cached records. Refresh as downloads finish.",
+							"empty",
+						),
+					);
+				for (const row of data.rows) {
+					const b = text(
+						"button",
+						`${row.race} ${row.class} · seed ${row.seed}`,
+						"life" +
+							(current?.summary.id === row.id ? " selected" : ""),
+					);
+					b.append(
+						text(
+							"small",
+							`${row.specimen} · ${row.outcome} · ${row.cause || "no death cause"}`,
+						),
+						text(
+							"small",
+							`tick ${row.final?.turn ?? "unavailable"} · max depth ${row.final?.max_depth ?? "unavailable"}`,
+						),
+					);
+					b.onclick = () => selectLife(row.id);
+					$("lives").append(b);
+				}
+				$("previous").disabled = offset === 0;
+				$("more").disabled = offset + 50 >= total;
+			} catch (e) {
+				$("cacheStatus").replaceChildren(
+					text("div", String(e), "notice error"),
+				);
+			}
+		}
+		async function selectLife(id) {
+			$("title").textContent = "Loading recorded life…";
+			try {
+				current = await api("/api/life?id=" + encodeURIComponent(id));
+				$("title").className = "";
+				$("title").replaceChildren(
+					text(
+						"h2",
+						`${current.summary.race} ${current.summary.class} · seed ${current.summary.seed}`,
+					),
+					text(
+						"p",
+						`${current.summary.specimen} · ${current.summary.outcome} · ${current.summary.cause || "no death cause"}`,
+					),
+				);
+				$("detail").hidden = false;
+				$("rawStatus").replaceChildren(
+					text(
+						"p",
+						`Raw evidence: ${current.raw_status} (${current.raw_artifact}). Hashes: not yet verified. A raw shard includes other lives; downloading it is optional.`,
+					),
+				);
+				$("download").hidden =
+					current.raw_status === "available" ||
+					!current.downloads_enabled;
+				$("integrity").replaceChildren();
+				$("file").replaceChildren(
+					...current.files.map(
+						(f) =>
+							new Option(`${f.name} (${f.bytes} bytes)`, f.name),
+					),
+				);
+				tab = "Summary";
+				lineOffset = 0;
+				renderTabs();
+				await render();
+			} catch (e) {
+				showError(e);
+			}
+		}
+		function renderTabs() {
+			$("tabs").replaceChildren();
+			for (const name of [
+				"Summary",
+				"Commands",
+				"Messages",
+				"States",
+				"Inventory",
+				"Final map / world",
+				"Raw files",
+			]) {
+				const b = text(
+					"button",
+					name,
+					"tab" + (tab === name ? " active" : ""),
+				);
+				b.onclick = () => {
+					tab = name;
+					lineOffset = 0;
+					renderTabs();
+					render().catch(showError);
+				};
+				$("tabs").append(b);
+			}
+		}
+		async function observation(field) {
+			return api(
+				"/api/observation?" +
+					new URLSearchParams({ id: current.summary.id, field }),
+			);
+		}
+		function table(columns, rows) {
+			const table = document.createElement("table"),
+				head = document.createElement("tr");
+			for (const c of columns) head.append(text("th", c));
+			table.append(head);
+			for (const r of rows) {
+				const tr = document.createElement("tr");
+				for (const c of r)
+					tr.append(
+						text(
+							"td",
+							typeof c === "object" ? JSON.stringify(c) : c,
+						),
+					);
+				table.append(tr);
+			}
+			return table;
+		}
+		async function render(tail = false) {
+			$("content").replaceChildren(text("p", "Loading evidence…"));
+			$("fileTools").hidden = tab !== "Raw files";
+			$("lineNav").hidden = true;
+			if (tab === "Summary") {
+				const record = current.record;
+				const summary = {
+					outcome: record.outcome,
+					cause: record.cause,
+					error: record.error,
+					stall: record.stall,
+					final: record.final,
+					birth: record.birth_record ?? record.birth,
+					effective_options: record.effective_options,
+					wall_seconds: record.wall_seconds,
+					assessment: current.assessment,
+				};
+				$("content").replaceChildren(
+					text(
+						"p",
+						current.summary.source_profile === "better-borg-c"
+							? "Native STATE energy is cumulative total energy spent, not current player energy."
+							: "Neo energy is current player actor energy.",
+					),
+					pretty(summary),
+				);
+				const d = document.createElement("details");
+				d.append(
+					text("summary", "Complete compact record and provenance"),
+					pretty(record),
+				);
+				$("content").append(d);
+				return;
+			}
+			if (current.raw_status !== "available") {
+				$("content").replaceChildren(
+					text(
+						"div",
+						"Raw shard is missing, pending, expired, or not downloaded. Compact summary remains available.",
+						"notice",
+					),
+				);
+				return;
+			}
+			if (tab === "Inventory") {
+				const value = await observation("finalInventory");
+				$("content").replaceChildren(
+					value.available
+						? pretty(value.value)
+						: text("div", value.notice, "notice"),
+				);
+				return;
+			}
+			let file,
+				mode = "lines";
+			if (tab === "Raw files") file = $("file").value;
+			else if (tab === "Final map / world") {
+				const map = current.files.find((f) => f.name.endsWith(".map"));
+				if (map) file = map.name;
+				else {
+					const value = await observation("finalKnownWorld");
+					$("content").replaceChildren(
+						value.available
+							? pretty(value.value)
+							: text("div", value.notice, "notice"),
+					);
+					return;
+				}
+			} else {
+				const names = {
+					Commands: "commands",
+					Messages: "messages",
+					States: "states",
+				};
+				mode = names[tab];
+				file = current.files.some(
+					(f) => f.name === "run/" + mode + ".jsonl",
+				)
+					? "run/" + mode + ".jsonl"
+					: "trace.txt";
+			}
+			if (!file) {
+				$("content").replaceChildren(
+					text(
+						"div",
+						"This evidence file was not recorded.",
+						"notice",
+					),
+				);
+				return;
+			}
+			const data = await api(
+				"/api/file?" +
+					new URLSearchParams({
+						id: current.summary.id,
+						file,
+						mode,
+						offset: lineOffset,
+						limit: 100,
+						tail: tail ? 1 : 0,
+					}),
+			);
+			nextOffset = data.next_offset;
+			lineOffset = data.offset ?? lineOffset;
+			$("lineNav").hidden = false;
+			$("backLines").disabled = lineOffset === 0;
+			$("nextLines").disabled =
+				nextOffset === null || nextOffset === undefined;
+			$("lineStatus").textContent =
+				`${file} · rows ${lineOffset + 1}–${lineOffset + data.rows.length} · ${data.sha_status || "not verified"}`;
+			if (data.binary) {
+				$("content").replaceChildren(
+					text("div", data.notice, "notice"),
+				);
+				return;
+			}
+			if (!data.rows.length) {
+				$("content").replaceChildren(
+					text(
+						"div",
+						"No matching recorded lines. This is not reconstructed evidence.",
+						"notice",
+					),
+				);
+				return;
+			}
+			if (file.endsWith(".jsonl") && tab !== "Raw files") {
+				const values = data.rows.map((r) => r.value || {});
+				if (tab === "Commands")
+					$("content").replaceChildren(
+						table(
+							[
+								"Tick",
+								"Command / intent",
+								"Arguments",
+								"Accepted",
+								"Reason",
+							],
+							values.map((v) => [
+								v.turn,
+								v.intent?.command?.code ??
+									v.intent?.kind ??
+									v.type,
+								v.intent?.command?.args ??
+									v.intent?.command ??
+									v.intent ??
+									v.answer,
+								v.accepted === undefined
+									? "not recorded"
+									: String(v.accepted),
+								v.reason ?? "—",
+							]),
+						),
+					);
+				else if (tab === "Messages")
+					$("content").replaceChildren(
+						table(
+							["Tick", "Message"],
+							values.map((v) => [v.turn, v.text]),
+						),
+					);
+				else
+					$("content").replaceChildren(
+						table(
+							[
+								"Tick",
+								"Decisions",
+								"Depth / max",
+								"Level / max",
+								"HP / max",
+								"Player energy",
+							],
+							values.map((v) => [
+								v.turn,
+								v.decisions,
+								`${v.depth} / ${v.maxDepth}`,
+								`${v.level} / ${v.maxLevel}`,
+								`${v.hp} / ${v.maxHp}`,
+								v.energy,
+							]),
+						),
+					);
+			} else if (tab === "States")
+				$("content").replaceChildren(
+					table(
+						[
+							"Tick",
+							"Decisions",
+							"Depth / max",
+							"Level / max",
+							"HP",
+							"Total energy spent",
+						],
+						data.rows.map((r) => {
+							const v = r.value || {};
+							return [
+								v.turn,
+								v.decisions,
+								`${v.depth} / ${v.max_depth}`,
+								`${v.level} / ${v.max_level}`,
+								v.hp,
+								v.energy,
+							];
+						}),
+					),
+				);
+			else
+				$("content").replaceChildren(
+					text(
+						"p",
+						file === "trace.txt"
+							? "Original native Borg notes and state/message trace; no generated keypress stream was recorded. Acceptance and HP maxima are not inferred."
+							: "",
+					),
+					text(
+						"pre",
+						data.rows.map((r) => r.text).join("\n"),
+						file.endsWith(".map") ? "map" : "",
+					),
+				);
+		}
+		$("refresh").onclick = () => {
+			offset = 0;
+			catalogue();
+		};
+		$("previous").onclick = () => {
+			offset = Math.max(0, offset - 50);
+			catalogue();
+		};
+		$("more").onclick = () => {
+			offset += 50;
+			catalogue();
+		};
+		$("file").onchange = () => {
+			lineOffset = 0;
+			render().catch(showError);
+		};
+		$("backLines").onclick = () => {
+			lineOffset = Math.max(0, lineOffset - 100);
+			render().catch(showError);
+		};
+		$("nextLines").onclick = () => {
+			lineOffset = nextOffset;
+			render().catch(showError);
+		};
+		$("recent").onclick = () => render(true).catch(showError);
+		$("fetchCatalogues").onclick = async () => {
+			try {
+				$("fetchCatalogues").disabled = true;
+				await api("/api/catalogues", "POST");
+				await catalogue();
+			} catch (e) {
+				$("cacheStatus").replaceChildren(
+					text("div", String(e), "notice error"),
+				);
+			} finally {
+				$("fetchCatalogues").disabled = false;
+			}
+		};
+		$("verify").onclick = async () => {
+			try {
+				$("integrity").replaceChildren(
+					text("p", "Hashing selected raw evidence…"),
+				);
+				const data = await api("/api/verify?id=" + current.summary.id);
+				$("integrity").replaceChildren(pretty(data));
+			} catch (e) {
+				$("integrity").replaceChildren(
+					text("div", String(e), "notice error"),
+				);
+			}
+		};
+		$("download").onclick = async () => {
+			try {
+				$("download").disabled = true;
+				$("rawStatus").replaceChildren(
+					text(
+						"p",
+						"Downloading selected raw shard into the separate browser cache…",
+					),
+				);
+				await api("/api/download?id=" + current.summary.id, "POST");
+				await selectLife(current.summary.id);
+			} catch (e) {
+				showError(e);
+			} finally {
+				$("download").disabled = false;
+			}
+		};
+		catalogue();
+	</script>
+</html>
