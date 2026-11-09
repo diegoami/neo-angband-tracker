@@ -107,7 +107,7 @@ def main():
     open_prs = gh("pulls?state=open")
     targets = list(args.issues)
     if args.candidates:
-        for q in ("upstream-c,evidence:reported-lead", "upstream-c,triage:needed"):
+        for q in ("upstream-c,evidence:reported-lead", "upstream-c,triage:needed", "upstream-c,evidence:source-checked"):
             targets += [i["number"] for i in gh(f"issues?state=open&labels={q}")
                         if "pull_request" not in i]
     if args.stale:
