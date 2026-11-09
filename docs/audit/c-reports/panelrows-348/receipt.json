@@ -225,7 +225,7 @@
   },
   "run_log": "matrix exit 0; VERIFIED line in reproduce output",
   "sha256": {
-    "README.md": "ba4beb24fbad114f0c16cdc296324fb2f3bda463bfa4c1df94951fbf69c551ca",
+    "README.md": "5c4d1d634f84f5ef31b13eee4b9979fe81753faa4bc2d7675ba5420ee231ee99",
     "after-dig-normal.log": "54ccf4dfbb6e8af70c317aefe9a2f40cbac3c5d7a5676e652ffc219aa504560f",
     "after-dig-tall.log": "1699862eb3178db0323b07d29b60903547885b7fcf1d0998254cf9d0731b340f",
     "after-dig-wide.log": "b67ba0e5330bdbee14b97fafb25d6c17a428b55f9d80999553ce095aa7f77b87",

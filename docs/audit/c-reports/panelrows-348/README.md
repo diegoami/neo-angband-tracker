@@ -42,6 +42,76 @@ The production call returned and the scenario finished (1); n/a means the run st
 
 - **Control: Stone to Mud vault scan, standard 80x24 terminal.** Panel inside the map; both versions cast Turn Stone to Mud at the same vein; byte-identical logs.
 
+## Both builds, every scenario
+
+The runner builds the same source twice: the normal debug build and an
+AddressSanitizer build (`-fsanitize=address -fno-omit-frame-pointer -g`, run with
+`ASAN_OPTIONS=detect_leaks=0:intercept_strcmp=0`; the strcmp interceptor is off because the
+pristine base trips an unrelated report in the Borg's own string sort,
+`borg-util.c`). The replay page shows the AddressSanitizer runs; the table in
+"What to watch" above is the normal build.
+
+| Scenario | Original, normal | Corrected, normal | Original, AddressSanitizer | Corrected, AddressSanitizer |
+| --- | --- | --- | --- | --- |
+| Glow scan, 80x70 terminal (panel 68 rows on a 66-row level) | segmentation fault | finished | global-buffer-overflow READ in borg_flow_light borg-flow-misc.c:836 | finished, no report |
+| Glow scan, 230x24 terminal (panel 216 columns on a 198-column level) | finished | finished | heap-buffer-overflow READ in borg_flow_light borg-flow-misc.c:839 | finished, no report |
+| Control: glow scan, standard 80x24 terminal | finished | finished | finished, no report | finished, no report |
+| Control: glow scan, 212x68 terminal (panel exactly 198x66, the largest that fits) | finished | finished | finished, no report | finished, no report |
+| Vault-wall scan, 80x70 terminal | segmentation fault | finished | global-buffer-overflow READ in borg_flow_vault borg-flow-misc.c:909 | finished, no report |
+| Vault-wall scan, 230x24 terminal | finished | finished | heap-buffer-overflow READ in borg_flow_vault borg-flow-misc.c:909 | finished, no report |
+| Control: vault-wall scan, standard 80x24 terminal | finished | finished | finished, no report | finished, no report |
+| Stone to Mud vault scan (Druid), 80x70 terminal | segmentation fault | finished | global-buffer-overflow READ in borg_excavate_vault borg-think-dungeon-util.c:1016 | finished, no report |
+| Stone to Mud vault scan (Druid), 230x24 terminal | finished | finished | heap-buffer-overflow READ in borg_excavate_vault borg-think-dungeon-util.c:1016 | finished, no report |
+| Control: Stone to Mud vault scan, standard 80x24 terminal | finished | finished | finished, no report | finished, no report |
+
+What the two kinds of report mean. On a 70-row terminal the panel has 68
+rows and starts at row 0, so the scans ask for `borg_grids[66]` and
+`borg_grids[67]`: row pointers past the end of the 66-entry global array
+(`global-buffer-overflow`, READ of size 8). In the normal build the value
+found there is not a row, and dereferencing it crashed every tall case. On a
+230-column terminal the panel has 216 columns and starts at column 0, so each
+row is read 18 grids past its 198-grid heap block (`heap-buffer-overflow`,
+allocated in `borg_init_cave`, `borg-cave.c:45`); the normal build reads the
+next heap block without crashing and, in these cases, found nothing that
+changed the decision, so its logs match the corrected ones. Which memory is
+read there depends on the heap layout; no wrong decision was measured.
+
+Original, glow scan, 70-row terminal (paths shortened):
+
+```text
+==26462==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55c487575ef0 at pc 0x55c4871eb9d9 bp 0x7ffe5b521090 sp 0x7ffe5b521080
+READ of size 8 at 0x55c487575ef0 thread T0
+    #0 0x55c4871eb9d8 in borg_flow_light src/borg/borg-flow-misc.c:836
+    #1 0x55c486dbb6ed in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:213
+    #2 0x55c4872f4fa4 in main src/tests/unit-test.c:53
+0x55c487575ef0 is located 0 bytes after global variable 'borg_grids' defined in 'src/borg/borg-cave.c:29:12' (0x55c487575ce0) of size 528
+SUMMARY: AddressSanitizer: global-buffer-overflow src/borg/borg-flow-misc.c:836 in borg_flow_light
+```
+
+Original, glow scan, 230-column terminal:
+
+```text
+==26463==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x51d00002f7ca at pc 0x5649a9225a46 bp 0x7ffd8b6b1780 sp 0x7ffd8b6b1770
+READ of size 2 at 0x51d00002f7ca thread T0
+    #0 0x5649a9225a45 in borg_flow_light src/borg/borg-flow-misc.c:839
+    #1 0x5649a8df56ed in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:213
+    #2 0x5649a932efa4 in main src/tests/unit-test.c:53
+    #3 0x7ffa4e82a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+0x51d00002f7ca is located 2 bytes after 2376-byte region [0x51d00002ee80,0x51d00002f7c8)
+allocated by thread T0 here:
+    #0 0x7ffa4ecfd9c7 in malloc ..src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x5649a9186333 in mem_alloc src/z-virt.c:38
+    #2 0x5649a918636f in mem_zalloc src/z-virt.c:46
+    #3 0x5649a91a09ce in borg_init_cave src/borg/borg-cave.c:45
+SUMMARY: AddressSanitizer: heap-buffer-overflow src/borg/borg-flow-misc.c:839 in borg_flow_light
+```
+
+The runner asserts: tall-terminal originals end with a segmentation fault in
+the normal build; each oversized original stops on exactly the listed
+sanitizer report (kind, function, file:line); every corrected case and every
+control finishes with no report; and the four controls are byte-identical in
+both builds. Full sanitizer output is in `asan-before-*.log`.
+
 ## Conditions
 
 Native Human Warrior (light and vault scans) or Human Druid (Stone to Mud scan), seed 348, character level 21, depth 10, on a full-size open level (198x66). Terminal sizes are set with term_init (standard sidebar layout: map starts at column 13, one status row above and below). The game's own center_panel() places the view around the player, and the Borg's panel origin is copied from the terminal exactly as borg_update() does. Fixture interventions: the terminal size, the arena, the Borg's map entries (features copied from the level; the 11x8 lit room is marked as lit in the Borg's map, as its call-light code records it), the vault flag, a wielded Mattock (Warrior vault cases), the Druid's two town books with every spell up to its level learned. Each case runs one production call: borg_flow_light(GOAL_FLEE), borg_flow_vault(35) or borg_excavate_vault(z_info->max_range - 2), as borg_think_dungeon() calls them, and reads back the first queued key. The replay page shows the AddressSanitizer build; the normal-build results are in the README table.
