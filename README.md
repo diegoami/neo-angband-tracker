@@ -12,6 +12,11 @@ No Neo pnpm commands here; Node is only for portable session metadata checks.
 Our docs do not authorize official C submissions. Source/legal files from
 Angband remain unchanged; this branch adds repair-session bootstrap docs.
 
+## Player manuals
+
+- [Complete user manual (single file)](docs/user-manual.md)
+- [Strategy manual](docs/strategy/) with generated data appendices
+
 ## Native build entry
 
 ```sh
