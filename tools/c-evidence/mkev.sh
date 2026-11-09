@@ -6,7 +6,10 @@ BUILD=${CEV_BUILD:-$WORK/build}
 DEVSRC=${CEV_DEVSRC:-$WORK/dev-source}
 # usage: mkev.sh slug msgfile   -> creates evidence branch with fixtures, pushes, extracts reproduce.py
 set -e
-slug=$1; msg=$2; cd $WORK
+slug=$1; msg=$2
+git -C "$REPO" rev-parse --git-dir >/dev/null 2>&1 || { echo "mkev: $REPO is not the tracker checkout; set CEV_REPO" >&2; exit 1; }
+case "$msg" in /*) ;; *) msg="$PWD/$msg";; esac
+cd $WORK
 python3 $TOOLS/gen.py $slug/spec.json $slug/pkg >/dev/null
 cp $slug/scenario.c $slug/pkg/ && cp ${CEV_BORG_TXT:-$WORK/borg.txt} $slug/pkg/borg.txt
 cd $REPO

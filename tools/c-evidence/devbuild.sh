@@ -15,4 +15,8 @@ target_compile_definitions($obs PRIVATE ALLOW_BORG)
 target_link_libraries($obs PRIVATE \${ANGBAND_CORE_LINK_LIBRARIES})
 EOT
 fi
-flock /tmp/angband-validation.lock cmake --build $BUILD --parallel 4 --target $obs 2>&1 | grep -E "error|warning: unused|Error" | head -30 || true
+# re-configure so a newly added observer target exists (otherwise the build is a silent no-op)
+cmake -S $src -B $BUILD >/dev/null
+out=$(flock /tmp/angband-validation.lock cmake --build $BUILD --parallel 4 --target $obs 2>&1) || { echo "$out" | tail -40; exit 1; }
+echo "$out" | grep -E "error|warning: unused|Error" | head -30 || true
+[ -x "$BUILD/$obs" ] || [ -x "$(find $BUILD -maxdepth 2 -name $obs -type f | head -1)" ] || { echo "devbuild: observer $obs was not built" >&2; exit 1; }
