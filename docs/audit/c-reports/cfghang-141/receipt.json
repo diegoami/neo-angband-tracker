@@ -1,0 +1,131 @@
+{
+  "issue": "diegoami/neo-angband-tracker#141",
+  "report": "cfghang-141",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "45dfc9b1f4930b28841d0c38b73cc4cd3171aab0",
+  "fix_branch": "task/cfghang-141",
+  "fixtures_ref": "a3164a61b830bf1c67e10017f9a2be7dec9a1763",
+  "cases": {
+    "word": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "init_completed": 0,
+          "hung": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 128
+        },
+        "outcome": {
+          "init_completed": 1,
+          "hung": 0
+        }
+      }
+    },
+    "suffix": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "init_completed": 0,
+          "hung": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 128
+        },
+        "outcome": {
+          "init_completed": 1,
+          "hung": 0
+        }
+      }
+    },
+    "valid": {
+      "before": {
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 7
+        },
+        "outcome": {
+          "init_completed": 1,
+          "hung": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "init_failure": 0,
+          "stop_dlevel": 7
+        },
+        "outcome": {
+          "init_completed": 1,
+          "hung": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "valid"
+  ],
+  "claim": "borg_proc_setting() never consumed a character other than space, '=', '-' or a digit after an integer setting name, so 'borg_stop_dlevel = off' or 'borg_stop_dlevelx 5' in borg.txt hung borg_init() (watchdog fired at 20 s). Stopping at any other character keeps the default and start-up completes; the valid-setting control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-init.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-init.c": "ec6ee692ef9021f7dedb2fe80cf12576d3212d4ae51c41f7f3bd2b024dacea0d"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "4862e829c9a3bca672318fd8c19f5978165c4073050b8c2c7cff8b76a86cad08",
+    "after-results.json": "7b5bf239473a8a30a2cf1a6efe132cd89a04b2a521956c54555232f0e22e8823",
+    "after-suffix.log": "c568758d93d4d3a7f5c0480fd1e60c842b871ab851a76d1b00e8493f4c55c7aa",
+    "after-valid.log": "72892bd55b038dea92f743a3859a131421af56349659f1a9b14a164d4d0d24c1",
+    "after-word.log": "4af0ada5f4276f1c06f53a2623db4ede3e46fc2e0183497256d97aa026ee89ee",
+    "before-results.json": "09cdc529c3e8aae9d22a5d62bbab7a07968cdbb8847c914f79fd5d7f71ae2691",
+    "before-suffix.log": "621263f97439fd22508a017b2935e07aa58ed61d304dc5239d094657fdfbe191",
+    "before-valid.log": "72892bd55b038dea92f743a3859a131421af56349659f1a9b14a164d4d0d24c1",
+    "before-word.log": "adb0781be6ce4f19599197a9f38c7a2aa424f37d97984577223667e6a6535fcb",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "de5e6480b3481bf0432f6024a070f8bb2026b5a34e75d3e5aeea295ef213ea7c",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "c757b8873dfa1193b2405bd13086458c91a5ea965347ca00d9e478fe0128f110",
+    "replay.html": "8c99da630dbedc61d17691b04f8cbbd9bd7df0108a591fb39156b8c46039ea9f",
+    "reproduce.py": "df66f01fe2456344247e87ce33b44aa81aa4d93e3b9b7c343fdbf8b9cedd73fe",
+    "result.json": "90efb33b9464cbc26a1245664ef3baa854b3669f8423901437f63f5c77ebdb19",
+    "run-after-alltests.log": "95280cb05a90eef7548feb0f31f5ed318e565cbfa0fae56e539930ba9f6778a8",
+    "run-after-build.log": "d3aa08c7694149d7895093fd0246854b2188c220b30ef6e4e253a1697139a54f",
+    "run-after-scenarios.log": "ba4b07a81390954940d9ad5e139befec90659653b5cfad58dbcbfd961631ce47",
+    "run-before-alltests.log": "f4b35c15ab4046c836f4a3a363f4ebc5eba09edec1e9c769b80f8fe569a8c537",
+    "run-before-build.log": "ee0541316bb62262776734a6218f4678dc327c3e49c40185a9c72a34cda31b4d",
+    "run-before-scenarios.log": "dc3f7e345d2791be3d4e2feeaf0ba1fc4c3dd706b0d1b9b228fdb3ae296084c0",
+    "run-cases.py": "3206cf40d3fc53679112c32ce4fe52ba2dedb6106abcc60b793ea62f2337006a",
+    "run-configure.log": "a74bd7818c161144c5ca087b0091694782f21ddffb9e4f1fcc20b89801000733",
+    "scenario.c": "acebef3db9110989a103059fcb7495016255b91a0a3af8cd7a174e704e131107"
+  }
+}

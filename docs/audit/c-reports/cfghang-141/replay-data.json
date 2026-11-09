@@ -1,0 +1,93 @@
+{
+  "word": {
+    "label": "borg_stop_dlevel = off",
+    "explanation": "Original: the reader never moves past the 'o'; borg_init() does not return and the watchdog fires after 20 seconds. Corrected: start-up completes; borg_stop_dlevel keeps its default (128).",
+    "control": false,
+    "before": {
+      "raw": "native-c/cfghang-141: starting...\nSETUP seed=141 mode=word line=\"borg_stop_dlevel = off\"\n  borg_init_reads_borg_txt  OUTCOME init_completed=0 hung=1\nnative-c/cfghang-141 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "init_completed": 0,
+        "hung": 1
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/cfghang-141: starting...\nSETUP seed=141 mode=word line=\"borg_stop_dlevel = off\"\n  borg_init_reads_borg_txt  STATE init_failure=0 stop_dlevel=128\nOUTCOME init_completed=1 hung=0\nPassed\nnative-c/cfghang-141 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "init_failure": 0,
+        "stop_dlevel": 128
+      },
+      "outcome": {
+        "init_completed": 1,
+        "hung": 0
+      },
+      "notes": [],
+      "value": 1
+    }
+  },
+  "suffix": {
+    "label": "borg_stop_dlevelx 5 (extra letter in the name)",
+    "explanation": "Original: the name matches as a prefix and the reader spins on the 'x'. Corrected: start-up completes with the default 128.",
+    "control": false,
+    "before": {
+      "raw": "native-c/cfghang-141: starting...\nSETUP seed=141 mode=suffix line=\"borg_stop_dlevelx 5\"\n  borg_init_reads_borg_txt  OUTCOME init_completed=0 hung=1\nnative-c/cfghang-141 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "init_completed": 0,
+        "hung": 1
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/cfghang-141: starting...\nSETUP seed=141 mode=suffix line=\"borg_stop_dlevelx 5\"\n  borg_init_reads_borg_txt  STATE init_failure=0 stop_dlevel=128\nOUTCOME init_completed=1 hung=0\nPassed\nnative-c/cfghang-141 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "init_failure": 0,
+        "stop_dlevel": 128
+      },
+      "outcome": {
+        "init_completed": 1,
+        "hung": 0
+      },
+      "notes": [],
+      "value": 1
+    }
+  },
+  "valid": {
+    "label": "Control: borg_stop_dlevel = 7",
+    "explanation": "A well-formed number; both versions read 7 and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/cfghang-141: starting...\nSETUP seed=141 mode=valid line=\"borg_stop_dlevel = 7\"\n  borg_init_reads_borg_txt  STATE init_failure=0 stop_dlevel=7\nOUTCOME init_completed=1 hung=0\nPassed\nnative-c/cfghang-141 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "init_failure": 0,
+        "stop_dlevel": 7
+      },
+      "outcome": {
+        "init_completed": 1,
+        "hung": 0
+      },
+      "notes": [],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/cfghang-141: starting...\nSETUP seed=141 mode=valid line=\"borg_stop_dlevel = 7\"\n  borg_init_reads_borg_txt  STATE init_failure=0 stop_dlevel=7\nOUTCOME init_completed=1 hung=0\nPassed\nnative-c/cfghang-141 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "init_failure": 0,
+        "stop_dlevel": 7
+      },
+      "outcome": {
+        "init_completed": 1,
+        "hung": 0
+      },
+      "notes": [],
+      "value": 1
+    }
+  }
+}

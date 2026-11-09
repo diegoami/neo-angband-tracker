@@ -1,0 +1,30 @@
+{
+  "word": {
+    "exit": 2,
+    "passed": false,
+    "outcome": {
+      "init_completed": 0,
+      "hung": 1
+    }
+  },
+  "suffix": {
+    "exit": 2,
+    "passed": false,
+    "outcome": {
+      "init_completed": 0,
+      "hung": 1
+    }
+  },
+  "valid": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "init_failure": 0,
+      "stop_dlevel": 7
+    },
+    "outcome": {
+      "init_completed": 1,
+      "hung": 0
+    }
+  }
+}
