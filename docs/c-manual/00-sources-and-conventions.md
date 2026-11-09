@@ -21,11 +21,17 @@ on the branch
 The [C Borg documents](../c-borg/README.md) read the same commit.
 
 The 4.2.6 release tree in this repository's `reference/` directory is **not** the same
-game. The master commit changes the following data files: `activation.txt`,
-`artifact.txt`, `chest_trap.txt`, `class.txt`, `curse.txt`, `ego_item.txt`,
-`monster.txt`, `monster_base.txt`, `object.txt`, `object_property.txt`,
-`player_property.txt`, `player_timed.txt`, `room_template.txt`, `terrain.txt`,
-`trap.txt` and `vault.txt`. It also adds features: the autoexplore commands
+game. The master commit changes 18 of the files in `lib/gamedata` and adds or removes
+none:
+
+- 16 change the rules: `activation.txt`, `artifact.txt`, `chest_trap.txt`, `class.txt`,
+  `curse.txt`, `ego_item.txt`, `monster.txt`, `monster_base.txt`, `object.txt`,
+  `object_property.txt`, `player_property.txt`, `player_timed.txt`,
+  `room_template.txt`, `terrain.txt`, `trap.txt` and `vault.txt`.
+- `ui_knowledge.txt` adds a "Not Fully Known" monster category to the knowledge menus.
+- `history.txt` changes only the wording of character histories.
+
+The master commit also adds features: the autoexplore commands
 (`autoexplore_commands` in `src/list-options.h`) and doors and rubble that are cleared
 automatically when you follow a path. When a number here disagrees with a 4.2.x
 release, check which version you are playing.
