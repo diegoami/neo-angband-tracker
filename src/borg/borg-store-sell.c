@@ -918,8 +918,7 @@ static bool borg_good_sell(borg_item *item, int who)
 
     /* Do not sell stuff that is not fully id'd and should be  */
     if (!item->ident && item->ego_idx && item->iqty < 2) {
-        if (borg_ego_has_random_power(
-                &e_info[borg_items[INVEN_OUTER].ego_idx])) {
+        if (borg_ego_has_random_power(&e_info[item->ego_idx])) {
             return false;
         }
     }
