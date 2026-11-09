@@ -1,0 +1,351 @@
+{
+  "upstair": {
+    "label": "Up staircase, Phase Door possible",
+    "explanation": "Original: keys '<', Esc, Esc, 'r', 'd' (Danger Level 4.1). The game climbs to depth 9, the Borg arrives on a down staircase at (59,28), then reads a Phase Door there and lands at (63,36), off the staircase, with 4 scrolls left. Corrected: only '<' is queued; the Borg arrives at (59,28) on the staircase with all 5 scrolls.",
+    "control": false,
+    "before": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=upstair class=Warrior clevel=16 hp=172/212 depth=10 feat=up staircase phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=5000\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Standing on up-stairs>\nTRACK borg-note <# Escaping level via stairs.>\nTRACK borg-note <# Reading Scrolls of Phase Door.>\nTRACK borg-note <# Danger Level 4.1>\nDECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=5 queue=<<Esc><Esc>rd\nTRACK game-message <You enter a maze of up staircases.>\nTRACK game-message <This place seems reasonably safe.>\nENGINE command=1 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=1\nENGINE command=2 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=1\nENGINE command=3 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=1\nTRACK game-message <You have 4 Scrolls of Phase Door (d).>\nENGINE command=4 depth=9 pos=(63,36) feat=open floor phase=4 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=9 climbed=1 phase_read=1 teleport_read=0 scroll_read_on_new_level=1 moved=1 commands=4\nFailed\n    native-c/stairphase-34:286: requirement '!read_on_arrival' failed\nnative-c/stairphase-34 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 147,
+        "avoidance": 172,
+        "hp": 172,
+        "escapes": 0,
+        "antisummon_timer": 5000
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 9,
+        "climbed": 1,
+        "phase_read": 1,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 1,
+        "moved": 1,
+        "commands": 4
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Standing on up-stairs>",
+        "TRACK borg-note <# Escaping level via stairs.>",
+        "TRACK borg-note <# Reading Scrolls of Phase Door.>",
+        "TRACK borg-note <# Danger Level 4.1>",
+        "DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=5 queue=<<Esc><Esc>rd",
+        "TRACK game-message <You enter a maze of up staircases.>",
+        "TRACK game-message <This place seems reasonably safe.>",
+        "TRACK game-message <You have 4 Scrolls of Phase Door (d).>"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=upstair class=Warrior clevel=16 hp=172/212 depth=10 feat=up staircase phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=5000\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Standing on up-stairs>\nTRACK borg-note <# Escaping level via stairs.>\nTRACK borg-note <# Danger Level 4.1>\nDECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=1 queue=<\nTRACK game-message <You enter a maze of up staircases.>\nTRACK game-message <This place seems reasonably safe.>\nENGINE command=1 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=9 climbed=1 phase_read=0 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=1\nPassed\nnative-c/stairphase-34 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 147,
+        "avoidance": 172,
+        "hp": 172,
+        "escapes": 0,
+        "antisummon_timer": 5000
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 9,
+        "climbed": 1,
+        "phase_read": 0,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 0,
+        "moved": 1,
+        "commands": 1
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Standing on up-stairs>",
+        "TRACK borg-note <# Escaping level via stairs.>",
+        "TRACK borg-note <# Danger Level 4.1>",
+        "DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=1 queue=<",
+        "TRACK game-message <You enter a maze of up staircases.>",
+        "TRACK game-message <This place seems reasonably safe.>"
+      ],
+      "value": 0
+    }
+  },
+  "antisummon": {
+    "label": "Up staircase, phase blocked by a recent anti-summon spot",
+    "explanation": "Original: '<' is queued by the stair check, the phase is refused by the anti-summon timer, and the routine goes on to Danger Level 4.2 and queues a Teleportation read after the '<'. The game climbs and the Borg reads Teleportation on the new level (2 to 1 scrolls). Corrected: the stair escape is final; only '<' is queued and no scroll is read.",
+    "control": false,
+    "before": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=antisummon class=Warrior clevel=16 hp=172/212 depth=10 feat=up staircase phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=10\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Standing on up-stairs>\nTRACK borg-note <# Escaping level via stairs.>\nTRACK borg-note <# Reading Scrolls of Teleportation.>\nTRACK borg-note <# Danger Level 4.2>\nDECISION caution=1 escapes=1 fleeing=0 leaving=0 keys=5 queue=<<Esc><Esc>re\nTRACK game-message <You enter a maze of up staircases.>\nTRACK game-message <This place seems reasonably safe.>\nENGINE command=1 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=1\nENGINE command=2 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=1\nENGINE command=3 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=1\nTRACK game-message <You have a Scroll of Teleportation (e).>\nENGINE command=4 depth=9 pos=(140,30) feat=open floor phase=5 teleport=1 queue_left=0\nOUTCOME depth_before=10 depth_after=9 climbed=1 phase_read=0 teleport_read=1 scroll_read_on_new_level=1 moved=1 commands=4\nFailed\n    native-c/stairphase-34:286: requirement '!read_on_arrival' failed\nnative-c/stairphase-34 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 147,
+        "avoidance": 172,
+        "hp": 172,
+        "escapes": 0,
+        "antisummon_timer": 10
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 9,
+        "climbed": 1,
+        "phase_read": 0,
+        "teleport_read": 1,
+        "scroll_read_on_new_level": 1,
+        "moved": 1,
+        "commands": 4
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Standing on up-stairs>",
+        "TRACK borg-note <# Escaping level via stairs.>",
+        "TRACK borg-note <# Reading Scrolls of Teleportation.>",
+        "TRACK borg-note <# Danger Level 4.2>",
+        "DECISION caution=1 escapes=1 fleeing=0 leaving=0 keys=5 queue=<<Esc><Esc>re",
+        "TRACK game-message <You enter a maze of up staircases.>",
+        "TRACK game-message <This place seems reasonably safe.>",
+        "TRACK game-message <You have a Scroll of Teleportation (e).>"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=antisummon class=Warrior clevel=16 hp=172/212 depth=10 feat=up staircase phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=10\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Standing on up-stairs>\nTRACK borg-note <# Escaping level via stairs.>\nTRACK borg-note <# Danger Level 4.1>\nDECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=1 queue=<\nTRACK game-message <You enter a maze of up staircases.>\nTRACK game-message <This place seems reasonably safe.>\nENGINE command=1 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=9 climbed=1 phase_read=0 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=1\nPassed\nnative-c/stairphase-34 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 147,
+        "avoidance": 172,
+        "hp": 172,
+        "escapes": 0,
+        "antisummon_timer": 10
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 9,
+        "climbed": 1,
+        "phase_read": 0,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 0,
+        "moved": 1,
+        "commands": 1
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Standing on up-stairs>",
+        "TRACK borg-note <# Escaping level via stairs.>",
+        "TRACK borg-note <# Danger Level 4.1>",
+        "DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=1 queue=<",
+        "TRACK game-message <You enter a maze of up staircases.>",
+        "TRACK game-message <This place seems reasonably safe.>"
+      ],
+      "value": 0
+    }
+  },
+  "downstair": {
+    "label": "Control: down staircase (the stair check fails, the phase is chosen)",
+    "explanation": "The changed condition runs, the stair check returns false and the Borg reads a Phase Door on the current level in both versions; the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=downstair class=Warrior clevel=16 hp=172/212 depth=10 feat=down staircase phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=5000\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Standing on dn-stairs>\nTRACK borg-note <# Safe to Phase. scary squares: 10>\nTRACK borg-note <# Reading Scrolls of Phase Door.>\nTRACK borg-note <# Danger Level 4.1>\nDECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd\nENGINE command=1 depth=10 pos=(5,12) feat=down staircase phase=5 teleport=2 queue_left=1\nENGINE command=2 depth=10 pos=(5,12) feat=down staircase phase=5 teleport=2 queue_left=1\nTRACK game-message <You have 4 Scrolls of Phase Door (d).>\nENGINE command=3 depth=10 pos=(14,12) feat=open floor phase=4 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=10 climbed=0 phase_read=1 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=3\nPassed\nnative-c/stairphase-34 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 147,
+        "avoidance": 172,
+        "hp": 172,
+        "escapes": 0,
+        "antisummon_timer": 5000
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 10,
+        "climbed": 0,
+        "phase_read": 1,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 0,
+        "moved": 1,
+        "commands": 3
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Standing on dn-stairs>",
+        "TRACK borg-note <# Safe to Phase. scary squares: 10>",
+        "TRACK borg-note <# Reading Scrolls of Phase Door.>",
+        "TRACK borg-note <# Danger Level 4.1>",
+        "DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd",
+        "TRACK game-message <You have 4 Scrolls of Phase Door (d).>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=downstair class=Warrior clevel=16 hp=172/212 depth=10 feat=down staircase phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=5000\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Standing on dn-stairs>\nTRACK borg-note <# Safe to Phase. scary squares: 10>\nTRACK borg-note <# Reading Scrolls of Phase Door.>\nTRACK borg-note <# Danger Level 4.1>\nDECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd\nENGINE command=1 depth=10 pos=(5,12) feat=down staircase phase=5 teleport=2 queue_left=1\nENGINE command=2 depth=10 pos=(5,12) feat=down staircase phase=5 teleport=2 queue_left=1\nTRACK game-message <You have 4 Scrolls of Phase Door (d).>\nENGINE command=3 depth=10 pos=(14,12) feat=open floor phase=4 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=10 climbed=0 phase_read=1 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=3\nPassed\nnative-c/stairphase-34 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 147,
+        "avoidance": 172,
+        "hp": 172,
+        "escapes": 0,
+        "antisummon_timer": 5000
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 10,
+        "climbed": 0,
+        "phase_read": 1,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 0,
+        "moved": 1,
+        "commands": 3
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Standing on dn-stairs>",
+        "TRACK borg-note <# Safe to Phase. scary squares: 10>",
+        "TRACK borg-note <# Reading Scrolls of Phase Door.>",
+        "TRACK borg-note <# Danger Level 4.1>",
+        "DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd",
+        "TRACK game-message <You have 4 Scrolls of Phase Door (d).>"
+      ],
+      "value": 0
+    }
+  },
+  "floor": {
+    "label": "Control: plain floor (the stair check fails, the phase is chosen)",
+    "explanation": "The same without any staircase: both versions read a Phase Door on depth 10; the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=floor class=Warrior clevel=16 hp=172/212 depth=10 feat=open floor phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=5000\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Safe to Phase. scary squares: 10>\nTRACK borg-note <# Reading Scrolls of Phase Door.>\nTRACK borg-note <# Danger Level 4.1>\nDECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd\nENGINE command=1 depth=10 pos=(5,12) feat=open floor phase=5 teleport=2 queue_left=1\nENGINE command=2 depth=10 pos=(5,12) feat=open floor phase=5 teleport=2 queue_left=1\nTRACK game-message <You have 4 Scrolls of Phase Door (d).>\nENGINE command=3 depth=10 pos=(14,12) feat=open floor phase=4 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=10 climbed=0 phase_read=1 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=3\nPassed\nnative-c/stairphase-34 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 147,
+        "avoidance": 172,
+        "hp": 172,
+        "escapes": 0,
+        "antisummon_timer": 5000
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 10,
+        "climbed": 0,
+        "phase_read": 1,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 0,
+        "moved": 1,
+        "commands": 3
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Safe to Phase. scary squares: 10>",
+        "TRACK borg-note <# Reading Scrolls of Phase Door.>",
+        "TRACK borg-note <# Danger Level 4.1>",
+        "DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd",
+        "TRACK game-message <You have 4 Scrolls of Phase Door (d).>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=floor class=Warrior clevel=16 hp=172/212 depth=10 feat=open floor phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=5000\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Safe to Phase. scary squares: 10>\nTRACK borg-note <# Reading Scrolls of Phase Door.>\nTRACK borg-note <# Danger Level 4.1>\nDECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd\nENGINE command=1 depth=10 pos=(5,12) feat=open floor phase=5 teleport=2 queue_left=1\nENGINE command=2 depth=10 pos=(5,12) feat=open floor phase=5 teleport=2 queue_left=1\nTRACK game-message <You have 4 Scrolls of Phase Door (d).>\nENGINE command=3 depth=10 pos=(14,12) feat=open floor phase=4 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=10 climbed=0 phase_read=1 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=3\nPassed\nnative-c/stairphase-34 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 147,
+        "avoidance": 172,
+        "hp": 172,
+        "escapes": 0,
+        "antisummon_timer": 5000
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 10,
+        "climbed": 0,
+        "phase_read": 1,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 0,
+        "moved": 1,
+        "commands": 3
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Safe to Phase. scary squares: 10>",
+        "TRACK borg-note <# Reading Scrolls of Phase Door.>",
+        "TRACK borg-note <# Danger Level 4.1>",
+        "DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd",
+        "TRACK game-message <You have 4 Scrolls of Phase Door (d).>"
+      ],
+      "value": 0
+    }
+  },
+  "climb": {
+    "label": "Control: up staircase, more hurt (climbing is the only choice)",
+    "explanation": "At 117 hit points the danger is above the hit points and the earlier, unchanged escape step (Danger Level 2.1) takes the stairs alone in both versions; the logs are byte-identical. This control does not reach the changed lines.",
+    "control": true,
+    "before": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=climb class=Warrior clevel=16 hp=117/212 depth=10 feat=up staircase phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=117 hp=117 escapes=0 antisummon_timer=5000\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:117/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Standing on up-stairs>\nTRACK borg-note <# Flowing toward up-stairs at cost 0>\nTRACK borg-note <# Escaping level via stairs.>\nTRACK borg-note <# Danger Level 2.1>\nDECISION caution=1 escapes=1 fleeing=0 leaving=0 keys=1 queue=<\nTRACK game-message <You enter a maze of up staircases.>\nTRACK game-message <This place seems reasonably safe.>\nENGINE command=1 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=9 climbed=1 phase_read=0 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=1\nPassed\nnative-c/stairphase-34 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 147,
+        "avoidance": 117,
+        "hp": 117,
+        "escapes": 0,
+        "antisummon_timer": 5000
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 9,
+        "climbed": 1,
+        "phase_read": 0,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 0,
+        "moved": 1,
+        "commands": 1
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:117/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Standing on up-stairs>",
+        "TRACK borg-note <# Flowing toward up-stairs at cost 0>",
+        "TRACK borg-note <# Escaping level via stairs.>",
+        "TRACK borg-note <# Danger Level 2.1>",
+        "DECISION caution=1 escapes=1 fleeing=0 leaving=0 keys=1 queue=<",
+        "TRACK game-message <You enter a maze of up staircases.>",
+        "TRACK game-message <This place seems reasonably safe.>"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/stairphase-34: starting...\nSETUP seed=34 mode=climb class=Warrior clevel=16 hp=117/212 depth=10 feat=up staircase phase=5 danger=147\n  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=117 hp=117 escapes=0 antisummon_timer=5000\nTRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>\nTRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:117/212 SP:0/0 Danger:p=147>\nTRACK borg-note <# Standing on up-stairs>\nTRACK borg-note <# Flowing toward up-stairs at cost 0>\nTRACK borg-note <# Escaping level via stairs.>\nTRACK borg-note <# Danger Level 2.1>\nDECISION caution=1 escapes=1 fleeing=0 leaving=0 keys=1 queue=<\nTRACK game-message <You enter a maze of up staircases.>\nTRACK game-message <This place seems reasonably safe.>\nENGINE command=1 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=0\nOUTCOME depth_before=10 depth_after=9 climbed=1 phase_read=0 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=1\nPassed\nnative-c/stairphase-34 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 147,
+        "avoidance": 117,
+        "hp": 117,
+        "escapes": 0,
+        "antisummon_timer": 5000
+      },
+      "outcome": {
+        "depth_before": 10,
+        "depth_after": 9,
+        "climbed": 1,
+        "phase_read": 0,
+        "teleport_read": 0,
+        "scroll_read_on_new_level": 0,
+        "moved": 1,
+        "commands": 1
+      },
+      "notes": [
+        "TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>",
+        "TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:117/212 SP:0/0 Danger:p=147>",
+        "TRACK borg-note <# Standing on up-stairs>",
+        "TRACK borg-note <# Flowing toward up-stairs at cost 0>",
+        "TRACK borg-note <# Escaping level via stairs.>",
+        "TRACK borg-note <# Danger Level 2.1>",
+        "DECISION caution=1 escapes=1 fleeing=0 leaving=0 keys=1 queue=<",
+        "TRACK game-message <You enter a maze of up staircases.>",
+        "TRACK game-message <This place seems reasonably safe.>"
+      ],
+      "value": 0
+    }
+  }
+}

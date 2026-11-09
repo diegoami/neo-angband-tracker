@@ -1,0 +1,283 @@
+{
+  "issue": "diegoami/neo-angband-tracker#34",
+  "report": "stairphase-34",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "2176cf71cebb4b2922e67a3516e3c82c283ed426",
+  "fix_branch": "task/stairphase-34",
+  "fixtures_ref": "eb91a6756c9937929bc3b90578ec6cb408b6b26f",
+  "cases": {
+    "upstair": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 147,
+          "avoidance": 172,
+          "hp": 172,
+          "escapes": 0,
+          "antisummon_timer": 5000
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 9,
+          "climbed": 1,
+          "phase_read": 1,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 1,
+          "moved": 1,
+          "commands": 4
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 147,
+          "avoidance": 172,
+          "hp": 172,
+          "escapes": 0,
+          "antisummon_timer": 5000
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 9,
+          "climbed": 1,
+          "phase_read": 0,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 0,
+          "moved": 1,
+          "commands": 1
+        }
+      }
+    },
+    "antisummon": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 147,
+          "avoidance": 172,
+          "hp": 172,
+          "escapes": 0,
+          "antisummon_timer": 10
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 9,
+          "climbed": 1,
+          "phase_read": 0,
+          "teleport_read": 1,
+          "scroll_read_on_new_level": 1,
+          "moved": 1,
+          "commands": 4
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 147,
+          "avoidance": 172,
+          "hp": 172,
+          "escapes": 0,
+          "antisummon_timer": 10
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 9,
+          "climbed": 1,
+          "phase_read": 0,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 0,
+          "moved": 1,
+          "commands": 1
+        }
+      }
+    },
+    "downstair": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 147,
+          "avoidance": 172,
+          "hp": 172,
+          "escapes": 0,
+          "antisummon_timer": 5000
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 10,
+          "climbed": 0,
+          "phase_read": 1,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 0,
+          "moved": 1,
+          "commands": 3
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 147,
+          "avoidance": 172,
+          "hp": 172,
+          "escapes": 0,
+          "antisummon_timer": 5000
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 10,
+          "climbed": 0,
+          "phase_read": 1,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 0,
+          "moved": 1,
+          "commands": 3
+        }
+      }
+    },
+    "floor": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 147,
+          "avoidance": 172,
+          "hp": 172,
+          "escapes": 0,
+          "antisummon_timer": 5000
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 10,
+          "climbed": 0,
+          "phase_read": 1,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 0,
+          "moved": 1,
+          "commands": 3
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 147,
+          "avoidance": 172,
+          "hp": 172,
+          "escapes": 0,
+          "antisummon_timer": 5000
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 10,
+          "climbed": 0,
+          "phase_read": 1,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 0,
+          "moved": 1,
+          "commands": 3
+        }
+      }
+    },
+    "climb": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 147,
+          "avoidance": 117,
+          "hp": 117,
+          "escapes": 0,
+          "antisummon_timer": 5000
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 9,
+          "climbed": 1,
+          "phase_read": 0,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 0,
+          "moved": 1,
+          "commands": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 147,
+          "avoidance": 117,
+          "hp": 117,
+          "escapes": 0,
+          "antisummon_timer": 5000
+        },
+        "outcome": {
+          "depth_before": 10,
+          "depth_after": 9,
+          "climbed": 1,
+          "phase_read": 0,
+          "teleport_read": 0,
+          "scroll_read_on_new_level": 0,
+          "moved": 1,
+          "commands": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "downstair",
+    "floor",
+    "climb"
+  ],
+  "claim": "In borg_escape() danger levels 3.1, 4.1, 5.1, 6.1 and 8 combine the stair check (which queues '<') with the phase condition. On an up staircase a level-16 Warrior queued '<' followed by a Phase Door read (or, with the phase blocked by the anti-summon timer, a Teleportation read from the next step). The game took the stairs and then played the leftover keys on the new level, spending the scroll and, for Phase Door, moving the Borg off its arrival staircase before it had looked at the level. Making the stair escape a complete alternative queues only '<'; three controls are byte-identical, two of them through the changed condition.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-escape.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-escape.c": "566ec4041af2a3139ac91c9beb5d9b4a0c3533fe3d9acd0980b2f1c0429fc2dc"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 27,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "af542554d9cad4c2ad45dce62f41920dc1d5dfecdef35d34e54a09c2f04e61fa",
+    "after-antisummon.log": "51b08e1f526d973e37742389fcac690e5001fa773860e1765884ae3d89909a20",
+    "after-climb.log": "d9fe11315466738cfeb5f7bd080091d66503feeff434a48b786bcee74c3ca043",
+    "after-downstair.log": "76f2cfbb7028e264a5e87d89b0a2424c3afd3dfbc34643f933f0d4afa5e2e768",
+    "after-floor.log": "914b1622f7c83425a5b9b9ecc03a6ea9cbb51db289bb6d73b5b1591fcefda99e",
+    "after-results.json": "77c9ccc86cb5d777836465fe136f87eac176911da33f3b9711b9caa6fa3da3ff",
+    "after-upstair.log": "161f9c7d78c25226e614704debf939c302225bc6e52e9777ee68254913319c91",
+    "before-antisummon.log": "013c08f3e0e7d750f1dcc8574dd2481428244cbb6cc9fc89f2907d79230497f5",
+    "before-climb.log": "d9fe11315466738cfeb5f7bd080091d66503feeff434a48b786bcee74c3ca043",
+    "before-downstair.log": "76f2cfbb7028e264a5e87d89b0a2424c3afd3dfbc34643f933f0d4afa5e2e768",
+    "before-floor.log": "914b1622f7c83425a5b9b9ecc03a6ea9cbb51db289bb6d73b5b1591fcefda99e",
+    "before-results.json": "de615bc994f1392947263fd0f9657de9ff0004944f969e969a277c99ee062aa6",
+    "before-upstair.log": "07b2d5c159d63e97a7a4b44c72cb5cf5bc4bb3e889544973c8ebbd5c65648867",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "a3f6b7512c0ab39681098ca44e8260d438d5404596830eafc0f2d5edef01497a",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "ea9bf1d371ca4b65e3cc0e01c1f3ea19d433027e2215dea9e411be12345007af",
+    "replay.html": "5dbb0b76c227c2c62efa8239c7d138595cfbd74c275daa5b69129ad4f43554f0",
+    "reproduce.py": "eb52fefc87dd1151f835437cc78f9c1eea9c034b76ca9cfb9ea9ccfa2022beb9",
+    "result.json": "d189698b80e2f40384ed7024477734c4c2c22e4be5274e1107cee6124977409f",
+    "run-after-alltests.log": "cf5d84dbae0f6d616950bbe570227d51ae3c955fb7f98abfd9207efdd338b867",
+    "run-after-build.log": "ce50a25ceaa3c689df488c5ef74369a68d2204c38035788bbfcf499f65e00675",
+    "run-after-scenarios.log": "4291472fccf3dc77f3a3f3573e8c2e3810aed392b6a3b28e041e7e02ebbe9879",
+    "run-before-alltests.log": "e847c090c2d6b18d9f45839a782d762f651e646a4947eea1675c1cb85159ea1c",
+    "run-before-build.log": "872aa303581a69fe228d318addc5e05fbaa0186466b421dd73702a93ec41d81f",
+    "run-before-scenarios.log": "8f2e04225964b87741197a60c905f69c39bce9de0eb42b629e8d38c18b85f968",
+    "run-cases.py": "a619b7f023375c150cda0d34a0ccbbe1943457dc60a1cfd7e401bf1cd64ba6b8",
+    "run-configure.log": "5c5d7113630dbd92e0fe9757470e880caac77aef76998c696b444b32c9e1519d",
+    "scenario.c": "d9695c580be60ab0f1e02097a1d95118c03507b9c79c99bc3f403f33b4c69e02"
+  }
+}

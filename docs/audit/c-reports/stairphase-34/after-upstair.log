@@ -1,0 +1,15 @@
+native-c/stairphase-34: starting...
+SETUP seed=34 mode=upstair class=Warrior clevel=16 hp=172/212 depth=10 feat=up staircase phase=5 danger=147
+  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=5000
+TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>
+TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>
+TRACK borg-note <# Standing on up-stairs>
+TRACK borg-note <# Escaping level via stairs.>
+TRACK borg-note <# Danger Level 4.1>
+DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=1 queue=<
+TRACK game-message <You enter a maze of up staircases.>
+TRACK game-message <This place seems reasonably safe.>
+ENGINE command=1 depth=9 pos=(59,28) feat=down staircase phase=5 teleport=2 queue_left=0
+OUTCOME depth_before=10 depth_after=9 climbed=1 phase_read=0 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=1
+Passed
+native-c/stairphase-34 finished: 1/1 passed

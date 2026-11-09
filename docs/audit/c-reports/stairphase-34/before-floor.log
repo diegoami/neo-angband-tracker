@@ -1,0 +1,16 @@
+native-c/stairphase-34: starting...
+SETUP seed=34 mode=floor class=Warrior clevel=16 hp=172/212 depth=10 feat=open floor phase=5 danger=147
+  stair_escape_queues_only_the_climb  STATE danger=147 avoidance=172 hp=172 escapes=0 antisummon_timer=5000
+TRACK borg-note <# Possibility of being surrounded (monsters/safegrids)(1/0)>
+TRACK borg-note <# Loc:12,5 Dep:10 Lev:16 HP:172/212 SP:0/0 Danger:p=147>
+TRACK borg-note <# Safe to Phase. scary squares: 10>
+TRACK borg-note <# Reading Scrolls of Phase Door.>
+TRACK borg-note <# Danger Level 4.1>
+DECISION caution=1 escapes=0 fleeing=0 leaving=0 keys=4 queue=<Esc><Esc>rd
+ENGINE command=1 depth=10 pos=(5,12) feat=open floor phase=5 teleport=2 queue_left=1
+ENGINE command=2 depth=10 pos=(5,12) feat=open floor phase=5 teleport=2 queue_left=1
+TRACK game-message <You have 4 Scrolls of Phase Door (d).>
+ENGINE command=3 depth=10 pos=(14,12) feat=open floor phase=4 teleport=2 queue_left=0
+OUTCOME depth_before=10 depth_after=10 climbed=0 phase_read=1 teleport_read=0 scroll_read_on_new_level=0 moved=1 commands=3
+Passed
+native-c/stairphase-34 finished: 1/1 passed
