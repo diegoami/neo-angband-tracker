@@ -1,0 +1,147 @@
+{
+  "issue": "diegoami/neo-angband-tracker#486",
+  "report": "restcomment-486",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "622f62ddfcc27f04eed3cdee92321fdee74a1ea3",
+  "fix_branch": "task/restcomment-486",
+  "fixtures_ref": "9b04516f5e592f04f2863e88898a5328b8892cb0",
+  "cases": {
+    "bear": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "rest": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "rest": 0
+        }
+      }
+    },
+    "bear-l20": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "rest": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "rest": 1
+        }
+      }
+    },
+    "asleep": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "rest": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "rest": 0
+        }
+      }
+    },
+    "wolf": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "rest": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "rest": 0
+        }
+      }
+    },
+    "orc": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "rest": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "rest": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "bear",
+    "bear-l20",
+    "asleep",
+    "wolf",
+    "orc"
+  ],
+  "claim": "The change is a comment. The pinned runner asserts the exact hunk, then shows that the compiled borg-flow-misc.c object disassembles byte-identically (objdump -d) before and after, and that five native borg_check_rest() scenarios (refuse and accept, awake and asleep, melee and ranged monsters) give byte-identical logs. Both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-misc.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "36cdb4f802e9a06b8dc9f4b79a419b585d521af4c5637d9b5275d919d5476c00"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 27,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "cc4f660f7abf442064de0eed026b902728dccf4caaf2a5153bc4761c9a5dbfe1",
+    "after-asleep.log": "c555170fccf3fe6aa611539e0a5ce2352804bce6559e79ab84a18296dcba03ac",
+    "after-bear-l20.log": "ef45a0089a86d3cfd38de7fc2887dbe1370618b241122f2bec101fb883e2d7a2",
+    "after-bear.log": "fede62d90885725e5c898b09967e2ec2da27566a3aa3a3dace3618ebe04a73de",
+    "after-objdump-borg-flow-misc.c.log": "3292be06891b2ea7bdae581e8e850bf12416e35465fba43f621dc44ec594a5ca",
+    "after-orc.log": "be5a4b260eeb661663dbf90cfb2da9b0acb5fbbaa52d642443b24a5688d2c4eb",
+    "after-results.json": "77729171b7b04086fc2cf41fc0e1d611caa92c11cbb80eada1db064083bc44a3",
+    "after-wolf.log": "07ccde3faaf6c1a4bfb656d27aab442790a3c5078ef4b4c8f5600f7fb9a1c00b",
+    "before-asleep.log": "c555170fccf3fe6aa611539e0a5ce2352804bce6559e79ab84a18296dcba03ac",
+    "before-bear-l20.log": "ef45a0089a86d3cfd38de7fc2887dbe1370618b241122f2bec101fb883e2d7a2",
+    "before-bear.log": "fede62d90885725e5c898b09967e2ec2da27566a3aa3a3dace3618ebe04a73de",
+    "before-objdump-borg-flow-misc.c.log": "3292be06891b2ea7bdae581e8e850bf12416e35465fba43f621dc44ec594a5ca",
+    "before-orc.log": "be5a4b260eeb661663dbf90cfb2da9b0acb5fbbaa52d642443b24a5688d2c4eb",
+    "before-results.json": "77729171b7b04086fc2cf41fc0e1d611caa92c11cbb80eada1db064083bc44a3",
+    "before-wolf.log": "07ccde3faaf6c1a4bfb656d27aab442790a3c5078ef4b4c8f5600f7fb9a1c00b",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "3ef4f14cd2b72c41e59f94dc6ac40743f8730f2e6b3fbd94fc0c1ec405b567b6",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "b804e0b46d6931ac8d7a19c19921239e8e17364af3f4d34378183612f37d2f5c",
+    "replay.html": "adfea6494266ad93b545b71549199d83cffee7fbd00f8dcfcabb2599367e89b9",
+    "reproduce.py": "ba1ebcdb6560fe1d1a0026f1c05c8bf3c923b59938194872abb9f228163123cd",
+    "result.json": "45dddbe28b550b74d5a080a83829bcaffc78c1dbfbc1887b60e1ada57cd7517b",
+    "run-after-alltests.log": "2369d9cd0484ebe9c5de8524add584426cac0965495b65199e9f6123ffa7fa64",
+    "run-after-build.log": "efe5259d22bbc19b779d57fc771328c665d4e9d8cbf1cd7b2b354455b3a63b14",
+    "run-after-scenarios.log": "7a58e0b6275954e22e90ae5daf5795bec9da7ea52dc5f7ec65cfdc783bce1309",
+    "run-before-alltests.log": "b21c39a5bf251b181a8d568707c2b33ecef6dc154b5111cc69def0b1a638e2ab",
+    "run-before-build.log": "2d91679d35cc70a47ca0817d824d6bf2153e04140109841a340b136980412315",
+    "run-before-scenarios.log": "7a58e0b6275954e22e90ae5daf5795bec9da7ea52dc5f7ec65cfdc783bce1309",
+    "run-cases.py": "30d73120796b4d1173909a90fab83940e529a28e4645f99c346a9f6e821e5c19",
+    "run-configure.log": "9daf55f26a4f7d9e17981041a145fe52447b8019f3dd36fecae1a8a9e74c4aec",
+    "scenario.c": "bcb72dfbd6265387b630c6988f9c3873716a8a799dc41c9e1aa60251bb9cd003"
+  }
+}
