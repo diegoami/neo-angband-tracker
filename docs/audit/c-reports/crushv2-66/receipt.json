@@ -1,0 +1,150 @@
+{
+  "issue": "diegoami/neo-angband-tracker#66",
+  "report": "crushv2-66",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "9757b161717b68d6c2d9911c46632a817856af51",
+  "fix_branch": "task/crushv2-66",
+  "fixtures_ref": "708efbc836e42549271cf51fcd12fcc6394266a0",
+  "cases": {
+    "caster": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "cast_crush": 0,
+          "monster_alive": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "acted": 1,
+          "keys": 3,
+          "cast_crush": 1,
+          "monster_alive": 0
+        }
+      }
+    },
+    "archer": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "cast_crush": 0,
+          "monster_alive": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "acted": 1,
+          "keys": 3,
+          "cast_crush": 1,
+          "monster_alive": 0
+        }
+      }
+    },
+    "melee": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "cast_crush": 0,
+          "monster_alive": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "cast_crush": 0,
+          "monster_alive": 1
+        }
+      }
+    },
+    "tough": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "cast_crush": 0,
+          "monster_alive": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "acted": 0,
+          "keys": 0,
+          "cast_crush": 0,
+          "monster_alive": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "melee",
+    "tough"
+  ],
+  "claim": "The ranged-danger Crush adjustment in borg_danger_one_kill() cleared v1 (melee danger, already cleared by the first Crush block) instead of v2 (ranged danger), so Crush never reduced the danger of a crushable monster that attacks from range. Clearing v2 makes a level-26 Necromancer cast Crush on a blacklock mage (danger 936 to 0) and a cave orc archer (48 to 0) five steps away, and the real cast kills each; the ogre (no ranged danger) and dark dwarven lord (too strong) controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-danger.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "39200feb95eb5a59d6aa8b213e8904a791b6b7dc1064f787bb6337010a468ba4"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "4f75d10a19e0d93c926986ba3acd833150c7c86351ea4b0a39febb314720167b",
+    "after-archer.log": "a17c9b0930d7c730de41794b112c3fa05927c33b92de6c676147cc3e3b598bfe",
+    "after-caster.log": "22ac920cb775e3323ba40aae1bd25f5c0cef8a261b1c42a2c0119dc45b812b4d",
+    "after-melee.log": "447624d4b56673f4c2d5ca979f5cf6f95e5f7ce6c18c24f41c66ba777f76cf38",
+    "after-results.json": "7a339cdba5a42a97d2a320eff73654d9ff41cf462587c975d871eaf0548bfa93",
+    "after-tough.log": "32e5ee78ecf6e70faa92a6d6117b788aa72ec03404f18818a03558a895de07e3",
+    "before-archer.log": "1b20bce8f2bb6916391a05d913e7350160a551c853a2b3a8ecf0cd1af3be09a6",
+    "before-caster.log": "2a77c51ef4de264b67cea29d0b543fa09fb20f977ff42bb27ddb7bcd511420d1",
+    "before-melee.log": "447624d4b56673f4c2d5ca979f5cf6f95e5f7ce6c18c24f41c66ba777f76cf38",
+    "before-results.json": "d39ff99d2a550c64cfa7ab1a4977bf9863c53d0edad17626aff45440aded13c7",
+    "before-tough.log": "32e5ee78ecf6e70faa92a6d6117b788aa72ec03404f18818a03558a895de07e3",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "a4fdc6a8f7f17e7029dde2d22a9b358366afcce93f79467ab67a9e0abfec9e21",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "bf0fcaa085eee8618895e860b84520eb044f29834090471b1f0862000f488d32",
+    "replay.html": "cf988123446962f5d79bb640b1e1f3d66ce29f430cc6be7c93fa5f0594250d82",
+    "reproduce.py": "3fa85c31d3d77ed4a6fd2642a0bb6cf30e1dc1727c288285993d717a6584a40c",
+    "result.json": "810c9bc5493b610fde1961b9d1a41b4162a808db40d7d5a775326feffbda91b7",
+    "run-after-alltests.log": "a24ce6240cde71d06830807b0a26a066025f5a2b33abe7a684d699ebdbebba0a",
+    "run-after-build.log": "0f8e4fd1a697c12cc8e13e9b5d0c16808bb6718855e1017bb8ebf71e1331f05b",
+    "run-after-scenarios.log": "f25d9f3858d047508d94feab7e8fec50a2c45bfef718a59b6c08874555e314c8",
+    "run-before-alltests.log": "58bbaaf90a0b279084253619497d0fb8373b9053028266d32feef7c046844d17",
+    "run-before-build.log": "165a6ef8f43b023d977c4b695e354400e05654929a0f6bd62fe491a810f9dd89",
+    "run-before-scenarios.log": "a03187f77573a22adcc0891a901e74ebd33e2eaeb8238d90e3848e5307680398",
+    "run-cases.py": "f5afb996ecd3b15bf857b86144a5daa2ae60b2cbca6124d33f73f6cf4fa5bd7c",
+    "run-configure.log": "bda878d1e03e6b69f2e1f5e5109832983bf45bacac9e71b60cd4f49304580e0e",
+    "scenario.c": "389df51ae2ec5aff8f3de4775af942d5c1985275fd0449008634369f934d16b8"
+  }
+}

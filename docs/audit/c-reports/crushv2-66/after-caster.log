@@ -1,0 +1,12 @@
+native-c/crushv2-66: starting...
+SETUPSTEP profile
+SETUP seed=66 class=Necromancer level=26 depth=20 hp=183/183 sp=144/144
+  crush_counts_ranged_danger  MODE caster
+TRACK race=blacklock mage hp=36 power=36 crush_limit=104 distance=5 spell_freq=20
+TRACK danger without_crush=936 with_crush=0 reduction=936 monster_without=936 monster_with=0
+DECISION acted=1 keys=3 sequence=mbb
+ENGINE spell=Crush cast=1 monster_alive=0 monster_hp_before=36 player_hp=183->152 energy_used=100
+TRACK engine spell=Crush monster_alive=0 player_hp=183->152
+OUTCOME acted=1 keys=3 cast_crush=1 monster_alive=0
+Passed
+native-c/crushv2-66 finished: 1/1 passed

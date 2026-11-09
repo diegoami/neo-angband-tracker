@@ -1,0 +1,4 @@
+caster {'exit': 0, 'passed': True, 'outcome': {'acted': 1, 'keys': 3, 'cast_crush': 1, 'monster_alive': 0}}
+archer {'exit': 0, 'passed': True, 'outcome': {'acted': 1, 'keys': 3, 'cast_crush': 1, 'monster_alive': 0}}
+melee {'exit': 0, 'passed': True, 'outcome': {'acted': 0, 'keys': 0, 'cast_crush': 0, 'monster_alive': 1}}
+tough {'exit': 0, 'passed': True, 'outcome': {'acted': 0, 'keys': 0, 'cast_crush': 0, 'monster_alive': 1}}
