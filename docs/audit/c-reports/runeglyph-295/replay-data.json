@@ -1,0 +1,179 @@
+{
+  "rune": {
+    "label": "Standing on a visible Rune of Protection",
+    "explanation": "Original: the map has no glyph on the Borg's grid (glyph 0, tracked 0), the danger is 403 and the Borg reads a Rune of Protection (keys r d): scrolls 4 to 3, runes on the grid 1 to 2. Corrected: glyph 1, tracked 1, danger 83, no rune read (scrolls stay 4, one rune); the Borg drinks a Potion of Berserk Strength instead.",
+    "control": false,
+    "before": {
+      "raw": "native-c/runeglyph-295: starting...\nTRACK player game-message <You have 4 Scrolls of Rune of Protection (d).>\nSETUP seed=295 mode=rune class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=4\n  rune_recognition_defence  STATE game_runes_here=1 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=0 game_trap_west=0 monster_tracked=1\nDANGER here=403 on_rune=83 avoidance=308\nDECISION defend=1 keys=4 sequence=<Escape><Escape>rd\nTRACK borg-note <# Performing defense type 16 with value 320>\nTRACK borg-note <# Reading Scrolls of Rune of Protection.>\nTRACK borg-note <# Noting the creation of a glyph.>\nTRACK borg game-message <You have 3 Scrolls of Rune of Protection (d).>\nOUTCOME read_rune=1 scrolls=4->3 game_runes_here=1->2 borg_glyph_here=0\nFailed\n    native-c/runeglyph-295:254: requirement 'ag->glyph' failed\nnative-c/runeglyph-295 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "game_runes_here": 1,
+        "borg_glyph_here": 0,
+        "borg_trap_here": 0,
+        "tracked_glyphs": 0,
+        "borg_trap_west": 0,
+        "game_trap_west": 0,
+        "monster_tracked": 1
+      },
+      "outcome": {
+        "read_rune": 1,
+        "scrolls": 4,
+        "game_runes_here": 1,
+        "borg_glyph_here": 0
+      },
+      "notes": [
+        "TRACK player game-message <You have 4 Scrolls of Rune of Protection (d).>",
+        "DECISION defend=1 keys=4 sequence=<Escape><Escape>rd",
+        "TRACK borg-note <# Performing defense type 16 with value 320>",
+        "TRACK borg-note <# Reading Scrolls of Rune of Protection.>",
+        "TRACK borg-note <# Noting the creation of a glyph.>",
+        "TRACK borg game-message <You have 3 Scrolls of Rune of Protection (d).>"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/runeglyph-295: starting...\nTRACK player game-message <You have 4 Scrolls of Rune of Protection (d).>\nSETUP seed=295 mode=rune class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=4\n  rune_recognition_defence  STATE game_runes_here=1 borg_glyph_here=1 borg_trap_here=0 tracked_glyphs=1 borg_trap_west=0 game_trap_west=0 monster_tracked=1\nDANGER here=83 on_rune=83 avoidance=308\nDECISION defend=1 keys=2 sequence=qb\nTRACK borg-note <# Performing defense type 13 with value 5>\nTRACK borg-note <# Quaffing Potion of Berserk Strength.>\nOUTCOME read_rune=0 scrolls=4->4 game_runes_here=1->1 borg_glyph_here=1\nPassed\nnative-c/runeglyph-295 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_runes_here": 1,
+        "borg_glyph_here": 1,
+        "borg_trap_here": 0,
+        "tracked_glyphs": 1,
+        "borg_trap_west": 0,
+        "game_trap_west": 0,
+        "monster_tracked": 1
+      },
+      "outcome": {
+        "read_rune": 0,
+        "scrolls": 4,
+        "game_runes_here": 1,
+        "borg_glyph_here": 1
+      },
+      "notes": [
+        "TRACK player game-message <You have 4 Scrolls of Rune of Protection (d).>",
+        "DECISION defend=1 keys=2 sequence=qb",
+        "TRACK borg-note <# Performing defense type 13 with value 5>",
+        "TRACK borg-note <# Quaffing Potion of Berserk Strength.>"
+      ],
+      "value": 0
+    }
+  },
+  "floor": {
+    "label": "Control: plain floor, no rune",
+    "explanation": "No rune on the grid: no glyph is recorded in either version, the danger is 403 and the Borg reads a Rune of Protection (scrolls 5 to 4, runes 0 to 1). Byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/runeglyph-295: starting...\nSETUP seed=295 mode=floor class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5\n  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=0 game_trap_west=0 monster_tracked=1\nDANGER here=403 on_rune=83 avoidance=308\nDECISION defend=1 keys=4 sequence=<Escape><Escape>rd\nTRACK borg-note <# Performing defense type 16 with value 320>\nTRACK borg-note <# Reading Scrolls of Rune of Protection.>\nTRACK borg-note <# Noting the creation of a glyph.>\nTRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>\nOUTCOME read_rune=1 scrolls=5->4 game_runes_here=0->1 borg_glyph_here=0\nPassed\nnative-c/runeglyph-295 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_runes_here": 0,
+        "borg_glyph_here": 0,
+        "borg_trap_here": 0,
+        "tracked_glyphs": 0,
+        "borg_trap_west": 0,
+        "game_trap_west": 0,
+        "monster_tracked": 1
+      },
+      "outcome": {
+        "read_rune": 1,
+        "scrolls": 5,
+        "game_runes_here": 0,
+        "borg_glyph_here": 0
+      },
+      "notes": [
+        "DECISION defend=1 keys=4 sequence=<Escape><Escape>rd",
+        "TRACK borg-note <# Performing defense type 16 with value 320>",
+        "TRACK borg-note <# Reading Scrolls of Rune of Protection.>",
+        "TRACK borg-note <# Noting the creation of a glyph.>",
+        "TRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/runeglyph-295: starting...\nSETUP seed=295 mode=floor class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5\n  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=0 game_trap_west=0 monster_tracked=1\nDANGER here=403 on_rune=83 avoidance=308\nDECISION defend=1 keys=4 sequence=<Escape><Escape>rd\nTRACK borg-note <# Performing defense type 16 with value 320>\nTRACK borg-note <# Reading Scrolls of Rune of Protection.>\nTRACK borg-note <# Noting the creation of a glyph.>\nTRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>\nOUTCOME read_rune=1 scrolls=5->4 game_runes_here=0->1 borg_glyph_here=0\nPassed\nnative-c/runeglyph-295 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_runes_here": 0,
+        "borg_glyph_here": 0,
+        "borg_trap_here": 0,
+        "tracked_glyphs": 0,
+        "borg_trap_west": 0,
+        "game_trap_west": 0,
+        "monster_tracked": 1
+      },
+      "outcome": {
+        "read_rune": 1,
+        "scrolls": 5,
+        "game_runes_here": 0,
+        "borg_glyph_here": 0
+      },
+      "notes": [
+        "DECISION defend=1 keys=4 sequence=<Escape><Escape>rd",
+        "TRACK borg-note <# Performing defense type 16 with value 320>",
+        "TRACK borg-note <# Reading Scrolls of Rune of Protection.>",
+        "TRACK borg-note <# Noting the creation of a glyph.>",
+        "TRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>"
+      ],
+      "value": 1
+    }
+  },
+  "trap": {
+    "label": "Control: revealed pit next to the Borg",
+    "explanation": "The revealed pit west of the Borg goes through the changed branch and is recorded as a trap in both versions (trap 1, glyph 0); the Borg reads a rune on its own floor grid. Byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/runeglyph-295: starting...\nSETUP seed=295 mode=trap class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5\n  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=1 game_trap_west=1 monster_tracked=1\nDANGER here=403 on_rune=83 avoidance=308\nDECISION defend=1 keys=4 sequence=<Escape><Escape>rd\nTRACK borg-note <# Performing defense type 16 with value 320>\nTRACK borg-note <# Reading Scrolls of Rune of Protection.>\nTRACK borg-note <# Noting the creation of a glyph.>\nTRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>\nOUTCOME read_rune=1 scrolls=5->4 game_runes_here=0->1 borg_glyph_here=0\nPassed\nnative-c/runeglyph-295 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_runes_here": 0,
+        "borg_glyph_here": 0,
+        "borg_trap_here": 0,
+        "tracked_glyphs": 0,
+        "borg_trap_west": 1,
+        "game_trap_west": 1,
+        "monster_tracked": 1
+      },
+      "outcome": {
+        "read_rune": 1,
+        "scrolls": 5,
+        "game_runes_here": 0,
+        "borg_glyph_here": 0
+      },
+      "notes": [
+        "DECISION defend=1 keys=4 sequence=<Escape><Escape>rd",
+        "TRACK borg-note <# Performing defense type 16 with value 320>",
+        "TRACK borg-note <# Reading Scrolls of Rune of Protection.>",
+        "TRACK borg-note <# Noting the creation of a glyph.>",
+        "TRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/runeglyph-295: starting...\nSETUP seed=295 mode=trap class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5\n  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=1 game_trap_west=1 monster_tracked=1\nDANGER here=403 on_rune=83 avoidance=308\nDECISION defend=1 keys=4 sequence=<Escape><Escape>rd\nTRACK borg-note <# Performing defense type 16 with value 320>\nTRACK borg-note <# Reading Scrolls of Rune of Protection.>\nTRACK borg-note <# Noting the creation of a glyph.>\nTRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>\nOUTCOME read_rune=1 scrolls=5->4 game_runes_here=0->1 borg_glyph_here=0\nPassed\nnative-c/runeglyph-295 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_runes_here": 0,
+        "borg_glyph_here": 0,
+        "borg_trap_here": 0,
+        "tracked_glyphs": 0,
+        "borg_trap_west": 1,
+        "game_trap_west": 1,
+        "monster_tracked": 1
+      },
+      "outcome": {
+        "read_rune": 1,
+        "scrolls": 5,
+        "game_runes_here": 0,
+        "borg_glyph_here": 0
+      },
+      "notes": [
+        "DECISION defend=1 keys=4 sequence=<Escape><Escape>rd",
+        "TRACK borg-note <# Performing defense type 16 with value 320>",
+        "TRACK borg-note <# Reading Scrolls of Rune of Protection.>",
+        "TRACK borg-note <# Noting the creation of a glyph.>",
+        "TRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>"
+      ],
+      "value": 1
+    }
+  }
+}

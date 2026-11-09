@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg did not see a Rune of Protection and read another one on top of it</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg did not see a Rune of Protection and read another one on top of it</h1><p>A Borg standing on a Rune of Protection that it did not lay itself (here, one the player read just before handing over to the Borg) does not know the rune is there. Its map update only records a rune inside the branch for visible, disarmable player traps, and a Rune of Protection is not a player trap (its kind is GLYPH | VISIBLE | FLOOR, without TRAP). With a summoner in view, the Borg&#x27;s defence choice therefore still counts the full summoning danger (403 against 308 hit points) and reads another Rune of Protection onto the same grid: one scroll is spent and the game stacks a second rune where one already was. The correction also records a glyph that the player remembers on the grid. The Borg&#x27;s map then shows the rune, its danger on that grid drops to the protected value (83), and it does not read a second rune; it drinks a Potion of Berserk Strength instead, its next-best defence in this kit.</p><p><label>Scenario: <select id="scenario"><option value="rune">Standing on a visible Rune of Protection</option><option value="floor">Control: plain floor, no rune</option><option value="trap">Control: revealed pit next to the Borg</option></select></label></p><section class="scenario" data-mode="rune"><p class="summary">Original: the map has no glyph on the Borg&#x27;s grid (glyph 0, tracked 0), the danger is 403 and the Borg reads a Rune of Protection (keys r d): scrolls 4 to 3, runes on the grid 1 to 2. Corrected: glyph 1, tracked 1, danger 83, no rune read (scrolls stay 4, one rune); the Borg drinks a Potion of Berserk Strength instead.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Borg read a Rune of Protection (1) or not (0)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK player game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;
+DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 3 Scrolls of Rune of Protection (d).&gt;</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>Borg read a Rune of Protection (1) or not (0)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK player game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;
+DECISION defend=1 keys=2 sequence=qb
+TRACK borg-note &lt;# Performing defense type 13 with value 5&gt;
+TRACK borg-note &lt;# Quaffing Potion of Berserk Strength.&gt;</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/runeglyph-295: starting...
+TRACK player game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;
+SETUP seed=295 mode=rune class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=4
+  rune_recognition_defence  STATE game_runes_here=1 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=0 game_trap_west=0 monster_tracked=1
+DANGER here=403 on_rune=83 avoidance=308
+DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 3 Scrolls of Rune of Protection (d).&gt;
+OUTCOME read_rune=1 scrolls=4-&gt;3 game_runes_here=1-&gt;2 borg_glyph_here=0
+Failed
+    native-c/runeglyph-295:254: requirement &#x27;ag-&gt;glyph&#x27; failed
+native-c/runeglyph-295 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/runeglyph-295: starting...
+TRACK player game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;
+SETUP seed=295 mode=rune class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=4
+  rune_recognition_defence  STATE game_runes_here=1 borg_glyph_here=1 borg_trap_here=0 tracked_glyphs=1 borg_trap_west=0 game_trap_west=0 monster_tracked=1
+DANGER here=83 on_rune=83 avoidance=308
+DECISION defend=1 keys=2 sequence=qb
+TRACK borg-note &lt;# Performing defense type 13 with value 5&gt;
+TRACK borg-note &lt;# Quaffing Potion of Berserk Strength.&gt;
+OUTCOME read_rune=0 scrolls=4-&gt;4 game_runes_here=1-&gt;1 borg_glyph_here=1
+Passed
+native-c/runeglyph-295 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="floor"><p class="summary">No rune on the grid: no glyph is recorded in either version, the danger is 403 and the Borg reads a Rune of Protection (scrolls 5 to 4, runes 0 to 1). Byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Borg read a Rune of Protection (1) or not (0)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Borg read a Rune of Protection (1) or not (0)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/runeglyph-295: starting...
+SETUP seed=295 mode=floor class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5
+  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=0 game_trap_west=0 monster_tracked=1
+DANGER here=403 on_rune=83 avoidance=308
+DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;
+OUTCOME read_rune=1 scrolls=5-&gt;4 game_runes_here=0-&gt;1 borg_glyph_here=0
+Passed
+native-c/runeglyph-295 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/runeglyph-295: starting...
+SETUP seed=295 mode=floor class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5
+  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=0 game_trap_west=0 monster_tracked=1
+DANGER here=403 on_rune=83 avoidance=308
+DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;
+OUTCOME read_rune=1 scrolls=5-&gt;4 game_runes_here=0-&gt;1 borg_glyph_here=0
+Passed
+native-c/runeglyph-295 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="trap"><p class="summary">The revealed pit west of the Borg goes through the changed branch and is recorded as a trap in both versions (trap 1, glyph 0); the Borg reads a rune on its own floor grid. Byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>Borg read a Rune of Protection (1) or not (0)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>Borg read a Rune of Protection (1) or not (0)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/runeglyph-295: starting...
+SETUP seed=295 mode=trap class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5
+  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=1 game_trap_west=1 monster_tracked=1
+DANGER here=403 on_rune=83 avoidance=308
+DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;
+OUTCOME read_rune=1 scrolls=5-&gt;4 game_runes_here=0-&gt;1 borg_glyph_here=0
+Passed
+native-c/runeglyph-295 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/runeglyph-295: starting...
+SETUP seed=295 mode=trap class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5
+  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=1 game_trap_west=1 monster_tracked=1
+DANGER here=403 on_rune=83 avoidance=308
+DECISION defend=1 keys=4 sequence=&lt;Escape&gt;&lt;Escape&gt;rd
+TRACK borg-note &lt;# Performing defense type 16 with value 320&gt;
+TRACK borg-note &lt;# Reading Scrolls of Rune of Protection.&gt;
+TRACK borg-note &lt;# Noting the creation of a glyph.&gt;
+TRACK borg game-message &lt;You have 4 Scrolls of Rune of Protection (d).&gt;
+OUTCOME read_rune=1 scrolls=5-&gt;4 game_runes_here=0-&gt;1 borg_glyph_here=0
+Passed
+native-c/runeglyph-295 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 295, character level 30, depth 30, a lit 40x24 open arena, lantern, 5 known Scrolls of Rune of Protection and the class&#x27;s starting kit. Fixture interventions: the arena, level and experience; the carried scrolls and lantern; an awake ranger (a summoner: S_ANIMAL) placed 4 grids east of the player; in rune mode the player reads one Rune of Protection through the game&#x27;s own read command (do_cmd_read_scroll) before the Borg starts; in trap mode a pit is placed next to the player (place_trap) and revealed with the game&#x27;s square_reveal_trap. Real code: the Borg&#x27;s map update (borg_update, three passes), its danger evaluation (borg_danger) and its production defence choice (borg_defend, called with the danger at its grid as the caution path does). When the Borg queues a Rune of Protection read (r + the scroll&#x27;s letter), the read is executed through the game&#x27;s command and the scrolls and runes on the grid are counted.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/295">issue 295</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

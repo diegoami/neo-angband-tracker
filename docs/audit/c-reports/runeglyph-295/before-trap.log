@@ -1,0 +1,12 @@
+native-c/runeglyph-295: starting...
+SETUP seed=295 mode=trap class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=5
+  rune_recognition_defence  STATE game_runes_here=0 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=1 game_trap_west=1 monster_tracked=1
+DANGER here=403 on_rune=83 avoidance=308
+DECISION defend=1 keys=4 sequence=<Escape><Escape>rd
+TRACK borg-note <# Performing defense type 16 with value 320>
+TRACK borg-note <# Reading Scrolls of Rune of Protection.>
+TRACK borg-note <# Noting the creation of a glyph.>
+TRACK borg game-message <You have 4 Scrolls of Rune of Protection (d).>
+OUTCOME read_rune=1 scrolls=5->4 game_runes_here=0->1 borg_glyph_here=0
+Passed
+native-c/runeglyph-295 finished: 1/1 passed

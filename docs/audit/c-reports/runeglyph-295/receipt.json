@@ -1,0 +1,182 @@
+{
+  "issue": "diegoami/neo-angband-tracker#295",
+  "report": "runeglyph-295",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "50e64a37a837c3ce4563e9ade452ce28db5cee82",
+  "fix_branch": "task/runeglyph-295",
+  "fixtures_ref": "3ce928e869641bd2d789dfca1566c890121922f9",
+  "cases": {
+    "rune": {
+      "before": {
+        "passed": false,
+        "state": {
+          "game_runes_here": 1,
+          "borg_glyph_here": 0,
+          "borg_trap_here": 0,
+          "tracked_glyphs": 0,
+          "borg_trap_west": 0,
+          "game_trap_west": 0,
+          "monster_tracked": 1
+        },
+        "outcome": {
+          "read_rune": 1,
+          "scrolls": 4,
+          "game_runes_here": 1,
+          "borg_glyph_here": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "game_runes_here": 1,
+          "borg_glyph_here": 1,
+          "borg_trap_here": 0,
+          "tracked_glyphs": 1,
+          "borg_trap_west": 0,
+          "game_trap_west": 0,
+          "monster_tracked": 1
+        },
+        "outcome": {
+          "read_rune": 0,
+          "scrolls": 4,
+          "game_runes_here": 1,
+          "borg_glyph_here": 1
+        }
+      }
+    },
+    "floor": {
+      "before": {
+        "passed": true,
+        "state": {
+          "game_runes_here": 0,
+          "borg_glyph_here": 0,
+          "borg_trap_here": 0,
+          "tracked_glyphs": 0,
+          "borg_trap_west": 0,
+          "game_trap_west": 0,
+          "monster_tracked": 1
+        },
+        "outcome": {
+          "read_rune": 1,
+          "scrolls": 5,
+          "game_runes_here": 0,
+          "borg_glyph_here": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "game_runes_here": 0,
+          "borg_glyph_here": 0,
+          "borg_trap_here": 0,
+          "tracked_glyphs": 0,
+          "borg_trap_west": 0,
+          "game_trap_west": 0,
+          "monster_tracked": 1
+        },
+        "outcome": {
+          "read_rune": 1,
+          "scrolls": 5,
+          "game_runes_here": 0,
+          "borg_glyph_here": 0
+        }
+      }
+    },
+    "trap": {
+      "before": {
+        "passed": true,
+        "state": {
+          "game_runes_here": 0,
+          "borg_glyph_here": 0,
+          "borg_trap_here": 0,
+          "tracked_glyphs": 0,
+          "borg_trap_west": 1,
+          "game_trap_west": 1,
+          "monster_tracked": 1
+        },
+        "outcome": {
+          "read_rune": 1,
+          "scrolls": 5,
+          "game_runes_here": 0,
+          "borg_glyph_here": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "game_runes_here": 0,
+          "borg_glyph_here": 0,
+          "borg_trap_here": 0,
+          "tracked_glyphs": 0,
+          "borg_trap_west": 1,
+          "game_trap_west": 1,
+          "monster_tracked": 1
+        },
+        "outcome": {
+          "read_rune": 1,
+          "scrolls": 5,
+          "game_runes_here": 0,
+          "borg_glyph_here": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "floor",
+    "trap"
+  ],
+  "claim": "borg_update_map() (borg-update.c) sets ag->glyph and adds the grid to track_glyph only inside the square_isdisarmabletrap() branch. That predicate requires TRF_TRAP, which the glyph of warding and decoy kinds do not carry, so a visible Rune of Protection is never recorded. borg_danger() then gives no rune reduction for summoning on that grid, and borg_defend_aux_glyph() reads another rune onto it. The correction also enters the branch when map_info's remembered trap for the grid has TRF_GLYPH, and sets ag->trap only for a disarmable trap; the existing glyph test and tracking then run unchanged.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-update.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-update.c": "d87def4394ea579689089eb45045f85b11488263a38d9a0468ee9b592ecee0e8"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "7c9fae37e7e8220f9ae538c6ba7bd73d84ef618914f35261ab0b3fc45797aca6",
+    "after-floor.log": "67c07f6e6a1cff11bdddbaf7cbe4d193855cc4b8f013bbcfb8116dcf27ecdf28",
+    "after-results.json": "d33cbef35f04a3dc24afef92c77a94f6dc168e3e3c54d16bce4b09e2858d34d2",
+    "after-rune.log": "1805e684bcf4dd378a69df1f667896c918f22f210fadf9c556c983791dcbdf06",
+    "after-trap.log": "9218ebf4ca49a4be1fd0c00d8682f993d3fd7cebb6909a248d10ca5424ef4ebf",
+    "before-floor.log": "67c07f6e6a1cff11bdddbaf7cbe4d193855cc4b8f013bbcfb8116dcf27ecdf28",
+    "before-results.json": "cf1894073d803e52bf99b069cc21a582ddf86165baaa290bef8b8e96f0c8f75b",
+    "before-rune.log": "25a76f944050d7a86ae419da065bc68bbe429ab5f9f86da8dc556ae0f598b055",
+    "before-trap.log": "9218ebf4ca49a4be1fd0c00d8682f993d3fd7cebb6909a248d10ca5424ef4ebf",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "d6a9c8e5338e9c5fed353e0d0ad08cd622297420f82315ef640f558d3be91ddf",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "655cb92fc7130d175248d3204633d90331a9e61da6febb5906e1ab34dc928551",
+    "replay.html": "79ba805a0844ac68d1b7749da6af5096f9010f7079eb9190b3173a00fe72c275",
+    "reproduce.py": "e0757514c2aff0165b4979c55d4521a28b463ecd6518f4a97db85c01b498f9b4",
+    "result.json": "332e28ba8e1fceaed6c3fd940caa903e1ff9af7216e6315a40bdb31a29503f5f",
+    "run-after-alltests.log": "88b28b82b22253f9ac2bad7f44eb7bec3c3b11c9b50f9092957a11e7b54b9907",
+    "run-after-build.log": "cd03afcb32347838054b04a94531f07b2f2ad8059f53102ecfbc0f0e8d9feccb",
+    "run-after-scenarios.log": "2bd1e7895108db98e93e95ab7623f03cf830c3205d26490fa1694c7e3cb8b760",
+    "run-before-alltests.log": "b1df78d101ca7c8ccab6fcb55aa1223cf8406aeaf15a3a31740b932c0193da08",
+    "run-before-build.log": "3fc766fa125d1d25f4ca63545c29c41b369bfcba897594ec603efa440352e4bc",
+    "run-before-scenarios.log": "664c2675ba7f541fa788de0bac4c37237be10c270db227db975748f7b2f77334",
+    "run-cases.py": "a3c4fe8aa53f9441494ba4da50b42d437103b1b61c0f4424b015ccc969f3e0b8",
+    "run-configure.log": "14b13d7463539836f923cb70d32f074522b10bfd9388128c7718cc35f190be49",
+    "scenario.c": "8ad04304f760c950fb8c6c153bfb34611aef2a14a6accd307016a9c5c654be85"
+  }
+}

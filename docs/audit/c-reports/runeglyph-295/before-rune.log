@@ -1,0 +1,14 @@
+native-c/runeglyph-295: starting...
+TRACK player game-message <You have 4 Scrolls of Rune of Protection (d).>
+SETUP seed=295 mode=rune class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=4
+  rune_recognition_defence  STATE game_runes_here=1 borg_glyph_here=0 borg_trap_here=0 tracked_glyphs=0 borg_trap_west=0 game_trap_west=0 monster_tracked=1
+DANGER here=403 on_rune=83 avoidance=308
+DECISION defend=1 keys=4 sequence=<Escape><Escape>rd
+TRACK borg-note <# Performing defense type 16 with value 320>
+TRACK borg-note <# Reading Scrolls of Rune of Protection.>
+TRACK borg-note <# Noting the creation of a glyph.>
+TRACK borg game-message <You have 3 Scrolls of Rune of Protection (d).>
+OUTCOME read_rune=1 scrolls=4->3 game_runes_here=1->2 borg_glyph_here=0
+Failed
+    native-c/runeglyph-295:254: requirement 'ag->glyph' failed
+native-c/runeglyph-295 finished: 0/1 passed
