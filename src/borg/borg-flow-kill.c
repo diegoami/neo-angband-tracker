@@ -2973,7 +2973,7 @@ bool borg_shoot_scoot_safe(int emergency, int turns, int b_p)
              * list in borg_launch_damage_one()
              */
             else if ((borg_danger_one_kill(
-                          kill->pos.y, kill->pos.x, 1, i, true, false)
+                          kill->pos.y, kill->pos.x, 1, ag->kill, true, false)
                          > borg.avoidance * 3 / 10)
                      || ((r_ptr->friends
                              || r_ptr->friends_base) /* monster has friends*/
