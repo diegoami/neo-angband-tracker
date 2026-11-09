@@ -1776,3 +1776,442 @@ fiends; `DROP_GREAT`; immune to elec, fire, plasma). Fire immunity, pConf,
 pBlind, pFear; anti-summon corridor; enough damage to kill 8000 HP before the
 Balrogs surround you.
 
+### 6.12 DL99–100: the quest — Sauron and Morgoth
+
+@@BAND 96-100@@
+
+#### How the quest works (code)
+
+`lib/gamedata/quest.txt` defines exactly two quests:
+
+```
+name:Sauron
+level:99
+race:Sauron, the Sorcerer
+number:1
+
+name:Morgoth
+level:100
+race:Morgoth, Lord of Darkness
+number:1
+```
+
+Both races carry `QUESTOR` and `FORCE_DEPTH`. What follows from the code:
+
+* **A quest level is a dead end downwards until its quest is done.**
+  `is_quest()` (`player-quest.c`) is true for DL99 while Sauron lives and for
+  DL100 while Morgoth lives. On such a level:
+  * no down staircases are generated (`random_staircase_terrain()` in
+    `cave.c`), and the level always uses the `classic` cave profile
+    (`choose_profile()` in `generate.c`);
+  * no trapdoors are placed (`trap.c`);
+  * `Teleport Level` (yours or a monster's) can only take you up
+    (`effect_handler_TELEPORT_LEVEL`);
+  * `dungeon_get_next_level()` (`player-util.c`) stops at any quest level on
+    the way down, so stairs, Deep Descent (5 levels below your *maximum* depth at the default
+    `stair_skip`, `effect_handler_DEEP_DESCENT`) and recall can take you *to* DL99 but never past it;
+  * with `birth_force_descend`, Word of Recall does nothing on a quest level.
+* **Sauron is always there.** When DL99 is generated and Sauron is alive and
+  not already on a level, he is placed by force ("Ensure quest monsters" in
+  `cave_generate()`, `generate.c`) — with his `friends:` Khamûl and the Witch-king
+  if they are still alive. `FORCE_DEPTH` stops him appearing anywhere
+  shallower.
+* **Killing Sauron opens the way.** `quest_check()` (called from
+  `monster_death()` in `mon-util.c`) marks the quest done and builds a
+  **magical staircase down** where he died ("A magical staircase appears...").
+  Only then can DL100 be reached, and Morgoth is force-placed there the same
+  way. (*Destruction* or Teleport Other on Sauron only moves the problem: he
+  is placed again on the next DL99 you generate.)
+* **Killing Morgoth wins.** When no quest is left, `quest_check()` sets
+  `total_winner`, prints *"\*\*\* CONGRATULATIONS \*\*\* You have won the
+  game!"* and you may retire (`Q`). Morgoth also drops *Grond* and the *Massive
+  Iron Crown of Morgoth* (the `QUEST_ART` artifacts, `monster_death()` →
+  `mon-make.c`), plus 2–6 great items.
+* Levels deeper than 100 exist (`world:max-depth:128`, so DL127 is the
+  bottom) and are reachable only after Morgoth's quest level is done.
+
+#### Sauron, the Sorcerer (DL99)
+
+From `monster.txt` (base `ainu`, so he also gets `IM_COLD | IM_FIRE | IM_POIS
+| NO_CONF | NO_SLEEP | NO_HOLD | SMART | POWERFUL | SPIRIT`):
+
+| Stat | Value |
+|---|---|
+| Speed | 130 (**+20**, 3.0× normal) |
+| HP | **8000**, `REGENERATE` (160 HP per 100 game turns) |
+| AC | 192 |
+| Spell frequency / power | **1/2**, spell power **130** |
+| Melee | `HIT:DISENCHANT 10d12` ×2, `HIT:DRAIN_CHARGES 8d12` ×2 — up to 432 per round before armour |
+| Immune | elec, cold, fire, poison; `NO_FEAR`, `NO_CONF`, `NO_SLEEP`, `NO_HOLD` |
+| Escort | Khamûl and the Witch-King of Angmar (100% each, if alive) |
+| Drops | `DROP_4 | DROP_GOOD | DROP_GREAT` (2–6 great objects) |
+| Shapes | Wolf-Sauron, Serpent-Sauron, Vampire-Sauron (`SHAPECHANGE`, 5+1d10 turns) |
+
+His spells at power 130 (formulas in §4.2):
+
+| Spell | Damage avg / max | Notes |
+|---|---|---|
+| `BA_NETH` | 575 / 620 | rNether → about ×0.5–0.67 (max ~413); Hold Life/rNether stop the drain; power ≥ 80 adds mana and **energy loss** |
+| `BA_DARK` | 575 / 620 | rDark → ×0.5–0.67; blindness unless rDark/pBlind |
+| `BA_FIRE` | 238 / 465 | he is a firestorm caster; rFire ×1/3, double ×1/9, immune 0 |
+| `BO_MANA` | 213 / 375 | **unresistable** |
+| `BO_PLAS` | 172 / 196 | unresistable, stuns (pStun) |
+| `BO_ICE` | 151 / 166 | cold resistance applies; cuts and stuns |
+| `WOUND` | 258 / 430 | **saving throw negates** |
+| `BRAIN_SMASH` | 96 / 180 | save negates; FA, pConf, pBlind block the riders |
+| `TELE_LEVEL` | — | rNexus or save; on DL99 it can only send you **up** — and you must come back to a fresh DL99 where he is waiting |
+| `TPORT` | — | he teleports away when hurt; `REGENERATE` then refills him |
+| `S_HI_DEMON`, `S_HI_DRAGON`, `S_HI_UNDEAD`, `S_WRAITH`, `S_UNIQUE` | — | 8 attempts each, budget 99×99 = 9801 per cast (§4.2) |
+
+**His shapes are worse than he is.** `SHAPECHANGE` swaps his race but keeps his
+current HP (`monster_change_shape()` in `mon-util.c`), and breath damage
+comes from current HP — so at full health:
+
+| Form | Speed | Melee | Spells (power) | Breath at 8000 HP |
+|---|---|---|---|---|
+| **Wolf-Sauron** | **+30** | `BITE:POISON 8d10` ×2, `CLAW:CONFUSE 6d8`, **`CLAW:PARALYZE 6d8`** | 1/3, innate 1/3 (105): BLINK, TPORT, TELE_LEVEL, TELE_SELF_TO, BLIND, CONF, SCARE, WOUND (max 350), dark ball (max 520), S_HOUND, S_DRAGON, S_HI_DEMON, S_HI_UNDEAD | **fire 1600**, nether 600 |
+| **Serpent-Sauron** | +20 | `BITE:POISON 7d12` ×2, `CRUSH 8d12`, `SPIT:ACID 4d12` | 1/4, innate 1/4 (108): BLINK, TPORT, TELE_LEVEL, TELE_SELF_TO, BLIND, CONF, SCARE, WOUND (max 360), BRAIN_SMASH, FORGET, S_DRAGON, S_HI_DEMON, S_HI_UNDEAD | **acid 1600**, poison 800, chaos 600 |
+| **Vampire-Sauron** | +20 | `BITE:EXP_80 6d12`, `CLAW:TERRIFY 8d12`, `HIT:DRAIN_CHARGES 8d12` ×2 | 1/2 (130): BLINK, TPORT, TELE_LEVEL, BLIND, CONF, BRAIN_SMASH, FORGET, BO_ICE, BO_PLAS, **BE_NETH (max 315)**, nether ball (max 620), **STORM** (max 715 over three balls), dark ball (max 620), poison ball (max 272), acid ball (max 405), S_DRAGON, S_HI_DEMON, S_HI_UNDEAD | — |
+
+Defences differ by form: the wolf is immune to fire, cold, elec, poison
+and nether (its own flags); the serpent form is immune to
+poison, acid, elec, cold and is `HURT_COLD` from the `snake` base (immunity
+wins); the vampire form is `HURT_LIGHT` and `HURT_FIRE` (vampire base) but
+`IM_COLD/POIS/ELEC`. Changing your attack element to match the current form
+is rarely worth it — physical damage and mana/light attacks are reliable.
+
+**Preparation derived from his numbers:**
+
+* **Speed**: his base form is +20 and the wolf form +30. At +20 yourself you
+  match the sorcerer; at +30 you match the wolf. Since every one of his turns
+  carries a 50% spell chance at power 130, double moves are what kill. Aim
+  for **+30 or more** (permanent + temporary haste).
+* **HP**: his worst *resisted* single actions are the dark/nether balls
+  (max ~413 after resistance), the 1600 fire/acid breaths of his shapes
+  (533 with one resist, ~178 with resist + temporary resist; acid is halved
+  again by armour), `WOUND` (430 if the save fails) and the mana bolt (375,
+  unresistable). Two such actions in a row (a double move) are ~800. **700+ HP
+  is the practical minimum; 900+ is comfortable.**
+* **Resistances**: all four base elements (fire **and** acid immunity or
+  double resistance for the shapes), poison, nether, dark (or pBlind), chaos
+  (serpent), nexus (stops `TELE_LEVEL` and nexus side effects), disenchantment
+  (his melee), sound and shards (the summoned dragons), plus **Free Action**
+  (wolf's paralysing claw, `HOLD` from summons), **pConf**, **pBlind**, **pFear**,
+  **Hold Life** (vampire bite, nether), **See Invisible** (Ren, Ji Indur, the
+  Mouth if summoned via `S_UNIQUE`). A saving throw near 95%+ makes `WOUND`,
+  `BRAIN_SMASH` and `FORGET` mostly irrelevant.
+* **Consumables**: a stack of *\*Healing\** and *Life* potions, Restore Mana
+  if you cast, Speed potions, Teleportation in some form (he teleports too;
+  you need to break off when summons pile up), and a glyph of warding or
+  corridor setup (§7.2) to stop the summons.
+* **Kill his escort first** if you can: Khamûl and the Witch-king arrive with
+  him if alive; meeting them separately earlier (DL84–85) makes the Sauron
+  fight much simpler.
+
+**The fight.** He arrives on a classic-profile DL99. Find him with detection,
+set up where his summons have no open floor near him (a corridor), and use
+your best sustained damage. When he teleports away (`TPORT`) he regenerates
+160 HP per 100 game turns — chase him with detection and keep the pressure
+on, or leave and come back (a new DL99 places him again, at whatever HP he
+has recovered to by then). When he dies, a magical staircase down appears on
+his square.
+
+#### Morgoth, Lord of Darkness (DL100)
+
+Morgoth has his own base (`Morgoth`, glyph `P`, no inherited flags):
+
+| Stat | Value |
+|---|---|
+| Speed | 140 (**+30**, 3.8× normal) |
+| HP | **20000**, `REGENERATE` (400 HP per 100 game turns) |
+| AC | 180 |
+| Spell frequency / power | **1/3**, spell power 100 (= level; no `spell-power:` line) |
+| Melee | `HIT:SHATTER 20d10` ×2, `HIT:LOSE_ALL 10d12`, `TOUCH:DRAIN_CHARGES` — avg 285 / **max 520** per round before armour |
+| Immune | acid, cold, elec, fire, poison; `NO_FEAR`, `NO_CONF`, `NO_SLEEP`, `NO_HOLD` |
+| Movement | `SMASH_WALL` (walls don't stop him), `MOVE_BODY` |
+| Other | `SMART`, `SPIRIT`, `EVIL`, `FORCE_DEPTH`, `ATTR_FLICKER` |
+| Drops | Grond, the Massive Iron Crown of Morgoth, plus `DROP_4 | DROP_GOOD | DROP_GREAT` |
+
+Spells at power 100:
+
+| Spell | Damage avg / max | Notes |
+|---|---|---|
+| `BA_MANA` | **555 / 600** | **unresistable** — the number that decides your HP target |
+| `BA_NETH` | 455 / 500 | rNether → ×6/(8+1d4) (max ~333); undead summons are immune to it |
+| `BO_MANA` | 176 / 300 | unresistable |
+| `BRAIN_SMASH` | 96 / 180 | save negates; FA, pConf, pBlind block slow/paralysis/confusion/blindness |
+| `S_HI_DEMON`, `S_HI_DRAGON`, `S_HI_UNDEAD`, `S_MONSTERS`, `S_UNIQUE` | — | 8 attempts each, budget 100×100 = 10000 per cast; S_UNIQUE falls back to greater undead once uniques run out |
+
+Melee details (`mon-blows.c`):
+
+* **SHATTER** damage is reduced by armour like ordinary hits
+  (`adjust_dam_armor()`: `dam − dam × min(AC,240)/400`, so at most −60%),
+  then, if it did more than 23, triggers an **earthquake** centred on Morgoth
+  with radius damage/12, and above 100 damage may **throw you back**
+  (`thrust_away()`). Earthquakes destroy walls and items and can drop rocks on
+  you.
+* **LOSE_ALL** drains every stat (sustains protect individual stats).
+* **DRAIN_CHARGES** empties a wand/staff/rod charge stack and heals him.
+
+**Preparation derived from his numbers:**
+
+* **Speed +30 or better.** At +30 vs +30 you trade 1:1. At +20 he gets about
+  1.27 actions per yours (38 vs 30 energy per game turn), meaning roughly one
+  double move in four of your turns. One mana storm is 600; two in a row are
+  1200.
+* **HP**: his worst single action is a 600 mana storm or a ~400+ melee round
+  after armour (two 200-max shatters at ~50% armour reduction plus 120 from
+  LOSE_ALL). **Have at least 700 HP, preferably 900+**, and heal back above
+  ~650 every time you drop below it — never let yourself sit where one mana
+  storm kills you.
+* **Resistances**: rNether (nether ball), Free Action, pConf, pBlind, pStun
+  (plasma from summoned Balrogs/dragons), plus everything needed against the
+  summons (`S_HI_DRAGON` brings great wyrms; `S_UNIQUE` can bring anyone still
+  alive — kill the dangerous uniques *before* you go down).
+* **Saving throw**: high saving throw neutralises brain smash.
+* **Status effects on him do not work.** He has `NO_CONF`, `NO_SLEEP`,
+  `NO_HOLD`, `NO_FEAR`, and as a level-100 unique he resists anything else
+  (stun, slow) with two 90% rolls (§6.1).
+* **Damage race**: at 20000 HP and 400 regeneration per 100 game turns, you
+  need sustained damage well above his regeneration — at +30 you get about
+  3.8 actions per 10 game turns, i.e. ~38 per 100 game turns, so his
+  regeneration is worth ~10.5 HP per action of yours. Melee with a top
+  weapon (Grond itself is only available after the fight), or a caster's
+  biggest repeatable spell, comfortably exceeds that; what kills you is the
+  summons stacking up. Use the corridor/glyph trick, *Banishment* of the
+  summoned types (Morgoth himself is unique and unaffected), and Teleport
+  Other on the most dangerous summon.
+* **Glyphs of warding** stop summons from appearing on them and block monster
+  movement until broken: Morgoth breaks a glyph with chance
+  `randint1(550) < 100`, about 18% per attempt (`mon-play:break-glyph:550`,
+  `monster_turn_attack_glyph()` in `mon-move.c`).
+
+---
+
+## 7. General combat tactics
+
+### 7.1 Fighting in corridors
+
+The corridor is the strongest tool in Angband because of how monsters
+target and move:
+
+* **Only monsters adjacent to you can melee you.** In a straight corridor that
+  is one (two at a corner). Against groups (orcs, trolls, wolves, ants, cave
+  spiders) this turns a room fight against fifteen into fifteen fights against
+  one.
+* **Only monsters with a clear line can cast bolts** (`make_ranged_attack()`
+  drops bolt spells when another monster is in the way). Balls and breaths are
+  not blocked by monsters, but in a corridor fewer breathers have line of
+  sight at once.
+* **`GROUP_AI` packs refuse to follow you into corridors while you are above
+  half HP** (`get_move()` in `mon-move.c`): they look for a hiding place
+  nearby and wait. Expect hounds and wolves to lurk just around the corner.
+  You can (a) shoot or throw down the corridor at the ones in view, (b) step
+  forward to the corridor mouth so that only 2–3 grids around you are open
+  (the AI counts open grids next to you: with fewer than 5 it still treats you
+  as "in a corridor"), or (c) simply walk away — packs that won't engage
+  cannot hurt you.
+* **`PASS_WALL` and `KILL_WALL` monsters ignore all this.** Ghosts, dreads,
+  xorns, death drakes, the earth elementals, Quaker and Makar come out of the
+  walls beside you. Against them prefer the middle of a lit room where you can
+  see them coming.
+
+### 7.2 Anti-summoning: corridors and glyphs
+
+`summon_possible()` (`mon-attack.c`) lets a monster try a summon only if there
+is an **empty floor grid within distance 2 of the summoner, in its line of
+sight, without a glyph of warding**. And each summoned monster must be
+placed in such a grid (`scatter_ext()` with `square_allows_summon`, up to 4
+grids away). Therefore:
+
+* **Lure summoners into a corridor** and fight them there: in a 1-wide
+  corridor with you on one side and walls around, the only empty grids near the
+  summoner are the corridor squares behind it. If those are filled (by its own
+  escort, or by your positioning in a dead end) it cannot summon at all, and
+  smart monsters won't even try.
+* **A glyph of warding** (`Rune of Protection` scroll, or the priest/paladin
+  spell) under you blocks monsters from stepping onto your square and stops
+  summons appearing on it; monsters must break it first (`randint1(550) <
+  monster level` per attempt, `monster_turn_attack_glyph()`). The classic
+  "glyph dance": stand on a glyph in a corridor dead end so the only adjacent
+  floor is one square; summoners have nowhere to put their summons and melee
+  monsters must break the glyph.
+* **Summons arrive awake and join the summoner's group**; killing the summoner
+  first is almost always right.
+* **Line of sight is required to cast.** A monster that cannot see you cannot
+  summon. Breaking line of sight around a corner stops all of it.
+
+### 7.3 Luring, and pillar dancing
+
+* **Luring**: wake one monster of a group (shoot it, or let it notice you), then
+  retreat down a corridor; the woken monster follows, the sleepers do not. Kill
+  it out of sight of the rest.
+* **Pillar dancing** (for a character faster than the monster): stand next to a
+  single pillar or a block of rock; when the monster steps adjacent, attack;
+  when it is about to get a free hit, step around the pillar. Works against slow
+  melee-only monsters (e.g. +0 uniques like Shagrat when you are +10). Useless
+  against casters and breathers, and against anything as fast as you.
+* **Hit and run with Phase Door**: Phase Door teleports you ~10 squares. A
+  ranged attacker (archer, mage, thrower) can phase, shoot as the monster
+  approaches, and phase again. Against +0 melee monsters with a +10 character,
+  this kills almost anything for free; it fails against casters, fast monsters
+  and anything with `TELE_TO`.
+
+### 7.4 Stairs: the universal escape
+
+* **Taking a staircase is instant safety**: you leave the level entirely and
+  everything on it stays behind.
+* With the birth option **`birth_connect_stairs`** (on by default, "Generate
+  connected stairs") you arrive on a staircase. That enables *stair-scumming*:
+  arrive, look at the level feeling and what is in view, and if it is bad, take
+  the stairs you are standing on immediately. Note you will alternate up/down
+  stairs: arriving by a down staircase puts you on a down staircase? — no: with
+  connected stairs you arrive on a staircase of the *same* direction you took,
+  so you can keep going down, or go back up, without walking. (`cave.c`
+  places a connecting staircase where you arrive.)
+* **Fight next to stairs** when meeting something unknown: if it turns out to
+  be too strong, one keypress ends the fight.
+* **Uniques you flee from are not lost.** They will be generated again, and
+  you will be stronger next time.
+
+### 7.5 When to leave the level
+
+Leave (stairs, Deep Descent, Teleport Level, Word of Recall) when any of these
+is true:
+
+* A breeder colony has spread (§5).
+* A pack of hounds you cannot resist (gravity, inertia, time, nexus without
+  rNexus, chaos without rChaos, Tindalos) is on the level.
+* A unique you are not equipped for is awake and hunting you (check its
+  recall: if its spells are coloured "hurts you fully", that's the answer).
+* A quylthulg of the summoning kind has seen you and you cannot reach it.
+* Something invisible is hurting you and you have no See Invisible.
+* You are out of escapes or healing (count your Teleportation/Phase/CCW
+  before every big fight).
+* The level feeling says "omens of death" or similar and you are not
+  hunting.
+
+Leaving is free. Dying is not.
+
+### 7.6 Packs
+
+* **Fight packs at a corridor entrance.** See §7.1 for the `GROUP_AI`
+  behaviour.
+* **Use area damage.** Balls, breaths (from activations), *Dispel* spells,
+  *Banishment* of the symbol (non-unique only) — packs are many low-HP
+  monsters.
+* **Kill the casters/archers first** in mixed groups (orc archers, kobold
+  shamans, mage-priest-warrior groups of `p`).
+* **Escorts of uniques** are generated as servants/bodyguards; the unique is
+  often at the back. Teleport Other on the unique separates it from its gang
+  — or Teleport Other the gang's worst member.
+
+### 7.7 Hounds, specifically
+
+* Hounds are generated as a pack that often **starts awake and moves
+  together**; the first sign is several `Z` appearing at once.
+* Read the colour/name: the danger is the element, not the hound (§2, hounds
+  table). Gravity, inertia, impact, time, nexus, plasma and chaos packs are
+  the ones that turn fights.
+* Corridor + one-at-a-time; ranged attacks on the ones that peek. If you are
+  above half HP they may refuse to come in — use that time to leave or to
+  prepare.
+* `S_HOUND` (Draugluin, Carcharoth, Dwar, Wolf-Sauron, Maia of Oromë, grand
+  master mystics, werewolves of Sauron) brings 12 attempts' worth of hounds
+  and dogs: break line of sight from the summoner.
+
+### 7.8 Breathers out of line of sight
+
+* **A breath needs line of sight** (`monster_can_cast()` requires a
+  projectable path within range 20). Approach big breathers around corners and
+  attack only when you can hit hard; step back out of sight to heal or
+  re-buff.
+* **Damage it first**: breath is current HP divided by 3 or 6. A dragon at
+  30% breathes for 30%.
+* **Sleeping breathers don't breathe.** Dragons and many others are
+  `FORCE_SLEEP`. Use stealth, get a big opening hit or a series of ranged
+  attacks before it wakes.
+* **Don't stand at preferred range.** Casters/breathers cast twice as often at
+  their `best_range` (§1.4). Either close to melee range or get out of line of
+  sight; standing at mid-range in the open is the worst choice.
+
+### 7.9 Invisible monsters
+
+* **See Invisible** (equipment, `True Seeing` potions, `Detect Invisible`
+  scrolls, several class spells) is required by DL30 and strongly
+  recommended by DL20 (ghosts from DL3, moaning spirits DL12, imps DL17,
+  dreads DL44).
+* **Telepathy** shows invisible monsters with minds — not `EMPTY_MIND`
+  (quylthulgs, invisible elementals like the air spirit/invisible stalker,
+  lurkers, trappers, clear worm masses' cousins) and only 1 in 10 of
+  `WEIRD_MIND` monsters.
+* Signs of an invisible attacker: "It hits you", "Something mumbles",
+  objects disappearing, doors opening. Respond by moving to a corridor (most
+  invisible things are ghosts that come through walls anyway) or leaving.
+* Light (`HURT_LIGHT`) attacks hit ghosts? — ghosts are not `HURT_LIGHT` by
+  base (only the poltergeist is, by its own flag); wraiths and vampires are.
+
+### 7.10 Thieves
+
+`EAT_GOLD` / `EAT_ITEM` touches steal and the thief then teleports away
+(cutpurses, Sméagol, master thieves, brigands, Harowen). Kill thieves at range
+or before they touch you; protect key consumables by carrying them in
+quantity. A saving throw does not help; a high DEX makes theft fail more
+often.
+
+---
+
+## 8. Quick reference
+
+### 8.1 Protection milestones (by when the monsters in this chapter demand them)
+
+| By DL | Get | Because of |
+|--:|---|---|
+| 5 | Phase Door, CLW potions, Flasks of oil | Grip/Fang, Bullroarer, cave spiders, blacklock mages |
+| 15 | See Invisible *or* the habit of leaving | moaning spirits, poltergeists, imps |
+| 20 | **Free Action** | homunculus, Old Man Willow, carrion crawlers, ghouls, basilisks |
+| 25–30 | rFire, rCold, rElec, rAcid; See Invisible | young/mature dragons, hounds, vortices, ghosts |
+| 30 | rPois, pConf, a good saving throw | basilisks, mind flayers, Drolem later, sorcerers |
+| 35 | pStun or rSound, rNexus, speed +10 | vibration/gravity/impact/nexus hounds |
+| 40 | pBlind or rLight/rDark, Hold Life, rNether | dreads, death drakes, wights/wraiths, Eöl |
+| 50 | double base resists, rChaos, rDisen, 500+ HP | AMHD, the Balrog of Moria, dracolich, Drolem |
+| 60–75 | rShards, rSound, speed +20, 700+ HP | great wyrms, gelugons, the Mouth of Sauron, Glaurung |
+| 99 | +30 speed, 700–900+ HP, everything above | Sauron (and his shapes), Morgoth |
+
+### 8.2 Monsters to never melee
+
+floating eye (paralysis), disenchanter eye/mold/bat (disenchant), death mold,
+gelatinous cube (if you care about your floor items), Makar, Baphomet,
+Nan, Meássë (confusing hits), anything with `PARALYZE` blows if you lack Free
+Action, jellies with drain/eat effects.
+
+### 8.3 Monsters to never stay in line of sight of
+
+quylthulgs (all, especially nexus, greater and master quylthulgs and
+Qlzqqlzuup), the druj, Wiruin, time/gravity/inertia hound packs, the Mouth of
+Sauron, Cantoras, Feagwath, Vecna without full preparation.
+
+### 8.4 Uniques worth hunting early for their drops
+
+`DROP_GREAT`: Sméagol (DL3, hard to pin down), **Wormtongue** (DL8), **Mîm**
+(DL27). `DROP_2`+good: Bullroarer, Golfimbul, Bolg, Azog, Beorn, Ulfang,
+Lokkak, Lorgan, Castamir, Gorlim. Uniques with **no** drop: Grip, Fang, the
+four elemental lords, Qlzqqlzuup has `DROP_4` but you can rarely get to it.
+
+### 8.5 Source map
+
+| Topic | Code / data |
+|---|---|
+| speed table | `src/game-world.c: extract_energy[]`, `turn_energy()` |
+| monster HP, speed variance, drops | `src/mon-make.c: mon_hp()`, `place_new_monster_one()`, `mon_create_drop_count()` |
+| spell frequency, failure, choice | `src/mon-attack.c: monster_can_cast()`, `monster_spell_failrate()`, `make_ranged_attack()`, `summon_possible()` |
+| spell formulas | `lib/gamedata/monster_spell.txt` |
+| saving throw | `src/mon-spell.c: do_mon_spell()` |
+| breath damage | `src/mon-spell.c: breath_dam()`, `lib/gamedata/projection.txt` |
+| element side effects on you | `src/project-player.c` |
+| melee effects | `src/mon-blows.c`, `lib/gamedata/blow_effects.txt` |
+| group AI, movement | `src/mon-move.c: get_move()` |
+| breeding | `src/mon-move.c: monster_turn_multiply()`, `constants.txt: repro-max, mult-rate` |
+| summons | `src/effect-handler-general.c: effect_handler_SUMMON()`, `src/mon-summon.c: summon_specific()`, `lib/gamedata/summon.txt` |
+| monster status resistance | `src/mon-timed.c: saving_throw()` |
+| quests | `lib/gamedata/quest.txt`, `src/player-quest.c`, `src/generate.c`, `src/cave.c` |
