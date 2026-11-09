@@ -1,0 +1,84 @@
+{
+  "rations-only": {
+    "label": "Eleven rations, nothing else to store or sell",
+    "explanation": "Original: turn 1 stores 3 rations (newest history entry, not checked); turns 2 and 3 take a ration back out each time (step 4, buy useful things from the home) until the pack holds ten. Corrected: turn 1 stores 3 rations, turn 2 sees them in the history and leaves.",
+    "control": false,
+    "before": {
+      "raw": "native-c/tradehist-20: starting...\nSETUP seed=20 mode=rations-only class=Warrior clevel=6 gold=3000\n  home_trade_history  PACK 0 qty=11 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nTRACK power=777014 gold=3000\nKEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344\nACTION stash letter=a qty=3 from=[11 Rations of Food]\nMSG You drop 3 Rations of Food (a).\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nTRACK power=776614 gold=3000\nKEYS round=2 store=7 n=7 97 112 156 156 57344 57344 57344\nACTION retrieve ware=a qty=1 from=[3 Rations of Food]\nMSG You have 9 Rations of Food (a).\nPACK 0 qty=9 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=2 desc=[Rations of Food]\nTRACK power=776814 gold=3000\nKEYS round=3 store=7 n=7 97 112 156 156 57344 57344 57344\nACTION retrieve ware=a qty=1 from=[2 Rations of Food]\nMSG You have 10 Rations of Food (a).\nPACK 0 qty=10 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=1 desc=[Ration of Food]\nTRACK power=777014 gold=3000\nKEYS round=4 store=7 n=4 57344 57344 57344 57344\nACTION leave\nPACK 0 qty=10 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=1 desc=[Ration of Food]\nTRACK power=777014 gold=3000\nNEXT chose=0 goal_shop=-1 goal_item=-1 goal_ware=-1\nOUTCOME stashed_rations=3 retrieved_rations=2\nFailed\n    native-c/tradehist-20:248: requirement 'retrieved_food == 0' failed\nnative-c/tradehist-20 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "stashed_rations": 3,
+        "retrieved_rations": 2
+      },
+      "notes": [
+        "TRACK power=777014 gold=3000",
+        "KEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344",
+        "TRACK power=776614 gold=3000",
+        "KEYS round=2 store=7 n=7 97 112 156 156 57344 57344 57344",
+        "TRACK power=776814 gold=3000",
+        "KEYS round=3 store=7 n=7 97 112 156 156 57344 57344 57344",
+        "TRACK power=777014 gold=3000",
+        "KEYS round=4 store=7 n=4 57344 57344 57344 57344",
+        "TRACK power=777014 gold=3000"
+      ],
+      "value": 2
+    },
+    "after": {
+      "raw": "native-c/tradehist-20: starting...\nSETUP seed=20 mode=rations-only class=Warrior clevel=6 gold=3000\n  home_trade_history  PACK 0 qty=11 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nTRACK power=777014 gold=3000\nKEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344\nACTION stash letter=a qty=3 from=[11 Rations of Food]\nMSG You drop 3 Rations of Food (a).\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nTRACK power=776614 gold=3000\nKEYS round=2 store=7 n=4 57344 57344 57344 57344\nACTION leave\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nTRACK power=776614 gold=3000\nNEXT chose=0 goal_shop=-1 goal_item=-1 goal_ware=-1\nOUTCOME stashed_rations=3 retrieved_rations=0\nPassed\nnative-c/tradehist-20 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "stashed_rations": 3,
+        "retrieved_rations": 0
+      },
+      "notes": [
+        "TRACK power=777014 gold=3000",
+        "KEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344",
+        "TRACK power=776614 gold=3000",
+        "KEYS round=2 store=7 n=4 57344 57344 57344 57344",
+        "TRACK power=776614 gold=3000"
+      ],
+      "value": 0
+    }
+  },
+  "with-recall": {
+    "label": "Control: the stored rations are not the newest entry",
+    "explanation": "Turn 1 stores 3 rations, turn 2 stores the Word of Recall scroll, so the rations are the older entry, which both versions check. Neither takes anything back; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/tradehist-20: starting...\nSETUP seed=20 mode=with-recall class=Warrior clevel=6 gold=3000\n  home_trade_history  PACK 0 qty=11 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Wooden Torch (5000 turns)]\nTRACK power=777014 gold=3000\nKEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344\nACTION stash letter=a qty=3 from=[11 Rations of Food]\nMSG You drop 3 Rations of Food (a).\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nTRACK power=776614 gold=3000\nKEYS round=2 store=7 n=5 115 99 57344 57344 57344\nACTION stash letter=c qty=1 from=[a Scroll of Word of Recall]\nMSG You drop a Scroll of Word of Recall (c).\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nSHOP 7 ware 1 qty=1 desc=[Scroll of Word of Recall]\nTRACK power=776614 gold=3000\nKEYS round=3 store=7 n=4 57344 57344 57344 57344\nACTION leave\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nSHOP 7 ware 1 qty=1 desc=[Scroll of Word of Recall]\nTRACK power=776614 gold=3000\nNEXT chose=1 goal_shop=4 goal_item=1 goal_ware=-1\nOUTCOME stashed_rations=3 retrieved_rations=0\nPassed\nnative-c/tradehist-20 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "stashed_rations": 3,
+        "retrieved_rations": 0
+      },
+      "notes": [
+        "TRACK power=777014 gold=3000",
+        "KEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344",
+        "TRACK power=776614 gold=3000",
+        "KEYS round=2 store=7 n=5 115 99 57344 57344 57344",
+        "TRACK power=776614 gold=3000",
+        "KEYS round=3 store=7 n=4 57344 57344 57344 57344",
+        "TRACK power=776614 gold=3000"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/tradehist-20: starting...\nSETUP seed=20 mode=with-recall class=Warrior clevel=6 gold=3000\n  home_trade_history  PACK 0 qty=11 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Wooden Torch (5000 turns)]\nTRACK power=777014 gold=3000\nKEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344\nACTION stash letter=a qty=3 from=[11 Rations of Food]\nMSG You drop 3 Rations of Food (a).\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nTRACK power=776614 gold=3000\nKEYS round=2 store=7 n=5 115 99 57344 57344 57344\nACTION stash letter=c qty=1 from=[a Scroll of Word of Recall]\nMSG You drop a Scroll of Word of Recall (c).\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nSHOP 7 ware 1 qty=1 desc=[Scroll of Word of Recall]\nTRACK power=776614 gold=3000\nKEYS round=3 store=7 n=4 57344 57344 57344 57344\nACTION leave\nPACK 0 qty=8 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Wooden Torch (5000 turns)]\nSHOP 7 ware 0 qty=3 desc=[Rations of Food]\nSHOP 7 ware 1 qty=1 desc=[Scroll of Word of Recall]\nTRACK power=776614 gold=3000\nNEXT chose=1 goal_shop=4 goal_item=1 goal_ware=-1\nOUTCOME stashed_rations=3 retrieved_rations=0\nPassed\nnative-c/tradehist-20 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "stashed_rations": 3,
+        "retrieved_rations": 0
+      },
+      "notes": [
+        "TRACK power=777014 gold=3000",
+        "KEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344",
+        "TRACK power=776614 gold=3000",
+        "KEYS round=2 store=7 n=5 115 99 57344 57344 57344",
+        "TRACK power=776614 gold=3000",
+        "KEYS round=3 store=7 n=4 57344 57344 57344 57344",
+        "TRACK power=776614 gold=3000"
+      ],
+      "value": 0
+    }
+  }
+}

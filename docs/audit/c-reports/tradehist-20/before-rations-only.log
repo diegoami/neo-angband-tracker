@@ -1,0 +1,37 @@
+native-c/tradehist-20: starting...
+SETUP seed=20 mode=rations-only class=Warrior clevel=6 gold=3000
+  home_trade_history  PACK 0 qty=11 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+TRACK power=777014 gold=3000
+KEYS round=1 store=7 n=7 115 97 51 156 57344 57344 57344
+ACTION stash letter=a qty=3 from=[11 Rations of Food]
+MSG You drop 3 Rations of Food (a).
+PACK 0 qty=8 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 7 ware 0 qty=3 desc=[Rations of Food]
+TRACK power=776614 gold=3000
+KEYS round=2 store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION retrieve ware=a qty=1 from=[3 Rations of Food]
+MSG You have 9 Rations of Food (a).
+PACK 0 qty=9 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 7 ware 0 qty=2 desc=[Rations of Food]
+TRACK power=776814 gold=3000
+KEYS round=3 store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION retrieve ware=a qty=1 from=[2 Rations of Food]
+MSG You have 10 Rations of Food (a).
+PACK 0 qty=10 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 7 ware 0 qty=1 desc=[Ration of Food]
+TRACK power=777014 gold=3000
+KEYS round=4 store=7 n=4 57344 57344 57344 57344
+ACTION leave
+PACK 0 qty=10 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Wooden Torch (5000 turns)]
+SHOP 7 ware 0 qty=1 desc=[Ration of Food]
+TRACK power=777014 gold=3000
+NEXT chose=0 goal_shop=-1 goal_item=-1 goal_ware=-1
+OUTCOME stashed_rations=3 retrieved_rations=2
+Failed
+    native-c/tradehist-20:248: requirement 'retrieved_food == 0' failed
+native-c/tradehist-20 finished: 0/1 passed
