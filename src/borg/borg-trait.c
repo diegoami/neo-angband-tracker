@@ -2421,6 +2421,9 @@ static void borg_notice_inventory(void)
                 } else {
                     borg.trait[BI_ASPEED] += item->iqty;
                 }
+            } else if (item->sval == sv_rod_teleport_other) {
+                /* Counted like a wand of teleport other */
+                borg.trait[BI_ATPORTOTHER] += item->iqty;
             } else if (item->sval == sv_rod_mapping)
                 borg.trait[BI_AMAGICMAP] += item->iqty * 100;
             else if (item->sval == sv_rod_healing) {
