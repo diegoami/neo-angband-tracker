@@ -1,0 +1,22 @@
+native-c/spasticscore-147-stacked: starting...
+SETUP seed=147 mode=approach class=Warrior clevel=20 depth=5 borg=(35,5)
+  spastic_search_walks_to_an_unsearched_grid  DECISION call=1 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=2 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=3 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=4 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=5 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=6 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=7 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=8 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=9 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=10 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=11 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=12 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=13 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=14 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=15 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+DECISION call=16 borg=(35,5) rc=0 key=0 own_count=0->0 chose=(-1,-1) chose_count=-1
+OUTCOME searches=0 repeat_searches=0 moves=0 first_pick_x=-1 first_pick_y=-1 first_pick_count=-1 end_x=35 end_y=5
+Failed
+    native-c/spasticscore-147-stacked:191: requirement 'moves > 0 && searches == 1' failed
+native-c/spasticscore-147-stacked finished: 0/1 passed

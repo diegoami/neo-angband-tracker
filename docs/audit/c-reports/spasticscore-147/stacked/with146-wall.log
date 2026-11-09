@@ -1,0 +1,41 @@
+native-c/spasticscore-147-stacked: starting...
+SETUP seed=147 mode=wall class=Warrior clevel=20 depth=5 borg=(35,2)
+  spastic_search_walks_to_an_unsearched_grid  DECISION call=1 borg=(35,2) rc=0 key=0 own_count=0->0 chose=(35,2) chose_count=0
+TRACK 1 # Flowing toward spastic at cost 0
+DECISION call=2 borg=(35,2) rc=0 key=0 own_count=0->5 chose=(-1,-1) chose_count=-1
+TRACK 2 # Spastic Searching at (35,2)...value:0
+SEARCH call=2 at=(35,2) count_before=0
+DECISION call=3 borg=(35,2) rc=1 key=52 own_count=5->5 chose=(34,2) chose_count=5
+TRACK 3 # Flowing toward spastic at cost 1
+STEP call=3 to=(34,2)
+DECISION call=4 borg=(34,2) rc=0 key=0 own_count=5->10 chose=(-1,-1) chose_count=-1
+TRACK 4 # Spastic Searching at (34,2)...value:5
+SEARCH call=4 at=(34,2) count_before=5
+DECISION call=5 borg=(34,2) rc=1 key=52 own_count=10->10 chose=(33,2) chose_count=5
+TRACK 5 # Flowing toward spastic at cost 1
+STEP call=5 to=(33,2)
+DECISION call=6 borg=(33,2) rc=0 key=0 own_count=5->10 chose=(-1,-1) chose_count=-1
+TRACK 6 # Spastic Searching at (33,2)...value:5
+SEARCH call=6 at=(33,2) count_before=5
+DECISION call=7 borg=(33,2) rc=1 key=52 own_count=10->10 chose=(32,2) chose_count=5
+TRACK 7 # Flowing toward spastic at cost 1
+STEP call=7 to=(32,2)
+DECISION call=8 borg=(32,2) rc=0 key=0 own_count=5->10 chose=(-1,-1) chose_count=-1
+TRACK 8 # Spastic Searching at (32,2)...value:5
+SEARCH call=8 at=(32,2) count_before=5
+DECISION call=9 borg=(32,2) rc=1 key=52 own_count=10->10 chose=(31,2) chose_count=5
+TRACK 9 # Flowing toward spastic at cost 1
+STEP call=9 to=(31,2)
+DECISION call=10 borg=(31,2) rc=0 key=0 own_count=5->10 chose=(-1,-1) chose_count=-1
+TRACK 10 # Spastic Searching at (31,2)...value:5
+SEARCH call=10 at=(31,2) count_before=5
+DECISION call=11 borg=(31,2) rc=1 key=52 own_count=10->10 chose=(30,2) chose_count=5
+TRACK 11 # Flowing toward spastic at cost 1
+STEP call=11 to=(30,2)
+DECISION call=12 borg=(30,2) rc=0 key=0 own_count=5->10 chose=(-1,-1) chose_count=-1
+TRACK 12 # Spastic Searching at (30,2)...value:5
+SEARCH call=12 at=(30,2) count_before=5
+OUTCOME searches=6 repeat_searches=5 moves=5 first_pick_x=34 first_pick_y=2 first_pick_count=5 end_x=30 end_y=2
+Failed
+    native-c/spasticscore-147-stacked:195: requirement 'moves > 0 && first_pick_count == 0 && repeats == 0' failed
+native-c/spasticscore-147-stacked finished: 0/1 passed

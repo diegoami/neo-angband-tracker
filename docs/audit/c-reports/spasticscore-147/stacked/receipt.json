@@ -1,0 +1,175 @@
+{
+  "issue": "diegoami/neo-angband-tracker#147",
+  "depends_on": "diegoami/neo-angband-tracker#146",
+  "report": "spasticscore-147 (stacked with spastic-146)",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix146": "f97311e5d52de4dda8d75058114c52acbdac2674",
+  "fix146_branch": "task/spastic-146",
+  "fix147": "6e54def846e04ee7a6a203bfcb1623128fc7d696",
+  "fix147_branch": "task/spasticscore-147",
+  "fixtures_ref": "81fe464dc50445b5eb1c6758c3bc4773d9972d5d",
+  "variants": {
+    "base": "pristine base (reference)",
+    "with146": "base + #146 hunk",
+    "stacked": "base + #146 hunk + #147 hunk"
+  },
+  "variant_sha256": {
+    "base": "704620fb3833b5ce99116b510b7ae846520fb4af582fb483ad34d5db84ff823b",
+    "with146": "13fefba8f71ebfc9b91679677aaf238c69efe071920dbf2312820713e301c3d5",
+    "stacked": "9cb5d9667978362125a8e29fd46e77fb34df916dc8322919481cbad2a0fe9702"
+  },
+  "cases": {
+    "wall": {
+      "base": {
+        "passed": false,
+        "outcome": {
+          "searches": 3,
+          "repeat_searches": 2,
+          "moves": 0,
+          "first_pick_x": -1,
+          "first_pick_y": -1,
+          "first_pick_count": -1,
+          "end_x": 35,
+          "end_y": 2
+        }
+      },
+      "with146": {
+        "passed": false,
+        "outcome": {
+          "searches": 6,
+          "repeat_searches": 5,
+          "moves": 5,
+          "first_pick_x": 34,
+          "first_pick_y": 2,
+          "first_pick_count": 5,
+          "end_x": 30,
+          "end_y": 2
+        }
+      },
+      "stacked": {
+        "passed": true,
+        "outcome": {
+          "searches": 4,
+          "repeat_searches": 0,
+          "moves": 7,
+          "first_pick_x": 37,
+          "first_pick_y": 2,
+          "first_pick_count": 0,
+          "end_x": 42,
+          "end_y": 2
+        }
+      }
+    },
+    "approach": {
+      "base": {
+        "passed": false,
+        "outcome": {
+          "searches": 0,
+          "repeat_searches": 0,
+          "moves": 0,
+          "first_pick_x": -1,
+          "first_pick_y": -1,
+          "first_pick_count": -1,
+          "end_x": 35,
+          "end_y": 5
+        }
+      },
+      "with146": {
+        "passed": true,
+        "outcome": {
+          "searches": 1,
+          "repeat_searches": 0,
+          "moves": 3,
+          "first_pick_x": -1,
+          "first_pick_y": -1,
+          "first_pick_count": -1,
+          "end_x": 38,
+          "end_y": 2
+        }
+      },
+      "stacked": {
+        "passed": true,
+        "outcome": {
+          "searches": 1,
+          "repeat_searches": 0,
+          "moves": 3,
+          "first_pick_x": -1,
+          "first_pick_y": -1,
+          "first_pick_count": -1,
+          "end_x": 38,
+          "end_y": 2
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "approach"
+  ],
+  "identical_control_logs": {
+    "approach": [
+      "with146-approach.log",
+      "stacked-approach.log"
+    ]
+  },
+  "claim": "With #146's correction alone, after its first search at (35,2) the bored Borg picks (34,2), a grid that search already covered (count 5), and creeps west one grid per search: 6 searches in 12 calls, 5 of them on covered grids. With #146 and #147 together it picks (37,2), which no search had covered (count 0), and searches (35,2), (37,2), (39,2), (41,2): 4 searches, none repeated. The approach control is byte-identical between the two. The pristine base never leaves its grid.",
+  "full_tests": {
+    "base": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "with146": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "stacked": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "runner_asserts": "Each source branch must equal the base file with exactly its expected hunk and touch only src/borg/borg-flow-misc.c; the stacked variant is the base with both hunks; every phase and mode must match its exact expected OUTCOME values and pass state; the control logs must be byte-identical between #146 only and #146 + #147.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "render_check_js_checks": 12,
+    "render_smoke_js": "RENDER-SMOKE actions=6 errors=0 OK",
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "reproduce exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "base-approach.log": "37e9271152691f961f10dee3c602a39e29904bcbbbb780da7c52570d85c7c5d2",
+    "base-results.json": "4529195df2234fe73bd4bf4e42e18d1eb68b6d7bccd4be22c3f6cfa943e341a8",
+    "base-wall.log": "b4710f3b5f85bda933130ea572b849858d54bb130d41fbe34ce6c0cb1a2b41ae",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "de34cde4f17932de918b9e7750a9c5e047ec4c43eef1d5844f1b423c15b6dc09",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "d008877766acf5ed5c961323bebc231a5889177616be14a16e90c2e1ad2600d3",
+    "replay.html": "dd8fd4a043f26cf076ed72cc7cdf93bad010eac6cbc6cf5ec0d462b1adbeead8",
+    "reproduce.py": "bd425e5cc8c0c553e45d8f1c3242b86715a757b0c906b132d59f7669cb828649",
+    "result.json": "56e8a33135aa69505ea6c39c8c84c9b1e221484af4001645efff76b379c17165",
+    "run-base-alltests.log": "7585dc9684b6700a29df0498e9d631e5c6bd966be37c0d10618c499b8ade2c34",
+    "run-base-build.log": "3d53fc99d20a31323f70f20fe800037e2185626496b4bbbf31d80d3857be4efe",
+    "run-base-scenarios.log": "172b314b4878deec94d0b814d84edc89e655bacd82a0209ad82c74059bc12fa5",
+    "run-cases.py": "f0074c3d52a09a0626d36f07b4a6db159628d64e9e49ef9b72210aa616010a43",
+    "run-configure.log": "5cd02f5423b53dcb056348106028e7428cba736662a38b314f315fe42b8ee8ec",
+    "run-stacked-alltests.log": "2267946813a39b303502533d917b37ba215c8d5053d467496a60dedfdf2ebcde",
+    "run-stacked-build.log": "bd3488aa7b0970dfc2c2608de7b944a40659b48461cddd16dc8748db8c9ce2f6",
+    "run-stacked-scenarios.log": "71c0952995b8d7bcde52df82f13b8a869dbf0c5aabc8e885fea97b27c28fb4da",
+    "run-with146-alltests.log": "a73850dc4a1eac99c2906286d466a567b6934ec12b2a741db2782af85446e553",
+    "run-with146-build.log": "ba2071101d5f4bfcc9b8bde9268c082fac6499d8fe8c949d26521150e2723e4e",
+    "run-with146-scenarios.log": "dd5a5a1e69c6a57a11ece7141c63bf9b8630ea81006e07ed1e9cdf8d5ab8d377",
+    "scenario.c": "f78e38d2367e2189f2e5517a07b06613588ee69b17d7b240bba8d90d57863c7d",
+    "stacked-approach.log": "b946b499ee63f4999e8c2dfae63aedf851ef2d0bdceb9e3db48f86fdf17b4f2a",
+    "stacked-results.json": "e3e42789f4c3a978a34bc600bd7411cc66b5a3f03d084737025cdd8040f58a18",
+    "stacked-wall.log": "85745cd262c82e559bb9b2970c8508c52ea53f29ab9a88641ecf552d098521f4",
+    "with146-approach.log": "b946b499ee63f4999e8c2dfae63aedf851ef2d0bdceb9e3db48f86fdf17b4f2a",
+    "with146-results.json": "cba02288cac3e926989ebd3603d485777b0a2dc86868d3cbe1ff3726defe9500",
+    "with146-wall.log": "fe2c0e6d9b50a34b38fc894329be84ca521f2397fc516423cb2728a970f36170"
+  },
+  "parent_readme_sha256": {
+    "before": "07242240ff88785f7c6dcd4b74c37d20c107f6e762398d2722f221cab45049bd",
+    "after": "78b62337989f07ea48e1f31eb00e19e94ea60b1d9778a694658ffe2dac5f9529",
+    "note": "the parent README gained the section \"Stacked with #146 (2026-11-08)\"; the parent receipt.json README hash was updated to match"
+  }
+}

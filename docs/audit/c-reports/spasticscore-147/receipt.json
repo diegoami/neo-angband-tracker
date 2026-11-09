@@ -1,0 +1,143 @@
+{
+  "issue": "diegoami/neo-angband-tracker#147",
+  "report": "spasticscore-147",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "6e54def846e04ee7a6a203bfcb1623128fc7d696",
+  "fix_branch": "task/spasticscore-147",
+  "fixtures_ref": "5b38022eb2697a8f8ea02732386a59919d8dae26",
+  "cases": {
+    "fresh": {
+      "before": {
+        "passed": false,
+        "state": {
+          "start_searches": 3,
+          "P_count": 0,
+          "P_northwest_count": 15
+        },
+        "outcome": {
+          "searches_at_P": 0,
+          "P_count": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "start_searches": 3,
+          "P_count": 0,
+          "P_northwest_count": 15
+        },
+        "outcome": {
+          "searches_at_P": 3,
+          "P_count": 15
+        }
+      }
+    },
+    "searched": {
+      "before": {
+        "passed": false,
+        "state": {
+          "start_searches": 3,
+          "P_count": 15,
+          "P_northwest_count": 0
+        },
+        "outcome": {
+          "searches_at_P": 1,
+          "P_count": 20
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "start_searches": 3,
+          "P_count": 15,
+          "P_northwest_count": 0
+        },
+        "outcome": {
+          "searches_at_P": 0,
+          "P_count": 15
+        }
+      }
+    },
+    "plain": {
+      "before": {
+        "passed": true,
+        "state": {
+          "P_count": 0,
+          "P_northwest_count": 0
+        },
+        "outcome": {
+          "searches_at_P": 3,
+          "P_count": 15
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "P_count": 0,
+          "P_northwest_count": 0
+        },
+        "outcome": {
+          "searches_at_P": 3,
+          "P_count": 15
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "plain"
+  ],
+  "claim": "borg_flow_spastic() subtracts ag->xtra * 40 from a candidate's score after ag was reused by the neighbour loops, so it reads the north-west neighbour's search count. A never-searched grid next to a searched one was refused (0 searches instead of 3); a grid searched three times was searched a fourth time. Scoring with borg_grids[y][x].xtra fixes both; the control, where the counts coincide, is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-misc.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "816c1e86bec6fe360f1131b37596ece48a4899c617287cc5b4c1fe25326d5846"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "78b62337989f07ea48e1f31eb00e19e94ea60b1d9778a694658ffe2dac5f9529",
+    "after-fresh.log": "410a21cc2e74cf9a56b40ef98c58d0d5a3b0c70d09c619441f887877ba9aa331",
+    "after-plain.log": "776d29ab2c6ef559b554284b93465148cff167f3863006ab11097ee793472eb0",
+    "after-results.json": "adcbd6ecf0b92e227611648a68a911756a042f8a77dc0dcad0fe2970efcb1b64",
+    "after-searched.log": "36f071c4a587378bc549b75d10f6855c51d556c8ac0f286c92d8d1300e3dc816",
+    "before-fresh.log": "9b7126300a2e1b30b1b5ac3ce854c4198e5e786a6d80f141ef029c3936306546",
+    "before-plain.log": "776d29ab2c6ef559b554284b93465148cff167f3863006ab11097ee793472eb0",
+    "before-results.json": "876cb0175a0dbcf101394558dbf724ebcb3abae61bfac1a55f29a10212f998ea",
+    "before-searched.log": "709a007a7db3a8cfa5707ac06d8727b90701afc3a4181693c68a66a97e2c3fb6",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "d271e06035d8ad863d11d94f1175ec3406ca46535298145f0fc5b3eca28e9887",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "08460a012c835100e428710ff5fb1055cfdd75bd25cc89d0b922f1456638f95e",
+    "replay.html": "8072e02e06d5e7fe6365ad6c66f666a6bbfeb85127bc050885f141ba7c9e5f32",
+    "reproduce.py": "b3c3297ebb3c698c7aef660afd935e980cba79d09112e336ba46a1117a8e6ba9",
+    "result.json": "fb5d4b7897c03201d14d30c52850f8453c7e45cd3984325dd70a976c541a4d26",
+    "run-after-alltests.log": "023dccde39cd634db8f0415e5f0281b49c6953eb7ef1f1fb7700cf9f97d93012",
+    "run-after-build.log": "649abc72d1a5cdb804c04d1f294b9092e0a3d2ea225460c9d723f003e7baaf25",
+    "run-after-scenarios.log": "9c7ead50394736a090165daa1322b0e7e2d0f42b63471faeb0bd3e5328e97c15",
+    "run-before-alltests.log": "355b1efb7835b17834f03416e5dcf6ab7673f3fa40ef3164f2a7be02d10c3616",
+    "run-before-build.log": "fc60576c84d7dee41dc46573028f642358c5511227adc5fa5485f61b234528f1",
+    "run-before-scenarios.log": "585b1392f573f54712eb6c4f6e4aebe7060b6386e945e404e4c80b426115f088",
+    "run-cases.py": "e8da3884e5892d1f7a08bc355feb7603a5be182711df9461a19cecf933a913b5",
+    "run-configure.log": "10d4ea650210c62710d55aea8110f3765f50032c2f4d82dcec2f3277bf26c117",
+    "scenario.c": "1e689d9534ac06cc87ab1b1102c1f6c1b5bbb3ea0d692e2bcd2d9f2616b93682"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "wall": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "searches": 3,
+      "repeat_searches": 2,
+      "moves": 0,
+      "first_pick_x": -1,
+      "first_pick_y": -1,
+      "first_pick_count": -1,
+      "end_x": 35,
+      "end_y": 2
+    }
+  },
+  "approach": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "searches": 0,
+      "repeat_searches": 0,
+      "moves": 0,
+      "first_pick_x": -1,
+      "first_pick_y": -1,
+      "first_pick_count": -1,
+      "end_x": 35,
+      "end_y": 5
+    }
+  }
+}

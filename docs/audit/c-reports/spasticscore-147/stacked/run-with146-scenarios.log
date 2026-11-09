@@ -1,0 +1,2 @@
+wall {'exit': 0, 'passed': False, 'outcome': {'searches': 6, 'repeat_searches': 5, 'moves': 5, 'first_pick_x': 34, 'first_pick_y': 2, 'first_pick_count': 5, 'end_x': 30, 'end_y': 2}}
+approach {'exit': 0, 'passed': True, 'outcome': {'searches': 1, 'repeat_searches': 0, 'moves': 3, 'first_pick_x': -1, 'first_pick_y': -1, 'first_pick_count': -1, 'end_x': 38, 'end_y': 2}}

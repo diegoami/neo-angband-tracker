@@ -1,0 +1,20 @@
+native-c/spasticscore-147: starting...
+SETUP seed=147 mode=plain class=Warrior clevel=20 depth=5 borg=(10,2)
+  spastic_search_scores_the_candidate_grid  STATE at_P=(10,2) P_count=0 P_northwest_count=0
+DECISION call=P1 borg=(10,2) rc=0 key=0 own_count=0->0 nw_count=0 searched=0
+TRACK P1 # Flowing toward spastic at cost 0
+DECISION call=P2 borg=(10,2) rc=0 key=0 own_count=0->5 nw_count=0 searched=1
+TRACK P2 # Spastic Searching at (10,2)...value:0
+DECISION call=P3 borg=(10,2) rc=0 key=0 own_count=5->5 nw_count=5 searched=0
+TRACK P3 # Flowing toward spastic at cost 0
+DECISION call=P4 borg=(10,2) rc=0 key=0 own_count=5->10 nw_count=5 searched=1
+TRACK P4 # Spastic Searching at (10,2)...value:5
+DECISION call=P5 borg=(10,2) rc=0 key=0 own_count=10->10 nw_count=10 searched=0
+TRACK P5 # Flowing toward spastic at cost 0
+DECISION call=P6 borg=(10,2) rc=0 key=0 own_count=10->15 nw_count=10 searched=1
+TRACK P6 # Spastic Searching at (10,2)...value:10
+DECISION call=P7 borg=(10,2) rc=0 key=0 own_count=15->15 nw_count=15 searched=0
+DECISION call=P8 borg=(10,2) rc=0 key=0 own_count=15->15 nw_count=15 searched=0
+OUTCOME searches_at_P=3 P_count=15
+Passed
+native-c/spasticscore-147 finished: 1/1 passed

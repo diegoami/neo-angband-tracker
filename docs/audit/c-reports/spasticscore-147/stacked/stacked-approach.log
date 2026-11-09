@@ -1,0 +1,17 @@
+native-c/spasticscore-147-stacked: starting...
+SETUP seed=147 mode=approach class=Warrior clevel=20 depth=5 borg=(35,5)
+  spastic_search_walks_to_an_unsearched_grid  DECISION call=1 borg=(35,5) rc=1 key=57 own_count=0->0 chose=(38,2) chose_count=0
+TRACK 1 # Flowing toward spastic at cost 3
+STEP call=1 to=(36,4)
+DECISION call=2 borg=(36,4) rc=1 key=57 own_count=0->0 chose=(38,2) chose_count=0
+TRACK 2 # Flowing toward spastic at cost 2
+STEP call=2 to=(37,3)
+DECISION call=3 borg=(37,3) rc=1 key=57 own_count=0->0 chose=(38,2) chose_count=0
+TRACK 3 # Flowing toward spastic at cost 1
+STEP call=3 to=(38,2)
+DECISION call=4 borg=(38,2) rc=0 key=0 own_count=0->5 chose=(-1,-1) chose_count=-1
+TRACK 4 # Spastic Searching at (38,2)...value:0
+SEARCH call=4 at=(38,2) count_before=0
+OUTCOME searches=1 repeat_searches=0 moves=3 first_pick_x=-1 first_pick_y=-1 first_pick_count=-1 end_x=38 end_y=2
+Passed
+native-c/spasticscore-147-stacked finished: 1/1 passed
