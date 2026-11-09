@@ -104,13 +104,16 @@ ADVICE:
 * CLW is the early-game heal and cure for blindness. Keep 5+ until about DL15, then CSW/CCW.
   CCW is the workhorse from DL10 to DL40: it fixes stun, poison, confusion and blindness in one
   quaff.
-* Mushrooms of Emergency are strong: 200 HP for 60 gold at any depth, the downside is
-  hallucination (cannot read reliably? hallucination garbles monster display; it does not stop
-  reading) and it only gives temp rFire/rCold. Carry a few deep as a second-tier heal.
+* Mushrooms of Emergency are strong: 200 HP at any depth. The downside is hallucination, which
+  garbles the monster display and cuts device skill by 20% but does **not** stop reading
+  (`src/player-util.c:player_can_read()` blocks only blindness, no light, confusion and amnesia).
+  Carry a few deep as a second-tier heal.
 * Healing potions should be bought from the BM whenever affordable after DL30.
-* A Rod of Curing is a permanent cure for confusion/blindness/stun/poison; it cannot be used while
-  blind? Rods need no reading, so they can be zapped blind or confused (only scrolls need sight;
-  confusion randomises *aimed* directions only).
+* A Rod of Curing is a permanent cure for confusion/blindness/stun/poison. Scrolls cannot be read
+  while blind, in the dark, confused or amnesiac (`player_can_read()`), but potions, staves, rods
+  and wands have no such check: they work while blind or confused (confusion only randomises the
+  direction of *aimed* effects, `player_confuse_dir()` in `use_aux()`). So the cure for "blind and
+  confused" is a potion or a rod/staff, never a scroll.
 
 ---
 
@@ -351,12 +354,15 @@ that; it also raises the stat's maximum. There is no cap below 18/100 per potion
 
 Restore Life Levels is in the Alchemist's possible stock (`lib/gamedata/store.txt`).
 
+FACT on the Brawn family (`effect_handler_LOSE_RANDOM_STAT()` -> `src/player.c:player_stat_dec()`
+with `permanent = true`): the lost stat is chosen at random among the other four, the loss lowers
+both current and **maximum** (10 points above 18/10, to 18 from 18/01-18/10, else 1 point), and
+**sustains do not protect against it** (neither function checks sustain flags). A later Potion of
+that stat or Augmentation restores and regains it.
+
 ADVICE: drink stat potions immediately (they cannot be stolen or destroyed afterwards). Brawn-type
-potions are a gamble: gain your important stat, lose a random other; good for a Warrior drinking
-Brawn (losing INT/WIS is harmless), bad for a caster drinking Toughness. Check sustains first: a
-sustained stat cannot be lost by the random drain (`player_stat_dec()` respects sustains? the
-LOSE_RANDOM_STAT call uses `permanent=true`; see [Chapter 5](05-elements-and-status.md) for drain
-rules).
+potions are a gamble: gain your important stat, lose a random other permanently; good for a
+Warrior drinking Brawn (losing INT/WIS is cheap), bad for a caster drinking Toughness.
 
 ---
 
@@ -404,7 +410,7 @@ Armour on light armour pieces; ammunition takes enchantments easily as a whole s
 | Flask of oil | lantern fuel (+7500 turns, cap 15000) or thrown weapon | 1 | 1-100 | 3 | Gen-A |
 | Wooden Torch | light radius 2, 5000 turns | 1 | 1-100 | 2 | Gen-A |
 | Wand of Stone to Mud | dig a wall instantly | 10 | 10-100 | 300 | Magic |
-| Ring of Digging (activation) | stone to mud | | | | Magic? no: dungeon |
+| Ring of Digging (activation) | stone to mud, every 15+2d10 turns | 0 | 10-50 | 800 | - |
 
 ---
 
@@ -473,8 +479,9 @@ FACT (`lib/gamedata/object.txt`, cost 0 kinds):
 * Wands: Clone Monster, Heal Monster, Haste Monster.
 * Staves: Summoning, Haste Monsters, Darkness.
 
-They can be thrown: bad potions have `attack:3d4` and are destroyed on throwing; whether the
-potion's effect applies to the target is decided by the throw code (not verified here).
+Several bad potions have `attack:3d4` and break 100% when thrown (base `potion`, break 100), so
+they can be thrown for a little damage. Whether the potion's own effect is applied to a monster on
+impact was not verified in this version; assume it is not.
 
 ---
 
@@ -494,7 +501,8 @@ fail  = 380 - 370 * x / (5 + |x|)          (out of 1000, integer arithmetic)
 The use succeeds unless `randint1(1000) < fail` (`src/cmd-obj.c:check_devices()`). A failed use
 costs a turn. **Since 4.2.6 a failed use is automatically retried until it succeeds or you are
 disturbed** (changes.txt; `use_aux()` returns "repeat" when the check failed but the rate is under
-100%). Staves with no charges fail immediately without a turn retry.
+100%). A wand or staff with no charges just reports "no charges left" (the command still
+takes a turn) and is not retried.
 
 | skill - level | -30 | -20 | -10 | -5 | -3 | -1 | 0 | +1 | +3 | +5 | +10 | +15 | +20 | +30 | +40 | +60 |
 |---------------|-----|-----|-----|----|----|----|---|----|----|----|-----|-----|-----|-----|-----|-----|
@@ -709,9 +717,9 @@ ADVICE:
 
 * Get rFire early: it is the element that destroys scrolls *and* books *and* staves. rCold
   protects potions. rElec protects rings/wands/rods. rAcid protects scrolls/staves and armour.
-* Carry duplicates of critical scrolls in two "types"? Not possible, but you can carry
-  Phase Door and a Staff of Teleportation (staff hates acid/fire like scrolls, but a rod/ring
-  route via the Rod of Recall or an escape activation is element-proof).
+* Spread critical functions across element classes: e.g. teleport via scrolls (acid/fire) *and*
+  a potion-free backup such as an artifact activation (never destroyed while worn); recall via
+  scroll *and* Rod of Recall (ignores elec). Staves share the acid/fire weakness of scrolls.
 * Before fighting a fire breather without rFire, drop spare books and scrolls in a safe spot or
   leave them at home.
 

@@ -398,8 +398,10 @@ ADVICE:
 ### Regeneration
 
 FACT (`src/mon-move.c:regen_monster()`): every 100 game turns (10 player turns at normal
-speed) a hurt monster regains `max(1, maxHP/100)` HP, ×2 with `REGENERATE` (trolls `l`
-trees, vampires `V`, skeleton trolls/ettens, several uniques, Sauron and Morgoth). Spells
+speed) a hurt monster regains `max(1, maxHP/100)` HP, ×2 with `REGENERATE` (trees and huorns,
+vampires and vampire bats, skeleton trolls/ettens, the spirit troll, Rogrog, the
+9-headed hydra, gelugons, horned reapers, pit fiends, Old Man Willow, Thuringwethil,
+Sauron and Morgoth). Spells
 (HEAL `6 × power`, DRAIN_MANA) heal much faster. Morgoth regenerates 400 HP per 10 normal
 turns, Sauron 160.
 
@@ -495,7 +497,12 @@ a monster within max sight (20) is visible if any of these hold:
 2. **Infravision**: in line of sight, not blind, within your infravision range, and the
    monster is **not** `COLD_BLOOD`. This check comes **before** invisibility, so a
    warm-blooded invisible monster inside your infravision range is seen. Ghosts,
-   undead, golems and most invisible things are cold-blooded.
+   undead, golems, air spirits, imps and lurkers are cold-blooded, but many invisible
+   monsters are not: **all quylthulgs**, quasits and death quasits, Sméagol, Draebor,
+   clear hounds/worms/centipedes/icky things, displacer beasts, spirit nagas, mystics,
+   shadow/ethereal drakes, death drakes, ethereal dragons, will o' the wisps, osyluths,
+   hounds of Tindalos, Tevildo, Pazuzu, the Mouth of Sauron (`monster.txt`). A few grids
+   of infravision is a partial See Invisible against these.
 3. **Light**: in line of sight on a lit grid, and either not `INVISIBLE` or you have
    **See Invisible**.
 4. **Detected** this turn (detection spells mark monsters until your next move).
@@ -543,9 +550,9 @@ ADVICE built on FACT from `monster_spell.txt` and the effect handlers.
 | **BLIND** | 11–15 turns blind (save) | rBlind; carry CLW/CSW (cure blindness); you cannot read scrolls while blind |
 | **CONF** | 3–7 turns confused (save) | pConf (rConf); CLW/CSW cure; confused you cannot read scrolls |
 | **SCARE** | 3–7 turns afraid (save) | pFear, Heroism, Berserk; afraid you cannot melee |
-| **SLOW** | −10 speed, 3–7 turns (save) | Free Action blocks it ([Chapter 5](05-elements-and-status.md)); Haste offsets |
+| **SLOW** | −10 speed, 3–7 turns (save) | **Free Action blocks it** (`player_timed.txt` SLOW `fail:FREE_ACT`); Haste offsets |
 | **HOLD** | 3–7 turns paralysed (save) | **Free Action**; essential by DL20 |
-| **FORGET** | Amnesia (save): spell/device failure up | High saving throw; carry escapes that are not scrolls/spells? (amnesia affects device skill and spell failure; see [Chapter 5](05-elements-and-status.md)) |
+| **FORGET** | Amnesia (save): **you cannot read scrolls** (`src/player-util.c:player_can_read()`), spell failure becomes `50% + half the normal`, device skill −20% | High saving throw; keep a non-scroll escape (staff/rod of teleport, potions) for when amnesiac |
 | **MIND_BLAST / BRAIN_SMASH** | 36 / 96 damage plus confusion (and slow, paralysis, blindness for Brain Smash) (save) | Saving throw, pConf, FA, rBlind |
 | **DRAIN_MANA** | Drains SP and heals the monster 6× the amount | Casters: kill fast or leave; non-casters immune ("the draining fails") |
 | **WOUND** | Up to ~200 damage late game, plus cuts (save) | High saving throw; often the biggest non-breath spell of mid/late casters |
@@ -602,8 +609,8 @@ animal applies.
 
 ### `c` Centipedes (L1–25)
 
-Weird minds, early fodder. **Carrion crawler** (L25, two PARALYZE stings 2d6): one of the
-classic killers without Free Action.
+Weird minds, early fodder. **Carrion crawler** (L25, two PARALYZE stings 2d6, groups of
+2d4): one of the classic killers without Free Action.
 
 ### `C` Dogs (L0–99)
 
@@ -658,8 +665,9 @@ beholder hive-mother (L67), **Omarax** (L73). `HURT_LIGHT` (most): light attacks
 invisible, erratic), earth spirits (pass walls), fire spirits; elementals (L33–37) bolt
 their element and destroy items (`KILL_ITEM`); invisible stalkers (L35, +20, invisible,
 erratic); will o' the wisps (L38, +20, invisible, pass walls, teleport); magma and ice
-elementals. Uniques: **Vargo, Waldern, Quaker, Ariel** (L43). Great elementals (L60–65)
-appear only when summoned? (`rarity:0`, generated only by other means). ADVICE: carry
+elementals. Uniques: **Vargo, Waldern, Quaker, Ariel** (L43). Great earth and water elementals
+(L60–65) have rarity 0: they are never generated normally, only as shapechange forms
+(`shape:` lines in `monster.txt`, e.g. for Quaker and the Maiar). ADVICE: carry
 See Invisible by DL30; elementals' bolts are their main danger.
 
 ### `f` Cats (L0–66)
@@ -892,8 +900,9 @@ Harmless or thieves (urchins and squint-eyed rogues steal). Kill or avoid; no da
 
 ### `T` Trolls (L17–42)
 
-`TROLL`, `EVIL`, most `HURT_LIGHT`, many regenerate (base gives none, but trolls in
-`monster.txt` vary), strong melee, groups. Forest trolls (L17), stone trolls (L25), snow
+`TROLL`, `EVIL`, most `HURT_LIGHT`, strong melee, groups. Ordinary trolls do **not**
+regenerate in this version (only Rogrog, the spirit troll `G` and skeleton trolls have
+`REGENERATE`). Forest trolls (L17), stone trolls (L25), snow
 trolls, cave trolls (L33), troll priests (blink, wound, darkness), olog (L36, smart, no
 light weakness), mountain trolls, ettens (L38, 1320 HP), troll chieftains (L40, +10).
 Uniques: **Bert, Bill and Tom** (L30), **Rogrog** (L42). ADVICE: slay troll, light area
@@ -926,8 +935,8 @@ they hurt. Nexus (L37, stat swap/teleport), plasma, shardstorm, **time vortices*
 +20, EXP_20 engulf and time breath 58: stat/exp drain), shimmering vortices (L38, +30,
 blinding light breath, shriek), chaos vortices (L53), aether vortices (L60, +20, all 18
 breaths), **Wiruin** (L80), storm of Unmagic (L95, +30: exp drain, drain charges,
-disenchant, all-stat drain, chaos/disen/time breath). ADVICE: kill at range; they
-cannot open doors? They can bash (`BASH_DOOR` in base).
+disenchant, all-stat drain, chaos/disen/time breath). ADVICE: kill at range. They
+cannot open doors but can bash them (`BASH_DOOR` in the base).
 
 ### `V` Vampires (L27–99)
 
@@ -975,8 +984,8 @@ Cold-immune melee animals: yeti (L9), sasquatch (L20, +10).
 
 `UNDEAD`, slow-witted (`EMPTY_MIND` for the mindless ones), `HURT_FIRE`. Zombified
 kobolds/orcs/humans, mummified orcs/humans/trolls are fodder. **Ghouls** (L26: 2×
-paralyzing claws, HOLD spell, appear in groups via `friends`? check recall) and **ghasts**
-(L30, +10, paralyzing claws, CON drain) are FA tests. Mummified chieftain (L38: many
+paralyzing claws, HOLD spell, packs of 4d4) and **ghasts** (L30, +10, paralyzing claws,
+CON drain, escorted by 4d4 ghouls and assorted zombies) are FA tests. Mummified chieftain (L38: many
 spells, summon undead).
 
 ### `Z` Zephyr hounds (L15–74)
@@ -1054,8 +1063,8 @@ earlier.
 | Mirkwood spiders | 20 | +10 packs, poison | rPois, area attacks |
 | Phase spiders | 23 | Blink/TELE_TO you into the pack | Kill at range; don't fight in the open |
 | Sangahyando + Angamaitë | 24 | Pair, 800 HP each, ~56/turn each, confuse/slow | rConf, FA, fight one at a time |
-| Carrion crawlers | 25 | 2 paralyzing stings | **FA** |
-| Ghouls, ghasts | 26/30 | Paralyzing claws + HOLD | FA |
+| Carrion crawlers | 25 | 2 paralyzing stings each, groups of 2d4 | **FA** |
+| Ghouls, ghasts | 26/30 | Paralyzing claws + HOLD, packs of 4d4 | FA |
 | Nexus hounds | 27 | Teleport, stat swap | rNexus |
 | Gorgimaera, basilisk | 27/28 | Paralyzing gaze; basilisk +10 and poison breath 103 | FA, rPois |
 | Mind flayer | 28 | Brain smash 96, hold, forget | FA, saving throw |
@@ -1071,7 +1080,7 @@ earlier.
 | Lich | 34 | Brain smash, drain mana, hold, tele_to/away | FA, rBlind, rConf, saving throw |
 | Lokkak and ogres | 35 | +10, 1500 HP, ~63/turn, ogre mages | Corridor, slay giant |
 | Gravity hounds | 35 | Gravity breath 64 each + blink + slow + stun, packs | Kill fast at range, or leave |
-| Inertia, impact hounds | 35 | −10 speed, stun | FA (vs slow?) no: inertia is not blocked by FA; leave |
+| Inertia, impact hounds | 35 | Inertia breath slows (−10), force breath stuns | FA blocks the slow (inertia applies TMD_SLOW, which FREE_ACT prevents); pStun vs impact |
 | Lorgan | 36 | +10, 1800 HP, TELE_TO, summons | Strong melee or skip |
 | Time vortex | 38 | +20, time breath (stat/exp drain) | Kill at range |
 | Dunadan of Angmar, demonologists, death knights | 36–38 | Nether bolts ~100, summons, hold | FA, rNether later |
@@ -1429,11 +1438,11 @@ ADVICE:
 ## Things to try (untested)
 
 1. **Infravision vs warm-blooded invisibles.** Since infravision is checked before
-   invisibility, a High-Elf or race with high infravision (or Potion of Infravision)
-   should see warm-blooded invisible monsters (e.g. imps are cold-blooded, but quasits?)
+   invisibility ([8.11](#811-seeing-monsters-invisibility-esp-infravision-detection-light)),
+   a race with high infravision (or extra infravision from items) should see quylthulgs,
+   quasits, Draebor and the other warm-blooded invisible monsters inside that range
    without See Invisible. *Test:* in wizard mode, spawn each `INVISIBLE` race lacking
-   `COLD_BLOOD` (displacer beast, mystics, Draebor, Mouth of Sauron…) and check visibility
-   within infravision range.
+   `COLD_BLOOD` and check visibility at distances inside and outside infravision range.
 2. **Starve summoners of floor.** Since summons need empty floor within 2 grids of the
    summoner, fight summoners in 1-wide corridors with you adjacent. *Test:* count summon
    attempts that produce "nothing comes" versus summons in rooms.
