@@ -1283,18 +1283,13 @@ static void borg_best_stuff_aux(
                     && borg_wield_slot(item) == INVEN_LEFT)))
             continue;
 
-        /* don't test the same item in both ring slots */
+        /* don't test the same item in both ring slots; the left ring is
+         * chosen first, so only the right ring needs the check */
         if (slot == INVEN_RIGHT) {
             if (i < z_info->pack_size) {
                 if (test[n - 1] == i)
                     continue;
             } else if (test[n - 1] == ((i - z_info->pack_size) + 100))
-                continue;
-        } else if (slot == INVEN_LEFT) {
-            if (i < z_info->pack_size) {
-                if (test[n + 1] == i)
-                    continue;
-            } else if (test[n + 1] == ((i - z_info->pack_size) + 100))
                 continue;
         }
 
