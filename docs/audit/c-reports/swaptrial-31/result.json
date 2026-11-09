@@ -1,0 +1,166 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "571380b3d4724a37a639dc96f2a9a16782f33d94",
+  "fixtures_ref": "7c9b0a909c68eabff5fe522d20c69cbbd85ee135",
+  "cases": {
+    "before": {
+      "swap-held": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "weapon_swap_slot": 5,
+          "weapon_swap_model_qty": 0,
+          "weapon_swap_game_qty": 1,
+          "weapon_swap_matches_game": 0,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 0,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 0,
+          "first_free_slot": 6,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 0,
+          "evenstar_retrieved": 2,
+          "evenstar_stored": 1,
+          "elvagil_retrieved": 0
+        }
+      },
+      "no-weapon-swap": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "weapon_swap_held": 0,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 5,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 1
+        }
+      },
+      "no-candidate": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "weapon_swap_slot": 5,
+          "weapon_swap_model_qty": 1,
+          "weapon_swap_game_qty": 1,
+          "weapon_swap_matches_game": 1,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 6,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 0
+        }
+      }
+    },
+    "after": {
+      "swap-held": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "weapon_swap_slot": 5,
+          "weapon_swap_model_qty": 1,
+          "weapon_swap_game_qty": 1,
+          "weapon_swap_matches_game": 1,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 6,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 0
+        }
+      },
+      "no-weapon-swap": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "weapon_swap_held": 0,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 5,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 1
+        }
+      },
+      "no-candidate": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "weapon_swap_slot": 5,
+          "weapon_swap_model_qty": 1,
+          "weapon_swap_game_qty": 1,
+          "weapon_swap_matches_game": 1,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 6,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "no-weapon-swap",
+    "no-candidate"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "65dd5aceadda7d4357295c823a5c2affdce0fb9658399b3fca6af8df61bd382b"
+  }
+}

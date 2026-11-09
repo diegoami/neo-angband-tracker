@@ -1,0 +1,36 @@
+native-c/swaptrial-31: starting...
+SETUP seed=31 mode=no-weapon-swap class=Warrior clevel=50 max_depth=60 gold=5000 free_from=5
+  home_swap_trials  
+PACK start 0 qty=5 desc=[Rations of Food]
+PACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK start 2 qty=5 desc=[Scrolls of Teleportation]
+PACK start 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK start 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]
+HOME start 0 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]
+TRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+DECISION ware=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]
+TRACK after_trials weapon_swap_resist_neth=0
+STATE weapon_swap_held=0
+STATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_game_qty=1 game=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_matches_game=1
+STATE first_free_slot=5 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1
+KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION round=1 retrieve ware=a qty=1 from=[the Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]
+MSG You have the Long Sword 'Elvagil' (2d5) (+12,+12) <+2> (f).
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]
+PACK after 5 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]
+KEYS round=2 store=7 n=4 57344 57344 57344 57344
+ACTION round=2 leave
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]
+PACK after 5 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]
+OUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=1
+Passed
+native-c/swaptrial-31 finished: 1/1 passed

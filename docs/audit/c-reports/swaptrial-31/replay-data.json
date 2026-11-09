@@ -1,0 +1,205 @@
+{
+  "swap-held": {
+    "label": "Backups carried, 'Evenstar' and 'Elvagil' at home",
+    "explanation": "Original: step 7A tries 'Elvagil' in the quarterstaff's slot and leaves that slot empty; step 7B tries 'Evenstar' in the helm's slot with no backup weapon in the record, so it gets the bonus for a high resist no backup covers and is chosen. After the decision the record shows both backup slots empty while the game's pack still holds both. The real commands then retrieve 'Evenstar' (round 1), stash it (round 2) and retrieve it again (round 3) before the Borg leaves carrying it. Corrected: both slots are restored after each trial, 'Evenstar' is valued with the quarterstaff present, no step chooses anything and the Borg leaves in round 1.",
+    "control": false,
+    "before": {
+      "raw": "native-c/swaptrial-31: starting...\nSETUP seed=31 mode=swap-held class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6\n  home_swap_trials  \nPACK start 0 qty=5 desc=[Rations of Food]\nPACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK start 2 qty=5 desc=[Scrolls of Teleportation]\nPACK start 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK start 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK start 5 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nHOME start 0 qty=1 desc=[Jewel 'Evenstar' <+2>]\nHOME start 1 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nTRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719\nDECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1\nDECISION ware=[Jewel 'Evenstar' <+2>]\nTRACK after_trials weapon_swap_resist_neth=0\nSTATE weapon_swap_slot=5 weapon_swap_model_qty=0 model=[] weapon_swap_game_qty=1 game=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>] weapon_swap_matches_game=0\nSTATE armour_swap_slot=4 armour_swap_model_qty=0 model=[] armour_swap_game_qty=1 game=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_matches_game=0\nSTATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1\nKEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344\nACTION round=1 retrieve ware=a qty=1 from=[the Jewel 'Evenstar' <+2>]\nMSG You have the Jewel 'Evenstar' <+2> (e).\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Jewel 'Evenstar' <+2>]\nPACK after 5 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 6 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nHOME after 0 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nKEYS round=2 store=7 n=5 115 101 57344 57344 57344\nACTION round=2 stash letter=e qty=1 from=[the Jewel 'Evenstar' <+2>]\nMSG You drop the Jewel 'Evenstar' <+2> (e).\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 5 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nHOME after 0 qty=1 desc=[Jewel 'Evenstar' <+2>]\nHOME after 1 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nKEYS round=3 store=7 n=7 97 112 156 156 57344 57344 57344\nACTION round=3 retrieve ware=a qty=1 from=[the Jewel 'Evenstar' <+2>]\nMSG You have the Jewel 'Evenstar' <+2> (e).\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Jewel 'Evenstar' <+2>]\nPACK after 5 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 6 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nHOME after 0 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nKEYS round=4 store=7 n=4 57344 57344 57344 57344\nACTION round=4 leave\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Jewel 'Evenstar' <+2>]\nPACK after 5 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 6 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nHOME after 0 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nOUTCOME model_matches_game=0 evenstar_retrieved=2 evenstar_stored=1 elvagil_retrieved=0\nFailed\n    native-c/swaptrial-31:405: requirement 'ok_w && ok_a && ok_f' failed\nnative-c/swaptrial-31 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "weapon_swap_slot": 5,
+        "weapon_swap_model_qty": 0,
+        "weapon_swap_game_qty": 1,
+        "weapon_swap_matches_game": 0,
+        "armour_swap_slot": 4,
+        "armour_swap_model_qty": 0,
+        "armour_swap_game_qty": 1,
+        "armour_swap_matches_game": 0,
+        "first_free_slot": 6,
+        "first_free_model_qty": 0,
+        "first_free_game_qty": 0,
+        "first_free_matches_game": 1
+      },
+      "outcome": {
+        "model_matches_game": 0,
+        "evenstar_retrieved": 2,
+        "evenstar_stored": 1,
+        "elvagil_retrieved": 0
+      },
+      "notes": [
+        "TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719",
+        "DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1",
+        "DECISION ware=[Jewel 'Evenstar' <+2>]",
+        "TRACK after_trials weapon_swap_resist_neth=0",
+        "KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344",
+        "KEYS round=2 store=7 n=5 115 101 57344 57344 57344",
+        "KEYS round=3 store=7 n=7 97 112 156 156 57344 57344 57344",
+        "KEYS round=4 store=7 n=4 57344 57344 57344 57344"
+      ],
+      "value": 2
+    },
+    "after": {
+      "raw": "native-c/swaptrial-31: starting...\nSETUP seed=31 mode=swap-held class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6\n  home_swap_trials  \nPACK start 0 qty=5 desc=[Rations of Food]\nPACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK start 2 qty=5 desc=[Scrolls of Teleportation]\nPACK start 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK start 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK start 5 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nHOME start 0 qty=1 desc=[Jewel 'Evenstar' <+2>]\nHOME start 1 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nTRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719\nDECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1\nTRACK after_trials weapon_swap_resist_neth=1\nSTATE weapon_swap_slot=5 weapon_swap_model_qty=1 model=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>] weapon_swap_game_qty=1 game=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>] weapon_swap_matches_game=1\nSTATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_game_qty=1 game=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_matches_game=1\nSTATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1\nKEYS round=1 store=7 n=4 57344 57344 57344 57344\nACTION round=1 leave\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 5 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nHOME after 0 qty=1 desc=[Jewel 'Evenstar' <+2>]\nHOME after 1 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nOUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=0\nPassed\nnative-c/swaptrial-31 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "weapon_swap_slot": 5,
+        "weapon_swap_model_qty": 1,
+        "weapon_swap_game_qty": 1,
+        "weapon_swap_matches_game": 1,
+        "armour_swap_slot": 4,
+        "armour_swap_model_qty": 1,
+        "armour_swap_game_qty": 1,
+        "armour_swap_matches_game": 1,
+        "first_free_slot": 6,
+        "first_free_model_qty": 0,
+        "first_free_game_qty": 0,
+        "first_free_matches_game": 1
+      },
+      "outcome": {
+        "model_matches_game": 1,
+        "evenstar_retrieved": 0,
+        "evenstar_stored": 0,
+        "elvagil_retrieved": 0
+      },
+      "notes": [
+        "TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719",
+        "DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1",
+        "TRACK after_trials weapon_swap_resist_neth=1",
+        "KEYS round=1 store=7 n=4 57344 57344 57344 57344"
+      ],
+      "value": 0
+    }
+  },
+  "no-weapon-swap": {
+    "label": "Control: no backup weapon, 'Elvagil' at home",
+    "explanation": "With no backup weapon, step 7A tries 'Elvagil' in the first empty pack slot (the changed restore line runs on an empty slot) and chooses it as the first backup weapon in both versions; the real retrieve takes it and the Borg leaves in round 2. The logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/swaptrial-31: starting...\nSETUP seed=31 mode=no-weapon-swap class=Warrior clevel=50 max_depth=60 gold=5000 free_from=5\n  home_swap_trials  \nPACK start 0 qty=5 desc=[Rations of Food]\nPACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK start 2 qty=5 desc=[Scrolls of Teleportation]\nPACK start 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK start 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nHOME start 0 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nTRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719\nDECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1\nDECISION ware=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nTRACK after_trials weapon_swap_resist_neth=0\nSTATE weapon_swap_held=0\nSTATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_game_qty=1 game=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_matches_game=1\nSTATE first_free_slot=5 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1\nKEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344\nACTION round=1 retrieve ware=a qty=1 from=[the Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nMSG You have the Long Sword 'Elvagil' (2d5) (+12,+12) <+2> (f).\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 5 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nKEYS round=2 store=7 n=4 57344 57344 57344 57344\nACTION round=2 leave\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 5 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nOUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=1\nPassed\nnative-c/swaptrial-31 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "weapon_swap_held": 0,
+        "armour_swap_slot": 4,
+        "armour_swap_model_qty": 1,
+        "armour_swap_game_qty": 1,
+        "armour_swap_matches_game": 1,
+        "first_free_slot": 5,
+        "first_free_model_qty": 0,
+        "first_free_game_qty": 0,
+        "first_free_matches_game": 1
+      },
+      "outcome": {
+        "model_matches_game": 1,
+        "evenstar_retrieved": 0,
+        "evenstar_stored": 0,
+        "elvagil_retrieved": 1
+      },
+      "notes": [
+        "TRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719",
+        "DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1",
+        "DECISION ware=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]",
+        "TRACK after_trials weapon_swap_resist_neth=0",
+        "KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344",
+        "KEYS round=2 store=7 n=4 57344 57344 57344 57344"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/swaptrial-31: starting...\nSETUP seed=31 mode=no-weapon-swap class=Warrior clevel=50 max_depth=60 gold=5000 free_from=5\n  home_swap_trials  \nPACK start 0 qty=5 desc=[Rations of Food]\nPACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK start 2 qty=5 desc=[Scrolls of Teleportation]\nPACK start 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK start 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nHOME start 0 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nTRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719\nDECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1\nDECISION ware=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nTRACK after_trials weapon_swap_resist_neth=0\nSTATE weapon_swap_held=0\nSTATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_game_qty=1 game=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_matches_game=1\nSTATE first_free_slot=5 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1\nKEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344\nACTION round=1 retrieve ware=a qty=1 from=[the Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nMSG You have the Long Sword 'Elvagil' (2d5) (+12,+12) <+2> (f).\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 5 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nKEYS round=2 store=7 n=4 57344 57344 57344 57344\nACTION round=2 leave\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 5 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]\nOUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=1\nPassed\nnative-c/swaptrial-31 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "weapon_swap_held": 0,
+        "armour_swap_slot": 4,
+        "armour_swap_model_qty": 1,
+        "armour_swap_game_qty": 1,
+        "armour_swap_matches_game": 1,
+        "first_free_slot": 5,
+        "first_free_model_qty": 0,
+        "first_free_game_qty": 0,
+        "first_free_matches_game": 1
+      },
+      "outcome": {
+        "model_matches_game": 1,
+        "evenstar_retrieved": 0,
+        "evenstar_stored": 0,
+        "elvagil_retrieved": 1
+      },
+      "notes": [
+        "TRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719",
+        "DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1",
+        "DECISION ware=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]",
+        "TRACK after_trials weapon_swap_resist_neth=0",
+        "KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344",
+        "KEYS round=2 store=7 n=4 57344 57344 57344 57344"
+      ],
+      "value": 0
+    }
+  },
+  "no-candidate": {
+    "label": "Control: backups carried, home empty",
+    "explanation": "Nothing in the home, so neither trial loop copies anything into the pack record; both versions keep both backups in the record and leave in round 1. The logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/swaptrial-31: starting...\nSETUP seed=31 mode=no-candidate class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6\n  home_swap_trials  \nPACK start 0 qty=5 desc=[Rations of Food]\nPACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK start 2 qty=5 desc=[Scrolls of Teleportation]\nPACK start 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK start 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK start 5 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nTRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719\nDECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1\nTRACK after_trials weapon_swap_resist_neth=1\nSTATE weapon_swap_slot=5 weapon_swap_model_qty=1 model=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>] weapon_swap_game_qty=1 game=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>] weapon_swap_matches_game=1\nSTATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_game_qty=1 game=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_matches_game=1\nSTATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1\nKEYS round=1 store=7 n=4 57344 57344 57344 57344\nACTION round=1 leave\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 5 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nOUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=0\nPassed\nnative-c/swaptrial-31 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "weapon_swap_slot": 5,
+        "weapon_swap_model_qty": 1,
+        "weapon_swap_game_qty": 1,
+        "weapon_swap_matches_game": 1,
+        "armour_swap_slot": 4,
+        "armour_swap_model_qty": 1,
+        "armour_swap_game_qty": 1,
+        "armour_swap_matches_game": 1,
+        "first_free_slot": 6,
+        "first_free_model_qty": 0,
+        "first_free_game_qty": 0,
+        "first_free_matches_game": 1
+      },
+      "outcome": {
+        "model_matches_game": 1,
+        "evenstar_retrieved": 0,
+        "evenstar_stored": 0,
+        "elvagil_retrieved": 0
+      },
+      "notes": [
+        "TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719",
+        "DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1",
+        "TRACK after_trials weapon_swap_resist_neth=1",
+        "KEYS round=1 store=7 n=4 57344 57344 57344 57344"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/swaptrial-31: starting...\nSETUP seed=31 mode=no-candidate class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6\n  home_swap_trials  \nPACK start 0 qty=5 desc=[Rations of Food]\nPACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK start 2 qty=5 desc=[Scrolls of Teleportation]\nPACK start 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK start 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK start 5 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nTRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719\nDECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1\nTRACK after_trials weapon_swap_resist_neth=1\nSTATE weapon_swap_slot=5 weapon_swap_model_qty=1 model=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>] weapon_swap_game_qty=1 game=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>] weapon_swap_matches_game=1\nSTATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_game_qty=1 game=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_matches_game=1\nSTATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1\nKEYS round=1 store=7 n=4 57344 57344 57344 57344\nACTION round=1 leave\nPACK after 0 qty=5 desc=[Rations of Food]\nPACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]\nPACK after 2 qty=5 desc=[Scrolls of Teleportation]\nPACK after 3 qty=2 desc=[Scrolls of Word of Recall]\nPACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]\nPACK after 5 qty=1 desc=[Quarterstaff of Ol\u00f3rin (2d9) (+10,+13) <+4>]\nOUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=0\nPassed\nnative-c/swaptrial-31 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "weapon_swap_slot": 5,
+        "weapon_swap_model_qty": 1,
+        "weapon_swap_game_qty": 1,
+        "weapon_swap_matches_game": 1,
+        "armour_swap_slot": 4,
+        "armour_swap_model_qty": 1,
+        "armour_swap_game_qty": 1,
+        "armour_swap_matches_game": 1,
+        "first_free_slot": 6,
+        "first_free_model_qty": 0,
+        "first_free_game_qty": 0,
+        "first_free_matches_game": 1
+      },
+      "outcome": {
+        "model_matches_game": 1,
+        "evenstar_retrieved": 0,
+        "evenstar_stored": 0,
+        "elvagil_retrieved": 0
+      },
+      "notes": [
+        "TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719",
+        "DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1",
+        "TRACK after_trials weapon_swap_resist_neth=1",
+        "KEYS round=1 store=7 n=4 57344 57344 57344 57344"
+      ],
+      "value": 0
+    }
+  }
+}

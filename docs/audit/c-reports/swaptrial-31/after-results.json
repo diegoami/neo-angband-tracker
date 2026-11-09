@@ -1,0 +1,71 @@
+{
+  "swap-held": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "weapon_swap_slot": 5,
+      "weapon_swap_model_qty": 1,
+      "weapon_swap_game_qty": 1,
+      "weapon_swap_matches_game": 1,
+      "armour_swap_slot": 4,
+      "armour_swap_model_qty": 1,
+      "armour_swap_game_qty": 1,
+      "armour_swap_matches_game": 1,
+      "first_free_slot": 6,
+      "first_free_model_qty": 0,
+      "first_free_game_qty": 0,
+      "first_free_matches_game": 1
+    },
+    "outcome": {
+      "model_matches_game": 1,
+      "evenstar_retrieved": 0,
+      "evenstar_stored": 0,
+      "elvagil_retrieved": 0
+    }
+  },
+  "no-weapon-swap": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "weapon_swap_held": 0,
+      "armour_swap_slot": 4,
+      "armour_swap_model_qty": 1,
+      "armour_swap_game_qty": 1,
+      "armour_swap_matches_game": 1,
+      "first_free_slot": 5,
+      "first_free_model_qty": 0,
+      "first_free_game_qty": 0,
+      "first_free_matches_game": 1
+    },
+    "outcome": {
+      "model_matches_game": 1,
+      "evenstar_retrieved": 0,
+      "evenstar_stored": 0,
+      "elvagil_retrieved": 1
+    }
+  },
+  "no-candidate": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "weapon_swap_slot": 5,
+      "weapon_swap_model_qty": 1,
+      "weapon_swap_game_qty": 1,
+      "weapon_swap_matches_game": 1,
+      "armour_swap_slot": 4,
+      "armour_swap_model_qty": 1,
+      "armour_swap_game_qty": 1,
+      "armour_swap_matches_game": 1,
+      "first_free_slot": 6,
+      "first_free_model_qty": 0,
+      "first_free_game_qty": 0,
+      "first_free_matches_game": 1
+    },
+    "outcome": {
+      "model_matches_game": 1,
+      "evenstar_retrieved": 0,
+      "evenstar_stored": 0,
+      "elvagil_retrieved": 0
+    }
+  }
+}
