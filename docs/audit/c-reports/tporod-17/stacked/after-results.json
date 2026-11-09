@@ -1,0 +1,46 @@
+{
+  "warrior-buy": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "atportother": 0
+    },
+    "outcome": {
+      "saves_for_rod": 1,
+      "buys_rod": 1
+    }
+  },
+  "warrior": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "atportother": 0
+    },
+    "outcome": {
+      "saves_for_rod": 1,
+      "buys_rod": 0
+    }
+  },
+  "rogue": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "atportother": 1000
+    },
+    "outcome": {
+      "saves_for_rod": 0,
+      "buys_rod": 0
+    }
+  },
+  "mage": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "atportother": 1000
+    },
+    "outcome": {
+      "saves_for_rod": 0,
+      "buys_rod": 0
+    }
+  }
+}
