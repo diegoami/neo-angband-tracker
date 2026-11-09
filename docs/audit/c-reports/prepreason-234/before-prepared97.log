@@ -1,0 +1,10 @@
+native-c/prepreason-234: starting...
+SETUP seed=234 mode=prepared97 class=Warrior clevel=50 depth=97 max_depth=99 no_deeper=100
+  collect_from_house_decision  TRAITS hp=872 speed=135 str=148 dex=188 con=138 light=3 food=8 recall=4 tele=9 fract=1 esp=1 rfire=1 rcold=1 racid=1 relec=1 rpois=1 rconf=1 rblind=1 rkaos=1 rdis=1 ezheal=30 heal=5 aspeed=15 bigfight=0
+PREP cur=(prepared) next=(prepared)
+HOME ezheal=20
+TRACK # power dive, head deep.
+DECISION rc=0 rising=0 keys=
+OUTCOME collect=0 recall=0
+Passed
+native-c/prepreason-234 finished: 1/1 passed

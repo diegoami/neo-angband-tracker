@@ -1,0 +1,3 @@
+nodeeper100 {'exit': 0, 'passed': True, 'outcome': {'collect': 1, 'recall': 1}}
+default127 {'exit': 0, 'passed': True, 'outcome': {'collect': 1, 'recall': 1}}
+prepared97 {'exit': 0, 'passed': True, 'outcome': {'collect': 0, 'recall': 0}}
