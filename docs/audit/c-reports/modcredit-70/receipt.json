@@ -1,0 +1,277 @@
+{
+ "issue": "diegoami/neo-angband-tracker#70",
+ "report": "modcredit-70",
+ "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+ "fix": "4b99fb276441337fdf74d042db84fc06783691c6",
+ "fix_branch": "task/modcredit-70",
+ "fixtures_ref": "11b7442e345f3ffad53d539e70a58614337c4961",
+ "cases": {
+  "statring": {
+   "before": {
+    "passed": false,
+    "state": {
+     "value_a": 500,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 1,
+     "sold_b": 0
+    }
+   },
+   "prior": {
+    "passed": true,
+    "state": {
+     "value_a": 900,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   },
+   "after": {
+    "passed": true,
+    "state": {
+     "value_a": 900,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   }
+  },
+  "speed": {
+   "before": {
+    "passed": false,
+    "state": {
+     "value_a": 21500,
+     "value_b": 25000,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 1,
+     "sold_b": 0
+    }
+   },
+   "prior": {
+    "passed": true,
+    "state": {
+     "value_a": 81700,
+     "value_b": 25000,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   },
+   "after": {
+    "passed": true,
+    "state": {
+     "value_a": 81700,
+     "value_b": 25000,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   }
+  },
+  "nomods": {
+   "before": {
+    "passed": true,
+    "state": {
+     "value_a": 1500,
+     "value_b": 750,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   },
+   "prior": {
+    "passed": true,
+    "state": {
+     "value_a": 1500,
+     "value_b": 750,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   },
+   "after": {
+    "passed": true,
+    "state": {
+     "value_a": 1500,
+     "value_b": 750,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   }
+  },
+  "inertia": {
+   "before": {
+    "passed": false,
+    "state": {
+     "value_a": 10,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 0
+    }
+   },
+   "prior": {
+    "passed": true,
+    "state": {
+     "value_a": -59990,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   },
+   "after": {
+    "passed": true,
+    "state": {
+     "value_a": 0,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   }
+  },
+  "thror": {
+   "before": {
+    "passed": true,
+    "state": {
+     "value_a": 14000,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   },
+   "prior": {
+    "passed": true,
+    "state": {
+     "value_a": 105100,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   },
+   "after": {
+    "passed": true,
+    "state": {
+     "value_a": 105100,
+     "value_b": 600,
+     "power_now": 299431
+    },
+    "outcome": {
+     "sold_a": 0,
+     "sold_b": 1
+    }
+   }
+  }
+ },
+ "identical_controls": [
+  "nomods"
+ ],
+ "claim": "With the pval gate removed, the stat credits read from the modifiers and the total floored at 0, borg_object_value_known() credits a Ring of Strength <+2> (500 to 900), the Cloak 'Colannon' (21500 to 81700) and the Boots of Thror (14000 to 105100, stealth -1 subtracting 100), and guesses an Amulet of Inertia <-2> at 0 (10 at the base, -59990 at the earlier fix head without the floor). In native sale scenarios the production borg_think_shop_sell_useless() sells the plain item instead of the bonus item, no longer picks the Amulet of Inertia (which the shop refuses), and the real do_cmd_sell() carries the sale out; a control with two rings without modifiers is byte-identical; both full native gates pass on both builds. Decisions that test !item->value and whole-game effects are not measured.",
+ "full_tests": {
+  "before": {
+   "unit_checks": "965/965",
+   "frontend_tests": "5/5"
+  },
+  "after": {
+   "unit_checks": "965/965",
+   "frontend_tests": "5/5"
+  },
+  "prior": "not run (earlier fix head built only to record values)"
+ },
+ "fixed_sources": [
+  "src/borg/borg-item-analyze.c"
+ ],
+ "fixed_source_sha256": {
+  "src/borg/borg-item-analyze.c": "2c78ec6f32d6aa8fc3a2118432c735ce2d187c4bb0f0a60de26789aec7d51cd7"
+ },
+ "runner_asserts": "The fix file must equal the base file with exactly the expected two hunks (credits and floor) and the earlier fix head with exactly its one hunk; the source scope must be that one file; every case must match its expected before/after pass state; the control log must be byte-identical; no corrected guess may be below zero; the floor may change no guess that was not below zero; Inertia must be negative without the floor and 0 with it; the Thror credit must survive the stealth penalty.",
+ "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+ "cmake": "cmake version 3.28.3",
+ "browser_verification": {
+  "tool": "tools/c-evidence/render-smoke.js (Playwright Chromium headless) on the committed replay.html",
+  "actions": 15,
+  "errors": 0,
+  "node_check": "generated replay script passes node --check"
+ },
+ "run_log": "reproduce.py exit 0 at fixtures 11b7442e3 / fix 4b99fb276 with --full-tests; VERIFIED line printed",
+ "sha256": {
+  "README.md": "1562ed91b8334dbb6f9df9a975093408bf79ad45326d923edc96f91c8e9fa399",
+  "after-inertia.log": "b42210843da966e585ab1ee3eb500580a759e0a0a708ccfbb0086c1a7ba1b647",
+  "after-nomods.log": "5d71af95b1b17fbb4ba0401e56e07bed3d97d470e0964e1d77161d1273f91ffe",
+  "after-results.json": "22ec13afe589d71bb804acc684acabcb2e19b6630ba734a11e8c8c0deb3a2b84",
+  "after-speed.log": "98dbbc5d5d11addaacbcffa42e293a9a258faddddc491cdfc51e332facdd7967",
+  "after-statring.log": "fdfcd1bc79046fab13fdffc44f4fd93f0109c687a9d3dc2e0bcca8406a4d3565",
+  "after-thror.log": "40cac61ed28ed077ec9a7894b5f1daab3f2a09776b06d4bd5bfa611be10a3f0a",
+  "before-inertia.log": "21460e3a60391115ef112fa60dc5fccb6d29d487b723c4675c8c4c63b650d3e9",
+  "before-nomods.log": "5d71af95b1b17fbb4ba0401e56e07bed3d97d470e0964e1d77161d1273f91ffe",
+  "before-results.json": "27b9b86c888cb0ecd9869783cfc3df37d6910b0009ae7e8c7ffbf53e44c915db",
+  "before-speed.log": "a1a45f2fbd636b023babbf207638eb220d1ec10f67d934dbcbbf049ee168160a",
+  "before-statring.log": "5172c0c2a9526b9710241831209d13aae57061bded97e5b67cf05f2e71620997",
+  "before-thror.log": "e7b0e5f35fc0cdb5a09ed1cb5c22d4fe2348b113970759968473ab2cb377718e",
+  "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+  "make_replay.py": "524cd2528bc940018f7cdcc9d65a514b483a3f265e9b9404181e70f7dbd001c5",
+  "prior-inertia.log": "983a51e6a718874a52c048f433aa01ce33fbbd903c938dd606c279841afaac43",
+  "prior-nomods.log": "5d71af95b1b17fbb4ba0401e56e07bed3d97d470e0964e1d77161d1273f91ffe",
+  "prior-results.json": "19f9ff0b4596a51a7418f9cb8e64765ec8038949bcc29f2c1b1f6351dc2627f1",
+  "prior-speed.log": "98dbbc5d5d11addaacbcffa42e293a9a258faddddc491cdfc51e332facdd7967",
+  "prior-statring.log": "fdfcd1bc79046fab13fdffc44f4fd93f0109c687a9d3dc2e0bcca8406a4d3565",
+  "prior-thror.log": "40cac61ed28ed077ec9a7894b5f1daab3f2a09776b06d4bd5bfa611be10a3f0a",
+  "replay-data.json": "d57d404e0b467c7a8d8d2dcf1ca472e484432fcbc88d4a756448b16bf53f03a1",
+  "replay.html": "3a545eeb5afa7e1465862bd6709fc91e9b964ecc5fc55f037aa3ea34393db8b6",
+  "reproduce.py": "566c0d3428c6fabbc3c72de144a3ee9c791302e3209049d319d110b6a578f65f",
+  "result.json": "1d5be5d3dfb8442a9026b354e33e9f1182c9eceb56c78cef6619b4cc788afc47",
+  "run-after-alltests.log": "5d3e822eab2c7989338541aeb13b80f4fc8cc472e3a62262ec275ac60c9998a0",
+  "run-after-build.log": "daeb37a9e61cc5f75fed080e44ad74abfbf997f94ca3486b0bf9f30fbd469a14",
+  "run-after-scenarios.log": "fd1d4cc495a8dc59fe0e93cb61258c944641a07893d37eedaa89bb5294ddf934",
+  "run-before-alltests.log": "e6c6b1605bc6e59b186b2eb0916fc53742a4ad0e72bd83dafe0ad0b9a899ce36",
+  "run-before-build.log": "1536426d4071c223a701ff3dc908e04e55bd842c5f1d0bf2afa4e3fa572f0d20",
+  "run-before-scenarios.log": "11fe4919237e83df6c147a130de03b45b3662c773b12d0f21dae9a75bc4f4180",
+  "run-cases.py": "abc59d0f48588f9fec016a9c0e12473b6bbd8ea8306ce67c9f68a9defacd573f",
+  "run-configure.log": "a0f322665deaedeaac15e0bebccff5b326e17d9c08621289f40a85d235c7628a",
+  "run-prior-build.log": "daeb37a9e61cc5f75fed080e44ad74abfbf997f94ca3486b0bf9f30fbd469a14",
+  "run-prior-scenarios.log": "553f7cf8fa8ce68cd5e59d3be5852414fbbc92496e609f3ddfc5d7a51c8551ef",
+  "scenario.c": "1a199b3ec5405a0412f861edd61e4af8d6ec3fe41b04503d08b5e7fb0c1401f4",
+  "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47"
+ },
+ "prior_fix": "46c6188eccb54bd0571e0a527145f7fd7ed756c3",
+ "supersedes": {
+  "fixtures_ref": "42669672433cd274307be9716bec8926f7900394",
+  "fix": "46c6188eccb54bd0571e0a527145f7fd7ed756c3",
+  "receipt_commit": "0af6c5af047a55d80a228c431509c6bab07b1168"
+ },
+ "owner_decision": "2026-11-08 option A (restore modifier credits), then option B (floor the wearable guess at 0 in place of the pval < 0 test)"
+}

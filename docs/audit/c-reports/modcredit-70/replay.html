@@ -1,0 +1,154 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Credit stat and speed bonuses in the Borg&#x27;s item value guess</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Credit stat and speed bonuses in the Borg&#x27;s item value guess</h1><p>Behaviour change; owner decision (option A). The Borg guesses what each known item would fetch in a shop and uses that guess to decide what to sell first, what to junk and what is worth carrying. For wearables the guess is meant to add credit for stat bonuses (200 per point), speed (30000 per point), stealth, blows, shots and the other bonuses, but the whole credit block was skipped whenever the item&#x27;s pval was zero, and in 4.2 that is every ring, amulet, armour and weapon (bonuses are modifiers, pval is set only for launchers, a flask of oil and a mushroom). The stat lines also tested stat numbers as object flags. So a Ring of Strength &lt;+2&gt; was guessed at its kind cost of 500, the same as a Ring of Strength &lt;+1&gt;, and the Cloak &#x27;Colannon&#x27; (speed +2) at 21500, below an Amulet of ESP. When both items are spare, the Borg sold the bonus item first. The change removes the pval gate and credits the five stat modifiers directly (a negative stat modifier earns no credit). Other negative modifiers subtract, and the total is floored at 0 (owner decision, option B) in place of the old pval &lt; 0 test, which never fires in 4.2: an Amulet of Inertia &lt;-2&gt; is guessed at 0 rather than -59990, and the Boots of Thror (speed +3, stealth -1) keep their credit. The guessed value of every wearable with modifiers changes; whole-game effects are not measured.</p><p><label>Scenario: <select id="scenario"><option value="statring">Stat ring: Ring of Strength &lt;+2&gt; vs Ring of Soulkeeping</option><option value="speed">Speed item: Cloak &#x27;Colannon&#x27; &lt;+2&gt; vs Amulet of ESP</option><option value="nomods">Control: two rings without modifiers (Free Action vs Bodykeeping)</option><option value="inertia">Speed penalty: Amulet of Inertia &lt;-2&gt; vs Ring of Soulkeeping</option><option value="thror">Stealth penalty: Boots of Thror &lt;+3, -1&gt; vs Ring of Soulkeeping</option></select></label></p><section class="scenario" data-mode="statring"><p class="summary">Original: the Ring of Strength &lt;+2&gt; is guessed at 500 (no stat credit), below the Ring of Soulkeeping at 600, so the Borg sells the Ring of Strength. Corrected: 500 + 2 x 200 = 900, so it sells the Ring of Soulkeeping and keeps the Ring of Strength. The game&#x27;s own values are 1116 (Strength &lt;+2&gt;) and 1050 (Soulkeeping).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK game_value=1116 kind_cost=500 a Ring of Strength &lt;+2&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+DECISION sell=1 shop=5 item=0 what=[Ring of Strength &lt;+2&gt;]
+TRACK You had a Ring of Strength &lt;+2&gt; (a).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game_value=1116 kind_cost=500 a Ring of Strength &lt;+2&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+DECISION sell=1 shop=5 item=1 what=[Ring of Soulkeeping]
+TRACK You had a Ring of Soulkeeping (b).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=statring class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=500 pval=0 str=2 speed=0 desc=[Ring of Strength &lt;+2&gt;]
+PACK 1 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]
+TRACK game_value=1116 kind_cost=500 a Ring of Strength &lt;+2&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+STATE value_a=500 value_b=600 power_now=299431
+DECISION sell=1 shop=5 item=0 what=[Ring of Strength &lt;+2&gt;]
+TRACK You had a Ring of Strength &lt;+2&gt; (a).
+OUTCOME sold_a=1 sold_b=0
+Failed
+    native-c/modcredit-70:214: requirement &#x27;kept_a &amp;&amp; !kept_b&#x27; failed
+native-c/modcredit-70 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=statring class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=900 pval=0 str=2 speed=0 desc=[Ring of Strength &lt;+2&gt;]
+PACK 1 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]
+TRACK game_value=1116 kind_cost=500 a Ring of Strength &lt;+2&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+STATE value_a=900 value_b=600 power_now=299431
+DECISION sell=1 shop=5 item=1 what=[Ring of Soulkeeping]
+TRACK You had a Ring of Soulkeeping (b).
+OUTCOME sold_a=0 sold_b=1
+Passed
+native-c/modcredit-70 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="speed"><p class="summary">Original: Colannon is guessed at 21500 (artifact cost 20000 + armour bonus 1500, no speed credit), below the Amulet of ESP at 25000, so the Borg sells Colannon. Corrected: 21500 + 2 x 30000 (speed) + 2 x 100 (stealth) = 81700, capped at 30000 for the sale order, so it sells the Amulet of ESP and keeps Colannon. The game&#x27;s own values are 11550 (Colannon) and 7134 (ESP).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK game_value=11550 kind_cost=3 the Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt;
+TRACK game_value=7134 kind_cost=25000 an Amulet of ESP
+DECISION sell=1 shop=6 item=1 what=[Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt;]
+TRACK You had the Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt; (b).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game_value=11550 kind_cost=3 the Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt;
+TRACK game_value=7134 kind_cost=25000 an Amulet of ESP
+DECISION sell=1 shop=5 item=0 what=[Amulet of ESP]
+TRACK You had an Amulet of ESP (a).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=speed class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=25000 pval=0 str=0 speed=0 desc=[Amulet of ESP]
+PACK 1 qty=1 borg_value=21500 pval=0 str=0 speed=2 desc=[Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt;]
+TRACK game_value=11550 kind_cost=3 the Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt;
+TRACK game_value=7134 kind_cost=25000 an Amulet of ESP
+STATE value_a=21500 value_b=25000 power_now=299431
+DECISION sell=1 shop=6 item=1 what=[Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt;]
+TRACK You had the Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt; (b).
+OUTCOME sold_a=1 sold_b=0
+Failed
+    native-c/modcredit-70:214: requirement &#x27;kept_a &amp;&amp; !kept_b&#x27; failed
+native-c/modcredit-70 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=speed class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=25000 pval=0 str=0 speed=0 desc=[Amulet of ESP]
+PACK 1 qty=1 borg_value=81700 pval=0 str=0 speed=2 desc=[Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt;]
+TRACK game_value=11550 kind_cost=3 the Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt;
+TRACK game_value=7134 kind_cost=25000 an Amulet of ESP
+STATE value_a=81700 value_b=25000 power_now=299431
+DECISION sell=1 shop=5 item=0 what=[Amulet of ESP]
+TRACK You had an Amulet of ESP (a).
+OUTCOME sold_a=0 sold_b=1
+Passed
+native-c/modcredit-70 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="nomods"><p class="summary">Neither ring has a modifier, so the corrected code adds nothing: Free Action 1500, Bodykeeping 750 in both versions, and both sell the Ring of Bodykeeping. Logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game_value=500 kind_cost=1500 a Ring of Free Action
+TRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping
+DECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]
+TRACK You had a Ring of Bodykeeping (a).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game_value=500 kind_cost=1500 a Ring of Free Action
+TRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping
+DECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]
+TRACK You had a Ring of Bodykeeping (a).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=nomods class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=750 pval=0 str=0 speed=0 desc=[Ring of Bodykeeping]
+PACK 1 qty=1 borg_value=1500 pval=0 str=0 speed=0 desc=[Ring of Free Action]
+TRACK game_value=500 kind_cost=1500 a Ring of Free Action
+TRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping
+STATE value_a=1500 value_b=750 power_now=299431
+DECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]
+TRACK You had a Ring of Bodykeeping (a).
+OUTCOME sold_a=0 sold_b=1
+Passed
+native-c/modcredit-70 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=nomods class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=750 pval=0 str=0 speed=0 desc=[Ring of Bodykeeping]
+PACK 1 qty=1 borg_value=1500 pval=0 str=0 speed=0 desc=[Ring of Free Action]
+TRACK game_value=500 kind_cost=1500 a Ring of Free Action
+TRACK game_value=1554 kind_cost=750 a Ring of Bodykeeping
+STATE value_a=1500 value_b=750 power_now=299431
+DECISION sell=1 shop=5 item=0 what=[Ring of Bodykeeping]
+TRACK You had a Ring of Bodykeeping (a).
+OUTCOME sold_a=0 sold_b=1
+Passed
+native-c/modcredit-70 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="inertia"><p class="summary">Original: the Amulet of Inertia is guessed at its kind cost of 10, below the Ring of Soulkeeping at 600, so the Borg picks it to sell; the shop refuses it (&#x27;I do not wish to purchase this item&#x27;, game value 0) and nothing is sold. Without the floor (earlier fix head 46c6188ec): 10 - 2 x 30000 = -59990. Corrected (floor): 0, so the Borg leaves the amulet out of the sale and sells the Ring of Soulkeeping. The earlier fix head makes the same sale; the floor changes the guess, not this decision.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK game_value=0 kind_cost=10 an Amulet of Inertia &lt;-2&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+DECISION sell=1 shop=5 item=1 what=[Amulet of Inertia &lt;-2&gt;]
+TRACK I do not wish to purchase this item.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game_value=0 kind_cost=10 an Amulet of Inertia &lt;-2&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+DECISION sell=1 shop=5 item=0 what=[Ring of Soulkeeping]
+TRACK You had a Ring of Soulkeeping (a).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=inertia class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]
+PACK 1 qty=1 borg_value=10 pval=0 str=0 speed=-2 desc=[Amulet of Inertia &lt;-2&gt;]
+TRACK game_value=0 kind_cost=10 an Amulet of Inertia &lt;-2&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+STATE value_a=10 value_b=600 power_now=299431
+DECISION sell=1 shop=5 item=1 what=[Amulet of Inertia &lt;-2&gt;]
+TRACK I do not wish to purchase this item.
+OUTCOME sold_a=0 sold_b=0
+Failed
+    native-c/modcredit-70:214: requirement &#x27;kept_a &amp;&amp; !kept_b&#x27; failed
+native-c/modcredit-70 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=inertia class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]
+PACK 1 qty=1 borg_value=0 pval=0 str=0 speed=-2 desc=[Amulet of Inertia &lt;-2&gt;]
+TRACK game_value=0 kind_cost=10 an Amulet of Inertia &lt;-2&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+STATE value_a=0 value_b=600 power_now=299431
+DECISION sell=1 shop=5 item=0 what=[Ring of Soulkeeping]
+TRACK You had a Ring of Soulkeeping (a).
+OUTCOME sold_a=0 sold_b=1
+Passed
+native-c/modcredit-70 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="thror"><p class="summary">Original: the Boots of Thror are guessed at 14000 (artifact cost 12000 + armour bonus 2000). Corrected: 14000 + 3 x 200 (STR) + 3 x 200 (CON) + 3 x 30000 (speed) - 100 (stealth -1) = 105100, the same as without the floor; the stealth penalty only lowers the credit. Both versions sell the Ring of Soulkeeping and keep the boots.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game_value=32936 kind_cost=50 the Pair of Steel Shod Boots of Thrór [7,+20] &lt;+3, -1&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+DECISION sell=1 shop=5 item=0 what=[Ring of Soulkeeping]
+TRACK You had a Ring of Soulkeeping (a).</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>The second item sold (1 = sold the second item and kept the first: the plain ring, the ESP amulet or the Soulkeeping ring; 0 = it did not)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK game_value=32936 kind_cost=50 the Pair of Steel Shod Boots of Thrór [7,+20] &lt;+3, -1&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+DECISION sell=1 shop=5 item=0 what=[Ring of Soulkeeping]
+TRACK You had a Ring of Soulkeeping (a).</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=thror class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]
+PACK 1 qty=1 borg_value=14000 pval=0 str=3 speed=3 desc=[Pair of Steel Shod Boots of Thrór [7,+20] &lt;+3, -1&gt;]
+TRACK game_value=32936 kind_cost=50 the Pair of Steel Shod Boots of Thrór [7,+20] &lt;+3, -1&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+STATE value_a=14000 value_b=600 power_now=299431
+DECISION sell=1 shop=5 item=0 what=[Ring of Soulkeeping]
+TRACK You had a Ring of Soulkeeping (a).
+OUTCOME sold_a=0 sold_b=1
+Passed
+native-c/modcredit-70 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/modcredit-70: starting...
+SETUP seed=70 mode=thror class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=600 pval=0 str=0 speed=0 desc=[Ring of Soulkeeping]
+PACK 1 qty=1 borg_value=105100 pval=0 str=3 speed=3 desc=[Pair of Steel Shod Boots of Thrór [7,+20] &lt;+3, -1&gt;]
+TRACK game_value=32936 kind_cost=50 the Pair of Steel Shod Boots of Thrór [7,+20] &lt;+3, -1&gt;
+TRACK game_value=1050 kind_cost=600 a Ring of Soulkeeping
+STATE value_a=105100 value_b=600 power_now=299431
+DECISION sell=1 shop=5 item=0 what=[Ring of Soulkeeping]
+TRACK You had a Ring of Soulkeeping (a).
+OUTCOME sold_a=0 sold_b=1
+Passed
+native-c/modcredit-70 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 70, clevel 21, max depth 20, in town, 1000 gold, the starting equipment worn and the pack emptied except for two known items, all runes learned. &#x27;statring&#x27;: a Ring of Strength &lt;+2&gt; and a Ring of Soulkeeping. &#x27;speed&#x27;: the Cloak &#x27;Colannon&#x27; [1,+15] &lt;+2&gt; (speed +2, stealth +2; the standard artifact made with copy_artifact_data()) and an Amulet of ESP. &#x27;nomods&#x27;: a Ring of Free Action and a Ring of Bodykeeping, neither with any modifier. &#x27;inertia&#x27;: an Amulet of Inertia &lt;-2&gt; and a Ring of Soulkeeping. &#x27;thror&#x27;: the Boots of Thror [7,+20] &lt;+3, -1&gt; (STR +3, CON +3, speed +3, stealth -1; the standard artifact) and a Ring of Soulkeeping. Rings and amulets are made with object_prep() at level 40 with average rolls. Every store is emptied so no shop is full. The production borg_think_shop_sell_useless() chooses the sale (the cheaper item by the Borg&#x27;s guess, capped at 30000, among items whose sale does not lower the Borg&#x27;s power); the chosen item is then sold with the real do_cmd_sell() while standing in the chosen shop. The game&#x27;s own valuation (object_value_real()) is printed for reference. Fixture interventions: the pack is emptied and the items are added directly, all runes are learned with player_learn_all_runes(), the stores are emptied directly, dynamic formulas, gold worship and money scumming are off, HP is set to maximum, and the player&#x27;s grid is turned into the chosen shop&#x27;s entrance before the sale.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/70">issue 70</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

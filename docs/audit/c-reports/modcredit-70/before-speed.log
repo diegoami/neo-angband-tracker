@@ -1,0 +1,13 @@
+native-c/modcredit-70: starting...
+SETUP seed=70 mode=speed class=Warrior clevel=21 maxdepth=20 no_selling=1
+  sells_cheaper_ring_first  PACK 0 qty=1 borg_value=25000 pval=0 str=0 speed=0 desc=[Amulet of ESP]
+PACK 1 qty=1 borg_value=21500 pval=0 str=0 speed=2 desc=[Cloak 'Colannon' [1,+15] <+2>]
+TRACK game_value=11550 kind_cost=3 the Cloak 'Colannon' [1,+15] <+2>
+TRACK game_value=7134 kind_cost=25000 an Amulet of ESP
+STATE value_a=21500 value_b=25000 power_now=299431
+DECISION sell=1 shop=6 item=1 what=[Cloak 'Colannon' [1,+15] <+2>]
+TRACK You had the Cloak 'Colannon' [1,+15] <+2> (b).
+OUTCOME sold_a=1 sold_b=0
+Failed
+    native-c/modcredit-70:214: requirement 'kept_a && !kept_b' failed
+native-c/modcredit-70 finished: 0/1 passed
