@@ -182,7 +182,7 @@ Market or dungeon only).
 | **Portal** (Priest 10) | 35–55 grids | spell failure | |
 | **Shadow Shift** (Necro 15) | 30 grids, 2d5 damage to you | | |
 | **Dimension Door** (Mage 35) | to a chosen grid | no-tele under you | can enter vaults |
-| **Hit and Run** (Rogue 23) | next melee hit, then you phase | | for hit-and-retreat |
+| **Hit and Run** (Rogue 23) | after your next *steal* attempt (`s`) you teleport 20 grids (`src/mon-util.c`) | | steal-and-vanish |
 | **Mushroom of Terror** | `TERROR` 25+5d5 turns: +10 speed, cannot melee | | run away at double speed; works with no light |
 | **Mushroom of Sprinting** | +10 speed for 100 turns, then **slowed 100 turns** | | the slow afterwards can kill |
 | **Potion of Speed** | +10 speed, 20+2d10 turns | | doubles your actions relative to monsters |
@@ -407,6 +407,29 @@ Principles:
 ---
 
 ## 13.6 Emergency decision procedures
+
+### Choosing *which* escape (general algorithm)
+
+```
+CHOOSE_ESCAPE(threats):
+  usable = escapes not blocked by: blind/no-light/confused/amnesia (scrolls, spells),
+           no-teleport square (anything > 10 grids, Teleport Level),
+           anti-teleport curse (all teleports), arena (all), decoy (Teleport Level)
+  if standing on stairs:                         return STAIRS        # instant, 0% fail
+  if every threat is melee-only and none is faster than me:
+                                                 return PHASE         # 9-11 grids is enough
+  if a threat has teleport-to, or is PASS_WALL/KILL_WALL, or is faster by >= +10:
+                                                 prefer LONG TELEPORT, then plan to leave
+  if the level itself is lost (many awake threats, no safe spot):
+      if TELEPORT_LEVEL usable and not on a quest level going down: return TELEPORT_LEVEL
+      if DEEP_DESCENT usable and max_depth+5 acceptable and I can survive 4-7 ticks:
+                                                 return DEEP_DESCENT
+      if RECALL usable and I can survive 15-34 ticks (after a teleport): TELEPORT then RECALL
+  default:                                       return LONG TELEPORT
+  tie-breaks: 0%-fail (scroll, stairs) over device over spell when chp <= D_worst;
+              cheaper/renewable (rod, spell) over consumable when chp is comfortable.
+After any teleport: detect monsters, cure, heal to a safe margin, then decide to stay or leave.
+```
 
 Each procedure lists checks in order; take the first action that applies. "Escape" means
 the best available long escape (Teleportation staff/scroll/spell); "phase" means Phase

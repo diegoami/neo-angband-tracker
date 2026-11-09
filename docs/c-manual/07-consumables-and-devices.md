@@ -29,8 +29,8 @@ root). ADVICE is marked and is judgement. Effect handlers live in
 15. [Charges, recharging, rod timeouts](#15-charges-recharging-rod-timeouts)
 16. [Aiming: bolts, beams, balls, arcs](#16-aiming-bolts-beams-balls-arcs)
 17. [Activations](#17-activations)
-18. [Stacking, pack and quiver limits](#stacking-pack-and-quiver-limits)
-19. [Element damage to carried items](#element-damage-to-carried-items)
+18. [Stacking, pack and quiver limits](#18-stacking-pack-and-quiver-limits)
+19. [Element damage to carried items](#19-element-damage-to-carried-items)
 20. [Standard carry kits per phase](#20-standard-carry-kits-per-phase)
 21. [Things to try (untested)](#things-to-try-untested)
 
@@ -662,7 +662,6 @@ Open Wounds before CLW).
 ---
 
 ## 18. Stacking, pack and quiver limits
-<a id="stacking-pack-and-quiver-limits"></a>
 
 FACT (`lib/gamedata/constants.txt`, `src/obj-gear.c:pack_slots_used()`):
 
@@ -683,7 +682,6 @@ ADVICE: a typical mid-game pack: 1 slot food, 1 light fuel, 3-5 potion types, 4-
 ---
 
 ## 19. Element damage to carried items
-<a id="element-damage-to-carried-items"></a>
 
 FACT (`src/project-obj.c:inven_damage()`, called from `src/project-player.c` handlers and from
 monster melee in `src/mon-blows.c`):

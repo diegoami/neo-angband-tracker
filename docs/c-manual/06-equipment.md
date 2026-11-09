@@ -64,7 +64,7 @@ twelve slots in this order:
 
 There is no two-handed weapon rule: a shield can always be worn with any weapon. There is no
 off-hand weapon slot. The quiver is not an equipment slot; it is part of the pack (see
-[Chapter 7](07-consumables-and-devices.md#stacking-pack-and-quiver-limits)).
+[Chapter 7](07-consumables-and-devices.md#18-stacking-pack-and-quiver-limits)).
 
 Notes:
 
@@ -528,7 +528,7 @@ ADVICE:
 ## 9. Rings
 
 FACT: all ring kinds from `lib/gamedata/object.txt`. Ring tval has HATES_ELEC (rings in the pack can
-be destroyed by lightning, see [Chapter 7](07-consumables-and-devices.md#element-damage-to-carried-items)).
+be destroyed by lightning, see [Chapter 7](07-consumables-and-devices.md#19-element-damage-to-carried-items)).
 "Alloc" is depth range; values like `1+M5` grow with generation level (`M5` adds 0-5, more at depth).
 
 | Ring | Effect (source values) | Alloc | Kind cost | Verdict (ADVICE) |

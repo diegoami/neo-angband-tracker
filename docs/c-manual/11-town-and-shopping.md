@@ -332,6 +332,71 @@ Normal stores pay **2/3 of value**, the Black Market **1/6**, both capped at the
 (5,000-30,000 gold per item, table in 2). With `birth_no_selling` on (the default) the store pays
 0.
 
+### 5.4 Quick price reference
+
+FACT: normal-store prices of the consumables the town sells (kind `cost` in
+`lib/gamedata/object.txt`); "BM" is the Black Market price (3x) for the same item, and also the
+price of the many consumables that *only* the Black Market can stock.
+
+| Item | Store | Normal price | BM price |
+|------|-------|--------------|----------|
+| Potion of Cure Light Wounds | Alchemist (always) | 20 | 60 |
+| Potion of Cure Serious Wounds | Alchemist | 70 | 210 |
+| Potion of Cure Critical Wounds | Alchemist | 200 | 600 |
+| Potion of Neutralize Poison | Alchemist | 75 | 225 |
+| Potion of Berserk Strength | Alchemist | 80 | 240 |
+| Potion of Boldness | Alchemist | 8 | 24 |
+| Potion of Resist Heat / Resist Cold | Alchemist | 30 | 90 |
+| Potion of Restore Life Levels | Alchemist | 400 | 1200 |
+| Scroll of Phase Door | Alchemist (always) | 15 | 45 |
+| Scroll of Word of Recall | Alchemist (always) | 125 | 375 |
+| Scroll of Remove Curse | Alchemist (always) | 100 | 300 |
+| Scroll of Magic Mapping | Alchemist | 65 | 195 |
+| Scroll of Remove Hunger | Alchemist | 10 | 30 |
+| Scroll of Recharging | Alchemist | 200 | 600 |
+| Scroll of Blessing / Holy Chant | Alchemist | 15 / 40 | 45 / 120 |
+| Scroll of Monster Confusion | Alchemist | 30 | 90 |
+| Scroll of Detect Invisible | Alchemist | 15 | 45 |
+| Flask of oil | General (always) | 3 | - |
+| Ration of Food | General (always) | 3 | - |
+| Wooden Torch | General (always) | 6 (with fuel) | - |
+| Potion of Speed | BM only | (75) | 225 |
+| Potion of Heroism | BM only | (25) | 75 |
+| Potion of True Seeing | BM only | (50) | 150 |
+| Potion of Healing | BM only | (800) | 2400 |
+| Potion of *Healing* | BM only | (1500) | 4500 |
+| Potion of Life | BM only | (5000) | 15000 |
+| Potion of Restore Mana | BM only | (350) | 1050 |
+| Potion of Resist Poison | BM only | (30) | 90 |
+| Scroll of Teleportation | BM only | (40) | 120 |
+| Scroll of Teleport Level | BM only | (800) | 2400 |
+| Scroll of Deep Descent | BM only | (250) | 750 |
+| Scroll of Identify Rune | BM only | (200) | 600 |
+| Scroll of Enchant Weapon To-Hit / To-Dam / Armour | BM only | (125) | 375 |
+| Scroll of Banishment | BM only | (2500) | 7500 |
+| Scroll of *Destruction* | BM only | (1000) | 3000 |
+
+Black Market availability depends on the item's allocation depth versus the BM generation level
+(`max_depth+5` to `max_depth+20`, capped 55/70) and on the kind not being stocked elsewhere, so a
+Potion of Healing (alloc DL30+) cannot appear there until your max depth is roughly 10+, and
+*Healing* (DL40+) roughly 20+ (generation level must reach the kind's minimum allocation depth,
+`get_obj_num()`; out-of-depth boosts make earlier appearances possible but rare).
+
+### 5.5 Is the Black Market price worth it?
+
+ADVICE, as a rule of thumb for a character with income from 5x gold:
+
+| Item | Buy at BM when |
+|------|----------------|
+| Potion of Speed (225) | always, if you have fewer than ~5 and can still afford the next trip's basics |
+| Scroll of Teleportation (120) | until you own a Staff of Teleportation, keep 3-5 |
+| Potion of Healing (2400) | from DL30 on, keep 3-5 |
+| Restore Mana (1050) | casters from DL30, before unique fights |
+| Lantern (~1600) | only if you will be in DL1-5 a long time; they are common on the floor |
+| Ego armour with a resist you lack | yes, if it fills a "must have" from [Chapter 6](06-equipment.md#17-what-to-wear-at-each-stage) |
+| Anything the Alchemist also sells | no (3x) |
+| Enchant scrolls (375) | late, for your endgame weapon only |
+
 ---
 
 ## 6. Selling, giving, and birth_no_selling

@@ -128,6 +128,30 @@ data file.
 - **Borg notes.** Sections addressed to an automatic player say so.
   [Chapter 15](15-notes-for-the-borg.md) collects them as rules.
 
+## Where the source contradicts common belief
+
+Writing this manual turned up several places where the code differs from the official
+manual, from older guides, or from its own comments. Each item is explained in the chapter
+cited.
+
+| Finding | Source | Chapter |
+|---|---|---|
+| Unspent point-buy points show as extra gold on the birth screen, but accepting the character resets gold to the flat starting amount. The official manual says unspent points become gold. | `src/player-birth.c:do_cmd_accept_character()` calls `get_money()` after `recalculate_stats()` | [02](02-character-creation.md) |
+| The stat roller is `5 + 1d3 + 1d4 + 1d5` per stat, with the totals constrained, not 3d6. | `src/player-birth.c:get_stats()` | [02](02-character-creation.md) |
+| Gloves do not hurt spellcasting. Only armour weight above the class limit reduces mana. | no glove code in `src/player-calcs.c:calc_mana()` | [03](03-magic-and-spells.md) |
+| Player spell failure is capped at 50% before stun and amnesia are added. | `src/player-spell.c:spell_chance()` | [03](03-magic-and-spells.md) |
+| Every monster that is not stupid fails its non-innate spells at a flat 24% (more if afraid or confused). The code takes `MIN(spell_power, 1)`, which looks like a typo for `MAX`. Breaths never fail. | `src/mon-attack.c:monster_spell_failrate()` | [08](08-monsters.md) |
+| A light's number is its *intensity*. You see grids at distance less than the intensity, so a Wooden Torch (2) lights only the adjacent grids and a Lantern (3) lights radius 2. | `src/cave-view.c:update_view_one()` | [01](01-core-mechanics.md), [06](06-equipment.md) |
+| Deep Descent goes five levels below your **maximum** depth, not your current depth. | `src/effect-handler-general.c:effect_handler_DEEP_DESCENT()` | [09](09-dungeon.md), [13](13-escapes-and-emergencies.md) |
+| There is no search command. Secret doors are found by walking next to them. A trap is noticed when it comes into view if your searching skill is at least the trap's power. | `lib/gamedata/trap.txt`, `src/trap.c` | [01](01-core-mechanics.md), [10](10-exploration.md) |
+| Only sleep and fear give monsters a saving throw. Slow, confuse, hold and stun are stopped only by the matching `NO_*` flag. | `src/mon-timed.c:does_resist()` | [03](03-magic-and-spells.md), [13](13-escapes-and-emergencies.md) |
+| Black Market prices are three times normal: ×2, then ×150%. The source comment says "twice". | `src/store.c:price_item()` | [11](11-town-and-shopping.md) |
+| The Necromancer's "stealth in the dark" from Unlight is described but not implemented. | `lib/gamedata/player_property.txt` and no matching code | [14](14-class-playbooks.md) |
+
+These were found by reading the code. Where a finding may be a defect in the game rather
+than a design choice, it should go through this repository's triage rules
+([RULES](../../RULES.md)) before anyone calls it a bug.
+
 ## Keeping this manual current
 
 The appendices are generated. After any change to `lib/gamedata/`, run this against an
