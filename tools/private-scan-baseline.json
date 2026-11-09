@@ -77,6 +77,18 @@
       "path": "packages/web/src/report.test.ts",
       "count": 1,
       "why": "An invented fixture home, asserting a report does NOT carry the player's own name out of a Windows path."
+    },
+    {
+      "rule": "codename-gandalf",
+      "path": "docs/c-manual/appendices/A4-artifacts.md",
+      "count": 1,
+      "why": "The Staff of Gandalf's description, generated verbatim from upstream lib/gamedata/artifact.txt (angband/angband e473720ed) by docs/c-manual/tools/gen_appendices.py."
+    },
+    {
+      "rule": "codename-gandalf",
+      "path": "docs/c-manual/user-manual/guide.rst",
+      "count": 1,
+      "why": "Upstream Angband's Players' Guide (\"a Gandalf\"), vendored verbatim from angband/angband e473720ed docs/guide.rst."
     }
   ]
 }
