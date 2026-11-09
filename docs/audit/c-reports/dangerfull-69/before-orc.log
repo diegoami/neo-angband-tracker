@@ -1,0 +1,7 @@
+native-c/dangerfull-69: starting...
+SETUP mode=orc race=cave orc dist=3 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=13 grid_full=13 adj_partial=22 adj_full=22 grid_c4=104
+ONEKILL adj_partial=5 adj_full=22
+OUTCOME grid=13 adj=22 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed

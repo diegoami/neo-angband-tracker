@@ -1,0 +1,7 @@
+native-c/dangerfull-69: starting...
+SETUP mode=wolf race=wolf dist=2 clevel=10 hp=84/140 avoidance=84
+  grid_danger       DANGER grid_partial=16 grid_full=16 adj_partial=48 adj_full=48 grid_c4=64
+ONEKILL adj_partial=0 adj_full=48
+OUTCOME grid=16 adj=48 same=1
+Passed
+native-c/dangerfull-69 finished: 1/1 passed

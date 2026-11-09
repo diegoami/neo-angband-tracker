@@ -1,0 +1,110 @@
+{
+  "bear": {
+    "label": "Control: awake cave bear, 3 grids away",
+    "explanation": "borg_danger() gives 0 at the player's grid and 20 next to the bear whether full_damage is false or true; a direct borg_danger_one_kill() call gives 0 (reduced) and 20 (full). Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/dangerfull-69: starting...\nSETUP mode=bear race=cave bear dist=3 clevel=10 hp=84/140 avoidance=84\n  grid_danger       DANGER grid_partial=0 grid_full=0 adj_partial=20 adj_full=20 grid_c4=0\nONEKILL adj_partial=0 adj_full=20\nOUTCOME grid=0 adj=20 same=1\nPassed\nnative-c/dangerfull-69 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grid": 0,
+        "adj": 20,
+        "same": 1
+      },
+      "notes": [],
+      "value": 20
+    },
+    "after": {
+      "raw": "native-c/dangerfull-69: starting...\nSETUP mode=bear race=cave bear dist=3 clevel=10 hp=84/140 avoidance=84\n  grid_danger       DANGER grid_partial=0 grid_full=0 adj_partial=20 adj_full=20 grid_c4=0\nONEKILL adj_partial=0 adj_full=20\nOUTCOME grid=0 adj=20 same=1\nPassed\nnative-c/dangerfull-69 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grid": 0,
+        "adj": 20,
+        "same": 1
+      },
+      "notes": [],
+      "value": 20
+    }
+  },
+  "wolf": {
+    "label": "Control: awake wolf, 2 grids away",
+    "explanation": "16 at the player's grid, 48 next to the wolf, for both argument values; the direct call gives 0 and 48. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/dangerfull-69: starting...\nSETUP mode=wolf race=wolf dist=2 clevel=10 hp=84/140 avoidance=84\n  grid_danger       DANGER grid_partial=16 grid_full=16 adj_partial=48 adj_full=48 grid_c4=64\nONEKILL adj_partial=0 adj_full=48\nOUTCOME grid=16 adj=48 same=1\nPassed\nnative-c/dangerfull-69 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grid": 16,
+        "adj": 48,
+        "same": 1
+      },
+      "notes": [],
+      "value": 48
+    },
+    "after": {
+      "raw": "native-c/dangerfull-69: starting...\nSETUP mode=wolf race=wolf dist=2 clevel=10 hp=84/140 avoidance=84\n  grid_danger       DANGER grid_partial=16 grid_full=16 adj_partial=48 adj_full=48 grid_c4=64\nONEKILL adj_partial=0 adj_full=48\nOUTCOME grid=16 adj=48 same=1\nPassed\nnative-c/dangerfull-69 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grid": 16,
+        "adj": 48,
+        "same": 1
+      },
+      "notes": [],
+      "value": 48
+    }
+  },
+  "orc": {
+    "label": "Control: cave orc with arrows, 3 grids away",
+    "explanation": "13 and 22 for both argument values; the direct call gives 5 and 22. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/dangerfull-69: starting...\nSETUP mode=orc race=cave orc dist=3 clevel=10 hp=84/140 avoidance=84\n  grid_danger       DANGER grid_partial=13 grid_full=13 adj_partial=22 adj_full=22 grid_c4=104\nONEKILL adj_partial=5 adj_full=22\nOUTCOME grid=13 adj=22 same=1\nPassed\nnative-c/dangerfull-69 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grid": 13,
+        "adj": 22,
+        "same": 1
+      },
+      "notes": [],
+      "value": 22
+    },
+    "after": {
+      "raw": "native-c/dangerfull-69: starting...\nSETUP mode=orc race=cave orc dist=3 clevel=10 hp=84/140 avoidance=84\n  grid_danger       DANGER grid_partial=13 grid_full=13 adj_partial=22 adj_full=22 grid_c4=104\nONEKILL adj_partial=5 adj_full=22\nOUTCOME grid=13 adj=22 same=1\nPassed\nnative-c/dangerfull-69 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grid": 13,
+        "adj": 22,
+        "same": 1
+      },
+      "notes": [],
+      "value": 22
+    }
+  },
+  "shaman": {
+    "label": "Control: kobold shaman (spells), 3 grids away",
+    "explanation": "22 and 22 for both argument values; the direct call gives 8 and 22. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/dangerfull-69: starting...\nSETUP mode=shaman race=kobold shaman dist=3 clevel=10 hp=84/140 avoidance=84\n  grid_danger       DANGER grid_partial=22 grid_full=22 adj_partial=22 adj_full=22 grid_c4=176\nONEKILL adj_partial=8 adj_full=22\nOUTCOME grid=22 adj=22 same=1\nPassed\nnative-c/dangerfull-69 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grid": 22,
+        "adj": 22,
+        "same": 1
+      },
+      "notes": [],
+      "value": 22
+    },
+    "after": {
+      "raw": "native-c/dangerfull-69: starting...\nSETUP mode=shaman race=kobold shaman dist=3 clevel=10 hp=84/140 avoidance=84\n  grid_danger       DANGER grid_partial=22 grid_full=22 adj_partial=22 adj_full=22 grid_c4=176\nONEKILL adj_partial=8 adj_full=22\nOUTCOME grid=22 adj=22 same=1\nPassed\nnative-c/dangerfull-69 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grid": 22,
+        "adj": 22,
+        "same": 1
+      },
+      "notes": [],
+      "value": 22
+    }
+  }
+}

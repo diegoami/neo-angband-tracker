@@ -1,0 +1,38 @@
+{
+  "bear": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "grid": 0,
+      "adj": 20,
+      "same": 1
+    }
+  },
+  "wolf": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "grid": 16,
+      "adj": 48,
+      "same": 1
+    }
+  },
+  "orc": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "grid": 13,
+      "adj": 22,
+      "same": 1
+    }
+  },
+  "shaman": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "grid": 22,
+      "adj": 22,
+      "same": 1
+    }
+  }
+}

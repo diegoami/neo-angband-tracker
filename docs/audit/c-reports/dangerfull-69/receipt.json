@@ -1,0 +1,146 @@
+{
+  "issue": "diegoami/neo-angband-tracker#69",
+  "report": "dangerfull-69",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "8af23504525b7577ddc74205c7aec03263cc001e",
+  "fix_branch": "task/dangerfull-69",
+  "fixtures_ref": "7b06c733a9db29c8ad2b3608c0e9e6065c467824",
+  "cases": {
+    "bear": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "grid": 0,
+          "adj": 20,
+          "same": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "grid": 0,
+          "adj": 20,
+          "same": 1
+        }
+      }
+    },
+    "wolf": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "grid": 16,
+          "adj": 48,
+          "same": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "grid": 16,
+          "adj": 48,
+          "same": 1
+        }
+      }
+    },
+    "orc": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "grid": 13,
+          "adj": 22,
+          "same": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "grid": 13,
+          "adj": 22,
+          "same": 1
+        }
+      }
+    },
+    "shaman": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "grid": 22,
+          "adj": 22,
+          "same": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "grid": 22,
+          "adj": 22,
+          "same": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "bear",
+    "wolf",
+    "orc",
+    "shaman"
+  ],
+  "claim": "The change is a comment. The pinned runner asserts the exact hunk, then shows that the compiled borg-danger.c object disassembles byte-identically (objdump -d) before and after, and that four native borg_danger() scenarios (melee, fast melee, archer, spellcaster) give byte-identical logs. Each scenario also records what the comment states: borg_danger() returns the same value for full_damage false and true, while a direct borg_danger_one_kill() call still gives a lower reduced estimate. Both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-danger.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "d3801b04ea56936b7d5208c7e8a2b06a40310ddf2e82803a6436eb716aeb3ad5"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "99e187bf73c561d801c875d168521a9aec8143ab767a87b9ddfe4822564daa60",
+    "after-bear.log": "af0e92b0c0071c7ac26dfaeb32c009d62c827ace04fad3eeebb9dc38848f6e2b",
+    "after-objdump-borg-danger.c.log": "adb201ad4b75c09e1c934f804dd44228e411f0dedac9799a964cd7884e3d7b9b",
+    "after-orc.log": "8dd23ab513c8a8b7ece13c1cfd6c2897d831eb4f81a5f7d1a2f48055c04d01bc",
+    "after-results.json": "45ee4734e01c4e83a21d0a977a2aba79f7f275c6d97f3f41c42cb374d6e0134f",
+    "after-shaman.log": "5f6b9163f3b0f33483d2de25a485abefe8eafa3e7a2b8682ba2d8935925667d2",
+    "after-wolf.log": "a095826104a19ad7547a3f2684fa45dc53aab345b0162dc66d3f60af0826a95f",
+    "before-bear.log": "af0e92b0c0071c7ac26dfaeb32c009d62c827ace04fad3eeebb9dc38848f6e2b",
+    "before-objdump-borg-danger.c.log": "adb201ad4b75c09e1c934f804dd44228e411f0dedac9799a964cd7884e3d7b9b",
+    "before-orc.log": "8dd23ab513c8a8b7ece13c1cfd6c2897d831eb4f81a5f7d1a2f48055c04d01bc",
+    "before-results.json": "45ee4734e01c4e83a21d0a977a2aba79f7f275c6d97f3f41c42cb374d6e0134f",
+    "before-shaman.log": "5f6b9163f3b0f33483d2de25a485abefe8eafa3e7a2b8682ba2d8935925667d2",
+    "before-wolf.log": "a095826104a19ad7547a3f2684fa45dc53aab345b0162dc66d3f60af0826a95f",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "de281448320c435d68ee03c52b387dedfbef9475648d7a1e6c8c8447caf2101d",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "e1aba5c01c9f90bbf4720ca89cfb5af50d7a82780a6c3519fcca6f20e57c1ffa",
+    "replay.html": "fe97517bf2d553a4e4dc948a8cf625c71e8da59c222e43a4af707cc2d0848a44",
+    "reproduce.py": "3edafc2276f8ccb2d2e9015d19764d008505ae6c4fd5bb0b4cf88093419b81ba",
+    "result.json": "864278c3582d271767d9c2358776b5ebd35aef21d4a7e15f292e61eb98d81760",
+    "run-after-alltests.log": "9ba0458fb44a9c5ac151c91a7b8f94a56ee3f3e4c9e91d3f719bf880b0aabd79",
+    "run-after-build.log": "30c7341c9c6b19c38d3b0c4a98589b44b689b22b04cb358bf2c409263ef30127",
+    "run-after-scenarios.log": "dfdacd412ab39dcf71aa85954eb20e102c72a13bc519231ddc52e171dc8193a9",
+    "run-before-alltests.log": "648c3c49972c669f6c65827da7af7ab97e1d0c324ed3016787568f653ff92d45",
+    "run-before-build.log": "d801df884bb52af1dca3321e042a419bac1efc1d54dbe9c5e46da877f62956f7",
+    "run-before-scenarios.log": "dfdacd412ab39dcf71aa85954eb20e102c72a13bc519231ddc52e171dc8193a9",
+    "run-cases.py": "d1ed14b31c5d0fe575ca6d30f16ea5ca89c5e0a06b9f4125fdc57d12c7f27c17",
+    "run-configure.log": "048b0ba073ab1295eb2d034ea2d9611220cbb80ac663ccb11036cb2f3b4507f7",
+    "scenario.c": "18a6399e28cf3845a3d37e9a550b13abcd8ab9cd6c9b27386d735ed2c439c2df"
+  }
+}
