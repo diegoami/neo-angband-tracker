@@ -174,8 +174,8 @@ with a max depth of 30 sends you to DL35. It never takes you past a quest level
   each phase below).
 - Out-of-depth monsters exist: monster generation can boost the level used to pick a monster
   (`mon-gen:ood-chance:25` and `ood-amount:10` in `lib/gamedata/constants.txt`).
-- Uniques are generated at their depth or deeper and often in groups with escorts (`friends:` lines in
-  `monster.txt`).
+- Many uniques come with escorts (`friends:` lines in `monster.txt`), and a few (`FORCE_DEPTH`, such as
+  the questors) are never generated shallower than their native depth (`src/mon-make.c`).
 
 ### The guide's argument, and the risk-per-move model (ADVICE)
 
