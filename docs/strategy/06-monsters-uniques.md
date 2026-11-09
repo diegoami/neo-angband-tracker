@@ -26,6 +26,7 @@ general are in [Chapter 1](01-mechanics.md).
    4. [How often monsters cast, and how often they fail](#14-how-often-monsters-cast-and-how-often-they-fail)
    5. [Flags that matter tactically](#15-flags-that-matter-tactically)
    6. [What monsters drop](#16-what-monsters-drop)
+   7. [Melee damage and your armour](#17-melee-damage-and-your-armour)
 2. [Monster families by glyph](#2-monster-families-by-glyph)
 3. [The killers list, by depth](#3-the-killers-list-by-depth)
 4. [Monster spells](#4-monster-spells)
@@ -292,6 +293,31 @@ early uniques are worth hunting. **Morgoth** additionally drops every artifact
 whose object kind has `QUEST_ART` (`object.txt`) — *Grond* and the *Massive
 Iron Crown of Morgoth* (`'Grond'` and `of Morgoth` in `artifact.txt`, section
 "Quest artifacts").
+
+### 1.7 Melee damage and your armour
+
+How a monster's blow becomes damage to you (`mon-blows.c`, `mon-attack.c`):
+
+* **Plain hits** (`HURT`) and **`SHATTER`** are reduced by armour:
+  `damage − damage × min(AC, 240) / 400` (`adjust_dam_armor()`), i.e. at most
+  −60% at AC 240. `SHATTER` blows that still do more than 23 damage cause an
+  earthquake around the monster, and above 100 can knock you back.
+* **Elemental blows** (`ACID`, `ELEC`, `FIRE`, `COLD`) do the larger of the
+  resisted elemental damage and the armour-reduced physical damage (armour
+  counted +50) — immunity does not make them harmless — and the elemental
+  part also damages your inventory.
+* **Status blows** (`PARALYZE`, `CONFUSE`, `BLIND`, `TERRIFY`) deal their damage
+  and then apply the effect unless you have the protection or (for most)
+  pass a saving throw.
+* **Drain blows**: `EXP_10/20/40/80` (Hold Life), `LOSE_STR` … `LOSE_ALL`
+  (sustains), `DISENCHANT` (rDisen), `DRAIN_CHARGES` (heals the monster by
+  its level × the charges drained), `EAT_GOLD`/`EAT_ITEM` (DEX + level save,
+  then the thief teleports), `EAT_FOOD`, `EAT_LIGHT`.
+* **Critical hits** from monsters (95%+ of maximum damage) cause **cuts and
+  stuns** (`monster_critical()`), which is why big single blows are worse
+  than the same total in small blows.
+
+The per-unique "Melee avg (max)" figures in §6 are before armour.
 
 ---
 
