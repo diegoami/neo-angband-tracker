@@ -1,0 +1,135 @@
+{
+  "issue": "diegoami/neo-angband-tracker#122",
+  "report": "trapdead-122",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "b53fa471a59305abf4061ca5b3dc8ea3f812cc7a",
+  "fix_branch": "task/trapdead-122",
+  "fixtures_ref": "7faad43e6c6d7f99fc2a4b78bed15f0e17d723b8",
+  "cases": {
+    "known": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "flowed": 0,
+          "key": 0,
+          "step_x": -1,
+          "step_y": -1,
+          "step_is_trap": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "flowed": 0,
+          "key": 0,
+          "step_x": -1,
+          "step_y": -1,
+          "step_is_trap": 0
+        }
+      }
+    },
+    "unknown": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "key": 68,
+          "step_x": 11,
+          "step_y": 12,
+          "step_is_trap": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "key": 68,
+          "step_x": 11,
+          "step_y": 12,
+          "step_is_trap": 1
+        }
+      }
+    },
+    "door": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "key": 52,
+          "step_x": 9,
+          "step_y": 12,
+          "step_is_trap": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "key": 52,
+          "step_x": 9,
+          "step_y": 12,
+          "step_is_trap": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "known",
+    "unknown",
+    "door"
+  ],
+  "claim": "The deleted case in borg_flow_dark_interesting() is unreachable with stock terrain data: only the open floor has the TRAP terrain flag, and floor grids return early at the FEAT_SECRET test. Three native dark-flow scenarios, one with only a known trap as a candidate, one with a trap on the route to unknown grids and one with a closed door, give byte-identical logs before and after the deletion, and both full native gates pass on both builds.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-dark.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-dark.c": "ff04304ed08f87f81efc5e16379ef7c8cdefacf6b8537234c7f069e7ac83f489"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "7efa826c05ba1d759c795efab7cfcb1e130efe92800c3dfd4f187760558620a7",
+    "after-door.log": "58be52a87de7c0f403fd265272f483e6d2accb4ba52086d191f3c3d8420b6e0d",
+    "after-known.log": "4352452122f8446016066b9db26d3ef2af46b19245b5cf4fc093cc66b51930d4",
+    "after-results.json": "e45fa4b2d7da4e50ec5dd2571b2a14515003f31009c03e1c7243a4f312a14a3e",
+    "after-unknown.log": "f9d4066300bd66537c4d0fc2d4c16ccfcbe4fc3f88eedecc1c04b36f46c0ce4f",
+    "before-door.log": "58be52a87de7c0f403fd265272f483e6d2accb4ba52086d191f3c3d8420b6e0d",
+    "before-known.log": "4352452122f8446016066b9db26d3ef2af46b19245b5cf4fc093cc66b51930d4",
+    "before-results.json": "e45fa4b2d7da4e50ec5dd2571b2a14515003f31009c03e1c7243a4f312a14a3e",
+    "before-unknown.log": "f9d4066300bd66537c4d0fc2d4c16ccfcbe4fc3f88eedecc1c04b36f46c0ce4f",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "a9d5b89cb2d341c8867256eda387d518e8387da2ff1996897b1e88aa0262ed73",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "0d03c4fec6345d24e327f214d79db0fd22b219fd58a33909d94568dc95878bab",
+    "replay.html": "25d78f701ca756356cc8955c042581850ea132b92ae57c968aed40d7b811b9d6",
+    "reproduce.py": "bf9ac49f876e59ea1d4d666152fc184a9fc8a78dd1ab326756497b1355c31e4a",
+    "result.json": "ad4037df58865fb574cc1314b048b56d8ea3f4012419faabf3e8b926d35c7e05",
+    "run-after-alltests.log": "1aea3c905daf6460d7f38e76ab902d9e8aabb2d241f0c553f9e2a1c6f08378ae",
+    "run-after-build.log": "81718bf6adb6420e8277e3944cc55ddafd563112cf20e2340e9db6fa46f9a0a5",
+    "run-after-scenarios.log": "86430db857203de142412d5cc44053b7b409d0bd23e9054ec19294df1e9db8d6",
+    "run-before-alltests.log": "ae1e66bd8e465c768fde9b3968614054e53374ebb49a676135f9b72a1e291f17",
+    "run-before-build.log": "0bbad977423ab04ed287d0479bf1bda2de09bc0802ca853a2a493fa5f0dfbe49",
+    "run-before-scenarios.log": "86430db857203de142412d5cc44053b7b409d0bd23e9054ec19294df1e9db8d6",
+    "run-cases.py": "0d34b2167b746f2ea867aaa00a3f945697443a3b864286e503bcb36841250e99",
+    "run-configure.log": "442c22159b77935e54b13fd586d547465cfb1742ad5cb55dc659ab0d734c5d0a",
+    "scenario.c": "3f5e07a2a5eb8e5433c1f00040726a164f0f2ae1d4b0ee01e24a8912ef3bfa41"
+  }
+}
