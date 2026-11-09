@@ -1,0 +1,123 @@
+native-c/healchance-364: starting...
+SETUP seed=364 mode=danger class=Warrior clevel=31 hp=149/374 depth=30 race=fire giant unique=0 risky=0
+  heal_gate_adjustments  STATE danger=192 curhp=149 maxhp=374 pct_down=60 unique=0 risky=0 in_band=1
+TRACK danger=192 hp=149/374 pct_down=60 race=fire giant
+TRIAL seed=1 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=2 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=3 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=4 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=5 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=6 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=7 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=8 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=9 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=10 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=11 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=12 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=13 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=14 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=15 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=16 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=17 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=18 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=19 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=20 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=21 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=22 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=23 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=24 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=25 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=26 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=27 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=28 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=29 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=30 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=31 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=32 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=33 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=34 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=35 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=36 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=37 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=38 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=39 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=40 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=41 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=42 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=43 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=44 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=45 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=46 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=47 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=48 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=49 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=50 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=51 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=52 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=53 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=54 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=55 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=56 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=57 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=58 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=59 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=60 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=61 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=62 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=63 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=64 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=65 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=66 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=67 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=68 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=69 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=70 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=71 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=72 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=73 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=74 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=75 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=76 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=77 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=78 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=79 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=80 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=81 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=82 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=83 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=84 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=85 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=86 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=87 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=88 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=89 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=90 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=91 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=92 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=93 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=94 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=95 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=96 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=97 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=98 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=99 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRIAL seed=100 rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+TRACK heals=0 of 100 decisions
+PACK a Rations of Food
+PACK b Rations of Food
+PACK c Potions of Healing
+PACK d Potion of Berserk Strength
+PACK e Scroll of Word of Recall
+PACK f Wooden Torch (5000 turns)
+TRACK # Loc:12,10 Dep:30 Lev:31 HP:149/374 SP:0/0 Danger:p=192
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)
+DECISION rc=1 healed=0 keys=<Esc><Esc>re<Esc>
+ENGINE quaffed=0 potion=- hp=149->149 healing_potions=3->3
+TRACK engine potion=- hp=149->149
+OUTCOME heals=0 plain_heals=-1 witness_healed=0 drank_healing=0 hp_after=149
+Failed
+    native-c/healchance-364:284: requirement 'heals >= 90' failed
+native-c/healchance-364 finished: 0/1 passed

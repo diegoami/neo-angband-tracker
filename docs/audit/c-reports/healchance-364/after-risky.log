@@ -1,0 +1,218 @@
+native-c/healchance-364: starting...
+SETUP seed=364 mode=risky class=Warrior clevel=31 hp=149/374 depth=30 race=cave orc unique=0 risky=1
+  heal_gate_adjustments  STATE danger=8 curhp=149 maxhp=374 pct_down=60 unique=0 risky=1 in_band=0
+TRACK danger=8 hp=149/374 pct_down=60 race=cave orc
+TRIAL seed=1 rc=0 healed=0 keys=
+TRIAL seed=2 rc=0 healed=0 keys=
+TRIAL seed=3 rc=0 healed=0 keys=
+TRIAL seed=4 rc=1 healed=1 keys=qc
+TRIAL seed=5 rc=1 healed=1 keys=qc
+TRIAL seed=6 rc=0 healed=0 keys=
+TRIAL seed=7 rc=0 healed=0 keys=
+TRIAL seed=8 rc=0 healed=0 keys=
+TRIAL seed=9 rc=1 healed=1 keys=qc
+TRIAL seed=10 rc=0 healed=0 keys=
+TRIAL seed=11 rc=0 healed=0 keys=
+TRIAL seed=12 rc=0 healed=0 keys=
+TRIAL seed=13 rc=0 healed=0 keys=
+TRIAL seed=14 rc=0 healed=0 keys=
+TRIAL seed=15 rc=0 healed=0 keys=
+TRIAL seed=16 rc=0 healed=0 keys=
+TRIAL seed=17 rc=0 healed=0 keys=
+TRIAL seed=18 rc=1 healed=1 keys=qc
+TRIAL seed=19 rc=0 healed=0 keys=
+TRIAL seed=20 rc=1 healed=1 keys=qc
+TRIAL seed=21 rc=0 healed=0 keys=
+TRIAL seed=22 rc=0 healed=0 keys=
+TRIAL seed=23 rc=0 healed=0 keys=
+TRIAL seed=24 rc=1 healed=1 keys=qc
+TRIAL seed=25 rc=1 healed=1 keys=qc
+TRIAL seed=26 rc=0 healed=0 keys=
+TRIAL seed=27 rc=0 healed=0 keys=
+TRIAL seed=28 rc=0 healed=0 keys=
+TRIAL seed=29 rc=0 healed=0 keys=
+TRIAL seed=30 rc=0 healed=0 keys=
+TRIAL seed=31 rc=0 healed=0 keys=
+TRIAL seed=32 rc=0 healed=0 keys=
+TRIAL seed=33 rc=0 healed=0 keys=
+TRIAL seed=34 rc=0 healed=0 keys=
+TRIAL seed=35 rc=0 healed=0 keys=
+TRIAL seed=36 rc=0 healed=0 keys=
+TRIAL seed=37 rc=0 healed=0 keys=
+TRIAL seed=38 rc=0 healed=0 keys=
+TRIAL seed=39 rc=0 healed=0 keys=
+TRIAL seed=40 rc=0 healed=0 keys=
+TRIAL seed=41 rc=0 healed=0 keys=
+TRIAL seed=42 rc=0 healed=0 keys=
+TRIAL seed=43 rc=0 healed=0 keys=
+TRIAL seed=44 rc=0 healed=0 keys=
+TRIAL seed=45 rc=0 healed=0 keys=
+TRIAL seed=46 rc=0 healed=0 keys=
+TRIAL seed=47 rc=1 healed=1 keys=qc
+TRIAL seed=48 rc=0 healed=0 keys=
+TRIAL seed=49 rc=0 healed=0 keys=
+TRIAL seed=50 rc=1 healed=1 keys=qc
+TRIAL seed=51 rc=0 healed=0 keys=
+TRIAL seed=52 rc=0 healed=0 keys=
+TRIAL seed=53 rc=0 healed=0 keys=
+TRIAL seed=54 rc=0 healed=0 keys=
+TRIAL seed=55 rc=0 healed=0 keys=
+TRIAL seed=56 rc=1 healed=1 keys=qc
+TRIAL seed=57 rc=1 healed=1 keys=qc
+TRIAL seed=58 rc=0 healed=0 keys=
+TRIAL seed=59 rc=0 healed=0 keys=
+TRIAL seed=60 rc=0 healed=0 keys=
+TRIAL seed=61 rc=0 healed=0 keys=
+TRIAL seed=62 rc=0 healed=0 keys=
+TRIAL seed=63 rc=0 healed=0 keys=
+TRIAL seed=64 rc=1 healed=1 keys=qc
+TRIAL seed=65 rc=0 healed=0 keys=
+TRIAL seed=66 rc=0 healed=0 keys=
+TRIAL seed=67 rc=0 healed=0 keys=
+TRIAL seed=68 rc=0 healed=0 keys=
+TRIAL seed=69 rc=0 healed=0 keys=
+TRIAL seed=70 rc=0 healed=0 keys=
+TRIAL seed=71 rc=1 healed=1 keys=qc
+TRIAL seed=72 rc=1 healed=1 keys=qc
+TRIAL seed=73 rc=0 healed=0 keys=
+TRIAL seed=74 rc=0 healed=0 keys=
+TRIAL seed=75 rc=0 healed=0 keys=
+TRIAL seed=76 rc=1 healed=1 keys=qc
+TRIAL seed=77 rc=1 healed=1 keys=qc
+TRIAL seed=78 rc=0 healed=0 keys=
+TRIAL seed=79 rc=0 healed=0 keys=
+TRIAL seed=80 rc=0 healed=0 keys=
+TRIAL seed=81 rc=0 healed=0 keys=
+TRIAL seed=82 rc=0 healed=0 keys=
+TRIAL seed=83 rc=0 healed=0 keys=
+TRIAL seed=84 rc=1 healed=1 keys=qc
+TRIAL seed=85 rc=0 healed=0 keys=
+TRIAL seed=86 rc=0 healed=0 keys=
+TRIAL seed=87 rc=0 healed=0 keys=
+TRIAL seed=88 rc=0 healed=0 keys=
+TRIAL seed=89 rc=1 healed=1 keys=qc
+TRIAL seed=90 rc=1 healed=1 keys=qc
+TRIAL seed=91 rc=0 healed=0 keys=
+TRIAL seed=92 rc=0 healed=0 keys=
+TRIAL seed=93 rc=0 healed=0 keys=
+TRIAL seed=94 rc=1 healed=1 keys=qc
+TRIAL seed=95 rc=0 healed=0 keys=
+TRIAL seed=96 rc=0 healed=0 keys=
+TRIAL seed=97 rc=0 healed=0 keys=
+TRIAL seed=98 rc=0 healed=0 keys=
+TRIAL seed=99 rc=0 healed=0 keys=
+TRIAL seed=100 rc=0 healed=0 keys=
+TRACK heals=20 of 100 decisions
+TRIAL plain seed=1 rc=0 healed=0 keys=
+TRIAL plain seed=2 rc=0 healed=0 keys=
+TRIAL plain seed=3 rc=0 healed=0 keys=
+TRIAL plain seed=4 rc=1 healed=1 keys=qc
+TRIAL plain seed=5 rc=1 healed=1 keys=qc
+TRIAL plain seed=6 rc=0 healed=0 keys=
+TRIAL plain seed=7 rc=0 healed=0 keys=
+TRIAL plain seed=8 rc=0 healed=0 keys=
+TRIAL plain seed=9 rc=1 healed=1 keys=qc
+TRIAL plain seed=10 rc=0 healed=0 keys=
+TRIAL plain seed=11 rc=0 healed=0 keys=
+TRIAL plain seed=12 rc=0 healed=0 keys=
+TRIAL plain seed=13 rc=0 healed=0 keys=
+TRIAL plain seed=14 rc=0 healed=0 keys=
+TRIAL plain seed=15 rc=0 healed=0 keys=
+TRIAL plain seed=16 rc=0 healed=0 keys=
+TRIAL plain seed=17 rc=0 healed=0 keys=
+TRIAL plain seed=18 rc=1 healed=1 keys=qc
+TRIAL plain seed=19 rc=0 healed=0 keys=
+TRIAL plain seed=20 rc=1 healed=1 keys=qc
+TRIAL plain seed=21 rc=0 healed=0 keys=
+TRIAL plain seed=22 rc=0 healed=0 keys=
+TRIAL plain seed=23 rc=0 healed=0 keys=
+TRIAL plain seed=24 rc=1 healed=1 keys=qc
+TRIAL plain seed=25 rc=1 healed=1 keys=qc
+TRIAL plain seed=26 rc=0 healed=0 keys=
+TRIAL plain seed=27 rc=0 healed=0 keys=
+TRIAL plain seed=28 rc=0 healed=0 keys=
+TRIAL plain seed=29 rc=0 healed=0 keys=
+TRIAL plain seed=30 rc=0 healed=0 keys=
+TRIAL plain seed=31 rc=0 healed=0 keys=
+TRIAL plain seed=32 rc=0 healed=0 keys=
+TRIAL plain seed=33 rc=0 healed=0 keys=
+TRIAL plain seed=34 rc=0 healed=0 keys=
+TRIAL plain seed=35 rc=0 healed=0 keys=
+TRIAL plain seed=36 rc=0 healed=0 keys=
+TRIAL plain seed=37 rc=0 healed=0 keys=
+TRIAL plain seed=38 rc=0 healed=0 keys=
+TRIAL plain seed=39 rc=0 healed=0 keys=
+TRIAL plain seed=40 rc=0 healed=0 keys=
+TRIAL plain seed=41 rc=0 healed=0 keys=
+TRIAL plain seed=42 rc=0 healed=0 keys=
+TRIAL plain seed=43 rc=0 healed=0 keys=
+TRIAL plain seed=44 rc=0 healed=0 keys=
+TRIAL plain seed=45 rc=0 healed=0 keys=
+TRIAL plain seed=46 rc=0 healed=0 keys=
+TRIAL plain seed=47 rc=1 healed=1 keys=qc
+TRIAL plain seed=48 rc=1 healed=1 keys=qc
+TRIAL plain seed=49 rc=0 healed=0 keys=
+TRIAL plain seed=50 rc=1 healed=1 keys=qc
+TRIAL plain seed=51 rc=0 healed=0 keys=
+TRIAL plain seed=52 rc=0 healed=0 keys=
+TRIAL plain seed=53 rc=0 healed=0 keys=
+TRIAL plain seed=54 rc=1 healed=1 keys=qc
+TRIAL plain seed=55 rc=0 healed=0 keys=
+TRIAL plain seed=56 rc=1 healed=1 keys=qc
+TRIAL plain seed=57 rc=1 healed=1 keys=qc
+TRIAL plain seed=58 rc=0 healed=0 keys=
+TRIAL plain seed=59 rc=0 healed=0 keys=
+TRIAL plain seed=60 rc=0 healed=0 keys=
+TRIAL plain seed=61 rc=0 healed=0 keys=
+TRIAL plain seed=62 rc=0 healed=0 keys=
+TRIAL plain seed=63 rc=0 healed=0 keys=
+TRIAL plain seed=64 rc=1 healed=1 keys=qc
+TRIAL plain seed=65 rc=0 healed=0 keys=
+TRIAL plain seed=66 rc=0 healed=0 keys=
+TRIAL plain seed=67 rc=0 healed=0 keys=
+TRIAL plain seed=68 rc=0 healed=0 keys=
+TRIAL plain seed=69 rc=1 healed=1 keys=qc
+TRIAL plain seed=70 rc=0 healed=0 keys=
+TRIAL plain seed=71 rc=1 healed=1 keys=qc
+TRIAL plain seed=72 rc=1 healed=1 keys=qc
+TRIAL plain seed=73 rc=0 healed=0 keys=
+TRIAL plain seed=74 rc=0 healed=0 keys=
+TRIAL plain seed=75 rc=0 healed=0 keys=
+TRIAL plain seed=76 rc=1 healed=1 keys=qc
+TRIAL plain seed=77 rc=1 healed=1 keys=qc
+TRIAL plain seed=78 rc=0 healed=0 keys=
+TRIAL plain seed=79 rc=0 healed=0 keys=
+TRIAL plain seed=80 rc=0 healed=0 keys=
+TRIAL plain seed=81 rc=0 healed=0 keys=
+TRIAL plain seed=82 rc=0 healed=0 keys=
+TRIAL plain seed=83 rc=0 healed=0 keys=
+TRIAL plain seed=84 rc=1 healed=1 keys=qc
+TRIAL plain seed=85 rc=0 healed=0 keys=
+TRIAL plain seed=86 rc=0 healed=0 keys=
+TRIAL plain seed=87 rc=0 healed=0 keys=
+TRIAL plain seed=88 rc=0 healed=0 keys=
+TRIAL plain seed=89 rc=1 healed=1 keys=qc
+TRIAL plain seed=90 rc=1 healed=1 keys=qc
+TRIAL plain seed=91 rc=0 healed=0 keys=
+TRIAL plain seed=92 rc=0 healed=0 keys=
+TRIAL plain seed=93 rc=0 healed=0 keys=
+TRIAL plain seed=94 rc=1 healed=1 keys=qc
+TRIAL plain seed=95 rc=0 healed=0 keys=
+TRIAL plain seed=96 rc=0 healed=0 keys=
+TRIAL plain seed=97 rc=0 healed=0 keys=
+TRIAL plain seed=98 rc=0 healed=0 keys=
+TRIAL plain seed=99 rc=0 healed=0 keys=
+TRIAL plain seed=100 rc=0 healed=0 keys=
+TRACK same seeds without borg_plays_risky: heals=23 of 100
+PACK a Rations of Food
+PACK b Rations of Food
+PACK c Potions of Healing
+PACK d Potion of Berserk Strength
+PACK e Scroll of Word of Recall
+PACK f Wooden Torch (5000 turns)
+DECISION rc=0 healed=0 keys=
+ENGINE quaffed=0 potion=- hp=149->149 healing_potions=3->3
+TRACK engine potion=- hp=149->149
+OUTCOME heals=20 plain_heals=23 witness_healed=0 drank_healing=0 hp_after=149
+Passed
+native-c/healchance-364 finished: 1/1 passed
