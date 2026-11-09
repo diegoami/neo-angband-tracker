@@ -357,7 +357,7 @@ attack, and the first piece of the defensive kit (Free Action is the first impor
 | Mughash the Kobold Lord | 7 | +0 | 150 | 3× 1d10 | kobold escort |
 | blacklock mage | 10 | +10 | 39 | BA_POIS (max 32) at 1-in-5, BLIND, CONF | |
 | ironfist priest | 12 | +10 | 39 | WOUND (power 12 → 8d5 = 40) at 1-in-5 | per-turn 80 at +0 |
-| druid | 13 | +0 | 78 | BO_FIRE (12+9d8 → max 76) at 1-in-3, HOLD (paralyse) | one of the first paralysers |
+| druid | 13 | +0 | 78 | BO_FIRE (power 13: 4+9d8 → max 76) at 1-in-3, HOLD (paralyse) | one of the first paralysers |
 | illusionist | 13 | +10 | 54 | HOLD, BLIND, CONF, SLOW at 1-in-3 | paralysis without Free Action |
 | homunculus | 15 | +0 | | PARALYZE blow | |
 | spotted / ochre jelly | 12-13 | +10 | 59 | touches 34 | ochre jelly moves |
