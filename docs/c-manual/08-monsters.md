@@ -158,7 +158,8 @@ FACT (`src/mon-move.c:get_move_advance()`, `monster_can_hear()`, `monster_can_sm
    30 subtracts 10.
 4. **Scent:** grids you walked over keep a scent that ages by 1 each player turn
    (only 2 grids around you are scented, not through walls). A monster with `smell` can
-   follow scent no older than its smell value. 456 of 624 races have no smell.
+   follow scent no older than its smell value. About three quarters of all races have no
+   smell at all (`monster.txt`).
 5. Otherwise follow a group member who is tracking, keep going to the last target, or
    wander.
 
@@ -412,9 +413,14 @@ FACT (`src/mon-move.c:monster_turn_can_move()`):
 - `OPEN_DOOR` monsters open closed or secret doors; `BASH_DOOR` monsters smash them
   ("You hear a door burst open!") and may fall into the doorway. Monsters with both
   sometimes bash anyway.
-- Locked doors: each try succeeds only if `1d(HP/10)` exceeds the lock power, reducing
-  the lock by one each time: big monsters break locks fast, small ones slowly.
-- No door ability (most animals, hounds `Z`, insects, jellies): a closed door stops it.
+- An unlocked door costs them one turn. Locked doors: each try succeeds only if
+  `randint0(HP/10)` exceeds the lock power, reducing the lock by one each time: big
+  monsters break locks fast, monsters with fewer than `10 × (power + 2)` HP never do. You can
+  lock doors yourself with `D` (power `m_bonus(7, depth)`,
+  `src/cmd-cave.c:do_cmd_lock_door()`).
+- No door ability (insects, worms, jellies, molds, many reptiles and birds): a closed door
+  stops it. **Dogs and almost all hounds have `BASH_DOOR`**; only wall-passers like hounds
+  of Tindalos ignore doors entirely.
 - `PASS_WALL` monsters go through doors and walls; `KILL_WALL` monsters destroy them;
   `SMASH_WALL` (Morgoth) destroys the wall and much around it.
 
@@ -620,8 +626,8 @@ blink dogs (L18, teleport-to), werewolves (L20, 230 HP), wolf chieftain (L26, 42
 wolf escort), hellhounds (L42, +10, packs of 2d5, 3×3d12 fire bites, fire breath 117
 each): a hellhound pack without rFire is a death sentence. Werewolf of Sauron (L63).
 Uniques: **Draugluin** (L83), **Huan** (L90, not evil), **Carcharoth** (L90), and
-**Wolf-Sauron** (Sauron's +30 shape). Dogs cannot open doors: a closed door stops a
-pack.
+**Wolf-Sauron** (Sauron's +30 shape). Dogs bash doors (`BASH_DOOR`); the bigger ones
+also open them. A *locked* door of power 2–3 stops wolves and wargs (21–36 HP) for good.
 
 ### `d` Dragons, young and mature (L9–43)
 
@@ -650,7 +656,7 @@ hell wyrm breathes 1500 fire, ~500 resisted, ~167 double resisted).
 
 ### `e` Floating eyes (L1–73)
 
-Never move (`NEVER_MOVE`, except spectators and beholders), gaze attacks. **Floating eye**
+Most never move (`NEVER_MOVE`; spectators, gauths and the beholders do move), gaze attacks. **Floating eye**
 (L1): paralyzing gaze; meleeing it without Free Action can paralyse you until death
 (each paralysis is non-stacking but a fresh one follows when it ends). Shoot it or walk
 away. Radiation eye (STR drain gaze), disenchanter eye, bloodshot eye (blind), evil eye
@@ -794,8 +800,8 @@ ADVICE: just walk around molds; never melee a death mold.
 
 ### `M` Hydras (L17–57)
 
-`ANIMAL`, `HURT_COLD` (cold brands ×4/×6), many bite blows, SCARE spells; 5–9-headed
-hydras add fire/poison/acid breath and blinding/confusing bites; the 9-headed hydra
+`ANIMAL`, `HURT_COLD` (cold brands ×4/×6), many bite blows, SCARE spells; 6–9-headed
+hydras add poison/fire/acid breath and blinding/confusing bites; the 9-headed hydra
 (L57) is smart, regenerates and summons hydras. Mostly a melee slugfest: cold brand and
 slay animal are ideal.
 
@@ -855,7 +861,7 @@ confusion). **Beorn** in bear form is a `q`.
 
 ### `Q` Quylthulgs (L20–79)
 
-Invisible, never move, never melee, `EMPTY_MIND` (no ESP), 1 HP of AC; they **only
+Invisible, never move, never melee, `EMPTY_MIND` (no ESP), AC 1; they **only
 summon** (or teleport you), 50–100% of turns: quylthulg (S_MONSTER), nexus quylthulg
 (L32, TELE_AWAY every turn), rotting/demonic/draconic (L45, undead/demons/dragons),
 greater versions (L71, high undead/demons/dragons), master quylthulg (L76: everything),
@@ -920,8 +926,8 @@ fire balls, summon demons), death quasits (L40, +20, invisible, pass walls). **D
 
 `DEMON`, `EVIL`, no conf/sleep/hold. Vrocks (L40, 2×8d12 crush), glabrezu, nalfeshnee
 (fire breath), mariliths (L47, 4×4d6), **lesser Balrogs** (L49, +10, fire breath 586,
-DRAIN_CHARGES), **the Balrog of Moria** (L50), hezrous, barbazu, bile demons (L61, acid/
-poison breath 821), osyluths (L65, +20, invisible), gelugons (L69, +20, cold breath 1026,
+DRAIN_CHARGES), **the Balrog of Moria** (L50), hezrous, barbazu, bile demons (L61, acid breath 821,
+poison 800), osyluths (L65, +20, invisible), gelugons (L69, +20, cold breath 1026,
 shards 500, paralyzing hit), horned reapers (L72, +20, 4×11d11), pit fiends (L77, +20,
 chaos/fire/poison breath), furies (L80, pass walls, brain smash, blink to you), greater
 Balrogs (L85, fire 1500, plasma), **Pazuzu** (L82), **Lungorthin** (L88), **Gothmog**
@@ -999,7 +1005,11 @@ base elements 73 each), nether/time/plasma (L51), chaos (L64), hounds of Tindalo
 one turn. ADVICE: they ambush corridors ([8.5](#85-group-ai)); balls and area spells kill
 packs; the deadly ones are **gravity** (35: damage, slow, stun, blinks you around),
 **inertia** (−10 speed), **nexus** (teleports, stat swaps), **time** (stat and exp
-drain, +20 speed), **plasma** (stun) and **chaos**. Hounds cannot open doors.
+drain, +20 speed), **plasma** (stun) and **chaos**. Hounds bash doors (nether, time and
+plasma hounds also open them), so an unlocked door only delays them a turn; a locked door
+stops a hound for good once the lock power is at least `HP/10 − 1` (power 1 stops the
+21 HP light/dark/clear hounds, power 2 the 35 HP fire/cold/energy hounds, power 5 the
+68 HP earth/air/water hounds).
 
 ### `$` Creeping coins, `,` mushrooms, mimics (`! ? = ~`)
 
@@ -1218,8 +1228,8 @@ the level is regenerated).
 - **Uldor the Accursed** (L28, 1000 HP, ~56, summons kin).
 - **Draebor, the Imp** (L28, 520 HP, +10, invisible): teleports you away, to him, or off
   the level, blinds and confuses, summons imps. More annoying than deadly. SI and rNexus.
-- **Beorn, the Shape-Changer** (L28, 1400 HP): as a man weak melee, but half his turns
-  he shapechanges into **the Mountain Bear** (+10, ~50/turn melee), with a bear escort.
+- **Beorn, the Shape-Changer** (L28, 1400 HP): as a man weak melee, but he often
+  (spell frequency 1 in 2) shapechanges into **the Mountain Bear** (+10, ~50/turn melee), with a bear escort.
 - **Bert, Bill and Tom, the Stone Trolls** (L30, 1100 HP each, +10, ~58/turn each,
   boulders, rCold, `HURT_LIGHT`): always together. 3300 HP of fast trolls. Fight in a
   corridor with slay troll and light attacks, or come back later.
@@ -1297,7 +1307,7 @@ the level is regenerated).
 - **Ossë, Herald of Ulmo** (L72, 6000 HP, +20): STORM ~286, disenchantment breath 500,
   mana bolt, TELE_TO, summons Ainur. Not evil.
 - **Omarax, the Eye Tyrant** (L73, 6500 HP, +20): dark/nether balls ~347, brain smash,
-  FORGET, drain mana, mana bolt; never moves far.
+  FORGET, drain mana, mana bolt, summons kin.
 
 ### DL75–98
 
@@ -1316,7 +1326,7 @@ the level is regenerated).
   summon each other). Khamûl has TELE_LEVEL; the Witch-King TELE_AWAY, brain smash and
   every high summon. Hold Life, rNether, FA, high saving throw.
 - **Qlzqqlzuup, the Emperor Quylthulg** (L79, 5000 HP, +20, invisible, never moves): only
-  summons, every turn, including uniques. Leave on sight unless you can kill 5000 HP
+  summons, on every turn its spell does not fail, including uniques. Leave on sight unless you can kill 5000 HP
   instantly.
 - **Wiruin, the Maelstrom** (L80, 3500 HP, +30, never moves): cold breath 1166, sound 500.
 - **Maeglin, the Traitor of Gondolin** (L81, 6000 HP, +20, tunnels): 4×8d8 melee and
@@ -1451,9 +1461,10 @@ ADVICE:
 4. **Make smart casters waste turns.** Wear a resist the caster has a spell for, let it
    learn, then remove it before a fight? Monsters forget 1 in 20 turns, so this decays
    fast. *Test:* measure spell choice frequencies after resist learning.
-5. **Hound-pack starvation.** Hounds never open doors: close every door between you and a
+5. **Lock out hound packs.** Low-HP hounds and wolves cannot beat a locked door
+   (`randint0(HP/10)` must exceed the lock power). Lock (`D`) the doors between you and a
    hound room and explore elsewhere. *Test:* compare hound damage taken per level with and
-   without door-closing behaviour in a borg.
+   without door-locking behaviour in a borg; check how often the lock fails to set.
 6. **Breeder corridor farming.** Breeding needs fewer than 3 neighbours: a colony of weak
    worms confined to a corridor grows linearly. Farm white worm masses for early levels.
    *Test:* experience per 1000 turns vs normal exploration at CL5–10.

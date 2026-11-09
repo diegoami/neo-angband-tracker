@@ -751,11 +751,16 @@ Each item is ADVICE grounded in the cited mechanics.
 
 - Closing a door breaks line of sight: casters and breathers cannot target you, archers
   cannot shoot (`src/mon-attack.c:monster_can_cast()` needs a projectable path).
-- Monsters without `OPEN_DOOR`/`BASH_DOOR` (animals mostly, `C` and `Z` bases lack them;
-  check recall) cannot pass a closed door at all.
-- Openers just open; bashers may smash the door (and fall into the doorway). Locked doors
-  slow both: each attempt succeeds only if `1d(monster HP/10)` beats the lock power
-  (`src/mon-move.c:monster_turn_can_move()`).
+- Monsters with neither `OPEN_DOOR` nor `BASH_DOOR` (insects, worms, jellies, many
+  reptiles and other animals; check recall) cannot pass a closed door at all. Note that
+  dogs and nearly all hounds **do** have `BASH_DOOR` (`monster.txt`).
+- An unlocked closed door costs an opener or basher one turn (bashers may then fall into
+  the doorway). **Locked** doors are far better: each try succeeds only if
+  `randint0(monster HP/10)` exceeds the lock power, and each success lowers the power by
+  one (`src/mon-move.c:monster_turn_can_move()`). You can lock a closed door yourself with
+  the Disarm/lock command (`D`), with power `m_bonus(7, depth)` (0–7, higher when deeper;
+  `src/cmd-cave.c:do_cmd_lock_door()`). A monster whose `HP/10` is at most `power + 1` can never
+  get through: a power-2 lock stops 35 HP hounds and wolves for good.
 - Fighting from a doorway: you in the corridor, the monster in the door square, means
   one attacker at a time and no breath angle from the rest of the room.
 

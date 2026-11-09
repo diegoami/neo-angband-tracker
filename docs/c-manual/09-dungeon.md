@@ -346,10 +346,10 @@ Builders live in `src/gen-room.c`.
 
 | Room | Min DL | Where | Contents / notes |
 |---|---|---|---|
-| simple room | 1 | all room profiles | plain rectangle, sometimes pillars or an inner ring; lit if `depth ≤ randint1(25)` |
+| simple room | 1 | all room profiles | plain rectangle; 1/20 pillared, else 1/50 ragged-edged; lit if `depth ≤ randint1(25)` |
 | large room | 3 | classic, modified, lair | outer room with an **inner room** of 5 kinds: (1) inner room with one monster (depth+2); (2) inner room with a locked inner-inner room holding 3–5 monsters (depth+2), an object (80%) or a staircase (20%) and 3–5 traps; (3) pillars, sometimes with two small secret-door rooms each holding a monster and an object; (4) a checkerboard maze with monsters, traps and 3 objects; (5) four compartments |
-| crossed room | 3 | classic, modified, lair | plus-shaped; inner variants similar to the large room |
-| circular room | 1 | classic, modified, lair | round; larger ones may have an inner room with a door, a monster and treasure |
+| crossed room | 3 | classic, modified, lair | plus-shaped; variants: plain, solid middle pillar, **inner treasure vault** (secret door, 1 object, 3–4 monsters at depth+2, 2–4 traps), or pinched/plus/pillar centre |
+| circular room | 1 | classic, modified, lair | round; large ones (radius > 4) may get a middle chamber with a door, 0–1 objects and 0–2 monsters at depth+1 |
 | overlap room | 1 | classic, modified, lair | two overlapping rectangles |
 | room template | 1 / 10 / 30 | classic, modified, lair | one of 415 hand-drawn templates in `room_template.txt` (344 rating-1, 51 rating-2 at DL10+, 20 rating-3 at DL30+); 244 have `FEW_ENTRANCES`; doors from the template are **secret**; some templates place a treasure of a given tval |
 | Interesting room | 0 | modified, moria, lair | 66 hand-drawn rooms in `vault.txt` with type "Interesting room" — e.g. Ant nest (DL3–50), Kobold den (4–14), Yeek Warren (4–14), Zoo (15–40), Spider Nest (10–20), Crevasse (20–70), Giant's Armoury (20–45), Mad Alchemist's Lab (30–55), Deep Crypt (60+), Little eruption (lava) |
@@ -393,8 +393,10 @@ DL50+ (0.5% of levels).
 | `#` granite (inner wall) / `@` **permanent** wall / `%` outer wall | |
 | `+` | **secret door** |
 | `^` | trap (1 in 4) |
-| `&`, `*`, `:` | random object/trap/rubble combinations |
-| `<` `>` | staircases (not on quest levels for `>`, not in town for `<`) |
+| `&` | object at depth (75%), otherwise a trap 1 in 4 |
+| `*` | magma or quartz vein **with treasure** |
+| `:` | rubble (passable or not, 50/50) |
+| `<` `>` | staircases (none with persistent levels; `>` becomes `<` on quest levels and DL127; no `<` with forced descent) |
 | `` ` `` | lava |
 | `1` | monster at depth (and sometimes an object or trap) |
 | `2` | monster at **depth+5** |
@@ -616,8 +618,9 @@ FACT:
   section 9.5.4. Caverns, pits, nests and corridors are never lit. Lava is always bright.
 * The town is fully lit by day and only shop entrances/lava are lit at night
   (`cave_illuminate()`).
-* Your own light: Wooden Torch radius 2 (`LIGHT_2`, burns out and is destroyed when fuel
-  hits 0), Lantern radius 3 (`LIGHT_3`, refuelled with flasks) per `object.txt`; light
+* Your own light: Wooden Torch intensity 2 (`LIGHT_2`, lights only the adjacent grids; burns out and is destroyed when fuel
+  hits 0), Lantern intensity 3 (`LIGHT_3`, radius 2, refuelled with flasks) per `object.txt`. Grids at distance
+  `< intensity` are lit (`src/cave-view.c:update_view_one()`); light
   modifiers on artifacts/egos add to this. A light with 0 fuel gives no light
   (`src/player-calcs.c:calc_light()`). Torches hold 5000 turns of fuel, lanterns 15000
   (`constants.txt`). Necromancers (`UNLIGHT`) carrying light ≤ 1 instead

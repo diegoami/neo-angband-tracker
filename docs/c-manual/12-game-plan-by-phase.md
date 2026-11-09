@@ -242,7 +242,7 @@ escape, and it is "normal" stock (not always present).
 | Flasks of Oil | thrown, they explode for fire damage "even against creatures resistant to fire" (`object.txt` description; `EXPLODE \| THROWING`); the best early ranged attack for every class | 10-20 |
 | Potion of Cure Light Wounds | heals 20 hp, cures blindness, reduces cuts and confusion (`object.txt`: `HEAL_HP` 20) | 3-5 |
 | Scroll of Phase Door | short teleport | 5-10 |
-| Wooden Torches | light radius 2 (`LIGHT_2`, `BURNS_OUT`) | 2-3 spare (or buy a Lantern later: `LIGHT_3`, `TAKES_FUEL`) |
+| Wooden Torches | light intensity 2 (`LIGHT_2`, `BURNS_OUT`): lights adjacent grids only | 2-3 spare (or buy a Lantern later: `LIGHT_3`, `TAKES_FUEL`) |
 | Food | rations | 3-5 |
 | Soft armour, a shield, a sling or bow if your class can use one | AC and ranged damage | as gold allows |
 | Word of Recall | lets you come back up from depth and return to max depth | 1 if affordable (not essential on DL1-4) |
@@ -338,7 +338,7 @@ attack, and the first piece of the defensive kit (Free Action is the first impor
 |---|---|
 | Word of Recall ×1 (always), CLW/CSW ×5+, Phase ×10 | Cure Critical Wounds (alchemist "normal" stock; heals 60, cures poison, stun, cuts, confusion, amnesia, blindness) |
 | a launcher with 40+ missiles, or class attack spells | Staff of Teleportation or Scrolls of Teleportation |
-| light radius 2 | Lantern (radius 3 in this version: `LIGHT_3`) |
+| light radius 2 | Lantern (intensity 3 = radius 2: `LIGHT_3`) |
 | | Scroll of Magic Mapping, Detect Invisible |
 | | Potion of Resist Poison or Neutralize Poison |
 
@@ -1082,7 +1082,7 @@ arrival at DL100.
 |---|---|---|
 | **CL ≥ depth everywhere until CL50** | The single biggest brake on the borg ([TUNABLE-BORG-PLAN](../c-borg/TUNABLE-BORG-PLAN.md) calls depth preparation "probably the biggest single lever"). Experience per kill grows with monster level and falls with your level, so a character kept shallow by this rule levels slowly. Most DL1-15 threats are beaten by kit (escapes, ranged attacks, FA), not by CL. | Gate on kit and hit points first, with CL ≥ depth/2 early (DL ≤ 20) and CL ≥ depth − 10 to DL40, then CL ≥ 40 deeper |
 | Mage/necromancer CL ≥ depth + 5 (DL10-19) and + 8 (DL21+) | Makes casters the slowest divers, yet casters have the best escapes (*Phase Door* CL2, *Teleport Self* CL7, *Teleport Level* CL28 for mages) and the best detection | Gate casters on spell availability (Teleport Self at fail ≤ 10%, Detect Monsters) and hit points instead of CL+5 |
-| Light radius 2 at DL10 | Trivial in this version: a Wooden Torch already has `LIGHT_2` and a Lantern `LIGHT_3` | Drop the rule or require radius 3 (Lantern) for non-necromancers |
+| Light radius 2 at DL10 | The borg's "light radius" is the intensity value (`cur_light`): a Wooden Torch (`LIGHT_2`) already meets it, though it lights only adjacent grids; a Lantern (`LIGHT_3`) lights radius 2 | Require intensity 3 (a Lantern) for non-necromancers by DL10 |
 | Stat minimums of 7 at DL21 and 16 at DL40 | Low stats are a symptom, not a danger; a STR 15 caster with all resists is safer at DL40 than a STR 18 warrior without rPois | Replace with derived quantities: blows, hit points, spell failure rates |
 | 18/40 STR, 18/60 DEX/CON and max spell stat for DL46 | Strong demand that delays the borg in the DL40s, a phase where damage taken is dominated by breath (which stats do not affect except via hit points) | Use max hit points (already gated at 500) and spell failure |
 | Teleport counts mix scrolls and staff charges ("tele + teleport staffs") | Correct in spirit; but no requirement for *Teleport Level*, the best escape from a level with an unbeatable unique, until DL36 (restock) | Require Teleport Level ×1 from DL25 (the scroll is allocated from DL20) |

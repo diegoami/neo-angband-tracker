@@ -598,8 +598,8 @@ Bolt does nothing to undead and half to evil monsters, low HP.
   (`cave-view.c`), i.e. out to distance `1 + CL/6` with no light: 1 (adjacent) at CL1-5, 2 at
   CL6, 3 at CL12, 4 at CL18, 5 at CL24, 6 at CL30, 7 at CL36, 8 at CL42, 9 at CL48-50. Monsters outside that radius in the dark are unseen unless lit, detected or
   infravision-visible.
-- A torch or lantern (radius 2) turns this off and lights your own grid → +25% fail. A light
-  source with only a +1 light modifier is treated as radius 0.
+- A torch or lantern (intensity 2 or more) turns this off and lights your own grid → +25% fail. A light
+  source with only a +1 light modifier is treated as intensity 0.
 - Lit rooms are lit grids: cast **Create Darkness** (CL3) in lit rooms before fighting.
 - You resist darkness (blindness from dark attacks is prevented).
 - `EVIL` gives rNether but makes holy orb (priest-type monster spells) hurt more.

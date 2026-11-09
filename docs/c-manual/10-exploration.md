@@ -325,7 +325,7 @@ ADVICE:
 
 ## 10.8 Light: carrying it, lighting rooms, dark levels
 
-FACT: torch radius 2 (5000 turns, destroyed when empty), lantern radius 3 (15000,
+FACT: torch intensity 2 = lit radius 1 (5000 turns, destroyed when empty), lantern intensity 3 = radius 2 (15000,
 refuelled with flasks), artifacts/egos add `LIGHT` modifiers; a light with no fuel gives
 no light. Without light (and not a Necromancer) you cannot read, cast, or see traps
 and secret doors (`player_can_read()`, `player_can_cast()`, `search()`).

@@ -476,14 +476,16 @@ Cloak egos: **of Protection** (rShards, ignores elements, +d10 AC), of Stealth, 
 
 ### 8.1 Light kinds
 
-FACT (`lib/gamedata/object.txt`, `lib/gamedata/artifact.txt`, `src/player-calcs.c:calc_light()`):
+FACT (`lib/gamedata/object.txt`, `lib/gamedata/artifact.txt`, `src/player-calcs.c:calc_light()`): the game
+reports a light's *intensity* L; you see by your own light grids at distance `< L`
+(`src/cave-view.c:update_view_one()`), so the lit radius is L − 1.
 
-| Light | Base radius | Fuel | Notes |
+| Light | Intensity (lit radius) | Fuel | Notes |
 |-------|------------|------|-------|
-| Wooden Torch | 2 (`LIGHT_2`) | 5000 turns, BURNS_OUT (destroyed when it runs out) | General Store always; cost 2 |
-| Lantern | 3 (`LIGHT_3`) | refillable with Flasks of oil: max 15000, store/new 7500 | DL5+; ignores fire |
-| Phial of Galadriel | 4 (`LIGHT[4]`, no fuel) | none | DL5+, alloc 40: the commonest artifact; activates ILLUMINATION (lights the room and a radius-3 2d15 weak-light ball), recharge 10+d10 |
-| Star of Elendil | 4, no fuel | none | DL30+; See Invisible; activates MAPPING (map area), 50+d50 |
+| Wooden Torch | 2 (`LIGHT_2`), lights adjacent grids only (radius 1) | 5000 turns, BURNS_OUT (destroyed when it runs out) | General Store always; cost 2 |
+| Lantern | 3 (`LIGHT_3`), radius 2 | refillable with Flasks of oil: max 15000, store/new 7500 | DL5+; ignores fire |
+| Phial of Galadriel | 4 (`LIGHT[4]`, no fuel), radius 3 | none | DL5+, alloc 40: the commonest artifact; activates ILLUMINATION (lights the room and a radius-3 2d15 weak-light ball), recharge 10+d10 |
+| Star of Elendil | 4, no fuel, radius 3 | none | DL30+; See Invisible; activates MAPPING (map area), 50+d50 |
 | Arkenstone of Thráin | 4, no fuel | none | DL50+; SI, Hold Life, rLight, rDark; activates CLAIRVOYANCE (light/map the level), 50+d50 |
 
 Fuel constants are in `lib/gamedata/constants.txt` (`fuel-torch:5000`, `fuel-lamp:15000`,
@@ -504,7 +506,7 @@ Light egos (`lib/gamedata/ego_item.txt`):
 
 | Ego | On | Effect |
 |-----|----|--------|
-| of Brightness | torch or lantern | +1 light radius (DL1-30, alloc 50) |
+| of Brightness | torch or lantern | +1 light intensity, i.e. +1 radius (DL1-30, alloc 50) |
 | (Everburning) | lantern | NO_FUEL: never needs oil (DL1-30, alloc 100) |
 | of True Sight | lantern | pBlind and See Invisible (DL20+, alloc 10) |
 | of Shadows | lantern | -4 light (so negative radius), +d2 stealth, rLight (DL10+) |
@@ -517,7 +519,7 @@ ADVICE:
   (see [Chapter 7](07-consumables-and-devices.md)).
 * A **Lantern of True Sight** solves See Invisible and blindness protection in one slot that
   nothing else competes for; keep it even over the Phial until you have SI elsewhere.
-* An (Everburning) Lantern of radius 3 vs the Phial's 4: the Phial wins (+1 radius and an
+* An (Everburning) Lantern of intensity 3 vs the Phial's 4: the Phial wins (+1 radius and an
   activation), but Everburning removes the need to carry oil.
 * Necromancers want *no* light (unlight); see [Chapter 14](14-class-playbooks.md).
 

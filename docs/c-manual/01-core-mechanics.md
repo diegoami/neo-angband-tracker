@@ -96,7 +96,7 @@ Energy per game turn is `extract_energy[speed]` (`src/game-world.c`):
 |---|---|---|
 | -20 (Slow) | 3 (index 90) | 0.3x |
 | -10 | 5 | 0.5x |
-| -5 | 7 (index 105) | 0.7x |
+| -5 | 6 (index 105) | 0.6x |
 | Normal | 10 | 1.0x |
 | +5 | 15 | 1.5x |
 | +10 | 20 | 2.0x |
@@ -110,15 +110,17 @@ Energy per game turn is `extract_energy[speed]` (`src/game-world.c`):
 | +60 | 47 | 4.7x |
 | +70 and up | 49 | 4.9x (cap) |
 
-Full row values: from -10 to +20 each point of speed is worth one energy point (+1 = +10%
-relative to normal); from +20 to +30 the curve flattens (36, 36, 37, 37, 38...); above +30 each
+Full row values: from Normal to +20 each point of speed is worth one energy point (+1 = +10%
+relative to normal); below Normal it drops unevenly (-1 = 9, -2 = 8, -4 = 7, -6 = 6, -10 = 5);
+from +20 to +30 the curve flattens (36, 36, 37, 37, 38...); above +30 each
 energy point costs about 3 points of speed. Speed is clamped to 0..199.
 
 The official manual ([attack](https://angband.readthedocs.io/en/latest/attack.html), "A note on
 speed") says +10 is exactly double and +20 about triple; the table confirms this.
 
 Monster speed: non-unique monsters get a random spread of `rand_spread(0, energy/10)` speed
-points at birth (`src/mon-make.c`), so a "+10" monster race is really +9 to +11. Hasted monsters
+points at birth (`src/mon-make.c`), so a normal-speed race varies by +-1, a "+10" race by +-2
+(+8 to +12) and a "+20" race by +-3. Hasted monsters
 get +10; monster slow subtracts 2 per slow level.
 
 Sources of player speed (FACT, `src/player-calcs.c:calc_bonuses()`): `SPEED` modifiers on gear,
@@ -468,12 +470,15 @@ All classes at selected STR/DEX (columns are weapon weights):
   `2 x excess` to-hit and get no extra shots or might.
 - Launcher multiplier = launcher `pval` (sling 2, short bow 2, long bow 3, light crossbow 3,
   heavy crossbow 4) + `MIGHT` modifiers. Damage =
-  `(ammo dice + ammo to-dam + launcher to-dam) x (multiplier + best slay/brand multiplier)`.
-  Gear to-dam does **not** apply to shots.
+  `(ammo dice + ammo to-dam + launcher to-dam) x (multiplier + best slay/brand multiplier)` -
+  slays add to the launcher multiplier (a x3 bow with a x3 slay arrow multiplies by 6). Gear
+  to-dam does **not** apply to shots in standard combat (it does, as deadliness, in O-combat).
 - Range for firing: `min(6 + 2 x multiplier, 20)` grids (x3 bow -> 12).
-- Throwing: range `min((adj_str_blow[STR] + 20) x 10 / max(weight, 10), 10)`; energy 100 per
-  throw. Objects with the THROWING flag do `(dice + to-dam) x (2 + weight/12)` damage and add gear
-  to-hit and (in O-combat) gear to-dam; they break only 1% of the time.
+- Throwing: range `min((adj_str_blow[STR] + 20) x 10 / max(weight, 10), 10)` (weight in tenths
+  of a pound); energy 100 per throw. Objects with the THROWING flag do
+  `(dice + to-dam) x (2 + weight/12) x (1 + slay multiplier)` damage (weight in tenths of a pound,
+  so a 1.2 lb dagger gets x3), add gear to-hit and (in O-combat) gear to-dam, and break only 1% of
+  the time. Other thrown objects do `(dice + to-dam) x (1 + slay)`.
 - Breakage on a miss is the square of the hit breakage chance (arrows 35% on hit -> 12% on miss;
   potions/flasks 100%).
 
@@ -1056,7 +1061,9 @@ base fail 22): 22 - 0 - 7 = 15%. At level 5: 22 - 12 - 7 = 3 -> raised to min fa
 
 You cannot cast while blind, without light or while confused (`player_can_cast()`); amnesia does
 not stop casting but makes it unreliable. Casting with insufficient mana is allowed: you lose all
-SP, are paralysed (`PY_EXERT_FAINT`, 5 x shortfall + 1 turns, 100% chance) and may lose CON (50%).
+SP, are paralysed for `1d(5 x shortfall + 1)` turns even with Free Action (`PY_EXERT_FAINT`,
+100% chance), and lose a point of CON 50% of the time - permanently in half of those cases
+(`src/player-util.c:player_over_exert()`).
 
 **Mana** (`calc_mana()`): `msp = 1 + adj_mag_mana[stat] x (level - first spell level + 1) / 100`,
 minus 1 SP per pound of armour weight above the class limit (`magic:` line in class.txt:

@@ -408,7 +408,7 @@ Armour on light armour pieces; ammunition takes enchantments easily as a whole s
 | Scroll of Door Destruction | destroy adjacent doors | 10 | 10-60 | 50 | - |
 | Scroll of Deep Descent | see 3 | | | | |
 | Flask of oil | lantern fuel (+7500 turns, cap 15000) or thrown weapon | 1 | 1-100 | 3 | Gen-A |
-| Wooden Torch | light radius 2, 5000 turns | 1 | 1-100 | 2 | Gen-A |
+| Wooden Torch | light intensity 2 (adjacent grids), 5000 turns | 1 | 1-100 | 2 | Gen-A |
 | Wand of Stone to Mud | dig a wall instantly | 10 | 10-100 | 300 | Magic |
 | Ring of Digging (activation) | stone to mud, every 15+2d10 turns | 0 | 10-50 | 800 | - |
 

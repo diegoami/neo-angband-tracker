@@ -51,9 +51,9 @@ resistances; the engine does the following (**FACT**, `src/project-player.c:proj
    - Ice uses your cold resistance.
 3. **Adjust damage** (`adjust_dam()`):
    - immune (3): 0 damage;
-   - acid only: a random armour slot is chosen; if it holds armour with AC+to-hit... with
-     `ac + to_a > 0`, the damage is **halved** (and that armour loses 1 to_a unless it ignores
-     acid). This happens before resistance;
+   - acid only: a random armour slot is chosen; if it holds armour whose `ac + to_a > 0`, the
+     damage is **halved** (and that armour loses 1 to_a unless it ignores acid). This happens
+     before resistance;
    - vulnerable (-1): x 4/3;
    - otherwise multiply by `numerator / denominator` once per resist level. Base elements
      (acid, lightning, fire, cold, poison, and ice) use 1/3. High elements (light, dark, sound,
@@ -106,8 +106,8 @@ divisor, capped). "Worst breath" is the largest breath any monster in `monster.t
 | Gravity | none | 3 | 200 | 200 (Kavlax, aether hound, sky dragon) | short teleport, slow 4-7, stun 5+1d(dam/3) |
 | Inertia | none | 6 | 200 | 200 (aether hound) | slow 4-7 (Free Action does not help) |
 | Force | none | 6 | 200 | 200 (Baphomet, aether hound, sky dragon) | stun 1d20, knocked back 3+dam/20 grids |
-| Time | none | 3 | 150 | 150 (time hound, great wyrm of annihilation) | exp drain or stat drains, ignoring sustains and hold life |
-| Plasma | none | 6 | 150 | 150 (The Phoenix, plasma hound) | stun 5+1d(3dam/4) max 35 |
+| Time | none | 3 | 150 | 150 (hound of Tindalos, aether hound, great wyrm of annihilation) | exp drain or stat drains, ignoring sustains and hold life |
+| Plasma | none | 6 | 150 | 150 (The Phoenix, aether hound, sky dragon) | stun 5+1d(3dam/4) max 35 |
 | Meteor, Missile, Arrow | none | 6 | n/a | spells only | damage only |
 | Mana | none | 3 | 1600 | no breathers; BA_MANA up to 600 (Morgoth) | damage only |
 | Holy orb | none (evil players are vulnerable) | 6 | n/a | BA_HOLY up to 70 | damage only |
@@ -398,7 +398,7 @@ monster's to-hit (`3 x level + power`). Damage of non-HURT effects is **not** re
 | LOSE_ALL | 0 | drains all five | each sustain | storm of Unmagic 95, Morgoth 100 |
 | EXP_10/20/40/80 | 20 | experience drain (5.7) | HOLD_LIFE (partial) | grape jelly 12, banshee 24, vampire bat 24, emperor wight 37 |
 | DISENCHANT | 10 | disenchant an equipped item | rDisen | disenchanter eye 5, disenchanter mold 10 |
-| DRAIN_CHARGES | 10 | drains charges of a random wand/staff in the pack, heals the monster | none (keep devices out of reach: home) | lich 34, gauth 36 |
+| DRAIN_CHARGES | 10 | drains charges of a random wand or staff in the pack (rods are immune), heals the monster | none | lich 34, gauth 36 |
 | EAT_GOLD | 0 | steals 10% of gold + 1d25 (more if rich), monster teleports | `randint0(100) < adj_dex_safe + clvl` and not paralysed | street urchin 0, cutpurse 2, Sméagol 3 |
 | EAT_ITEM | 0 | steals a non-artifact pack item | same DEX/level check | squint-eyed rogue 0, master thief 34 |
 | EAT_FOOD | 0 | eats a food item | none | blubbering icky thing 2 |
@@ -423,11 +423,12 @@ effect still has to pass the protection check of the timed effect.
 | SLOW | slow 3+1d4 | yes | FREE_ACT | tamer 4, Wormtongue 8 |
 | HOLD | paralysed 3+1d4 | yes | FREE_ACT | illusionist 13, druid 13, ghoul 26 |
 | FORGET | amnesia 3 | yes | - | mind flayer 28 |
-| TELE_LEVEL | teleport level | yes | - | quasit 16 |
+| TELE_LEVEL | teleport level | yes | rNexus; NO_TELEPORT curse | quasit 16 |
 | MIND_BLAST | 8d8 + confusion | yes | PROT_CONF (confusion part) | Nár 17 |
 | BRAIN_SMASH | 12d15 + slow, confusion, paralysis, blindness | yes | FA, PROT_CONF, PROT_BLIND each | mind flayer 28 |
-| WOUND | (2 x power/3)d5 damage, cut at higher power | yes | - | orc shaman 9 |
-| TELE_TO / TELE_AWAY | move you | no | NO_TELEPORT does not stop monster tele-to | Orfax 10, tengu 10 |
+| WOUND | (2 x power/3)d5 damage, cut at higher power | yes | - | kobold shaman 3 |
+| TELE_TO | pulls you next to the monster | no | NO_TELEPORT curse (and no-teleport vault grids) | Orfax 10, tengu 10 |
+| TELE_AWAY | teleports you away (range 100) | no | NO_TELEPORT curse | mage 28, Draebor 28 |
 | DRAIN_MANA | lose 1d(power/2+1) SP | no | - | silver jelly 3 |
 | DARKNESS | darken room, weak-dark blind 3+1d5 | no | rDark, PROT_BLIND | eastern dwarf 7 |
 | All bolts, balls, breaths | damage + element side effects | no | resistances | see 5.14 |
@@ -546,8 +547,8 @@ check strength against the curse power (shown once the rune is known).
 
 1. Trap immunity (`TRAP_IMMUNE` gear or `TMD_TRAPSAFE`) skips it entirely.
 2. `save:` flags (FEATHER for trap doors and pits) negate it.
-3. `SAVE_ARMOR` traps (darts) miss if a to-hit 125 roll fails against your AC (AC 100: 47% miss;
-   AC 200: 69% miss).
+3. `SAVE_ARMOR` traps (darts) miss if a to-hit 125 roll fails against your AC (AC 50: 27%
+   miss; AC 100: 49% miss; AC 188+: 88% miss, the maximum).
 4. `SAVE_THROW` traps (mind blast, brain smash) are negated by a saving throw.
 Otherwise the effect fires, plus the `-xtra` effect 50% of the time. After triggering, ONETIME
 traps vanish and every trap has a 1 in 3 chance to vanish.
@@ -576,7 +577,7 @@ Disarming uses physical or magical (runes) skill: `chance = skill - depth/5`.
 | confusion gas trap | 1 | 20+1d5 | confused 10+1d20 | PROT_CONF |
 | poison gas trap | 2 | 20+1d5 | poison 10+1d20 | rPois |
 | sleep gas trap | 2 | 20+1d5 | paralysed 5+1d10 | FREE_ACT |
-| aggravation trap | 5 | M50 | wakes and hastes (+25 speed boost effect) monsters in LOS | |
+| aggravation trap | 5 | M50 | wakes every monster on the level and hastes those in line of sight | |
 | siren | 1 | 60+1d10 | wakes monsters | |
 | mine trap | 15 | 10+1d5 | shards, 2 x DL damage, radius 2 | rShards (cut) |
 | blast trap | 25 | 0 | light 2d6, sound DL/2, fire DL, force DL (radius 1-2) | rFire, rSound, PROT_STUN |
@@ -664,7 +665,7 @@ treat "must" as a hard gate for diving past that level).
 
 | By DL | Threats appearing (FACT) | Need (ADVICE) |
 |---|---|---|
-| **10** | baby dragon breaths <= 38; floating eyes paralyse on gaze if you melee them (DL 1); invisible ghosts (poltergeist DL 3); thieves; confusion and blindness spells from DL 2 casters; Grip/Fang/Bullroarer-type early uniques | light radius 2, CLW potions (cure blind/confusion), Phase Door; never melee floating eyes without Free Action; no resists required |
+| **10** | baby dragon breaths <= 38; floating eyes paralyse on gaze if you melee them (DL 1); invisible ghosts (poltergeist DL 3); thieves; confusion and blindness spells from DL 2 casters; frost bolt 50 (Wormtongue) | light radius 2, CLW potions (cure blind/confusion), Phase Door; never melee floating eyes without Free Action; no resists required |
 | **20** | baby multi-hued (5 elements, 48); homunculus/Old Man Willow paralysis (15-19); HOLD from illusionists and druids (13); umber hulk confusion gaze (16); first fire 67 (chimaera); mind blast | **Free Action must** (by DL 15-20); see invisible desirable; rFire/rCold nice; CCW/CSW and !Speed for emergencies |
 | **30** | carrion crawlers and ghouls (paralysis packs, 25-26); young dragons ~100; basilisk poison 130 (28); mind flayers (brain smash 180, amnesia, INT/WIS drain; 28); nexus and vibration hound packs (27); vampires and wights (exp drain 24+); invisible ghosts (31) | **FA must; See Invisible must**; all four base resists (rAcid, rElec, rFire, rCold) strongly recommended; rPois or !Resist Poison for basilisks; PROT_STUN or rSound helpful vs vibration hounds; Hold Life useful |
 | **40** | mature dragons 233-292 (39); 7-headed hydra fire 271 (40); drakes with sound/shards/chaos/disen/nether ~110 (33); gravity/inertia/impact hound packs (35); time vortex 74 unresistable; emperor wights EXP_80 (37); liches drain charges and DEX (34) | **all four base resists must; rPois must by DL 40** (292 poison); PROT_CONF strongly recommended (chaos breaths, hydras); PROT_BLIND or rLight/rDark; Hold Life recommended; speed +5..+10; 400+ HP |
@@ -741,6 +742,7 @@ armour, crown of Night and Day), rNether (artifacts and random-resist egos only)
 10. **Disenchanter bait.** Disenchantment never touches rings, amulets or the light source.
     Characters relying on jewellery for to-hit/to-dam lose less to disenchanters: test whether
     swapping enchanted weapons out before fighting disenchanter monsters is worth the turns.
-11. **Drain-charges protection.** DRAIN_CHARGES only hits pack items; test whether keeping
-    spare charged wands in the quiver-less home and carrying only rods (unaffected? rods are not
-    "charges" items - verify) avoids losses against liches.
+11. **Drain-charges protection.** DRAIN_CHARGES only hits wands and staves in the pack (rods
+    use timeouts and are immune, `src/obj-tval.c:tval_can_have_charges()`). Test whether a
+    rod-based kit (Curing, Recall, Detection, Teleport Other) removes the lich/beholder risk
+    enough to justify the higher device levels.

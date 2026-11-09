@@ -436,8 +436,9 @@ Useful monster spell maxima (FACT, at spell power `P`):
 > (policy).
 
 > **EXPL-03 — Light and darkness.**
-> Carry light ≥ radius 2 (torch `LIGHT_2`, lantern `LIGHT_3`, `object.txt`; light radius computed in
-> `src/player-calcs.c:calc_light()`); necromancers (`UNLIGHT`) are the exception. Light rooms on entry
+> Carry light of intensity ≥ 3 once affordable (torch `LIGHT_2` lights adjacent grids only, lantern `LIGHT_3`
+> lights radius 2, `object.txt`; intensity computed in `src/player-calcs.c:calc_light()`, grids at distance
+> `< intensity` lit in `src/cave-view.c:update_view_one()`); necromancers (`UNLIGHT`) are the exception. Light rooms on entry
 > when a room is dark and not known safe. Confidence: fact (radii), heuristic.
 
 > **EXPL-04 — Doors as tools.**
