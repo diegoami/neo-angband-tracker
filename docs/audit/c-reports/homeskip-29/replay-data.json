@@ -1,0 +1,112 @@
+{
+  "stored-first": {
+    "label": "Just-stored potion before a useless scroll",
+    "explanation": "Original: step 4 and step 5 both skip the potion because it was just stored; step 5 leaves its skip flag set, so it also skips the Scroll of Light, no step sets a goal and the scroll stays at home. Corrected: the flag is cleared for the scroll, removing it leaves the home power unchanged (1514), so step 5 picks home slot 1 and the real retrieve moves the Scroll of Light into the pack.",
+    "control": false,
+    "before": {
+      "raw": "native-c/homeskip-29: starting...\nSETUP seed=29 mode=stored-first class=Warrior clevel=11 gold=3000 free_from=2\n  home_grab_useless  \nHISTORY 0 tval=26 sval=10 store=7\nPACK start 0 qty=3 desc=[Rations of Food]\nPACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME start 0 qty=1 desc=[Potion of Cure Critical Wounds]\nHOME start 1 qty=1 desc=[Scroll of Light]\nTRACK home_power=1514\nTRACK without_ware0 home_power=14\nTRACK without_ware1 home_power=1514\nDECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1\nOUTCOME grabs_scroll_of_light=0 scrolls_in_pack=0\nFailed\n    native-c/homeskip-29:297: requirement 'grabs' failed\nnative-c/homeskip-29 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "grabs_scroll_of_light": 0,
+        "scrolls_in_pack": 0
+      },
+      "notes": [
+        "TRACK home_power=1514",
+        "TRACK without_ware0 home_power=14",
+        "TRACK without_ware1 home_power=1514",
+        "DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/homeskip-29: starting...\nSETUP seed=29 mode=stored-first class=Warrior clevel=11 gold=3000 free_from=2\n  home_grab_useless  \nHISTORY 0 tval=26 sval=10 store=7\nPACK start 0 qty=3 desc=[Rations of Food]\nPACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME start 0 qty=1 desc=[Potion of Cure Critical Wounds]\nHOME start 1 qty=1 desc=[Scroll of Light]\nTRACK home_power=1514\nTRACK without_ware0 home_power=14\nTRACK without_ware1 home_power=1514\nNOTE # Grabbing (to sell) 'Scroll of Light' from the home\nDECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1\nNOTE # Currently in preferred store '8'.\nNOTE # Buying Scroll of Light.\nKEYS store=7 n=7 99 112 156 156 57344 57344 57344\nACTION retrieve ware=c qty=1 from=[a Scroll of Light]\nMSG You have a Scroll of Light (b).\nPACK end 0 qty=3 desc=[Rations of Food]\nPACK end 1 qty=1 desc=[Scroll of Light]\nPACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME end 0 qty=1 desc=[Potion of Cure Critical Wounds]\nOUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1\nPassed\nnative-c/homeskip-29 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grabs_scroll_of_light": 1,
+        "scrolls_in_pack": 1
+      },
+      "notes": [
+        "TRACK home_power=1514",
+        "TRACK without_ware0 home_power=14",
+        "TRACK without_ware1 home_power=1514",
+        "DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1",
+        "KEYS store=7 n=7 99 112 156 156 57344 57344 57344"
+      ],
+      "value": 1
+    }
+  },
+  "stored-last": {
+    "label": "Control: just-stored shovel after the scroll",
+    "explanation": "The just-stored item comes after the scroll, so the scroll is evaluated before the flag is ever set. Both versions take the Scroll of Light (home slot 0) and skip the shovel; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/homeskip-29: starting...\nSETUP seed=29 mode=stored-last class=Warrior clevel=11 gold=3000 free_from=2\n  home_grab_useless  \nHISTORY 0 tval=6 sval=1 store=7\nPACK start 0 qty=3 desc=[Rations of Food]\nPACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME start 0 qty=1 desc=[Scroll of Light]\nHOME start 1 qty=1 desc=[Shovel (1d2) {??}]\nTRACK home_power=1019\nTRACK without_ware0 home_power=1019\nTRACK without_ware1 home_power=14\nNOTE # Grabbing (to sell) 'Scroll of Light' from the home\nDECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1\nNOTE # Currently in preferred store '8'.\nNOTE # Buying Scroll of Light.\nKEYS store=7 n=7 97 112 156 156 57344 57344 57344\nACTION retrieve ware=a qty=1 from=[a Scroll of Light]\nMSG You have a Scroll of Light (b).\nPACK end 0 qty=3 desc=[Rations of Food]\nPACK end 1 qty=1 desc=[Scroll of Light]\nPACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME end 0 qty=1 desc=[Shovel (1d2) {??}]\nOUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1\nPassed\nnative-c/homeskip-29 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grabs_scroll_of_light": 1,
+        "scrolls_in_pack": 1
+      },
+      "notes": [
+        "TRACK home_power=1019",
+        "TRACK without_ware0 home_power=1019",
+        "TRACK without_ware1 home_power=14",
+        "DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1",
+        "KEYS store=7 n=7 97 112 156 156 57344 57344 57344"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/homeskip-29: starting...\nSETUP seed=29 mode=stored-last class=Warrior clevel=11 gold=3000 free_from=2\n  home_grab_useless  \nHISTORY 0 tval=6 sval=1 store=7\nPACK start 0 qty=3 desc=[Rations of Food]\nPACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME start 0 qty=1 desc=[Scroll of Light]\nHOME start 1 qty=1 desc=[Shovel (1d2) {??}]\nTRACK home_power=1019\nTRACK without_ware0 home_power=1019\nTRACK without_ware1 home_power=14\nNOTE # Grabbing (to sell) 'Scroll of Light' from the home\nDECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1\nNOTE # Currently in preferred store '8'.\nNOTE # Buying Scroll of Light.\nKEYS store=7 n=7 97 112 156 156 57344 57344 57344\nACTION retrieve ware=a qty=1 from=[a Scroll of Light]\nMSG You have a Scroll of Light (b).\nPACK end 0 qty=3 desc=[Rations of Food]\nPACK end 1 qty=1 desc=[Scroll of Light]\nPACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME end 0 qty=1 desc=[Shovel (1d2) {??}]\nOUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1\nPassed\nnative-c/homeskip-29 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grabs_scroll_of_light": 1,
+        "scrolls_in_pack": 1
+      },
+      "notes": [
+        "TRACK home_power=1019",
+        "TRACK without_ware0 home_power=1019",
+        "TRACK without_ware1 home_power=14",
+        "DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1",
+        "KEYS store=7 n=7 97 112 156 156 57344 57344 57344"
+      ],
+      "value": 1
+    }
+  },
+  "no-history": {
+    "label": "Control: no recent home sale",
+    "explanation": "With an empty sale history the flag is never set; neither item adds to the home, and step 5 takes the later one, the Scroll of Light (home slot 1), in both versions. The logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/homeskip-29: starting...\nSETUP seed=29 mode=no-history class=Warrior clevel=11 gold=3000 free_from=2\n  home_grab_useless  \nPACK start 0 qty=3 desc=[Rations of Food]\nPACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME start 0 qty=1 desc=[Potion of Infravision]\nHOME start 1 qty=1 desc=[Scroll of Light]\nTRACK home_power=14\nTRACK without_ware0 home_power=14\nTRACK without_ware1 home_power=14\nNOTE # Grabbing (to sell) 'Scroll of Light' from the home\nDECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1\nNOTE # Currently in preferred store '8'.\nNOTE # Buying Scroll of Light.\nKEYS store=7 n=7 99 112 156 156 57344 57344 57344\nACTION retrieve ware=c qty=1 from=[a Scroll of Light]\nMSG You have a Scroll of Light (b).\nPACK end 0 qty=3 desc=[Rations of Food]\nPACK end 1 qty=1 desc=[Scroll of Light]\nPACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME end 0 qty=1 desc=[Potion of Infravision]\nOUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1\nPassed\nnative-c/homeskip-29 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grabs_scroll_of_light": 1,
+        "scrolls_in_pack": 1
+      },
+      "notes": [
+        "TRACK home_power=14",
+        "TRACK without_ware0 home_power=14",
+        "TRACK without_ware1 home_power=14",
+        "DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1",
+        "KEYS store=7 n=7 99 112 156 156 57344 57344 57344"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/homeskip-29: starting...\nSETUP seed=29 mode=no-history class=Warrior clevel=11 gold=3000 free_from=2\n  home_grab_useless  \nPACK start 0 qty=3 desc=[Rations of Food]\nPACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME start 0 qty=1 desc=[Potion of Infravision]\nHOME start 1 qty=1 desc=[Scroll of Light]\nTRACK home_power=14\nTRACK without_ware0 home_power=14\nTRACK without_ware1 home_power=14\nNOTE # Grabbing (to sell) 'Scroll of Light' from the home\nDECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1\nNOTE # Currently in preferred store '8'.\nNOTE # Buying Scroll of Light.\nKEYS store=7 n=7 99 112 156 156 57344 57344 57344\nACTION retrieve ware=c qty=1 from=[a Scroll of Light]\nMSG You have a Scroll of Light (b).\nPACK end 0 qty=3 desc=[Rations of Food]\nPACK end 1 qty=1 desc=[Scroll of Light]\nPACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]\nHOME end 0 qty=1 desc=[Potion of Infravision]\nOUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1\nPassed\nnative-c/homeskip-29 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "grabs_scroll_of_light": 1,
+        "scrolls_in_pack": 1
+      },
+      "notes": [
+        "TRACK home_power=14",
+        "TRACK without_ware0 home_power=14",
+        "TRACK without_ware1 home_power=14",
+        "DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1",
+        "KEYS store=7 n=7 99 112 156 156 57344 57344 57344"
+      ],
+      "value": 1
+    }
+  }
+}

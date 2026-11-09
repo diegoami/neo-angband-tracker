@@ -1,0 +1,76 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "3f35efd71787a00293d5f14e65c94abbdb760942",
+  "fixtures_ref": "0dc78372b4423896d2da513f2d7405a972b109c3",
+  "cases": {
+    "before": {
+      "stored-first": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "grabs_scroll_of_light": 0,
+          "scrolls_in_pack": 0
+        }
+      },
+      "stored-last": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      },
+      "no-history": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      }
+    },
+    "after": {
+      "stored-first": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      },
+      "stored-last": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      },
+      "no-history": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "stored-last",
+    "no-history"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "a5946cd6dc4f1d28b7ed7bd9c037039a46e9a71f5d116c39a911d01b8caf8e49"
+  }
+}

@@ -1,0 +1,163 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>One recently stored home ware stopped the Borg clearing later junk from its home</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>One recently stored home ware stopped the Borg clearing later junk from its home</h1><p>In town the Borg&#x27;s store step 5 takes items that add nothing to its home back out, so it can sell them. It skips any home item its sale history says it has just stored at home, so it does not take that straight back. The flag that marks an item to skip was cleared only once, before the loop over the home, so after the first skipped item every later item in the home was skipped too. A level-11 Warrior whose home held a Potion of Cure Critical Wounds it had just stored, followed by a Scroll of Light that adds nothing to the home, chose no store action at all and left the scroll at home. The correction clears the flag for each item; the Borg then sets out to take the Scroll of Light from its home to sell and the real retrieve command moves it into the pack.</p><p><label>Scenario: <select id="scenario"><option value="stored-first">Just-stored potion before a useless scroll</option><option value="stored-last">Control: just-stored shovel after the scroll</option><option value="no-history">Control: no recent home sale</option></select></label></p><section class="scenario" data-mode="stored-first"><p class="summary">Original: step 4 and step 5 both skip the potion because it was just stored; step 5 leaves its skip flag set, so it also skips the Scroll of Light, no step sets a goal and the scroll stays at home. Corrected: the flag is cleared for the scroll, removing it leaves the home power unchanged (1514), so step 5 picks home slot 1 and the real retrieve moves the Scroll of Light into the pack.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sets out to take the useless Scroll of Light from the home (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK home_power=1514
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=1514
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to take the useless Scroll of Light from the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK home_power=1514
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=1514
+DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1
+KEYS store=7 n=7 99 112 156 156 57344 57344 57344</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/homeskip-29: starting...
+SETUP seed=29 mode=stored-first class=Warrior clevel=11 gold=3000 free_from=2
+  home_grab_useless  
+HISTORY 0 tval=26 sval=10 store=7
+PACK start 0 qty=3 desc=[Rations of Food]
+PACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME start 0 qty=1 desc=[Potion of Cure Critical Wounds]
+HOME start 1 qty=1 desc=[Scroll of Light]
+TRACK home_power=1514
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=1514
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+OUTCOME grabs_scroll_of_light=0 scrolls_in_pack=0
+Failed
+    native-c/homeskip-29:297: requirement &#x27;grabs&#x27; failed
+native-c/homeskip-29 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/homeskip-29: starting...
+SETUP seed=29 mode=stored-first class=Warrior clevel=11 gold=3000 free_from=2
+  home_grab_useless  
+HISTORY 0 tval=26 sval=10 store=7
+PACK start 0 qty=3 desc=[Rations of Food]
+PACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME start 0 qty=1 desc=[Potion of Cure Critical Wounds]
+HOME start 1 qty=1 desc=[Scroll of Light]
+TRACK home_power=1514
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=1514
+NOTE # Grabbing (to sell) &#x27;Scroll of Light&#x27; from the home
+DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1
+NOTE # Currently in preferred store &#x27;8&#x27;.
+NOTE # Buying Scroll of Light.
+KEYS store=7 n=7 99 112 156 156 57344 57344 57344
+ACTION retrieve ware=c qty=1 from=[a Scroll of Light]
+MSG You have a Scroll of Light (b).
+PACK end 0 qty=3 desc=[Rations of Food]
+PACK end 1 qty=1 desc=[Scroll of Light]
+PACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME end 0 qty=1 desc=[Potion of Cure Critical Wounds]
+OUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1
+Passed
+native-c/homeskip-29 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="stored-last"><p class="summary">The just-stored item comes after the scroll, so the scroll is evaluated before the flag is ever set. Both versions take the Scroll of Light (home slot 0) and skip the shovel; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>sets out to take the useless Scroll of Light from the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK home_power=1019
+TRACK without_ware0 home_power=1019
+TRACK without_ware1 home_power=14
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+KEYS store=7 n=7 97 112 156 156 57344 57344 57344</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to take the useless Scroll of Light from the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK home_power=1019
+TRACK without_ware0 home_power=1019
+TRACK without_ware1 home_power=14
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+KEYS store=7 n=7 97 112 156 156 57344 57344 57344</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/homeskip-29: starting...
+SETUP seed=29 mode=stored-last class=Warrior clevel=11 gold=3000 free_from=2
+  home_grab_useless  
+HISTORY 0 tval=6 sval=1 store=7
+PACK start 0 qty=3 desc=[Rations of Food]
+PACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME start 0 qty=1 desc=[Scroll of Light]
+HOME start 1 qty=1 desc=[Shovel (1d2) {??}]
+TRACK home_power=1019
+TRACK without_ware0 home_power=1019
+TRACK without_ware1 home_power=14
+NOTE # Grabbing (to sell) &#x27;Scroll of Light&#x27; from the home
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+NOTE # Currently in preferred store &#x27;8&#x27;.
+NOTE # Buying Scroll of Light.
+KEYS store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION retrieve ware=a qty=1 from=[a Scroll of Light]
+MSG You have a Scroll of Light (b).
+PACK end 0 qty=3 desc=[Rations of Food]
+PACK end 1 qty=1 desc=[Scroll of Light]
+PACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME end 0 qty=1 desc=[Shovel (1d2) {??}]
+OUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1
+Passed
+native-c/homeskip-29 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/homeskip-29: starting...
+SETUP seed=29 mode=stored-last class=Warrior clevel=11 gold=3000 free_from=2
+  home_grab_useless  
+HISTORY 0 tval=6 sval=1 store=7
+PACK start 0 qty=3 desc=[Rations of Food]
+PACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME start 0 qty=1 desc=[Scroll of Light]
+HOME start 1 qty=1 desc=[Shovel (1d2) {??}]
+TRACK home_power=1019
+TRACK without_ware0 home_power=1019
+TRACK without_ware1 home_power=14
+NOTE # Grabbing (to sell) &#x27;Scroll of Light&#x27; from the home
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+NOTE # Currently in preferred store &#x27;8&#x27;.
+NOTE # Buying Scroll of Light.
+KEYS store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION retrieve ware=a qty=1 from=[a Scroll of Light]
+MSG You have a Scroll of Light (b).
+PACK end 0 qty=3 desc=[Rations of Food]
+PACK end 1 qty=1 desc=[Scroll of Light]
+PACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME end 0 qty=1 desc=[Shovel (1d2) {??}]
+OUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1
+Passed
+native-c/homeskip-29 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="no-history"><p class="summary">With an empty sale history the flag is never set; neither item adds to the home, and step 5 takes the later one, the Scroll of Light (home slot 1), in both versions. The logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>sets out to take the useless Scroll of Light from the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK home_power=14
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=14
+DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1
+KEYS store=7 n=7 99 112 156 156 57344 57344 57344</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to take the useless Scroll of Light from the home (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK home_power=14
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=14
+DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1
+KEYS store=7 n=7 99 112 156 156 57344 57344 57344</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/homeskip-29: starting...
+SETUP seed=29 mode=no-history class=Warrior clevel=11 gold=3000 free_from=2
+  home_grab_useless  
+PACK start 0 qty=3 desc=[Rations of Food]
+PACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME start 0 qty=1 desc=[Potion of Infravision]
+HOME start 1 qty=1 desc=[Scroll of Light]
+TRACK home_power=14
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=14
+NOTE # Grabbing (to sell) &#x27;Scroll of Light&#x27; from the home
+DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1
+NOTE # Currently in preferred store &#x27;8&#x27;.
+NOTE # Buying Scroll of Light.
+KEYS store=7 n=7 99 112 156 156 57344 57344 57344
+ACTION retrieve ware=c qty=1 from=[a Scroll of Light]
+MSG You have a Scroll of Light (b).
+PACK end 0 qty=3 desc=[Rations of Food]
+PACK end 1 qty=1 desc=[Scroll of Light]
+PACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME end 0 qty=1 desc=[Potion of Infravision]
+OUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1
+Passed
+native-c/homeskip-29 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/homeskip-29: starting...
+SETUP seed=29 mode=no-history class=Warrior clevel=11 gold=3000 free_from=2
+  home_grab_useless  
+PACK start 0 qty=3 desc=[Rations of Food]
+PACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME start 0 qty=1 desc=[Potion of Infravision]
+HOME start 1 qty=1 desc=[Scroll of Light]
+TRACK home_power=14
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=14
+NOTE # Grabbing (to sell) &#x27;Scroll of Light&#x27; from the home
+DECISION chose=1 goal_shop=7 goal_ware=1 goal_item=-1
+NOTE # Currently in preferred store &#x27;8&#x27;.
+NOTE # Buying Scroll of Light.
+KEYS store=7 n=7 99 112 156 156 57344 57344 57344
+ACTION retrieve ware=c qty=1 from=[a Scroll of Light]
+MSG You have a Scroll of Light (b).
+PACK end 0 qty=3 desc=[Rations of Food]
+PACK end 1 qty=1 desc=[Scroll of Light]
+PACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME end 0 qty=1 desc=[Potion of Infravision]
+OUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1
+Passed
+native-c/homeskip-29 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 29, character level 11, maximum depth 10, 3000 gold, standing on the home entrance in town (depth 0) with the starting kit after its Word of Recall scroll and Berserk Strength potion are removed (as after recalling to town and drinking the potion), all runes known. Every store is emptied and the home holds two items per mode. &#x27;stored-first&#x27;: Potion of Cure Critical Wounds, then Scroll of Light. &#x27;stored-last&#x27;: Scroll of Light, then Shovel. &#x27;no-history&#x27;: Potion of Infravision, then Scroll of Light. Fixture intervention: the Borg&#x27;s sale history is given one entry, the fields borg_think_shop_sell() writes for a home sale (tval, sval, store = home), naming the potion (&#x27;stored-first&#x27;) or the shovel (&#x27;stored-last&#x27;); &#x27;no-history&#x27; leaves the history at its start-up value. A count of one is what the history holds after one recorded sale with an entry-counting counter, and after two sales with the original counter (issue #20), so this case does not depend on #20. The Borg&#x27;s items and stores are loaded with the production borg_find_all_items(); the production borg_choose_shop() picks the next store action (steps 1 to 4 find nothing to do here and step 5, borg_think_home_grab_useless, decides); when it chooses a home ware, one production borg_think_store() turn queues the keys, the ware letter is checked and the real do_cmd_retrieve() runs.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/29">issue 29</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

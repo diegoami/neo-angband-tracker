@@ -1,0 +1,116 @@
+{
+  "issue": "diegoami/neo-angband-tracker#29",
+  "report": "homeskip-29",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "3f35efd71787a00293d5f14e65c94abbdb760942",
+  "fix_branch": "task/homeskip-29",
+  "fixtures_ref": "0dc78372b4423896d2da513f2d7405a972b109c3",
+  "cases": {
+    "stored-first": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "grabs_scroll_of_light": 0,
+          "scrolls_in_pack": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      }
+    },
+    "stored-last": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      }
+    },
+    "no-history": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "grabs_scroll_of_light": 1,
+          "scrolls_in_pack": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "stored-last",
+    "no-history"
+  ],
+  "claim": "borg_think_home_grab_useless() cleared its skip_it flag only at declaration, so after the first home ware matching the recent-sale history every later ware was skipped too. With a just-stored Potion of Cure Critical Wounds before a Scroll of Light that adds nothing to the home, the original Borg chose no store action and left the scroll at home; clearing the flag per ware makes it choose the scroll and the real retrieve moves it into the pack. Controls with the just-stored ware after the scroll and with no history are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-buy.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "a5946cd6dc4f1d28b7ed7bd9c037039a46e9a71f5d116c39a911d01b8caf8e49"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "e9381db9208c8baa5cfde9d6b73687fbc233d58e567b77b87a224d24ffaaa649",
+    "after-no-history.log": "ee26a8395f22617c51e603a4ce2500219b4d8777890864ed3ade92fc50a2ecab",
+    "after-results.json": "131ddd1b90a34435b8e4776cde631b0334b144f175a4a8713722d0f46b257b47",
+    "after-stored-first.log": "cb682e18f4e032c1c840a391d06d5833586479e32acdbfc1c27469fa226a9be8",
+    "after-stored-last.log": "d50295de7838ec6707745f796d11a43d3ca7a8120660fd0aaf42e396f06b5089",
+    "before-no-history.log": "ee26a8395f22617c51e603a4ce2500219b4d8777890864ed3ade92fc50a2ecab",
+    "before-results.json": "903d2654dfc8b41933290bb6d2c0b35e0d4805597d224cd0903ec66ba087baac",
+    "before-stored-first.log": "c396c4695c656a075dc87b29fdf9e755da521f08e4540393500b4f86bfa4b293",
+    "before-stored-last.log": "d50295de7838ec6707745f796d11a43d3ca7a8120660fd0aaf42e396f06b5089",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "829f7397657819f9508a8984e110973630f0721f9461f94b897ca7ef06f403ac",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "d32894bac4dd8ce9ac53ed70d4b66055ed8ff0d7389b46a4f2cb16dca94971f7",
+    "replay.html": "459bd75b2d393de76ede201649cc0b786c3449c1e1db5ac3b55ef6f672d43a3c",
+    "reproduce.py": "f8d4b316c975de7ce3d979ba4c2c85d5ad614b014a1d9fee788acf6902d55f85",
+    "result.json": "ea41e5efe2acb4014a70136ec659b418730402d32ad31ea0e18d48da1bb6b377",
+    "run-after-alltests.log": "92ffe9aa8506b9661bf774be0d301511276126846fe8bee26b6a7d5355960bde",
+    "run-after-build.log": "d446e1b76845bea01c9979bcbb85d0e62b2d8636902546ef34411067aa579608",
+    "run-after-scenarios.log": "30a5956442c006014a6115b7d0a8825ea389db14950b6d11469e035b166d5e71",
+    "run-before-alltests.log": "6db25ac9bfa5245962a81f4637c42a3e59f3c43972edbb315ce880116b1df9f9",
+    "run-before-build.log": "c3d3e516b8eeca51efc7e8e09e26b92da59e88af95c9b50547040116688c09c2",
+    "run-before-scenarios.log": "f00dd8b4aa90770cf372cd4b29af296a59739b61c92ecb8b97a379b53a3a82fd",
+    "run-cases.py": "beae943487500c6c99f7df8ae56633f2d3bc0663917e300b5bca17c0aeb9973c",
+    "run-configure.log": "b5ae905b67b526af5cbc778d2588508b40040c4463afcc3a0ca5a5351eede3dd",
+    "scenario.c": "8162c7e21844af95ed2a50fdccdc644fa3d75d0f6184ab98ba011fe656fb6985"
+  }
+}
