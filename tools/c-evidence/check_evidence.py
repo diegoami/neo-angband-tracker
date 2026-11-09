@@ -18,6 +18,9 @@ ARTIFACTS = ("README.md", "replay.html", "replay-data.json", "receipt.json")
 PLACEHOLDERS = ("EVID_SHA", "pull/SOURCE", "#…", "<SOURCE>", "<EVIDENCE>")
 
 
+PRISTINE_BASE = "e473720ed88a0f0c7ca66815cef3000eb4a38bc3"
+
+
 def git(*args, check=True):
     r = subprocess.run(["git", *args], capture_output=True)
     if check and r.returncode:
@@ -168,6 +171,16 @@ def check_github(issue_no, src_no, ev_no, rep):
         rep.check(f"#{ev_no}" in sb, f"source PR #{src_no} links evidence PR #{ev_no}")
         rep.check(re.search(r"#+\s*Verification", sb) is not None, f"source PR #{src_no} has a Verification section")
         rep.check(not [p for p in PLACEHOLDERS if p in sb], f"no placeholders in source PR #{src_no}")
+        # the source branch must sit on the pristine C base, not on whatever c-borg-reference holds now
+        sref = ((src or {}).get("head") or {}).get("ref")
+        if sref:
+            git("fetch", "-q", "--no-tags", "origin", sref, check=False)
+            mb = git("merge-base", PRISTINE_BASE, f"origin/{sref}", check=False).stdout.decode().strip()
+            rep.check(mb == PRISTINE_BASE,
+                      f"source branch {sref} is based on pristine {PRISTINE_BASE[:9]}")
+            git("fetch", "-q", "--no-tags", "origin", "c-borg-reference", check=False)
+            extra = git("rev-list", "--count", f"{PRISTINE_BASE}..origin/c-borg-reference", check=False).stdout.decode().strip()
+            rep.check(extra in ("", "0"), "origin/c-borg-reference is still the pristine base", warn=True)
     else:
         rep.check(False, "source PR found for this evidence PR")
     ev = gh(f"pulls/{ev_no}")
