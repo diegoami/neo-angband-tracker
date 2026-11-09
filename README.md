@@ -14,8 +14,16 @@ Angband remain unchanged; this branch adds repair-session bootstrap docs.
 
 ## Player manuals
 
+Ours (written for this 4.2 tree, from the source and game data):
+
 - [Complete user manual (single file)](docs/user-manual.md)
 - [Strategy manual](docs/strategy/) with generated data appendices
+
+Angband's official documentation (the same sources ship in `docs/*.rst`):
+
+- [The Angband Manual](https://angband.readthedocs.io/en/latest/): character creation, dungeon, combat, commands, options, customising
+- [A Players' Guide to Angband](https://angband.readthedocs.io/en/latest/guide.html) (`docs/guide.rst`): the official strategy guide, written for 3.5.0 and partly out of date
+- [Angband FAQ](https://angband.readthedocs.io/en/latest/faq.html) and [Angband forums](https://angband.live/forums/)
 
 ## Native build entry
 
