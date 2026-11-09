@@ -1,0 +1,95 @@
+{
+  "starving": {
+    "label": "No food carried, General Store has only oil",
+    "explanation": "Original: with no food only the General Store and Home are weighed; the oil fails the starving check, so borg_choose_shop() returns false with no goal. Corrected: the Alchemist is weighed too, Remove Hunger passes the starving check and now counts as food, and the Borg chooses the Alchemist's Scrolls of Remove Hunger (store 4, ware 1).",
+    "control": false,
+    "before": {
+      "raw": "native-c/starvealch-18: starting...\nTIMED food=1499 hungry_below=1500\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Remove Hunger\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=0 [General Store] 5x Flask of Oil\nSETUP seed=18 mode=starving class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2\n  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]\nSHOP 0 ware 0 qty=5 cost=3 desc=[Flasks of oil {??}]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nSHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]\nTRACK power=420327 do_best=0 goal_item=-1\nDECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]\nOUTCOME buys_food=0 buys_remove_hunger=0\nFailed\n    native-c/starvealch-18:198: requirement 'food || remove_hunger' failed\nnative-c/starvealch-18 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "buys_food": 0,
+        "buys_remove_hunger": 0
+      },
+      "notes": [
+        "TRACK power=420327 do_best=0 goal_item=-1",
+        "DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/starvealch-18: starting...\nTIMED food=1499 hungry_below=1500\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Remove Hunger\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=0 [General Store] 5x Flask of Oil\nSETUP seed=18 mode=starving class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2\n  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]\nSHOP 0 ware 0 qty=5 cost=3 desc=[Flasks of oil {??}]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nSHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]\nTRACK power=420327 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=4 goal_ware=1 shop_name=[Alchemy Shop] what=[Scrolls of Remove Hunger]\nOUTCOME buys_food=0 buys_remove_hunger=1\nPassed\nnative-c/starvealch-18 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_food": 0,
+        "buys_remove_hunger": 1
+      },
+      "notes": [
+        "TRACK power=420327 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=4 goal_ware=1 shop_name=[Alchemy Shop] what=[Scrolls of Remove Hunger]"
+      ],
+      "value": 1
+    }
+  },
+  "general_food": {
+    "label": "Control: no food carried, General Store has rations",
+    "explanation": "Both versions choose the General Store's Rations of Food. The corrected Borg also weighs Remove Hunger at the Alchemist, but rations score higher; the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/starvealch-18: starting...\nTIMED food=1499 hungry_below=1500\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Remove Hunger\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=0 [General Store] 5x Flask of Oil\nSTOCK store=0 [General Store] 5x Ration of Food\nSETUP seed=18 mode=general_food class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2\n  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]\nSHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]\nSHOP 0 ware 1 qty=5 cost=3 desc=[Flasks of oil {??}]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nSHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]\nTRACK power=420327 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]\nOUTCOME buys_food=1 buys_remove_hunger=0\nPassed\nnative-c/starvealch-18 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_food": 1,
+        "buys_remove_hunger": 0
+      },
+      "notes": [
+        "TRACK power=420327 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/starvealch-18: starting...\nTIMED food=1499 hungry_below=1500\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Remove Hunger\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=0 [General Store] 5x Flask of Oil\nSTOCK store=0 [General Store] 5x Ration of Food\nSETUP seed=18 mode=general_food class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2\n  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]\nSHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]\nSHOP 0 ware 1 qty=5 cost=3 desc=[Flasks of oil {??}]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nSHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]\nTRACK power=420327 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]\nOUTCOME buys_food=1 buys_remove_hunger=0\nPassed\nnative-c/starvealch-18 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_food": 1,
+        "buys_remove_hunger": 0
+      },
+      "notes": [
+        "TRACK power=420327 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]"
+      ],
+      "value": 0
+    }
+  },
+  "fed": {
+    "label": "Control: carrying rations, not hungry",
+    "explanation": "With food carried, the store filter and starving check do not apply and Remove Hunger is not counted as food; both versions choose the Alchemist's Cure Light Wounds and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/starvealch-18: starting...\nTIMED food=8999 hungry_below=1500\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Remove Hunger\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=0 [General Store] 5x Flask of Oil\nSETUP seed=18 mode=fed class=Warrior clevel=1 gold=500 food=3 hungry=0 weak=0 light=2\n  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=2 desc=[Wooden Torches (5000 turns)]\nSHOP 0 ware 0 qty=5 cost=3 desc=[Flasks of oil {??}]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nSHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]\nTRACK power=570483 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]\nOUTCOME buys_food=0 buys_remove_hunger=0\nPassed\nnative-c/starvealch-18 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_food": 0,
+        "buys_remove_hunger": 0
+      },
+      "notes": [
+        "TRACK power=570483 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/starvealch-18: starting...\nTIMED food=8999 hungry_below=1500\nSTORE 0 [General Store]\nSTORE 1 [Armoury]\nSTORE 2 [Weapon Smiths]\nSTORE 3 [Bookseller]\nSTORE 4 [Alchemy Shop]\nSTORE 5 [Magic Shop]\nSTORE 6 [Black Market]\nSTORE 7 [Home]\nSTOCK store=4 [Alchemy Shop] 5x Remove Hunger\nSTOCK store=4 [Alchemy Shop] 5x Cure Light Wounds\nSTOCK store=0 [General Store] 5x Flask of Oil\nSETUP seed=18 mode=fed class=Warrior clevel=1 gold=500 food=3 hungry=0 weak=0 light=2\n  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=2 desc=[Wooden Torches (5000 turns)]\nSHOP 0 ware 0 qty=5 cost=3 desc=[Flasks of oil {??}]\nSHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]\nSHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]\nTRACK power=570483 do_best=0 goal_item=-1\nDECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]\nOUTCOME buys_food=0 buys_remove_hunger=0\nPassed\nnative-c/starvealch-18 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "buys_food": 0,
+        "buys_remove_hunger": 0
+      },
+      "notes": [
+        "TRACK power=570483 do_best=0 goal_item=-1",
+        "DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]"
+      ],
+      "value": 0
+    }
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "issue": "diegoami/neo-angband-tracker#18",
+  "report": "starvealch-18",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "0fd9bc4bd6f069e0cbab664e7541e3202764a9a4",
+  "fix_branch": "task/starvealch-18",
+  "fixtures_ref": "b8132a88b5f40049026f3d79d15e73ed7b86b48a",
+  "cases": {
+    "starving": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "buys_food": 0,
+          "buys_remove_hunger": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "buys_food": 0,
+          "buys_remove_hunger": 1
+        }
+      }
+    },
+    "general_food": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "buys_food": 1,
+          "buys_remove_hunger": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "buys_food": 1,
+          "buys_remove_hunger": 0
+        }
+      }
+    },
+    "fed": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "buys_food": 0,
+          "buys_remove_hunger": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "buys_food": 0,
+          "buys_remove_hunger": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "general_food",
+    "fed"
+  ],
+  "claim": "With no food, borg_think_shop_buy_useful() weighed only the General Store and Home, its starving check let any scroll through instead of only Remove Hunger, and Remove Hunger scrolls were never counted as food. A Hungry level-1 Warrior with no food, 500 gold, only oil in the General Store and Remove Hunger at the Alchemist chose no shop; with the correction it chooses Remove Hunger at the Alchemist. With rations in the General Store, or with food carried, both versions choose the same purchase, byte-identically.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-buy.c",
+    "src/borg/borg-trait.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "149d49f604fdbd9a8d98d5634276891a19fffa42cebbb97fcb260a95df357a4b",
+    "src/borg/borg-trait.c": "32baaa1f187969563dc93099398e16637e25f1e87000b864b835b59bc827a3f4"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "84057c08c5b924cf8fe8b215e7ccc7dca289bdb998a021af03372281acbdb11d",
+    "after-fed.log": "3092176203a4c57a970deb9a02e5cc9155db17d1421092dde07e516c246b3bff",
+    "after-general_food.log": "0f15bec67161807d24afdc84415d6e1fd48e4d7bedca32c610498db8b4e38f8a",
+    "after-results.json": "da5940d6dac5d4f4ae02e5876086a4ce292cf516395df75f3d1d62e04acbfc3f",
+    "after-starving.log": "d872051b2d87915689e9019e9e5ecd165b0dde24938021110cfae357c2e90baa",
+    "before-fed.log": "3092176203a4c57a970deb9a02e5cc9155db17d1421092dde07e516c246b3bff",
+    "before-general_food.log": "0f15bec67161807d24afdc84415d6e1fd48e4d7bedca32c610498db8b4e38f8a",
+    "before-results.json": "372a383e2626b35fe70bcf78ea5bee0284e2cc977a64a1b0dc2ab8ca4e17fe29",
+    "before-starving.log": "5af7da41940afa72f4df889f45c101610bee622734ec8173b7aa9fbc297e1eb4",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "35855d05074c9fda19d6ca9ac53e46dc80da0381bbe9df91b6880570f16ebd8b",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "ec71c56b14056d5e69f9fc89bd6eb25255d545b548ad8b7b032a876250d15e9f",
+    "replay.html": "174b7ad5de8861cace2ca07e1d297318eadfca274aa002d15ae5ed7229da222f",
+    "reproduce.py": "5f4c9afb45648db260dcc2c7efca430063e6a88d0b20245dbb967e2106eec5df",
+    "result.json": "89e955826b50217c9202e5676431c1b346eb0c4a2d58c04654bf5caf6db2b3e4",
+    "run-after-alltests.log": "5b925390acf1d7d5dcfa127fdc40158246e2104d79bd4d39a640fff0bcfa138f",
+    "run-after-build.log": "9338e6cfd1cf763352e35a71e57b06c3c2c04948d8ede2b728a6980a93e32f0b",
+    "run-after-scenarios.log": "814ab42967bbe2659a4b10eab1f7db09466a037340bb4935f493be635966cb2d",
+    "run-before-alltests.log": "45e7231214390a42fc56ee9ec45c65a87df9f159b3ec7d9edb751fd3ba8d900e",
+    "run-before-build.log": "3e01d8c1f0c6691fbbb0710dcb2131656beaa57e22a26ad9fb9770915c651441",
+    "run-before-scenarios.log": "b0c36c2eaeaf1baf109cd35ba58df5bbeb6070aa94e743008d4230baee5ee9ba",
+    "run-cases.py": "951749921fc56b84f77aa8b439b52de13d626a5ac86bba27b01d7b1350579d7f",
+    "run-configure.log": "5c3b65913ad3cd6cc6d788abe5a9110f76fc1c5a5a154013cb4fd75cc33e622d",
+    "scenario.c": "34c715dfea5e50710567df1c01835a6bce6a5a5da62481717f090e26a81548ba"
+  }
+}

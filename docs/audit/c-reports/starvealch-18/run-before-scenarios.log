@@ -1,0 +1,3 @@
+starving {'exit': 0, 'passed': False, 'outcome': {'buys_food': 0, 'buys_remove_hunger': 0}}
+general_food {'exit': 0, 'passed': True, 'outcome': {'buys_food': 1, 'buys_remove_hunger': 0}}
+fed {'exit': 0, 'passed': True, 'outcome': {'buys_food': 0, 'buys_remove_hunger': 0}}

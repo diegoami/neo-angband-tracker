@@ -1,0 +1,152 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A Borg with no food in town never bought Remove Hunger at the Alchemist</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A Borg with no food in town never bought Remove Hunger at the Alchemist</h1><p>When the Borg has no food left and is in town, it only looks for something to buy in the General Store (and its Home). If the General Store has no food, it buys nothing, even with gold in hand and Scrolls of Remove Hunger on sale at the Alchemist, the only shop that sells them. The code meant to allow Remove Hunger (its starving check names the scroll), but the Alchemist was never looked at, the check was miswritten so that it let any scroll through instead of only Remove Hunger, and the Borg gave a Remove Hunger scroll no value as food. A level-1 Warrior with no food, 500 gold, only Flasks of Oil in the General Store and Remove Hunger at the Alchemist chooses no shop at all. With the correction it sets out to buy Remove Hunger at the Alchemist. With rations in the General Store it still buys rations, and a Borg that carries food still buys Cure Light Wounds, exactly as before.</p><p><label>Scenario: <select id="scenario"><option value="starving">No food carried, General Store has only oil</option><option value="general_food">Control: no food carried, General Store has rations</option><option value="fed">Control: carrying rations, not hungry</option></select></label></p><section class="scenario" data-mode="starving"><p class="summary">Original: with no food only the General Store and Home are weighed; the oil fails the starving check, so borg_choose_shop() returns false with no goal. Corrected: the Alchemist is weighed too, Remove Hunger passes the starving check and now counts as food, and the Borg chooses the Alchemist&#x27;s Scrolls of Remove Hunger (store 4, ware 1).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sets out to buy Remove Hunger (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets out to buy Remove Hunger (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=1 shop_name=[Alchemy Shop] what=[Scrolls of Remove Hunger]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/starvealch-18: starting...
+TIMED food=1499 hungry_below=1500
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Remove Hunger
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=0 [General Store] 5x Flask of Oil
+SETUP seed=18 mode=starving class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2
+  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Flasks of oil {??}]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+SHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]
+TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=0 goal_shop=-1 goal_ware=-1 shop_name=[(none)] what=[(nothing)]
+OUTCOME buys_food=0 buys_remove_hunger=0
+Failed
+    native-c/starvealch-18:198: requirement &#x27;food || remove_hunger&#x27; failed
+native-c/starvealch-18 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/starvealch-18: starting...
+TIMED food=1499 hungry_below=1500
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Remove Hunger
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=0 [General Store] 5x Flask of Oil
+SETUP seed=18 mode=starving class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2
+  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Flasks of oil {??}]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+SHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]
+TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=1 shop_name=[Alchemy Shop] what=[Scrolls of Remove Hunger]
+OUTCOME buys_food=0 buys_remove_hunger=1
+Passed
+native-c/starvealch-18 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="general_food"><p class="summary">Both versions choose the General Store&#x27;s Rations of Food. The corrected Borg also weighs Remove Hunger at the Alchemist, but rations score higher; the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sets out to buy Remove Hunger (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>sets out to buy Remove Hunger (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/starvealch-18: starting...
+TIMED food=1499 hungry_below=1500
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Remove Hunger
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=0 [General Store] 5x Flask of Oil
+STOCK store=0 [General Store] 5x Ration of Food
+SETUP seed=18 mode=general_food class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2
+  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]
+SHOP 0 ware 1 qty=5 cost=3 desc=[Flasks of oil {??}]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+SHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]
+TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]
+OUTCOME buys_food=1 buys_remove_hunger=0
+Passed
+native-c/starvealch-18 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/starvealch-18: starting...
+TIMED food=1499 hungry_below=1500
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Remove Hunger
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=0 [General Store] 5x Flask of Oil
+STOCK store=0 [General Store] 5x Ration of Food
+SETUP seed=18 mode=general_food class=Warrior clevel=1 gold=500 food=0 hungry=1 weak=0 light=2
+  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=2 desc=[Wooden Torches (5000 turns)]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Rations of Food]
+SHOP 0 ware 1 qty=5 cost=3 desc=[Flasks of oil {??}]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+SHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]
+TRACK power=420327 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=0 goal_ware=0 shop_name=[General Store] what=[Rations of Food]
+OUTCOME buys_food=1 buys_remove_hunger=0
+Passed
+native-c/starvealch-18 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="fed"><p class="summary">With food carried, the store filter and starving check do not apply and Remove Hunger is not counted as food; both versions choose the Alchemist&#x27;s Cure Light Wounds and the logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sets out to buy Remove Hunger (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=570483 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>sets out to buy Remove Hunger (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK power=570483 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/starvealch-18: starting...
+TIMED food=8999 hungry_below=1500
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Remove Hunger
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=0 [General Store] 5x Flask of Oil
+SETUP seed=18 mode=fed class=Warrior clevel=1 gold=500 food=3 hungry=0 weak=0 light=2
+  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=3 desc=[Rations of Food]
+PACK 1 qty=2 desc=[Wooden Torches (5000 turns)]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Flasks of oil {??}]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+SHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]
+TRACK power=570483 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+OUTCOME buys_food=0 buys_remove_hunger=0
+Passed
+native-c/starvealch-18 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/starvealch-18: starting...
+TIMED food=8999 hungry_below=1500
+STORE 0 [General Store]
+STORE 1 [Armoury]
+STORE 2 [Weapon Smiths]
+STORE 3 [Bookseller]
+STORE 4 [Alchemy Shop]
+STORE 5 [Magic Shop]
+STORE 6 [Black Market]
+STORE 7 [Home]
+STOCK store=4 [Alchemy Shop] 5x Remove Hunger
+STOCK store=4 [Alchemy Shop] 5x Cure Light Wounds
+STOCK store=0 [General Store] 5x Flask of Oil
+SETUP seed=18 mode=fed class=Warrior clevel=1 gold=500 food=3 hungry=0 weak=0 light=2
+  borg_in_town_buys_food_or_remove_hunger  PACK 0 qty=3 desc=[Rations of Food]
+PACK 1 qty=2 desc=[Wooden Torches (5000 turns)]
+SHOP 0 ware 0 qty=5 cost=3 desc=[Flasks of oil {??}]
+SHOP 4 ware 0 qty=5 cost=20 desc=[Potions of Cure Light Wounds]
+SHOP 4 ware 1 qty=5 cost=10 desc=[Scrolls of Remove Hunger]
+TRACK power=570483 do_best=0 goal_item=-1
+DECISION chose_shop=1 goal_shop=4 goal_ware=0 shop_name=[Alchemy Shop] what=[Potions of Cure Light Wounds]
+OUTCOME buys_food=0 buys_remove_hunger=0
+Passed
+native-c/starvealch-18 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 18, character level 1, standard starting kit (wielded Wooden Torch, armour and weapon). The fixture removes the kit&#x27;s Scroll of Word of Recall and Potion of Berserk Strength (otherwise the Borg first takes the scroll home and sells the potion, which ends the shop choice before any purchase is weighed) and sets the gold to 500. In the two no-food modes the kit&#x27;s Rations of Food are removed as well and the character is made Hungry with the game&#x27;s player_set_timed(TMD_FOOD, PY_FOOD_HUNGRY - 1); in &#x27;fed&#x27; the three rations stay and nutrition is untouched. In town (depth 0). Every store is emptied, then the Alchemist (store 4) gets five Scrolls of Remove Hunger and five Potions of Cure Light Wounds and the General Store (store 0) five Flasks of Oil, plus five Rations of Food in &#x27;general_food&#x27; only (fixture stock). The Borg&#x27;s items and stores are loaded with the production borg_find_all_items(); then the production borg_choose_shop() runs once and its goal is read back. This isolates the shop choice; it does not walk to the store or carry out the purchase.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/18">issue 18</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
