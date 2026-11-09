@@ -1719,7 +1719,7 @@ bool borg_caution(void)
 
             /* Mega-Hack -- skip traps XXX XXX XXX */
             if (ag->trap && !ag->glyph)
-                break;
+                continue;
 
             /* If i was here last round and 3 rounds ago, suggesting a "bounce"
              */
@@ -1736,6 +1736,7 @@ bool borg_caution(void)
              * Skip this grid if it is adjacent to a monster.  He will just hit
              * me when I land on that grid.
              */
+            adjacent_monster = false;
             for (ii = 1; ii < borg_kills_nxt; ii++) {
                 borg_kill *kill;
 
