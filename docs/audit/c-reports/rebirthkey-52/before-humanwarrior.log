@@ -1,0 +1,31 @@
+native-c/rebirthkey-52: starting...
+STATE prev_race=2 prev_class=1 want_race=0 want_class=0
+PREPARED previous Elf Mage; respawn wanted race 0 (Human) class 0 (Warrior)
+  respawn           KEY stage=die-prompt n=1 code=121 char=y
+TRACK after_hit is_dead=1 respawning=1
+KEY stage=death-menu n=2 code=110 char=n
+KEY stage=death-menu n=3 code=121 char=y
+TRACK after_death_menu play_again=1
+KEY stage=birth n=4 code=110 char=n
+KEY stage=birth n=5 code=97 char=a
+KEY stage=birth n=6 code=156 
+KEY stage=birth n=7 code=97 char=a
+KEY stage=birth n=8 code=156 
+KEY stage=birth n=9 code=156 
+KEY stage=birth n=10 code=156 
+KEY stage=birth n=11 code=66 char=B
+KEY stage=birth n=12 code=97 char=a
+KEY stage=birth n=13 code=108 char=l
+KEY stage=birth n=14 code=105 char=i
+KEY stage=birth n=15 code=100 char=d
+KEY stage=birth n=16 code=114 char=r
+KEY stage=birth n=17 code=105 char=i
+KEY stage=birth n=18 code=99 char=c
+KEY stage=birth n=19 code=156 
+KEY stage=birth n=20 code=156 
+KEY stage=birth n=21 code=156 
+TRACK typed ynyna<CR>a<CR><CR><CR>Balidric<CR><CR><CR>
+DECISION created Human Warrior named Balidric; wanted Human Warrior
+OUTCOME starved=0 respawn_started=1 race=0 class=0 want_race=0 want_class=0 queue_left=0 keys=21 right_character=1
+Passed
+native-c/rebirthkey-52 finished: 1/1 passed

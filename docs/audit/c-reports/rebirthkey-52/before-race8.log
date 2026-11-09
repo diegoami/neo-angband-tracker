@@ -1,0 +1,36 @@
+native-c/rebirthkey-52: starting...
+STATE prev_race=0 prev_class=0 want_race=8 want_class=0
+PREPARED previous Human Warrior; respawn wanted race 8 (Dunadan) class 0 (Warrior)
+  respawn           KEY stage=die-prompt n=1 code=121 char=y
+TRACK after_hit is_dead=1 respawning=1
+KEY stage=death-menu n=2 code=110 char=n
+KEY stage=death-menu n=3 code=121 char=y
+TRACK after_death_menu play_again=1
+KEY stage=birth n=4 code=110 char=n
+KEY stage=birth n=5 code=105 char=i
+KEY stage=birth n=6 code=156 
+KEY stage=birth n=7 code=156 
+KEY stage=birth n=8 code=156 
+KEY stage=birth n=9 code=156 
+KEY stage=birth n=10 code=65 char=A
+KEY stage=birth n=11 code=103 char=g
+KEY stage=birth n=12 code=114 char=r
+KEY stage=birth n=13 code=101 char=e
+KEY stage=birth n=14 code=114 char=r
+KEY stage=birth n=15 code=97 char=a
+KEY stage=birth n=16 code=99 char=c
+KEY stage=birth n=17 code=116 char=t
+KEY stage=birth n=18 code=114 char=r
+KEY stage=birth n=19 code=101 char=e
+KEY stage=birth n=20 code=100 char=d
+KEY stage=birth n=21 code=156 
+KEY stage=birth n=22 code=156 
+KEY stage=birth n=23 code=156 
+TRACK typed ynyni<CR><CR><CR><CR>Agreractred<CR><CR><CR>
+DECISION created Half-Troll Warrior named Agreractred; wanted Dunadan Warrior
+OUTCOME starved=0 respawn_started=1 race=7 class=0 want_race=8 want_class=0 queue_left=0 keys=23 right_character=0
+Failed
+    native-c/rebirthkey-52:182: requirement 'player->race->ridx' == 'cur->race' failed
+      player->race->ridx:                7
+      cur->race:                8
+native-c/rebirthkey-52 finished: 0/1 passed

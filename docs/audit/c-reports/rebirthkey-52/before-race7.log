@@ -1,0 +1,31 @@
+native-c/rebirthkey-52: starting...
+STATE prev_race=0 prev_class=0 want_race=7 want_class=0
+PREPARED previous Human Warrior; respawn wanted race 7 (Half-Troll) class 0 (Warrior)
+  respawn           KEY stage=die-prompt n=1 code=121 char=y
+TRACK after_hit is_dead=1 respawning=1
+KEY stage=death-menu n=2 code=110 char=n
+KEY stage=death-menu n=3 code=121 char=y
+TRACK after_death_menu play_again=1
+KEY stage=birth n=4 code=110 char=n
+KEY stage=birth n=5 code=104 char=h
+KEY stage=birth n=6 code=156 
+KEY stage=birth n=7 code=156 
+KEY stage=birth n=8 code=156 
+KEY stage=birth n=9 code=156 
+KEY stage=birth n=10 code=66 char=B
+KEY stage=birth n=11 code=111 char=o
+KEY stage=birth n=12 code=100 char=d
+KEY stage=birth n=13 code=117 char=u
+KEY stage=birth n=14 code=115 char=s
+KEY stage=birth n=15 code=104 char=h
+KEY stage=birth n=16 code=156 
+KEY stage=birth n=17 code=156 
+KEY stage=birth n=18 code=156 
+TRACK typed ynynh<CR><CR><CR><CR>Bodush<CR><CR><CR>
+DECISION created Human Warrior named Bodush; wanted Half-Troll Warrior
+OUTCOME starved=0 respawn_started=1 race=0 class=0 want_race=7 want_class=0 queue_left=0 keys=18 right_character=0
+Failed
+    native-c/rebirthkey-52:182: requirement 'player->race->ridx' == 'cur->race' failed
+      player->race->ridx:                0
+      cur->race:                7
+native-c/rebirthkey-52 finished: 0/1 passed

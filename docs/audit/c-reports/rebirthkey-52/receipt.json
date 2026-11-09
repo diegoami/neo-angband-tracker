@@ -1,0 +1,282 @@
+{
+  "issue": "diegoami/neo-angband-tracker#52",
+  "report": "rebirthkey-52",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "85e7ce6c689e05bc209feda6d30a3bba51c533c6",
+  "fix_branch": "task/rebirthkey-52",
+  "fixtures_ref": "10140a539877c0a96a98df231ce150394485866f",
+  "cases": {
+    "race8": {
+      "before": {
+        "passed": false,
+        "state": {
+          "prev_race": 0,
+          "prev_class": 0,
+          "want_race": 8,
+          "want_class": 0
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 7,
+          "class": 0,
+          "want_race": 8,
+          "want_class": 0,
+          "queue_left": 0,
+          "keys": 23,
+          "right_character": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "prev_race": 0,
+          "prev_class": 0,
+          "want_race": 8,
+          "want_class": 0
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 8,
+          "class": 0,
+          "want_race": 8,
+          "want_class": 0,
+          "queue_left": 0,
+          "keys": 23,
+          "right_character": 1
+        }
+      }
+    },
+    "class8": {
+      "before": {
+        "passed": false,
+        "state": {
+          "prev_race": 0,
+          "prev_class": 0,
+          "want_race": 0,
+          "want_class": 8
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 0,
+          "class": 7,
+          "want_race": 0,
+          "want_class": 8,
+          "queue_left": 0,
+          "keys": 23,
+          "right_character": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "prev_race": 0,
+          "prev_class": 0,
+          "want_race": 0,
+          "want_class": 8
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 0,
+          "class": 8,
+          "want_race": 0,
+          "want_class": 8,
+          "queue_left": 0,
+          "keys": 23,
+          "right_character": 1
+        }
+      }
+    },
+    "race7": {
+      "before": {
+        "passed": false,
+        "state": {
+          "prev_race": 0,
+          "prev_class": 0,
+          "want_race": 7,
+          "want_class": 0
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 0,
+          "class": 0,
+          "want_race": 7,
+          "want_class": 0,
+          "queue_left": 0,
+          "keys": 18,
+          "right_character": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "prev_race": 0,
+          "prev_class": 0,
+          "want_race": 7,
+          "want_class": 0
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 7,
+          "class": 0,
+          "want_race": 7,
+          "want_class": 0,
+          "queue_left": 0,
+          "keys": 18,
+          "right_character": 1
+        }
+      }
+    },
+    "dwarfpriest": {
+      "before": {
+        "passed": true,
+        "state": {
+          "prev_race": 0,
+          "prev_class": 0,
+          "want_race": 5,
+          "want_class": 3
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 5,
+          "class": 3,
+          "want_race": 5,
+          "want_class": 3,
+          "queue_left": 0,
+          "keys": 18,
+          "right_character": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "prev_race": 0,
+          "prev_class": 0,
+          "want_race": 5,
+          "want_class": 3
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 5,
+          "class": 3,
+          "want_race": 5,
+          "want_class": 3,
+          "queue_left": 0,
+          "keys": 18,
+          "right_character": 1
+        }
+      }
+    },
+    "humanwarrior": {
+      "before": {
+        "passed": true,
+        "state": {
+          "prev_race": 2,
+          "prev_class": 1,
+          "want_race": 0,
+          "want_class": 0
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 0,
+          "class": 0,
+          "want_race": 0,
+          "want_class": 0,
+          "queue_left": 0,
+          "keys": 21,
+          "right_character": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "prev_race": 2,
+          "prev_class": 1,
+          "want_race": 0,
+          "want_class": 0
+        },
+        "outcome": {
+          "starved": 0,
+          "respawn_started": 1,
+          "race": 0,
+          "class": 0,
+          "want_race": 0,
+          "want_class": 0,
+          "queue_left": 0,
+          "keys": 21,
+          "right_character": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "dwarfpriest",
+    "humanwarrior"
+  ],
+  "claim": "borg_reincarnate_start() types all_letters[race] and all_letters[class], but the birth menus are labelled with all_letters_nohjkl. Race/class index 7 types a letter the menu lacks (the highlighted entry is kept), index 8 and up select the entry before the one wanted (Dunadan becomes Half-Troll, Blackguard becomes Ranger). Typing all_letters_nohjkl restores the intended character; index < 7 controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-reincarnate.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-reincarnate.c": "a1c63c4626b8141a28a7f0bf49f227d093018687a19af6adf15060af7b6ad3a7"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 27,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "31727e9bb520f9e7311b6f6dbe1dd76bfd8f01ef49b4d255d0c1e437d097582f",
+    "after-class8.log": "c9f92aeb1efcb7c7d3828d2470652c0082b41c7660223f5b6a9da423a6907bc4",
+    "after-dwarfpriest.log": "58e9c745ead19e28528bb90af4233e4f3b8d66c30649e024b230fb20a6c154e1",
+    "after-humanwarrior.log": "044a776b55f09183dc390bbf4a2f78ab8826b200b61f9a6fc8127a97a13211ad",
+    "after-race7.log": "6675aa1e8130ad3297479f58c6fba5ebeec1f790a27da72c5c0301fe8066f397",
+    "after-race8.log": "567547e7a0ecbea37625e306650adfe78f70a06edae80de3be1cd86f306bac7b",
+    "after-results.json": "32f26cb66a913ff08eba1e39abf8bfc07749e85ade7c35c80e7b7332b43e1d58",
+    "before-class8.log": "b81e0941695287eca0e1a1fe488f0f6caca8c3303612f7190916d6691d1d53ba",
+    "before-dwarfpriest.log": "58e9c745ead19e28528bb90af4233e4f3b8d66c30649e024b230fb20a6c154e1",
+    "before-humanwarrior.log": "044a776b55f09183dc390bbf4a2f78ab8826b200b61f9a6fc8127a97a13211ad",
+    "before-race7.log": "c8499164fc1b9976977ba2f3a102ad3a56278034e66d9d83647dd736ab128f62",
+    "before-race8.log": "57fe0f536806651448d686bd57446f5ad725f66e745a15ef618753c257b943cb",
+    "before-results.json": "b4e410a60b0fc66e35bafad0d32787a88bd72fdff82a079c22541340617fb3dc",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "2e72fe77c48dcc418f64935ed4c378c8f0d7ba5ed75e04d2d208482f5620707e",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "73d375e92e842e6865e04783d7abc72464f25570e79779a91327a2a9e66973d1",
+    "replay.html": "036988defc9c718bce206f0482791d675e51aa5c8d301f6d8b003365b747a225",
+    "reproduce.py": "7e18782585aa72721720296929d05fb65d354cd95e0f5d31ebfce590a2a20fa6",
+    "result.json": "f664d8f2a0588a0abae6db92c533469d8fcd14bab254b45e8704b795ab2ce75e",
+    "run-after-alltests.log": "78c349cf0308526f6db4130b423b5c754ccd04758159a1d3e060609abf9fb7a6",
+    "run-after-build.log": "ecda49a5fa892af34f4cabf5f98ef8109e7c6f069633ac01aad22e8baf61ada6",
+    "run-after-scenarios.log": "f0b6b79186ad925d8310d09486647a3eda2c0b63b82503418ed214e1362fb6a2",
+    "run-before-alltests.log": "93742ba2c2e2eae1ccfc141e42fb90f00ea5f9467763edc0f02703de45ce06fb",
+    "run-before-build.log": "7e63f1cd7ffed358fd465267df78471ab83a5de21ffd6347a8fbbf23c2e0b3e6",
+    "run-before-scenarios.log": "1f3e7ab78874a10233167f6db6cd51896b91975c6c6ab6d43927c848f3725d4f",
+    "run-cases.py": "6215d233d862c06e5d0ff75f86e86c2f2dca80f1fd0aa48426bb40fab301c3ca",
+    "run-configure.log": "4d76c5e16c4744a3e12372f748510e4d4a1c33669525385199fb8fe5f62ba8c1",
+    "scenario.c": "31c43385e67eaab386bac8f5fe21782b749fd081510e9e21ac2535c27f34f74f"
+  }
+}

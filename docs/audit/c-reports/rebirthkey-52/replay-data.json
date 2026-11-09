@@ -1,0 +1,317 @@
+{
+  "race8": {
+    "label": "Wanted Dunadan Warrior (race index 8), previous Human Warrior",
+    "explanation": "Original: the Borg types 'i' for race 8, which is the Half-Troll's letter in the birth menu, and a Half-Troll Warrior is created (with a name made for a Dunadan). Corrected: it types 'm' and a Dunadan Warrior is created.",
+    "control": false,
+    "before": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=0 prev_class=0 want_race=8 want_class=0\nPREPARED previous Human Warrior; respawn wanted race 8 (Dunadan) class 0 (Warrior)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=105 char=i\nKEY stage=birth n=6 code=156 \nKEY stage=birth n=7 code=156 \nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=65 char=A\nKEY stage=birth n=11 code=103 char=g\nKEY stage=birth n=12 code=114 char=r\nKEY stage=birth n=13 code=101 char=e\nKEY stage=birth n=14 code=114 char=r\nKEY stage=birth n=15 code=97 char=a\nKEY stage=birth n=16 code=99 char=c\nKEY stage=birth n=17 code=116 char=t\nKEY stage=birth n=18 code=114 char=r\nKEY stage=birth n=19 code=101 char=e\nKEY stage=birth n=20 code=100 char=d\nKEY stage=birth n=21 code=156 \nKEY stage=birth n=22 code=156 \nKEY stage=birth n=23 code=156 \nTRACK typed ynyni<CR><CR><CR><CR>Agreractred<CR><CR><CR>\nDECISION created Half-Troll Warrior named Agreractred; wanted Dunadan Warrior\nOUTCOME starved=0 respawn_started=1 race=7 class=0 want_race=8 want_class=0 queue_left=0 keys=23 right_character=0\nFailed\n    native-c/rebirthkey-52:182: requirement 'player->race->ridx' == 'cur->race' failed\n      player->race->ridx:                7\n      cur->race:                8\nnative-c/rebirthkey-52 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "prev_race": 0,
+        "prev_class": 0,
+        "want_race": 8,
+        "want_class": 0
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 7,
+        "class": 0,
+        "want_race": 8,
+        "want_class": 0,
+        "queue_left": 0,
+        "keys": 23,
+        "right_character": 0
+      },
+      "notes": [
+        "PREPARED previous Human Warrior; respawn wanted race 8 (Dunadan) class 0 (Warrior)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynyni<CR><CR><CR><CR>Agreractred<CR><CR><CR>",
+        "DECISION created Half-Troll Warrior named Agreractred; wanted Dunadan Warrior"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=0 prev_class=0 want_race=8 want_class=0\nPREPARED previous Human Warrior; respawn wanted race 8 (Dunadan) class 0 (Warrior)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=109 char=m\nKEY stage=birth n=6 code=156 \nKEY stage=birth n=7 code=156 \nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=65 char=A\nKEY stage=birth n=11 code=103 char=g\nKEY stage=birth n=12 code=114 char=r\nKEY stage=birth n=13 code=101 char=e\nKEY stage=birth n=14 code=114 char=r\nKEY stage=birth n=15 code=97 char=a\nKEY stage=birth n=16 code=99 char=c\nKEY stage=birth n=17 code=116 char=t\nKEY stage=birth n=18 code=114 char=r\nKEY stage=birth n=19 code=101 char=e\nKEY stage=birth n=20 code=100 char=d\nKEY stage=birth n=21 code=156 \nKEY stage=birth n=22 code=156 \nKEY stage=birth n=23 code=156 \nTRACK typed ynynm<CR><CR><CR><CR>Agreractred<CR><CR><CR>\nDECISION created Dunadan Warrior named Agreractred; wanted Dunadan Warrior\nOUTCOME starved=0 respawn_started=1 race=8 class=0 want_race=8 want_class=0 queue_left=0 keys=23 right_character=1\nPassed\nnative-c/rebirthkey-52 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "prev_race": 0,
+        "prev_class": 0,
+        "want_race": 8,
+        "want_class": 0
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 8,
+        "class": 0,
+        "want_race": 8,
+        "want_class": 0,
+        "queue_left": 0,
+        "keys": 23,
+        "right_character": 1
+      },
+      "notes": [
+        "PREPARED previous Human Warrior; respawn wanted race 8 (Dunadan) class 0 (Warrior)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynynm<CR><CR><CR><CR>Agreractred<CR><CR><CR>",
+        "DECISION created Dunadan Warrior named Agreractred; wanted Dunadan Warrior"
+      ],
+      "value": 1
+    }
+  },
+  "class8": {
+    "label": "Wanted Human Blackguard (class index 8), previous Human Warrior",
+    "explanation": "Original: the Borg types 'i' for class 8, which is the Ranger's letter, and a Human Ranger is created. Corrected: it types 'm' and a Human Blackguard is created.",
+    "control": false,
+    "before": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=0 prev_class=0 want_race=0 want_class=8\nPREPARED previous Human Warrior; respawn wanted race 0 (Human) class 8 (Blackguard)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=156 \nKEY stage=birth n=6 code=105 char=i\nKEY stage=birth n=7 code=156 \nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=65 char=A\nKEY stage=birth n=11 code=103 char=g\nKEY stage=birth n=12 code=114 char=r\nKEY stage=birth n=13 code=101 char=e\nKEY stage=birth n=14 code=114 char=r\nKEY stage=birth n=15 code=97 char=a\nKEY stage=birth n=16 code=99 char=c\nKEY stage=birth n=17 code=116 char=t\nKEY stage=birth n=18 code=114 char=r\nKEY stage=birth n=19 code=101 char=e\nKEY stage=birth n=20 code=100 char=d\nKEY stage=birth n=21 code=156 \nKEY stage=birth n=22 code=156 \nKEY stage=birth n=23 code=156 \nTRACK typed ynyn<CR>i<CR><CR><CR>Agreractred<CR><CR><CR>\nDECISION created Human Ranger named Agreractred; wanted Human Blackguard\nOUTCOME starved=0 respawn_started=1 race=0 class=7 want_race=0 want_class=8 queue_left=0 keys=23 right_character=0\nFailed\n    native-c/rebirthkey-52:183: requirement 'player->class->cidx' == 'cur->class' failed\n      player->class->cidx:                7\n      cur->class:                8\nnative-c/rebirthkey-52 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "prev_race": 0,
+        "prev_class": 0,
+        "want_race": 0,
+        "want_class": 8
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 0,
+        "class": 7,
+        "want_race": 0,
+        "want_class": 8,
+        "queue_left": 0,
+        "keys": 23,
+        "right_character": 0
+      },
+      "notes": [
+        "PREPARED previous Human Warrior; respawn wanted race 0 (Human) class 8 (Blackguard)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynyn<CR>i<CR><CR><CR>Agreractred<CR><CR><CR>",
+        "DECISION created Human Ranger named Agreractred; wanted Human Blackguard"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=0 prev_class=0 want_race=0 want_class=8\nPREPARED previous Human Warrior; respawn wanted race 0 (Human) class 8 (Blackguard)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=156 \nKEY stage=birth n=6 code=109 char=m\nKEY stage=birth n=7 code=156 \nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=65 char=A\nKEY stage=birth n=11 code=103 char=g\nKEY stage=birth n=12 code=114 char=r\nKEY stage=birth n=13 code=101 char=e\nKEY stage=birth n=14 code=114 char=r\nKEY stage=birth n=15 code=97 char=a\nKEY stage=birth n=16 code=99 char=c\nKEY stage=birth n=17 code=116 char=t\nKEY stage=birth n=18 code=114 char=r\nKEY stage=birth n=19 code=101 char=e\nKEY stage=birth n=20 code=100 char=d\nKEY stage=birth n=21 code=156 \nKEY stage=birth n=22 code=156 \nKEY stage=birth n=23 code=156 \nTRACK typed ynyn<CR>m<CR><CR><CR>Agreractred<CR><CR><CR>\nDECISION created Human Blackguard named Agreractred; wanted Human Blackguard\nOUTCOME starved=0 respawn_started=1 race=0 class=8 want_race=0 want_class=8 queue_left=0 keys=23 right_character=1\nPassed\nnative-c/rebirthkey-52 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "prev_race": 0,
+        "prev_class": 0,
+        "want_race": 0,
+        "want_class": 8
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 0,
+        "class": 8,
+        "want_race": 0,
+        "want_class": 8,
+        "queue_left": 0,
+        "keys": 23,
+        "right_character": 1
+      },
+      "notes": [
+        "PREPARED previous Human Warrior; respawn wanted race 0 (Human) class 8 (Blackguard)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynyn<CR>m<CR><CR><CR>Agreractred<CR><CR><CR>",
+        "DECISION created Human Blackguard named Agreractred; wanted Human Blackguard"
+      ],
+      "value": 1
+    }
+  },
+  "race7": {
+    "label": "Wanted Half-Troll Warrior (race index 7), previous Human Warrior",
+    "explanation": "Original: the Borg types 'h', which the birth menu does not use; the highlighted race (Human) is kept and a Human Warrior with an orc name is created. Corrected: it types 'i' and a Half-Troll Warrior is created.",
+    "control": false,
+    "before": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=0 prev_class=0 want_race=7 want_class=0\nPREPARED previous Human Warrior; respawn wanted race 7 (Half-Troll) class 0 (Warrior)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=104 char=h\nKEY stage=birth n=6 code=156 \nKEY stage=birth n=7 code=156 \nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=66 char=B\nKEY stage=birth n=11 code=111 char=o\nKEY stage=birth n=12 code=100 char=d\nKEY stage=birth n=13 code=117 char=u\nKEY stage=birth n=14 code=115 char=s\nKEY stage=birth n=15 code=104 char=h\nKEY stage=birth n=16 code=156 \nKEY stage=birth n=17 code=156 \nKEY stage=birth n=18 code=156 \nTRACK typed ynynh<CR><CR><CR><CR>Bodush<CR><CR><CR>\nDECISION created Human Warrior named Bodush; wanted Half-Troll Warrior\nOUTCOME starved=0 respawn_started=1 race=0 class=0 want_race=7 want_class=0 queue_left=0 keys=18 right_character=0\nFailed\n    native-c/rebirthkey-52:182: requirement 'player->race->ridx' == 'cur->race' failed\n      player->race->ridx:                0\n      cur->race:                7\nnative-c/rebirthkey-52 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "prev_race": 0,
+        "prev_class": 0,
+        "want_race": 7,
+        "want_class": 0
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 0,
+        "class": 0,
+        "want_race": 7,
+        "want_class": 0,
+        "queue_left": 0,
+        "keys": 18,
+        "right_character": 0
+      },
+      "notes": [
+        "PREPARED previous Human Warrior; respawn wanted race 7 (Half-Troll) class 0 (Warrior)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynynh<CR><CR><CR><CR>Bodush<CR><CR><CR>",
+        "DECISION created Human Warrior named Bodush; wanted Half-Troll Warrior"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=0 prev_class=0 want_race=7 want_class=0\nPREPARED previous Human Warrior; respawn wanted race 7 (Half-Troll) class 0 (Warrior)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=105 char=i\nKEY stage=birth n=6 code=156 \nKEY stage=birth n=7 code=156 \nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=66 char=B\nKEY stage=birth n=11 code=111 char=o\nKEY stage=birth n=12 code=100 char=d\nKEY stage=birth n=13 code=117 char=u\nKEY stage=birth n=14 code=115 char=s\nKEY stage=birth n=15 code=104 char=h\nKEY stage=birth n=16 code=156 \nKEY stage=birth n=17 code=156 \nKEY stage=birth n=18 code=156 \nTRACK typed ynyni<CR><CR><CR><CR>Bodush<CR><CR><CR>\nDECISION created Half-Troll Warrior named Bodush; wanted Half-Troll Warrior\nOUTCOME starved=0 respawn_started=1 race=7 class=0 want_race=7 want_class=0 queue_left=0 keys=18 right_character=1\nPassed\nnative-c/rebirthkey-52 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "prev_race": 0,
+        "prev_class": 0,
+        "want_race": 7,
+        "want_class": 0
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 7,
+        "class": 0,
+        "want_race": 7,
+        "want_class": 0,
+        "queue_left": 0,
+        "keys": 18,
+        "right_character": 1
+      },
+      "notes": [
+        "PREPARED previous Human Warrior; respawn wanted race 7 (Half-Troll) class 0 (Warrior)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynyni<CR><CR><CR><CR>Bodush<CR><CR><CR>",
+        "DECISION created Half-Troll Warrior named Bodush; wanted Half-Troll Warrior"
+      ],
+      "value": 1
+    }
+  },
+  "dwarfpriest": {
+    "label": "Control: wanted Dwarf Priest (race 5, class 3), previous Human Warrior",
+    "explanation": "Below index 7 both tables give the same letters ('f' and 'd'); both versions create a Dwarf Priest and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=0 prev_class=0 want_race=5 want_class=3\nPREPARED previous Human Warrior; respawn wanted race 5 (Dwarf) class 3 (Priest)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=102 char=f\nKEY stage=birth n=6 code=156 \nKEY stage=birth n=7 code=100 char=d\nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=156 \nKEY stage=birth n=11 code=66 char=B\nKEY stage=birth n=12 code=105 char=i\nKEY stage=birth n=13 code=102 char=f\nKEY stage=birth n=14 code=117 char=u\nKEY stage=birth n=15 code=114 char=r\nKEY stage=birth n=16 code=156 \nKEY stage=birth n=17 code=156 \nKEY stage=birth n=18 code=156 \nTRACK typed ynynf<CR>d<CR><CR><CR>Bifur<CR><CR><CR>\nDECISION created Dwarf Priest named Bifur; wanted Dwarf Priest\nOUTCOME starved=0 respawn_started=1 race=5 class=3 want_race=5 want_class=3 queue_left=0 keys=18 right_character=1\nPassed\nnative-c/rebirthkey-52 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "prev_race": 0,
+        "prev_class": 0,
+        "want_race": 5,
+        "want_class": 3
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 5,
+        "class": 3,
+        "want_race": 5,
+        "want_class": 3,
+        "queue_left": 0,
+        "keys": 18,
+        "right_character": 1
+      },
+      "notes": [
+        "PREPARED previous Human Warrior; respawn wanted race 5 (Dwarf) class 3 (Priest)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynynf<CR>d<CR><CR><CR>Bifur<CR><CR><CR>",
+        "DECISION created Dwarf Priest named Bifur; wanted Dwarf Priest"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=0 prev_class=0 want_race=5 want_class=3\nPREPARED previous Human Warrior; respawn wanted race 5 (Dwarf) class 3 (Priest)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=102 char=f\nKEY stage=birth n=6 code=156 \nKEY stage=birth n=7 code=100 char=d\nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=156 \nKEY stage=birth n=11 code=66 char=B\nKEY stage=birth n=12 code=105 char=i\nKEY stage=birth n=13 code=102 char=f\nKEY stage=birth n=14 code=117 char=u\nKEY stage=birth n=15 code=114 char=r\nKEY stage=birth n=16 code=156 \nKEY stage=birth n=17 code=156 \nKEY stage=birth n=18 code=156 \nTRACK typed ynynf<CR>d<CR><CR><CR>Bifur<CR><CR><CR>\nDECISION created Dwarf Priest named Bifur; wanted Dwarf Priest\nOUTCOME starved=0 respawn_started=1 race=5 class=3 want_race=5 want_class=3 queue_left=0 keys=18 right_character=1\nPassed\nnative-c/rebirthkey-52 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "prev_race": 0,
+        "prev_class": 0,
+        "want_race": 5,
+        "want_class": 3
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 5,
+        "class": 3,
+        "want_race": 5,
+        "want_class": 3,
+        "queue_left": 0,
+        "keys": 18,
+        "right_character": 1
+      },
+      "notes": [
+        "PREPARED previous Human Warrior; respawn wanted race 5 (Dwarf) class 3 (Priest)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynynf<CR>d<CR><CR><CR>Bifur<CR><CR><CR>",
+        "DECISION created Dwarf Priest named Bifur; wanted Dwarf Priest"
+      ],
+      "value": 1
+    }
+  },
+  "humanwarrior": {
+    "label": "Control: wanted Human Warrior (race 0, class 0), previous Elf Mage",
+    "explanation": "Letters 'a' and 'a' in both tables; both versions create a Human Warrior and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=2 prev_class=1 want_race=0 want_class=0\nPREPARED previous Elf Mage; respawn wanted race 0 (Human) class 0 (Warrior)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=97 char=a\nKEY stage=birth n=6 code=156 \nKEY stage=birth n=7 code=97 char=a\nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=156 \nKEY stage=birth n=11 code=66 char=B\nKEY stage=birth n=12 code=97 char=a\nKEY stage=birth n=13 code=108 char=l\nKEY stage=birth n=14 code=105 char=i\nKEY stage=birth n=15 code=100 char=d\nKEY stage=birth n=16 code=114 char=r\nKEY stage=birth n=17 code=105 char=i\nKEY stage=birth n=18 code=99 char=c\nKEY stage=birth n=19 code=156 \nKEY stage=birth n=20 code=156 \nKEY stage=birth n=21 code=156 \nTRACK typed ynyna<CR>a<CR><CR><CR>Balidric<CR><CR><CR>\nDECISION created Human Warrior named Balidric; wanted Human Warrior\nOUTCOME starved=0 respawn_started=1 race=0 class=0 want_race=0 want_class=0 queue_left=0 keys=21 right_character=1\nPassed\nnative-c/rebirthkey-52 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "prev_race": 2,
+        "prev_class": 1,
+        "want_race": 0,
+        "want_class": 0
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 0,
+        "class": 0,
+        "want_race": 0,
+        "want_class": 0,
+        "queue_left": 0,
+        "keys": 21,
+        "right_character": 1
+      },
+      "notes": [
+        "PREPARED previous Elf Mage; respawn wanted race 0 (Human) class 0 (Warrior)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynyna<CR>a<CR><CR><CR>Balidric<CR><CR><CR>",
+        "DECISION created Human Warrior named Balidric; wanted Human Warrior"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/rebirthkey-52: starting...\nSTATE prev_race=2 prev_class=1 want_race=0 want_class=0\nPREPARED previous Elf Mage; respawn wanted race 0 (Human) class 0 (Warrior)\n  respawn           KEY stage=die-prompt n=1 code=121 char=y\nTRACK after_hit is_dead=1 respawning=1\nKEY stage=death-menu n=2 code=110 char=n\nKEY stage=death-menu n=3 code=121 char=y\nTRACK after_death_menu play_again=1\nKEY stage=birth n=4 code=110 char=n\nKEY stage=birth n=5 code=97 char=a\nKEY stage=birth n=6 code=156 \nKEY stage=birth n=7 code=97 char=a\nKEY stage=birth n=8 code=156 \nKEY stage=birth n=9 code=156 \nKEY stage=birth n=10 code=156 \nKEY stage=birth n=11 code=66 char=B\nKEY stage=birth n=12 code=97 char=a\nKEY stage=birth n=13 code=108 char=l\nKEY stage=birth n=14 code=105 char=i\nKEY stage=birth n=15 code=100 char=d\nKEY stage=birth n=16 code=114 char=r\nKEY stage=birth n=17 code=105 char=i\nKEY stage=birth n=18 code=99 char=c\nKEY stage=birth n=19 code=156 \nKEY stage=birth n=20 code=156 \nKEY stage=birth n=21 code=156 \nTRACK typed ynyna<CR>a<CR><CR><CR>Balidric<CR><CR><CR>\nDECISION created Human Warrior named Balidric; wanted Human Warrior\nOUTCOME starved=0 respawn_started=1 race=0 class=0 want_race=0 want_class=0 queue_left=0 keys=21 right_character=1\nPassed\nnative-c/rebirthkey-52 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "prev_race": 2,
+        "prev_class": 1,
+        "want_race": 0,
+        "want_class": 0
+      },
+      "outcome": {
+        "starved": 0,
+        "respawn_started": 1,
+        "race": 0,
+        "class": 0,
+        "want_race": 0,
+        "want_class": 0,
+        "queue_left": 0,
+        "keys": 21,
+        "right_character": 1
+      },
+      "notes": [
+        "PREPARED previous Elf Mage; respawn wanted race 0 (Human) class 0 (Warrior)",
+        "TRACK after_hit is_dead=1 respawning=1",
+        "TRACK after_death_menu play_again=1",
+        "TRACK typed ynyna<CR>a<CR><CR><CR>Balidric<CR><CR><CR>",
+        "DECISION created Human Warrior named Balidric; wanted Human Warrior"
+      ],
+      "value": 1
+    }
+  }
+}
