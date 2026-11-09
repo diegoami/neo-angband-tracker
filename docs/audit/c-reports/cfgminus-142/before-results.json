@@ -1,0 +1,32 @@
+{
+  "minus": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "no_deeper": -127
+    },
+    "outcome": {
+      "prepared20": 0
+    }
+  },
+  "valid": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "no_deeper": 100
+    },
+    "outcome": {
+      "prepared20": 1
+    }
+  },
+  "negative": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "no_deeper": -5
+    },
+    "outcome": {
+      "prepared20": 0
+    }
+  }
+}

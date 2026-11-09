@@ -1,0 +1,128 @@
+{
+  "issue": "diegoami/neo-angband-tracker#142",
+  "report": "cfgminus-142",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "6bc43e71a4b36189ba7246abe53f114d6259469c",
+  "fix_branch": "task/cfgminus-142",
+  "fixtures_ref": "18f79a3cc631b76b55524e9253a79f383fd6d9a3",
+  "cases": {
+    "minus": {
+      "before": {
+        "passed": false,
+        "state": {
+          "no_deeper": -127
+        },
+        "outcome": {
+          "prepared20": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "no_deeper": 127
+        },
+        "outcome": {
+          "prepared20": 1
+        }
+      }
+    },
+    "valid": {
+      "before": {
+        "passed": true,
+        "state": {
+          "no_deeper": 100
+        },
+        "outcome": {
+          "prepared20": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "no_deeper": 100
+        },
+        "outcome": {
+          "prepared20": 1
+        }
+      }
+    },
+    "negative": {
+      "before": {
+        "passed": true,
+        "state": {
+          "no_deeper": -5
+        },
+        "outcome": {
+          "prepared20": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "no_deeper": -5
+        },
+        "outcome": {
+          "prepared20": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "valid",
+    "negative"
+  ],
+  "claim": "borg_proc_setting() negated an integer setting after a '-' even when no digits followed. 'borg_no_deeper = -' gave -127 and borg_prepared(20) answered 'No deeper -127.' for a fully prepared level-50 Warrior; after applying the sign only to a read number the default 127 stays and the Borg is ready. 'borg_no_deeper = 100' and '= -5' controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-init.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-init.c": "692217222098a30c9ddc717664e1001c57cda6e7736c6f6d848a7434f2159409"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "6d1823392809086c325a00316b88dba86abef4da366d1027735c125c87dc95e8",
+    "after-minus.log": "001d6cc8c23cfe4490171b93683974cb9a8579934b40df979fb9d2441d15c306",
+    "after-negative.log": "1b2e48657aca33f5b99288a21b5cc379d98ad3138a6fcfbba7af26bf0ebe5f08",
+    "after-results.json": "6589f668bace84219ccf827a553cc4f65d794c352c79911b870061ce07592097",
+    "after-valid.log": "3c7e47beaea8c2f396f06bf47b2826cb8ac05a5c765947fa42f6d6a9548a02bf",
+    "before-minus.log": "d9509da0ff434e7bbd9a7906d77e04a3e34f08a0c095714604ab99c4ce3496a2",
+    "before-negative.log": "1b2e48657aca33f5b99288a21b5cc379d98ad3138a6fcfbba7af26bf0ebe5f08",
+    "before-results.json": "21dd9b9959b92ae8b3951ecfc0dd767afe1f3b9d7ec5806491c6847c4ed6aaa0",
+    "before-valid.log": "3c7e47beaea8c2f396f06bf47b2826cb8ac05a5c765947fa42f6d6a9548a02bf",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "259e932cd5a4f955ceb5ea3227dfcc258e4aa3136239e135b7cee88929034514",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "0221593d018421726dc39a38989e1e9932b11df55e8029032fdc30ebffd5dc33",
+    "replay.html": "76c56ba44e2e6ed3297efe3a85ccd0f8897959b0bab1b0545b8a2bd85bc26ba9",
+    "reproduce.py": "a08e03be7049b2c834bd4169a6557f8c9ae20b590777ba8b84954fad52c8147d",
+    "result.json": "2ede518749c922d21d277ed5e8befeea17ad2b3e7c4dd0c2a56cbb1a3da28628",
+    "run-after-alltests.log": "4503d9bdd41b7422a50daf381b2d7d569b9e523dbe4a6f1dfe22db372052daec",
+    "run-after-build.log": "4dafae93c599b5e0e02308348b9d2bfe097a71fd711704bed5eacff69129fc17",
+    "run-after-scenarios.log": "1d292f71e6d8da8d5a4d9fc37af0d2df207813b1251f15e0649d57f36110cfc0",
+    "run-before-alltests.log": "51dfcae33d9adb65261c22cbfceb9f024ee56f51aec6650b3bcbe1933ece7436",
+    "run-before-build.log": "3f7533751177c64ef17e02f5a4ce735fdda3d3455f58c664e3f1a566e048fb2b",
+    "run-before-scenarios.log": "469c01676c385999a41f70dbba767aecdf647441276cee30ad35f6361d428634",
+    "run-cases.py": "a8006c19a0e3821e948612ba07004156436f935c4dfd528edb3bc624a8363925",
+    "run-configure.log": "428f3dd98ad33b4e298e0bcab15814db7e2d35476afb220a07cc3c7350b65ac1",
+    "scenario.c": "63e0376392da8fcbc7d3584bc7bdd9144f0be0ea25e30dda1bf8e0d7ab4ba56e"
+  }
+}

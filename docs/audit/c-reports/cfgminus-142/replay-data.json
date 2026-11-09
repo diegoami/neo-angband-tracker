@@ -1,0 +1,101 @@
+{
+  "minus": {
+    "label": "borg_no_deeper = - (no number)",
+    "explanation": "Original: no_deeper becomes -127 and the readiness check answers 'No deeper -127.'. Corrected: the default 127 stays and the Borg is ready for depth 20.",
+    "control": false,
+    "before": {
+      "raw": "native-c/cfgminus-142: starting...\nSETUP seed=142 mode=minus line=\"borg_no_deeper = -\" class=Warrior clevel=50 max_depth=50 depth=30\n  no_deeper_setting_is_read  STATE no_deeper=-127\nPREPARED depth=20 reason=No deeper -127.\nOUTCOME prepared20=0\nFailed\n    native-c/cfgminus-142:181: requirement 'borg_cfg[BORG_NO_DEEPER] > 0' failed\nnative-c/cfgminus-142 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "no_deeper": -127
+      },
+      "outcome": {
+        "prepared20": 0
+      },
+      "notes": [
+        "PREPARED depth=20 reason=No deeper -127."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/cfgminus-142: starting...\nSETUP seed=142 mode=minus line=\"borg_no_deeper = -\" class=Warrior clevel=50 max_depth=50 depth=30\n  no_deeper_setting_is_read  STATE no_deeper=127\nPREPARED depth=20 reason=ready\nOUTCOME prepared20=1\nPassed\nnative-c/cfgminus-142 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "no_deeper": 127
+      },
+      "outcome": {
+        "prepared20": 1
+      },
+      "notes": [
+        "PREPARED depth=20 reason=ready"
+      ],
+      "value": 1
+    }
+  },
+  "valid": {
+    "label": "Control: borg_no_deeper = 100",
+    "explanation": "A normal value; both versions read 100 and are ready. Identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/cfgminus-142: starting...\nSETUP seed=142 mode=valid line=\"borg_no_deeper = 100\" class=Warrior clevel=50 max_depth=50 depth=30\n  no_deeper_setting_is_read  STATE no_deeper=100\nPREPARED depth=20 reason=ready\nOUTCOME prepared20=1\nPassed\nnative-c/cfgminus-142 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "no_deeper": 100
+      },
+      "outcome": {
+        "prepared20": 1
+      },
+      "notes": [
+        "PREPARED depth=20 reason=ready"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/cfgminus-142: starting...\nSETUP seed=142 mode=valid line=\"borg_no_deeper = 100\" class=Warrior clevel=50 max_depth=50 depth=30\n  no_deeper_setting_is_read  STATE no_deeper=100\nPREPARED depth=20 reason=ready\nOUTCOME prepared20=1\nPassed\nnative-c/cfgminus-142 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "no_deeper": 100
+      },
+      "outcome": {
+        "prepared20": 1
+      },
+      "notes": [
+        "PREPARED depth=20 reason=ready"
+      ],
+      "value": 1
+    }
+  },
+  "negative": {
+    "label": "Control: borg_no_deeper = -5",
+    "explanation": "A real negative number is still read as -5 by both versions (and blocks depth 20, as configured). Identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/cfgminus-142: starting...\nSETUP seed=142 mode=negative line=\"borg_no_deeper = -5\" class=Warrior clevel=50 max_depth=50 depth=30\n  no_deeper_setting_is_read  STATE no_deeper=-5\nPREPARED depth=20 reason=No deeper -5.\nOUTCOME prepared20=0\nPassed\nnative-c/cfgminus-142 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "no_deeper": -5
+      },
+      "outcome": {
+        "prepared20": 0
+      },
+      "notes": [
+        "PREPARED depth=20 reason=No deeper -5."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/cfgminus-142: starting...\nSETUP seed=142 mode=negative line=\"borg_no_deeper = -5\" class=Warrior clevel=50 max_depth=50 depth=30\n  no_deeper_setting_is_read  STATE no_deeper=-5\nPREPARED depth=20 reason=No deeper -5.\nOUTCOME prepared20=0\nPassed\nnative-c/cfgminus-142 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "no_deeper": -5
+      },
+      "outcome": {
+        "prepared20": 0
+      },
+      "notes": [
+        "PREPARED depth=20 reason=No deeper -5."
+      ],
+      "value": 0
+    }
+  }
+}

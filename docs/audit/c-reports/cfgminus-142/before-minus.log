@@ -1,0 +1,8 @@
+native-c/cfgminus-142: starting...
+SETUP seed=142 mode=minus line="borg_no_deeper = -" class=Warrior clevel=50 max_depth=50 depth=30
+  no_deeper_setting_is_read  STATE no_deeper=-127
+PREPARED depth=20 reason=No deeper -127.
+OUTCOME prepared20=0
+Failed
+    native-c/cfgminus-142:181: requirement 'borg_cfg[BORG_NO_DEEPER] > 0' failed
+native-c/cfgminus-142 finished: 0/1 passed

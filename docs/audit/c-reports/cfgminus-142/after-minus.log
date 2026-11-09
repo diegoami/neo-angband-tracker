@@ -1,0 +1,7 @@
+native-c/cfgminus-142: starting...
+SETUP seed=142 mode=minus line="borg_no_deeper = -" class=Warrior clevel=50 max_depth=50 depth=30
+  no_deeper_setting_is_read  STATE no_deeper=127
+PREPARED depth=20 reason=ready
+OUTCOME prepared20=1
+Passed
+native-c/cfgminus-142 finished: 1/1 passed
