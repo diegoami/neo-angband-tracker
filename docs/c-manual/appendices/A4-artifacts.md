@@ -1,6 +1,6 @@
 # Appendix A4. Standard artifacts
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/artifact.txt`, `lib/gamedata/activation.txt`, `lib/gamedata/object.txt`, `lib/gamedata/slay.txt`, `lib/gamedata/brand.txt` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/artifact.txt`, `lib/gamedata/activation.txt`, `lib/gamedata/object.txt`, `lib/gamedata/slay.txt`, `lib/gamedata/brand.txt` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 All 138 standard artifacts (not used with the `birth_randarts` option), grouped by item type and sorted by level: base item, level and allocation, combat values, modifiers, slays/brands, resistances and flags, curses, and activation resolved through `activation.txt`. How to judge and use them: [Chapter 6](../06-equipment.md).
 
@@ -32,6 +32,7 @@ All 138 standard artifacts (not used with the `birth_randarts` option), grouped 
 - **Combat**: weapons `dice (+hit, +dam)`, armour `[base AC, +AC]`, launchers `xmultiplier` (base item).
 - **Mods**: stat and other modifiers; `resist`/`immune`/`vulnerable` are elemental resistance levels from `values:` (`RES_*`).
 - **Activation**: activation name, description from `activation.txt` (or the effect list if no description), activation level; **recharge** in player turns (`time:`).
+- **Modifier units** (`calc_bonuses()` / `calc_blows()` in `src/player-calcs.c`): `BLOWS` = whole extra blows; `SHOTS` = tenths of a shot per turn (`SHOTS +10` = one extra shot); `MIGHT` adds to the launcher multiplier; `SPEED` in speed points (+10 = twice as fast); `INFRA` in 10-foot steps; `LIGHT` = light radius; `TUNNEL`, `STEALTH`, `SEARCH` and the five stats add directly. `M8` in a value = a level-dependent bonus of 0..8 (see the `object.txt` header).
 
 ## Index
 
@@ -538,7 +539,7 @@ All 138 standard artifacts (not used with the `birth_randarts` option), grouped 
 - **Slays/brands**: brand fire x3, brand cold x3
 - **Resists**: resist fire, resist cold, resist light
 - **Flags**: FREE\_ACT, SEE\_INVIS
-- **Activation**: RECALL: returns you from the dungeon or takes you to the dungeon after a short delay \[returns you from the dungeon or takes you to the dungeon after a short delay\] (level 20); recharge 200 turns
+- **Activation**: RECALL: returns you from the dungeon or takes you to the dungeon after a short delay (level 20); recharge 200 turns
 
 > Holding elemental powers whose struggles turn this weapon red and purest white, this shining reaper bears within it a power of going forth and returning.
 
@@ -769,7 +770,7 @@ All 138 standard artifacts (not used with the `birth_randarts` option), grouped 
 - **Slays/brands**: slay demons x5, slay evil creatures x2, slay trolls x3, slay orcs x3, brand fire x3
 - **Resists**: resist fire, resist nether
 - **Flags**: HOLD\_LIFE, SEE\_INVIS
-- **Activation**: PROBING: gives you information on the health and abilities of monsters you can see \[gives you information on the health and abilities of monsters you can see\] (level 20); recharge 20 turns
+- **Activation**: PROBING: gives you information on the health and abilities of monsters you can see (level 20); recharge 20 turns
 
 > A staff tall and sturdy, borne of old by Gandalf. Rough-hewn runes that invoke the element of Earth stand bold upon its gnarled surface, and no creature who lives in the shadow of mountains can withstand the blows it deals.
 
@@ -982,7 +983,7 @@ All 138 standard artifacts (not used with the `birth_randarts` option), grouped 
 - **Combat**: 1d4 (-1, +0) \[35, +20\]
 - **Mods**: DAM\_RED +5
 - **Resists**: resist acid, resist lightning, resist fire, resist cold, resist poison
-- **Activation**: TELE\_PHASE: teleports you randomly up to 10 squares away \[teleport you up to 10 grids\] (level 8); recharge 2 turns
+- **Activation**: TELE\_PHASE: teleports you randomly up to 10 squares away \[teleport self up to 10 grids\] (level 8); recharge 2 turns
 
 > This wondrous shirt of fine-linked chain shimmers before your eyes like light upon a rippling sea, the gems on it glittering like stars, the sound of the rings when shaken like the tinkle of rain in a pool. It stands untouched amidst the fury of the elements, and blows seem strangely less powerful.
 
@@ -1189,7 +1190,7 @@ All 138 standard artifacts (not used with the `birth_randarts` option), grouped 
 - **Combat**: \[1, +15\]
 - **Mods**: STEALTH +2, SPEED +2
 - **Resists**: resist nexus
-- **Activation**: TELE\_LONG: teleports you randomly about 60 per cent of the largest distance you could go \[teleport you 60% of the level's larger dimension\] (level 25); recharge 45 turns
+- **Activation**: TELE\_LONG: teleports you randomly about 60 per cent of the largest distance you could go \[teleport self 60% of the level's larger dimension\] (level 25); recharge 45 turns
 
 > A crystal-blue cape of fine silk worn by a silent messenger of the forces of Law. Seldom will its wearer be diverted from his mission.
 
@@ -1348,7 +1349,7 @@ All 138 standard artifacts (not used with the `birth_randarts` option), grouped 
 - **Combat**: (-1, -1) \[2, +0\]
 - **Mods**: MOVES +1, INT +2, DEX +2, STEALTH +2
 - **Flags**: FEATHER, TRAP\_IMMUNE
-- **Activation**: TELE\_PHASE: teleports you randomly up to 10 squares away \[teleport you up to 10 grids\] (level 8); recharge 20 turns
+- **Activation**: TELE\_PHASE: teleports you randomly up to 10 squares away \[teleport self up to 10 grids\] (level 8); recharge 20 turns
 
 > A pair of running shoes once used by the treacherous Gríma son of Gálmód, the Wormtongue of Edoras. They are aptly suited for a messenger, a servant, a spy... or a coward.
 
@@ -1568,7 +1569,7 @@ All 138 standard artifacts (not used with the `birth_randarts` option), grouped 
 - **Mods**: STR +5, INT +5, WIS +5, DEX +5, CON +5, SPEED +5
 - **Resists**: immune fire, immune cold, immune lightning, immune acid, resist dark, resist disenchantment, resist poison, resist nether
 - **Flags**: AGGRAVATE, DRAIN\_EXP, SEE\_INVIS, REGEN, TELEPATHY, STICKY, SUST\_STR, SUST\_DEX, SUST\_CON, SUST\_INT, SUST\_WIS
-- **Activation**: BIZARRE: does bizarre things \[does bizarre things\] (level 80, aimed); recharge 200+9d50 turns
+- **Activation**: BIZARRE: does bizarre things (level 80, aimed); recharge 200+9d50 turns
 
 > "One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them." Made of massive gold, and inscribed with hidden runes in the foul speech of Mordor, Isildur's Bane possesses powers so great that it inevitably twists and masters any mortal being who wears it.
 

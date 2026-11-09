@@ -1,6 +1,6 @@
 # Appendix A6. Object kinds
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/object.txt`, `lib/gamedata/object_base.txt`, `lib/gamedata/class.txt`, `lib/gamedata/projection.txt`, `lib/gamedata/player_timed.txt`, `src/list-effects.h` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/object.txt`, `lib/gamedata/object_base.txt`, `lib/gamedata/class.txt`, `lib/gamedata/projection.txt`, `lib/gamedata/player_timed.txt`, `src/list-effects.h` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 Every base object kind (371 in `object.txt`, not counting the 4 `type:none` display placeholders, plus the 20 spell books defined in `class.txt`), grouped by item type: allocation, cost and base statistics; for consumables and devices the effect in words, charges and recharge time. See [Chapter 7](../07-consumables-and-devices.md) and [Chapter 6](../06-equipment.md).
 
@@ -47,6 +47,7 @@ Every base object kind (371 in `object.txt`, not counting the 4 `type:none` disp
 - **Effect**: what using the item does, generated from the `effect:` lines. Dice notation: `20+1d20`; `plev` = player level; `m35` in a healing roll = at least 35% of HP lost; `M60` in a teleport = 60% of the level's larger dimension; `x food-value` = times `player:food-value` (100).
 - **Charges** for wands/staffs (random value); **Recharge** for rods and activations, in player turns.
 - **Pile**: `chance% : number` for being generated in a stack.
+- **Modifier units** (`calc_bonuses()` / `calc_blows()` in `src/player-calcs.c`): `BLOWS` = whole extra blows; `SHOTS` = tenths of a shot per turn (`SHOTS +10` = one extra shot); `MIGHT` adds to the launcher multiplier; `SPEED` in speed points (+10 = twice as fast); `INFRA` in 10-foot steps; `LIGHT` = light radius; `TUNNEL`, `STEALTH`, `SEARCH` and the five stats add directly. `M8` in a value = a level-dependent bonus of 0..8 (see the `object.txt` header).
 
 ## Sword (14)
 
@@ -412,7 +413,7 @@ Every base object kind (371 in `object.txt`, not counting the 4 `type:none` disp
 | Darkness | 1 | 1-70 (x10) | 0 | darken the area; sphere of weak darkness around you (radius 3) for 10 | 70:1d3 | - |
 | Detect Invisible | 1 | 1-70 (x50) | 15 | detects invisible creatures nearby (area 22 x 40) | 70:1d3 | - |
 | Identify Rune | 1 | 5-100 (x50) | 200 | identifies a single unknown rune on a selected item | 70:1d4 | - |
-| Phase Door | 1 | 1-100 (x50) | 15 | teleport you up to 10 grids | 100:2d3 | - |
+| Phase Door | 1 | 1-100 (x50) | 15 | teleport self up to 10 grids | 100:2d3 | - |
 | Summon Monster | 1 | 1-100 (x10) | 0 | summon 1d3 x a monster | 70:1d3 | - |
 | Aggravate Monster | 5 | 5-70 (x10) | 0 | wake up nearby monsters; hastes monsters in line of sight (power 25) | 70:1d3 | - |
 | Magic Mapping | 5 | 5-100 (x50) | 65 | maps the area around you (area 22 x 40) | 70:1d3 | - |
@@ -423,7 +424,7 @@ Every base object kind (371 in `object.txt`, not counting the 4 `type:none` disp
 | Door Destruction | 10 | 10-60 (x40) | 50 | destroys doors on adjacent grids (radius 1) | 25:2d3 | - |
 | Holy Chant | 10 | 10-70 (x40) | 40 | +12+1d24 turns of your AC and to-hit bonus | 25:2 | - |
 | Remove Curse | 10 | 10-100 (x16) | 100 | remove a curse (power 20+d20) | 25:2 | - |
-| Teleportation | 10 | 10-100 (x40) | 40 | teleport you 60% of the level's larger dimension | 25:2 | - |
+| Teleportation | 10 | 10-100 (x40) | 40 | teleport self 60% of the level's larger dimension | 25:2 | - |
 | Trap Creation | 10 | 10-70 (x10) | 0 | creates traps on adjacent grids (radius 3) | 70:1d3 | - |
 | Enchant Armour | 15 | 15-70 (x40) | 125 | enchant armour class (power 1) | 25:2 | - |
 | Enchant Weapon To-Dam | 15 | 15-70 (x40) | 125 | enchant to-dam (power 1) | 25:2 | - |
@@ -549,7 +550,7 @@ Every base object kind (371 in `object.txt`, not counting the 4 `type:none` disp
 | Mapping | 20 | 10-100 (x40) | 600 | maps the area around you (area 22 x 40) | 5+d5 | - | - |
 | Slow Monsters | 20 | 10-100 (x20) | 800 | attempts to slow monsters in line of sight (power 10+1d10) | 4+d4 | - | - |
 | Starlight | 20 | 20-80 (x20) | 800 | beams of light in all 8 directions for 6d8 | 6+d5 | - | - |
-| Teleportation | 20 | 20-100 (x50) | 2000 | teleport you 60% of the level's larger dimension | 5+d4 | - | - |
+| Teleportation | 20 | 20-100 (x50) | 2000 | teleport self 60% of the level's larger dimension | 5+d4 | - | - |
 | Curing | 25 | 10-100 (x30) | 500 | cure blindness; cure wounds; cure poisoning; cure stunning; cure confusion | 4+d3 | - | - |
 | Earthquakes | 40 | 40-100 (x20) | 350 | earthquake (radius 10) | 3+d5 | - | - |
 | Remove Curse | 40 | 40-100 (x20) | 1500 | remove a curse (power 35+d30) | 4+d3 | - | - |

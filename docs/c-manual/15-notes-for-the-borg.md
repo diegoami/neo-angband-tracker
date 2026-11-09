@@ -584,9 +584,10 @@ Useful monster spell maxima (FACT, at spell power `P`):
 > Against Sauron: heal when `hp < 650`. Against Morgoth: heal when `hp < 700` (and earlier if he gets two
 > actions in a row: at +20 your speed, he has 1.27 actions per yours). Confidence: heuristic on fact.
 
-> **END-05 — First turn is free.**
-> Questors are generated `FORCE_SLEEP` → "nice": they cannot cast on their first turn
-> (`src/mon-make.c`, `monster_can_cast()`). Use it to buff. Confidence: fact.
+> **END-05 — First action is free from spells.**
+> Questors are generated `FORCE_SLEEP` → "nice": no monster can cast while nice (`src/mon-make.c`,
+> `monster_can_cast()`), and the flag is cleared after your first energy-using action
+> (`src/game-world.c:process_player_cleanup()`). Make that first action a buff. Confidence: fact.
 
 > **END-06 — Exit plan.**
 > On DL99/100 the only ways out are up (stairs up, Teleport Level, recall). Keep one Teleport Level and

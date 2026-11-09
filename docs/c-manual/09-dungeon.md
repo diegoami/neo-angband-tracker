@@ -620,7 +620,8 @@ FACT:
   hits 0), Lantern radius 3 (`LIGHT_3`, refuelled with flasks) per `object.txt`; light
   modifiers on artifacts/egos add to this. A light with 0 fuel gives no light
   (`src/player-calcs.c:calc_light()`). Torches hold 5000 turns of fuel, lanterns 15000
-  (`constants.txt`). Necromancers (`UNLIGHT`) see adjacent grids without light.
+  (`constants.txt`). Necromancers (`UNLIGHT`) carrying light ≤ 1 instead
+  see grids at distance `< 2 + clvl/6 − light` (`src/cave-view.c`).
 * Lighting a room (`LIGHT_AREA`: Light Room / Call Light / scroll, staff or rod of
   Light/Illumination) perma-lights the room you stand in; Clairvoyance and the Potion of
   Enlightenment perma-light the **whole level** and map it (`wiz_light()`).

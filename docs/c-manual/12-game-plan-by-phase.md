@@ -216,10 +216,10 @@ to").
 ### Goals
 
 Leave town in a few minutes of play with a light, food, a few flasks of oil, some Cure Light Wounds,
-Phase Door, and Word of Recall if gold allows. With the default `birth_start_kit` on, most of the kit
-comes free; with `birth_no_selling` on (the default) you start with more gold
-(`player:start-gold:600` in `constants.txt`, adjusted at birth) but cannot sell for gold, so buy
-deliberately. See [Chapter 2](02-character-creation.md) and [Chapter 11](11-town-and-shopping.md).
+Phase Door, and Word of Recall if gold allows. Starting gold is `player:start-gold:600`
+(`constants.txt`) plus 50 per unspent point-buy point, minus the value of the start kit when
+`birth_start_kit` is on (`src/player-birth.c`). With `birth_no_selling` on (the default) gold drops in
+the dungeon are larger but stores pay nothing for your items, so buy deliberately. See [Chapter 2](02-character-creation.md) and [Chapter 11](11-town-and-shopping.md).
 
 ### Store facts relevant to the first trip (FACT, `lib/gamedata/store.txt`)
 
@@ -780,7 +780,7 @@ the "home stock" of endgame potions is the most important part of your character
 | Word of Recall can take you to DL99 (your max depth) but not past it | the recall depth is your max depth, which cannot exceed 99 before Sauron dies |
 | Morgoth's death completes the last quest: you are the winner | `quest_check()` sets `total_winner` when no incomplete quests remain |
 | Morgoth drops every artifact flagged as a quest artifact (Grond and the Massive Iron Crown of Morgoth) | `src/mon-make.c` ("Morgoth currently drops all artifacts with the QUEST_ART flag"); `lib/gamedata/artifact.txt`, "Quest artifacts" |
-| Questors start "nice": they cannot cast on their first turn | `RF_FORCE_SLEEP` → `MFLAG_NICE` (`src/mon-make.c`); `monster_can_cast()` refuses while nice |
+| Questors (and other `FORCE_SLEEP` monsters) start "nice": they cannot cast spells until you have taken your first energy-using action after they appear | `RF_FORCE_SLEEP` → `MFLAG_NICE` (`src/mon-make.c`); `monster_can_cast()` refuses while nice; the flag is cleared for all monsters in `src/game-world.c:process_player_cleanup()` |
 | With `birth_force_descend`, you cannot recall away from a quest level | `effect_handler_RECALL()` |
 
 So: once on DL99 you can always leave upward (stairs up, Teleport Level up, Word of Recall), but the only
@@ -846,7 +846,8 @@ the 1600 cap. Damage him first in his base form, where his attacks are spells wi
 
 1. Kill his servants beforehand if possible; they are uniques at DL84-85 that can be met earlier.
 2. Arrive on DL99 by stairs or recall, buffed (speed potion, heroism/berserk, temporary resists).
-   He cannot cast on his first turn (`MFLAG_NICE`).
+   He cannot cast until you have taken one action (`MFLAG_NICE`), so your first action on the level is
+   safe from his spells (not from melee if he is adjacent).
 3. Fight adjacent or at any distance other than his preferred range: his cast chance doubles at
    `best_range`, which for a frequent caster is three grids beyond his minimum range
    (`get_move_find_range()`, `monster_can_cast()`). In melee range his cast chance is 50%.
@@ -1055,7 +1056,8 @@ Global rule in `borg_prepared()`: **character level ≥ depth until CL50** ("Cle
 Extra gates in `borg_prepared()`: from DL82, at least 10 `*Healing*`/Life (counting the home) or it
 "scums" DL80-81; once max depth ≥ 97, at least 30 before going below DL81. With `borg_kills_uniques`,
 it will not go below the depth of a living unique while three or more uniques are alive. At max depth
-≥ 98 it refuses DL98+ unless **every unique except Morgoth is dead**.
+≥ 99 it refuses DL98+ unless **every unique except Morgoth is dead** (with one exception: at max depth
+exactly 99 it may visit DL98 if it can Teleport Level).
 
 `borg_restock()` (carry-to-stay) asks for, cumulatively: light; fuel; food ≥ 3 (DL2+); Phase ≥ 1 and a
 cure potion (DL6+); light radius 2, two cures, two teleports (DL10+); four CSW/CCW and four teleports

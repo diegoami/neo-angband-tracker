@@ -1,6 +1,6 @@
 # Appendix A7. Class spells
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/class.txt`, `lib/gamedata/realm.txt`, `lib/gamedata/store.txt`, `lib/gamedata/projection.txt`, `lib/gamedata/player_timed.txt`, `src/list-effects.h` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/class.txt`, `lib/gamedata/realm.txt`, `lib/gamedata/store.txt`, `lib/gamedata/projection.txt`, `lib/gamedata/player_timed.txt`, `src/list-effects.h` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 Every spell of every class, book by book: level, mana, base failure rate, first-cast experience, the effect in words and the in-game description. Which spells to learn and when: [Chapter 3](../03-magic-and-spells.md) and the class playbooks in [Chapter 14](../14-class-playbooks.md).
 
@@ -80,7 +80,7 @@ Realm **arcane** (spell stat INT). First spell at level 1; total armour weight a
 | Magic Missile | 1 | 1 | 22 | 4 | bolt or beam of magic missiles, beam chance -10 for ((plev-1)/5+3)d4 | Fires a magic missile that always hits its target and does unresistable damage. Sometimes a beam is fired instead that hurts each monster in its path. The chance to get a beam goes up with your character level. |
 | Light Room | 1 | 2 | 26 | 4 | lights up the surrounding area; sphere of weak light around you (radius 2) for 1 | Lights up all squares within 2 grids of the player, and hurts all light-sensitive monsters in the area of effect. If you are in a room, the entire room will be lit up as well. |
 | Find Traps, Doors & Stairs | 1 | 1 | 20 | 2 | detects traps nearby (area 22 x 40); detects doors nearby (area 22 x 40); detects stairs nearby (area 22 x 40) | Detects all traps, doors, and stairs in the immediate area. |
-| Phase Door | 2 | 2 | 22 | 4 | teleport you up to 10 grids | Teleports you randomly up to 10 squares away. |
+| Phase Door | 2 | 2 | 22 | 4 | teleport self up to 10 grids | Teleports you randomly up to 10 squares away. |
 | Electric Arc | 2 | 2 | 34 | 4 | short beam of lightning (length plev) for ((plev-1)/5+3)d6 | Creates an electrical discharge that hurts monsters and destroys vulnerable items in its path. Length of the effect increases with player level. |
 | Detect Monsters | 3 | 2 | 24 | 4 | detects visible creatures nearby (area 22 x 40) | Detects all non-invisible monsters in the immediate area, for one turn only. |
 | Fire Ball | 6 | 5 | 33 | 5 | ball of fire (radius 2) for (plev\*2) | Shoots a radius-2 fire ball. |
@@ -105,7 +105,7 @@ Realm **arcane** (spell stat INT). First spell at level 1; total armour weight a
 | Spell | Lvl | Mana | Fail | Exp | Effect | Description |
 |---|---:|---:|---:|---:|---|---|
 | Disable Traps, Destroy Doors | 5 | 5 | 30 | 6 | destroys doors on adjacent grids (radius 1); disables traps on adjacent grids (radius 1) | Disables traps and destroys doors within a 1-square radius of you. |
-| Teleport Self | 7 | 6 | 35 | 5 | teleport you $M% of the level's larger dimension | Teleports you randomly within the current level. |
+| Teleport Self | 7 | 6 | 35 | 5 | teleport self $M% of the level's larger dimension | Teleports you randomly within the current level. |
 | Teleport Other | 15 | 10 | 30 | 12 | bolt that teleports monsters away (power (plev\*3)) | Produces a bolt that teleports away the first monster in its path. Distance teleported increases with player level. |
 | Resistance | 20 | 20 | 65 | 20 | +20+d20 turns of acid resistance; +20+d20 turns of electricity resistance; +20+d20 turns of cold resistance; +20+d20 turns of fire resistance | Grants you resistance to acid, cold, fire and lightning for 20+1d20 turns. |
 | Tap Magical Energy | 22 | 2 | 30 | 12 | drains magical energy from a staff or wand | Turns wand or staff energy into mana; tapping stuns the player briefly. |
@@ -121,7 +121,7 @@ Realm **arcane** (spell stat INT). First spell at level 1; total armour weight a
 | Mana Bolt | 25 | 8 | 60 | 30 | bolt or beam of magic missiles for (plev-10)d8 | Fires a magic missile that always hits its target and does unresistable damage. Sometimes a beam is fired instead that hurts each monster in its path. The chance to get a beam goes up with your character level. |
 | Teleport Level | 28 | 17 | 65 | 20 | teleport level (up or down) | Teleports you 1 level up or 1 level down (chosen at random). This spell may have no effect when the forced descent option is set. |
 | Detection | 30 | 10 | 70 | 30 | detects traps nearby (area 22 x 40); detects doors nearby (area 22 x 40); detects stairs nearby (area 22 x 40); detects veins nearby (area 22 x 40); senses gold nearby (area 22 x 40); senses objects nearby (area 22 x 40); detects invisible creatures nearby (area 22 x 40); detects visible creatures nearby (area 22 x 40) | Detects all traps, doors, stairs, treasure, objects and monsters in the immediate area. |
-| Dimension Door | 35 | 30 | 80 | 40 | teleport you to the caster / target | Teleports you to (or near to) a square of your choice. |
+| Dimension Door | 35 | 30 | 80 | 40 | teleport the target next to the caster | Teleports you to (or near to) a square of your choice. |
 | Thrust Away | 40 | 12 | 90 | 40 | short beam of force (length 1+plev/10) for plevd8 | Fires a short range beam of force. |
 
 ### Mage: Wizard's Tome of Power
@@ -238,7 +238,7 @@ Realm **divine** (spell stat WIS). First spell at level 1; total armour weight a
 
 | Spell | Lvl | Mana | Fail | Exp | Effect | Description |
 |---|---:|---:|---:|---:|---|---|
-| Portal | 10 | 4 | 30 | 8 | teleport you up to (plev/2+30) grids | Teleports you randomly over a short distance. |
+| Portal | 10 | 4 | 30 | 8 | teleport self up to (plev/2+30) grids | Teleports you randomly over a short distance. |
 | Remembrance | 20 | 30 | 90 | 50 | restores your experience | Restores experience points to maximum if it is currently below maximum. |
 | Word of Recall | 25 | 30 | 75 | 10 | returns you from the dungeon or takes you to the dungeon after a short delay | Teleports you from the dungeon to the town or from the town to the deepest level you have visited in the dungeon. The recall effect is not immediate; it is delayed by 14+1d20 turns. During that delay, the prayer can be canceled by invoking the prayer of recall again. This prayer has no effect when the option to restrict the use of stairs and recall is set, unless Morgoth is dead. |
 | Healing | 30 | 50 | 80 | 100 | heal 2000 HP; cure wounds; cure poisoning; cure stunning; cure amnesia | Heals 2000 points of damage and cures all stunning, cuts, poison and amnesia. |
@@ -294,7 +294,7 @@ Realm **shadow** (spell stat INT). First spell at level 1; total armour weight a
 | Tap Unlife | 7 | 0 | 50 | 3 | drain (plev/4+2)d6 mana from nearest undead, damaging it | Targets the nearest undead monster and damages it to gain player mana. |
 | Crush | 10 | 6 | 40 | 5 | kills monsters below a hitpoint threshold in line of sight (power (plev\*4)); d(plev\*2) damage to you | Instantly kills any monster in line of sight with less than four times the player's level in hitpoints, also hurting the player. Other monsters are unharmed. |
 | Sleep Evil | 12 | 5 | 50 | 5 | attempts to put evil monsters to sleep in line of sight (power (plev\*10+500)) | Attempts to put to sleep each evil monster within line of sight. Monsters that resist sleep are not affected. |
-| Shadow Shift | 15 | 10 | 50 | 10 | teleport you up to 30 grids; 2d5 damage to you | Displaces your spirit a short distance, hurting your body as it is dragged along. |
+| Shadow Shift | 15 | 10 | 50 | 10 | teleport self up to 30 grids; 2d5 damage to you | Displaces your spirit a short distance, hurting your body as it is dragged along. |
 | Disenchant | 16 | 12 | 50 | 15 | bolt of disenchantment for 2d(plev\*2+10) | Casts a bolt which wounds, and makes spellcasting monsters less successful in casting spells. |
 
 ### Necromancer: Fear and Torment
@@ -386,7 +386,7 @@ Realm **arcane** (spell stat INT). First spell at level 5; total armour weight a
 | Spell | Lvl | Mana | Fail | Exp | Effect | Description |
 |---|---:|---:|---:|---:|---|---|
 | Detect Monsters | 5 | 1 | 50 | 4 | detects visible creatures nearby (area 22 x 40) | Detects all non-invisible monsters in the immediate area, for one turn only. |
-| Phase Door | 7 | 2 | 55 | 4 | teleport you up to 10 grids | Teleports you randomly up to 10 squares away. |
+| Phase Door | 7 | 2 | 55 | 4 | teleport self up to 10 grids | Teleports you randomly up to 10 squares away. |
 | Object Detection | 10 | 3 | 60 | 5 | detects veins nearby (area 22 x 40); detects gold nearby (area 22 x 40); detects objects nearby (area 22 x 40) | Detects all objects in the immediate area. |
 | Detect Stairs | 12 | 3 | 50 | 5 | detects stairs nearby (area 44 x 60) | Detects all stairs in a wide area. |
 | Recharging | 20 | 10 | 50 | 6 | recharge a wand/staff (power (plev/10+4)) | Adds charges to a stack of wands or staves. Chance of success and number of charges gained increase with your level and decrease with level of wand or staff and number of charges. A failed attempt to recharge destroys one wand or staff from the stack. |
@@ -398,7 +398,7 @@ Realm **arcane** (spell stat INT). First spell at level 5; total armour weight a
 
 | Spell | Lvl | Mana | Fail | Exp | Effect | Description |
 |---|---:|---:|---:|---:|---|---|
-| Teleport Self | 17 | 6 | 35 | 5 | teleport you $M% of the level's larger dimension | Teleports you randomly within the current level. |
+| Teleport Self | 17 | 6 | 35 | 5 | teleport self $M% of the level's larger dimension | Teleports you randomly within the current level. |
 | Hit and Run | 23 | 20 | 40 | 20 | +10 turns of escape on attack | Prepares you to teleport a short distance after stealing from a monster. |
 | Teleport Other | 30 | 10 | 30 | 50 | bolt that teleports monsters away (power (plev\*3)) | Produces a bolt that teleports away the first monster in its path. Distance teleported increases with player level. |
 | Teleport Level | 35 | 17 | 65 | 80 | teleport level (up or down) | Teleports you 1 level up or 1 level down (chosen at random). This spell may have no effect when the forced descent option is set. |
@@ -455,7 +455,7 @@ Realm **shadow** (spell stat INT). First spell at level 1; total armour weight a
 
 | Spell | Lvl | Mana | Fail | Exp | Effect | Description |
 |---|---:|---:|---:|---:|---|---|
-| Maim Foe | 15 | 6 | 35 | 14 | 6 blows on an adjacent monster (attempts to stun monsters) | Attempts a level-dependent number of melee blows against the targeted enemy. You get 1 blow for every 15 levels. If any of these blows damage the enemy, it will be stunned for 6 turns. |
+| Maim Foe | 15 | 6 | 35 | 14 | (plev/15) blows on an adjacent monster; each damaging blow also attempts to stun monsters (power 6) | Attempts a level-dependent number of melee blows against the targeted enemy. You get 1 blow for every 15 levels. If any of these blows damage the enemy, it will be stunned for 6 turns. |
 | Howl of the Damned | 18 | 8 | 30 | 16 | causes monsters to flee in line of sight (power plev) | Attempts to scare every monster in line of sight for a duration dependent on player level and monster depth. Monsters that resist fear are not affected. |
 | Relentless Taunting | 24 | 10 | 32 | 20 | +12+d12 turns of taunting | Makes any monster that can move more inclined to run toward you, and less likely to use a ranged attack (including spells and innate abilities). |
 | Venom | 28 | 18 | 35 | 30 | +18+d18 turns of temporary poison brand | Coats all your melee weapons with poison for 18+1d18 turns. |
@@ -469,5 +469,5 @@ Realm **shadow** (spell stat INT). First spell at level 1; total armour weight a
 |---|---:|---:|---:|---:|---|---|
 | Bloodlust | 30 | 25 | 37 | 80 | +10 turns of desire to kill | Gives you a powerful desire to kill, increased every time you satisfy it. Gives you extra melee damage and extra blows, but comes with dangerous side-effects. |
 | Unholy Reprieve | 34 | 45 | 60 | 120 | restore STR; restore INT; restore CON; restores your experience; 66 damage to you | Restores STR, INT, CON, and experience at the cost of 66 HP. |
-| Forceful Blow | 38 | 16 | 50 | 150 | 200 blows on an adjacent monster (force) | Attempts a melee blow that deals additional force damage when it hits, knocking the target back with a chance to stun it. |
+| Forceful Blow | 38 | 16 | 50 | 150 | 1 blows on an adjacent monster; each damaging blow also force (power 200) | Attempts a melee blow that deals additional force damage when it hits, knocking the target back with a chance to stun it. |
 | Quake | 44 | 39 | 55 | 175 | earthquake (radius 13) | Causes a radius 13 earthquake centered around the player. |

@@ -1,6 +1,6 @@
 # Appendix A5. Ego items
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/ego_item.txt`, `lib/gamedata/object_property.txt`, `lib/gamedata/slay.txt`, `lib/gamedata/brand.txt`, `src/obj-make.c` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/ego_item.txt`, `lib/gamedata/object_property.txt`, `lib/gamedata/slay.txt`, `lib/gamedata/brand.txt`, `src/obj-make.c` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 All 107 ego-item types, grouped by the kind of item they apply to: applicable item types, allocation, value, combat bonuses, modifiers, flags, slays/brands and random extra powers. Use with [Chapter 6](../06-equipment.md).
 
@@ -25,6 +25,7 @@ All 107 ego-item types, grouped by the kind of item they apply to: applicable it
 - **Alloc**: `min-max depth (xcommonness)`. An ego can still be rolled out of depth: below its minimum depth with chance 1 in `max(2, (min - level) / 3)` (`ego_find_random()` in `src/obj-make.c`).
 - **Cost/rating**: `info:` value added to the item and level-feeling rating.
 - **Combat**: extra `+hit : +dam : +AC`, each a random value; `d6` = 1d6, `M8` = level-scaled bonus 0..8 (see the `object.txt` header). **Min** gives `min-combat`/`min-values` floors (255 = no minimum).
+- **Modifier units** (`calc_bonuses()` / `calc_blows()` in `src/player-calcs.c`): `BLOWS` = whole extra blows; `SHOTS` = tenths of a shot per turn (`SHOTS +10` = one extra shot); `MIGHT` adds to the launcher multiplier; `SPEED` in speed points (+10 = twice as fast); `INFRA` in 10-foot steps; `LIGHT` = light radius; `TUNNEL`, `STEALTH`, `SEARCH` and the five stats add directly. `M8` in a value = a level-dependent bonus of 0..8 (see the `object.txt` header).
 - **Random power** (`ego_apply_magic()` in `src/obj-make.c`): `RAND_SUSTAIN` one random sustain (SUST_STR, SUST_INT, SUST_WIS, SUST_DEX, SUST_CON); `RAND_POWER` one random protection or ability (PROT_FEAR, PROT_BLIND, PROT_CONF, PROT_STUN, SLOW_DIGEST, FEATHER, REGEN, TELEPATHY, SEE_INVIS, FREE_ACT, HOLD_LIFE, TRAP_IMMUNE); `RAND_BASE_RES` one random base resist (acid, lightning, fire, cold); `RAND_HI_RES` one random high resist (poison, light, dark, sound, shards, nexus, nether, chaos, disenchantment); `RAND_RES_POWER` one of: random power (1/3) or random base resist (2/3). The pick avoids properties the item already has.
 
 ## Melee weapons (28)

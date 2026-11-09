@@ -1,6 +1,6 @@
 # Appendix A9. Stores
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/store.txt`, `lib/gamedata/terrain.txt`, `lib/gamedata/object.txt`, `lib/gamedata/constants.txt`, `src/store.c` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/store.txt`, `lib/gamedata/terrain.txt`, `lib/gamedata/object.txt`, `lib/gamedata/constants.txt`, `src/store.c` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 Each town store: owners and purse limits, stock slots and turnover, items always stocked, the list normal stock is drawn from (with base cost and effect), what the store buys; then the pricing and restocking rules from `src/store.c`. Shopping strategy: [Chapter 11](../11-town-and-shopping.md).
 
@@ -34,7 +34,7 @@ FACT, from `src/store.c` unless noted:
 - **Normal stock** is generated at object level `rand_range(1, 5 + max(max_depth - 20, 0))` (capped at 70; `store:magic-level` = 5 in `constants.txt`) with `apply_magic()` but no artifacts; items with negative to-hit/to-dam/AC or curses are rejected (`store_create_random()`). Each pick is uniform over the `normal:` list (duplicates count twice).
 - **Black market** stock is any object generated at level `max_depth + 5 .. max_depth + 20` (min capped at 55, max at 70); it only keeps egos, items with to-hit > 1, to-dam > 2 or AC bonus > 2, or items worth at least 10 gold that no other store stocks (`black_market_ok()`).
 - **Always** items are kept at a full stack (`max-stack`, 40 by default) and buying them does not deplete the stock (`store_maint()`).
-- **Turnover**: when the stores are updated, each store sells off 1dturnover items and then buys 1d turnover new ones, keeping the stock between `slots` min and max (+ always items) (`store_maint()`).
+- **Turnover**: when the stores are updated, each store sells off 1d(turnover) items and then buys 1d(turnover) new ones, keeping the stock between `slots` min and max (+ always items) (`store_maint()`).
 - **Restock timing**: while you are in the dungeon a day counter increases every `10 * store:turns` = 10000 game turns (`process_world()` in `src/game-world.c`); on return to town each store is maintained once per elapsed day (`store_update()`), and owners are replaced with chance 1 in `store:shuffle` (25) per update. Buying out a store's last item triggers 10 maintenance passes.
 - **Pile sizes** of generated stock (`mass_produce()`): food, flasks, lights: +3d5-3 if value <= 5 and again if <= 20; potions/scrolls: +3d5-3 if <= 60, +1d5-1 if <= 240; books: +2d3-2 if <= 50, +1d3-1 if <= 500; non-ego armour/weapons: +3d5-3 if <= 10 and again if <= 100; ammo: 20-40 if value <= 5, 10-40 if <= 50, 5-20 if <= 500, else 1.
 - Store inventory is capped at `store:inven-max` = 24 slots.
@@ -62,7 +62,9 @@ FACT, from `src/store.c` unless noted:
 
 ### General Store: normal stock list
 
-| Item | Type | Weight | Lvl | Cost | Effect / stats |
+*Entries* = how many times the item appears in the `normal:` list (each restock pick is uniform over the entries).
+
+| Item | Type | Entries | Lvl | Cost | Effect / stats |
 |---|---|---:|---:|---:|---|
 | Pint of Fine Wine | food | 1 | 0 | 2 | nourish +3 (x food-value); +79+1d41 turns of fearlessness |
 | Slime Mold | food | 1 | 1 | 2 | nourish +15 (x food-value) |
@@ -80,7 +82,9 @@ FACT, from `src/store.c` unless noted:
 
 ### Armoury: normal stock list
 
-| Item | Type | Weight | Lvl | Cost | Effect / stats |
+*Entries* = how many times the item appears in the `normal:` list (each restock pick is uniform over the entries).
+
+| Item | Type | Entries | Lvl | Cost | Effect / stats |
 |---|---|---:|---:|---:|---|
 | Pair of Leather Sandals | boots | 1 | 0 | 4 | AC 1 |
 | Pair of Leather Boots | boots | 1 | 3 | 7 | AC 2 |
@@ -110,7 +114,9 @@ FACT, from `src/store.c` unless noted:
 
 ### Weapon Smiths: normal stock list
 
-| Item | Type | Weight | Lvl | Cost | Effect / stats |
+*Entries* = how many times the item appears in the `normal:` list (each restock pick is uniform over the entries).
+
+| Item | Type | Entries | Lvl | Cost | Effect / stats |
 |---|---|---:|---:|---:|---|
 | Iron Shot | shot | 1 | 3 | 2 | 1d4, THROWING |
 | Arrow | arrow | 1 | 3 | 1 | 1d4 |
@@ -169,13 +175,15 @@ FACT, from `src/store.c` unless noted:
 | Item | Type | Lvl | Cost | Effect / stats |
 |---|---|---:|---:|---|
 | Word of Recall | scroll | 5 | 125 | returns you from the dungeon or takes you to the dungeon after a short delay |
-| Phase Door | scroll | 1 | 15 | teleport you up to 10 grids |
+| Phase Door | scroll | 1 | 15 | teleport self up to 10 grids |
 | Remove Curse | scroll | 10 | 100 | remove a curse (power 20+d20) |
 | Cure Light Wounds | potion | 0 | 20 | heal 20 HP; cure blindness; reduce wounds by 20; reduce confusion by 20; nourish +1 (x food-value) |
 
 ### Alchemy Shop: normal stock list
 
-| Item | Type | Weight | Lvl | Cost | Effect / stats |
+*Entries* = how many times the item appears in the `normal:` list (each restock pick is uniform over the entries).
+
+| Item | Type | Entries | Lvl | Cost | Effect / stats |
 |---|---|---:|---:|---:|---|
 | Monster Confusion | scroll | 1 | 5 | 30 | +10000 turns of temporary monster confusion |
 | Magic Mapping | scroll | 1 | 5 | 65 | maps the area around you (area 22 x 40) |
@@ -202,7 +210,9 @@ FACT, from `src/store.c` unless noted:
 
 ### Magic Shop: normal stock list
 
-| Item | Type | Weight | Lvl | Cost | Effect / stats |
+*Entries* = how many times the item appears in the `normal:` list (each restock pick is uniform over the entries).
+
+| Item | Type | Entries | Lvl | Cost | Effect / stats |
 |---|---|---:|---:|---:|---|
 | Searching | ring | 1 | 5 | 250 | SEARCH d4M2 |
 | Feather Falling | ring | 1 | 5 | 200 | FEATHER, EASY\_KNOW |
@@ -216,7 +226,7 @@ FACT, from `src/store.c` unless noted:
 | Magic Missile | wand | 1 | 3 | 200 | bolt or beam of magic missiles for 3d4 |
 | Stinking Cloud | wand | 1 | 5 | 400 | ball of poison (radius 3) for 12 |
 | Stone to Mud | wand | 1 | 10 | 300 | line of stone to mud for 20+1d30 |
-| Teleportation | staff | 1 | 20 | 2000 | teleport you 60% of the level's larger dimension |
+| Teleportation | staff | 1 | 20 | 2000 | teleport self 60% of the level's larger dimension |
 | Light | staff | 1 | 5 | 250 | lights up the surrounding area; sphere of weak light around you (radius 2) for 2d8 |
 | Mapping | staff | 1 | 20 | 600 | maps the area around you (area 22 x 40) |
 | Detect Invisible | staff | 1 | 5 | 200 | detects invisible creatures nearby (area 22 x 40) |

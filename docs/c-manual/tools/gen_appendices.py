@@ -8,8 +8,9 @@ Usage (from the repository root):
 
     python3 docs/c-manual/tools/gen_appendices.py [--src ANGBAND_SRC] [--out DIR]
 
---src defaults to $ANGBAND_SRC, else to the scratchpad `upstream` worktree
-used when the manual was written.  --out defaults to ../appendices relative
+--src defaults to $ANGBAND_SRC, else to ./angband-src.  The manual was
+generated from the `c-borg-reference` branch of this repository (angband/angband
+e473720ed), e.g. `git worktree add ../angband-src origin/c-borg-reference`.  --out defaults to ../appendices relative
 to this script.  Python 3 standard library only; output is deterministic for
 a given source tree.
 
@@ -26,10 +27,7 @@ import sys
 from collections import OrderedDict, defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-DEFAULT_SRC = os.environ.get(
-    "ANGBAND_SRC",
-    "/tmp/claude-0/-home-user-neo-angband-tracker/"
-    "e6ee744a-7699-5c92-bd49-300675c9d346/scratchpad/upstream")
+DEFAULT_SRC = os.environ.get("ANGBAND_SRC", "angband-src")
 DEFAULT_OUT = os.path.normpath(os.path.join(HERE, "..", "appendices"))
 SCRIPT_REL = "docs/c-manual/tools/gen_appendices.py"
 
@@ -541,7 +539,9 @@ def effect_phrase(e, dice_override=None):
             dice_text(cnt if not cnt.startswith("$") else cnt, e.exprs),
             ofp(sub), e.rad or "0", dice_text(base, e.exprs))
     if n == "LASH":
-        return "lash %s (length %s), damage from melee blows" % (ofp(sub), e.rad or "?")
+        return ("lash (length %s); element = `lash-type` of the first blow's effect "
+                "in `blow_effects.txt`; damage = first blow + half of each other "
+                "blow (`effect_handler_LASH()`)" % (e.rad or "?"))
     if n in ("PROJECT_LOS", "PROJECT_LOS_AWARE"):
         return "%s in line of sight%s" % (pdesc(sub), (" (power %s)" % dt) if dt else "")
     if n in ("TOUCH", "TOUCH_AWARE"):
@@ -555,13 +555,13 @@ def effect_phrase(e, dice_override=None):
         return "line that %s" % pdesc(sub)
     if n == "TELEPORT":
         d = parse_dice(e.dice or "")
-        who = "target monster" if sub == "AWAY" else "you"
+        who = "the target away" if sub == "AWAY" else "self"
         if d and d["mb"]:
             return "teleport %s %s%% of the level's larger dimension" % (who, d["mb"])
         return "teleport %s up to %s grids" % (who, dt or "?")
     if n == "TELEPORT_TO":
-        return "teleport the monster to the caster" if sub == "SELF" else \
-            "teleport you to the caster / target"
+        return "caster teleports next to the target" if sub == "SELF" else \
+            "teleport the target next to the caster"
     if n == "TELEPORT_LEVEL":
         return "teleport level (up or down)"
     if n == "SUMMON":
@@ -588,11 +588,12 @@ def effect_phrase(e, dice_override=None):
     if n == "SHAPECHANGE":
         return "change into %s shape" % sub
     if n == "MELEE_BLOWS":
-        return "%s blows on an adjacent monster (%s)" % (e.rad or dt or "?", pdesc(sub))
+        return "%s blows on an adjacent monster; each damaging blow also %s (power %s)" % (
+            dt or "?", pdesc(sub), e.rad or "0")
     if n == "SWEEP":
-        return "%s blows against all adjacent monsters" % (e.rad or dt or "?")
+        return "%s blows against all adjacent monsters" % (dt or "?")
     if n == "MOVE_ATTACK":
-        return "move up to 4 grids and make up to %s blows" % (e.rad or dt or "?")
+        return "move up to 4 grids and make up to %s blows" % (dt or "?")
     if n == "GAIN_EXP":
         return "gain %s experience" % (dt or "?")
     if n == "MON_HEAL_HP":
@@ -1112,6 +1113,16 @@ def fmt_weight(w):
     return "%d.%d lb" % (w // 10, w % 10)
 
 
+MODS_NOTE = (
+    "- **Modifier units** (`calc_bonuses()` / `calc_blows()` in "
+    "`src/player-calcs.c`): `BLOWS` = whole extra blows; `SHOTS` = tenths of "
+    "a shot per turn (`SHOTS +10` = one extra shot); `MIGHT` adds to the "
+    "launcher multiplier; `SPEED` in speed points (+10 = twice as fast); "
+    "`INFRA` in 10-foot steps; `LIGHT` = light radius; `TUNNEL`, `STEALTH`, "
+    "`SEARCH` and the five stats add directly. `M8` in a value = a "
+    "level-dependent bonus of 0..8 (see the `object.txt` header).")
+
+
 # ---------------------------------------------------------------------------
 # Monster formatting
 # ---------------------------------------------------------------------------
@@ -1362,7 +1373,7 @@ def gen_a1(mons, mspells, projs, bases):
     return doc.write()
 
 
-def gen_a2(mons, mspells, projs):
+def gen_a2(mons, mspells, projs, quest_arts=()):
     uniq = [m for m in mons if "UNIQUE" in m["flags"]]
     uniq.sort(key=lambda m: (m["depth"], m["name"].lower()))
     doc = Doc("A2-uniques.md", "Appendix A2. Uniques", MON_FILES, [
@@ -1382,8 +1393,11 @@ def gen_a2(mons, mspells, projs):
         "power, its maximum damage (breaths at full HP) and, for saving-throw "
         "spells, *save* (a successful saving throw negates it, "
         "`do_mon_spell()` in `src/mon-spell.c`).",
-        "- **Drops**: `DROP_n` = n objects, `DROP_20/40/60` = that % chance of one "
-        "object, `DROP_GOOD`/`DROP_GREAT` = good/great objects, `ONLY_ITEM`/`ONLY_GOLD` "
+        "- **Drops** (`mon_create_drop_count()` in `src/mon-make.c`): `DROP_1` = 1 "
+        "object, `DROP_2` = 1-3, `DROP_3` = 2-4, `DROP_4` = 2-6, and each of "
+        "`DROP_20/40/60` adds one object with that % chance (they add up); objects "
+        "are made at level `max((monster level + depth) / 2, monster level)`; "
+        "`DROP_GOOD`/`DROP_GREAT` = good/great objects, `ONLY_ITEM`/`ONLY_GOLD` "
         "restrict to items or gold; `drop:` lines are specific items with % chance "
         "and count range; `any <tval> N%` is a `drop-base:` line.",
         "- **Biggest hit** in the index is the larger of the strongest single spell "
@@ -1446,7 +1460,11 @@ def gen_a2(mons, mspells, projs):
             doc.p("- **Escorts / friends**: %s" % md("; ".join(fmt_friends(m))))
         if m["shapes"]:
             doc.p("- **Can change into**: %s" % md(", ".join(m["shapes"])))
-        doc.p("- **Drops**: %s" % md(fmt_drops(m)))
+        drops = fmt_drops(m)
+        if "QUESTOR" in f and m["depth"] == 100 and quest_arts:
+            drops += "; always the quest artifacts %s (`QUEST_ART` kinds, " \
+                     "`mon_create_drop()` in `src/mon-make.c`)" % ", ".join(quest_arts)
+        doc.p("- **Drops**: %s" % md(drops))
         if "QUESTOR" in f:
             doc.p("- **Quest monster**: must be killed to win "
                   "(`lib/gamedata/quest.txt`).")
@@ -1742,7 +1760,7 @@ def act_text(name, acts):
         return name
     eff = effects_text(a["effects"])
     s = a["desc"] or eff
-    if a["desc"] and eff:
+    if a["desc"] and eff and eff.lower() != a["desc"].lower():
         s = "%s [%s]" % (a["desc"], eff)
     return "%s: %s (level %s%s)" % (name, s, a["level"], ", aimed" if a["aim"] == "1" else "")
 
@@ -1776,6 +1794,7 @@ def gen_a4(acts, slays, brands, kinds):
         "- **Activation**: activation name, description from `activation.txt` (or "
         "the effect list if no description), activation level; **recharge** in "
         "player turns (`time:`).",
+        MODS_NOTE,
         "",
     )
     groups = defaultdict(list)
@@ -1900,6 +1919,7 @@ def gen_a5(slays, brands, props):
         "- **Combat**: extra `+hit : +dam : +AC`, each a random value; `d6` = 1d6, "
         "`M8` = level-scaled bonus 0..8 (see the `object.txt` header). **Min** gives "
         "`min-combat`/`min-values` floors (255 = no minimum).",
+        MODS_NOTE,
         "- **Random power** (`ego_apply_magic()` in `src/obj-make.c`): "
         "`RAND_SUSTAIN` one random sustain (%s); `RAND_POWER` one random "
         "protection or ability (%s); `RAND_BASE_RES` one random base resist "
@@ -2017,6 +2037,7 @@ def gen_a6(kinds, bases, slays, brands, books):
         "- **Charges** for wands/staffs (random value); **Recharge** for rods "
         "and activations, in player turns.",
         "- **Pile**: `chance% : number` for being generated in a stack.",
+        MODS_NOTE,
         "",
     )
     by = defaultdict(list)
@@ -2452,10 +2473,12 @@ def gen_a8(classes, races, kinds):
 
     doc.h(2, "Starting equipment")
     doc.p("`equip:` lines: item, quantity range, and birth options that remove "
-          "it (e.g. `birth_no_recall` removes the Word of Recall scroll). The "
-          "player also starts with `player:start-gold` (600) gold, reduced by "
-          "the value of the kit when `birth_start_kit` is on (see "
-          "[Chapter 2](../02-character-creation.md)).\n")
+          "it (e.g. `birth_no_recall` removes the Word of Recall scroll). Starting "
+          "gold is `player:start-gold` (600) plus 50 per unspent point-buy point; "
+          "the value of each kit item given is deducted from it, and with "
+          "`birth_start_kit` off only one food item and one light are given "
+          "(`player_outfit()` and `recalculate_stats()` in "
+          "`src/player-birth.c`). See [Chapter 2](../02-character-creation.md).\n")
     trows = []
     for c in classes:
         items = []
@@ -2481,13 +2504,15 @@ def gen_a8(classes, races, kinds):
     doc.h(2, "Experience table")
     _, exp = parse_c_table(pl, "player_exp")
     doc.p("`player_exp[]` in `src/player.c`: base experience to reach each level; "
-          "multiply by the race+class experience factor / 100. Values below are "
-          "for factor 100% and for a few real factors.\n")
+          "multiply by the race+class experience factor / 100. The maximum level "
+          "is 50 (`PY_MAX_LEVEL`), so the array's last entry is never used. "
+          "Values below are for factor 100% and for the other factors that "
+          "occur.\n")
     facs = sorted({int(r["exp"]) + int(c["raw"].get("exp", "0") or 0)
                    for r in races for c in classes})
     show = [100] + [f for f in (120, 150, 200, 250) if f in facs and f != 100]
     trows = []
-    for i, (v, _) in enumerate(exp):
+    for i, (v, _) in enumerate(exp[:49]):  # levels 2..50 (PY_MAX_LEVEL = 50)
         trows.append(["%d" % (i + 2)] + ["%d" % (v * f // 100) for f in show])
     doc.table(["Level"] + ["exp at %d%%" % f for f in show], ["---:"] * (1 + len(show)), trows)
     doc.p("Experience factors of all race/class combinations range from %d%% to %d%%.\n"
@@ -2604,8 +2629,8 @@ def gen_a9(stores, kinds, consts, books):
         "worth at least 10 gold that no other store stocks (`black_market_ok()`).",
         "- **Always** items are kept at a full stack (`max-stack`, 40 by default) "
         "and buying them does not deplete the stock (`store_maint()`).",
-        "- **Turnover**: when the stores are updated, each store sells off 1d"
-        "turnover items and then buys 1d turnover new ones, keeping the stock "
+        "- **Turnover**: when the stores are updated, each store sells off 1d(turnover) "
+        "items and then buys 1d(turnover) new ones, keeping the stock "
         "between `slots` min and max (+ always items) (`store_maint()`).",
         "- **Restock timing**: while you are in the dungeon a day counter "
         "increases every `10 * store:turns` = %d game turns (`process_world()` in "
@@ -2672,7 +2697,9 @@ def gen_a9(stores, kinds, consts, books):
             for it in s["normal"]:
                 cnt[it] = cnt.get(it, 0) + 1
             doc.h(3, "%s: normal stock list" % s["name"])
-            doc.table(["Item", "Type", "Weight", "Lvl", "Cost", "Effect / stats"],
+            doc.p("*Entries* = how many times the item appears in the `normal:` "
+                  "list (each restock pick is uniform over the entries).\n")
+            doc.table(["Item", "Type", "Entries", "Lvl", "Cost", "Effect / stats"],
                       ["---", "---", "---:", "---:", "---:", "---"],
                       [row(tv, nm, n) for (tv, nm), n in cnt.items()])
     return doc.write()
@@ -2773,24 +2800,30 @@ def gen_a10(curses, timed, kinds, acts, classes, props, slays, brands, shapes_sr
     doc.h(2, "Timed effects")
     cures = defaultdict(list)
 
-    def scan(label, effects):
+    def scan(cat, label, effects):
         for e in effects:
             if e.name == "CURE":
-                cures[e.sub].append("%s (cure)" % label)
+                cures[e.sub].append((cat, label))
             elif e.name == "TIMED_DEC":
-                cures[e.sub].append("%s (-%s)" % (label, dice_text(e.dice, e.exprs)))
+                cures[e.sub].append((cat, "%s (-%s)" % (label, dice_text(e.dice, e.exprs))))
             elif e.name == "TIMED_SET" and (e.dice or "").strip() == "0":
-                cures[e.sub].append("%s (set 0)" % label)
+                cures[e.sub].append((cat, "%s (set 0)" % label))
     for k in kinds:
-        scan("%s of %s" % (k["tval"], k["name"]), k["effects"])
+        scan(k["tval"], k["name"], k["effects"])
     for a in acts.values():
-        scan("activation %s" % a["name"], a["effects"])
+        scan("activation", a["name"], a["effects"])
     for c in classes:
         for b in c["books"]:
             for s in b["spells"]:
-                scan("%s spell %s" % (c["name"], s["name"]), s["effects"])
+                scan("%s spell" % c["name"], s["name"], s["effects"])
     for nm, effs in shapes_src:
-        scan("shape %s" % nm, effs)
+        scan("shape", nm, effs)
+
+    def cure_text(name):
+        groups = OrderedDict()
+        for cat, label in sorted(set(cures.get(name, []))):
+            groups.setdefault(cat, []).append(label)
+        return "; ".join("**%s**: %s" % (md(cat), md(", ".join(v))) for cat, v in groups.items())
     doc.p("From `player_timed.txt`. *Grades* are `max duration: name` steps "
           "(for cuts and stuns the grade decides the damage/penalty). "
           "*Protection* lists the `fail:` conditions that prevent the effect "
@@ -2810,19 +2843,25 @@ def gen_a10(curses, timed, kinds, acts, classes, props, slays, brands, shapes_sr
             extra.append("brand " + ", ".join(t["brand"]))
         if t["slay"]:
             extra.append("slay " + ", ".join(t["slay"]))
-        if t["synonym"]:
-            extra.append("acts as " + ", ".join(t["synonym"]))
-        if t["flags"]:
-            extra.append(", ".join(t["flags"]))
+        for syn in t["synonym"]:
+            fl, _, exact = syn.partition(":")
+            if exact.strip() not in ("", "0"):
+                extra.append("same as the %s flag" % fl)
+            else:
+                extra.append("gives the %s flag (plus other effects)" % fl)
+        if "NONSTACKING" in t["flags"]:
+            extra.append("NONSTACKING: cannot be extended while active")
+        others = [f for f in t["flags"] if f != "NONSTACKING"]
+        if others:
+            extra.append(", ".join(others))
         if t["lower"]:
             extra.append("lower bound " + t["lower"])
         if t["begin"]:
             extra.append("on start: " + effects_text(t["begin"]))
         if t["end"]:
             extra.append("on end: " + effects_text(t["end"]))
-        cl = sorted(set(cures.get(t["name"], [])))
         trows.append([code(t["name"]), md(t["desc"]), md(grades), cell(prot),
-                      cell("; ".join(extra)), cell("; ".join(cl), "none")])
+                      cell("; ".join(extra)), cure_text(t["name"]) or "none"])
     doc.table(["Effect", "Description", "Grades", "Protection", "Notes", "Cured / reduced by"],
               ["---", "---", "---", "---", "---", "---"], trows)
 
@@ -2879,8 +2918,10 @@ def load_shapes():
 # ---------------------------------------------------------------------------
 
 def git_commit(src):
+    """Last commit touching the game source (src/, lib/), ignoring doc-only commits."""
     try:
-        r = subprocess.run(["git", "-C", src, "rev-parse", "--short=9", "HEAD"],
+        r = subprocess.run(["git", "-C", src, "log", "-1", "--format=%h", "--abbrev=9",
+                            "--", "src", "lib"],
                            capture_output=True, text=True, timeout=20)
         if r.returncode == 0:
             return r.stdout.strip()
@@ -2935,7 +2976,13 @@ def main(argv=None):
 
     total = 0
     total += gen_a1(mons, mspells, projs, bases)
-    total += gen_a2(mons, mspells, projs)
+    qkinds = {(k["tval"], k["name"].lower()) for k in kinds if "QUEST_ART" in k["flags"]}
+    quest_arts = []
+    for r in parse_records("artifact.txt"):
+        tv, _, nm = first(r, "base-object", "?:?").partition(":")
+        if (tv_norm(tv), clean_name(nm).lower()) in qkinds:
+            quest_arts.append(art_name(r))
+    total += gen_a2(mons, mspells, projs, quest_arts)
     total += gen_a3(mons, mspells, projs, timed)
     total += gen_a4(acts, slays, brands, kinds)
     total += gen_a5(slays, brands, props)

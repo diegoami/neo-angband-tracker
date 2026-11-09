@@ -1,6 +1,6 @@
 # Appendix A2. Uniques
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/monster.txt`, `lib/gamedata/monster_base.txt`, `lib/gamedata/monster_spell.txt`, `lib/gamedata/projection.txt`, `src/list-mon-spells.h` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/monster.txt`, `lib/gamedata/monster_base.txt`, `lib/gamedata/monster_spell.txt`, `lib/gamedata/projection.txt`, `src/list-mon-spells.h` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 One card per unique monster (101 in total), in order of native depth: statistics, melee, every spell with its maximum damage, defences and flags, escorts, drops and the in-game description. Uniques always have exactly their listed HP (`src/mon-make.c`: "Uniques get a fixed amount of HP"), so their breath damage is exact at full health and drops as they are wounded. Tactics are in [Chapter 8](../08-monsters.md).
 
@@ -15,7 +15,7 @@ One card per unique monster (101 in total), in order of native depth: statistics
 - **Exp** is per monster level: the kill is worth `exp * depth / player level`.
 - **Sleep**: initial sleepiness (0 = always awake); **Hearing**/**Smell**: detection ranges; **R**: rarity (0 = only appears via shape change or quest).
 - **Spells** list each spell with the lore text at this unique's spell power, its maximum damage (breaths at full HP) and, for saving-throw spells, *save* (a successful saving throw negates it, `do_mon_spell()` in `src/mon-spell.c`).
-- **Drops**: `DROP_n` = n objects, `DROP_20/40/60` = that % chance of one object, `DROP_GOOD`/`DROP_GREAT` = good/great objects, `ONLY_ITEM`/`ONLY_GOLD` restrict to items or gold; `drop:` lines are specific items with % chance and count range; `any <tval> N%` is a `drop-base:` line.
+- **Drops** (`mon_create_drop_count()` in `src/mon-make.c`): `DROP_1` = 1 object, `DROP_2` = 1-3, `DROP_3` = 2-4, `DROP_4` = 2-6, and each of `DROP_20/40/60` adds one object with that % chance (they add up); objects are made at level `max((monster level + depth) / 2, monster level)`; `DROP_GOOD`/`DROP_GREAT` = good/great objects, `ONLY_ITEM`/`ONLY_GOLD` restrict to items or gold; `drop:` lines are specific items with % chance and count range; `any <tval> N%` is a `drop-base:` line.
 - **Biggest hit** in the index is the larger of the strongest single spell and the total of one full melee round (max dice).
 
 ## Quick index
@@ -1910,7 +1910,7 @@ One card per unique monster (101 in total), in order of native depth: statistics
 - **Defences**: im-acid, im-elec, im-fire, im-cold, im-pois, no-fear, no-conf, no-sleep, no-hold
 - **Flags**: regenerates, smash-wall, smart, spirit, move-body, evil
 - **Other flags**: UNIQUE, QUESTOR, MALE, NAME\_COMMA, ATTR\_FLICKER, FORCE\_DEPTH, FORCE\_SLEEP
-- **Drops**: DROP\_4, DROP\_GOOD, DROP\_GREAT, ONLY\_ITEM
+- **Drops**: DROP\_4, DROP\_GOOD, DROP\_GREAT, ONLY\_ITEM; always the quest artifacts Mighty Hammer 'Grond', The Massive Iron Crown of Morgoth (`QUEST_ART` kinds, `mon_create_drop()` in `src/mon-make.c`)
 - **Quest monster**: must be killed to win (`lib/gamedata/quest.txt`).
 
 > He is the Master of the Pits of Angband. His figure is like a black mountain crowned with lightning. He rages with everlasting anger, his body scarred by Fingolfin's eight mighty wounds. He can never rest from his pain, but seeks forever to dominate all that is light and good in the world. He is the origin of man's fear of darkness and created many foul creatures with his evil powers. Orcs, Dragons, and Trolls are his most foul corruptions, causing much pain and suffering in the world to please him. His disgusting visage, twisted with evil, is crowned with iron, the two remaining Silmarils forever burning him. Grond, the mighty Hammer of the Underworld, cries defiance as he strides towards you to crush you to a pulp!

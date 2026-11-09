@@ -1,6 +1,6 @@
 # Appendix A3. Monster spells, breaths and threats
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/monster.txt`, `lib/gamedata/monster_base.txt`, `lib/gamedata/monster_spell.txt`, `lib/gamedata/projection.txt`, `src/list-mon-spells.h`, `lib/gamedata/player_timed.txt`, `src/project-player.c` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/monster.txt`, `lib/gamedata/monster_base.txt`, `lib/gamedata/monster_spell.txt`, `lib/gamedata/projection.txt`, `src/list-mon-spells.h`, `lib/gamedata/player_timed.txt`, `src/project-player.c` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 Every monster spell with its effects, damage formula, lore text and saving throw; the breath rules per element and the deadliest breather of each element; and the shallowest native depth at which each major threat appears. Per-monster numbers are in [A1](A1-monsters-by-depth.md) and [A2](A2-uniques.md); how to resist is in [Chapter 5](../05-elements-and-status.md).
 
@@ -75,8 +75,8 @@ Other projections (no breath): **water**: Confusion 5+1d5 and stun 1d40 (no resi
 | Spell | Type | Hit | Save | Effects | Damage | Lore by power | Protection |
 |---|---|---:|:-:|---|---|---|---|
 | `SHRIEK` | annoy, innate | 100 | - | wake up nearby monsters; hastes monsters in line of sight (power 25) | - | shriek for help | - |
-| `WHIP` | bolt, innate | 100 | - | lash of magic missiles (length 2), damage from melee blows | first blow + half of each other blow (max dice) | lash you if nearby | - |
-| `SPIT` | bolt, innate | 100 | - | lash of magic missiles (length 3), damage from melee blows | first blow + half of each other blow (max dice) | spit at you from a distance | - |
+| `WHIP` | bolt, innate | 100 | - | lash (length 2); element = `lash-type` of the first blow's effect in `blow_effects.txt`; damage = first blow + half of each other blow (`effect_handler_LASH()`) | first blow + half of each other blow (max dice) | lash you if nearby | - |
+| `SPIT` | bolt, innate | 100 | - | lash (length 3); element = `lash-type` of the first blow's effect in `blow_effects.txt`; damage = first blow + half of each other blow (`effect_handler_LASH()`) | first blow + half of each other blow (max dice) | spit at you from a distance | - |
 | `SHOT` | bolt, innate, archery | 50 | - | bolt of arrows for (power/8+1)d5 | (power/8+1)d5 | power 0-24: fling pebbles; power 25-49: sling lead shots; power 50+: sling seeker shots | - |
 | `ARROW` | bolt, innate, archery | 50 | - | bolt of arrows for (power/8+1)d6 | (power/8+1)d6 | power 0-15: fire small arrows; power 16-31: fire arrows; power 32-47: fire large arrows; power 48+: fire seeker arrows | - |
 | `BOLT` | bolt, innate, archery | 50 | - | bolt of arrows for (power/8+1)d7 | (power/8+1)d7 | power 0-24: fire small bolts; power 25-49: fire bolts; power 50+: fire seeker bolts | - |
@@ -139,11 +139,11 @@ Other projections (no breath): **water**: Confusion 5+1d5 and stun 1d40 (no resi
 | `HASTE` | haste | 100 | - | monster gains 50 turns of fast | - | haste-self | - |
 | `HEAL` | heal | 100 | - | monster heals (power\*6) HP | - | heal-self | - |
 | `HEAL_KIN` | heal\_other | 100 | - | heals a nearby kin monster by (power\*6) HP | - | heal kin | - |
-| `BLINK` | tactic, escape | 100 | - | teleport you up to 10 grids | - | blink-self | - |
-| `TPORT` | escape | 100 | - | teleport you up to (sight\*2+5) grids | - | teleport-self | - |
-| `TELE_TO` | annoy | 100 | - | teleport you to the caster / target | - | teleport to | - |
-| `TELE_SELF_TO` | annoy | 100 | - | teleport the monster to the caster | - | teleport toward | - |
-| `TELE_AWAY` | escape | 100 | - | teleport target monster up to 100 grids | - | teleport away | - |
+| `BLINK` | tactic, escape | 100 | - | teleport self up to 10 grids | - | blink-self | - |
+| `TPORT` | escape | 100 | - | teleport self up to (sight\*2+5) grids | - | teleport-self | - |
+| `TELE_TO` | annoy | 100 | - | teleport the target next to the caster | - | teleport to | - |
+| `TELE_SELF_TO` | annoy | 100 | - | caster teleports next to the target | - | teleport toward | - |
+| `TELE_AWAY` | escape | 100 | - | teleport the target away up to 100 grids | - | teleport away | - |
 | `TELE_LEVEL` | escape | 100 | yes | teleport level (up or down) | - | teleport level | - |
 | `DARKNESS` | annoy | 100 | - | darken the area; ball of weak darkness (radius 3) for 10 | - | create darkness | - |
 | `TRAPS` | annoy | 100 | - | creates traps on adjacent grids (radius 3) | - | create traps | - |

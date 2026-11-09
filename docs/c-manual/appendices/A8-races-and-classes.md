@@ -1,6 +1,6 @@
 # Appendix A8. Races, classes and player tables
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/p_race.txt`, `lib/gamedata/class.txt`, `lib/gamedata/player_property.txt`, `src/player-calcs.c`, `src/player-spell.c`, `src/player.c` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/p_race.txt`, `lib/gamedata/class.txt`, `lib/gamedata/player_property.txt`, `src/player-calcs.c`, `src/player-spell.c`, `src/player.c` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 Race and class statistics (stat modifiers, skills, hit dice, experience factor, infravision, intrinsic flags), class melee-blow parameters, class skill progressions, starting kits and titles, the player experience table and the stat-to-bonus tables from the C source. Choosing a combination: [Chapter 2](../02-character-creation.md); the formulas behind the tables: [Chapter 1](../01-core-mechanics.md).
 
@@ -38,7 +38,7 @@ Race and class statistics (stat modifiers, skills, hit dice, experience factor, 
 
 | Race | STR | INT | WIS | DEX | CON | Hit die | Exp | Infra |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Human | +0 | +0 | +0 | +0 | +0 | 10 | 100% | 00 ft |
+| Human | +0 | +0 | +0 | +0 | +0 | 10 | 100% | 0 ft |
 | Half-Elf | +0 | +1 | -1 | +1 | -1 | 10 | 120% | 20 ft |
 | Elf | -1 | +2 | -1 | +1 | -1 | 9 | 120% | 30 ft |
 | Hobbit | -2 | +2 | +1 | +3 | +2 | 7 | 120% | 40 ft |
@@ -46,7 +46,7 @@ Race and class statistics (stat modifiers, skills, hit dice, experience factor, 
 | Dwarf | +2 | -3 | +2 | -2 | +2 | 11 | 120% | 50 ft |
 | Half-Orc | +2 | -1 | +0 | +0 | +1 | 10 | 120% | 30 ft |
 | Half-Troll | +4 | -4 | -2 | -4 | +3 | 12 | 120% | 30 ft |
-| Dunadan | +1 | +2 | +2 | +2 | +3 | 10 | 120% | 00 ft |
+| Dunadan | +1 | +2 | +2 | +2 | +3 | 10 | 120% | 0 ft |
 | High-Elf | +1 | +3 | -1 | +3 | +1 | 10 | 145% | 40 ft |
 | Kobold | -1 | -1 | +0 | +2 | +2 | 8 | 120% | 50 ft |
 
@@ -104,7 +104,7 @@ Class skills: `base / +increment per 10 levels`.
 | Paladin | 20 / +15 | 20 / +10 | 24 / +10 | 25 / +11 | 0 / +0 | 10 / +12 | 65 / +40 | 50 / +30 | 50 / +30 | 0 / +0 |
 | Rogue | 45 / +20 | 45 / +20 | 32 / +10 | 28 / +10 | 3 / +1 | 20 / +16 | 35 / +45 | 66 / +30 | 72 / +45 | 0 / +0 |
 | Ranger | 40 / +15 | 30 / +10 | 28 / +10 | 32 / +10 | 3 / +0 | 15 / +15 | 60 / +40 | 72 / +45 | 66 / +30 | 0 / +0 |
-| Blackguard | 20 / +15 | 20 / +10 | 24 / +10 | 18 / +10 | -1 / +-1 | 8 / +10 | 65 / +40 | 35 / +15 | 40 / +30 | 0 / +0 |
+| Blackguard | 20 / +15 | 20 / +10 | 24 / +10 | 18 / +10 | -1 / -1 | 8 / +10 | 65 / +40 | 35 / +15 | 40 / +30 | 0 / +0 |
 
 | Class | Class abilities | Magic |
 |---|---|---|
@@ -264,7 +264,7 @@ Class contribution only (`base + increment * level / 10`, integer division); add
 
 ## Starting equipment
 
-`equip:` lines: item, quantity range, and birth options that remove it (e.g. `birth_no_recall` removes the Word of Recall scroll). The player also starts with `player:start-gold` (600) gold, reduced by the value of the kit when `birth_start_kit` is on (see [Chapter 2](../02-character-creation.md)).
+`equip:` lines: item, quantity range, and birth options that remove it (e.g. `birth_no_recall` removes the Word of Recall scroll). Starting gold is `player:start-gold` (600) plus 50 per unspent point-buy point; the value of each kit item given is deducted from it, and with `birth_start_kit` off only one food item and one light are given (`player_outfit()` and `recalculate_stats()` in `src/player-birth.c`). See [Chapter 2](../02-character-creation.md).
 
 | Class | Starting kit |
 |---|---|
@@ -296,7 +296,7 @@ Title index = `(level - 1) / 5` (`src/ui-death.c`, character sheet).
 
 ## Experience table
 
-`player_exp[]` in `src/player.c`: base experience to reach each level; multiply by the race+class experience factor / 100. Values below are for factor 100% and for a few real factors.
+`player_exp[]` in `src/player.c`: base experience to reach each level; multiply by the race+class experience factor / 100. The maximum level is 50 (`PY_MAX_LEVEL`), so the array's last entry is never used. Values below are for factor 100% and for the other factors that occur.
 
 | Level | exp at 100% | exp at 120% |
 |---:|---:|---:|
@@ -349,7 +349,6 @@ Title index = `(level - 1) / 5` (`src/ui-death.c`, character sheet).
 | 48 | 3500000 | 4200000 |
 | 49 | 4000000 | 4800000 |
 | 50 | 4500000 | 5400000 |
-| 51 | 5000000 | 6000000 |
 
 Experience factors of all race/class combinations range from 100% to 145%.
 

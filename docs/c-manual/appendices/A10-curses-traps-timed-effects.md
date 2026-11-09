@@ -1,6 +1,6 @@
 # Appendix A10. Curses, traps, timed effects and properties
 
-> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/curse.txt`, `lib/gamedata/trap.txt`, `lib/gamedata/chest_trap.txt`, `lib/gamedata/player_timed.txt`, `lib/gamedata/player_property.txt`, `lib/gamedata/object_property.txt`, `lib/gamedata/object.txt`, `lib/gamedata/activation.txt`, `lib/gamedata/class.txt`, `lib/gamedata/slay.txt`, `lib/gamedata/brand.txt`, `src/trap.c` of the Angband source tree at commit `471e1214c`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
+> **Generated file - do not edit by hand.** Produced by `docs/c-manual/tools/gen_appendices.py` from `lib/gamedata/curse.txt`, `lib/gamedata/trap.txt`, `lib/gamedata/chest_trap.txt`, `lib/gamedata/player_timed.txt`, `lib/gamedata/player_property.txt`, `lib/gamedata/object_property.txt`, `lib/gamedata/object.txt`, `lib/gamedata/activation.txt`, `lib/gamedata/class.txt`, `lib/gamedata/slay.txt`, `lib/gamedata/brand.txt`, `src/trap.c` of the Angband source tree at commit `e473720ed`. Regenerate with `python3 docs/c-manual/tools/gen_appendices.py --src <angband-source-root>` (run from the repository root).
 
 Every object curse and the item types it can appear on; every trap and rune with depth, effect and save; chest traps; every timed effect with its grades, what protects against it and every item, activation or spell that cures or reduces it; player and object properties; and the rune list used by identification. Advice: [Chapter 5](../05-elements-and-status.md), [Chapter 6](../06-equipment.md), [Chapter 9](../09-dungeon.md).
 
@@ -22,7 +22,7 @@ From `curse.txt`. A curse can only be put on the listed object bases. *Combat* i
 | Curse | Description | Item types | Combat | Mods | Flags | Random effect | Conflicts with |
 |---|---|---|---|---|---|---|---|
 | vulnerability | attracts opponents and weakens your defences | cloak, soft armor, hard armor, dragon armor, shield | 0:0:-50 | - | AGGRAVATE | - | - |
-| teleportation | randomly makes you teleport | helm, crown, amulet, ring | - | - | - | teleport you up to 40 grids (every d100 turns) | anti-teleportation, NO\_TELEPORT |
+| teleportation | randomly makes you teleport | helm, crown, amulet, ring | - | - | - | teleport self up to 40 grids (every d100 turns) | anti-teleportation, NO\_TELEPORT |
 | dullness | makes you mentally slow | helm, crown | - | INT -5, WIS -5 | - | - | - |
 | sickliness | makes you frail | helm, crown | - | STR -5, DEX -5, CON -5 | - | - | - |
 | enveloping | protects you at the expense of free movement | cloak | -5:-5:20 | - | - | - | - |
@@ -71,7 +71,7 @@ From `trap.txt`; trap mechanics in `hit_trap()` (`src/trap.c`). *Appear* is `rar
 | rune of necromancy | strange rune | 1:20:0 | 0 | TRAP, FLOOR, ONETIME, MAGICAL | summon 1d3M2 x undead | - | - | A magical rune which calls the undead to attack you. |
 | rune of dragonsong | strange rune | 1:20:0 | 0 | TRAP, FLOOR, ONETIME, MAGICAL | summon 1d3 x dragons | - | - | A magical rune which calls dragons to attack you. |
 | hellhole | strange rune | 1:20:0 | 0 | TRAP, FLOOR, ONETIME, MAGICAL | summon 1+1d3 x demons | - | - | A magical rune which calls demons to attack you. |
-| teleport rune | strange rune | 1:1:0 | 30+d30 | TRAP, FLOOR, MAGICAL | teleport you 80% of the level's larger dimension | - | - | A magical rune which teleports you to a random location. |
+| teleport rune | strange rune | 1:1:0 | 30+d30 | TRAP, FLOOR, MAGICAL | teleport self 80% of the level's larger dimension | - | - | A magical rune which teleports you to a random location. |
 | fire trap | discolored spot | 1:2:0 | 20 | TRAP, FLOOR, MAGICAL | ball of fire on yourself (radius 0) for 4d(dlev/2) | - | - | A strange coloured spot on the ground - beware its fiery attack. |
 | acid trap | discolored spot | 1:2:0 | 0 | TRAP, FLOOR, MAGICAL | ball of acid on yourself (radius 0) for 4d(dlev/2) | - | - | A strange coloured spot on the ground - beware its acidic attack. |
 | slow dart | dart trap | 1:2:0 | M50 | TRAP, FLOOR | 1d4 damage to you; +20+1d20 turns of slowness (unresistable) | - | SAVE\_ARMOR | A trap which shoots slowing darts. |
@@ -119,38 +119,38 @@ From `player_timed.txt`. *Grades* are `max duration: name` steps (for cuts and s
 | Effect | Description | Grades | Protection | Notes | Cured / reduced by |
 |---|---|---|---|---|---|
 | `FAST` | haste | 10000: Haste | - | - | none |
-| `SLOW` | slowness | 10000: Slow | FREE\_ACT | - | activation STAFF\_HOLY (cure); staff of Holiness (cure) |
-| `BLIND` | blindness | 10000: Blind | PROT\_BLIND | - | activation CURE\_BLINDNESS (cure); activation CURE\_BODY (cure); activation CURE\_CRITICAL (cure); activation CURE\_FULL (cure); activation CURE\_FULL2 (cure); activation CURE\_LIGHT (cure); activation CURE\_NONORLYBIG (cure); activation CURE\_SERIOUS (cure); activation CURE\_TEMP (cure); activation STAFF\_HOLY (cure); activation TMD\_ESP (cure); activation TMD\_SINVIS (cure); mushroom of Fast Recovery (cure); mushroom of Second Sight (cure); potion of \*Healing\* (cure); potion of Cure Critical Wounds (cure); potion of Cure Light Wounds (cure); potion of Cure Serious Wounds (cure); potion of Healing (cure); potion of Life (cure); potion of True Seeing (cure); ring of Open Wounds (cure); rod of Curing (cure); staff of Cure Light Wounds (cure); staff of Curing (cure); staff of Healing (cure); staff of Holiness (cure) |
-| `PARALYZED` | paralysis | 10000: Paralyzed! | FREE\_ACT | NONSTACKING | none |
-| `CONFUSED` | confusion | 10000: Confused | PROT\_CONF | - | activation CURE\_CONFUSION (cure); activation CURE\_CRITICAL (cure); activation CURE\_FULL (cure); activation CURE\_FULL2 (cure); activation CURE\_LIGHT (-20); activation CURE\_MIND (cure); activation CURE\_NONORLYBIG (cure); activation CURE\_SERIOUS (cure); activation CURE\_TEMP (cure); activation STAFF\_HOLY (cure); mushroom of Clear Mind (cure); potion of \*Healing\* (cure); potion of Cure Critical Wounds (cure); potion of Cure Light Wounds (-20); potion of Cure Serious Wounds (cure); potion of Healing (cure); potion of Life (cure); ring of Open Wounds (cure); rod of Curing (cure); staff of Cure Light Wounds (-20); staff of Curing (cure); staff of Healing (cure); staff of Holiness (cure) |
-| `AFRAID` | fear | 10000: Afraid | PROT\_FEAR | acts as AFRAID:1 | Blackguard spell Berserk Strength (cure); Paladin spell Heroism (cure); Priest spell Heroism (cure); Priest spell Holy Word (cure); activation CURE\_MIND (cure); activation CURE\_PARANOIA (cure); activation HERO (cure); activation RAGE\_BLESS\_RESIST (cure); activation REM\_FEAR\_POIS (cure); activation SHERO (cure); activation STAFF\_HOLY (cure); mushroom of Clear Mind (cure); potion of Berserk Strength (cure); potion of Boldness (cure); potion of Heroism (cure); shape warg (cure); shape werewolf (cure); staff of Holiness (cure) |
-| `IMAGE` | hallucination | 10000: Halluc | resist chaos | - | activation CURE\_MIND (cure); activation CURE\_NONORLYBIG (cure); activation STAFF\_HOLY (cure); mushroom of Clear Mind (cure); potion of Life (cure); staff of Holiness (cure) |
-| `POISONED` | poisoning | 10000: Poisoned | resist poison, timed OPP\_POIS | - | Druid spell Cure Poison (cure); Druid spell Herbal Curing (cure); Paladin spell Healing (cure); Priest spell Healing (cure); Priest spell Holy Word (cure); Ranger spell Herbal Curing (cure); activation CURE\_BODY (cure); activation CURE\_CRITICAL (cure); activation CURE\_FULL (cure); activation CURE\_FULL2 (cure); activation CURE\_NONORLYBIG (cure); activation CURE\_POISON (cure); activation CURE\_TEMP (cure); activation FOOD\_WAYBREAD (cure); activation REM\_FEAR\_POIS (cure); activation SHROOM\_PURGING (cure); activation STAFF\_HOLY (cure); food of Piece of Elvish Waybread (cure); mushroom of Fast Recovery (cure); mushroom of Purging (cure); potion of \*Healing\* (cure); potion of Cure Critical Wounds (cure); potion of Healing (cure); potion of Life (cure); potion of Neutralize Poison (cure); potion of Resist Poison (cure); potion of Salt Water (cure); rod of Curing (cure); shape Pukel-man (cure); staff of Curing (cure); staff of Healing (cure); staff of Holiness (cure) |
-| `CUT` | wounds | 10: Graze; 25: Light Cut; 50: Bad Cut; 100: Nasty Cut; 200: Severe Cut; 1000: Deep Gash; 10000: Mortal Wound | player flag ROCK | - | Druid spell Herbal Curing (cure); Paladin spell Healing (cure); Paladin spell Minor Healing (-20); Priest spell Healing (cure); Priest spell Holy Word (cure); Priest spell Minor Healing (-20); Ranger spell Herbal Curing (cure); activation CURE\_BODY (cure); activation CURE\_CRITICAL (cure); activation CURE\_FULL (cure); activation CURE\_FULL2 (cure); activation CURE\_LIGHT (-20); activation CURE\_NONORLYBIG (cure); activation CURE\_SERIOUS (cure); activation CURE\_TEMP (cure); activation HEAL1 (cure); activation HEAL2 (cure); activation HEAL3 (cure); activation STAFF\_HOLY (cure); mushroom of Fast Recovery (cure); potion of \*Healing\* (cure); potion of Cure Critical Wounds (cure); potion of Cure Light Wounds (-20); potion of Cure Serious Wounds (cure); potion of Healing (cure); potion of Life (cure); ring of Open Wounds (cure); rod of Curing (cure); rod of Healing (cure); staff of Cure Light Wounds (-20); staff of Curing (cure); staff of Healing (cure); staff of Holiness (cure) |
-| `STUN` | stunning | 50: Stun; 150: Heavy Stun; 10000: Knocked Out | PROT\_STUN | - | Druid spell Herbal Curing (cure); Paladin spell Healing (cure); Paladin spell Minor Healing (-20); Priest spell Healing (cure); Priest spell Holy Word (cure); Priest spell Minor Healing (-20); Ranger spell Herbal Curing (cure); activation CURE\_BODY (cure); activation CURE\_CRITICAL (cure); activation CURE\_FULL (cure); activation CURE\_FULL2 (cure); activation CURE\_NONORLYBIG (cure); activation CURE\_TEMP (cure); activation HEAL3 (cure); activation STAFF\_HOLY (cure); mushroom of Fast Recovery (cure); potion of \*Healing\* (cure); potion of Cure Critical Wounds (cure); potion of Healing (cure); potion of Life (cure); rod of Curing (cure); rod of Healing (cure); shape Pukel-man (cure); staff of Curing (cure); staff of Healing (cure); staff of Holiness (cure) |
+| `SLOW` | slowness | 10000: Slow | FREE\_ACT | - | **activation**: STAFF\_HOLY; **staff**: Holiness |
+| `BLIND` | blindness | 10000: Blind | PROT\_BLIND | - | **activation**: CURE\_BLINDNESS, CURE\_BODY, CURE\_CRITICAL, CURE\_FULL, CURE\_FULL2, CURE\_LIGHT, CURE\_NONORLYBIG, CURE\_SERIOUS, CURE\_TEMP, STAFF\_HOLY, TMD\_ESP, TMD\_SINVIS; **mushroom**: Fast Recovery, Second Sight; **potion**: \*Healing\*, Cure Critical Wounds, Cure Light Wounds, Cure Serious Wounds, Healing, Life, True Seeing; **ring**: Open Wounds; **rod**: Curing; **staff**: Cure Light Wounds, Curing, Healing, Holiness |
+| `PARALYZED` | paralysis | 10000: Paralyzed! | FREE\_ACT | NONSTACKING: cannot be extended while active | none |
+| `CONFUSED` | confusion | 10000: Confused | PROT\_CONF | - | **activation**: CURE\_CONFUSION, CURE\_CRITICAL, CURE\_FULL, CURE\_FULL2, CURE\_LIGHT (-20), CURE\_MIND, CURE\_NONORLYBIG, CURE\_SERIOUS, CURE\_TEMP, STAFF\_HOLY; **mushroom**: Clear Mind; **potion**: \*Healing\*, Cure Critical Wounds, Cure Light Wounds (-20), Cure Serious Wounds, Healing, Life; **ring**: Open Wounds; **rod**: Curing; **staff**: Cure Light Wounds (-20), Curing, Healing, Holiness |
+| `AFRAID` | fear | 10000: Afraid | PROT\_FEAR | same as the AFRAID flag | **Blackguard spell**: Berserk Strength; **Paladin spell**: Heroism; **Priest spell**: Heroism, Holy Word; **activation**: CURE\_MIND, CURE\_PARANOIA, HERO, RAGE\_BLESS\_RESIST, REM\_FEAR\_POIS, SHERO, STAFF\_HOLY; **mushroom**: Clear Mind; **potion**: Berserk Strength, Boldness, Heroism; **shape**: warg, werewolf; **staff**: Holiness |
+| `IMAGE` | hallucination | 10000: Halluc | resist chaos | - | **activation**: CURE\_MIND, CURE\_NONORLYBIG, STAFF\_HOLY; **mushroom**: Clear Mind; **potion**: Life; **staff**: Holiness |
+| `POISONED` | poisoning | 10000: Poisoned | resist poison, timed OPP\_POIS | - | **Druid spell**: Cure Poison, Herbal Curing; **Paladin spell**: Healing; **Priest spell**: Healing, Holy Word; **Ranger spell**: Herbal Curing; **activation**: CURE\_BODY, CURE\_CRITICAL, CURE\_FULL, CURE\_FULL2, CURE\_NONORLYBIG, CURE\_POISON, CURE\_TEMP, FOOD\_WAYBREAD, REM\_FEAR\_POIS, SHROOM\_PURGING, STAFF\_HOLY; **food**: Piece of Elvish Waybread; **mushroom**: Fast Recovery, Purging; **potion**: \*Healing\*, Cure Critical Wounds, Healing, Life, Neutralize Poison, Resist Poison, Salt Water; **rod**: Curing; **shape**: Pukel-man; **staff**: Curing, Healing, Holiness |
+| `CUT` | wounds | 10: Graze; 25: Light Cut; 50: Bad Cut; 100: Nasty Cut; 200: Severe Cut; 1000: Deep Gash; 10000: Mortal Wound | player flag ROCK | - | **Druid spell**: Herbal Curing; **Paladin spell**: Healing, Minor Healing (-20); **Priest spell**: Healing, Holy Word, Minor Healing (-20); **Ranger spell**: Herbal Curing; **activation**: CURE\_BODY, CURE\_CRITICAL, CURE\_FULL, CURE\_FULL2, CURE\_LIGHT (-20), CURE\_NONORLYBIG, CURE\_SERIOUS, CURE\_TEMP, HEAL1, HEAL2, HEAL3, STAFF\_HOLY; **mushroom**: Fast Recovery; **potion**: \*Healing\*, Cure Critical Wounds, Cure Light Wounds (-20), Cure Serious Wounds, Healing, Life; **ring**: Open Wounds; **rod**: Curing, Healing; **staff**: Cure Light Wounds (-20), Curing, Healing, Holiness |
+| `STUN` | stunning | 50: Stun; 150: Heavy Stun; 10000: Knocked Out | PROT\_STUN | - | **Druid spell**: Herbal Curing; **Paladin spell**: Healing, Minor Healing (-20); **Priest spell**: Healing, Holy Word, Minor Healing (-20); **Ranger spell**: Herbal Curing; **activation**: CURE\_BODY, CURE\_CRITICAL, CURE\_FULL, CURE\_FULL2, CURE\_NONORLYBIG, CURE\_TEMP, HEAL3, STAFF\_HOLY; **mushroom**: Fast Recovery; **potion**: \*Healing\*, Cure Critical Wounds, Healing, Life; **rod**: Curing, Healing; **shape**: Pukel-man; **staff**: Curing, Healing, Holiness |
 | `FOOD` | nourishment | 1: Starving; 4: Faint; 8: Weak; 15: Hungry; 90: Fed; 100: Full | - | lower bound 1 | none |
 | `PROTEVIL` | protection from evil | 10000: ProtEvil | - | - | none |
 | `INVULN` | invulnerability | 10000: Invuln | - | - | none |
-| `HERO` | heroism | 10000: Hero | - | acts as PROT\_FEAR:0 | none |
-| `SHERO` | berserk rage | 10000: Berserk | - | acts as PROT\_FEAR:0 | none |
+| `HERO` | heroism | 10000: Hero | - | gives the PROT\_FEAR flag (plus other effects) | none |
+| `SHERO` | berserk rage | 10000: Berserk | - | gives the PROT\_FEAR flag (plus other effects) | none |
 | `SHIELD` | mystic shield | 10000: Shield | - | - | none |
 | `BLESSED` | your AC and to-hit bonus | 10000: Blssd | - | - | none |
-| `SINVIS` | see invisible | 10000: SInvis | - | acts as SEE\_INVIS:1 | none |
+| `SINVIS` | see invisible | 10000: SInvis | - | same as the SEE\_INVIS flag | none |
 | `SINFRA` | enhanced infravision | 10000: Infra | - | - | none |
 | `OPP_ACID` | acid resistance | 10000: RAcid | vulnerable acid | grants resist acid | none |
 | `OPP_ELEC` | electricity resistance | 10000: RElec | vulnerable lightning | grants resist lightning | none |
 | `OPP_FIRE` | fire resistance | 10000: RFire | vulnerable fire | grants resist fire | none |
 | `OPP_COLD` | cold resistance | 10000: RCold | vulnerable cold | grants resist cold | none |
 | `OPP_POIS` | poison resistance | 10000: RPois | vulnerable poison | grants resist poison | none |
-| `OPP_CONF` | confusion resistance | 10000: RConf | - | acts as PROT\_CONF:1 | none |
-| `AMNESIA` | amnesia | 10000: Amnesiac | - | - | Paladin spell Healing (cure); Priest spell Healing (cure); activation CURE\_CRITICAL (cure); activation CURE\_FULL (cure); activation CURE\_FULL2 (cure); activation CURE\_NONORLYBIG (cure); activation STAFF\_HOLY (cure); potion of \*Healing\* (cure); potion of Cure Critical Wounds (cure); potion of Healing (cure); potion of Life (cure); staff of Healing (cure); staff of Holiness (cure) |
-| `TELEPATHY` | telepathy | 10000: ESP | - | acts as TELEPATHY:1 | none |
+| `OPP_CONF` | confusion resistance | 10000: RConf | - | same as the PROT\_CONF flag | none |
+| `AMNESIA` | amnesia | 10000: Amnesiac | - | - | **Paladin spell**: Healing; **Priest spell**: Healing; **activation**: CURE\_CRITICAL, CURE\_FULL, CURE\_FULL2, CURE\_NONORLYBIG, STAFF\_HOLY; **potion**: \*Healing\*, Cure Critical Wounds, Healing, Life; **staff**: Healing, Holiness |
+| `TELEPATHY` | telepathy | 10000: ESP | - | same as the TELEPATHY flag | none |
 | `STONESKIN` | stone skin | 10000: Stone | - | - | none |
-| `TERROR` | terror | 10000: Terror | - | acts as AFRAID:0 | activation STAFF\_HOLY (cure); staff of Holiness (cure) |
+| `TERROR` | terror | 10000: Terror | - | gives the AFRAID flag (plus other effects) | **activation**: STAFF\_HOLY; **staff**: Holiness |
 | `SPRINT` | sprinting | 10000: Sprint | - | on end: +100 turns of slowness (unresistable) | none |
-| `BOLD` | fearlessness | 10000: Bold | - | acts as PROT\_FEAR:1 | none |
+| `BOLD` | fearlessness | 10000: Bold | - | same as the PROT\_FEAR flag | none |
 | `SCRAMBLE` | scrambled | 10000: Scrambled | resist nexus | on start: scramble stats; on end: unscramble stats | none |
-| `TRAPSAFE` | safety from traps | 10000: TrapSafe | - | acts as TRAP\_IMMUNE:1 | none |
+| `TRAPSAFE` | safety from traps | 10000: TrapSafe | - | same as the TRAP\_IMMUNE flag | none |
 | `FASTCAST` | mana channelling | 10000: FastCast | - | - | none |
 | `ATT_ACID` | temporary acid brand | 10000: AttAcid | - | brand ACID\_3 | none |
 | `ATT_ELEC` | temporary lightning brand | 10000: AttElec | - | brand ELEC\_3 | none |
@@ -168,9 +168,9 @@ From `player_timed.txt`. *Grades* are `max duration: name` steps (for cuts and s
 | `POWERSHOT` | piercing shot | 10000: PShot | - | - | none |
 | `TAUNT` | taunting | 10000: Taunt | - | - | none |
 | `BLOODLUST` | desire to kill | 10: Bloodlust; 18: Bloodlust; 26: Bloodlust; 34: Bloodlust; 45: Bloodlust; 50: Bloodlust | - | - | none |
-| `BLACKBREATH` | black breath | 10: BlkBrth | - | - | Druid spell Herbal Curing (cure); Ranger spell Herbal Curing (cure) |
+| `BLACKBREATH` | black breath | 10: BlkBrth | - | - | **Druid spell**: Herbal Curing; **Ranger spell**: Herbal Curing |
 | `STEALTH` | stealth | 10000: Stealth | - | - | none |
-| `FREE_ACT` | free action | 10000: FrAct | - | acts as FREE\_ACT:1 | none |
+| `FREE_ACT` | free action | 10000: FrAct | - | same as the FREE\_ACT flag | none |
 
 ## Player properties
 
