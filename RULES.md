@@ -164,3 +164,21 @@
     artifacts move the head past the pin and the README states the
     relationship. Real game messages and production Borg choices only; no
     hand-fed text, manufactured counts or waived checks.
+
+19. Claim a C lead before working it, so parallel sessions never fix the same
+    bug. Claims are leases that decay on their own; nothing stays locked.
+    Before starting, run `python3 tools/c-evidence/claim_status.py <N>`
+    (or `--candidates` for free leads) and take only an issue reported FREE,
+    or EXPIRED (say in the claim that you take over). Never work an issue
+    that an open PR names. To claim, add the label `status:in-progress` and
+    post a comment whose first line is
+    `CLAIM by <session> at <UTC ISO time>, expires <UTC ISO time>`, at most
+    six hours ahead. While work continues, post
+    `HEARTBEAT by <session> at <time>, expires <time>` before the expiry.
+    When done, post `RELEASE by <session> at <time>: <fixed in PR / triaged
+    / owner question / abandoned>` and remove the label; a triage or
+    owner-question comment also releases. A claim whose newest CLAIM or
+    HEARTBEAT is past its expiry (six hours from the comment when no expiry
+    is written) is free even if the label remains; whoever notices may
+    clear the label (`claim_status.py --stale`). Protocol details are in
+    [docs/C-FIX-POSTING.md](docs/C-FIX-POSTING.md) section 0b.
