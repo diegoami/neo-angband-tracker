@@ -20,3 +20,11 @@ git diff 2668adc5ab3e2b6e194c2f1561e248b88850ea98 -- tools/original-borg/build.m
 ```
 
 The final command must produce no runtime delta. Source-repository CI, browser tests, original-source pilot qualification and the running cohort are separate receipts; none implies another has finished.
+
+## Terminal-style presentation follow-up
+
+The original browser head3c53f1f16b5e10bd43da6be25afccb8d462b7613 passed all hosted source, browser, Node22 pilot and session checks before this owner-requested presentation follow-up. That receipt remains on541/542; it is not relabeled as a later head's proof.
+
+Seventeen local projection/backend tests pass. Added cases cover actual current Neo stats and slot names, explicit unknown fields without birth fallback, native negative final HP without pre-death override, original inventory letters, alive legacy “Killed” headers, internal all-wall map rows, sparse known cells, visible recorded monster glyphs and compact-sheet survival when raw evidence is absent/corrupt. Independent read-only review also exercised real HTTP fallback for missing archive, missing run.json and corrupt archive: compact negative HP/outcome remained available and birth HP/gold/items were not promoted.
+
+Independent Chromium checked real Neo Summary/current stats, equipment/pack,66×22 schematic known map, native final HP and original item letters,198×66 unwrapped ASCII map and automatic centering on the recorded player. Raw records/provenance remain secondary and available. Final small layout corrections enforce hidden toolbars, trim notice indentation and omit an unknown-name heading prefix. No recorded evidence, runner source or benchmark pin changed.

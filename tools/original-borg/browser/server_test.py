@@ -147,6 +147,16 @@ class BrowserTests(unittest.TestCase):
         self.assertEqual(store.life(key)['raw_status'],'missing or pending')
         with self.assertRaises(ValueError):server.Store([origin],origin,run='999')
 
+    def test_compact_character_sheet_survives_missing_or_corrupt_raw(self):
+        row,archive=fixture(self.root)
+        store=server.Store([self.root]);key=self.key(store)
+        archive.write_bytes(b'not a tar archive')
+        self.assertEqual(store.life(key)['raw_status'],'artifact error')
+        self.assertEqual(store.presentation(key)['sheet']['hp'],-1)
+        self.assertEqual(store.presentation(key)['groups'],[])
+        archive.unlink()
+        self.assertEqual(store.presentation(key)['sheet']['outcome'],'stalled')
+
     def test_http_loopback_api_and_download_is_explicit(self):
         fixture(self.root)
         store=server.Store([self.root]);http=ThreadingHTTPServer(('127.0.0.1',0),server.make_handler(store,'secret'))

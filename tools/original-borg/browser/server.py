@@ -1,5 +1,6 @@
 """Loopback-only evidence reader. No game execution, extraction, or analysis."""
 from collections import deque
+from presentation import project_neo, parse_native_map
 import argparse
 import hashlib
 import json
@@ -170,12 +171,16 @@ class Store:
             raise ValueError('Unsafe or absent evidence cell path')
         expected = row.get('evidence', {}).get('files', {})
         files = []
+        raw_error = None
         if archive:
-            for name, member in self.members(archive).items():
-                if name.startswith(prefix + '/'):
-                    relative = name[len(prefix) + 1:]
-                    files.append({'name': relative, 'bytes': member.size, 'expected_sha256': expected.get(relative, {}).get('sha256'), 'sha_status': 'not verified'})
-        return {'summary': {k:v for k,v in summary.items() if k != '_identity'}, 'record': row, 'files': files, 'raw_status': 'available' if archive else 'missing or pending', 'raw_artifact': 'raw-' + summary['shard'], 'downloads_enabled': bool(self.run and str(summary.get('run_id')) == str(self.run)), 'counter_meanings': {'energy': 'native player.total_energy: cumulative energy spent' if summary['source_profile']=='better-borg-c' else 'Neo state.actor.energy: current player energy'}, 'assessment': 'Unassessed observations. No replay or diagnosis has been performed.', 'archive_sha_status': 'not verified' if archive else 'unavailable'}
+            try:
+                for name, member in self.members(archive).items():
+                    if name.startswith(prefix + '/'):
+                        relative = name[len(prefix) + 1:]
+                        files.append({'name': relative, 'bytes': member.size, 'expected_sha256': expected.get(relative, {}).get('sha256'), 'sha_status': 'not verified'})
+            except (OSError,tarfile.TarError,ValueError) as error:
+                raw_error=str(error)
+        return {'summary': {k:v for k,v in summary.items() if k != '_identity'}, 'record': row, 'files': files, 'raw_status': 'artifact error' if raw_error else 'available' if archive else 'missing or pending', 'raw_error':raw_error, 'raw_artifact': 'raw-' + summary['shard'], 'downloads_enabled': bool(self.run and str(summary.get('run_id')) == str(self.run)), 'counter_meanings': {'energy': 'native player.total_energy: cumulative energy spent' if summary['source_profile']=='better-borg-c' else 'Neo state.actor.energy: current player energy'}, 'assessment': 'Unassessed observations. No replay or diagnosis has been performed.', 'archive_sha_status': 'not verified' if archive else 'unavailable'}
 
     def open_member(self, key, relative):
         if not safe_name(relative):
@@ -265,6 +270,41 @@ class Store:
                 files[relative] = {'status': 'missing/error', 'error': str(error)}
         return {'archive': {'actual': self._hashes[stamp], 'expected': expected_archive, 'status': 'match' if expected_archive == self._hashes[stamp] else 'mismatch' if expected_archive else 'no expected hash'}, 'files': files, 'notice': 'Integrity comparison only; this does not authenticate source claims or diagnose play.'}
 
+    def presentation(self, key):
+        summary,row=self.cell(key)
+        try:
+            return self._presentation(key)
+        except (OSError,tarfile.TarError,ValueError) as error:
+            value=project_neo(row,{}) if summary['source_profile']=='neo-original' else parse_native_map(row,'')
+            value['source_notice']='Raw presentation unavailable: '+str(error)+'. Showing compact final fields only; missing current values are not recorded.'
+            return value
+
+    def _presentation(self, key):
+        summary,row=self.cell(key)
+        if not self.archive(summary):
+            value=project_neo(row,{}) if summary['source_profile']=='neo-original' else parse_native_map(row,'')
+            value['source_notice']='Raw evidence is missing or pending. Showing compact final fields only; current inventory and unavailable stats are not recorded.'
+            return value
+        if summary['source_profile']=='neo-original':
+            handle,stream,_=self.open_member(key,'run/run.json')
+            try:
+                content=stream.read(4*MAX_TEXT+1)
+                if len(content)>4*MAX_TEXT:raise ValueError('Record too large for presentation; use raw pages')
+                return project_neo(row,json.loads(content))
+            finally:
+                stream.close();handle.close()
+        files=self.life(key)['files']
+        map_file=next((f['name'] for f in files if f['name'].endswith('.map')),None)
+        if not map_file:
+            return parse_native_map(row,'')
+        handle,stream,_=self.open_member(key,map_file)
+        try:
+            content=stream.read(4*MAX_TEXT+1)
+            if len(content)>4*MAX_TEXT:raise ValueError('Map too large for presentation; use raw pages')
+            return parse_native_map(row,content.decode('utf-8',errors='replace'))
+        finally:
+            stream.close();handle.close()
+
     def observation(self, key, field):
         if field not in ['finalInventory', 'finalKnownWorld', 'birth', 'provenance']:
             raise ValueError('Unknown observation field')
@@ -336,6 +376,7 @@ def paging(query):
 
 
 def make_handler(store, token):
+    html=Path(__file__).with_name('index.html').read_text().replace('__TOKEN__',token).encode()
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *_args):
             pass
@@ -360,7 +401,7 @@ def make_handler(store, token):
             query = dict(urllib.parse.parse_qsl(url.query))
             try:
                 if url.path == '/':
-                    body = Path(__file__).with_name('index.html').read_text().replace('__TOKEN__', token).encode()
+                    body = html
                     self.send_response(200)
                     self.send_header('Content-Type', 'text/html; charset=utf-8')
                     self.send_header('Content-Length', str(len(body)))
@@ -373,6 +414,8 @@ def make_handler(store, token):
                     self.send_json(200, store.life(query['id']))
                 elif url.path == '/api/file':
                     self.send_json(200, store.page(query['id'], query))
+                elif url.path == '/api/presentation':
+                    self.send_json(200, store.presentation(query['id']))
                 elif url.path == '/api/observation':
                     self.send_json(200, store.observation(query['id'], query['field']))
                 elif url.path == '/api/verify':

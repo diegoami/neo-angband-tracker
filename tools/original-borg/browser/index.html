@@ -5,6 +5,9 @@
 		content="width=device-width,initial-scale=1"
 	/><title>Borg recorded-life browser</title>
 	<style>
+		[hidden] {
+			display: none !important;
+		}
 		:root {
 			font:
 				15px system-ui,
@@ -92,7 +95,7 @@
 			background: #28251d;
 			color: #f5dab0;
 			margin: 10px 0;
-			white-space: pre-wrap;
+			white-space: pre-line;
 		}
 		.error {
 			border-color: #e77;
@@ -194,6 +197,101 @@
 				min-height: 50vh;
 			}
 		}
+		.terminal-sheet {
+			font-family: ui-monospace, monospace;
+			background: #080d09;
+			border: 1px solid #52624e;
+			padding: 16px;
+			color: #e3e8d5;
+		}
+		.terminal-sheet h3 {
+			color: #eadf87;
+			font-size: 17px;
+		}
+		.terminal-sheet h4 {
+			color: #9cbf95;
+		}
+		.character-stats {
+			display: grid;
+			grid-template-columns: 70px minmax(130px, 1fr) 70px minmax(
+					130px,
+					1fr
+				);
+			gap: 8px 16px;
+			margin: 14px 0;
+		}
+		.character-stats dt {
+			color: #8fba8a;
+		}
+		.character-stats dd {
+			margin: 0;
+			white-space: nowrap;
+		}
+		.terminal-items {
+			display: grid;
+			gap: 5px;
+			margin: 10px 0 24px;
+		}
+		.terminal-item {
+			display: flex;
+			gap: 12px;
+			align-items: baseline;
+			padding: 3px 0;
+		}
+		.item-letter {
+			color: #acbe99;
+			min-width: 24px;
+		}
+		.item-slot {
+			color: #9ca89b;
+			min-width: 85px;
+		}
+		.item-description {
+			white-space: pre-wrap;
+		}
+		.item-handle {
+			color: #899487;
+			font-size: 11px;
+		}
+		.map-panel {
+			display: flex;
+			gap: 12px;
+			align-items: flex-start;
+			flex-wrap: wrap;
+		}
+		.map-panel > .terminal-sheet {
+			flex: 0 0 230px;
+			min-width: 200px;
+		}
+		.map-panel .character-stats {
+			grid-template-columns: 62px 1fr;
+			gap: 7px;
+		}
+		.terminal-map {
+			flex: 1 1 420px;
+			min-width: 0;
+			max-width: 100%;
+			background: #030603;
+			color: #d3d7cd;
+			line-height: 1.25;
+			font-size: 13px;
+			margin: 0;
+		}
+		.map-legend {
+			font-size: 12px;
+			width: 100%;
+		}
+		@media (max-width: 1100px) {
+			.character-stats {
+				grid-template-columns: 65px 1fr;
+			}
+			.map-panel > .terminal-sheet {
+				flex-basis: 100%;
+			}
+			.map-panel .character-stats {
+				grid-template-columns: 65px 1fr 65px 1fr;
+			}
+		}
 	</style>
 	<header>
 		<h1>Borg recorded-life browser</h1>
@@ -275,10 +373,14 @@
 	</div>
 	<script>
 		const token = "__TOKEN__";
+		document
+			.querySelectorAll(".notice")
+			.forEach((e) => (e.textContent = e.textContent.trim()));
 		const $ = (id) => document.getElementById(id);
 		let offset = 0,
 			total = 0,
 			current = null,
+			selectionSerial = 0,
 			tab = "Summary",
 			lineOffset = 0,
 			nextOffset = null;
@@ -402,9 +504,14 @@
 			}
 		}
 		async function selectLife(id) {
+			const serial = ++selectionSerial;
 			$("title").textContent = "Loading recorded life…";
 			try {
-				current = await api("/api/life?id=" + encodeURIComponent(id));
+				const received = await api(
+					"/api/life?id=" + encodeURIComponent(id),
+				);
+				if (serial !== selectionSerial) return;
+				current = received;
 				$("title").className = "";
 				$("title").replaceChildren(
 					text(
@@ -490,38 +597,254 @@
 			}
 			return table;
 		}
+		const shown = (value) =>
+			value === null || value === undefined || value === ""
+				? "not recorded"
+				: String(value);
+		async function presentation(life) {
+			if (!life.presentation)
+				life.presentation = await api(
+					"/api/presentation?id=" +
+						encodeURIComponent(life.summary.id),
+				);
+			return life.presentation;
+		}
+		function characterSheet(model, compact = false) {
+			const box = text("section", "", "terminal-sheet"),
+				v = model.sheet;
+			box.append(
+				text(
+					"h3",
+					`${v.name ? v.name + " · " : ""}${shown(v.race)} ${shown(v.class)}`,
+				),
+			);
+			const stats = document.createElement("dl");
+			stats.className = "character-stats";
+			for (const [label, value] of [
+				["LEVEL", `${shown(v.level)} / ${shown(v.max_level)}`],
+				["HP", `${shown(v.hp)} / ${shown(v.max_hp)}`],
+				["SP", `${shown(v.sp)} / ${shown(v.max_sp)}`],
+				["EXP", shown(v.exp)],
+				["GOLD", shown(v.gold)],
+				["DEPTH", `${shown(v.depth)} / ${shown(v.max_depth)}`],
+				["AC", shown(v.ac)],
+				["SPEED", shown(v.speed)],
+				["TICK", shown(v.turn)],
+			]) {
+				stats.append(text("dt", label), text("dd", value));
+			}
+			box.append(
+				stats,
+				text(
+					"p",
+					`[ ${shown(v.outcome)} ] ${v.cause || v.stall?.reason || v.error || "No terminal cause recorded"}`,
+				),
+				text(
+					"p",
+					`Seed ${shown(v.seed)} · ${v.source_profile === "better-borg-c" ? "Native C" : "Neo developer host"}`,
+				),
+			);
+			box.append(
+				text(
+					"p",
+					["STR", "INT", "WIS", "DEX", "CON"]
+						.map(
+							(name, index) =>
+								`${name} ${shown(v.stats?.[index])}`,
+						)
+						.join("   "),
+					"current-stats",
+				),
+			);
+
+			if (v.status?.length) box.append(text("p", v.status.join(" · ")));
+			if (!compact) {
+				const equipped = model.groups.find(
+					(g) => g.title === "Equipment",
+				);
+				box.append(text("h4", "Equipped (recorded nonempty slots)"));
+				if (equipped) {
+					const rows = equipped.rows.filter(
+						(r) => r.description !== "(nothing)",
+					);
+					box.append(
+						text(
+							"pre",
+							rows.length
+								? rows
+										.map(
+											(r) =>
+												`${r.row} ${r.slot || ""} ${r.description}`,
+										)
+										.join("\n")
+								: "No equipped items in the recorded slots",
+						),
+					);
+				} else box.append(text("p", "not recorded"));
+			}
+			return box;
+		}
+		const itemColors = {
+			white: "#eee",
+			slate: "#aaa",
+			orange: "#e99a38",
+			red: "#ec6666",
+			green: "#82be82",
+			blue: "#83a2e0",
+			umber: "#b39a73",
+			"light dark": "#777",
+			"light slate": "#ccc",
+			violet: "#c49de0",
+			yellow: "#e8d67c",
+			"light red": "#f69b91",
+			"light green": "#b1de9c",
+			"light blue": "#add7f2",
+			"light umber": "#dcc49e",
+		};
+		function inventoryPanel(model) {
+			const panel = text("div", "", "terminal-sheet");
+			panel.append(text("p", model.inventory_notice));
+			if (!model.groups.length)
+				panel.append(
+					text(
+						"p",
+						"Current inventory and equipment were not recorded. Birth equipment is not substituted.",
+					),
+				);
+			for (const group of model.groups) {
+				panel.append(text("h3", `[ ${group.title} ]`));
+				const list = document.createElement("div");
+				list.className = "terminal-items";
+				if (!group.rows.length)
+					list.append(text("p", "No entries in the recorded list"));
+				for (const row of group.rows) {
+					const line = text("div", "", "terminal-item");
+					line.append(
+						text("span", row.row || "?", "item-letter"),
+						text(
+							"span",
+							row.slot ||
+								(row.slot_index !== undefined
+									? "slot " + row.slot_index
+									: ""),
+							"item-slot",
+						),
+					);
+					const item = text(
+						"span",
+						row.description || "not recorded",
+						"item-description",
+					);
+					if (row.color && itemColors[row.color]) {
+						item.style.color = itemColors[row.color];
+						item.title = "Recorded item nameColor: " + row.color;
+					}
+					line.append(item);
+					if (row.handle !== undefined && row.handle !== null)
+						line.append(
+							text("span", "#" + row.handle, "item-handle"),
+						);
+					list.append(line);
+				}
+				panel.append(list);
+			}
+			const raw = document.createElement("details");
+			raw.append(
+				text("summary", "Recorded item fields / parsed dump sections"),
+				pretty(model.groups),
+			);
+			panel.append(raw);
+			return panel;
+		}
+		function mapPanel(model) {
+			const root = text("div", "", "map-panel"),
+				map = model.map;
+			root.append(characterSheet(model, true));
+			if (!map) {
+				root.append(
+					text(
+						"p",
+						"Final map was not recorded or could not be parsed. Use Raw files for the original evidence.",
+					),
+				);
+				return root;
+			}
+			const pre = text("pre", map.rows.join("\n"), "map terminal-map");
+			root.append(pre, text("p", map.legend, "map-legend"));
+			requestAnimationFrame(() => {
+				const pos = map.player;
+				if (pos && Number.isInteger(pos.x) && Number.isInteger(pos.y)) {
+					const width =
+							(pre.scrollWidth - 24) / Math.max(1, map.width),
+						height = parseFloat(getComputedStyle(pre).lineHeight);
+					pre.scrollLeft = Math.max(
+						0,
+						pos.x * width - pre.clientWidth / 2,
+					);
+					pre.scrollTop = Math.max(
+						0,
+						pos.y * height - pre.clientHeight / 2,
+					);
+				}
+			});
+			return root;
+		}
 		async function render(tail = false) {
 			$("content").replaceChildren(text("p", "Loading evidence…"));
 			$("fileTools").hidden = tab !== "Raw files";
 			$("lineNav").hidden = true;
-			if (tab === "Summary") {
-				const record = current.record;
-				const summary = {
-					outcome: record.outcome,
-					cause: record.cause,
-					error: record.error,
-					stall: record.stall,
-					final: record.final,
-					birth: record.birth_record ?? record.birth,
-					effective_options: record.effective_options,
-					wall_seconds: record.wall_seconds,
-					assessment: current.assessment,
-				};
-				$("content").replaceChildren(
-					text(
-						"p",
-						current.summary.source_profile === "better-borg-c"
-							? "Native STATE energy is cumulative total energy spent, not current player energy."
-							: "Neo energy is current player actor energy.",
-					),
-					pretty(summary),
-				);
-				const d = document.createElement("details");
-				d.append(
-					text("summary", "Complete compact record and provenance"),
-					pretty(record),
-				);
-				$("content").append(d);
+			const selectedLife = current,
+				selectedTab = tab;
+			if (["Summary", "Inventory", "Final map / world"].includes(tab)) {
+				const model = await presentation(selectedLife);
+				if (current !== selectedLife || tab !== selectedTab) return;
+				if (tab === "Summary") {
+					$("content").replaceChildren(
+						characterSheet(model),
+						text("p", model.source_notice),
+					);
+					const raw = document.createElement("details");
+					raw.append(
+						text(
+							"summary",
+							"Original compact record, birth and provenance (JSON)",
+						),
+						pretty(current.record),
+					);
+					$("content").append(raw);
+				} else if (tab === "Inventory")
+					$("content").replaceChildren(
+						inventoryPanel(model),
+						text("p", model.source_notice),
+					);
+				else {
+					$("content").replaceChildren(mapPanel(model));
+					if (
+						current.summary.source_profile === "neo-original" &&
+						current.raw_status === "available"
+					) {
+						const raw = document.createElement("details");
+						raw.append(
+							text(
+								"summary",
+								"Original recorded final KnownWorld (JSON)",
+							),
+						);
+						raw.ontoggle = async () => {
+							if (raw.open && raw.childElementCount === 1) {
+								const value = await api(
+									"/api/observation?" +
+										new URLSearchParams({
+											id: selectedLife.summary.id,
+											field: "finalKnownWorld",
+										}),
+								);
+								raw.append(pretty(value.value));
+							}
+						};
+						$("content").append(raw);
+					}
+				}
 				return;
 			}
 			if (current.raw_status !== "available") {
@@ -534,31 +857,10 @@
 				);
 				return;
 			}
-			if (tab === "Inventory") {
-				const value = await observation("finalInventory");
-				$("content").replaceChildren(
-					value.available
-						? pretty(value.value)
-						: text("div", value.notice, "notice"),
-				);
-				return;
-			}
 			let file,
 				mode = "lines";
 			if (tab === "Raw files") file = $("file").value;
-			else if (tab === "Final map / world") {
-				const map = current.files.find((f) => f.name.endsWith(".map"));
-				if (map) file = map.name;
-				else {
-					const value = await observation("finalKnownWorld");
-					$("content").replaceChildren(
-						value.available
-							? pretty(value.value)
-							: text("div", value.notice, "notice"),
-					);
-					return;
-				}
-			} else {
+			else {
 				const names = {
 					Commands: "commands",
 					Messages: "messages",
@@ -592,6 +894,7 @@
 						tail: tail ? 1 : 0,
 					}),
 			);
+			if (current !== selectedLife || tab !== selectedTab) return;
 			nextOffset = data.next_offset;
 			lineOffset = data.offset ?? lineOffset;
 			$("lineNav").hidden = false;
