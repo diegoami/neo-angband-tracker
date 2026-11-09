@@ -1,0 +1,17 @@
+native-c/torodvalue-549: starting...
+SETUP seed=549 mode=rod class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=0
+DECISION caution=1 keys="*p65zb5"
+TRACK step=caution zap=1 aim=0 slot=1 item=Teleport Other target_key=1
+TRACK device_fail_permille=242
+MSG You failed to zap the rod properly.
+ENGINE attempt=1 energy_used=100 monster_grid=(11,12)
+MSG You failed to zap the rod properly.
+ENGINE attempt=2 energy_used=100 monster_grid=(11,12)
+MSG You failed to zap the rod properly.
+ENGINE attempt=3 energy_used=100 monster_grid=(11,12)
+ENGINE attempt=4 energy_used=100 monster_grid=(38,22)
+ENGINE monster_grid=(11,12)->(38,22) distance=1->33 rod_charging=1
+OUTCOME used_teleport_other=1 monster_moved=1
+Passed
+native-c/torodvalue-549 finished: 1/1 passed

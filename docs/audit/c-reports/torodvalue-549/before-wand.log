@@ -1,0 +1,12 @@
+native-c/torodvalue-549: starting...
+SETUP seed=549 mode=wand class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=11
+DECISION caution=1 keys="*p65ab5"
+TRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1
+TRACK device_fail_permille=59
+MSG You have 10 charges remaining.
+ENGINE attempt=1 energy_used=100 monster_grid=(38,22)
+ENGINE monster_grid=(11,12)->(38,22) distance=1->33 rod_charging=0
+OUTCOME used_teleport_other=1 monster_moved=1
+Passed
+native-c/torodvalue-549 finished: 1/1 passed

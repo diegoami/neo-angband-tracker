@@ -1,0 +1,152 @@
+{
+  "issue": "diegoami/neo-angband-tracker#549",
+  "report": "torodvalue-549",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "d4071b06e2d298a17e1a55559daceccf9663f9f3",
+  "fix_branch": "task/torodvalue-549",
+  "fixtures_ref": "f3323c2f010ef803424e0a3548728e03b576e94b",
+  "cases": {
+    "rod": {
+      "before": {
+        "passed": false,
+        "state": {
+          "avoidance": 106,
+          "grid_danger": 64,
+          "monster_power": 232,
+          "atportother": 0
+        },
+        "outcome": {
+          "used_teleport_other": 0,
+          "monster_moved": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 106,
+          "grid_danger": 64,
+          "monster_power": 232,
+          "atportother": 0
+        },
+        "outcome": {
+          "used_teleport_other": 1,
+          "monster_moved": 1
+        }
+      }
+    },
+    "wand": {
+      "before": {
+        "passed": true,
+        "state": {
+          "avoidance": 106,
+          "grid_danger": 64,
+          "monster_power": 232,
+          "atportother": 11
+        },
+        "outcome": {
+          "used_teleport_other": 1,
+          "monster_moved": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 106,
+          "grid_danger": 64,
+          "monster_power": 232,
+          "atportother": 11
+        },
+        "outcome": {
+          "used_teleport_other": 1,
+          "monster_moved": 1
+        }
+      }
+    },
+    "weak": {
+      "before": {
+        "passed": true,
+        "state": {
+          "avoidance": 106,
+          "grid_danger": 2,
+          "monster_power": 6,
+          "atportother": 0
+        },
+        "outcome": {
+          "used_teleport_other": 0,
+          "monster_moved": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "avoidance": 106,
+          "grid_danger": 2,
+          "monster_power": 6,
+          "atportother": 0
+        },
+        "outcome": {
+          "used_teleport_other": 0,
+          "monster_moved": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "wand",
+    "weak"
+  ],
+  "claim": "borg_defend_aux_tele_away() (borg-fight-defend.c:1155-1159 and 1272-1273 at e473720ed) accepted and used the Teleport Other spell, the tele_other activation and a charged Wand of Teleport Other, but not the Rod of Teleport Other (sv_rod_teleport_other is looked up in borg-item-val.c:417 and used only by the shopping code). A Borg without the spell that carried only the rod never chose this defence: a wounded Warrior next to a hill giant queued melee instead. The correction accepts the rod through borg_equips_rod() (charged, and the Borg's own device-skill check) and zaps it with borg_zap_rod() after the spell, activation and wand; the '5' target key that follows is unchanged. The wand control (both changed lines run) and a harmless-monster control are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-fight-defend.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-fight-defend.c": "0d5b1d7f9575ee3568ad20c10b31fcf73eae0a540de59d0a61478422095fdcd8"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "88ec7805c0d3d155011d8d22df35791cd95bcf7ece58e3566838c5eacef23063",
+    "after-results.json": "ba6d96651be396a60992d6ce6f6b9b8ddc1e6dd1b3a33af4099814ef281221d5",
+    "after-rod.log": "dd4b0fd63c7ba85af89f06de73a5b77ff9292acc3bb1811e4e45a332e4080e0c",
+    "after-wand.log": "35dd9c4ef63b45755cedf56eae78df260b2adfb2774d0fd7128deb39cc0518fe",
+    "after-weak.log": "450a4698a49ebd12f842bd339037c56fc2e3622d229c541c3b4f5852a519cf38",
+    "before-results.json": "ff2ade6ef2231e1cb30ed3504ab0756248593e70ea35669be8c6cf38a1a14261",
+    "before-rod.log": "b496eaaf5a98330e38407ee26c2f0e1f8cae05c75a29f8b6d261adbe878234fb",
+    "before-wand.log": "35dd9c4ef63b45755cedf56eae78df260b2adfb2774d0fd7128deb39cc0518fe",
+    "before-weak.log": "450a4698a49ebd12f842bd339037c56fc2e3622d229c541c3b4f5852a519cf38",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "18155c1c025df0eb1e9d8783f10e897f99e8546359dab1ba7afe900a0c838ead",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "28fbacf8f58260f41f0aaf63753dee3c02dc52793c31ebdd868f7593986403aa",
+    "replay.html": "a757b511e84948d0568b87c8c1de472a1cde204091faa8822790cf85f91a55b6",
+    "reproduce.py": "a27670576ef803ec9cd3283f4ea3d4f2c5f8cc010d8decba1bab44c69b92eaca",
+    "result.json": "cbe52322e3af995070b9153b6f328927fab3404254040ff9b6459dc723efeda8",
+    "run-after-alltests.log": "66d39deeaa43941fa27a9f4cb69bdbbd4c6dad20a234b5d97c6033c7df21ce00",
+    "run-after-build.log": "e24952fb2628baa8d8afc46fde73de0e1ecd485c27a05e4cff4be3053e8d7d32",
+    "run-after-scenarios.log": "e761847782282d342b34893d62668cd2f9f57d72cf25f675cae3543fdfee93db",
+    "run-before-alltests.log": "e8feb6a1e03db1899d18a0a4cabbab2205223be85a5b2263462ea744632b5e41",
+    "run-before-build.log": "e1c88e5d5439e5f5b81810f089be0c23d17b794485dfbfc42a80ea8103fd005d",
+    "run-before-scenarios.log": "f0d2b6c380ecf1cb62dd4fc10c94d26a4748453d392d95dce4792d89507ec9ea",
+    "run-cases.py": "16e658bced1f77c4bb011f87154b66f5368b580574985a91faa0b04154dfeaeb",
+    "run-configure.log": "77cdde1b0212ea65f8961f49ae0be4b222db8d71a3833ff572622d94b00df34c",
+    "scenario.c": "140bac13d4e1d0f6b005ad3c9e6b7d6d102a6e76a07da694666b1a61bf0f8e88"
+  }
+}

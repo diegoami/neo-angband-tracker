@@ -1,0 +1,87 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg never zaps a Rod of Teleport Other at a dangerous monster</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg never zaps a Rod of Teleport Other at a dangerous monster</h1><p>When a monster next to the Borg is dangerous enough, the Borg&#x27;s defensive step can teleport the monster away with Teleport Other. It accepts the Teleport Other spell, an item that activates for it, or a charged Wand of Teleport Other, but it never looks for a Rod of Teleport Other. A Borg that cannot cast the spell (for example a Warrior) and carries only the rod therefore never uses it: a Warrior down to a third of its hit points next to a hill giant keeps hitting the giant in melee, while the same Warrior with the wand aims it and the giant is sent across the room. After the correction the rod is accepted like the wand (if the Borg&#x27;s device skill is good enough to zap it), and the Warrior zaps the rod at the giant; the real zap command teleports the giant away and the rod starts recharging. A wand-only Warrior and a Warrior next to a harmless soldier ant behave exactly as before.</p><p><label>Scenario: <select id="scenario"><option value="rod">Warrior with a Rod of Teleport Other next to a hill giant</option><option value="wand">Control: the same Warrior with a Wand of Teleport Other</option><option value="weak">Control: rod carried, harmless soldier ant adjacent</option></select></label></p><section class="scenario" data-mode="rod"><p class="summary">Grid danger 64 against 106 hit points. Original: borg_caution() chooses nothing (the defence never considers the rod), and the attack step queues melee on the giant (keys +6); the rod is not used. Corrected: borg_caution() chooses the Teleport Other defence and queues *p65zb5 (target the giant, zap the rod in slot b, use the target). The real zap command fails three times (the game&#x27;s device failure chance for this Warrior is 24.2%) and succeeds on the fourth attempt: the giant is moved from (11,12) to (38,22), 33 grids away, and the rod starts recharging.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>uses its Teleport Other device on the hill giant (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION caution=0 keys=&quot;&quot;
+DECISION attack=1 keys=&quot;+6&quot;
+TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>uses its Teleport Other device on the hill giant (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION caution=1 keys=&quot;*p65zb5&quot;
+TRACK step=caution zap=1 aim=0 slot=1 item=Teleport Other target_key=1
+TRACK device_fail_permille=242</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/torodvalue-549: starting...
+SETUP seed=549 mode=rod class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=0
+DECISION caution=0 keys=&quot;&quot;
+DECISION attack=1 keys=&quot;+6&quot;
+TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0
+ENGINE monster_grid=(11,12)-&gt;(11,12) distance=1-&gt;1 rod_charging=0
+OUTCOME used_teleport_other=0 monster_moved=0
+Failed
+    native-c/torodvalue-549:255: requirement &#x27;used_device&#x27; == &#x27;1&#x27; failed
+      used_device:                0
+      1:                1
+native-c/torodvalue-549 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/torodvalue-549: starting...
+SETUP seed=549 mode=rod class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=0
+DECISION caution=1 keys=&quot;*p65zb5&quot;
+TRACK step=caution zap=1 aim=0 slot=1 item=Teleport Other target_key=1
+TRACK device_fail_permille=242
+MSG You failed to zap the rod properly.
+ENGINE attempt=1 energy_used=100 monster_grid=(11,12)
+MSG You failed to zap the rod properly.
+ENGINE attempt=2 energy_used=100 monster_grid=(11,12)
+MSG You failed to zap the rod properly.
+ENGINE attempt=3 energy_used=100 monster_grid=(11,12)
+ENGINE attempt=4 energy_used=100 monster_grid=(38,22)
+ENGINE monster_grid=(11,12)-&gt;(38,22) distance=1-&gt;33 rod_charging=1
+OUTCOME used_teleport_other=1 monster_moved=1
+Passed
+native-c/torodvalue-549 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="wand"><p class="summary">The same scene with the wand instead of the rod. Both versions choose the defence, aim the wand (keys *p65ab5), and the real aim command teleports the giant to (38,22) at the first attempt (10 charges left). This case runs through both changed lines (the wand is accepted before the rod check and aimed before the zap). The logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>uses its Teleport Other device on the hill giant (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION caution=1 keys=&quot;*p65ab5&quot;
+TRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1
+TRACK device_fail_permille=59</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>uses its Teleport Other device on the hill giant (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION caution=1 keys=&quot;*p65ab5&quot;
+TRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1
+TRACK device_fail_permille=59</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/torodvalue-549: starting...
+SETUP seed=549 mode=wand class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=11
+DECISION caution=1 keys=&quot;*p65ab5&quot;
+TRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1
+TRACK device_fail_permille=59
+MSG You have 10 charges remaining.
+ENGINE attempt=1 energy_used=100 monster_grid=(38,22)
+ENGINE monster_grid=(11,12)-&gt;(38,22) distance=1-&gt;33 rod_charging=0
+OUTCOME used_teleport_other=1 monster_moved=1
+Passed
+native-c/torodvalue-549 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/torodvalue-549: starting...
+SETUP seed=549 mode=wand class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=hill giant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=64 monster_power=232 atportother=11
+DECISION caution=1 keys=&quot;*p65ab5&quot;
+TRACK step=caution zap=0 aim=1 slot=1 item=Teleport Other target_key=1
+TRACK device_fail_permille=59
+MSG You have 10 charges remaining.
+ENGINE attempt=1 energy_used=100 monster_grid=(38,22)
+ENGINE monster_grid=(11,12)-&gt;(38,22) distance=1-&gt;33 rod_charging=0
+OUTCOME used_teleport_other=1 monster_moved=1
+Passed
+native-c/torodvalue-549 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="weak"><p class="summary">The same Warrior with the rod, next to a soldier ant (grid danger 2 against 106 hit points). No danger to speak of, so borg_caution() chooses nothing and neither version zaps the rod; both queue melee (keys +6). The logs are byte-identical. This control shows the rod is not zapped at harmless monsters; it does not reach the changed lines.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>uses its Teleport Other device on the hill giant (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION caution=0 keys=&quot;&quot;
+DECISION attack=1 keys=&quot;+6&quot;
+TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>uses its Teleport Other device on the hill giant (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION caution=0 keys=&quot;&quot;
+DECISION attack=1 keys=&quot;+6&quot;
+TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/torodvalue-549: starting...
+SETUP seed=549 mode=weak class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=soldier ant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=2 monster_power=6 atportother=0
+DECISION caution=0 keys=&quot;&quot;
+DECISION attack=1 keys=&quot;+6&quot;
+TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0
+ENGINE monster_grid=(11,12)-&gt;(11,12) distance=1-&gt;1 rod_charging=0
+OUTCOME used_teleport_other=0 monster_moved=0
+Passed
+native-c/torodvalue-549 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/torodvalue-549: starting...
+SETUP seed=549 mode=weak class=Warrior clevel=25 depth=25 hp=106/322 device_skill=36 monster=soldier ant adjacent
+  teleport_other_device  STATE avoidance=106 grid_danger=2 monster_power=6 atportother=0
+DECISION caution=0 keys=&quot;&quot;
+DECISION attack=1 keys=&quot;+6&quot;
+TRACK step=attack zap=0 aim=0 slot=-1 item=- target_key=0
+ENGINE monster_grid=(11,12)-&gt;(11,12) distance=1-&gt;1 rod_charging=0
+OUTCOME used_teleport_other=0 monster_moved=0
+Passed
+native-c/torodvalue-549 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 549, character level 25 (device skill 36), depth 25, in a lit open 22x38 arena; the starting kit&#x27;s carried items are removed and the Warrior carries only a lit Wooden Torch (worn), 5 Rations of Food and the one device of the case (a charged Rod of Teleport Other, or in the wand control a Wand of Teleport Other with 11 charges); no Teleport Other spell, no escapes, no healing potions. Hit points are set to 33% (106/322) and borg.avoidance to the current hit points, as the Borg does. A stock hill giant (or, in the weak control, a stock soldier ant) is placed adjacent to the east, awake and aware, and registered through the production first-sighting path observe_kill_diff(). The Borg&#x27;s map is filled from the real terrain. The Borg then runs its production &#x27;try not to die&#x27; step borg_caution() (which calls borg_defend()); if that chooses nothing, the next fight step of borg_think_dungeon(), borg_attack(false), is run and its keys recorded. Queued keys are read back; when they are a zap (&#x27;z&#x27;) or aim (&#x27;a&#x27;) of the case&#x27;s device, the fixture carries it out with the real CMD_USE_ROD / CMD_USE_WAND command at the monster&#x27;s grid (the target the Borg&#x27;s &#x27;*&#x27; keys select), one attempt per command with the game&#x27;s auto-repeat disabled, up to five attempts, the monster not acting between attempts; game messages are printed as MSG lines. The melee keys chosen by the original Borg in the rod case are recorded, not carried out. This isolates one decision turn; it does not play out the fight.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/549">issue 549</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
