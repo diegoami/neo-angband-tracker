@@ -1229,8 +1229,9 @@ bool borg_think_shop_buy(void)
         bought_item_tval[bought_item_nxt]  = item->tval;
         bought_item_sval[bought_item_nxt]  = item->sval;
         bought_item_store[bought_item_nxt] = borg.goal.shop;
-        bought_item_num                    = bought_item_nxt;
         bought_item_nxt++;
+        if (bought_item_num < bought_item_nxt)
+            bought_item_num = bought_item_nxt;
 
         /* The purchase is complete */
         borg.goal.shop = borg.goal.ware = borg.goal.item = -1;
