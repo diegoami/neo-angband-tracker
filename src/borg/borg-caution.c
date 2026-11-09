@@ -1983,7 +1983,7 @@ bool borg_caution(void)
     if (borg.goal.recalling && (pos_danger > borg.avoidance * 2)) {
         if (!borg.trait[BI_ISCONFUSED] && !borg.trait[BI_ISBLIND]
             && borg.trait[BI_MAXSP] > 60
-            && borg.trait[BI_CURSP] < (borg.trait[BI_CURSP] / 4)
+            && borg.trait[BI_CURSP] < (borg.trait[BI_MAXSP] / 4)
             && (borg_quaff_potion(sv_potion_restore_mana)
                 || borg_activate_item(act_restore_mana))) {
             borg_note("# Buying time waiting for Recall.(1)");
