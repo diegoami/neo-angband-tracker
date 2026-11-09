@@ -1,0 +1,11 @@
+native-c/lunaltele-193: starting...
+SETUP seed=193 mode=shriek class=Warrior clevel=15 depth=10 caster=shrieker mushroom patch(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(10,12) caster-at (13,12)
+TRACK game-message <The shrieker mushroom patch makes a high-pitched shriek.>
+TRACK borg-reaction <SPELL_001:The shrieker mushroom patch>
+STATE lunal_mode before=1 after=1 borg=(10,12)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=1 goal_type=6 first_key=54
+OUTCOME lunal_after=1 heads_down=1
+Passed
+native-c/lunaltele-193 finished: 1/1 passed

@@ -1,0 +1,207 @@
+{
+  "teleto": {
+    "label": "Tengu: 'The tengu commands you to return.'",
+    "explanation": "The tengu's teleport-to moves the Borg from (10,12) to (12,12), next to the tengu. Original: Lunal mode stays on (lunal_mode after=1) and the stair decision starts walking to the down staircase although the Borg is not prepared for depth 11. Corrected: Lunal mode is switched off when the SPELL_068 reaction is handled, and the same decision refuses the descent.",
+    "control": false,
+    "before": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=teleto class=Warrior clevel=15 depth=10 caster=tengu(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(12,12) caster-at (13,12)\nTRACK game-message <The tengu commands you to return.>\nTRACK borg-reaction <SPELL_068:The tengu>\nSTATE lunal_mode before=1 after=1 borg=(12,12)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=1 goal_type=6 first_key=51\nOUTCOME lunal_after=1 heads_down=1\nFailed\n    native-c/lunaltele-193:215: requirement '!lunal_after' failed\nnative-c/lunaltele-193 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "before": 1,
+        "after": 1
+      },
+      "outcome": {
+        "lunal_after": 1,
+        "heads_down": 1
+      },
+      "notes": [
+        "TRACK game-message <The tengu commands you to return.>",
+        "TRACK borg-reaction <SPELL_068:The tengu>",
+        "DECISION heads_for_down_stairs=1 goal_type=6 first_key=51"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=teleto class=Warrior clevel=15 depth=10 caster=tengu(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(12,12) caster-at (13,12)\nTRACK game-message <The tengu commands you to return.>\nTRACK borg-reaction <SPELL_068:The tengu>\nSTATE lunal_mode before=1 after=0 borg=(12,12)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=0 goal_type=0 first_key=0\nOUTCOME lunal_after=0 heads_down=0\nPassed\nnative-c/lunaltele-193 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "before": 1,
+        "after": 0
+      },
+      "outcome": {
+        "lunal_after": 0,
+        "heads_down": 0
+      },
+      "notes": [
+        "TRACK game-message <The tengu commands you to return.>",
+        "TRACK borg-reaction <SPELL_068:The tengu>",
+        "DECISION heads_for_down_stairs=0 goal_type=0 first_key=0"
+      ],
+      "value": 0
+    }
+  },
+  "teleaway": {
+    "label": "Mage: 'The mage commands you to go away.'",
+    "explanation": "The mage's teleport-away moves the Borg from (10,12) to (38,1). Original: Lunal mode stays on and the Borg heads for the down staircase. Corrected: Lunal mode is off after the SPELL_070 reaction and the descent is refused.",
+    "control": false,
+    "before": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=teleaway class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(38,1) caster-at (13,12)\nTRACK game-message <The mage commands you to go away.>\nTRACK borg-reaction <SPELL_070:The mage>\nSTATE lunal_mode before=1 after=1 borg=(38,1)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=1 goal_type=6 first_key=50\nOUTCOME lunal_after=1 heads_down=1\nFailed\n    native-c/lunaltele-193:215: requirement '!lunal_after' failed\nnative-c/lunaltele-193 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "before": 1,
+        "after": 1
+      },
+      "outcome": {
+        "lunal_after": 1,
+        "heads_down": 1
+      },
+      "notes": [
+        "TRACK game-message <The mage commands you to go away.>",
+        "TRACK borg-reaction <SPELL_070:The mage>",
+        "DECISION heads_for_down_stairs=1 goal_type=6 first_key=50"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=teleaway class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(38,1) caster-at (13,12)\nTRACK game-message <The mage commands you to go away.>\nTRACK borg-reaction <SPELL_070:The mage>\nSTATE lunal_mode before=1 after=0 borg=(38,1)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=0 goal_type=0 first_key=0\nOUTCOME lunal_after=0 heads_down=0\nPassed\nnative-c/lunaltele-193 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "before": 1,
+        "after": 0
+      },
+      "outcome": {
+        "lunal_after": 0,
+        "heads_down": 0
+      },
+      "notes": [
+        "TRACK game-message <The mage commands you to go away.>",
+        "TRACK borg-reaction <SPELL_070:The mage>",
+        "DECISION heads_for_down_stairs=0 goal_type=0 first_key=0"
+      ],
+      "value": 0
+    }
+  },
+  "teleaway-unseen": {
+    "label": "Unseen caster: 'Something commands you to go away.'",
+    "explanation": "The same teleport-away, cast as by a monster the player cannot see. The Borg recognises it as SPELL_070:Something. Original: stays in Lunal mode and heads down. Corrected: Lunal mode off, descent refused.",
+    "control": false,
+    "before": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=teleaway-unseen class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(38,1) caster-at (13,12)\nTRACK game-message <Something commands you to go away.>\nTRACK borg-reaction <SPELL_070:Something>\nSTATE lunal_mode before=1 after=1 borg=(38,1)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=1 goal_type=6 first_key=50\nOUTCOME lunal_after=1 heads_down=1\nFailed\n    native-c/lunaltele-193:215: requirement '!lunal_after' failed\nnative-c/lunaltele-193 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "before": 1,
+        "after": 1
+      },
+      "outcome": {
+        "lunal_after": 1,
+        "heads_down": 1
+      },
+      "notes": [
+        "TRACK game-message <Something commands you to go away.>",
+        "TRACK borg-reaction <SPELL_070:Something>",
+        "DECISION heads_for_down_stairs=1 goal_type=6 first_key=50"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=teleaway-unseen class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(38,1) caster-at (13,12)\nTRACK game-message <Something commands you to go away.>\nTRACK borg-reaction <SPELL_070:Something>\nSTATE lunal_mode before=1 after=0 borg=(38,1)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=0 goal_type=0 first_key=0\nOUTCOME lunal_after=0 heads_down=0\nPassed\nnative-c/lunaltele-193 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "before": 1,
+        "after": 0
+      },
+      "outcome": {
+        "lunal_after": 0,
+        "heads_down": 0
+      },
+      "notes": [
+        "TRACK game-message <Something commands you to go away.>",
+        "TRACK borg-reaction <SPELL_070:Something>",
+        "DECISION heads_for_down_stairs=0 goal_type=0 first_key=0"
+      ],
+      "value": 0
+    }
+  },
+  "shriek": {
+    "label": "Control: 'The shrieker mushroom patch makes a high-pitched shriek.'",
+    "explanation": "A monster spell that does not move the Borg goes through the same spell-reaction code. Lunal mode stays on and the Borg heads for the down staircase in both versions; byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=shriek class=Warrior clevel=15 depth=10 caster=shrieker mushroom patch(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(10,12) caster-at (13,12)\nTRACK game-message <The shrieker mushroom patch makes a high-pitched shriek.>\nTRACK borg-reaction <SPELL_001:The shrieker mushroom patch>\nSTATE lunal_mode before=1 after=1 borg=(10,12)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=1 goal_type=6 first_key=54\nOUTCOME lunal_after=1 heads_down=1\nPassed\nnative-c/lunaltele-193 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "before": 1,
+        "after": 1
+      },
+      "outcome": {
+        "lunal_after": 1,
+        "heads_down": 1
+      },
+      "notes": [
+        "TRACK game-message <The shrieker mushroom patch makes a high-pitched shriek.>",
+        "TRACK borg-reaction <SPELL_001:The shrieker mushroom patch>",
+        "DECISION heads_for_down_stairs=1 goal_type=6 first_key=54"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=shriek class=Warrior clevel=15 depth=10 caster=shrieker mushroom patch(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(10,12) caster-at (13,12)\nTRACK game-message <The shrieker mushroom patch makes a high-pitched shriek.>\nTRACK borg-reaction <SPELL_001:The shrieker mushroom patch>\nSTATE lunal_mode before=1 after=1 borg=(10,12)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=1 goal_type=6 first_key=54\nOUTCOME lunal_after=1 heads_down=1\nPassed\nnative-c/lunaltele-193 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "before": 1,
+        "after": 1
+      },
+      "outcome": {
+        "lunal_after": 1,
+        "heads_down": 1
+      },
+      "notes": [
+        "TRACK game-message <The shrieker mushroom patch makes a high-pitched shriek.>",
+        "TRACK borg-reaction <SPELL_001:The shrieker mushroom patch>",
+        "DECISION heads_for_down_stairs=1 goal_type=6 first_key=54"
+      ],
+      "value": 1
+    }
+  },
+  "teleto-nolunal": {
+    "label": "Control: tengu teleport-to with Lunal mode not in effect",
+    "explanation": "The same tengu teleport-to with Lunal mode already off. Both versions refuse the descent because the Borg is not prepared for depth 11; byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=teleto-nolunal class=Warrior clevel=15 depth=10 caster=tengu(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(12,12) caster-at (13,12)\nTRACK game-message <The tengu commands you to return.>\nTRACK borg-reaction <SPELL_068:The tengu>\nSTATE lunal_mode before=0 after=0 borg=(12,12)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=0 goal_type=0 first_key=0\nOUTCOME lunal_after=0 heads_down=0\nPassed\nnative-c/lunaltele-193 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "before": 0,
+        "after": 0
+      },
+      "outcome": {
+        "lunal_after": 0,
+        "heads_down": 0
+      },
+      "notes": [
+        "TRACK game-message <The tengu commands you to return.>",
+        "TRACK borg-reaction <SPELL_068:The tengu>",
+        "DECISION heads_for_down_stairs=0 goal_type=0 first_key=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/lunaltele-193: starting...\nSETUP seed=193 mode=teleto-nolunal class=Warrior clevel=15 depth=10 caster=tengu(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1\n  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(12,12) caster-at (13,12)\nTRACK game-message <The tengu commands you to return.>\nTRACK borg-reaction <SPELL_068:The tengu>\nSTATE lunal_mode before=0 after=0 borg=(12,12)\nSTATE prepared_for_depth_11=restock phase door\nDECISION heads_for_down_stairs=0 goal_type=0 first_key=0\nOUTCOME lunal_after=0 heads_down=0\nPassed\nnative-c/lunaltele-193 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "before": 0,
+        "after": 0
+      },
+      "outcome": {
+        "lunal_after": 0,
+        "heads_down": 0
+      },
+      "notes": [
+        "TRACK game-message <The tengu commands you to return.>",
+        "TRACK borg-reaction <SPELL_068:The tengu>",
+        "DECISION heads_for_down_stairs=0 goal_type=0 first_key=0"
+      ],
+      "value": 0
+    }
+  }
+}

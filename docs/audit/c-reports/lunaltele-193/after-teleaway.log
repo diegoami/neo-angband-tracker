@@ -1,0 +1,11 @@
+native-c/lunaltele-193: starting...
+SETUP seed=193 mode=teleaway class=Warrior clevel=15 depth=10 caster=mage(13,12) borg=(10,12) stairs_down=1 stairs_up=1 lunal_config=1
+  lunal_mode_after_monster_spell  TRACK player-moved (10,12)->(38,1) caster-at (13,12)
+TRACK game-message <The mage commands you to go away.>
+TRACK borg-reaction <SPELL_070:The mage>
+STATE lunal_mode before=1 after=0 borg=(38,1)
+STATE prepared_for_depth_11=restock phase door
+DECISION heads_for_down_stairs=0 goal_type=0 first_key=0
+OUTCOME lunal_after=0 heads_down=0
+Passed
+native-c/lunaltele-193 finished: 1/1 passed

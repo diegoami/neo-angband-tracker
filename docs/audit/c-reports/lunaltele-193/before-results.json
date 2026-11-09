@@ -1,0 +1,62 @@
+{
+  "teleto": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "before": 1,
+      "after": 1
+    },
+    "outcome": {
+      "lunal_after": 1,
+      "heads_down": 1
+    }
+  },
+  "teleaway": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "before": 1,
+      "after": 1
+    },
+    "outcome": {
+      "lunal_after": 1,
+      "heads_down": 1
+    }
+  },
+  "teleaway-unseen": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "before": 1,
+      "after": 1
+    },
+    "outcome": {
+      "lunal_after": 1,
+      "heads_down": 1
+    }
+  },
+  "shriek": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "before": 1,
+      "after": 1
+    },
+    "outcome": {
+      "lunal_after": 1,
+      "heads_down": 1
+    }
+  },
+  "teleto-nolunal": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "before": 0,
+      "after": 0
+    },
+    "outcome": {
+      "lunal_after": 0,
+      "heads_down": 0
+    }
+  }
+}
