@@ -1,0 +1,108 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>With #560 applied: only the corrected gate lets a Warrior buy the Black Market Rod of Teleport Other</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>With #560 applied: only the corrected gate lets a Warrior buy the Black Market Rod of Teleport Other</h1><p>This stacked run starts from the base with #560&#x27;s correction already applied (a Rod of Teleport Other counts in the Borg&#x27;s Teleport Other total, so it has value) and compares it with #560 plus this issue&#x27;s class gate correction. With #560 alone, a level-12 Warrior with 16000 gold leaves the rod in the Black Market, because the rod is not on the Warrior&#x27;s exception list and the general Black Market rule wants 20000 gold below level 15. With both corrections the Warrior&#x27;s exception applies and the production shop step chooses to buy the rod. A level-30 Warrior short of the price saves up for it, a Rogue who knows Teleport Other no longer saves up for it, and a Mage who knows the spell behaves exactly as before.</p><p><label>Scenario: <select id="scenario"><option value="warrior-buy">Warrior, level 12, 16000 gold</option><option value="warrior">Warrior, level 30, 10000 gold</option><option value="rogue">Rogue who knows Teleport Other, level 30, 10000 gold</option><option value="mage">Control: Mage who knows Teleport Other</option></select></label></p><section class="scenario" data-mode="warrior-buy"><p class="summary">With #560 only: the rod has value (+60000 power) but borg_good_buy() rejects it under the general Black Market rule (below level 15 it wants 20000 gold); nothing is bought (0/1). With both: the Warrior&#x27;s exception applies, the 15000 gold target is recorded and the shop step chooses Black Market ware 0, the rod (buy_useful=1 goal_shop=6 goal_ware=0) (1/1).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=1 goal_shop=6 goal_ware=0 money_scum_amount=15000
+DECISION money_scum=1 first_key=57344</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=warrior-buy class=Warrior clevel=12 gold=16000 food=121 light=2 dex_safe=90 self_scum=1
+STATE atportother=0
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0
+OUTCOME saves_for_rod=0 buys_rod=0
+Failed
+    native-c/tporod-17:200: requirement &#x27;buys&#x27; failed
+native-c/tporod-17 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=warrior-buy class=Warrior clevel=12 gold=16000 food=121 light=2 dex_safe=90 self_scum=1
+STATE atportother=0
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=1 goal_shop=6 goal_ware=0 money_scum_amount=15000
+DECISION money_scum=1 first_key=57344
+OUTCOME saves_for_rod=1 buys_rod=1
+Passed
+native-c/tporod-17 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="warrior"><p class="summary">With #560 only: no gold target (the rod is not on the Warrior&#x27;s exception). With both: a 15000 gold target and resting in town (first key 57344); 10000 gold is short of the price, so nothing is bought yet.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000
+DECISION money_scum=1 first_key=57344</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=warrior class=Warrior clevel=30 gold=10000 food=121 light=2 dex_safe=90 self_scum=1
+STATE atportother=0
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0
+OUTCOME saves_for_rod=0 buys_rod=0
+Failed
+    native-c/tporod-17:198: requirement &#x27;target &gt; 0 &amp;&amp; scum &amp;&amp; !buys&#x27; failed
+native-c/tporod-17 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=warrior class=Warrior clevel=30 gold=10000 food=121 light=2 dex_safe=90 self_scum=1
+STATE atportother=0
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000
+DECISION money_scum=1 first_key=57344
+OUTCOME saves_for_rod=1 buys_rod=0
+Passed
+native-c/tporod-17 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="rogue"><p class="summary">With #560 only: the Rogue still records the 15000 target and rests for the rod. With both: no target, no resting.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000
+DECISION money_scum=1 first_key=57344</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=rogue class=Rogue clevel=30 gold=10000 food=121 light=2 dex_safe=100 self_scum=1
+STATE atportother=1000
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000
+DECISION money_scum=1 first_key=57344
+OUTCOME saves_for_rod=1 buys_rod=0
+Failed
+    native-c/tporod-17:202: requirement &#x27;target == 0 &amp;&amp; !scum &amp;&amp; !buys&#x27; failed
+native-c/tporod-17 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=rogue class=Rogue clevel=30 gold=10000 food=121 light=2 dex_safe=100 self_scum=1
+STATE atportother=1000
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0
+OUTCOME saves_for_rod=0 buys_rod=0
+Passed
+native-c/tporod-17 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="mage"><p class="summary">Excluded in both versions (the changed line is evaluated); no target, no buy. The logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>chooses to buy the Black Market Rod of Teleport Other (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=mage class=Mage clevel=30 gold=10000 food=121 light=2 dex_safe=70 self_scum=1
+STATE atportother=1000
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0
+OUTCOME saves_for_rod=0 buys_rod=0
+Passed
+native-c/tporod-17 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=mage class=Mage clevel=30 gold=10000 food=121 light=2 dex_safe=70 self_scum=1
+STATE atportother=1000
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0
+DECISION money_scum=0 first_key=0
+OUTCOME saves_for_rod=0 buys_rod=0
+Passed
+native-c/tporod-17 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Before = base e473720ed with #560&#x27;s correction (task/torodpower-560, one hunk in borg-trait.c); after = that plus this issue&#x27;s correction (task/tporod-17). Native Human, seed 17, starting kit off, character level by real experience gain (30, or 12 in warrior-buy), base Dexterity set to 18/120 so the Borg&#x27;s anti-theft condition for saving up (adj_dex_safe + level &gt; 90) holds for the level-30 characters, in town (depth 0), a worn lit Wooden Torch and 120 Rations of Food (the saving rule wants at least 100 food). Gold is 10000 (16000 in warrior-buy). The Rogue carries Arcane Control and the Mage Magical Defences, each with its spells studied through the game&#x27;s spell_learn(); both books hold Teleport Other. Every store&#x27;s stock is emptied and the Black Market is given one Rod of Teleport Other through store_carry() (price 15000; no normal store stocks this rod). The Borg reads inventory and stores with borg_find_all_items(); the production shop step borg_think_shop_buy_useful() runs, then the production town step borg_money_scum(), and the first queued key is recorded (57344 is the Borg&#x27;s rest key). Only the decisions are recorded; the fixture does not walk to the shop, buy, or rest for gold. The default profile has borg_self_scum on.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/17">issue 17</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

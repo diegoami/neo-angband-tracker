@@ -1,0 +1,11 @@
+native-c/tporod-17: starting...
+STORE6 [Black Market] stocks a Rod of Teleport Other
+SETUP seed=17 mode=warrior class=Warrior clevel=30 gold=10000 food=121 light=2 dex_safe=90 self_scum=1
+STATE atportother=0
+  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]
+TRACK money_scum_amount=0 (before shopping)
+DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000
+DECISION money_scum=1 first_key=57344
+OUTCOME saves_for_rod=1 buys_rod=0
+Passed
+native-c/tporod-17 finished: 1/1 passed

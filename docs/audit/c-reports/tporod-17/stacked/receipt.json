@@ -1,0 +1,163 @@
+{
+  "issue": "diegoami/neo-angband-tracker#17",
+  "report": "tporod-17",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "d752bad27185ee7a709459b0e83186d9b0d16d7f",
+  "fix_branch": "task/tporod-17",
+  "fixtures_ref": "92ca00fdc37014073ef3e65ef5f193e6124f39f9",
+  "cases": {
+    "warrior-buy": {
+      "before": {
+        "passed": false,
+        "state": {
+          "atportother": 0
+        },
+        "outcome": {
+          "saves_for_rod": 0,
+          "buys_rod": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "atportother": 0
+        },
+        "outcome": {
+          "saves_for_rod": 1,
+          "buys_rod": 1
+        }
+      }
+    },
+    "warrior": {
+      "before": {
+        "passed": false,
+        "state": {
+          "atportother": 0
+        },
+        "outcome": {
+          "saves_for_rod": 0,
+          "buys_rod": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "atportother": 0
+        },
+        "outcome": {
+          "saves_for_rod": 1,
+          "buys_rod": 0
+        }
+      }
+    },
+    "rogue": {
+      "before": {
+        "passed": false,
+        "state": {
+          "atportother": 1000
+        },
+        "outcome": {
+          "saves_for_rod": 1,
+          "buys_rod": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "atportother": 1000
+        },
+        "outcome": {
+          "saves_for_rod": 0,
+          "buys_rod": 0
+        }
+      }
+    },
+    "mage": {
+      "before": {
+        "passed": true,
+        "state": {
+          "atportother": 1000
+        },
+        "outcome": {
+          "saves_for_rod": 0,
+          "buys_rod": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "atportother": 1000
+        },
+        "outcome": {
+          "saves_for_rod": 0,
+          "buys_rod": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "mage"
+  ],
+  "claim": "borg_good_buy() (borg-store-buy.c:127-133 at e473720ed) applied the Black Market Rod of Teleport Other exception with != CLASS_MAGE && == CLASS_ROGUE, so only Rogues, who can cast Teleport Other, saved up for it. The correction uses != for both classes, as the Recall and Speed rod exceptions beside it do. Measured: a level-30 Warrior now sets the 15000 gold target and a Rogue no longer does; the Mage control is byte-identical. The purchase depends on #560 (the rod's value); stacked/ shows a level-12 Warrior with 16000 gold buying it with #560 and this correction, and not with #560 alone.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-buy.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "afe5e8b7bb36e4f39802ec00c024e33b61da42345a380e06f4a4fc9c18ea3568"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "f813891977be994d04bdab9aa786a6d138145c6fbf926f45ed3448b3f4efb798",
+    "after-mage.log": "34c7edd7c80ceb27874102e9cab53643167faa3d1094204b6620ef3f4835db34",
+    "after-results.json": "fb2ee9a20707caa978ba7b0b86b36ff8bf782c92e83362a96aff5009869eecdc",
+    "after-rogue.log": "66e79c5b82cb07559737562d8feee5f9bd9b7b0eb95a025c36ac8623030e175d",
+    "after-warrior-buy.log": "9ba3bb67caa0e7bf66fa302925024f5f92287e6c6982ee062c2ee6c7c2ef0386",
+    "after-warrior.log": "7c7c3e91c4b0b6fb13e10d5e349bcb175753e7b26c13caa8acb50fdb4bea0cc6",
+    "before-mage.log": "34c7edd7c80ceb27874102e9cab53643167faa3d1094204b6620ef3f4835db34",
+    "before-results.json": "1d37a1369d7adbc985eb053ffabafe3f8ddb6ae3cb1364006d2ba0d994aaf3a2",
+    "before-rogue.log": "e73d414ea115eaeefc7991f6fdfb8cfd320e15c4df51f40fa53197607437f7ec",
+    "before-warrior-buy.log": "c4b30a64103906d10d4e6e54b6ccf83cd4d6d2daaf10a3d37ab18caf9f428837",
+    "before-warrior.log": "5892e116fbc5e580888a1f3311261b6ffc0eab98500fee292a948dbc4e2bd4bc",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "829ecd7c84bd1dc8ea0452bf7d1e8ce8711660b9134f7a20513cd88b899a7873",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "4961092d40bd0fd7a51a76e532fe682afd73b0f85ebd2168f77c82b0313df405",
+    "replay.html": "3d0e5fe288fa677b9ca36c12b45106a3128fac33d067ae1588d6d824ba6e64a6",
+    "reproduce.py": "ec2982202d6a1a2955e8364ecb344742a429a316b08a2318658fdcb69ade34a9",
+    "result.json": "d945cfc4da90c6aba3842eaf5f0d63704589922370c3b4fc59d89e5d688e8ff0",
+    "run-after-alltests.log": "682267637a80a133d9587cfa543437867d3a43e25ad66aad1070aea1aa53e3bb",
+    "run-after-build.log": "10b879fe0d08f860d2f28c50722a2f4b55ba6d8356c55094b8ae81506e61eb73",
+    "run-after-scenarios.log": "5aa02b11b468d97252c872e05a32e16c2fefb254a282d5d62d39a0d021f46a35",
+    "run-before-alltests.log": "a0acc1bee8444e4b3015efad0825b0caaab25af22eb6fb7a86e9a6dc51c6cf11",
+    "run-before-build.log": "d5ab2ecaab04405e8574e48f6141c1e97269fe5728a0d320436a5014a876186d",
+    "run-before-scenarios.log": "4d1a44c200b7712daf93e3d39d078e51f153978f6c414fbe3d66ac2648eaf380",
+    "run-cases.py": "b23c5d887606cf53ae3b3d502fc79df7ddf043c6773554a7583052e5cd89b36d",
+    "run-configure.log": "cb695f309b89c57a71b1c9d195bdd262cb767344ecd7b8c2a889a094da781100",
+    "scenario.c": "5f8cc8b6b475b1e007a50a16b417f00b490a2d94e866aba56ae3c571246b0b11"
+  },
+  "stacked_on": {
+    "branch": "task/torodpower-560",
+    "commit": "fc444ab17e8dee8ccdbb908f4e3bb760114089b8",
+    "issue": "diegoami/neo-angband-tracker#560"
+  },
+  "note": "Both phases carry the #560 correction; before = base + #560, after = base + #560 + #17. reproduce.py asserts each source branch is exactly its hunk."
+}

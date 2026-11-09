@@ -1,0 +1,158 @@
+{
+  "warrior-buy": {
+    "label": "Warrior, level 12, 16000 gold",
+    "explanation": "With #560 only: the rod has value (+60000 power) but borg_good_buy() rejects it under the general Black Market rule (below level 15 it wants 20000 gold); nothing is bought (0/1). With both: the Warrior's exception applies, the 15000 gold target is recorded and the shop step chooses Black Market ware 0, the rod (buy_useful=1 goal_shop=6 goal_ware=0) (1/1).",
+    "control": false,
+    "before": {
+      "raw": "native-c/tporod-17: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=17 mode=warrior-buy class=Warrior clevel=12 gold=16000 food=121 light=2 dex_safe=90 self_scum=1\nSTATE atportother=0\n  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK money_scum_amount=0 (before shopping)\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0\nDECISION money_scum=0 first_key=0\nOUTCOME saves_for_rod=0 buys_rod=0\nFailed\n    native-c/tporod-17:200: requirement 'buys' failed\nnative-c/tporod-17 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "atportother": 0
+      },
+      "outcome": {
+        "saves_for_rod": 0,
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK money_scum_amount=0 (before shopping)",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0",
+        "DECISION money_scum=0 first_key=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/tporod-17: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=17 mode=warrior-buy class=Warrior clevel=12 gold=16000 food=121 light=2 dex_safe=90 self_scum=1\nSTATE atportother=0\n  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK money_scum_amount=0 (before shopping)\nDECISION buy_useful=1 goal_shop=6 goal_ware=0 money_scum_amount=15000\nDECISION money_scum=1 first_key=57344\nOUTCOME saves_for_rod=1 buys_rod=1\nPassed\nnative-c/tporod-17 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 0
+      },
+      "outcome": {
+        "saves_for_rod": 1,
+        "buys_rod": 1
+      },
+      "notes": [
+        "TRACK money_scum_amount=0 (before shopping)",
+        "DECISION buy_useful=1 goal_shop=6 goal_ware=0 money_scum_amount=15000",
+        "DECISION money_scum=1 first_key=57344"
+      ],
+      "value": 1
+    }
+  },
+  "warrior": {
+    "label": "Warrior, level 30, 10000 gold",
+    "explanation": "With #560 only: no gold target (the rod is not on the Warrior's exception). With both: a 15000 gold target and resting in town (first key 57344); 10000 gold is short of the price, so nothing is bought yet.",
+    "control": false,
+    "before": {
+      "raw": "native-c/tporod-17: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=17 mode=warrior class=Warrior clevel=30 gold=10000 food=121 light=2 dex_safe=90 self_scum=1\nSTATE atportother=0\n  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK money_scum_amount=0 (before shopping)\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0\nDECISION money_scum=0 first_key=0\nOUTCOME saves_for_rod=0 buys_rod=0\nFailed\n    native-c/tporod-17:198: requirement 'target > 0 && scum && !buys' failed\nnative-c/tporod-17 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "atportother": 0
+      },
+      "outcome": {
+        "saves_for_rod": 0,
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK money_scum_amount=0 (before shopping)",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0",
+        "DECISION money_scum=0 first_key=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/tporod-17: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=17 mode=warrior class=Warrior clevel=30 gold=10000 food=121 light=2 dex_safe=90 self_scum=1\nSTATE atportother=0\n  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK money_scum_amount=0 (before shopping)\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000\nDECISION money_scum=1 first_key=57344\nOUTCOME saves_for_rod=1 buys_rod=0\nPassed\nnative-c/tporod-17 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 0
+      },
+      "outcome": {
+        "saves_for_rod": 1,
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK money_scum_amount=0 (before shopping)",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000",
+        "DECISION money_scum=1 first_key=57344"
+      ],
+      "value": 0
+    }
+  },
+  "rogue": {
+    "label": "Rogue who knows Teleport Other, level 30, 10000 gold",
+    "explanation": "With #560 only: the Rogue still records the 15000 target and rests for the rod. With both: no target, no resting.",
+    "control": false,
+    "before": {
+      "raw": "native-c/tporod-17: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=17 mode=rogue class=Rogue clevel=30 gold=10000 food=121 light=2 dex_safe=100 self_scum=1\nSTATE atportother=1000\n  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK money_scum_amount=0 (before shopping)\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000\nDECISION money_scum=1 first_key=57344\nOUTCOME saves_for_rod=1 buys_rod=0\nFailed\n    native-c/tporod-17:202: requirement 'target == 0 && !scum && !buys' failed\nnative-c/tporod-17 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "atportother": 1000
+      },
+      "outcome": {
+        "saves_for_rod": 1,
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK money_scum_amount=0 (before shopping)",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=15000",
+        "DECISION money_scum=1 first_key=57344"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/tporod-17: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=17 mode=rogue class=Rogue clevel=30 gold=10000 food=121 light=2 dex_safe=100 self_scum=1\nSTATE atportother=1000\n  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK money_scum_amount=0 (before shopping)\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0\nDECISION money_scum=0 first_key=0\nOUTCOME saves_for_rod=0 buys_rod=0\nPassed\nnative-c/tporod-17 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 1000
+      },
+      "outcome": {
+        "saves_for_rod": 0,
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK money_scum_amount=0 (before shopping)",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0",
+        "DECISION money_scum=0 first_key=0"
+      ],
+      "value": 0
+    }
+  },
+  "mage": {
+    "label": "Control: Mage who knows Teleport Other",
+    "explanation": "Excluded in both versions (the changed line is evaluated); no target, no buy. The logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/tporod-17: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=17 mode=mage class=Mage clevel=30 gold=10000 food=121 light=2 dex_safe=70 self_scum=1\nSTATE atportother=1000\n  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK money_scum_amount=0 (before shopping)\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0\nDECISION money_scum=0 first_key=0\nOUTCOME saves_for_rod=0 buys_rod=0\nPassed\nnative-c/tporod-17 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 1000
+      },
+      "outcome": {
+        "saves_for_rod": 0,
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK money_scum_amount=0 (before shopping)",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0",
+        "DECISION money_scum=0 first_key=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/tporod-17: starting...\nSTORE6 [Black Market] stocks a Rod of Teleport Other\nSETUP seed=17 mode=mage class=Mage clevel=30 gold=10000 food=121 light=2 dex_safe=70 self_scum=1\nSTATE atportother=1000\n  black_market_teleport_other_rod_class_gate  SHOP 6 ware 0 qty=1 cost=15000 desc=[Rod of Teleport Other]\nTRACK money_scum_amount=0 (before shopping)\nDECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0\nDECISION money_scum=0 first_key=0\nOUTCOME saves_for_rod=0 buys_rod=0\nPassed\nnative-c/tporod-17 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "atportother": 1000
+      },
+      "outcome": {
+        "saves_for_rod": 0,
+        "buys_rod": 0
+      },
+      "notes": [
+        "TRACK money_scum_amount=0 (before shopping)",
+        "DECISION buy_useful=0 goal_shop=-1 goal_ware=-1 money_scum_amount=0",
+        "DECISION money_scum=0 first_key=0"
+      ],
+      "value": 0
+    }
+  }
+}
