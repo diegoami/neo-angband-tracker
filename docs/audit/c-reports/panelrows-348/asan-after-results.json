@@ -1,0 +1,122 @@
+{
+  "light-tall": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 88,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "light-wide": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 66,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "light-normal": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 66,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "light-fit": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 88,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "vault-tall": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 1,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "vault-wide": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 1,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "vault-normal": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 1,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "dig-tall": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 1,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "dig-wide": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 1,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "dig-normal": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 1,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  }
+}

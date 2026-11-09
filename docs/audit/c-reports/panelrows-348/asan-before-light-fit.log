@@ -1,0 +1,8 @@
+native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-fit class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=212x68 panel_wid=198 panel_hgt=66 w_x=0 w_y=0 last_col=197 last_row=65 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  TRACK # Flowing toward a lighted area at cost 5
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=88 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed

@@ -1,0 +1,9 @@
+native-c/panelrows-348: starting...
+SETUP seed=348 mode=vault-normal class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+DIG can_dig_quartz=1 dig=97
+  panel_scan_stays_on_map  TRACK # Flowing toward vault excavation at cost 2
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed

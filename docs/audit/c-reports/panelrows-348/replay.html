@@ -1,0 +1,499 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A tall or wide terminal made the Borg read past its own map</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source (AddressSanitizer build)</p><h1>A tall or wide terminal made the Borg read past its own map</h1><p>The Borg keeps its own copy of the level map, 66 rows of 198 grids (the largest level). Three of its searches look only at the part of the map the game is showing: looking for a lit area to walk to when it has no light, looking for a vault wall it can dig, and looking for a vault wall it can turn to mud. The size of that visible part grows with the terminal window. With the standard sidebar, a terminal of 69 or more rows, or 213 or more columns, shows more rows or columns than any level has, and the game puts the view at the level&#x27;s edge. The searches then read past the end of the Borg&#x27;s map: in a 70-row terminal the game crashed (segmentation fault) as soon as one of these searches ran; in a 230-column terminal it read neighbouring memory without crashing. The correction stops each search at the edge of the Borg&#x27;s map; on standard terminals nothing changes.</p><p><label>Scenario: <select id="scenario"><option value="light-tall">Glow scan, 80x70 terminal (panel 68 rows on a 66-row level)</option><option value="light-wide">Glow scan, 230x24 terminal (panel 216 columns on a 198-column level)</option><option value="light-normal">Control: glow scan, standard 80x24 terminal</option><option value="light-fit">Control: glow scan, 212x68 terminal (panel exactly 198x66, the largest that fits)</option><option value="vault-tall">Vault-wall scan, 80x70 terminal</option><option value="vault-wide">Vault-wall scan, 230x24 terminal</option><option value="vault-normal">Control: vault-wall scan, standard 80x24 terminal</option><option value="dig-tall">Stone to Mud vault scan (Druid), 80x70 terminal</option><option value="dig-wide">Stone to Mud vault scan (Druid), 230x24 terminal</option><option value="dig-normal">Control: Stone to Mud vault scan, standard 80x24 terminal</option></select></label></p><section class="scenario" data-mode="light-tall"><p class="summary">Original: the glow scan reads row pointers 66 and 67 past the end of the Borg&#x27;s 66-row map; the normal build crashes (segmentation fault) and AddressSanitizer reports a global-buffer-overflow READ in borg_flow_light (borg-flow-misc.c:836). Corrected: the scan stops at row 65, finds the 88 lit grids of the room and the Borg steps toward them (key 49).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>failed</strong></p><pre>GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=0 w_y=0 last_col=65 last_row=67 map_cols=198 map_rows=66
+READ of size 8 at 0x55c487575ef0 thread T0
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:836 in borg_flow_light</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=0 w_y=0 last_col=65 last_row=67 map_cols=198 map_rows=66
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=88 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-tall class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=0 w_y=0 last_col=65 last_row=67 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  =================================================================
+==26462==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55c487575ef0 at pc 0x55c4871eb9d9 bp 0x7ffe5b521090 sp 0x7ffe5b521080
+READ of size 8 at 0x55c487575ef0 thread T0
+    #0 0x55c4871eb9d8 in borg_flow_light /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:836
+    #1 0x55c486dbb6ed in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:213
+    #2 0x55c4872f4fa4 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:53
+    #3 0x7f5cbea2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7f5cbea2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x55c486db8e44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+0x55c487575ef0 is located 0 bytes after global variable &#x27;borg_grids&#x27; defined in &#x27;/tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-cave.c:29:12&#x27; (0x55c487575ce0) of size 528
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:836 in borg_flow_light
+Shadow bytes around the buggy address:
+  0x55c487575c00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487575c80: 00 f9 f9 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x55c487575d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487575d80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487575e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x55c487575e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00[f9]f9
+  0x55c487575f00: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487575f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487576000: 00 00 00 00 00 00 00 00 00 02 f9 f9 f9 f9 f9 f9
+  0x55c487576080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487576100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==26462==ABORTING
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-tall class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=0 w_y=0 last_col=65 last_row=67 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  TRACK # Flowing toward a lighted area at cost 5
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=88 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="light-wide"><p class="summary">Original: the glow scan reads 18 grids past the end of every map row; the normal build does not notice (it reads neighbouring heap memory and happens to find no stray glow), AddressSanitizer reports a heap-buffer-overflow READ in borg_flow_light (borg-flow-misc.c:839). Corrected: no out-of-map read; the same 66 lit grids and the same step (key 49).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>failed</strong></p><pre>GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=39 last_col=215 last_row=60 map_cols=198 map_rows=66
+READ of size 2 at 0x51d00002f7ca thread T0
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:839 in borg_flow_light</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=39 last_col=215 last_row=60 map_cols=198 map_rows=66
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=66 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-wide class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=39 last_col=215 last_row=60 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  =================================================================
+==26463==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x51d00002f7ca at pc 0x5649a9225a46 bp 0x7ffd8b6b1780 sp 0x7ffd8b6b1770
+READ of size 2 at 0x51d00002f7ca thread T0
+    #0 0x5649a9225a45 in borg_flow_light /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:839
+    #1 0x5649a8df56ed in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:213
+    #2 0x5649a932efa4 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:53
+    #3 0x7ffa4e82a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7ffa4e82a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x5649a8df2e44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+0x51d00002f7ca is located 2 bytes after 2376-byte region [0x51d00002ee80,0x51d00002f7c8)
+allocated by thread T0 here:
+    #0 0x7ffa4ecfd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x5649a9186333 in mem_alloc /tmp/angband-panelrows-348-0x8v3h9r/source/src/z-virt.c:38
+    #2 0x5649a918636f in mem_zalloc /tmp/angband-panelrows-348-0x8v3h9r/source/src/z-virt.c:46
+    #3 0x5649a91a09ce in borg_init_cave /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-cave.c:45
+    #4 0x5649a9251836 in borg_init /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-init.c:572
+    #5 0x5649a8df431d in setup_tests /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:156
+    #6 0x5649a932ee21 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:45
+    #7 0x7ffa4e82a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #8 0x7ffa4e82a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #9 0x5649a8df2e44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:839 in borg_flow_light
+Shadow bytes around the buggy address:
+  0x51d00002f500: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00002f580: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00002f600: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00002f680: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00002f700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x51d00002f780: 00 00 00 00 00 00 00 00 00[fa]fa fa fa fa fa fa
+  0x51d00002f800: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x51d00002f880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00002f900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00002f980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00002fa00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==26463==ABORTING
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-wide class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=39 last_col=215 last_row=60 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  TRACK # Flowing toward a lighted area at cost 5
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=66 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="light-normal"><p class="summary">The panel (66x22) lies inside the map; both versions find the same 66 lit grids and step toward them (key 49); byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=0 w_y=39 last_col=65 last_row=60 map_cols=198 map_rows=66
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=66 offmap=0 progress=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=0 w_y=39 last_col=65 last_row=60 map_cols=198 map_rows=66
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=66 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-normal class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=0 w_y=39 last_col=65 last_row=60 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  TRACK # Flowing toward a lighted area at cost 5
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=66 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-normal class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=0 w_y=39 last_col=65 last_row=60 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  TRACK # Flowing toward a lighted area at cost 5
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=66 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="light-fit"><p class="summary">The panel is exactly the size of the map; the clamp never cuts the loop. Both versions find all 88 lit grids; byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=212x68 panel_wid=198 panel_hgt=66 w_x=0 w_y=0 last_col=197 last_row=65 map_cols=198 map_rows=66
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=88 offmap=0 progress=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=212x68 panel_wid=198 panel_hgt=66 w_x=0 w_y=0 last_col=197 last_row=65 map_cols=198 map_rows=66
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=88 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-fit class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=212x68 panel_wid=198 panel_hgt=66 w_x=0 w_y=0 last_col=197 last_row=65 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  TRACK # Flowing toward a lighted area at cost 5
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=88 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-fit class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=212x68 panel_wid=198 panel_hgt=66 w_x=0 w_y=0 last_col=197 last_row=65 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  TRACK # Flowing toward a lighted area at cost 5
+DECISION call=borg_flow_light rc=1 key=49 borg=(20,50)
+OUTCOME completed=1 targets=88 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="vault-tall"><p class="summary">Original: borg_flow_vault(35) reads the missing rows 66 and 67 for grids within 35 steps; the normal build crashes, AddressSanitizer reports a global-buffer-overflow READ (borg-flow-misc.c:909). Corrected: the magma vein next to the permanent wall is found and the Borg flows toward it (key 50).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>failed</strong></p><pre>GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+READ of size 8 at 0x55d0d7e5bef0 thread T0
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:909 in borg_flow_vault</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=vault-tall class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+DIG can_dig_quartz=1 dig=97
+  panel_scan_stays_on_map  =================================================================
+==26466==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55d0d7e5bef0 at pc 0x55d0d7ad2331 bp 0x7fff51a44d20 sp 0x7fff51a44d10
+READ of size 8 at 0x55d0d7e5bef0 thread T0
+    #0 0x55d0d7ad2330 in borg_flow_vault /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:909
+    #1 0x55d0d76a1591 in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:208
+    #2 0x55d0d7bdafa4 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:53
+    #3 0x7f066b22a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7f066b22a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x55d0d769ee44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+0x55d0d7e5bef0 is located 0 bytes after global variable &#x27;borg_grids&#x27; defined in &#x27;/tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-cave.c:29:12&#x27; (0x55d0d7e5bce0) of size 528
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:909 in borg_flow_vault
+Shadow bytes around the buggy address:
+  0x55d0d7e5bc00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55d0d7e5bc80: 00 f9 f9 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x55d0d7e5bd00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55d0d7e5bd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55d0d7e5be00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x55d0d7e5be80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00[f9]f9
+  0x55d0d7e5bf00: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55d0d7e5bf80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55d0d7e5c000: 00 00 00 00 00 00 00 00 00 02 f9 f9 f9 f9 f9 f9
+  0x55d0d7e5c080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55d0d7e5c100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==26466==ABORTING
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=vault-tall class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+DIG can_dig_quartz=1 dig=97
+  panel_scan_stays_on_map  TRACK # Flowing toward vault excavation at cost 2
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="vault-wide"><p class="summary">Original: reads past the end of rows near the east edge; silent in the normal build, AddressSanitizer heap-buffer-overflow READ (borg-flow-misc.c:909). Corrected: same target and step (key 50), no out-of-map read.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>failed</strong></p><pre>GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+READ of size 1 at 0x51d0000329c8 thread T0
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:909 in borg_flow_vault</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=vault-wide class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+DIG can_dig_quartz=1 dig=97
+  panel_scan_stays_on_map  =================================================================
+==26467==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x51d0000329c8 at pc 0x55cb0da4f393 bp 0x7fff2cd14d00 sp 0x7fff2cd14cf0
+READ of size 1 at 0x51d0000329c8 thread T0
+    #0 0x55cb0da4f392 in borg_flow_vault /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:909
+    #1 0x55cb0d61e591 in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:208
+    #2 0x55cb0db57fa4 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:53
+    #3 0x7f8cfbc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7f8cfbc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x55cb0d61be44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+0x51d0000329c8 is located 0 bytes after 2376-byte region [0x51d000032080,0x51d0000329c8)
+allocated by thread T0 here:
+    #0 0x7f8cfc0fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55cb0d9af333 in mem_alloc /tmp/angband-panelrows-348-0x8v3h9r/source/src/z-virt.c:38
+    #2 0x55cb0d9af36f in mem_zalloc /tmp/angband-panelrows-348-0x8v3h9r/source/src/z-virt.c:46
+    #3 0x55cb0d9c99ce in borg_init_cave /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-cave.c:45
+    #4 0x55cb0da7a836 in borg_init /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-init.c:572
+    #5 0x55cb0d61d31d in setup_tests /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:156
+    #6 0x55cb0db57e21 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:45
+    #7 0x7f8cfbc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #8 0x7f8cfbc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #9 0x55cb0d61be44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:909 in borg_flow_vault
+Shadow bytes around the buggy address:
+  0x51d000032700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x51d000032980: 00 00 00 00 00 00 00 00 00[fa]fa fa fa fa fa fa
+  0x51d000032a00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x51d000032a80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032b00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032b80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032c00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==26467==ABORTING
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=vault-wide class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+DIG can_dig_quartz=1 dig=97
+  panel_scan_stays_on_map  TRACK # Flowing toward vault excavation at cost 2
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="vault-normal"><p class="summary">Panel inside the map; both versions flow to the same vein (key 50); byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=vault-normal class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+DIG can_dig_quartz=1 dig=97
+  panel_scan_stays_on_map  TRACK # Flowing toward vault excavation at cost 2
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=vault-normal class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+DIG can_dig_quartz=1 dig=97
+  panel_scan_stays_on_map  TRACK # Flowing toward vault excavation at cost 2
+DECISION call=borg_flow_vault rc=1 key=50 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="dig-tall"><p class="summary">Original: borg_excavate_vault() reads the missing rows; the normal build crashes, AddressSanitizer global-buffer-overflow READ (borg-think-dungeon-util.c:1016). Corrected: the Borg targets the vein and casts Turn Stone to Mud (first key 42, the targeting key).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>failed</strong></p><pre>GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+READ of size 8 at 0x55672522cef0 thread T0
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-think-dungeon-util.c:1016 in borg_excavate_vault</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+TRACK # Casting Turn Stone to Mud (2,2).
+TRACK # Excavation of vault
+DECISION call=borg_excavate_vault rc=1 key=42 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=dig-tall class=Druid clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+SPELL stone_to_mud_okay=1 sp=34/34
+  panel_scan_stays_on_map  =================================================================
+==26475==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55672522cef0 at pc 0x556724f56635 bp 0x7ffd02c5f830 sp 0x7ffd02c5f820
+READ of size 8 at 0x55672522cef0 thread T0
+    #0 0x556724f56634 in borg_excavate_vault /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-think-dungeon-util.c:1016
+    #1 0x556724a72426 in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:203
+    #2 0x556724fabfa4 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:53
+    #3 0x7f1089c2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7f1089c2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x556724a6fe44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+0x55672522cef0 is located 0 bytes after global variable &#x27;borg_grids&#x27; defined in &#x27;/tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-cave.c:29:12&#x27; (0x55672522cce0) of size 528
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-think-dungeon-util.c:1016 in borg_excavate_vault
+Shadow bytes around the buggy address:
+  0x55672522cc00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55672522cc80: 00 f9 f9 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x55672522cd00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55672522cd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55672522ce00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x55672522ce80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00[f9]f9
+  0x55672522cf00: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55672522cf80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55672522d000: 00 00 00 00 00 00 00 00 00 02 f9 f9 f9 f9 f9 f9
+  0x55672522d080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55672522d100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==26475==ABORTING
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=dig-tall class=Druid clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+SPELL stone_to_mud_okay=1 sp=34/34
+  panel_scan_stays_on_map  TRACK # Targeting location (62,181)
+TRACK # Casting Turn Stone to Mud (2,2).
+TRACK # Excavation of vault
+DECISION call=borg_excavate_vault rc=1 key=42 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="dig-wide"><p class="summary">Original: silent read past the row ends in the normal build, AddressSanitizer heap-buffer-overflow READ (borg-think-dungeon-util.c:1016). Corrected: same cast, no out-of-map read.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>failed</strong></p><pre>GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+READ of size 1 at 0x51d00003bfc8 thread T0
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-think-dungeon-util.c:1016 in borg_excavate_vault</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+TRACK # Casting Turn Stone to Mud (2,2).
+TRACK # Excavation of vault
+DECISION call=borg_excavate_vault rc=1 key=42 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=dig-wide class=Druid clevel=21 depth=10 level=198x66
+GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+SPELL stone_to_mud_okay=1 sp=34/34
+  panel_scan_stays_on_map  =================================================================
+==26476==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x51d00003bfc8 at pc 0x559947020697 bp 0x7ffdaaf341c0 sp 0x7ffdaaf341b0
+READ of size 1 at 0x51d00003bfc8 thread T0
+    #0 0x559947020696 in borg_excavate_vault /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-think-dungeon-util.c:1016
+    #1 0x559946b3c426 in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:203
+    #2 0x559947075fa4 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:53
+    #3 0x7fc24e22a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7fc24e22a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x559946b39e44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+0x51d00003bfc8 is located 0 bytes after 2376-byte region [0x51d00003b680,0x51d00003bfc8)
+allocated by thread T0 here:
+    #0 0x7fc24e6fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x559946ecd333 in mem_alloc /tmp/angband-panelrows-348-0x8v3h9r/source/src/z-virt.c:38
+    #2 0x559946ecd36f in mem_zalloc /tmp/angband-panelrows-348-0x8v3h9r/source/src/z-virt.c:46
+    #3 0x559946ee79ce in borg_init_cave /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-cave.c:45
+    #4 0x559946f98836 in borg_init /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-init.c:572
+    #5 0x559946b3b31d in setup_tests /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:156
+    #6 0x559947075e21 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:45
+    #7 0x7fc24e22a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #8 0x7fc24e22a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #9 0x559946b39e44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-think-dungeon-util.c:1016 in borg_excavate_vault
+Shadow bytes around the buggy address:
+  0x51d00003bd00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00003bd80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00003be00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00003be80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00003bf00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=&gt;0x51d00003bf80: 00 00 00 00 00 00 00 00 00[fa]fa fa fa fa fa fa
+  0x51d00003c000: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x51d00003c080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00003c100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00003c180: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d00003c200: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==26476==ABORTING
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=dig-wide class=Druid clevel=21 depth=10 level=198x66
+GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+SPELL stone_to_mud_okay=1 sp=34/34
+  panel_scan_stays_on_map  TRACK # Targeting location (62,181)
+TRACK # Casting Turn Stone to Mud (2,2).
+TRACK # Excavation of vault
+DECISION call=borg_excavate_vault rc=1 key=42 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="dig-normal"><p class="summary">Panel inside the map; both versions cast Turn Stone to Mud at the same vein; byte-identical logs.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+TRACK # Casting Turn Stone to Mud (2,2).
+TRACK # Excavation of vault
+DECISION call=borg_excavate_vault rc=1 key=42 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the production call returned and the scenario finished (1); n/a means the run stopped on a crash or sanitizer report</p><p>Scenario check: <strong>passed</strong></p><pre>GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+TRACK # Casting Turn Stone to Mud (2,2).
+TRACK # Excavation of vault
+DECISION call=borg_excavate_vault rc=1 key=42 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=dig-normal class=Druid clevel=21 depth=10 level=198x66
+GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+SPELL stone_to_mud_okay=1 sp=34/34
+  panel_scan_stays_on_map  TRACK # Targeting location (62,181)
+TRACK # Casting Turn Stone to Mud (2,2).
+TRACK # Excavation of vault
+DECISION call=borg_excavate_vault rc=1 key=42 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/panelrows-348: starting...
+SETUP seed=348 mode=dig-normal class=Druid clevel=21 depth=10 level=198x66
+GEOMETRY term=80x24 panel_wid=66 panel_hgt=22 w_x=132 w_y=44 last_col=197 last_row=65 map_cols=198 map_rows=66
+SPELL stone_to_mud_okay=1 sp=34/34
+  panel_scan_stays_on_map  TRACK # Targeting location (62,181)
+TRACK # Casting Turn Stone to Mud (2,2).
+TRACK # Excavation of vault
+DECISION call=borg_excavate_vault rc=1 key=42 borg=(180,60)
+OUTCOME completed=1 targets=1 offmap=0 progress=1
+Passed
+native-c/panelrows-348 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior (light and vault scans) or Human Druid (Stone to Mud scan), seed 348, character level 21, depth 10, on a full-size open level (198x66). Terminal sizes are set with term_init (standard sidebar layout: map starts at column 13, one status row above and below). The game&#x27;s own center_panel() places the view around the player, and the Borg&#x27;s panel origin is copied from the terminal exactly as borg_update() does. Fixture interventions: the terminal size, the arena, the Borg&#x27;s map entries (features copied from the level; the 11x8 lit room is marked as lit in the Borg&#x27;s map, as its call-light code records it), the vault flag, a wielded Mattock (Warrior vault cases), the Druid&#x27;s two town books with every spell up to its level learned. Each case runs one production call: borg_flow_light(GOAL_FLEE), borg_flow_vault(35) or borg_excavate_vault(z_info-&gt;max_range - 2), as borg_think_dungeon() calls them, and reads back the first queued key. The replay page shows the AddressSanitizer build; the normal-build results are in the README table.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/348">issue 348</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

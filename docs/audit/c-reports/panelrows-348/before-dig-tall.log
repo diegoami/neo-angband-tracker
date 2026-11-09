@@ -1,0 +1,5 @@
+native-c/panelrows-348: starting...
+SETUP seed=348 mode=dig-tall class=Druid clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=132 w_y=0 last_col=197 last_row=67 map_cols=198 map_rows=66
+SPELL stone_to_mud_okay=1 sp=34/34
+  panel_scan_stays_on_map  

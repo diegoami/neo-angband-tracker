@@ -1,0 +1,295 @@
+{
+  "issue": "diegoami/neo-angband-tracker#348",
+  "report": "panelrows-348",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "82702575b2179cb27cb7eac24272515dfea0830e",
+  "fix_branch": "task/panelrows-348",
+  "fixtures_ref": "aac11f0e0f96354a2c425213396d19c82f93ed22",
+  "cases": {
+    "light-tall": {
+      "before": {
+        "passed": false
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 88,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "light-wide": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 66,
+          "offmap": 0,
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 66,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "light-normal": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 66,
+          "offmap": 0,
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 66,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "light-fit": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 88,
+          "offmap": 0,
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 88,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "vault-tall": {
+      "before": {
+        "passed": false
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "vault-wide": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "vault-normal": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "dig-tall": {
+      "before": {
+        "passed": false
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "dig-wide": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    },
+    "dig-normal": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "light-normal",
+    "light-fit",
+    "vault-normal",
+    "dig-normal"
+  ],
+  "claim": "borg_flow_light(), borg_flow_vault() and borg_excavate_vault() loop over the visible panel, w_y .. w_y + SCREEN_HGT and w_x .. w_x + SCREEN_WID, and index borg_grids[y][x], which has AUTO_MAX_Y (66) rows of AUTO_MAX_X (198) grids. SCREEN_HGT and SCREEN_WID follow the terminal size; when the panel is larger than the level, modify_panel() clamps the origin to 0 and the loops run past the map. On a 70-row terminal the original reads borg_grids[66] and [67] (AddressSanitizer: global-buffer-overflow READ of size 8) and the normal build crashes; on a 230-column terminal it reads 18 grids past each row (heap-buffer-overflow READ) silently. Bounding both loops by AUTO_MAX_Y / AUTO_MAX_X removes every report; standard-terminal and exact-fit controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-misc.c",
+    "src/borg/borg-think-dungeon-util.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "f50a775194c665ac389fa77b93c37a1f5411d28208e33f2cfd9c55a62c375ed9",
+    "src/borg/borg-think-dungeon-util.c": "960ff3942a9d43209f30c3940acc3e54aa1e7876d7239b7e820e7161b1240070"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 52,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "ba4beb24fbad114f0c16cdc296324fb2f3bda463bfa4c1df94951fbf69c551ca",
+    "after-dig-normal.log": "54ccf4dfbb6e8af70c317aefe9a2f40cbac3c5d7a5676e652ffc219aa504560f",
+    "after-dig-tall.log": "1699862eb3178db0323b07d29b60903547885b7fcf1d0998254cf9d0731b340f",
+    "after-dig-wide.log": "b67ba0e5330bdbee14b97fafb25d6c17a428b55f9d80999553ce095aa7f77b87",
+    "after-light-fit.log": "a82356da9ad43490e99c14c2fba852d0413513e087334aceb0613eb4bf5dd049",
+    "after-light-normal.log": "a83bc9c0dca91e72e7274c895d32cd7de14645c86c408df9488752b2f719ae4f",
+    "after-light-tall.log": "18ce8be523152223d593b8261866828b1f29e2e08577f2cbfc85bad70f70c1b5",
+    "after-light-wide.log": "374ca3b10ffc1d42d06374f7a5731148b95b564d762a37f2dc83b8e23b92141f",
+    "after-results.json": "6d97e4834ed62d5dd895e07bfee73c9392ee757f22d8a09979ac2a320d583502",
+    "after-vault-normal.log": "f088fb71f4bea0290feeb29ae214233fc0d64d5dc1058282232e88b8af3edacc",
+    "after-vault-tall.log": "dbda194113c020968772501a597826c774b1807b7a989c37419c8e0182606a51",
+    "after-vault-wide.log": "b40ea139e38bcb440c8df586819984006214176c58852d4c1879f07f95a71567",
+    "asan-after-dig-normal.log": "54ccf4dfbb6e8af70c317aefe9a2f40cbac3c5d7a5676e652ffc219aa504560f",
+    "asan-after-dig-tall.log": "1699862eb3178db0323b07d29b60903547885b7fcf1d0998254cf9d0731b340f",
+    "asan-after-dig-wide.log": "b67ba0e5330bdbee14b97fafb25d6c17a428b55f9d80999553ce095aa7f77b87",
+    "asan-after-light-fit.log": "a82356da9ad43490e99c14c2fba852d0413513e087334aceb0613eb4bf5dd049",
+    "asan-after-light-normal.log": "a83bc9c0dca91e72e7274c895d32cd7de14645c86c408df9488752b2f719ae4f",
+    "asan-after-light-tall.log": "18ce8be523152223d593b8261866828b1f29e2e08577f2cbfc85bad70f70c1b5",
+    "asan-after-light-wide.log": "374ca3b10ffc1d42d06374f7a5731148b95b564d762a37f2dc83b8e23b92141f",
+    "asan-after-results.json": "6d97e4834ed62d5dd895e07bfee73c9392ee757f22d8a09979ac2a320d583502",
+    "asan-after-vault-normal.log": "f088fb71f4bea0290feeb29ae214233fc0d64d5dc1058282232e88b8af3edacc",
+    "asan-after-vault-tall.log": "dbda194113c020968772501a597826c774b1807b7a989c37419c8e0182606a51",
+    "asan-after-vault-wide.log": "b40ea139e38bcb440c8df586819984006214176c58852d4c1879f07f95a71567",
+    "asan-before-dig-normal.log": "54ccf4dfbb6e8af70c317aefe9a2f40cbac3c5d7a5676e652ffc219aa504560f",
+    "asan-before-dig-tall.log": "f4b6e310234383b45fcaa0f86bd981cc00e4a8074288b1413fc2f29025b6b34b",
+    "asan-before-dig-wide.log": "ca5ae8e06559fc37dfaa03f22d5ceb9d1002d8fba0388915d28312a3f234f304",
+    "asan-before-light-fit.log": "a82356da9ad43490e99c14c2fba852d0413513e087334aceb0613eb4bf5dd049",
+    "asan-before-light-normal.log": "a83bc9c0dca91e72e7274c895d32cd7de14645c86c408df9488752b2f719ae4f",
+    "asan-before-light-tall.log": "7d0f9864b73ee87f05212b62221513e574b79363abf6d7457b267eb575ffb9ac",
+    "asan-before-light-wide.log": "834ac669aa416bf54a07db619a2e5c7459f580386de761c3c9c6388075852da1",
+    "asan-before-results.json": "a84f0c9fcb280029acd42b82b2e02d1f90ef62f10414c9edaf444ecf76c55adf",
+    "asan-before-vault-normal.log": "f088fb71f4bea0290feeb29ae214233fc0d64d5dc1058282232e88b8af3edacc",
+    "asan-before-vault-tall.log": "2f053c59b86db546cb6dc157fe09b79679cdc2389c7135a37999c637718ec5fb",
+    "asan-before-vault-wide.log": "c36853667946322eb0f47a709e9866855d42c55b442f6ed7ac682b609893d476",
+    "before-dig-normal.log": "54ccf4dfbb6e8af70c317aefe9a2f40cbac3c5d7a5676e652ffc219aa504560f",
+    "before-dig-tall.log": "ba4a1d11e86ccc84ad89c7191edf141f91d4c2f0c61f1581108aaf492dbfcd73",
+    "before-dig-wide.log": "b67ba0e5330bdbee14b97fafb25d6c17a428b55f9d80999553ce095aa7f77b87",
+    "before-light-fit.log": "a82356da9ad43490e99c14c2fba852d0413513e087334aceb0613eb4bf5dd049",
+    "before-light-normal.log": "a83bc9c0dca91e72e7274c895d32cd7de14645c86c408df9488752b2f719ae4f",
+    "before-light-tall.log": "193481309d42ffa8c6901d0e36ade8e2890f69638657039c74c4e5d62568da6f",
+    "before-light-wide.log": "374ca3b10ffc1d42d06374f7a5731148b95b564d762a37f2dc83b8e23b92141f",
+    "before-results.json": "904566a223d17d4e2b46170eefb51f61ac6288cef04b39bc971878eeecc82b20",
+    "before-vault-normal.log": "f088fb71f4bea0290feeb29ae214233fc0d64d5dc1058282232e88b8af3edacc",
+    "before-vault-tall.log": "6f21e1620fa4f1332d086b17a7869a1e69b3e506871a2b0b4fa09c5876a9b95e",
+    "before-vault-wide.log": "b40ea139e38bcb440c8df586819984006214176c58852d4c1879f07f95a71567",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "1dca2dee5b20bbe7e83516a5bdda8e6aae68027bafdf6b4eeb02afa4940d5340",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "7ded37d5c0956bb510478c0a5de80391e48649500d57e49ce8dc2be23417f1c7",
+    "replay.html": "92891ab439bd442cbcb7aa0a7a3a7b6d771cb9d390c652571ad036eb3495cce2",
+    "reproduce.py": "4cb4200488fa5c619e054fe200968f8c8884e52817bd46c7465d12caab0f5ecf",
+    "result.json": "7432b7d9404ed89488ddda3cd4f2aef4d44bf375672a17523d7983cf24e61da2",
+    "run-after-alltests.log": "27712e579e761006c1ea688f4c781724487146bbd740da2adf1555a2185f529c",
+    "run-after-build.log": "0bf56881230c4c31bff1b23415e656024b84b068d2e47282bb5e2fcb580b8271",
+    "run-after-scenarios.log": "6039b546ba91ea715b8f0a4e9d7b7cdb996c88838f2e597eaf8f8bcf862b75fb",
+    "run-asan-after-build.log": "3a436d2c6741c2c48e4b559038637c92b194cf135f4dde727d2ed1b3ba14ab01",
+    "run-asan-after-scenarios.log": "6039b546ba91ea715b8f0a4e9d7b7cdb996c88838f2e597eaf8f8bcf862b75fb",
+    "run-asan-before-build.log": "e6fb86020cad9ea809fd489be3e9c605969a7e37f4389161efff95c5a309a379",
+    "run-asan-before-scenarios.log": "da98502a812ae674723021ad95ba905f55358e5ee8892808b090140a59d53e82",
+    "run-before-alltests.log": "6130d395efa49ae66eaa8d320aeb9e20a734a44fb80e7d0be42eb49a3200b775",
+    "run-before-build.log": "0e25bf9fbd94de6e1be7949ea4e53d4ec427ea02896cc7e8bf2515d81ed2ccc0",
+    "run-before-scenarios.log": "af927e838af1b06333857c43a30a2eb6467deb3b1f2a55c716b9d0934b9ee81a",
+    "run-cases.py": "53bd8fe2d3541c00d69aa0ff1a6a6aa23ce5b36e6582b132b7b6b2d3731ce2d9",
+    "run-configure-asan.log": "77bd5bb98df2219b11ad6b0147f1814d48e646ddb89329d27045ac7495eebe15",
+    "run-configure.log": "ba9dae9fdc2b514c535bcbfad1e32b77c5adc59f42585ad64a62040f5df66d76",
+    "scenario.c": "5a1ac387a895b74c421fa0cdaa43cb129077bcc69798da57c6a34ffa5c8a20b2"
+  }
+}

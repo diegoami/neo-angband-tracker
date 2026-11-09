@@ -1,0 +1,86 @@
+{
+  "light-tall": {
+    "exit": 1,
+    "passed": false,
+    "asan": true,
+    "asan_site": "global-buffer-overflow READ in borg_flow_light borg-flow-misc.c:836"
+  },
+  "light-wide": {
+    "exit": 1,
+    "passed": false,
+    "asan": true,
+    "asan_site": "heap-buffer-overflow READ in borg_flow_light borg-flow-misc.c:839"
+  },
+  "light-normal": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 66,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "light-fit": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 88,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "vault-tall": {
+    "exit": 1,
+    "passed": false,
+    "asan": true,
+    "asan_site": "global-buffer-overflow READ in borg_flow_vault borg-flow-misc.c:909"
+  },
+  "vault-wide": {
+    "exit": 1,
+    "passed": false,
+    "asan": true,
+    "asan_site": "heap-buffer-overflow READ in borg_flow_vault borg-flow-misc.c:909"
+  },
+  "vault-normal": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 1,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  },
+  "dig-tall": {
+    "exit": 1,
+    "passed": false,
+    "asan": true,
+    "asan_site": "global-buffer-overflow READ in borg_excavate_vault borg-think-dungeon-util.c:1016"
+  },
+  "dig-wide": {
+    "exit": 1,
+    "passed": false,
+    "asan": true,
+    "asan_site": "heap-buffer-overflow READ in borg_excavate_vault borg-think-dungeon-util.c:1016"
+  },
+  "dig-normal": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "completed": 1,
+      "targets": 1,
+      "offmap": 0,
+      "progress": 1
+    },
+    "asan": false,
+    "asan_site": null
+  }
+}
