@@ -11,6 +11,7 @@ vein of games like NetHack and Rogue. If you need help in-game, press `?`.
 
 - **Installing Angband:** See the [Official Website](https://angband.github.io/angband/) or [compile it yourself](https://angband.readthedocs.io/en/latest/hacking/compiling.html).
 - **How to Play:** [The Angband Manual](https://angband.readthedocs.io/en/latest/)
+- **Complete user manual (single file):** [docs/user-manual.md](docs/user-manual.md)
 - **Getting Help:** [Angband Forums](https://angband.live/forums/)
 
 Enjoy!
