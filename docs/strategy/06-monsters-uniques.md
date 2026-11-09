@@ -306,9 +306,12 @@ How a monster's blow becomes damage to you (`mon-blows.c`, `mon-attack.c`):
   resisted elemental damage and the armour-reduced physical damage (armour
   counted +50) — immunity does not make them harmless — and the elemental
   part also damages your inventory.
-* **Status blows** (`PARALYZE`, `CONFUSE`, `BLIND`, `TERRIFY`) deal their damage
-  and then apply the effect unless you have the protection or (for most)
-  pass a saving throw.
+* **Status blows** deal their damage and then apply the effect unless you
+  have the protection: `PARALYZE` (Free Action; also a saving throw) for
+  **3 + 1d(monster level)** turns, `TERRIFY` (pFear; also a save), `CONFUSE`
+  (pConf; **no save**) for 3 + 1d(level), `BLIND` (pBlind; no save) for
+  10 + 1d(level) (`mon-blows.c`). The level scaling is why a paralysing
+  touch from a DL55+ monster is a death sentence without Free Action.
 * **Drain blows**: `EXP_10/20/40/80` (Hold Life), `LOSE_STR` … `LOSE_ALL`
   (sustains), `DISENCHANT` (rDisen), `DRAIN_CHARGES` (heals the monster by
   its level × the charges drained), `EAT_GOLD`/`EAT_ITEM` (DEX + level save,
