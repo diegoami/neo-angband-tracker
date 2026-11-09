@@ -1,0 +1,107 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Constitution-drain blows were feared by strength, not constitution</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Constitution-drain blows were feared by strength, not constitution</h1><p>The Borg rates a monster blow that drains constitution as extra dangerous when its constitution is below 8 (the code comment says &#x27;extra scary to have con drain below 8&#x27;). The check read strength instead. A level-49 Warrior on 500 hit points, constitution drained to 7, standing next to a purple mushroom patch (three constitution-draining spores) therefore rated the patch at 456 danger and stayed. A Warrior with healthy constitution but strength drained to 7 rated the same patch at 756 and read a Scroll of Teleportation to get away from a threat to a stat it was not short of. After the fix the low-constitution Warrior rates the patch at 756 and teleports away, and the low-strength Warrior rates it at 456 and keeps its scroll.</p><p><label>Scenario: <select id="scenario"><option value="lowcon">Constitution drained to 7, strength 17</option><option value="lowstr">Strength drained to 7, constitution 16</option><option value="neither">Control: strength 17, constitution 16</option><option value="bothlow">Control: strength and constitution both drained to 7</option></select></label></p><section class="scenario" data-mode="lowcon"><p class="summary">Original: danger 456 (no extra fear, strength is 17), below the 500 hit points; the Borg does not escape. Corrected: danger 756; it reads a Scroll of Teleportation (&#x27;# Danger Level 2.1&#x27;).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>escaped (1 = read a Scroll of Teleportation, &#x27;# Danger Level 2.1&#x27;)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=456</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>escaped (1 = read a Scroll of Teleportation, &#x27;# Danger Level 2.1&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/losecon-61: starting...
+SETUP seed=61 mode=lowcon class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=17 str_max=17 con_cur=7 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=17 ccon=7 danger=456
+STATE danger=456 avoidance=500 hp=500 cstr=17 ccon=7
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=456
+OUTCOME escape=0
+Failed
+    native-c/losecon-61:179: requirement &#x27;danger == 756&#x27; failed
+native-c/losecon-61 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/losecon-61: starting...
+SETUP seed=61 mode=lowcon class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=17 str_max=17 con_cur=7 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=17 ccon=7 danger=756
+STATE danger=756 avoidance=500 hp=500 cstr=17 ccon=7
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.
+OUTCOME escape=1
+Passed
+native-c/losecon-61 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="lowstr"><p class="summary">Original: danger 756 because strength is below 8; the Borg reads a Scroll of Teleportation. Corrected: danger 456; it keeps the scroll.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>escaped (1 = read a Scroll of Teleportation, &#x27;# Danger Level 2.1&#x27;)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>escaped (1 = read a Scroll of Teleportation, &#x27;# Danger Level 2.1&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/losecon-61: starting...
+SETUP seed=61 mode=lowstr class=Warrior clevel=49 hp=500 mhp=622 depth=30 str_cur=7 str_max=17 con_cur=16 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=7 ccon=16 danger=756
+STATE danger=756 avoidance=500 hp=500 cstr=7 ccon=16
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.
+OUTCOME escape=1
+Failed
+    native-c/losecon-61:183: requirement &#x27;danger == 456&#x27; failed
+native-c/losecon-61 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/losecon-61: starting...
+SETUP seed=61 mode=lowstr class=Warrior clevel=49 hp=500 mhp=622 depth=30 str_cur=7 str_max=17 con_cur=16 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=7 ccon=16 danger=456
+STATE danger=456 avoidance=500 hp=500 cstr=7 ccon=16
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456
+OUTCOME escape=0
+Passed
+native-c/losecon-61 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="neither"><p class="summary">Neither stat below 8: danger 456 and no escape in both versions; logs identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>escaped (1 = read a Scroll of Teleportation, &#x27;# Danger Level 2.1&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>escaped (1 = read a Scroll of Teleportation, &#x27;# Danger Level 2.1&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/losecon-61: starting...
+SETUP seed=61 mode=neither class=Warrior clevel=49 hp=500 mhp=622 depth=30 str_cur=17 str_max=17 con_cur=16 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=17 ccon=16 danger=456
+STATE danger=456 avoidance=500 hp=500 cstr=17 ccon=16
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456
+OUTCOME escape=0
+Passed
+native-c/losecon-61 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/losecon-61: starting...
+SETUP seed=61 mode=neither class=Warrior clevel=49 hp=500 mhp=622 depth=30 str_cur=17 str_max=17 con_cur=16 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=17 ccon=16 danger=456
+STATE danger=456 avoidance=500 hp=500 cstr=17 ccon=16
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/622 SP:0/0 Danger:p=456
+OUTCOME escape=0
+Passed
+native-c/losecon-61 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="bothlow"><p class="summary">Both stats below 8, so the extra fear applies either way: danger 756 and a Teleportation read in both versions; logs identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>escaped (1 = read a Scroll of Teleportation, &#x27;# Danger Level 2.1&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>escaped (1 = read a Scroll of Teleportation, &#x27;# Danger Level 2.1&#x27;)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/losecon-61: starting...
+SETUP seed=61 mode=bothlow class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=7 str_max=17 con_cur=7 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=7 ccon=7 danger=756
+STATE danger=756 avoidance=500 hp=500 cstr=7 ccon=7
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.
+OUTCOME escape=1
+Passed
+native-c/losecon-61 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/losecon-61: starting...
+SETUP seed=61 mode=bothlow class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=7 str_max=17 con_cur=7 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=7 ccon=7 danger=756
+STATE danger=756 avoidance=500 hp=500 cstr=7 ccon=7
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.
+OUTCOME escape=1
+Passed
+native-c/losecon-61 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 61, level 49, depth 30, a lit arena, starting kit plus three known Scrolls of Teleportation, 500 current hit points (avoidance 500), an awake purple mushroom patch adjacent (east). The mode sets the current (drained) value of strength and/or constitution to 7 while the maximum stays at its birth value; nothing else differs. The production borg_caution() runs once and the first queued key is read back. This isolates the danger estimate and the escape decision; it does not play out the following turns or measure actual stat loss.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/61">issue 61</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

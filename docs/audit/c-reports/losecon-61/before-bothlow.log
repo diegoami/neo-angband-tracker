@@ -1,0 +1,12 @@
+native-c/losecon-61: starting...
+SETUP seed=61 mode=bothlow class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=7 str_max=17 con_cur=7 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=7 ccon=7 danger=756
+STATE danger=756 avoidance=500 hp=500 cstr=7 ccon=7
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=756
+TRACK # Reading Scrolls of Teleportation.
+TRACK # Danger Level 1.
+OUTCOME escape=1
+Passed
+native-c/losecon-61 finished: 1/1 passed

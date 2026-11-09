@@ -1,0 +1,11 @@
+native-c/losecon-61: starting...
+SETUP seed=61 mode=lowcon class=Warrior clevel=49 hp=500 mhp=545 depth=30 str_cur=17 str_max=17 con_cur=7 con_max=16
+  constitution_drain_danger  KILL k=1 r=95 pos=(11,12) awake=1
+DANGER cstr=17 ccon=7 danger=456
+STATE danger=456 avoidance=500 hp=500 cstr=17 ccon=7
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:49 HP:500/545 SP:0/0 Danger:p=456
+OUTCOME escape=0
+Failed
+    native-c/losecon-61:179: requirement 'danger == 756' failed
+native-c/losecon-61 finished: 0/1 passed

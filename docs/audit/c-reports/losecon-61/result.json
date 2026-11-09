@@ -1,0 +1,140 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "0ea55f39b583c1e3d113c7834e8e9f237f5cbf7d",
+  "fixtures_ref": "4ba84acc1dff95dc31abf3b2254a3b0ebcd624f3",
+  "cases": {
+    "before": {
+      "lowcon": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "danger": 456,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 17,
+          "ccon": 7
+        },
+        "outcome": {
+          "escape": 0
+        }
+      },
+      "lowstr": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "danger": 756,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 7,
+          "ccon": 16
+        },
+        "outcome": {
+          "escape": 1
+        }
+      },
+      "neither": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 456,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 17,
+          "ccon": 16
+        },
+        "outcome": {
+          "escape": 0
+        }
+      },
+      "bothlow": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 756,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 7,
+          "ccon": 7
+        },
+        "outcome": {
+          "escape": 1
+        }
+      }
+    },
+    "after": {
+      "lowcon": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 756,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 17,
+          "ccon": 7
+        },
+        "outcome": {
+          "escape": 1
+        }
+      },
+      "lowstr": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 456,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 7,
+          "ccon": 16
+        },
+        "outcome": {
+          "escape": 0
+        }
+      },
+      "neither": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 456,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 17,
+          "ccon": 16
+        },
+        "outcome": {
+          "escape": 0
+        }
+      },
+      "bothlow": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 756,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 7,
+          "ccon": 7
+        },
+        "outcome": {
+          "escape": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "neither",
+    "bothlow"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "6ef03aa4de07ad5c86f4dfe82f5f5816de91c45435119610e71c36d99a18c731"
+  }
+}

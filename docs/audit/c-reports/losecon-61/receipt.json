@@ -1,0 +1,183 @@
+{
+  "issue": "diegoami/neo-angband-tracker#61",
+  "report": "losecon-61",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "0ea55f39b583c1e3d113c7834e8e9f237f5cbf7d",
+  "fix_branch": "task/losecon-61",
+  "fixtures_ref": "4ba84acc1dff95dc31abf3b2254a3b0ebcd624f3",
+  "cases": {
+    "lowcon": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 456,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 17,
+          "ccon": 7
+        },
+        "outcome": {
+          "escape": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 756,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 17,
+          "ccon": 7
+        },
+        "outcome": {
+          "escape": 1
+        }
+      }
+    },
+    "lowstr": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 756,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 7,
+          "ccon": 16
+        },
+        "outcome": {
+          "escape": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 456,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 7,
+          "ccon": 16
+        },
+        "outcome": {
+          "escape": 0
+        }
+      }
+    },
+    "neither": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 456,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 17,
+          "ccon": 16
+        },
+        "outcome": {
+          "escape": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 456,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 17,
+          "ccon": 16
+        },
+        "outcome": {
+          "escape": 0
+        }
+      }
+    },
+    "bothlow": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 756,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 7,
+          "ccon": 7
+        },
+        "outcome": {
+          "escape": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 756,
+          "avoidance": 500,
+          "hp": 500,
+          "cstr": 7,
+          "ccon": 7
+        },
+        "outcome": {
+          "escape": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "neither",
+    "bothlow"
+  ],
+  "claim": "The constitution-drain blow case in borg_danger_physical() tested BI_CSTR < 8 for its 'con drain below 8' fear. With BI_CCON, a level-49 Warrior on 500 HP with constitution 7 beside a purple mushroom patch rates it at 756 instead of 456 and reads Teleportation; with strength 7 and healthy constitution it rates it at 456 instead of 756 and keeps the scroll; both controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-danger.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "6ef03aa4de07ad5c86f4dfe82f5f5816de91c45435119610e71c36d99a18c731"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 22,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "f9a604f15afdc7008666bc719c9096582381abd408c6955faf671677f752b929",
+    "after-bothlow.log": "c159a62ac1d06b24532fc8df0f270be48ffd55e2137fc154cc6739b9a4f5d00a",
+    "after-lowcon.log": "d10d3108657019866b20c7b32e34f1389f90de6f3f3fe5501582213268276684",
+    "after-lowstr.log": "cb13b6df3e183520c789df81e7dc4931c33de35006d3f239f4404e8388bba8de",
+    "after-neither.log": "1cd2df4a7200537579c9b11e90763a7afb797d38300c9d46e21d13e3755d6b23",
+    "after-results.json": "71c1d6e38e37e23eb2654f629760e7b511c0c813bbefc43aa99b84ea72effc5e",
+    "before-bothlow.log": "c159a62ac1d06b24532fc8df0f270be48ffd55e2137fc154cc6739b9a4f5d00a",
+    "before-lowcon.log": "c678203c06442069e611fb692c2978558c896f1c8c6367164b92dbf916c0857f",
+    "before-lowstr.log": "53595a838303f7b4c0419236b76d37faab0ef50586753e33d170ef39eeb4ed77",
+    "before-neither.log": "1cd2df4a7200537579c9b11e90763a7afb797d38300c9d46e21d13e3755d6b23",
+    "before-results.json": "76f98b7e209d542dab57ff157b2dc08635bb87f030edfcdf8c88225e68906904",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "ec6099b75c918da897f4d0ead09367aafc78ea143c248f23663be01d80f45ef9",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "ceebcfe6eaea9f12bbb5f4a2644036256fefc1f5b2e5210898bbd2464615576c",
+    "replay.html": "fe997a55fe8f50717156aefa871445c5f91eabd7bea77d0cce1775872a5eb601",
+    "reproduce.py": "c2b06737a15862001ae39a085c7c78992f11dd2e2cc1bc364eabeae0af4602ec",
+    "result.json": "2b9d63c9d4ee6d7fd70ef2973adf918c939bfab621c6b24f24cc6c666d0c6d5d",
+    "run-after-alltests.log": "2847430f7e18102c7903fa24aaac1accca09106c221ff23a5e258b4808d02a7f",
+    "run-after-build.log": "24bbfdf874dbc271ec9fbe944028492d26d76bac639ef7b2569ff45f4a92392b",
+    "run-after-scenarios.log": "2dc5129adf529e22f60ca18be36efc703b3e9b209311dd75118e561ac2b37625",
+    "run-before-alltests.log": "7e77949c6fe1757dfcb25f5f422fdc38906af309418a10085e557f2c14f76b49",
+    "run-before-build.log": "b8be8141759693181ac6a2b734e7eef8811a89bed44ef212d934b32d12d94b5e",
+    "run-before-scenarios.log": "b6e81dcfae32683c415811db2112f9d090b6860ec9618bc32cc4443df4a87d2d",
+    "run-cases.py": "7c572ab2cf31ea559f7701b690f51e665bdbd92268bd18f3f88d8f251090e556",
+    "run-configure.log": "0fee95e7be0b9fc6df6d416ab411ae4394457aa9477308fd7a7d92d0f4b65f1f",
+    "run-matrix.log": "89b2bf5580c84d710e5a32f7aa42387c662ffd80e4b82c9750cc52021dd73a2c",
+    "scenario.c": "5993519d9e0944e9de4fd083316d6b185fc8c809717c2739c99954810990d46b"
+  }
+}

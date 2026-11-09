@@ -1,0 +1,13 @@
+Native evidence directory: /tmp/angband-losecon-61-nhwwmtvd
+Preparing worktree (detached HEAD e473720ed)
+HEAD is now at e473720ed Term_clear() and loop over height calling Term_erase() are not synonyms
+configure: shared validation lock; log /tmp/angband-losecon-61-nhwwmtvd/configure.log
+before-build: shared validation lock; log /tmp/angband-losecon-61-nhwwmtvd/before-build.log
+before-scenarios: shared validation lock; log /tmp/angband-losecon-61-nhwwmtvd/before-scenarios.log
+before-alltests: shared validation lock; log /tmp/angband-losecon-61-nhwwmtvd/before-alltests.log
+after-build: shared validation lock; log /tmp/angband-losecon-61-nhwwmtvd/after-build.log
+after-scenarios: shared validation lock; log /tmp/angband-losecon-61-nhwwmtvd/after-scenarios.log
+after-alltests: shared validation lock; log /tmp/angband-losecon-61-nhwwmtvd/after-alltests.log
+Open in your browser: /tmp/angband-losecon-61-nhwwmtvd/evidence/replay.html
+VERIFIED: the constitution-drained Warrior now counts the extra fear and teleports, the strength-drained Warrior no longer does and keeps its scroll, and both controls (neither stat low, both low) are byte-identical.
+Logs and result.json: /tmp/angband-losecon-61-nhwwmtvd
