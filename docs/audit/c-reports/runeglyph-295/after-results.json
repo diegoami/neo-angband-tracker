@@ -1,0 +1,59 @@
+{
+  "rune": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "game_runes_here": 1,
+      "borg_glyph_here": 1,
+      "borg_trap_here": 0,
+      "tracked_glyphs": 1,
+      "borg_trap_west": 0,
+      "game_trap_west": 0,
+      "monster_tracked": 1
+    },
+    "outcome": {
+      "read_rune": 0,
+      "scrolls": 4,
+      "game_runes_here": 1,
+      "borg_glyph_here": 1
+    }
+  },
+  "floor": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "game_runes_here": 0,
+      "borg_glyph_here": 0,
+      "borg_trap_here": 0,
+      "tracked_glyphs": 0,
+      "borg_trap_west": 0,
+      "game_trap_west": 0,
+      "monster_tracked": 1
+    },
+    "outcome": {
+      "read_rune": 1,
+      "scrolls": 5,
+      "game_runes_here": 0,
+      "borg_glyph_here": 0
+    }
+  },
+  "trap": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "game_runes_here": 0,
+      "borg_glyph_here": 0,
+      "borg_trap_here": 0,
+      "tracked_glyphs": 0,
+      "borg_trap_west": 1,
+      "game_trap_west": 1,
+      "monster_tracked": 1
+    },
+    "outcome": {
+      "read_rune": 1,
+      "scrolls": 5,
+      "game_runes_here": 0,
+      "borg_glyph_here": 0
+    }
+  }
+}

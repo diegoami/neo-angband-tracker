@@ -1,0 +1,11 @@
+native-c/runeglyph-295: starting...
+TRACK player game-message <You have 4 Scrolls of Rune of Protection (d).>
+SETUP seed=295 mode=rune class=Warrior clevel=30 depth=30 hp=308 monster=ranger at=(16,12) scrolls=4
+  rune_recognition_defence  STATE game_runes_here=1 borg_glyph_here=1 borg_trap_here=0 tracked_glyphs=1 borg_trap_west=0 game_trap_west=0 monster_tracked=1
+DANGER here=83 on_rune=83 avoidance=308
+DECISION defend=1 keys=2 sequence=qb
+TRACK borg-note <# Performing defense type 13 with value 5>
+TRACK borg-note <# Quaffing Potion of Berserk Strength.>
+OUTCOME read_rune=0 scrolls=4->4 game_runes_here=1->1 borg_glyph_here=1
+Passed
+native-c/runeglyph-295 finished: 1/1 passed
