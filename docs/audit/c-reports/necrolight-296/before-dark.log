@@ -1,0 +1,9 @@
+native-c/necrolight-296: starting...
+SETUP seed=296 class=Necromancer level=26 depth=30 hp=172/172 sp=118/118 light=0
+  necromancer_lit_square_fail_estimate  MODE dark
+TRACK square_islit=0 square_light=0 glow=0 borg_light_flag=0 borg_glow_flag=0
+TRACK spell="Vampire Strike" game_spell_chance=8 borg_estimate=8 threshold=25 borg_okay_fail=1
+DECISION acted=1 keys=3 sequence=mbb
+OUTCOME borg_estimate=8 game_chance=8 estimate_matches_game=1 cast_spell=1 game_chance_over_threshold=0
+Passed
+native-c/necrolight-296 finished: 1/1 passed

@@ -1,0 +1,3 @@
+lit {'exit': 0, 'passed': True, 'outcome': {'borg_estimate': 33, 'game_chance': 33, 'estimate_matches_game': 1, 'cast_spell': 0, 'game_chance_over_threshold': 1}}
+dark {'exit': 0, 'passed': True, 'outcome': {'borg_estimate': 8, 'game_chance': 8, 'estimate_matches_game': 1, 'cast_spell': 1, 'game_chance_over_threshold': 0}}
+mage {'exit': 0, 'passed': True, 'outcome': {'borg_estimate': 2, 'game_chance': 2, 'estimate_matches_game': 1, 'cast_spell': 1, 'game_chance_over_threshold': 0}}

@@ -1,0 +1,134 @@
+{
+  "issue": "diegoami/neo-angband-tracker#296",
+  "report": "necrolight-296",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "ea838de6782149c83300dccdfc06d15c099fbd86",
+  "fix_branch": "task/necrolight-296",
+  "fixtures_ref": "742e04ed8358e566933902faf63aaca36b91ff1b",
+  "cases": {
+    "lit": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "borg_estimate": 8,
+          "game_chance": 33,
+          "estimate_matches_game": 0,
+          "cast_spell": 1,
+          "game_chance_over_threshold": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "borg_estimate": 33,
+          "game_chance": 33,
+          "estimate_matches_game": 1,
+          "cast_spell": 0,
+          "game_chance_over_threshold": 1
+        }
+      }
+    },
+    "dark": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "borg_estimate": 8,
+          "game_chance": 8,
+          "estimate_matches_game": 1,
+          "cast_spell": 1,
+          "game_chance_over_threshold": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "borg_estimate": 8,
+          "game_chance": 8,
+          "estimate_matches_game": 1,
+          "cast_spell": 1,
+          "game_chance_over_threshold": 0
+        }
+      }
+    },
+    "mage": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "borg_estimate": 2,
+          "game_chance": 2,
+          "estimate_matches_game": 1,
+          "cast_spell": 1,
+          "game_chance_over_threshold": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "borg_estimate": 2,
+          "game_chance": 2,
+          "estimate_matches_game": 1,
+          "cast_spell": 1,
+          "game_chance_over_threshold": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "dark",
+    "mage"
+  ],
+  "claim": "borg_spell_fail_rate() adds the Necromancer unlight penalty only when BORG_LIGHT (the Borg's own light source) marks its square, while the game's spell_chance() adds it whenever square_islit() holds. A torchless level-26 Necromancer on a permanently lit square estimated 8% for Vampire Strike while the game used 33%, passed the 25% borg_spell_okay_fail() limit and cast it. Using square_islit() makes the estimate 33% and the cast is declined; unlit and non-Necromancer controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-magic.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-magic.c": "965eead64c26b806910a94770decd22136b7b374f0a91d6c1703fcfecd18382c"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "d4c6974777b511d324c4c64b13863254bc51bf424cf2a14c3e16a9a596b951b7",
+    "after-dark.log": "ae9da5419932a5c797a6ab043514e2a8f2a791c0519fd45dfa12759f2caf1128",
+    "after-lit.log": "6fef838d57f09bdeb9bef2e6f55b23fee83cb3af6384a1c2050ebbb8e827854e",
+    "after-mage.log": "0db7bac3c965d304cc3dddad116ac06d7a270dd4f7b687434c878cdc958ed2c0",
+    "after-results.json": "9134693c4cf176191d6bc5a24b071acd95bf7869d3fbfbcca1e4ccfd0329f847",
+    "before-dark.log": "ae9da5419932a5c797a6ab043514e2a8f2a791c0519fd45dfa12759f2caf1128",
+    "before-lit.log": "4ccdd266e33224e778c3174fb782918737fa7565ea02c6eaa81d9a4213c7c2a0",
+    "before-mage.log": "0db7bac3c965d304cc3dddad116ac06d7a270dd4f7b687434c878cdc958ed2c0",
+    "before-results.json": "a155861c4973b25bc70828c694267c1d5e2db92428ce3d25c1152c987b1494c0",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "cf782ad53c3a98784418d00ba7019a27610a52ff951ec768dd345170d7c50537",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "8bbe48d3c2dd769e8ec5b915e36600fa8fefbe557a3f63c37069f282cd7eff51",
+    "replay.html": "9d823248db579964d6c5950c715f9d1a287dc3bcab93cf28bd998ab3678a5d24",
+    "reproduce.py": "b879d88091f400e9b256463a11bd1a0308d54cf953a4d562967ffcf4097f449c",
+    "result.json": "56d4a77355024ec7b3280adf6f9e21e52a1840f92c88489ab86004e9947fc041",
+    "run-after-alltests.log": "1955645d2de2c7062553693cf60304b84b0da6418d507e192f1eb7dbea1b3a01",
+    "run-after-build.log": "c9493c8dda1f9a52a8bde45f4088470dc3816fe40ceff80337d040fc001dc9d9",
+    "run-after-scenarios.log": "6022025988fbd686e8cf198db99219a541f1d07fe71cbc11184d14c05b0c805e",
+    "run-before-alltests.log": "606e275585c6b106a72bad87cf38a36b251fddec4570ac6a4349aae48dbee0f1",
+    "run-before-build.log": "86575c4224884ca860f04573d8db0dbdb5357260a70f9e284f213152accd204e",
+    "run-before-scenarios.log": "68914fcf31743ed473fab1f10e3442c57e5528a31eb97515ae3928209d7cf3ce",
+    "run-cases.py": "3bf46de8619cee7e2cdea7e93e77b2434f3b5cc30de98ea5f9674f8aa7499a0d",
+    "run-configure.log": "f7946da48284357db477398d163ea1deda6504b15dacd082d112adb111b04de0",
+    "scenario.c": "83eea58c54fd2a88bfbe867204c3cc123fe41c1d189ab50989be0026d39c43ea"
+  }
+}
