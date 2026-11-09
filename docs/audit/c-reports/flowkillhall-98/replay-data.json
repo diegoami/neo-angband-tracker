@@ -1,0 +1,156 @@
+{
+  "leak": {
+    "label": "Open room: ant 2 steps east noted first, ant 5 steps south second",
+    "explanation": "Original: the near ant is dropped (two steps away, melee only), the drop note is kept, the far ant is dropped too; no target, the Borg does not move. Corrected: the far ant at (10,17) is the target and the Borg steps south (key 50).",
+    "control": false,
+    "before": {
+      "raw": "native-c/flowkillhall-98: starting...\nSETUP seed=98 mode=leak class=Warrior clevel=20 hp=247 depth=5 corridor=0\n  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0\nKILL k=2 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0\nDECISION rc=0 key=0 goal=0\nSTATE targets=0 hp=247 avoidance=247\nOUTCOME flowed=0\nFailed\n    native-c/flowkillhall-98:198: requirement 'flowed == want' failed\nnative-c/flowkillhall-98 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "targets": 0,
+        "hp": 247,
+        "avoidance": 247
+      },
+      "outcome": {
+        "flowed": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0 goal=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/flowkillhall-98: starting...\nSETUP seed=98 mode=leak class=Warrior clevel=20 hp=247 depth=5 corridor=0\n  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0\nKILL k=2 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0\nDECISION rc=1 key=50 goal=1\nTRACK target (10,17)\nSTATE targets=1 hp=247 avoidance=247\nOUTCOME flowed=1\nPassed\nnative-c/flowkillhall-98 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "targets": 1,
+        "hp": 247,
+        "avoidance": 247
+      },
+      "outcome": {
+        "flowed": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=50 goal=1",
+        "TRACK target (10,17)"
+      ],
+      "value": 1
+    }
+  },
+  "reverse": {
+    "label": "Control: the same two ants, far one noted first",
+    "explanation": "The far ant is judged before the near one sets the note; both versions target it and step south. Logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/flowkillhall-98: starting...\nSETUP seed=98 mode=reverse class=Warrior clevel=20 hp=247 depth=5 corridor=0\n  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0\nKILL k=2 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0\nDECISION rc=1 key=50 goal=1\nTRACK target (10,17)\nSTATE targets=1 hp=247 avoidance=247\nOUTCOME flowed=1\nPassed\nnative-c/flowkillhall-98 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "targets": 1,
+        "hp": 247,
+        "avoidance": 247
+      },
+      "outcome": {
+        "flowed": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=50 goal=1",
+        "TRACK target (10,17)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/flowkillhall-98: starting...\nSETUP seed=98 mode=reverse class=Warrior clevel=20 hp=247 depth=5 corridor=0\n  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0\nKILL k=2 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0\nDECISION rc=1 key=50 goal=1\nTRACK target (10,17)\nSTATE targets=1 hp=247 avoidance=247\nOUTCOME flowed=1\nPassed\nnative-c/flowkillhall-98 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "targets": 1,
+        "hp": 247,
+        "avoidance": 247
+      },
+      "outcome": {
+        "flowed": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=50 goal=1",
+        "TRACK target (10,17)"
+      ],
+      "value": 1
+    }
+  },
+  "hall": {
+    "label": "Borg in a corridor, wild dog (pack monster) in the open room",
+    "explanation": "Original: the dog's wall count continues from the Borg's own six corridor walls and the 'fewer than four walls' test never fires; the Borg steps east out of the corridor toward the dog (key 54). Corrected: the dog has no walls around it, it is dropped, and the Borg stays put.",
+    "control": false,
+    "before": {
+      "raw": "native-c/flowkillhall-98: starting...\nSETUP seed=98 mode=hall class=Warrior clevel=20 hp=247 depth=5 corridor=1\n  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(25,12) dist=15 ranged=0 group_ai=1\nDECISION rc=1 key=54 goal=1\nTRACK target (25,12)\nSTATE targets=1 hp=247 avoidance=247\nOUTCOME flowed=1\nFailed\n    native-c/flowkillhall-98:198: requirement 'flowed == want' failed\nnative-c/flowkillhall-98 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "targets": 1,
+        "hp": 247,
+        "avoidance": 247
+      },
+      "outcome": {
+        "flowed": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=54 goal=1",
+        "TRACK target (25,12)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/flowkillhall-98: starting...\nSETUP seed=98 mode=hall class=Warrior clevel=20 hp=247 depth=5 corridor=1\n  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(25,12) dist=15 ranged=0 group_ai=1\nDECISION rc=0 key=0 goal=0\nSTATE targets=0 hp=247 avoidance=247\nOUTCOME flowed=0\nPassed\nnative-c/flowkillhall-98 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "targets": 0,
+        "hp": 247,
+        "avoidance": 247
+      },
+      "outcome": {
+        "flowed": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0 goal=0"
+      ],
+      "value": 0
+    }
+  },
+  "hallctl": {
+    "label": "Control: Borg and wild dog both in the corridor",
+    "explanation": "The dog has six walls around it, so both versions keep it and step west toward it (key 52). Logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/flowkillhall-98: starting...\nSETUP seed=98 mode=hallctl class=Warrior clevel=20 hp=247 depth=5 corridor=1\n  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(5,12) dist=5 ranged=0 group_ai=1\nDECISION rc=1 key=52 goal=1\nTRACK target (5,12)\nSTATE targets=1 hp=247 avoidance=247\nOUTCOME flowed=1\nPassed\nnative-c/flowkillhall-98 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "targets": 1,
+        "hp": 247,
+        "avoidance": 247
+      },
+      "outcome": {
+        "flowed": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=52 goal=1",
+        "TRACK target (5,12)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/flowkillhall-98: starting...\nSETUP seed=98 mode=hallctl class=Warrior clevel=20 hp=247 depth=5 corridor=1\n  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(5,12) dist=5 ranged=0 group_ai=1\nDECISION rc=1 key=52 goal=1\nTRACK target (5,12)\nSTATE targets=1 hp=247 avoidance=247\nOUTCOME flowed=1\nPassed\nnative-c/flowkillhall-98 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "targets": 1,
+        "hp": 247,
+        "avoidance": 247
+      },
+      "outcome": {
+        "flowed": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=52 goal=1",
+        "TRACK target (5,12)"
+      ],
+      "value": 1
+    }
+  }
+}

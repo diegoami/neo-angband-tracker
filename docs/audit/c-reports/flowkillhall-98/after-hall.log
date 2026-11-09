@@ -1,0 +1,8 @@
+native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=hall class=Warrior clevel=20 hp=247 depth=5 corridor=1
+  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(25,12) dist=15 ranged=0 group_ai=1
+DECISION rc=0 key=0 goal=0
+STATE targets=0 hp=247 avoidance=247
+OUTCOME flowed=0
+Passed
+native-c/flowkillhall-98 finished: 1/1 passed

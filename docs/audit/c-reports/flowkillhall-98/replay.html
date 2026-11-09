@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>One skipped monster stopped the Borg hunting any monster</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>One skipped monster stopped the Borg hunting any monster</h1><p>When the Borg looks for a monster to walk up to and fight, it goes through every monster it knows about and drops the unsuitable ones. The note that a monster should be dropped was never cleared for the next monster, so once one monster was dropped every monster after it in the list was dropped too. A level-20 Warrior with one soldier ant two steps away (dropped by design: stepping closer lets it bite first) and a second soldier ant in plain view five steps away hunted neither and stood still. A second check, meant to keep the Borg in a corridor rather than chase a pack monster out in an open room, counted walls on top of the Borg&#x27;s own count and so never fired; the Borg left its corridor for a wild dog in the open room. The correction judges each monster on its own: the Borg walks toward the second ant, and stays in its corridor instead of chasing the dog.</p><p><label>Scenario: <select id="scenario"><option value="leak">Open room: ant 2 steps east noted first, ant 5 steps south second</option><option value="reverse">Control: the same two ants, far one noted first</option><option value="hall">Borg in a corridor, wild dog (pack monster) in the open room</option><option value="hallctl">Control: Borg and wild dog both in the corridor</option></select></label></p><section class="scenario" data-mode="leak"><p class="summary">Original: the near ant is dropped (two steps away, melee only), the drop note is kept, the far ant is dropped too; no target, the Borg does not move. Corrected: the far ant at (10,17) is the target and the Borg steps south (key 50).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>sets off toward a monster to fight it (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=0 key=0 goal=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets off toward a monster to fight it (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=50 goal=1
+TRACK target (10,17)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=leak class=Warrior clevel=20 hp=247 depth=5 corridor=0
+  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0
+KILL k=2 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0
+DECISION rc=0 key=0 goal=0
+STATE targets=0 hp=247 avoidance=247
+OUTCOME flowed=0
+Failed
+    native-c/flowkillhall-98:198: requirement &#x27;flowed == want&#x27; failed
+native-c/flowkillhall-98 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=leak class=Warrior clevel=20 hp=247 depth=5 corridor=0
+  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0
+KILL k=2 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0
+DECISION rc=1 key=50 goal=1
+TRACK target (10,17)
+STATE targets=1 hp=247 avoidance=247
+OUTCOME flowed=1
+Passed
+native-c/flowkillhall-98 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="reverse"><p class="summary">The far ant is judged before the near one sets the note; both versions target it and step south. Logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>sets off toward a monster to fight it (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=50 goal=1
+TRACK target (10,17)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets off toward a monster to fight it (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=50 goal=1
+TRACK target (10,17)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=reverse class=Warrior clevel=20 hp=247 depth=5 corridor=0
+  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0
+KILL k=2 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0
+DECISION rc=1 key=50 goal=1
+TRACK target (10,17)
+STATE targets=1 hp=247 avoidance=247
+OUTCOME flowed=1
+Passed
+native-c/flowkillhall-98 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=reverse class=Warrior clevel=20 hp=247 depth=5 corridor=0
+  hunt_decision_per_monster  KILL k=1 race=soldier ant pos=(10,17) dist=5 ranged=0 group_ai=0
+KILL k=2 race=soldier ant pos=(12,12) dist=2 ranged=0 group_ai=0
+DECISION rc=1 key=50 goal=1
+TRACK target (10,17)
+STATE targets=1 hp=247 avoidance=247
+OUTCOME flowed=1
+Passed
+native-c/flowkillhall-98 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="hall"><p class="summary">Original: the dog&#x27;s wall count continues from the Borg&#x27;s own six corridor walls and the &#x27;fewer than four walls&#x27; test never fires; the Borg steps east out of the corridor toward the dog (key 54). Corrected: the dog has no walls around it, it is dropped, and the Borg stays put.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>sets off toward a monster to fight it (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=54 goal=1
+TRACK target (25,12)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>sets off toward a monster to fight it (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0 goal=0</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=hall class=Warrior clevel=20 hp=247 depth=5 corridor=1
+  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(25,12) dist=15 ranged=0 group_ai=1
+DECISION rc=1 key=54 goal=1
+TRACK target (25,12)
+STATE targets=1 hp=247 avoidance=247
+OUTCOME flowed=1
+Failed
+    native-c/flowkillhall-98:198: requirement &#x27;flowed == want&#x27; failed
+native-c/flowkillhall-98 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=hall class=Warrior clevel=20 hp=247 depth=5 corridor=1
+  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(25,12) dist=15 ranged=0 group_ai=1
+DECISION rc=0 key=0 goal=0
+STATE targets=0 hp=247 avoidance=247
+OUTCOME flowed=0
+Passed
+native-c/flowkillhall-98 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="hallctl"><p class="summary">The dog has six walls around it, so both versions keep it and step west toward it (key 52). Logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>sets off toward a monster to fight it (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=52 goal=1
+TRACK target (5,12)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>sets off toward a monster to fight it (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=52 goal=1
+TRACK target (5,12)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=hallctl class=Warrior clevel=20 hp=247 depth=5 corridor=1
+  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(5,12) dist=5 ranged=0 group_ai=1
+DECISION rc=1 key=52 goal=1
+TRACK target (5,12)
+STATE targets=1 hp=247 avoidance=247
+OUTCOME flowed=1
+Passed
+native-c/flowkillhall-98 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/flowkillhall-98: starting...
+SETUP seed=98 mode=hallctl class=Warrior clevel=20 hp=247 depth=5 corridor=1
+  hunt_decision_per_monster  KILL k=1 race=wild dog pos=(5,12) dist=5 ranged=0 group_ai=1
+DECISION rc=1 key=52 goal=1
+TRACK target (5,12)
+STATE targets=1 hp=247 avoidance=247
+OUTCOME flowed=1
+Passed
+native-c/flowkillhall-98 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 98, level 20, depth 5, full hit points (247), torch and rations, a lit 38x22 room. Corridor cases fill columns 1-14 with granite except row 12, so the Borg at (10,12) stands in a one-wide corridor that opens into the room at column 15. Monsters are placed with t_add_monster (single monsters; the wild dog&#x27;s pack is not generated) and noted by the Borg&#x27;s own observe_kill_diff in the stated order, which fixes their order in the Borg&#x27;s monster list. The production borg_flow_kill(true, 250) runs once and the first queued key is read back. This isolates the hunt decision; it does not play out the walk or the fight.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/98">issue 98</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
