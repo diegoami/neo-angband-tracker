@@ -1,0 +1,206 @@
+{
+  "issue": "diegoami/neo-angband-tracker#31",
+  "report": "swaptrial-31",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "571380b3d4724a37a639dc96f2a9a16782f33d94",
+  "fix_branch": "task/swaptrial-31",
+  "fixtures_ref": "7c9b0a909c68eabff5fe522d20c69cbbd85ee135",
+  "cases": {
+    "swap-held": {
+      "before": {
+        "passed": false,
+        "state": {
+          "weapon_swap_slot": 5,
+          "weapon_swap_model_qty": 0,
+          "weapon_swap_game_qty": 1,
+          "weapon_swap_matches_game": 0,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 0,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 0,
+          "first_free_slot": 6,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 0,
+          "evenstar_retrieved": 2,
+          "evenstar_stored": 1,
+          "elvagil_retrieved": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "weapon_swap_slot": 5,
+          "weapon_swap_model_qty": 1,
+          "weapon_swap_game_qty": 1,
+          "weapon_swap_matches_game": 1,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 6,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 0
+        }
+      }
+    },
+    "no-weapon-swap": {
+      "before": {
+        "passed": true,
+        "state": {
+          "weapon_swap_held": 0,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 5,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "weapon_swap_held": 0,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 5,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 1
+        }
+      }
+    },
+    "no-candidate": {
+      "before": {
+        "passed": true,
+        "state": {
+          "weapon_swap_slot": 5,
+          "weapon_swap_model_qty": 1,
+          "weapon_swap_game_qty": 1,
+          "weapon_swap_matches_game": 1,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 6,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "weapon_swap_slot": 5,
+          "weapon_swap_model_qty": 1,
+          "weapon_swap_game_qty": 1,
+          "weapon_swap_matches_game": 1,
+          "armour_swap_slot": 4,
+          "armour_swap_model_qty": 1,
+          "armour_swap_game_qty": 1,
+          "armour_swap_matches_game": 1,
+          "first_free_slot": 6,
+          "first_free_model_qty": 0,
+          "first_free_game_qty": 0,
+          "first_free_matches_game": 1
+        },
+        "outcome": {
+          "model_matches_game": 1,
+          "evenstar_retrieved": 0,
+          "evenstar_stored": 0,
+          "elvagil_retrieved": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "no-weapon-swap",
+    "no-candidate"
+  ],
+  "claim": "borg_think_home_buy_swap_weapon() and borg_think_home_buy_swap_armour() tried each home item in the pack slot of the carried swap and afterwards only zeroed that slot's quantity, so the Borg's record lost its backup weapon and backup armour for the rest of the store turn. With the quarterstaff of Olórin and 'Holhenneth' carried and 'Evenstar' at home, the original Borg valued 'Evenstar' without the backup weapon's nether resistance, retrieved it, stashed it and retrieved it again (3 store turns) and left carrying it; restoring the slot from safe_items makes it keep its record, take nothing and leave. Controls with no backup weapon (empty-slot path) and an empty home are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-store-buy.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "65dd5aceadda7d4357295c823a5c2affdce0fb9658399b3fca6af8df61bd382b"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "d62a6605b4267dd160bb8d85131d9b43f2980ca55ac1c1ed44c3e5cdd7c45e33",
+    "after-no-candidate.log": "c9f0742a255916aa3193ab86b80fc72faf08beccf258a83c5d92517f13e4706e",
+    "after-no-weapon-swap.log": "df88bfd74e2cb883c63b0b43a1f50262a4fc52f7ca2ee9ce9de63d921442436a",
+    "after-results.json": "719df8d6cb342b820260d9e3935590778cd7d57fbeab88bcc55f420f4661fb9a",
+    "after-swap-held.log": "1e886831c8ba1fd22a0c32dbaed0d6a4f642ea91b0a2ccde93196f55164f5613",
+    "before-no-candidate.log": "c9f0742a255916aa3193ab86b80fc72faf08beccf258a83c5d92517f13e4706e",
+    "before-no-weapon-swap.log": "df88bfd74e2cb883c63b0b43a1f50262a4fc52f7ca2ee9ce9de63d921442436a",
+    "before-results.json": "10e839eb7f2e974260e2e23a1fd0cbf12c8d68f15d486ec83da2cfa25099c312",
+    "before-swap-held.log": "cbceb7c7405b7276d9fac380ea4ca76e7e9447451ac01f0c2375ae6e0626c5cb",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "26e60455fd1f3a7842d9d41ef9a28694324b8b11b2e99e0b2e879a9f76d28a23",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "62f99efdb2d858b123d538a456d0bcc1deec65febcaad9a73e0fba9a6b07c7d9",
+    "replay.html": "51e8f041d6cb774df0b0ba1180fdd33d50e849853a368b5251a4861751ad0178",
+    "reproduce.py": "9797b5f8204c0f14c89f11fed91b84d10a1ab6a636ffad7f3a7091b7eab38035",
+    "result.json": "e62271c34bac9f8c573fb41d0e073fa5fc80e8afeea3f5fd3c410051054abfc3",
+    "run-after-alltests.log": "21e76fa8ec24f2dc1b6b9cb9f02ab45628d8364356a5bb6788a5af2f93327355",
+    "run-after-build.log": "23272701fb3b2ef1bd93c014069855c1ce8999797281ec9ed339fb8cac04866e",
+    "run-after-scenarios.log": "1b9f516890669c9b4f39f2a7e394010b3035ef9037bbac6af6ab4a3f7d29dc57",
+    "run-before-alltests.log": "7c075362ec93a1667bb5aeaeaeddeac5197320384a63e4014e57a3135cd675bd",
+    "run-before-build.log": "6059a562b375dc0a1d84a91a53cf225ffd2a8c8ee02b179173d29720bfe462e5",
+    "run-before-scenarios.log": "b56f420284b6f9ff320e70bbc68e92e90d4f6d845080cee2a4862e07543ca9fd",
+    "run-cases.py": "78c3b635b36f2b9db973ef71cf293bf4251af94e7168b2af144e2f13defd6303",
+    "run-configure.log": "c0eb0e089c56f010a3f88186e9f42662ebf020c684ecbc3bc452aeb178bf5839",
+    "scenario.c": "00fb3e8a06629222b12548948960686ce2e53aa9a54e373efc44fb550d0f557f"
+  }
+}

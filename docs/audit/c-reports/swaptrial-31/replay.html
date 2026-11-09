@@ -1,0 +1,246 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Home backup-item trials erased the Borg&#x27;s own backups from its pack record</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Home backup-item trials erased the Borg&#x27;s own backups from its pack record</h1><p>In town the Borg&#x27;s last two home steps look for a better backup weapon (7A) and backup armour (7B) to carry. They try each home item in the pack slot of the backup the Borg already carries, and after each trial only set that slot&#x27;s count to zero instead of putting the old backup back. For the rest of that store turn the Borg&#x27;s own record of its pack no longer held its backup weapon or backup helm. A level-50 Warrior carrying the quarterstaff of Olórin (resists nether) and the helm &#x27;Holhenneth&#x27; as backups, with the amulet &#x27;Evenstar&#x27; (also resists nether) and the long sword &#x27;Elvagil&#x27; in its home, then valued &#x27;Evenstar&#x27; as if no backup resisted nether, took it from the home, stored it again the next turn, took it back the turn after and left carrying a redundant amulet. The correction restores the slot after each trial; the Borg keeps its record of both backups, takes nothing and leaves.</p><p><label>Scenario: <select id="scenario"><option value="swap-held">Backups carried, &#x27;Evenstar&#x27; and &#x27;Elvagil&#x27; at home</option><option value="no-weapon-swap">Control: no backup weapon, &#x27;Elvagil&#x27; at home</option><option value="no-candidate">Control: backups carried, home empty</option></select></label></p><section class="scenario" data-mode="swap-held"><p class="summary">Original: step 7A tries &#x27;Elvagil&#x27; in the quarterstaff&#x27;s slot and leaves that slot empty; step 7B tries &#x27;Evenstar&#x27; in the helm&#x27;s slot with no backup weapon in the record, so it gets the bonus for a high resist no backup covers and is chosen. After the decision the record shows both backup slots empty while the game&#x27;s pack still holds both. The real commands then retrieve &#x27;Evenstar&#x27; (round 1), stash it (round 2) and retrieve it again (round 3) before the Borg leaves carrying it. Corrected: both slots are restored after each trial, &#x27;Evenstar&#x27; is valued with the quarterstaff present, no step chooses anything and the Borg leaves in round 1.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">2</div><p>times the Borg takes the redundant amulet &#x27;Evenstar&#x27; out of its home</p><p>Scenario check: <strong>failed</strong></p><pre>TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+DECISION ware=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+TRACK after_trials weapon_swap_resist_neth=0
+KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344
+KEYS round=2 store=7 n=5 115 101 57344 57344 57344
+KEYS round=3 store=7 n=7 97 112 156 156 57344 57344 57344
+KEYS round=4 store=7 n=4 57344 57344 57344 57344</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>times the Borg takes the redundant amulet &#x27;Evenstar&#x27; out of its home</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+TRACK after_trials weapon_swap_resist_neth=1
+KEYS round=1 store=7 n=4 57344 57344 57344 57344</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/swaptrial-31: starting...
+SETUP seed=31 mode=swap-held class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6
+  home_swap_trials  
+PACK start 0 qty=5 desc=[Rations of Food]
+PACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK start 2 qty=5 desc=[Scrolls of Teleportation]
+PACK start 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK start 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK start 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+HOME start 0 qty=1 desc=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+HOME start 1 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+DECISION ware=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+TRACK after_trials weapon_swap_resist_neth=0
+STATE weapon_swap_slot=5 weapon_swap_model_qty=0 model=[] weapon_swap_game_qty=1 game=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;] weapon_swap_matches_game=0
+STATE armour_swap_slot=4 armour_swap_model_qty=0 model=[] armour_swap_game_qty=1 game=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_matches_game=0
+STATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1
+KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION round=1 retrieve ware=a qty=1 from=[the Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+MSG You have the Jewel &#x27;Evenstar&#x27; &lt;+2&gt; (e).
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 6 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+HOME after 0 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+KEYS round=2 store=7 n=5 115 101 57344 57344 57344
+ACTION round=2 stash letter=e qty=1 from=[the Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+MSG You drop the Jewel &#x27;Evenstar&#x27; &lt;+2&gt; (e).
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+HOME after 0 qty=1 desc=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+HOME after 1 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+KEYS round=3 store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION round=3 retrieve ware=a qty=1 from=[the Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+MSG You have the Jewel &#x27;Evenstar&#x27; &lt;+2&gt; (e).
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 6 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+HOME after 0 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+KEYS round=4 store=7 n=4 57344 57344 57344 57344
+ACTION round=4 leave
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 6 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+HOME after 0 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+OUTCOME model_matches_game=0 evenstar_retrieved=2 evenstar_stored=1 elvagil_retrieved=0
+Failed
+    native-c/swaptrial-31:405: requirement &#x27;ok_w &amp;&amp; ok_a &amp;&amp; ok_f&#x27; failed
+native-c/swaptrial-31 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/swaptrial-31: starting...
+SETUP seed=31 mode=swap-held class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6
+  home_swap_trials  
+PACK start 0 qty=5 desc=[Rations of Food]
+PACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK start 2 qty=5 desc=[Scrolls of Teleportation]
+PACK start 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK start 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK start 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+HOME start 0 qty=1 desc=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+HOME start 1 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+TRACK after_trials weapon_swap_resist_neth=1
+STATE weapon_swap_slot=5 weapon_swap_model_qty=1 model=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;] weapon_swap_game_qty=1 game=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;] weapon_swap_matches_game=1
+STATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_game_qty=1 game=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_matches_game=1
+STATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1
+KEYS round=1 store=7 n=4 57344 57344 57344 57344
+ACTION round=1 leave
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+HOME after 0 qty=1 desc=[Jewel &#x27;Evenstar&#x27; &lt;+2&gt;]
+HOME after 1 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+OUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=0
+Passed
+native-c/swaptrial-31 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="no-weapon-swap"><p class="summary">With no backup weapon, step 7A tries &#x27;Elvagil&#x27; in the first empty pack slot (the changed restore line runs on an empty slot) and chooses it as the first backup weapon in both versions; the real retrieve takes it and the Borg leaves in round 2. The logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>times the Borg takes the redundant amulet &#x27;Evenstar&#x27; out of its home</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+DECISION ware=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+TRACK after_trials weapon_swap_resist_neth=0
+KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344
+KEYS round=2 store=7 n=4 57344 57344 57344 57344</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>times the Borg takes the redundant amulet &#x27;Evenstar&#x27; out of its home</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+DECISION ware=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+TRACK after_trials weapon_swap_resist_neth=0
+KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344
+KEYS round=2 store=7 n=4 57344 57344 57344 57344</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/swaptrial-31: starting...
+SETUP seed=31 mode=no-weapon-swap class=Warrior clevel=50 max_depth=60 gold=5000 free_from=5
+  home_swap_trials  
+PACK start 0 qty=5 desc=[Rations of Food]
+PACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK start 2 qty=5 desc=[Scrolls of Teleportation]
+PACK start 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK start 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+HOME start 0 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+TRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+DECISION ware=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+TRACK after_trials weapon_swap_resist_neth=0
+STATE weapon_swap_held=0
+STATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_game_qty=1 game=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_matches_game=1
+STATE first_free_slot=5 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1
+KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION round=1 retrieve ware=a qty=1 from=[the Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+MSG You have the Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt; (f).
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+KEYS round=2 store=7 n=4 57344 57344 57344 57344
+ACTION round=2 leave
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+OUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=1
+Passed
+native-c/swaptrial-31 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/swaptrial-31: starting...
+SETUP seed=31 mode=no-weapon-swap class=Warrior clevel=50 max_depth=60 gold=5000 free_from=5
+  home_swap_trials  
+PACK start 0 qty=5 desc=[Rations of Food]
+PACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK start 2 qty=5 desc=[Scrolls of Teleportation]
+PACK start 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK start 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+HOME start 0 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+TRACK weapon_swap=0 weapon_swap_value=-1 armour_swap=5 armour_swap_value=10719
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+DECISION ware=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+TRACK after_trials weapon_swap_resist_neth=0
+STATE weapon_swap_held=0
+STATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_game_qty=1 game=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_matches_game=1
+STATE first_free_slot=5 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1
+KEYS round=1 store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION round=1 retrieve ware=a qty=1 from=[the Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+MSG You have the Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt; (f).
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+KEYS round=2 store=7 n=4 57344 57344 57344 57344
+ACTION round=2 leave
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Long Sword &#x27;Elvagil&#x27; (2d5) (+12,+12) &lt;+2&gt;]
+OUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=1
+Passed
+native-c/swaptrial-31 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="no-candidate"><p class="summary">Nothing in the home, so neither trial loop copies anything into the pack record; both versions keep both backups in the record and leave in round 1. The logs are identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>times the Borg takes the redundant amulet &#x27;Evenstar&#x27; out of its home</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+TRACK after_trials weapon_swap_resist_neth=1
+KEYS round=1 store=7 n=4 57344 57344 57344 57344</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>times the Borg takes the redundant amulet &#x27;Evenstar&#x27; out of its home</p><p>Scenario check: <strong>passed</strong></p><pre>TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+TRACK after_trials weapon_swap_resist_neth=1
+KEYS round=1 store=7 n=4 57344 57344 57344 57344</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/swaptrial-31: starting...
+SETUP seed=31 mode=no-candidate class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6
+  home_swap_trials  
+PACK start 0 qty=5 desc=[Rations of Food]
+PACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK start 2 qty=5 desc=[Scrolls of Teleportation]
+PACK start 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK start 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK start 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+TRACK after_trials weapon_swap_resist_neth=1
+STATE weapon_swap_slot=5 weapon_swap_model_qty=1 model=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;] weapon_swap_game_qty=1 game=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;] weapon_swap_matches_game=1
+STATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_game_qty=1 game=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_matches_game=1
+STATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1
+KEYS round=1 store=7 n=4 57344 57344 57344 57344
+ACTION round=1 leave
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+OUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=0
+Passed
+native-c/swaptrial-31 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/swaptrial-31: starting...
+SETUP seed=31 mode=no-candidate class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6
+  home_swap_trials  
+PACK start 0 qty=5 desc=[Rations of Food]
+PACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK start 2 qty=5 desc=[Scrolls of Teleportation]
+PACK start 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK start 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK start 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+TRACK after_trials weapon_swap_resist_neth=1
+STATE weapon_swap_slot=5 weapon_swap_model_qty=1 model=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;] weapon_swap_game_qty=1 game=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;] weapon_swap_matches_game=1
+STATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_game_qty=1 game=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;] armour_swap_matches_game=1
+STATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1
+KEYS round=1 store=7 n=4 57344 57344 57344 57344
+ACTION round=1 leave
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm &#x27;Holhenneth&#x27; [7,+10] &lt;+2&gt;]
+PACK after 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) &lt;+4&gt;]
+OUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=0
+Passed
+native-c/swaptrial-31 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 31, character level 50, maximum depth 60 (the Borg carries backups from depth 50; the shipped borg.txt has borg_uses_swaps = TRUE), 5000 gold, standing on the home entrance in town, all runes known. The starting kit&#x27;s torch, armour, dagger, food, Word of Recall scroll and Berserk Strength potion are replaced by: worn lantern, long sword &#x27;Ringil&#x27;, helm of Dor-Lómin (see invisible, telepathy, the four basic resists), ring of Free Action, amulet of Trickery and metal scale mail; carried 5 rations, 5 Potions of Cure Critical Wounds, 5 Scrolls of Teleportation and 2 of Word of Recall. Nothing worn resists nether, confusion or blindness. Backups carried: the quarterstaff of Olórin (except &#x27;no-weapon-swap&#x27;) and the helm &#x27;Holhenneth&#x27;. Every store is emptied; the home holds &#x27;Evenstar&#x27; and &#x27;Elvagil&#x27; (&#x27;swap-held&#x27;), &#x27;Elvagil&#x27; only (&#x27;no-weapon-swap&#x27;) or nothing (&#x27;no-candidate&#x27;). Fixture intervention (&#x27;no-weapon-swap&#x27; only): one sale-history entry saying &#x27;Elvagil&#x27; was just stored at home (the fields borg_think_shop_sell() writes), so that steps 4 and 5, which read that history, leave it and step 7A, which does not, reaches it through the empty-slot path. The Borg&#x27;s items and stores are loaded with the production borg_find_all_items() and borg_notice(); the production borg_choose_shop() makes the first store decision (steps 1 to 6 find nothing to do) and the fixture prints the Borg&#x27;s record of the two backup slots and the first free slot against the game&#x27;s pack; then up to six rounds each run one production borg_think_store() turn after re-reading the pack as borg_think() does, and its queued keys are carried out with the real do_cmd_retrieve() or do_cmd_stash(). A slot whose recorded count is zero is printed without its stale description: every reader skips such a slot.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/31">issue 31</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

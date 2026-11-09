@@ -1,0 +1,30 @@
+native-c/swaptrial-31: starting...
+SETUP seed=31 mode=swap-held class=Warrior clevel=50 max_depth=60 gold=5000 free_from=6
+  home_swap_trials  
+PACK start 0 qty=5 desc=[Rations of Food]
+PACK start 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK start 2 qty=5 desc=[Scrolls of Teleportation]
+PACK start 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK start 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]
+PACK start 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) <+4>]
+HOME start 0 qty=1 desc=[Jewel 'Evenstar' <+2>]
+HOME start 1 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]
+TRACK weapon_swap=6 weapon_swap_value=132749 armour_swap=5 armour_swap_value=10719
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+TRACK after_trials weapon_swap_resist_neth=1
+STATE weapon_swap_slot=5 weapon_swap_model_qty=1 model=[Quarterstaff of Olórin (2d9) (+10,+13) <+4>] weapon_swap_game_qty=1 game=[Quarterstaff of Olórin (2d9) (+10,+13) <+4>] weapon_swap_matches_game=1
+STATE armour_swap_slot=4 armour_swap_model_qty=1 model=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_game_qty=1 game=[Iron Helm 'Holhenneth' [7,+10] <+2>] armour_swap_matches_game=1
+STATE first_free_slot=6 first_free_model_qty=0 model=[] first_free_game_qty=0 game=[] first_free_matches_game=1
+KEYS round=1 store=7 n=4 57344 57344 57344 57344
+ACTION round=1 leave
+PACK after 0 qty=5 desc=[Rations of Food]
+PACK after 1 qty=5 desc=[Potions of Cure Critical Wounds]
+PACK after 2 qty=5 desc=[Scrolls of Teleportation]
+PACK after 3 qty=2 desc=[Scrolls of Word of Recall]
+PACK after 4 qty=1 desc=[Iron Helm 'Holhenneth' [7,+10] <+2>]
+PACK after 5 qty=1 desc=[Quarterstaff of Olórin (2d9) (+10,+13) <+4>]
+HOME after 0 qty=1 desc=[Jewel 'Evenstar' <+2>]
+HOME after 1 qty=1 desc=[Long Sword 'Elvagil' (2d5) (+12,+12) <+2>]
+OUTCOME model_matches_game=1 evenstar_retrieved=0 evenstar_stored=0 elvagil_retrieved=0
+Passed
+native-c/swaptrial-31 finished: 1/1 passed
