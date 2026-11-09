@@ -1,0 +1,10 @@
+native-c/deadtake-72: starting...
+SETUP seed=72 mode=dead-entry class=Warrior clevel=12 hp=152/152 sp=0/0 food=8999 depth=5
+  lunal_take_skips_dead_entries  STATE borg=(3,3) clevel=12 gold_at=(7,3) gold_slot=2 takes_nxt=3 takes_cnt=1
+STATE entry1_kidx=0 entry1_tval=0 entry1_at=(0,0) entry1_value=0 corner_in_view=1
+DECISION rc=1 key=54 goal_type=2 goal_at=(4,3)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 4
+OUTCOME walks_toward_gold=1
+Passed
+native-c/deadtake-72 finished: 1/1 passed

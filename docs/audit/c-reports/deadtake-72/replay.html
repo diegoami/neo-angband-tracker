@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg&#x27;s Lunal mode treated forgotten object entries as targets at the corner of the level</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg&#x27;s Lunal mode treated forgotten object entries as targets at the corner of the level</h1><p>The Borg keeps a list of the objects it has seen. When one is forgotten its entry is zeroed but stays in the list. The Lunal mode take routine meant to skip such entries, but its test looked at the address of the kind record, which is never NULL, so a forgotten entry was treated like a live one. Its location is (0,0), the corner of the level, and when that grid is in view it became a flow target next to the real items; a Borg near the corner went towards it. The correction tests the kind index, as the other take routines do.</p><p><label>Scenario: <select id="scenario"><option value="dead-entry">A forgotten object entry sits below the live gold</option><option value="live-only">Control: the gold is the only entry</option></select></label></p><section class="scenario" data-mode="dead-entry"><p class="summary">A level-12 Warrior stands at (3,3) near the top-left corner of a lit open room, with a pile of gold four grids east. An earlier object was recorded and forgotten with the production delete, so entry 1 of the object list is zeroed (kind 0, location 0,0) and the gold is entry 2. The production Lunal take routine decides which way to go. Original: the dead entry is not skipped, the corner grid (0,0), which is in view, becomes a target next to the gold and is nearer, so the Borg steps north-west towards the corner (goal 2,2). Corrected: the dead entry is skipped and the Borg steps east towards the gold (goal 4,3).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the first step goes towards the gold (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=55 goal_type=2 goal_at=(2,2)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 3</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the first step goes towards the gold (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54 goal_type=2 goal_at=(4,3)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 4</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/deadtake-72: starting...
+SETUP seed=72 mode=dead-entry class=Warrior clevel=12 hp=152/152 sp=0/0 food=8999 depth=5
+  lunal_take_skips_dead_entries  STATE borg=(3,3) clevel=12 gold_at=(7,3) gold_slot=2 takes_nxt=3 takes_cnt=1
+STATE entry1_kidx=0 entry1_tval=0 entry1_at=(0,0) entry1_value=0 corner_in_view=1
+DECISION rc=1 key=55 goal_type=2 goal_at=(2,2)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 3
+OUTCOME walks_toward_gold=0
+Failed
+    native-c/deadtake-72:184: requirement &#x27;key == EAST_KEY&#x27; failed
+native-c/deadtake-72 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/deadtake-72: starting...
+SETUP seed=72 mode=dead-entry class=Warrior clevel=12 hp=152/152 sp=0/0 food=8999 depth=5
+  lunal_take_skips_dead_entries  STATE borg=(3,3) clevel=12 gold_at=(7,3) gold_slot=2 takes_nxt=3 takes_cnt=1
+STATE entry1_kidx=0 entry1_tval=0 entry1_at=(0,0) entry1_value=0 corner_in_view=1
+DECISION rc=1 key=54 goal_type=2 goal_at=(4,3)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 4
+OUTCOME walks_toward_gold=1
+Passed
+native-c/deadtake-72 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="live-only"><p class="summary">The same Warrior and gold with no dead entry in the list. The Borg steps east towards the gold (goal 4,3) before and after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the first step goes towards the gold (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54 goal_type=2 goal_at=(4,3)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 4</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the first step goes towards the gold (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54 goal_type=2 goal_at=(4,3)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 4</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/deadtake-72: starting...
+SETUP seed=72 mode=live-only class=Warrior clevel=12 hp=152/152 sp=0/0 food=8999 depth=5
+  lunal_take_skips_dead_entries  STATE borg=(3,3) clevel=12 gold_at=(7,3) gold_slot=1 takes_nxt=2 takes_cnt=1
+STATE entry1_kidx=362 entry1_tval=35 entry1_at=(7,3) entry1_value=100 corner_in_view=1
+DECISION rc=1 key=54 goal_type=2 goal_at=(4,3)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 4
+OUTCOME walks_toward_gold=1
+Passed
+native-c/deadtake-72 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/deadtake-72: starting...
+SETUP seed=72 mode=live-only class=Warrior clevel=12 hp=152/152 sp=0/0 food=8999 depth=5
+  lunal_take_skips_dead_entries  STATE borg=(3,3) clevel=12 gold_at=(7,3) gold_slot=1 takes_nxt=2 takes_cnt=1
+STATE entry1_kidx=362 entry1_tval=35 entry1_at=(7,3) entry1_value=100 corner_in_view=1
+DECISION rc=1 key=54 goal_type=2 goal_at=(4,3)
+TRACK # Lunal Item copper, at 3,7
+TRACK # Flowing toward munchkin item at cost 4
+OUTCOME walks_toward_gold=1
+Passed
+native-c/deadtake-72 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 72, character level 12, depth 5, a lit open arena, the Borg at (3,3), a free pack slot. Fixture interventions: the object list entries are placed by the fixture (kind, position, value 100), the dead entry by placing a pile of gold and forgetting it with the production borg_delete_take(); every grid of the arena is marked in view, as the lit open room would be; the Borg&#x27;s map update is not run, so the detection arrays are sized for a two-by-two panel map as it would. The production borg_flow_take_lunal() decides; its keypress is read, not played.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/72">issue 72</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
