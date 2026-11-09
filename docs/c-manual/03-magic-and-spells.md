@@ -408,7 +408,7 @@ FACT (`src/list-mon-timed.h`, `src/mon-timed.c`):
 | Status | Saving throw? | Blocked by flag | Stacking | Max | Notes |
 |---|---|---|---|---|---|
 | Sleep | yes | `NO_SLEEP` | no | 10000 | |
-| Fear | yes | `NO_FEAR` | adds | 10000 | |
+| Fear | yes | `NO_FEAR` | adds | 10000 | decays by 1d(level/10+1) per monster turn, so deep monsters recover fast |
 | Confusion | **no** | `NO_CONF` | max | 50 | |
 | Slow | **no** | `NO_SLOW` | adds | 50 | −2 speed per 10 turns of timer (max −10) |
 | Hold | **no** | `NO_HOLD` | max | 50 | broken by any damage from you |
@@ -417,7 +417,7 @@ FACT (`src/list-mon-timed.h`, `src/mon-timed.c`):
 
 Saving throw (sleep, fear): resist chance = `min(90, monster_level + max(0, 25 − timer/2))`;
 uniques roll twice. Huge timers (Mass Sleep 10L+500) reduce this to just the monster's level.
-Teleport-away (`AWAY_*`) and fear-from-howl have **no** resistance beyond the type check; teleport
+Teleport-away (`AWAY_*`, Teleport Other's `AWAY_ALL`) has **no** resistance beyond the type check; teleport
 works on uniques. Polymorph (Chaos) never affects uniques.
 
 Consequence (ADVICE): *Slow Monster*, *Confuse Monster* and *Trance* are far more reliable than their
@@ -504,7 +504,7 @@ Beam chance for `BOLT_OR_BEAM` spells: L% (Magic Missile: L−10%).
 | Magic Missile | 1 | 1 | 22 | 4 | Bolt/beam of `MISSILE` (nothing resists), `((L−1)/5+3)d4`: 3d4 (7.5) L1–5, 4d4 L6–10, 6d4 (15) L16–20, 8d4 (20) L26–30, 10d4 (25) L36–40, 12d4 (30) L46–50. |
 | Light Room | 1 | 2 | 26 | 4 | Lights the room you are in plus radius 2; 1 point of `LIGHT_WEAK` (hurts only `HURT_LIGHT` monsters) in radius 2. |
 | Find Traps, Doors & Stairs | 1 | 1 | 20 | 2 | Detects traps, doors, stairs within ±22 rows, ±40 columns. |
-| Phase Door | 2 | 2 | 22 | 4 | Teleport ~10 squares (randomised ±25%: 8–12). |
+| Phase Door | 2 | 2 | 22 | 4 | Teleport ~10 squares (the game randomises every teleport distance by up to ±25%, here 9–11). |
 | Electric Arc | 2 | 2 | 34 | 4 | Short beam of `ELEC`, length L grids (max range 20), `((L−1)/5+3)d6` (same dice count as Magic Missile, d6): 3d6 at L2–5, 6d6 at L16–20. Hits every monster along it; destroys elec-vulnerable floor items. |
 | Detect Monsters | 3 | 2 | 24 | 4 | Shows non-invisible monsters in ±22/±40 for one turn. |
 | Fire Ball | 6 | 5 | 33 | 5 | Radius-2 `FIRE` ball, 2L at the centre (12 at L6, 20 at L10, 40 at L20, 100 at L50), half at radius 1, a third at radius 2. |
@@ -602,8 +602,8 @@ Beam chance for `BOLT_OR_BEAM` spells: L% (Magic Missile: L−10%).
   when you lack permanent resists; temporary resistance stacks with item resistance (double resist
   cuts damage to 1/9). 20 SP and 65% base fail make it a pre-buff, not an emergency spell.
 - **Tap Magical Energy** — TRAP in most situations: it destroys all charges and stuns you (1–2
-  turns). Use only on junk wands/staves when you need mana *now* in a safe place, e.g. tapping a
-  Staff of Detect Evil (level 20ish, many charges) between fights.
+  turns). Use only on junk wands/staves when you need mana *now* in a safe place (deeper items with many
+  charges give the most: SP = (5 + item level) × charges / 4).
 - **Mana Channel** — ADVICE: before a long boss fight; 10 SP buys 5–10 turns of 33% faster casting.
   Stun cancels it: cure stun first.
 - **Door Creation** — ADVICE: niche tactical spell: box yourself in to rest, or put a door between you
@@ -763,7 +763,7 @@ books — the middle game depends on finding dungeon books. Official manual:
   monsters.
 - **Tremor** — ADVICE: targeted earthquake: wall off a corridor, drop rubble between you and a pack, or
   destroy a summoner's surroundings. Can bury items. 60% base.
-- **Haste Self** — ADVICE: the druid's most important utility spell (+10 speed, ~45 turns at L25). Cast
+- **Haste Self** — ADVICE: the druid's most important utility spell (+10 speed, 26–45 turns at L25). Cast
   before every serious fight once its fail is acceptable; until then carry Potions of Speed.
 - **Revitalize** — ADVICE: full restore after nexus/drain damage, 70 SP; cast in safety.
 - **Rapid Regeneration** — ADVICE: 150–240 HP over a few game ticks at the cost of food; out-of-combat
