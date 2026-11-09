@@ -1,0 +1,114 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "e075f0ac7c618fdd32eb5bd4b49d1936e8738da4",
+  "fixtures_ref": "40495b33a5136be40b09b317f731f60841686c00",
+  "cases": {
+    "before": {
+      "single": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "home_ware0_qty_after_step4": 0,
+          "home_ware0_qty_after_steps": 0
+        },
+        "outcome": {
+          "buys_home_ware0": 0
+        }
+      },
+      "pair": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "home_ware0_qty_after_step4": 1,
+          "home_ware0_qty_after_steps": 2
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      },
+      "roomy": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      },
+      "stack": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_step4": 1,
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 0
+        }
+      }
+    },
+    "after": {
+      "single": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_step4": 1,
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      },
+      "pair": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_step4": 2,
+          "home_ware0_qty_after_steps": 2
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      },
+      "roomy": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 1
+        }
+      },
+      "stack": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "home_ware0_qty_after_step4": 1,
+          "home_ware0_qty_after_steps": 1
+        },
+        "outcome": {
+          "buys_home_ware0": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "roomy",
+    "stack"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-store-buy.c": "f23228c401477f67c46f11fba474b9fb633777aaf523f6d0c3940ee1af732335"
+  }
+}

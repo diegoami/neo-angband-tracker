@@ -1,0 +1,34 @@
+native-c/homebuyqty-19: starting...
+SETUP seed=19 mode=pair class=Warrior clevel=21 gold=5000 pack_slots=23 free_from=22
+  home_ware_is_considered  PACK 0 qty=1 desc=[Ration of Food]
+PACK 1 qty=1 desc=[Potion of Cure Light Wounds]
+PACK 2 qty=1 desc=[Potion of Cure Serious Wounds]
+PACK 3 qty=1 desc=[Potion of Cure Critical Wounds]
+PACK 4 qty=1 desc=[Potion of Healing]
+PACK 5 qty=1 desc=[Potion of Neutralize Poison]
+PACK 6 qty=1 desc=[Potion of Speed]
+PACK 7 qty=1 desc=[Potion of Heroism]
+PACK 8 qty=1 desc=[Potion of Berserk Strength]
+PACK 9 qty=1 desc=[Potion of Resist Heat]
+PACK 10 qty=1 desc=[Potion of Resist Cold]
+PACK 11 qty=1 desc=[Potion of Resist Poison]
+PACK 12 qty=1 desc=[Potion of True Seeing]
+PACK 13 qty=1 desc=[Scroll of Phase Door]
+PACK 14 qty=1 desc=[Scroll of Teleportation]
+PACK 15 qty=1 desc=[Scroll of Teleport Level]
+PACK 16 qty=1 desc=[Scroll of Magic Mapping]
+PACK 17 qty=1 desc=[Scroll of Light]
+PACK 18 qty=1 desc=[Scroll of Word of Recall]
+PACK 19 qty=1 desc=[Scroll of Deep Descent]
+PACK 20 qty=1 desc=[Scroll of Blessing]
+PACK 21 qty=1 desc=[Scroll of Holy Chant]
+HOME 0 qty=2 desc=[Tulwars (2d4)]
+TRACK power_now=502483 uses_swaps=1 weapon_swap=0
+STATE home_ware0_qty_after_step4=1
+STEP decided_by=[7A buy backup weapon from home]
+STATE home_ware0_qty_after_steps=2
+DECISION acts=1 goal_shop=7 goal_ware=0 goal_item=-1
+OUTCOME buys_home_ware0=1
+Failed
+    native-c/homebuyqty-19:217: requirement 'qty_after4 == qty_before' failed
+native-c/homebuyqty-19 finished: 0/1 passed

@@ -1,0 +1,45 @@
+{
+  "single": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "home_ware0_qty_after_step4": 1,
+      "home_ware0_qty_after_steps": 1
+    },
+    "outcome": {
+      "buys_home_ware0": 1
+    }
+  },
+  "pair": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "home_ware0_qty_after_step4": 2,
+      "home_ware0_qty_after_steps": 2
+    },
+    "outcome": {
+      "buys_home_ware0": 1
+    }
+  },
+  "roomy": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "home_ware0_qty_after_steps": 1
+    },
+    "outcome": {
+      "buys_home_ware0": 1
+    }
+  },
+  "stack": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "home_ware0_qty_after_step4": 1,
+      "home_ware0_qty_after_steps": 1
+    },
+    "outcome": {
+      "buys_home_ware0": 0
+    }
+  }
+}
