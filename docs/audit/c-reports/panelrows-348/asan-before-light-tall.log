@@ -1,0 +1,47 @@
+native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-tall class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=0 w_y=0 last_col=65 last_row=67 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  =================================================================
+==26462==ERROR: AddressSanitizer: global-buffer-overflow on address 0x55c487575ef0 at pc 0x55c4871eb9d9 bp 0x7ffe5b521090 sp 0x7ffe5b521080
+READ of size 8 at 0x55c487575ef0 thread T0
+    #0 0x55c4871eb9d8 in borg_flow_light /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:836
+    #1 0x55c486dbb6ed in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:213
+    #2 0x55c4872f4fa4 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:53
+    #3 0x7f5cbea2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7f5cbea2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x55c486db8e44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+0x55c487575ef0 is located 0 bytes after global variable 'borg_grids' defined in '/tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-cave.c:29:12' (0x55c487575ce0) of size 528
+SUMMARY: AddressSanitizer: global-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:836 in borg_flow_light
+Shadow bytes around the buggy address:
+  0x55c487575c00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487575c80: 00 f9 f9 f9 f9 f9 f9 f9 00 00 00 00 00 00 00 00
+  0x55c487575d00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487575d80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487575e00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x55c487575e80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00[f9]f9
+  0x55c487575f00: f9 f9 f9 f9 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487575f80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487576000: 00 00 00 00 00 00 00 00 00 02 f9 f9 f9 f9 f9 f9
+  0x55c487576080: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x55c487576100: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==26462==ABORTING

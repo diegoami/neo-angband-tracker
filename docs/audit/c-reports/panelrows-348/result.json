@@ -1,0 +1,480 @@
+{
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "82702575b2179cb27cb7eac24272515dfea0830e",
+  "fixtures_ref": "aac11f0e0f96354a2c425213396d19c82f93ed22",
+  "cases": {
+    "before": {
+      "light-tall": {
+        "exit": -11,
+        "passed": false,
+        "asan": false,
+        "asan_site": null
+      },
+      "light-wide": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 66,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "light-normal": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 66,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "light-fit": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 88,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "vault-tall": {
+        "exit": -11,
+        "passed": false,
+        "asan": false,
+        "asan_site": null
+      },
+      "vault-wide": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "vault-normal": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "dig-tall": {
+        "exit": -11,
+        "passed": false,
+        "asan": false,
+        "asan_site": null
+      },
+      "dig-wide": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "dig-normal": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      }
+    },
+    "after": {
+      "light-tall": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 88,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "light-wide": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 66,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "light-normal": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 66,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "light-fit": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 88,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "vault-tall": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "vault-wide": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "vault-normal": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "dig-tall": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "dig-wide": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      },
+      "dig-normal": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "completed": 1,
+          "targets": 1,
+          "offmap": 0,
+          "progress": 1
+        },
+        "asan": false,
+        "asan_site": null
+      }
+    }
+  },
+  "identical_controls": [
+    "light-normal",
+    "light-fit",
+    "vault-normal",
+    "dig-normal"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "asan": {
+    "flags": "-fsanitize=address -fno-omit-frame-pointer -g",
+    "options": "detect_leaks=0:intercept_strcmp=0",
+    "cases": {
+      "before": {
+        "light-tall": {
+          "exit": 1,
+          "passed": false,
+          "asan": true,
+          "asan_site": "global-buffer-overflow READ in borg_flow_light borg-flow-misc.c:836"
+        },
+        "light-wide": {
+          "exit": 1,
+          "passed": false,
+          "asan": true,
+          "asan_site": "heap-buffer-overflow READ in borg_flow_light borg-flow-misc.c:839"
+        },
+        "light-normal": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 66,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "light-fit": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 88,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "vault-tall": {
+          "exit": 1,
+          "passed": false,
+          "asan": true,
+          "asan_site": "global-buffer-overflow READ in borg_flow_vault borg-flow-misc.c:909"
+        },
+        "vault-wide": {
+          "exit": 1,
+          "passed": false,
+          "asan": true,
+          "asan_site": "heap-buffer-overflow READ in borg_flow_vault borg-flow-misc.c:909"
+        },
+        "vault-normal": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 1,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "dig-tall": {
+          "exit": 1,
+          "passed": false,
+          "asan": true,
+          "asan_site": "global-buffer-overflow READ in borg_excavate_vault borg-think-dungeon-util.c:1016"
+        },
+        "dig-wide": {
+          "exit": 1,
+          "passed": false,
+          "asan": true,
+          "asan_site": "heap-buffer-overflow READ in borg_excavate_vault borg-think-dungeon-util.c:1016"
+        },
+        "dig-normal": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 1,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        }
+      },
+      "after": {
+        "light-tall": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 88,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "light-wide": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 66,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "light-normal": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 66,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "light-fit": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 88,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "vault-tall": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 1,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "vault-wide": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 1,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "vault-normal": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 1,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "dig-tall": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 1,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "dig-wide": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 1,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        },
+        "dig-normal": {
+          "exit": 0,
+          "passed": true,
+          "outcome": {
+            "completed": 1,
+            "targets": 1,
+            "offmap": 0,
+            "progress": 1
+          },
+          "asan": false,
+          "asan_site": null
+        }
+      }
+    },
+    "expected_sites": {
+      "light-tall": "global-buffer-overflow READ in borg_flow_light borg-flow-misc.c:836",
+      "light-wide": "heap-buffer-overflow READ in borg_flow_light borg-flow-misc.c:839",
+      "vault-tall": "global-buffer-overflow READ in borg_flow_vault borg-flow-misc.c:909",
+      "vault-wide": "heap-buffer-overflow READ in borg_flow_vault borg-flow-misc.c:909",
+      "dig-tall": "global-buffer-overflow READ in borg_excavate_vault borg-think-dungeon-util.c:1016",
+      "dig-wide": "heap-buffer-overflow READ in borg_excavate_vault borg-think-dungeon-util.c:1016"
+    },
+    "normal_build_crash_before": [
+      "light-tall",
+      "vault-tall",
+      "dig-tall"
+    ]
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "f50a775194c665ac389fa77b93c37a1f5411d28208e33f2cfd9c55a62c375ed9",
+    "src/borg/borg-think-dungeon-util.c": "960ff3942a9d43209f30c3940acc3e54aa1e7876d7239b7e820e7161b1240070"
+  }
+}

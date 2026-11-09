@@ -1,0 +1,60 @@
+native-c/panelrows-348: starting...
+SETUP seed=348 mode=vault-wide class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=230x24 panel_wid=216 panel_hgt=22 w_x=0 w_y=44 last_col=215 last_row=65 map_cols=198 map_rows=66
+DIG can_dig_quartz=1 dig=97
+  panel_scan_stays_on_map  =================================================================
+==26467==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x51d0000329c8 at pc 0x55cb0da4f393 bp 0x7fff2cd14d00 sp 0x7fff2cd14cf0
+READ of size 1 at 0x51d0000329c8 thread T0
+    #0 0x55cb0da4f392 in borg_flow_vault /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:909
+    #1 0x55cb0d61e591 in scenario /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:208
+    #2 0x55cb0db57fa4 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:53
+    #3 0x7f8cfbc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #4 0x7f8cfbc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #5 0x55cb0d61be44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+0x51d0000329c8 is located 0 bytes after 2376-byte region [0x51d000032080,0x51d0000329c8)
+allocated by thread T0 here:
+    #0 0x7f8cfc0fd9c7 in malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:69
+    #1 0x55cb0d9af333 in mem_alloc /tmp/angband-panelrows-348-0x8v3h9r/source/src/z-virt.c:38
+    #2 0x55cb0d9af36f in mem_zalloc /tmp/angband-panelrows-348-0x8v3h9r/source/src/z-virt.c:46
+    #3 0x55cb0d9c99ce in borg_init_cave /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-cave.c:45
+    #4 0x55cb0da7a836 in borg_init /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-init.c:572
+    #5 0x55cb0d61d31d in setup_tests /tmp/angband-panelrows-348-0x8v3h9r/evidence/scenario.c:156
+    #6 0x55cb0db57e21 in main /tmp/angband-panelrows-348-0x8v3h9r/source/src/tests/unit-test.c:45
+    #7 0x7f8cfbc2a1c9 in __libc_start_call_main ../sysdeps/nptl/libc_start_call_main.h:58
+    #8 0x7f8cfbc2a28a in __libc_start_main_impl ../csu/libc-start.c:360
+    #9 0x55cb0d61be44 in _start (/tmp/angband-panelrows-348-0x8v3h9r/build-asan/game/PR348Observer+0x14ae44) (BuildId: 9feb8a4c2148c512b0af24fbd6acdcb9b8ac64b7)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow /tmp/angband-panelrows-348-0x8v3h9r/source/src/borg/borg-flow-misc.c:909 in borg_flow_vault
+Shadow bytes around the buggy address:
+  0x51d000032700: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+=>0x51d000032980: 00 00 00 00 00 00 00 00 00[fa]fa fa fa fa fa fa
+  0x51d000032a00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x51d000032a80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032b00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032b80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  0x51d000032c00: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Container overflow:      fc
+  Array cookie:            ac
+  Intra object redzone:    bb
+  ASan internal:           fe
+  Left alloca redzone:     ca
+  Right alloca redzone:    cb
+==26467==ABORTING

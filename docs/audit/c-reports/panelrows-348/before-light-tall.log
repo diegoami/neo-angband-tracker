@@ -1,0 +1,4 @@
+native-c/panelrows-348: starting...
+SETUP seed=348 mode=light-tall class=Warrior clevel=21 depth=10 level=198x66
+GEOMETRY term=80x70 panel_wid=66 panel_hgt=68 w_x=0 w_y=0 last_col=65 last_row=67 map_cols=198 map_rows=66
+  panel_scan_stays_on_map  

@@ -1,0 +1,10 @@
+light-tall {'exit': -11, 'passed': False, 'asan': False, 'asan_site': None}
+light-wide {'exit': 0, 'passed': True, 'outcome': {'completed': 1, 'targets': 66, 'offmap': 0, 'progress': 1}, 'asan': False, 'asan_site': None}
+light-normal {'exit': 0, 'passed': True, 'outcome': {'completed': 1, 'targets': 66, 'offmap': 0, 'progress': 1}, 'asan': False, 'asan_site': None}
+light-fit {'exit': 0, 'passed': True, 'outcome': {'completed': 1, 'targets': 88, 'offmap': 0, 'progress': 1}, 'asan': False, 'asan_site': None}
+vault-tall {'exit': -11, 'passed': False, 'asan': False, 'asan_site': None}
+vault-wide {'exit': 0, 'passed': True, 'outcome': {'completed': 1, 'targets': 1, 'offmap': 0, 'progress': 1}, 'asan': False, 'asan_site': None}
+vault-normal {'exit': 0, 'passed': True, 'outcome': {'completed': 1, 'targets': 1, 'offmap': 0, 'progress': 1}, 'asan': False, 'asan_site': None}
+dig-tall {'exit': -11, 'passed': False, 'asan': False, 'asan_site': None}
+dig-wide {'exit': 0, 'passed': True, 'outcome': {'completed': 1, 'targets': 1, 'offmap': 0, 'progress': 1}, 'asan': False, 'asan_site': None}
+dig-normal {'exit': 0, 'passed': True, 'outcome': {'completed': 1, 'targets': 1, 'offmap': 0, 'progress': 1}, 'asan': False, 'asan_site': None}
