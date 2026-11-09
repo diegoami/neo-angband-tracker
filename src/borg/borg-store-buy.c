@@ -128,7 +128,7 @@ static bool borg_good_buy(borg_item *item, int who, int ware)
                     /* mage and rogue can cast teleport away */
                     (item->sval == sv_rod_teleport_other
                         && borg.trait[BI_CLASS] != CLASS_MAGE
-                        && borg.trait[BI_CLASS] == CLASS_ROGUE)
+                        && borg.trait[BI_CLASS] != CLASS_ROGUE)
                     || (item->sval == sv_rod_illumination
                         && (!borg.trait[BI_ALITE]))))
             || (obj_kind_can_browse(&k_info[item->kind])
