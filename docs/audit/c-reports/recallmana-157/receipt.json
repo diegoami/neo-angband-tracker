@@ -1,0 +1,129 @@
+{
+  "issue": "diegoami/neo-angband-tracker#157",
+  "report": "recallmana-157",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "57d0df0633d12064602993f39fe6a5ee5f62524c",
+  "fix_branch": "task/recallmana-157",
+  "fixtures_ref": "b6bd252e1c9b60845cd3824f42d7dbc5100d2b63",
+  "cases": {
+    "lowmana": {
+      "before": {
+        "passed": false,
+        "state": {
+          "sp": 19,
+          "maxsp": 193,
+          "recalling": 150,
+          "danger": 20,
+          "avoidance": 9,
+          "hp": 9,
+          "fleeing": 1
+        },
+        "outcome": {
+          "restore_mana": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "sp": 19,
+          "maxsp": 193,
+          "recalling": 150,
+          "danger": 20,
+          "avoidance": 9,
+          "hp": 9,
+          "fleeing": 1
+        },
+        "outcome": {
+          "restore_mana": 1
+        }
+      }
+    },
+    "halfmana": {
+      "before": {
+        "passed": true,
+        "state": {
+          "sp": 96,
+          "maxsp": 193,
+          "recalling": 150,
+          "danger": 20,
+          "avoidance": 9,
+          "hp": 9,
+          "fleeing": 1
+        },
+        "outcome": {
+          "restore_mana": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "sp": 96,
+          "maxsp": 193,
+          "recalling": 150,
+          "danger": 20,
+          "avoidance": 9,
+          "hp": 9,
+          "fleeing": 1
+        },
+        "outcome": {
+          "restore_mana": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "halfmana"
+  ],
+  "claim": "The first 'buy time while waiting for recall' step in borg_caution() tested BI_CURSP < BI_CURSP / 4, never true, so a low-mana caster never restored mana there. With BI_MAXSP, a level-35 Mage on 9 HP and 19/193 mana beside a cave bear quaffs Restore Mana instead of doing nothing; the half-mana control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-caution.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "48c06611c097824cef3a86bf83809a7207c343def325fc0dcdb179e591101f8a"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "0c3177b6e23b64ec16a196156abc4fedd5950df1668613dc7d6d0298817629cf",
+    "after-halfmana.log": "d4f7bcde153547c8a62454934ff43d51755584b256b3e1725678b3ab83859933",
+    "after-lowmana.log": "6070bcb1ca6fa97060063dca481a73ac8699a8994ba377f1e8579809b56daedf",
+    "after-results.json": "a821610e7f05fbf5a11fd15ae2ca5f3b77b67b54adf0f3daa478c2a909dd455a",
+    "before-halfmana.log": "d4f7bcde153547c8a62454934ff43d51755584b256b3e1725678b3ab83859933",
+    "before-lowmana.log": "2d1d0bf9b9ac6ec72990a5fd2babab61b3b883fc4b1fb11fe4a0a48468a3a010",
+    "before-results.json": "9eb931b50adae82fa07bd7ff14cf25537f8061bc7ef346b6e2531b59fe718369",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "5585dc98c353d4ae81504834d10d661c0e64c342f210c5655aa8c7bd392e6084",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "9c5404f404d9f8c71ba76b8c5cd0a698b325665a5e55c49f7c98d545e420563c",
+    "replay.html": "12689d8d67fe38c83bfaf614dc7c57dd2357171161941166aaff1c223fbda8ed",
+    "reproduce.py": "3743dd6241da00b3b8f1bc5765ab028e8f514e8221a81ee41159e9a1cfe51acf",
+    "result.json": "8be466230bac1011d2a632bd017bc3dd971e703763e57ab4634bcacf5de44d47",
+    "run-after-alltests.log": "cef0d911876164c0822718691853638e12f44acc69987287fa90b382ded8582e",
+    "run-after-build.log": "9b003ed0d767b1a576b4b6d65293ed149eb900dc61fc071a7a35c605efef37e3",
+    "run-after-scenarios.log": "2b85eda25aad30795a2bfb516ca83ae910d505d869ce4eb1f5dae48f387c82ea",
+    "run-before-alltests.log": "b033ad4dcea78268093da0c5fb39d5be3c7f641c7392c605eff5d49aba98a29d",
+    "run-before-build.log": "79d5ed921b88cadd1802c63d25a6f80ba8d948195f516481a7c94a7810443234",
+    "run-before-scenarios.log": "466b4b30afc8a5b8ff4dab0f97c6b13ceb0e724a313041b0d575d5512e79da60",
+    "run-cases.py": "cd8acee52d2685fbb68c375cf3a3a2ccd83057416e1c4fb7cf3da76905203da0",
+    "run-configure.log": "fc6cda5c899db6e6fa4564868191b2c4a77d75b0082af05c84a578818132d4d2",
+    "scenario.c": "80d117c75fca03743f491ca9bc574e4ce5e68a60524b441f0e7b1215b5ae3ab4"
+  }
+}

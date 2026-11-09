@@ -1,0 +1,2 @@
+lowmana {'exit': 0, 'passed': False, 'state': {'sp': 19, 'maxsp': 193, 'recalling': 150, 'danger': 20, 'avoidance': 9, 'hp': 9, 'fleeing': 1}, 'outcome': {'restore_mana': 0}}
+halfmana {'exit': 0, 'passed': True, 'state': {'sp': 96, 'maxsp': 193, 'recalling': 150, 'danger': 20, 'avoidance': 9, 'hp': 9, 'fleeing': 1}, 'outcome': {'restore_mana': 0}}

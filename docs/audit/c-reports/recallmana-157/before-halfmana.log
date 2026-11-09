@@ -1,0 +1,12 @@
+native-c/recallmana-157: starting...
+SETUP seed=157 mode=halfmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0
+  restore_mana_while_waiting_for_recall  STATE sp=96 maxsp=193 recalling=150
+KILL k=1 r=140 pos=(11,13) awake=1 power=25
+STATE danger=20 avoidance=9 hp=9 fleeing=1
+DECISION rc=0 key=0
+TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+OUTCOME restore_mana=0
+Passed
+native-c/recallmana-157 finished: 1/1 passed

@@ -1,0 +1,106 @@
+{
+  "lowmana": {
+    "label": "19 of 193 mana",
+    "explanation": "Original: the mana test is never true; after the failed teleport attempt, caution takes no action (rc 0). Corrected: 'Quaffing Potions of Restore Mana' / 'Buying time waiting for Recall.(1)' (key q).",
+    "control": false,
+    "before": {
+      "raw": "native-c/recallmana-157: starting...\nSETUP seed=157 mode=lowmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0\n  restore_mana_while_waiting_for_recall  STATE sp=19 maxsp=193 recalling=150\nKILL k=1 r=140 pos=(11,13) awake=1 power=25\nSTATE danger=20 avoidance=9 hp=9 fleeing=1\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:19/193 Danger:p=20\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nOUTCOME restore_mana=0\nFailed\n    native-c/recallmana-157:184: requirement 'restore' failed\nnative-c/recallmana-157 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "sp": 19,
+        "maxsp": 193,
+        "recalling": 150,
+        "danger": 20,
+        "avoidance": 9,
+        "hp": 9,
+        "fleeing": 1
+      },
+      "outcome": {
+        "restore_mana": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:19/193 Danger:p=20",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/recallmana-157: starting...\nSETUP seed=157 mode=lowmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0\n  restore_mana_while_waiting_for_recall  STATE sp=19 maxsp=193 recalling=150\nKILL k=1 r=140 pos=(11,13) awake=1 power=25\nSTATE danger=20 avoidance=9 hp=9 fleeing=1\nDECISION rc=1 key=113\nTRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:19/193 Danger:p=20\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Quaffing Potions of Restore Mana.\nTRACK # Buying time waiting for Recall.(1)\nOUTCOME restore_mana=1\nPassed\nnative-c/recallmana-157 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "sp": 19,
+        "maxsp": 193,
+        "recalling": 150,
+        "danger": 20,
+        "avoidance": 9,
+        "hp": 9,
+        "fleeing": 1
+      },
+      "outcome": {
+        "restore_mana": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=113",
+        "TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:19/193 Danger:p=20",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Quaffing Potions of Restore Mana.",
+        "TRACK # Buying time waiting for Recall.(1)"
+      ],
+      "value": 1
+    }
+  },
+  "halfmana": {
+    "label": "Control: 96 of 193 mana",
+    "explanation": "Mana is above a quarter of the maximum; neither version quaffs and the logs are identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/recallmana-157: starting...\nSETUP seed=157 mode=halfmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0\n  restore_mana_while_waiting_for_recall  STATE sp=96 maxsp=193 recalling=150\nKILL k=1 r=140 pos=(11,13) awake=1 power=25\nSTATE danger=20 avoidance=9 hp=9 fleeing=1\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nOUTCOME restore_mana=0\nPassed\nnative-c/recallmana-157 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "sp": 96,
+        "maxsp": 193,
+        "recalling": 150,
+        "danger": 20,
+        "avoidance": 9,
+        "hp": 9,
+        "fleeing": 1
+      },
+      "outcome": {
+        "restore_mana": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/recallmana-157: starting...\nSETUP seed=157 mode=halfmana class=Mage clevel=35 hp=9 depth=30 up=1 down=0\n  restore_mana_while_waiting_for_recall  STATE sp=96 maxsp=193 recalling=150\nKILL k=1 r=140 pos=(11,13) awake=1 power=25\nSTATE danger=20 avoidance=9 hp=9 fleeing=1\nDECISION rc=0 key=0\nTRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nOUTCOME restore_mana=0\nPassed\nnative-c/recallmana-157 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "sp": 96,
+        "maxsp": 193,
+        "recalling": 150,
+        "danger": 20,
+        "avoidance": 9,
+        "hp": 9,
+        "fleeing": 1
+      },
+      "outcome": {
+        "restore_mana": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Loc:12,10 Dep:30 Lev:35 HP:9/245 SP:96/193 Danger:p=20",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)"
+      ],
+      "value": 0
+    }
+  }
+}
