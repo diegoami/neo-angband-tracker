@@ -36,6 +36,7 @@ comments are submitted from here under the standing owner pause.
 | Understand how the C Borg works | [The C Borg: purpose and architecture](docs/c-borg/BORG_SPEC.md) and the [C Borg documents index](docs/c-borg/README.md) |
 | See the C Borg's known bugs | [C findings and candidates](docs/C-BUGS.md), or the [open findings on the board](https://github.com/diegoami/neo-angband-tracker/issues?q=is%3Aissue+label%3Aupstream-c+label%3Afinding+is%3Aopen) |
 | See the plan for a tunable, better Borg | [Tunable Borg Plan](docs/c-borg/TUNABLE-BORG-PLAN.md) and its [review prompt](docs/c-borg/TUNABLE-BORG-PLAN-REVIEW-PROMPT.md) |
+| Learn how to play Angband well (strategy for players and a rebuilt Borg) | [The Angband Strategy Manual](docs/c-manual/README.md) (draft, in review) |
 | See quick gains and experiment ideas | [Open enhancement issues](https://github.com/diegoami/neo-angband-tracker/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) |
 | Check how the specification and the findings were verified | [Source-level check programs](docs/audit/c-reports/spec-checks/README.md), the [re-check record](docs/audit/c-reports/spec-checks/RECHECK.md) and the [findings' provenance](docs/audit/c-reports/spec-checks/PROVENANCE.md) |
 | Reuse one of our C fixes | [Reusing a local C fix](docs/c-fix-handoff.md) and the [proposal patches](patches) |
