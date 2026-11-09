@@ -86,9 +86,10 @@ ADVICE:
 
 * At CL1, avoid the battle-scarred veteran and mean-looking mercenary (they hit hard for your HP);
   kill urchins and rogues on sight or keep away from them (theft).
-* Farmer Maggot is worth killing at any level: he never fights back and his drop is generated
-  "good" at his level averaged with depth (town: level 0, so a good level ~0-10 item, often armour
-  or a weapon with bonuses). It takes many turns at CL1 (350 HP).
+* Farmer Maggot is worth killing at any level: he never fights back and his single drop is forced
+  "good" (`src/mon-make.c:mon_create_drop()`: drop level = his level 0, and a good drop picks the
+  kind at level +10 with to-hit/dam/AC bonuses). No artifacts can be made in town. It takes many
+  turns at CL1 (350 HP).
 * Shop in daytime when possible: you can see everything and fewer residents spawn.
 
 ---
@@ -179,7 +180,7 @@ before restocking the staples. Buys magic, prayer, nature and shadow books. Book
 
 | Realm | Book (town) | Price | Used by |
 |-------|-------------|-------|---------|
-| Arcane | [First Spells] | 25 | Mage, Rogue (and Ranger? no: Rangers use nature) |
+| Arcane | [First Spells] | 25 | Mage, Rogue |
 | Arcane | [Attacks and Knowledge] | 400 | Mage |
 | Arcane | [Magical Defences] | 1600 | Mage |
 | Nature | [Lesser Charms] | 25 | Druid, Ranger |
@@ -188,7 +189,7 @@ before restocking the staples. Buys magic, prayer, nature and shadow books. Book
 | Divine | [Cleansing Power] | 100 | Priest |
 | Shadow | [Into the Shadows] | 25 | Necromancer, Blackguard |
 | Shadow | [Dark Rituals] | 400 | Necromancer |
-| Shadow | [Fear and Torment] | 1600 | Necromancer |
+| Shadow | [Fear and Torment] | 1600 | Necromancer, Blackguard |
 
 Which classes can use which book is set per class in `lib/gamedata/class.txt`; see
 [Chapter 3](03-magic-and-spells.md). Dungeon books cost 10,000-50,000 and are never stocked
@@ -267,10 +268,21 @@ FACT (`src/game-world.c`, `src/store.c:store_update()`, `store_maint()`):
   (different purse limit).
 * At game start each store runs `store_maint()` 10 times (`store_reset()`).
 
-ADVICE: a quick dive (DL1-2 and back) of ~1000 turns gives one restock. To fish for a specific
-item (e.g. Potions of CCW, a Staff of Teleportation), go down, spend 1,000+ turns, recall up.
-Buying everything in a store does not force a restock by itself in this code; only days in the
-dungeon do (the manual's "purchase every item... induce new stock" refers to the next update).
+FACT, two more rules from `src/store.c:do_cmd_buy()`:
+
+* **Staples are unlimited.** Buying a plain "always" item (Phase Door, CLW, Word of Recall,
+  Remove Curse, flasks, torches, rations, cloaks, shovels, picks, basic ammo, town books) does not
+  reduce the store's stock (`store_sale_should_reduce_stock()` is false for plain staples), so the
+  Alchemist, General Store and Bookseller never run out of them.
+* **Buying a store out restocks it at once.** When a purchase leaves a store with zero items, the
+  owner "brings out some new stock": `store_maint()` runs 10 times immediately, and with chance
+  1 in 25 the owner retires (new owner). Stores with staples can never be emptied; the Armoury,
+  Weaponsmith, Magic Shop and Black Market can.
+
+ADVICE: a quick dive (DL1-2 and back) of ~1,000 turns gives one restock. To fish for a specific
+item (e.g. Potions of CCW, a Staff of Teleportation), go down, spend 1,000+ turns, recall up. If
+the Magic Shop holds only a few cheap items, buying all of them forces a full 10-pass restock on
+the spot, which can be cheaper than a dungeon trip.
 
 ---
 
@@ -526,7 +538,8 @@ FACT-based rules a borg can implement directly:
    Teleportation/Teleport Level/Deep Descent scrolls, a lantern, or egos that fill a missing
    protection.
 5. To restock a missing item, spend >= 1,000 player turns in the dungeon (one day) per restock
-   attempt; the probability of a "sometimes" item appearing grows with the number of days.
+   attempt, or, if the store (2, 3, 6 or 7) holds only cheap items, buy it out to trigger an
+   immediate 10-pass restock.
 6. Keep gold in reserve for the next trip's Word of Recall + 5 CLW (~225 gold) at all times.
 7. Use buying to learn runes when an affordable store ego shows `{??}` with a rune that matters
    (e.g. FA, SI, resists): the knowledge applies to every later item.
@@ -539,8 +552,9 @@ FACT-based rules a borg can implement directly:
    kit; compare CL10 survival with a fully spent point-buy.
 2. **No-kit start**: turn `birth_start_kit` off (~595 gold) and buy a custom kit (e.g. a Mage
    buying Magic Missile wand + Phase Door instead of the Rapier); measure early death rate.
-3. **Restock fishing**: dive to DL1 and spend exactly 1,000 turns repeatedly to roll the Magic
-   Shop for a Staff of Teleportation; measure days until it appears.
+3. **Restock fishing**: compare two ways of rolling the Magic Shop for a Staff of Teleportation:
+   dungeon days (1,000 turns each) vs buying the shop out when its total price is low (immediate
+   10-pass restock). Measure gold and turns per staff found.
 4. **Maggot first**: kill Farmer Maggot at CL1 with flasks of oil and track what the "good" drop
    is over many games (distribution of item types).
 5. **Rune-learning by purchase**: each trip, buy the cheapest store ego with an unknown rune; count

@@ -276,12 +276,12 @@ spell has a `message-save` line, plus the relevant protection flag):
 | *teleport away* (`TELE_AWAY`) | throws you 75–125 grids (absorbed by a Ranger decoy) | usually helps you |
 | *teleport level* (`TELE_LEVEL`) | moves you ±1 level | nexus resistance; decoy |
 | nexus breath/attacks | random teleport, teleport-to, teleport level or stat swap | nexus resistance |
-| *forget* (`FORGET`) | amnesia 3 turns → **no scrolls**, spells at ≥50% fail | save; CCW cures amnesia; use devices |
+| *forget* (`FORGET`) | amnesia 3 turns → **no scrolls**, spells at ≥50% fail | save only (no protection flag); CCW cures amnesia; use devices |
 | *blind* (`BLIND`) | 11+1d4 turns blind → no scrolls/spells | save; protection from blindness; CLW/CCW |
 | *confuse* (`CONF`) | 3+1d4 turns confused → no scrolls/spells, random aim | save; protection from confusion; CSW/CCW |
 | *scare* (`SCARE`) | 3+1d4 turns afraid → no melee | save; protection from fear; Boldness/Hero/Berserk |
 | *hold* (`HOLD`) | 3+1d4 turns paralysed | save; **Free Action** |
-| *slow* (`SLOW`) | 3+1d4 turns at −10 speed | save; Free Action does not help (in 4.2 slow is separate) |
+| *slow* (`SLOW`) | 3+1d4 turns at −10 speed | save; **Free Action** also blocks it (`fail:1:FREE_ACT` on `SLOW` in `player_timed.txt`) |
 | *drain mana* | removes `1d(power/2+1)` SP | keep scrolls/devices as backup escapes |
 | *shriek* | wakes everything nearby and hastes monsters in LOS (+25 timer) | kill shriekers first; leave if the level wakes |
 | summons (`S_*`) | more monsters next to you; deep `S_HI_UNDEAD`/`S_HI_DRAGON`/`S_HI_DEMON`/`S_UNIQUE` are deadly | break LOS; Teleport Other the summoner; leave |
