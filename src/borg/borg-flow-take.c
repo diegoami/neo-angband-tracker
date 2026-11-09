@@ -471,8 +471,8 @@ bool borg_flow_take(bool viewable, int nearness)
         /* How far is the nearest up stairs */
         j = distance(borg.c, loc(x, y));
 
-        /* skip the closer ones */
-        if (b_j >= j)
+        /* skip the farther ones */
+        if (b_j <= j && b_j != -1)
             continue;
 
         /* track it */
@@ -620,8 +620,8 @@ bool borg_flow_take_scum(bool viewable, int nearness)
         /* How far is the nearest up stairs */
         j = distance(borg.c, loc(x, y));
 
-        /* skip the closer ones */
-        if (b_j >= j)
+        /* skip the farther ones */
+        if (b_j <= j && b_j != -1)
             continue;
 
         /* track it */
@@ -719,8 +719,8 @@ bool borg_flow_take_lunal(bool viewable, int nearness)
         /* How far is the nearest up stairs */
         j = distance(borg.c, loc(x, y));
 
-        /* skip the closer ones */
-        if (b_j >= j)
+        /* skip the farther ones */
+        if (b_j <= j && b_j != -1)
             continue;
 
         /* track it */
