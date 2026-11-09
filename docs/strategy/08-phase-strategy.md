@@ -634,11 +634,15 @@ The borg's preparation (`borg-prepared.c`, `borg-power.c`,
   !Restore Mana (the check is `< 15`).
 * Restock at DL100: if it arrives with fewer than 15 \*Healing\* and has
   been on the level < 10 turns, it leaves at once.
-* **Uniques first**: once its max depth reaches 98, the borg will not go to
-  DL100 while **any unique other than Morgoth is alive**; it may dive to
-  DL99 and use Teleport Level to get back to DL98 if needed. (With
-  `borg_kills_uniques` it also refuses to dive more than three uniques'
-  depths past the shallowest living unique.)
+* **Uniques first**: once its max depth is past 98, the borg will not go
+  to DL98+ (and so not to DL100) while **any non-quest unique is still
+  alive** (`borg_numb_live_unique`, which skips the quest monsters and
+  seasonal uniques, `borg-update.c`); it may dive to DL99 and use Teleport
+  Level to get back to DL98 if needed. (With `borg_kills_uniques` it also
+  refuses, at any depth, to go deeper than the native depth of the third
+  shallowest living unique: "Unique Monsters who normally reside on
+  levels 12, 15, and 18 are still alive so the borg will not dive deeper
+  than level 18" — `borg.txt`.)
 * In questor fights the borg drinks Life when 5+ stat "votes" need fixing,
   otherwise \*Healing\*, Healing, Holy Word, etc. when HP ≤ 700
   ("Healing in Questor Combat").
@@ -753,7 +757,7 @@ reliable teleport *spell* counts as 1000 (`borg-trait.c`).
 | 81–85 | **speed ≥ +20** |
 | 86–99 | (nothing new) |
 | 82+ (extra) | ≥ 10 \*Healing\* + Life (carried or at home); ≥ 30 once max depth ≥ 97 |
-| 98+ (extra) | all uniques except Morgoth dead before DL100 |
+| 98+ (extra, max depth ≥ 99) | every non-quest unique dead |
 | 100 | 5 !Healing; 15 \*Healing\* + Life; 10 !Speed; !Restore Mana stack if max SP > 100 |
 
 (The alternative "dynamic" formula set in `borg.txt` `Depth Requirement`
@@ -1168,9 +1172,9 @@ never takes you below a living quest monster's level.
 **Do I need to kill the uniques?**
 Not to progress — except that both quest monsters must die to win
 (`quest_check()`). The borg's optional `borg_kills_uniques` mode refuses
-to dive more than three uniques' native depths past the shallowest living
-unique, and at max depth 98+ it refuses DL100 while any unique other than
-Morgoth lives (`borg_prepared()`). Uniques drop better items deeper
+to go deeper than the native depth of the third-shallowest living unique,
+and once past DL98 it refuses DL98+ while any non-quest unique lives
+(`borg_prepared()`). Uniques drop better items deeper
 (`docs/guide.rst`), so it is reasonable to postpone dangerous ones.
 
 **How fast should I dive?**
