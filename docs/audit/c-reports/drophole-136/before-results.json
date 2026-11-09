@@ -1,0 +1,38 @@
+{
+  "salt-water": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "dropped_amulet": 1,
+      "dropped_potion": 0,
+      "floor_items": 1
+    }
+  },
+  "spare-esp": {
+    "exit": 0,
+    "passed": false,
+    "outcome": {
+      "dropped_amulet": 1,
+      "dropped_potion": 0,
+      "floor_items": 1
+    }
+  },
+  "restore-mana": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "dropped_amulet": 1,
+      "dropped_potion": 0,
+      "floor_items": 1
+    }
+  },
+  "level30": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "dropped_amulet": 0,
+      "dropped_potion": 1,
+      "floor_items": 1
+    }
+  }
+}

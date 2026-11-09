@@ -1,0 +1,14 @@
+native-c/drophole-136: starting...
+SETUP seed=136 mode=level30 class=Warrior clevel=30 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Salt Water value=0 weight=4
+PACK c Amulet of Slow Digestion value=200 weight=3
+TRACK # Junking 40374734 gold (full)
+TRACK # Dropping Potion of Salt Water.
+KEYS {bborg ignore$db
+ENGINE You drop a Potion of Salt Water (b).
+ENGINE You have no more Potions of Salt Water (b).
+DECISION drop=1 slot=b item=a Potion of Salt Water
+OUTCOME dropped_amulet=0 dropped_potion=1 floor_items=1
+Passed
+native-c/drophole-136 finished: 1/1 passed

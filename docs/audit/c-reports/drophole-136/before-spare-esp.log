@@ -1,0 +1,15 @@
+native-c/drophole-136: starting...
+SETUP seed=136 mode=spare-esp class=Warrior clevel=40 depth=20
+  full_pack_drops_the_junk  PACK a Rations of Food value=3 weight=24
+PACK b Potion of Salt Water value=0 weight=4
+PACK c Amulet of ESP value=25000 weight=3
+TRACK # Junking 62173507 gold (full)
+TRACK # Dropping Amulet of ESP.
+KEYS {cborg ignore$dc
+ENGINE You drop an Amulet of ESP (c).
+ENGINE You have no more Amulets of ESP (c).
+DECISION drop=1 slot=c item=an Amulet of ESP
+OUTCOME dropped_amulet=1 dropped_potion=0 floor_items=1
+Failed
+    native-c/drophole-136:212: requirement 'potion && !amulet' failed
+native-c/drophole-136 finished: 0/1 passed
