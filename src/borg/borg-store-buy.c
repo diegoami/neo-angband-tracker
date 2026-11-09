@@ -1017,8 +1017,8 @@ bool borg_think_home_buy_swap_weapon(void)
             p = weapon_swap_value;
         }
 
-        /* Restore hole */
-        borg_items[hole].iqty = 0;
+        /* Restore hole (the current swap, if the trial used its slot) */
+        memcpy(&borg_items[hole], &safe_items[hole], sizeof(borg_item));
 
         /* Restore shop item */
         memcpy(&borg_shops[BORG_HOME].ware[n], &borg_safe_shops[BORG_HOME].ware[n],
@@ -1126,8 +1126,8 @@ bool borg_think_home_buy_swap_armour(void)
         /* Evaluate the new equipment */
         p = armour_swap_value;
 
-        /* Restore hole */
-        borg_items[hole].iqty = 0;
+        /* Restore hole (the current swap, if the trial used its slot) */
+        memcpy(&borg_items[hole], &safe_items[hole], sizeof(borg_item));
 
         /* Restore shop item */
         memcpy(&borg_shops[BORG_HOME].ware[n],
