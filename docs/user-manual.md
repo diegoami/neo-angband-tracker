@@ -2376,6 +2376,10 @@ without fighting.
 Mimics may also appear as `!`, `?`, `=`, `$`, `|` or other object symbols, and
 lurkers/trappers look like floor. Hallucination makes everything look wrong.
 
+This manual deliberately does not list individual monsters. For spoilers —
+every monster, every unique, monster spells and all artifacts — see the
+companion appendices in [`docs/strategy/`](strategy/README.md).
+
 ### The monster list and health bar
 
 `[` lists all visible monsters with counts, sleep status and direction. The
