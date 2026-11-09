@@ -1,0 +1,158 @@
+{
+  "neck2": {
+    "label": "Control: 2 amulets in the home (spare stored)",
+    "explanation": "Two amulets at home, num_neck=2: no amulet penalty. Home score 2040; storing the spare raises it to 2090, so both versions store the Amulet of Slow Digestion. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/neckdead-47: starting...\nSETUP seed=47 mode=neck2 class=Warrior clevel=21 home_amulets=2\n  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Amulet of Slow Digestion]\nPACK 4 qty=2 desc=[Wooden Torches (5000 turns)]\nHOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]\nHOME 1 qty=1 desc=[Amulet of Resist Acid {??}]\nSTATE num_neck=2 home_power=2040\nDECISION acts=1 best_home_power=2090 goal_item=3 goal_ware=-1 what=[Amulet of Slow Digestion]\nOUTCOME num_neck=2 home_power=2040 stores_amulet=1\nPassed\nnative-c/neckdead-47 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "num_neck": 2,
+        "home_power": 2040
+      },
+      "outcome": {
+        "num_neck": 2,
+        "home_power": 2040,
+        "stores_amulet": 1
+      },
+      "notes": [
+        "DECISION acts=1 best_home_power=2090 goal_item=3 goal_ware=-1 what=[Amulet of Slow Digestion]"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/neckdead-47: starting...\nSETUP seed=47 mode=neck2 class=Warrior clevel=21 home_amulets=2\n  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Amulet of Slow Digestion]\nPACK 4 qty=2 desc=[Wooden Torches (5000 turns)]\nHOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]\nHOME 1 qty=1 desc=[Amulet of Resist Acid {??}]\nSTATE num_neck=2 home_power=2040\nDECISION acts=1 best_home_power=2090 goal_item=3 goal_ware=-1 what=[Amulet of Slow Digestion]\nOUTCOME num_neck=2 home_power=2040 stores_amulet=1\nPassed\nnative-c/neckdead-47 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "num_neck": 2,
+        "home_power": 2040
+      },
+      "outcome": {
+        "num_neck": 2,
+        "home_power": 2040,
+        "stores_amulet": 1
+      },
+      "notes": [
+        "DECISION acts=1 best_home_power=2090 goal_item=3 goal_ware=-1 what=[Amulet of Slow Digestion]"
+      ],
+      "value": 1
+    }
+  },
+  "neck3": {
+    "label": "Control: 3 amulets in the home (spare kept)",
+    "explanation": "Three amulets at home, num_neck=3: no penalty yet (home score 3120); a fourth would cost 1500, so both versions keep the spare in the pack. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/neckdead-47: starting...\nSETUP seed=47 mode=neck3 class=Warrior clevel=21 home_amulets=3\n  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Amulet of Slow Digestion]\nPACK 4 qty=2 desc=[Wooden Torches (5000 turns)]\nHOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]\nHOME 1 qty=1 desc=[Amulet of Resist Acid {??}]\nHOME 2 qty=1 desc=[Amulet of Regeneration {??}]\nSTATE num_neck=3 home_power=3120\nDECISION acts=0 best_home_power=3120 goal_item=-1 goal_ware=-1 what=[(nothing)]\nOUTCOME num_neck=3 home_power=3120 stores_amulet=0\nPassed\nnative-c/neckdead-47 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "num_neck": 3,
+        "home_power": 3120
+      },
+      "outcome": {
+        "num_neck": 3,
+        "home_power": 3120,
+        "stores_amulet": 0
+      },
+      "notes": [
+        "DECISION acts=0 best_home_power=3120 goal_item=-1 goal_ware=-1 what=[(nothing)]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/neckdead-47: starting...\nSETUP seed=47 mode=neck3 class=Warrior clevel=21 home_amulets=3\n  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Amulet of Slow Digestion]\nPACK 4 qty=2 desc=[Wooden Torches (5000 turns)]\nHOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]\nHOME 1 qty=1 desc=[Amulet of Resist Acid {??}]\nHOME 2 qty=1 desc=[Amulet of Regeneration {??}]\nSTATE num_neck=3 home_power=3120\nDECISION acts=0 best_home_power=3120 goal_item=-1 goal_ware=-1 what=[(nothing)]\nOUTCOME num_neck=3 home_power=3120 stores_amulet=0\nPassed\nnative-c/neckdead-47 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "num_neck": 3,
+        "home_power": 3120
+      },
+      "outcome": {
+        "num_neck": 3,
+        "home_power": 3120,
+        "stores_amulet": 0
+      },
+      "notes": [
+        "DECISION acts=0 best_home_power=3120 goal_item=-1 goal_ware=-1 what=[(nothing)]"
+      ],
+      "value": 0
+    }
+  },
+  "neck4": {
+    "label": "Control: 4 amulets in the home, first tier active (spare kept)",
+    "explanation": "Four amulets at home, num_neck=4: the 1500 penalty applies and the original then skips the dead else. Home score 2625; both versions keep the spare. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/neckdead-47: starting...\nSETUP seed=47 mode=neck4 class=Warrior clevel=21 home_amulets=4\n  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Amulet of Slow Digestion]\nPACK 4 qty=2 desc=[Wooden Torches (5000 turns)]\nHOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]\nHOME 1 qty=1 desc=[Amulet of Resist Acid {??}]\nHOME 2 qty=1 desc=[Amulet of Regeneration {??}]\nHOME 3 qty=1 desc=[Amulet of Infravision {??}]\nSTATE num_neck=4 home_power=2625\nDECISION acts=0 best_home_power=2625 goal_item=-1 goal_ware=-1 what=[(nothing)]\nOUTCOME num_neck=4 home_power=2625 stores_amulet=0\nPassed\nnative-c/neckdead-47 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "num_neck": 4,
+        "home_power": 2625
+      },
+      "outcome": {
+        "num_neck": 4,
+        "home_power": 2625,
+        "stores_amulet": 0
+      },
+      "notes": [
+        "DECISION acts=0 best_home_power=2625 goal_item=-1 goal_ware=-1 what=[(nothing)]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/neckdead-47: starting...\nSETUP seed=47 mode=neck4 class=Warrior clevel=21 home_amulets=4\n  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Amulet of Slow Digestion]\nPACK 4 qty=2 desc=[Wooden Torches (5000 turns)]\nHOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]\nHOME 1 qty=1 desc=[Amulet of Resist Acid {??}]\nHOME 2 qty=1 desc=[Amulet of Regeneration {??}]\nHOME 3 qty=1 desc=[Amulet of Infravision {??}]\nSTATE num_neck=4 home_power=2625\nDECISION acts=0 best_home_power=2625 goal_item=-1 goal_ware=-1 what=[(nothing)]\nOUTCOME num_neck=4 home_power=2625 stores_amulet=0\nPassed\nnative-c/neckdead-47 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "num_neck": 4,
+        "home_power": 2625
+      },
+      "outcome": {
+        "num_neck": 4,
+        "home_power": 2625,
+        "stores_amulet": 0
+      },
+      "notes": [
+        "DECISION acts=0 best_home_power=2625 goal_item=-1 goal_ware=-1 what=[(nothing)]"
+      ],
+      "value": 0
+    }
+  },
+  "neck5": {
+    "label": "Control: 5 amulets in the home, first tier active (spare kept)",
+    "explanation": "Five amulets at home, num_neck=5: penalty 2 x 1500. Home score 2130; both versions keep the spare. Logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/neckdead-47: starting...\nSETUP seed=47 mode=neck5 class=Warrior clevel=21 home_amulets=5\n  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Amulet of Slow Digestion]\nPACK 4 qty=2 desc=[Wooden Torches (5000 turns)]\nHOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]\nHOME 1 qty=1 desc=[Amulet of Resist Acid {??}]\nHOME 2 qty=1 desc=[Amulet of Resistance {??}]\nHOME 3 qty=1 desc=[Amulet of Regeneration {??}]\nHOME 4 qty=1 desc=[Amulet of Infravision {??}]\nSTATE num_neck=5 home_power=2130\nDECISION acts=0 best_home_power=2130 goal_item=-1 goal_ware=-1 what=[(nothing)]\nOUTCOME num_neck=5 home_power=2130 stores_amulet=0\nPassed\nnative-c/neckdead-47 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "num_neck": 5,
+        "home_power": 2130
+      },
+      "outcome": {
+        "num_neck": 5,
+        "home_power": 2130,
+        "stores_amulet": 0
+      },
+      "notes": [
+        "DECISION acts=0 best_home_power=2130 goal_item=-1 goal_ware=-1 what=[(nothing)]"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/neckdead-47: starting...\nSETUP seed=47 mode=neck5 class=Warrior clevel=21 home_amulets=5\n  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]\nPACK 1 qty=1 desc=[Potion of Berserk Strength]\nPACK 2 qty=1 desc=[Scroll of Word of Recall]\nPACK 3 qty=1 desc=[Amulet of Slow Digestion]\nPACK 4 qty=2 desc=[Wooden Torches (5000 turns)]\nHOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]\nHOME 1 qty=1 desc=[Amulet of Resist Acid {??}]\nHOME 2 qty=1 desc=[Amulet of Resistance {??}]\nHOME 3 qty=1 desc=[Amulet of Regeneration {??}]\nHOME 4 qty=1 desc=[Amulet of Infravision {??}]\nSTATE num_neck=5 home_power=2130\nDECISION acts=0 best_home_power=2130 goal_item=-1 goal_ware=-1 what=[(nothing)]\nOUTCOME num_neck=5 home_power=2130 stores_amulet=0\nPassed\nnative-c/neckdead-47 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "num_neck": 5,
+        "home_power": 2130
+      },
+      "outcome": {
+        "num_neck": 5,
+        "home_power": 2130,
+        "stores_amulet": 0
+      },
+      "notes": [
+        "DECISION acts=0 best_home_power=2130 goal_item=-1 goal_ware=-1 what=[(nothing)]"
+      ],
+      "value": 0
+    }
+  }
+}

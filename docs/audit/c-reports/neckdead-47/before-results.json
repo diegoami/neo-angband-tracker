@@ -1,0 +1,54 @@
+{
+  "neck2": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "num_neck": 2,
+      "home_power": 2040
+    },
+    "outcome": {
+      "num_neck": 2,
+      "home_power": 2040,
+      "stores_amulet": 1
+    }
+  },
+  "neck3": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "num_neck": 3,
+      "home_power": 3120
+    },
+    "outcome": {
+      "num_neck": 3,
+      "home_power": 3120,
+      "stores_amulet": 0
+    }
+  },
+  "neck4": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "num_neck": 4,
+      "home_power": 2625
+    },
+    "outcome": {
+      "num_neck": 4,
+      "home_power": 2625,
+      "stores_amulet": 0
+    }
+  },
+  "neck5": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "num_neck": 5,
+      "home_power": 2130
+    },
+    "outcome": {
+      "num_neck": 5,
+      "home_power": 2130,
+      "stores_amulet": 0
+    }
+  }
+}

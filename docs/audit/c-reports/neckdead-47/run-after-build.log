@@ -1,0 +1,9 @@
+Copying needed files
+[  0%] Built target TransferLib
+[  0%] Built target OurUnitTestLib
+[  0%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-home-power.c.o
+[ 98%] Built target OurCoreLib
+[ 98%] Linking C executable game/ND47Observer
+[ 98%] Linking C executable game/angband
+[ 98%] Built target ND47Observer
+[100%] Built target OurExecutable

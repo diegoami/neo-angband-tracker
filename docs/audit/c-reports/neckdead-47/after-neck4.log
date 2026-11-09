@@ -1,0 +1,16 @@
+native-c/neckdead-47: starting...
+SETUP seed=47 mode=neck4 class=Warrior clevel=21 home_amulets=4
+  home_amulet_score  PACK 0 qty=3 desc=[Rations of Food]
+PACK 1 qty=1 desc=[Potion of Berserk Strength]
+PACK 2 qty=1 desc=[Scroll of Word of Recall]
+PACK 3 qty=1 desc=[Amulet of Slow Digestion]
+PACK 4 qty=2 desc=[Wooden Torches (5000 turns)]
+HOME 0 qty=1 desc=[Amulet of Resist Lightning {??}]
+HOME 1 qty=1 desc=[Amulet of Resist Acid {??}]
+HOME 2 qty=1 desc=[Amulet of Regeneration {??}]
+HOME 3 qty=1 desc=[Amulet of Infravision {??}]
+STATE num_neck=4 home_power=2625
+DECISION acts=0 best_home_power=2625 goal_item=-1 goal_ware=-1 what=[(nothing)]
+OUTCOME num_neck=4 home_power=2625 stores_amulet=0
+Passed
+native-c/neckdead-47 finished: 1/1 passed
