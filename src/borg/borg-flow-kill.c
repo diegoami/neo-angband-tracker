@@ -711,8 +711,6 @@ static int borg_new_kill(unsigned int r_idx, int y, int x)
     int i, n = -1;
 
     borg_kill           *kill;
-    borg_grid           *ag;
-    struct monster_race *r_ptr;
     struct monster      *m_ptr;
 
     /* Look for a "dead" monster */
@@ -750,8 +748,6 @@ static int borg_new_kill(unsigned int r_idx, int y, int x)
 
     /* Access the monster */
     kill  = &borg_kills[n];
-    r_ptr = &r_info[kill->r_idx];
-    ag    = &borg_grids[y][x];
 
     /* Save the race */
     kill->r_idx = r_idx;
@@ -823,20 +819,6 @@ static int borg_new_kill(unsigned int r_idx, int y, int x)
     if (borg.trait[BI_LIGHT]
         && borg_los(kill->pos.y, kill->pos.x, borg.c.y, borg.c.x))
         borg.goal.type = 0;
-
-    /* Force the monster to be sitting on a floor
-     * grid unless that monster can pass through walls
-     */
-    if (!(rf_has(r_ptr->flags, RF_PASS_WALL))) {
-        ag->feat = FEAT_FLOOR;
-    }
-
-    /* Force the ghostly monster to be in a wall
-     * grid until the grid is proven to be something else
-     */
-    if (rf_has(r_ptr->flags, RF_PASS_WALL)) {
-        ag->feat = FEAT_GRANITE;
-    }
 
     /* Count up out list of Nasties */
     for (i = 0; i < borg_nasties_num; i++) {
