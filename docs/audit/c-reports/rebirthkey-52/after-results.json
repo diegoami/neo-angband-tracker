@@ -1,0 +1,107 @@
+{
+  "race8": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "prev_race": 0,
+      "prev_class": 0,
+      "want_race": 8,
+      "want_class": 0
+    },
+    "outcome": {
+      "starved": 0,
+      "respawn_started": 1,
+      "race": 8,
+      "class": 0,
+      "want_race": 8,
+      "want_class": 0,
+      "queue_left": 0,
+      "keys": 23,
+      "right_character": 1
+    }
+  },
+  "class8": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "prev_race": 0,
+      "prev_class": 0,
+      "want_race": 0,
+      "want_class": 8
+    },
+    "outcome": {
+      "starved": 0,
+      "respawn_started": 1,
+      "race": 0,
+      "class": 8,
+      "want_race": 0,
+      "want_class": 8,
+      "queue_left": 0,
+      "keys": 23,
+      "right_character": 1
+    }
+  },
+  "race7": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "prev_race": 0,
+      "prev_class": 0,
+      "want_race": 7,
+      "want_class": 0
+    },
+    "outcome": {
+      "starved": 0,
+      "respawn_started": 1,
+      "race": 7,
+      "class": 0,
+      "want_race": 7,
+      "want_class": 0,
+      "queue_left": 0,
+      "keys": 18,
+      "right_character": 1
+    }
+  },
+  "dwarfpriest": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "prev_race": 0,
+      "prev_class": 0,
+      "want_race": 5,
+      "want_class": 3
+    },
+    "outcome": {
+      "starved": 0,
+      "respawn_started": 1,
+      "race": 5,
+      "class": 3,
+      "want_race": 5,
+      "want_class": 3,
+      "queue_left": 0,
+      "keys": 18,
+      "right_character": 1
+    }
+  },
+  "humanwarrior": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "prev_race": 2,
+      "prev_class": 1,
+      "want_race": 0,
+      "want_class": 0
+    },
+    "outcome": {
+      "starved": 0,
+      "respawn_started": 1,
+      "race": 0,
+      "class": 0,
+      "want_race": 0,
+      "want_class": 0,
+      "queue_left": 0,
+      "keys": 21,
+      "right_character": 1
+    }
+  }
+}
