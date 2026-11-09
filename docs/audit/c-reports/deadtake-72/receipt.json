@@ -1,0 +1,133 @@
+{
+  "issue": "diegoami/neo-angband-tracker#72",
+  "report": "deadtake-72",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "9492d74ce57ae63fca41866113bc7f35463c5704",
+  "fix_branch": "task/deadtake-72",
+  "fixtures_ref": "6332987b90c9eeb55a4f90014a1e4e22cef18e0e",
+  "cases": {
+    "dead-entry": {
+      "before": {
+        "passed": false,
+        "state": {
+          "clevel": 12,
+          "gold_slot": 2,
+          "takes_nxt": 3,
+          "takes_cnt": 1,
+          "entry1_kidx": 0,
+          "entry1_tval": 0,
+          "entry1_value": 0,
+          "corner_in_view": 1
+        },
+        "outcome": {
+          "walks_toward_gold": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "clevel": 12,
+          "gold_slot": 2,
+          "takes_nxt": 3,
+          "takes_cnt": 1,
+          "entry1_kidx": 0,
+          "entry1_tval": 0,
+          "entry1_value": 0,
+          "corner_in_view": 1
+        },
+        "outcome": {
+          "walks_toward_gold": 1
+        }
+      }
+    },
+    "live-only": {
+      "before": {
+        "passed": true,
+        "state": {
+          "clevel": 12,
+          "gold_slot": 1,
+          "takes_nxt": 2,
+          "takes_cnt": 1,
+          "entry1_kidx": 362,
+          "entry1_tval": 35,
+          "entry1_value": 100,
+          "corner_in_view": 1
+        },
+        "outcome": {
+          "walks_toward_gold": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "clevel": 12,
+          "gold_slot": 1,
+          "takes_nxt": 2,
+          "takes_cnt": 1,
+          "entry1_kidx": 362,
+          "entry1_tval": 35,
+          "entry1_value": 100,
+          "corner_in_view": 1
+        },
+        "outcome": {
+          "walks_toward_gold": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "live-only"
+  ],
+  "claim": "With a forgotten entry in the object list and the gold four grids east, the original Lunal take routine targeted the corner grid (0,0) and queued a step north-west (goal 2,2); corrected, it queues a step east towards the gold (goal 4,3). With the gold as the only entry the step is east before and after, and that control is byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-take.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-take.c": "fb1f99c8001854478b2c99b51d288a1aaab6ccb0b14b59d76e3a989ad281a338"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "0394ca34a3e83df4e0ef893db58fe4a032410a8b62ba0c5e0922daff6816fa7f",
+    "after-dead-entry.log": "fb2faa524491809a2aca6b5dce79dec54600b5cf8aa4f41e59d677775e4e1087",
+    "after-live-only.log": "1aa7b4b7b5db15475d3380ceaea89bd88fc72aa0a7540f0f25436f214747b80c",
+    "after-results.json": "327939e32dba00e338b944b49c153ac0b1a57efc568b626e16092582a7027560",
+    "before-dead-entry.log": "7aa9120ad76f5c1594f399c5aced240307e20a9ed599ae4ccf32fe39fe20fb2d",
+    "before-live-only.log": "1aa7b4b7b5db15475d3380ceaea89bd88fc72aa0a7540f0f25436f214747b80c",
+    "before-results.json": "96896e5922b93fb84a16ac68ee3cab7c9ee2e19b7735bace4e0a9a35a6177ef0",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "9ab7ee7bcabbf0b454f90db5c03654860fd79cdd55375668a6fd5729a3dbda6e",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "5b1d949b359fe15a75e083639cf5518712719c0da350fa5afaf6f173fc3511fc",
+    "replay.html": "bc70bc8b8a4d4f9a78c4f8010dd7d095ebcfbaa33af6f56142a4b14db4b0d3bf",
+    "reproduce.py": "62932987020a859c7d9df31729814b38aef61bb326cedfc27270fa4f75456c06",
+    "result.json": "df6467274693231127b5d0edc14673db410453bc97ac35bf3b706a53558dc8e0",
+    "run-after-alltests.log": "504aa70ced798269c084fa4cb9a65856786c404acab1f0caa813e6b761a810de",
+    "run-after-build.log": "f298ec111e88c9a5168a91922e2522288cfcf52da315685532ad63a30724ea4a",
+    "run-after-scenarios.log": "b2460043ed1c29bcd9061030c71ebd030ab0ec5ad930c802230984406d6ac7ab",
+    "run-before-alltests.log": "3234541b899fa193d5671ee70352fb5d35e62ba231392fde9eaa8284e85dec10",
+    "run-before-build.log": "72596c258e45f71ee29747fa43ab9498fdebbd4fbb474dfd1502edc84da8fda7",
+    "run-before-scenarios.log": "d30ac302032fa84e9d7358254a77456c9a0dfc047dc2569f4e7224b96695fc07",
+    "run-cases.py": "7c69626b9878d3332a36a0fe5e16a0c471d1e805bf007ba115def35d439e884f",
+    "run-configure.log": "51a6b65cb6843689e83d77555e8b80ed2c08e4e98047da5b7513849378fced22",
+    "scenario.c": "3cd1beeed3f2ea42ee8a01c87d70e9c1403bc0ec0868c180363f0c0c38611a36"
+  }
+}

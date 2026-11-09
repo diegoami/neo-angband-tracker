@@ -1,0 +1,2 @@
+dead-entry {'exit': 0, 'passed': True, 'state': {'clevel': 12, 'gold_slot': 2, 'takes_nxt': 3, 'takes_cnt': 1, 'entry1_kidx': 0, 'entry1_tval': 0, 'entry1_value': 0, 'corner_in_view': 1}, 'outcome': {'walks_toward_gold': 1}}
+live-only {'exit': 0, 'passed': True, 'state': {'clevel': 12, 'gold_slot': 1, 'takes_nxt': 2, 'takes_cnt': 1, 'entry1_kidx': 362, 'entry1_tval': 35, 'entry1_value': 100, 'corner_in_view': 1}, 'outcome': {'walks_toward_gold': 1}}
