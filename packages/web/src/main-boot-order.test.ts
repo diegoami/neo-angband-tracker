@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import ts from "typescript";
+import ts from "@typescript/typescript6";
 import { describe, expect, it, vi } from "vitest";
 import { coreOnlyManifest, inputToken, Rng, StoreBehaviourRegistry, TvalRegistry, type ModRegistryHost, type TvalValueAdjustContext } from "@rpgm-tools/neo-angband-core";
 import { CapabilitySet, type Api2PolicyRegistrations } from "@rpgm-tools/neo-angband-mod-sdk";
@@ -23,7 +23,7 @@ function controllerHarness(command: () => unknown = () => null, save: () => void
   const snapshot = { phase: () => "play", prompt: () => null as unknown, viewDeps: () => ({}) };
   const manifest = coreOnlyManifest();
   const deps = {
-    state: { actor: { player: { noscore: 0 } }, turn: 0 }, game: { manifest },
+    state: { actor: { player: { noscore: 0 } }, turn: 0, chunk: { depth: 1 } }, game: { manifest },
     consentBinding: () => "bound", defaultModStore: () => ({ sawUnreviewedNotice: () => true, getConsent: () => ["input:controller", "input:intent"] }),
     workerPlugins: new Map([["probe", { teardown }]]), modHealth: () => health,
     installController: vi.fn((_state: unknown, controller: () => unknown) => { latched = controller; return { uninstall }; }),
@@ -45,6 +45,57 @@ return { install: finishAutoplayerInstall, stop: () => stopInstalledController("
 }
 
 describe("main controller boundaries", () => {
+  it.each(["sideloaded", "first-party"])("checks consent and binding for a %s controller candidate", (trust) => {
+    const source = ts.createSourceFile("main.ts", mainSource, ts.ScriptTarget.Latest, true);
+    const candidates = source.statements.find((statement): statement is ts.FunctionDeclaration =>
+      ts.isFunctionDeclaration(statement) && statement.name?.text === "controllerCandidates")!;
+    const loaded = { id: "probe", tier: { trust }, permissionBinding: "bound" };
+    let consent = ["input:controller", "input:intent"];
+    let binding = "bound";
+    const deps = { activeModCode: () => ({ plugins: [loaded] }), workerControllers: new Map(),
+      consentBinding: () => binding, defaultModStore: () => ({ getConsent: () => consent }) };
+    const emitted = ts.transpileModule(`${candidates.getText(source)}; return controllerCandidates;`, { compilerOptions: { target: ts.ScriptTarget.ESNext } }).outputText;
+    const read = new Function(...Object.keys(deps), emitted)(...Object.values(deps)) as () => unknown[];
+    expect(read()).toEqual([loaded]);
+    consent = ["input:intent"];
+    expect(read()).toEqual([]);
+    consent = ["input:controller", "input:intent"];
+    binding = "changed";
+    expect(read()).toEqual([]);
+  });
+
+  it.each([true, false])("asks the public controller dialog on profile roll-on and honors its answer %s", async (accepted) => {
+    const source = ts.createSourceFile("main.ts", mainSource, ts.ScriptTarget.Latest, true);
+    const functions = ["controllerCandidates", "confirmControllerActivation", "confirmPendingAutoplayerInstall"].map((name) =>
+      source.statements.find((statement): statement is ts.FunctionDeclaration => ts.isFunctionDeclaration(statement) && statement.name?.text === name)!);
+    const loop = source.statements.find((statement) => ts.isForOfStatement(statement) && statement.expression.getText(source) === "controllerCandidates()")!;
+    const loaded = { id: "probe", manifest: { name: "Probe" }, tier: { trust: "sideloaded" }, permissionBinding: "bound",
+      plugin: { controller: () => () => null } };
+    const drawModControllerConsent = vi.fn(async () => accepted);
+    const finishAutoplayerInstall = vi.fn(); const reportModFault = vi.fn();
+    const deps = { activeModCode: () => ({ plugins: [loaded] }), workerControllers: new Map(),
+      consentBinding: () => "bound", defaultModStore: () => ({ getConsent: () => ["input:controller", "input:intent"] }),
+      drawModControllerConsent, finishAutoplayerInstall, reportModFault, confirmBorgActivation: vi.fn(),
+      currentOrPendingAutoplayerId: () => null, modHealth: () => ({ run: (_id: string, _site: string, run: () => unknown) => run() }),
+      modPluginContext: () => ({}), folderRuleFlags: new Map(), state: {}, modOwnFiles: () => ({}), sessionFacts: {},
+      CapabilitySet: { fromManifest: () => ({}) }, controllerInstallOf: (controller: unknown) => ({ controller }),
+      rollOnHeldForBirth: null, rollOnAutoplayerId: "probe", justConfirmedAutoplayerId: null, autoplayerConfirmationKey: () => "probe",
+      openModal: (run: () => unknown) => run(), say: vi.fn(), t: (_key: string, fallback: string) => fallback, render: vi.fn(),
+      log: { error: vi.fn() }, faultMessage: String };
+    const emitted = ts.transpileModule(`let pendingAutoplayerInstall = null;
+${functions.map((fn) => fn.getText(source)).join("\n")}
+${loop.getText(source)}
+return { pending: () => pendingAutoplayerInstall, confirm: confirmPendingAutoplayerInstall };`, { compilerOptions: { target: ts.ScriptTarget.ESNext } }).outputText;
+    const runtime = new Function(...Object.keys(deps), emitted)(...Object.values(deps)) as { pending: () => unknown; confirm: () => Promise<void> };
+    expect(runtime.pending()).toMatchObject({ loaded });
+    expect(finishAutoplayerInstall).not.toHaveBeenCalled();
+    await runtime.confirm();
+    expect(drawModControllerConsent).toHaveBeenCalledExactlyOnceWith("probe", "Probe");
+    expect(finishAutoplayerInstall).toHaveBeenCalledTimes(accepted ? 1 : 0);
+    expect(reportModFault).not.toHaveBeenCalled();
+    expect(runtime.pending()).toBeNull();
+  });
+
   it("releases the keyboard while the Worker's other registrations remain alive", () => {
     const h = controllerHarness();
     expect(h.runtime.installed()).not.toBeNull();
@@ -103,6 +154,34 @@ return { add, remove, candidates: controllerCandidates };`, { compilerOptions: {
     expect(runtime.candidates().map((candidate) => candidate.entryUrl)).toEqual(["new"]);
     runtime.remove(loaded);
     expect(runtime.candidates()).toEqual([]);
+  });
+});
+
+describe("required consequence saves", () => {
+  it("checks stored bytes when a writer can report success without writing", () => {
+    const source = ts.createSourceFile("main.ts", mainSource, ts.ScriptTarget.Latest, true);
+    const persist = source.statements.find((statement): statement is ts.FunctionDeclaration => ts.isFunctionDeclaration(statement) && statement.name?.text === "persistSave")!;
+    let stored = "earlier-save";
+    const deps = { sessionTaint: () => false, suppressSave: false, birthPending: false, attachedSlot: () => "slot",
+      saveCatalog: () => ({}), modSaveGuard: { canOverwrite: () => true }, captureModList: () => ({}), game: {},
+      defaultModStore: () => ({}), saveModMetadata: {}, allowModSetOverwrite: true, saveGame: () => ({}), retainMissingModList: () => ({}),
+      bytesToB64: () => "marked-save", encodeSavedGame: () => new Uint8Array(), SAVE_CODEC: {},
+      writeSlot: () => true, metaFromState: () => ({}), readSlotSave: () => stored, ensureDurableStorage: vi.fn(), notifyBackupSinks: vi.fn() };
+    const emitted = ts.transpileModule(`${persist.getText(source)}\nreturn persistSave;`, { compilerOptions: { target: ts.ScriptTarget.ESNext } }).outputText;
+    const save = new Function(...Object.keys(deps), emitted)(...Object.values(deps)) as (deliberate: boolean, required: boolean) => boolean;
+    expect(save(false, true)).toBe(false);
+    stored = "marked-save";
+    expect(save(false, true)).toBe(true);
+  });
+
+  it.each(["tainted", "suppressed", "birth", "detached"])("refuses a required write when the session is %s", (blocked) => {
+    const source = ts.createSourceFile("main.ts", mainSource, ts.ScriptTarget.Latest, true);
+    const persist = source.statements.find((statement): statement is ts.FunctionDeclaration => ts.isFunctionDeclaration(statement) && statement.name?.text === "persistSave")!;
+    const deps = { sessionTaint: () => blocked === "tainted", suppressSave: blocked === "suppressed", birthPending: blocked === "birth", attachedSlot: () => null };
+    const emitted = ts.transpileModule(`${persist.getText(source)}\nreturn persistSave;`, { compilerOptions: { target: ts.ScriptTarget.ESNext } }).outputText;
+    const save = new Function(...Object.keys(deps), emitted)(...Object.values(deps)) as (deliberate: boolean, required: boolean) => boolean;
+    expect(save(false, false)).toBe(true);
+    expect(save(false, true)).toBe(false);
   });
 });
 
@@ -480,4 +559,53 @@ describe("main boot order", () => {
       /viewOrphanStash\(term,\s*orphanViewDeps\(\(\)\s*=>\s*game\.orphans,\s*applyOrphanStore\)\)/u,
     );
   });
+});
+
+import { NOSCORE, markNoscore } from "@rpgm-tools/neo-angband-core";
+import { recordCapabilityUse } from "./mod-controller-record";
+
+function spawnSharedWriterHarness() {
+  const source = ts.createSourceFile("main.ts", mainSource, ts.ScriptTarget.Latest, true);
+  const writer = source.statements.find((statement): statement is ts.FunctionDeclaration => ts.isFunctionDeclaration(statement) && statement.name?.text === "saveSpawnSharedUse")!;
+  const state = { actor: { player: { noscore: 0 } }, turn: 12, chunk: { depth: 3 } };
+  const manifest = coreOnlyManifest();
+  const loaded = { id: "probe", permissionBinding: "binding", manifest: { version: "1.0.0" }, contentDigest: "digest" };
+  const persistSave = vi.fn(() => true);
+  const deps = { state, game: { manifest }, suppressSave: false, birthPending: false, dead: false,
+    attachedSlot: () => "character-slot", sessionTaint: () => null, activeModCode: () => ({ plugins: [], workers: [loaded] }),
+    consentBinding: () => "binding", modHolds: () => true, NOSCORE, markNoscore, recordCapabilityUse, persistSave };
+  const compile = () => {
+    const emitted = ts.transpileModule(`${writer.getText(source)}\nreturn saveSpawnSharedUse;`, { compilerOptions: { target: ts.ScriptTarget.ESNext } }).outputText;
+    return new Function(...Object.keys(deps), emitted)(...Object.values(deps)) as (id: string, capability: "debug:spawn" | "shared:publish") => boolean;
+  };
+  return { state, manifest, loaded, persistSave, deps, compile };
+}
+
+it.each(["debug:spawn", "shared:publish"] as const)("records %s for a Worker before the durable writer runs", (capability) => {
+  const p = spawnSharedWriterHarness();
+  p.persistSave.mockImplementation(() => {
+    expect(p.manifest.capabilityUse?.entries[0]).toMatchObject({ id: "probe", installation: "binding", digest: "digest", capability,
+      consequence: capability === "debug:spawn" ? "spawn" : "shared-write", activation: { turn: 12, depth: 3 } });
+    expect(p.manifest.modNoscore).toBe(capability === "debug:spawn");
+    expect((p.state.actor.player.noscore & NOSCORE.DEBUG) !== 0).toBe(capability === "debug:spawn");
+    return true;
+  });
+  expect(p.compile()("probe", capability)).toBe(true);
+  expect(p.persistSave).toHaveBeenCalledWith(false, true);
+});
+
+it("refuses missing Workers, stale identity, detached saves, and a failing durable writer", () => {
+  const p = spawnSharedWriterHarness();
+  expect(p.compile()("victim", "debug:spawn")).toBe(false);
+  p.loaded.permissionBinding = "stale";
+  expect(p.compile()("probe", "debug:spawn")).toBe(false);
+  p.loaded.permissionBinding = "binding";
+  p.deps.suppressSave = true;
+  expect(p.compile()("probe", "debug:spawn")).toBe(false);
+  expect(p.manifest.capabilityUse).toBeUndefined();
+  expect(p.state.actor.player.noscore).toBe(0);
+  expect(p.persistSave).not.toHaveBeenCalled();
+  p.deps.suppressSave = false;
+  p.persistSave.mockReturnValue(false);
+  expect(p.compile()("probe", "debug:spawn")).toBe(false);
 });

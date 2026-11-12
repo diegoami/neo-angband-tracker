@@ -358,7 +358,9 @@ import {
   modTier,
   playerHeld,
   modTiers,
-  saveMarkingGrantHeld,
+  modHolds,
+  TRUTH_MAP,
+  TRUTH_MONSTERS,
   setModGrants,
   setModTiers,
 } from "./mod-tier";
@@ -409,6 +411,7 @@ import { createModSaves } from "./saves-facade";
 import { buildInputSnapshot, frozenDriver, type InputDriver, type InputSnapshotSource } from "./input-snapshot";
 import { createLabHook } from "./lab-hook";
 import { createModWizard } from "./wizard-runtime";
+import { workerRepositoryLookup } from "./install-runtime";
 import type { ControllerKeyAnswer, ControllerKeyPress, ModControllerInstall, ModDisplay, ModPluginContext, ModSubwindowInfo, ModSubwindows, ModTiles } from "./mod-plugin";
 import { createModNet, netRelayBridge } from "./mod-net";
 import { playerCommandEvent } from "./player-command-event";
@@ -457,11 +460,12 @@ import { createIsolatedModWorker } from "./mod-worker/isolation";
 import { stageModuleGraph } from "./mod-worker/staging";
 import { createModWorkerPanelRenderer } from "./mod-worker/panels";
 import { MOD_WORKER_PROTOCOL_VERSION } from "./mod-worker/protocol";
-import { openTakenScreen } from "./mod-screens";
-import { createApi2Host, runApi2KeymapCommand, setApi2CommandHost, setApi2CommandPusher, setApi2DirectionPrompt, setApi2ManagementHost, setApi2TruthConsent } from "./mod-api2-host";
+import { openTakenScreen, withHostManagementScreen } from "./mod-screens";
+import { createApi2Host, runApi2KeymapCommand, setApi2CommandHost, setApi2CommandPusher, setApi2DirectionPrompt, setApi2ManagementHost, setApi2TruthConsent, setApi2WorkerManagementHost } from "./mod-api2-host";
+import { suspendModPanels } from "./panel-runtime";
 import { classicManager } from "./mod-manager/classic-service";
 import { C_FG, C_WARN } from "./mod-manager/classic-colors";
-import { markPlayerForTruth, requestTruthConsent } from "./mod-truth-consent";
+import { recordTruthUse, requestTruthConsent, setTruthSaveWriter, type TruthCapability } from "./mod-truth-consent";
 import { drawPendingManagementConfirmation } from "./mod-manager/classic-confirmation";
 import { activeModHooks, resolveModRuleFlagsByMod } from "./mod-hooks";
 import { faultMessage, modDisplayName, reportModFault, setModNameLookup } from "./mod-problems";
@@ -483,6 +487,7 @@ import {
   revokeModPanels,
   setModPanelVisualFilter,
   setPanelGameSurface,
+  setModHostDialogOpen,
 } from "./panel-runtime";
 import { onSessionTaint, sessionTaint, taintNotice, taintSession } from "./mod-taint";
 import type { SessionTaint } from "./mod-taint";
@@ -794,6 +799,7 @@ import {
   onSlotLost,
   slotHeldElsewhere,
 } from "./slot-attach";
+import { createBootSaveGate } from "./boot-save-gate";
 import { SAVE_CODEC, SAVE_CODECS } from "./save-codec";
 import { renameStoredSave } from "./stored-rename";
 // --- High scores (task #28) ---
@@ -1038,6 +1044,8 @@ setModLookHost({
 const modLists = new ModListStore(scopedGameStorage);
 let modSaveGuard: ModSaveGuard | null = null;
 let saveCatalog: (() => CatalogMod[]) | null = null;
+/* Saves asked for before bootMenus has built the two above wait here instead of failing (boot-save-gate.ts). */
+const bootSaveGate = createBootSaveGate();
 let saveModMetadata: readonly InstalledModMeta[] = [];
 let allowModSetOverwrite = false;
 const MOD_SAVE_APPROVAL_KEY = "neo-angband:mod-save-approval";
@@ -2084,12 +2092,13 @@ setApi2PolicyLoadOrder(enabledModIds());
 let finishWorkerPolicies: () => void = () => undefined;
 const workerPoliciesReady = new Promise<void>((resolve) => { finishWorkerPolicies = resolve; });
 const game = bootGame();
-/* A mod that holds a capability its tier marks the save for (AnybandUI seeing
- * the real map, mod-tier.ts FIRST_PARTY_ORIGINS) marks the character the way
- * debug mode does, for as long as it is allowed. The mark is one-way, like
- * upstream's NOSCORE_DEBUG. With no such mod loaded nothing changes. */
-if (saveMarkingGrantHeld()) {
-  game.state.actor.player.noscore = markNoscore(game.state.actor.player.noscore, NOSCORE.DEBUG);
+/* Hidden-information consequences belong to the capability, regardless of author. */
+for (const loaded of activeModCode().plugins) {
+  for (const capability of [TRUTH_MAP, TRUTH_MONSTERS] as const) {
+    if (modHolds(loaded.id, capability)) recordTruthUse(game.manifest, game.state.actor.player,
+      { installation: loaded.permissionBinding ?? null, id: loaded.id, version: loaded.manifest.version, digest: loaded.contentDigest ?? null },
+      capability, { turn: game.state.turn, depth: game.state.chunk.depth });
+  }
 }
 // Strip the one-shot boot params (?new / ?seed / ?depth) from the visible URL
 // once they have been consumed. They are read into `params` / `seed` / `depth`
@@ -2119,7 +2128,57 @@ setApi2CommandPusher((code, dir) => {
   commandBuffer.push({ code, ...(dir === undefined ? {} : { dir }) });
   advance();
 });
-/* A first-party mod asks for the real map here, with the game's own question. A yes is stored like a manager decision and marks the character. */
+function saveTruthUse(id: string, capability: TruthCapability): boolean {
+  if (suppressSave || birthPending || !attachedSlot()) return false;
+  const code = activeModCode();
+  const loaded = code.plugins.find((mod) => mod.id === id) ?? code.workers.find((mod) => mod.id === id);
+  if (!loaded || !loaded.permissionBinding || loaded.permissionBinding !== consentBinding(id)) return false;
+  recordTruthUse(game.manifest, game.state.actor.player,
+    { installation: loaded.permissionBinding, id, version: loaded.manifest.version, digest: loaded.contentDigest ?? null },
+    capability, { turn: game.state.turn, depth: game.state.chunk.depth });
+  return persistSave(false, true);
+}
+setTruthSaveWriter((id, capability, current) => current === game.state && modHolds(id, capability) && saveTruthUse(id, capability));
+import { drawWorkerSpawnConsent, setApi2WorkerSpawnSharedHost, spawnWorkerContent } from "./mod-api2-host";
+import { recordCapabilityUse } from "./mod-controller-record";
+import { setApi2WorkerGameplayHost } from "./mod-api2-host";
+
+setApi2WorkerGameplayHost({
+  targets: (id) => ({ effects: game.effects, rooms: booted.registries.rooms, profiles: booted.registries.profiles,
+    blows: state.blowEffects ?? null, glyphs: booted.registries.rooms.glyphs, randart: randartRegistry(), menus: menuRegistry.forOwner(id) }),
+  mark: (_id, _capability, current, authorized) => {
+    if (current !== state || !authorized() || suppressSave || birthPending || !attachedSlot() || dead || sessionTaint()) return false;
+    game.manifest.modNoscore = true;
+    game.manifest.determinism = advanceDeterminism(game.manifest.determinism, true);
+    state.actor.player.noscore = markNoscore(state.actor.player.noscore, NOSCORE.DEBUG);
+    return persistSave(false, true);
+  },
+});
+
+function saveSpawnSharedUse(id: string, capability: "debug:spawn" | "shared:publish"): boolean {
+  if (suppressSave || birthPending || !attachedSlot() || dead || sessionTaint()) return false;
+  const loaded = activeModCode().workers.find((mod) => mod.id === id);
+  if (!loaded || !loaded.permissionBinding || loaded.permissionBinding !== consentBinding(id) || !modHolds(id, capability)) return false;
+  if (capability === "debug:spawn") state.actor.player.noscore = markNoscore(state.actor.player.noscore, NOSCORE.DEBUG);
+  recordCapabilityUse(game.manifest, { installation: loaded.permissionBinding, id, version: loaded.manifest.version, digest: loaded.contentDigest ?? null,
+    capability, activation: { turn: state.turn, depth: state.chunk.depth }, consequence: capability === "debug:spawn" ? "spawn" : "shared-write" });
+  return persistSave(false, true);
+}
+
+setApi2WorkerSpawnSharedHost({
+  confirm: (id, request) => {
+    const loaded = activeModCode().workers.find((mod) => mod.id === id);
+    return loaded ? drawWorkerSpawnConsent(id, loaded.manifest.name, request) : Promise.resolve(false);
+  },
+  mark: (id, capability, current, authorized) => current === state && authorized() && saveSpawnSharedUse(id, capability),
+  spawn: (current, request) => {
+    if (current !== state) return 0;
+    const spawned = spawnWorkerContent(state, request, buildWizardDeps());
+    repaintEverything();
+    return spawned;
+  },
+});
+/* Runtime consent must persist the consequence before activating truth. */
 setApi2TruthConsent((id, reason) => requestTruthConsent(id, reason, {
   store: defaultModStore(),
   ask: async (modId, why, marksSave) => {
@@ -2148,7 +2207,7 @@ setApi2TruthConsent((id, reason) => requestTruthConsent(id, reason, {
     repaintEverything();
     return pick === 0;
   },
-  markSave: () => markPlayerForTruth(game.state.actor.player),
+  markSave: (id) => saveTruthUse(id, TRUTH_MAP),
 }));
 /* Every plugin context built from here on reports these as `ctx.registries`.
  *
@@ -3249,6 +3308,7 @@ let modalDepth = 0;
  */
 function adjustModalDepth(delta: 1 | -1): void {
   modalDepth += delta;
+  setModHostDialogOpen(modalDepth > 0);
   subwindowShell.setModalActive(modalDepth > 0);
 }
 
@@ -7458,6 +7518,7 @@ setModSavesControl(createModSaves({
   activeSlot: attachedSlot,
   namePinned: argForceName,
   confirmDelete: (meta) => openModal(() => confirmDelete(term, meta, true)),
+  fingerprint: readSlotSave,
   deleteSlot,
   rename: (_id, name) => renamePlayer(name)
     ? { ok: true }
@@ -7485,36 +7546,121 @@ setModSavesControl(createModSaves({
     newGame();
     return { ok: true };
   },
-  load: async (id) => {
+  load: async (id, authorized, resumeModId) => {
     if (!readSlotSave(id)) return { ok: false, reason: "This character has no save to load." };
     if (await refusedAsPlayedElsewhere(id)) {
       return { ok: false, reason: "This character is open in another window." };
     }
-    if (attachedSlot() && !persistSave()) {
-      return { ok: false, reason: "The current character could not be saved." };
-    }
-    detachSlot();
-    /* #430: a load armed by its autoplayer (savesFor's arm, which sets
-     * rollOnRequest) is carried across the reload to this character's boot. */
-    const loadOn = rollOnRequest;
-    rollOnRequest = null;
-    try {
-      if (loadOn) reloadStorage.setItem(AUTOPLAYER_LOAD_ON_KEY, JSON.stringify({ mod: loadOn, slot: id }));
-      else reloadStorage.removeItem(AUTOPLAYER_LOAD_ON_KEY);
-    } catch {
-      /* storage disabled: the load boot asks, which is the safe direction */
-    }
-    if (!(await resumeSelected(id))) {
+    let refusal = "The character load was canceled.";
+    const commit = (): boolean => {
+      if (authorized && !authorized()) { refusal = "The character load is no longer authorized."; return false; }
+      if (resumeModId !== undefined && installedController?.id !== resumeModId) { refusal = "Only the current controller can request resume."; return false; }
+      if (attachedSlot() && !persistSave()) {
+        refusal = "The current character could not be saved.";
+        return false;
+      }
+      detachSlot();
+      /* #430: a load armed by its autoplayer (savesFor's arm, which sets
+       * rollOnRequest) is carried across the reload to this character's boot. */
+      const loadOn = resumeModId ?? rollOnRequest;
+      rollOnRequest = null;
+      try {
+        if (loadOn) reloadStorage.setItem(AUTOPLAYER_LOAD_ON_KEY, JSON.stringify({ mod: loadOn, slot: id }));
+        else reloadStorage.removeItem(AUTOPLAYER_LOAD_ON_KEY);
+      } catch {
+        /* storage disabled: the load boot asks, which is the safe direction */
+      }
+      return true;
+    };
+    if (!(authorized ? await resumeSelected(id, commit) : commit() && await resumeSelected(id))) {
       try {
         reloadStorage.removeItem(AUTOPLAYER_LOAD_ON_KEY);
       } catch {
         /* nothing to release without storage */
       }
-      return { ok: false, reason: "The character load was canceled." };
+      return { ok: false, reason: refusal };
     }
     return { ok: true };
   },
 }));
+
+setApi2WorkerManagementHost({
+  content: {
+    door: {
+      env: { fetch: (url) => fetch(url), subtle: crypto.subtle, scope: globalThis, now: () => new Date().toISOString() },
+      allowed: () => readConsent(channelStore()),
+      reload: () => reloadAfterModChange(),
+    },
+    discovery: () => ({ engineVersion: ENGINE_VERSION, channel: readChannel(channelStore(), ENGINE_VERSION) }),
+    fetch: (url, init) => fetch(url, init),
+    lookupFetch: (id) => workerRepositoryLookup(id, modPayloadDigest(id), netRelayBridge(globalThis), fetch),
+  },
+  scope: () => JSON.stringify([profileStore.activeId(), attachedSlot()]),
+  confirm: async (id, plan) => (await drawWorkerManagement(id, plan)) !== null,
+  pickSaves: (id, entries) => drawWorkerManagement(id, "Choose the characters this mod can manage. Each later load, rename, or deletion asks again.", entries),
+  markCheat: (_id, current) => {
+    if (current !== state || birthPending || suppressSave || !attachedSlot() || dead || sessionTaint()) return false;
+    state.actor.player.noscore = markNoscore(state.actor.player.noscore, NOSCORE.DEBUG);
+    game.manifest.modNoscore = true;
+    return persistSave(true, true);
+  },
+  saveOptions: () => autosave(true),
+});
+
+async function drawWorkerManagement(id: string, plan: string, entries?: readonly import("./mod-plugin").SaveEntry[]): Promise<readonly string[] | null> {
+  const mod = activeModCode().plugins.find((loaded) => loaded.id === id);
+  if (!mod || typeof HTMLDialogElement.prototype.showModal !== "function") return null;
+  const restore = suspendModPanels();
+  const dialog = document.createElement("dialog");
+  const clean = (value: string) => value.replace(/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/gu, "").slice(0, 120);
+  const heading = document.createElement("h2");
+  heading.textContent = `Mod request: ${clean(mod.manifest.name)} (${clean(id)})`;
+  const identity = document.createElement("p");
+  identity.textContent = `SHA-256: ${modPayloadDigest(id) ?? "unavailable"}`;
+  const description = document.createElement("p");
+  description.textContent = plan;
+  dialog.append(heading, identity, description);
+  dialog.style.cssText = "color:#fff;background:#000;max-width:42rem;max-height:85vh;overflow:auto;white-space:pre-wrap";
+  const choices = new Map<string, HTMLInputElement>();
+  for (const entry of entries ?? []) {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = false;
+    const name = document.createElement("span");
+    name.textContent = `${clean(entry.name)} - ${clean(entry.race)} ${clean(entry.cls)}, level ${entry.level}, last played ${entry.lastPlayed}`;
+    label.append(input, name);
+    label.style.display = "block";
+    dialog.append(label);
+    choices.set(entry.id, input);
+  }
+  const accept = document.createElement("button");
+  accept.textContent = "Apply";
+  const decline = document.createElement("button");
+  decline.textContent = "Cancel";
+  dialog.append(accept, decline);
+  try {
+    document.body.append(dialog);
+    return await new Promise<readonly string[] | null>((resolve) => {
+      let done = false;
+      const finish = (accepted: boolean) => {
+        if (done) return;
+        done = true;
+        resolve(accepted ? [...choices].filter(([, input]) => input.checked).map(([slot]) => slot) : null);
+      };
+      accept.addEventListener("click", () => finish(true));
+      decline.addEventListener("click", () => finish(false));
+      dialog.addEventListener("cancel", (event) => { event.preventDefault(); finish(false); });
+      dialog.addEventListener("close", () => finish(false));
+      dialog.addEventListener("keydown", (event) => event.stopPropagation());
+      dialog.showModal();
+      decline.focus();
+    });
+  } finally {
+    dialog.remove();
+    restore();
+  }
+}
 
 /**
  * Rename a character that is not in play: its stored save (stored-rename.ts)
@@ -7592,14 +7738,14 @@ let suppressSave = false;
  * The port used to swallow every failure silently, so a quota-exceeded
  * localStorage write left the player playing on believing they were saved.
  */
-function persistSave(deliberate = false): boolean {
+function persistSave(deliberate = false, required = false): boolean {
   /* A mod's hook threw mid-turn (mod-taint.ts), so this state may be half-updated
    * and must not go over the last good save. THE ONLY GATE THAT MATTERS: the tail
    * autosave is not the sole writer - a level change, the 'S' command, the options
    * screen and pagehide all force a save, so gating autosave() alone would leave
    * four ways to overwrite the file the moment the player walked downstairs. */
-  if (sessionTaint()) return true;
-  if (suppressSave || birthPending) return true; // a throwaway claims no slot
+  if (sessionTaint()) return !required;
+  if (suppressSave || birthPending) return !required; // a throwaway claims no slot
   /* THIS PAGE'S SLOT, not the origin's. `getActiveId` would answer with whatever
    * character any tab most recently chose to resume, which is how two tabs on one
    * character autosaved over each other every three seconds with neither told.
@@ -7608,7 +7754,7 @@ function persistSave(deliberate = false): boolean {
    * whose slot turned out to belong to another tab has already been detached and
    * writes nowhere (slot-attach.ts). */
   const id = attachedSlot();
-  if (!id) return true; // attached to nothing (e.g. the picker is up): nothing to save
+  if (!id) return !required; // attached to nothing (e.g. the picker is up): nothing to save
   try {
     if (!saveCatalog || !modSaveGuard) return false;
     const current = captureModList(game.modList?.name ?? "", defaultModStore(), saveCatalog(), saveModMetadata);
@@ -7618,7 +7764,7 @@ function persistSave(deliberate = false): boolean {
     const b64 = bytesToB64(encodeSavedGame(save, undefined, SAVE_CODEC));
     /* writeSlot's own verdict, not just "nothing threw": the storage write
      * itself is where a quota failure shows up. */
-    const ok = writeSlot(id, b64, metaFromState(id));
+    const ok = writeSlot(id, b64, metaFromState(id)) && (!required || readSlotSave(id) === b64);
     if (ok) game.modList = save.modList;
     /* There is now a character worth protecting from the browser's own eviction, so
      * this is the moment to ask for persistent storage - once per session, in the
@@ -7710,6 +7856,7 @@ let lastSaveMs = -Infinity;
 let autosaveFailed = false;
 function autosave(force = false): void {
   if (dead) return;
+  if (!bootSaveGate.admit()) return;
   const now =
     typeof performance !== "undefined" ? performance.now() : Date.now();
   if (!force && now - lastSaveMs < 3000) return;
@@ -8078,7 +8225,7 @@ async function buildModManagerDeps(): Promise<ModManagerDeps> {
 }
 
 async function openModManager(opts?: { resume?: boolean }): Promise<void> {
-  /* A first-party mod that draws the mod manager gets the entry; it falls back to ours if it will not open. */
+  /* A replacement can decline, so the host manager remains the recovery path. */
   if (await openTakenScreen("mods")) return;
   const deps = await modManagerDeps();
   if (opts?.resume === false) {
@@ -8088,7 +8235,7 @@ async function openModManager(opts?: { resume?: boolean }): Promise<void> {
       reloadAfterModChange({ ...reloadOpts, resume: false });
   }
   await withUnfilteredSystemScreen(() =>
-    runModManager(term, deps, opts?.resume === false ? { fromTitle: true } : undefined));
+    withHostManagementScreen(() => runModManager(term, deps, opts?.resume === false ? { fromTitle: true } : undefined)));
 }
 
 async function openModOptions(): Promise<void> {
@@ -11857,6 +12004,7 @@ function continueAdvance(
         scored: outcome.entered,
         endedAt: Date.now(),
         autoplayers: game.manifest.autoplayers,
+        capabilityUse: game.manifest.capabilityUse,
       }));
     } catch (error) {
       log.error("report", "run report failed", error);
@@ -13233,8 +13381,9 @@ async function maybeBirth(): Promise<BootStep> {
       msg: (text) => say(text),
     });
     const offered = offerBirth(modBirth.session, modBirth.outcome);
-    const choice = offered
-      ? await offered
+    const offeredChoice = offered ? await offered : undefined;
+    const choice = offeredChoice !== undefined
+      ? offeredChoice
       : await runBirth(term, players.races, players.classes, {
         // ui-birth.c draws random race/class/*/@/roller from the main game RNG.
         rng: state.rng,
@@ -13338,11 +13487,12 @@ async function refusedAsPlayedElsewhere(id: string): Promise<boolean> {
 }
 
 /** Reload to resume the chosen character (clears the fresh-start params). */
-async function resumeSelected(id: string): Promise<boolean> {
+async function resumeSelected(id: string, beforeCommit?: () => boolean): Promise<boolean> {
   const stored = readSlotSave(id);
   const saved = stored ? decodeSavedGame(b64ToBytes(stored), undefined, SAVE_CODECS).save?.modList : undefined;
   const decision = await prepareSaveModList(term, await modManagerDeps(), saved);
   if (!decision.load) return false;
+  if (beforeCommit && !beforeCommit()) return false;
   reloadStorage.setItem(MOD_SAVE_APPROVAL_KEY, serializeDocument(modSaveApprovalFormat, { slot: id, revision: defaultModStore().configurationRevision(), allowOverwrite: decision.allowOverwrite }, { compact: true }));
   setActiveId(id);
   try {
@@ -13713,7 +13863,7 @@ async function confirmBorgActivation(): Promise<boolean> {
 async function confirmControllerActivation(id: string): Promise<boolean> {
   const loaded = controllerCandidates().find((candidate) => candidate.id === id);
   if (!loaded) return false;
-  if (loaded.tier.trust === "first-party") return confirmBorgActivation();
+  if (loaded.tier.trust === "first-party" && loaded.tier.execution !== "worker") return confirmBorgActivation();
   return await drawModControllerConsent(id, loaded.manifest.name) && controllerCandidates().some((candidate) => candidate.id === id);
 }
 
@@ -15319,6 +15469,9 @@ async function bootMenus(): Promise<void> {
       if (!modSaveGuard.current()) { reloadAfterModChange(); return; }
     }
   }
+  /* Saving is possible from here. A save asked for earlier (a controller that resumed from its
+   * keyboard dialog marks the character and saves at once) is written now, once, not reported as failed. */
+  if (bootSaveGate.open()) autosave(true);
   /*
    * THE LOADING SCREEN ENDS HERE, and it ends at the ONE ENTRY to the menu
    * stack rather than at one of maybeTitle's four EXITS.
@@ -16150,7 +16303,7 @@ setModControllerArmedControl((id) =>
 const workerPlugins = new Map<string, StartedModWorker>();
 const workerControllers = new Map<string, LoadedModPlugin>();
 function controllerCandidates(): readonly LoadedModPlugin[] {
-  return [...activeModCode().plugins, ...workerControllers.values()].filter((loaded) => loaded.tier.trust === "first-party" ||
+  return [...activeModCode().plugins, ...workerControllers.values()].filter((loaded) =>
     (loaded.permissionBinding === consentBinding(loaded.id) && ["input:controller", "input:intent"].every((capability) => defaultModStore().getConsent(loaded.id).includes(capability))));
 }
 /* What each Worker mod's policy tables install beside hooks, once it settles. */
@@ -16243,6 +16396,7 @@ const workerGrants = (loaded: LoadedModWorker): readonly string[] => unifiedCapa
        * load the game's URLs. */
       const graph = await stageModuleGraph(loaded.entryUrl, {
         origin: location.origin,
+        authoring: () => modHolds(loaded.id, "mod:authoring") && loaded.permissionBinding === consentBinding(loaded.id) && defaultModStore().getConsent(loaded.id).includes("mod:authoring"),
         read: async (url) => {
           const response = await fetch(url);
           return response.ok ? await response.text() : null;
@@ -16760,7 +16914,7 @@ function finishAutoplayerInstall(loaded: LoadedModPlugin, install: ModController
   const takenOver = state.actor.player;
   const identity = { id: loaded.id, name: loaded.manifest.name, version: loaded.manifest.version,
     digest: loaded.contentDigest ?? null, firstParty: loaded.tier.trust === "first-party" };
-  recordControllerUse(game.manifest, takenOver, identity);
+  recordControllerUse(game.manifest, takenOver, identity, { installation: loaded.permissionBinding ?? null, activation: { turn: state.turn, depth: state.chunk.depth } });
   try { autosave(true); }
   catch (err) { modHealth().recordFault(loaded.id, "autosave", err); }
   log.info(`mod:${loaded.id}`, `installed an autoplayer`);
@@ -16891,14 +17045,13 @@ try {
 } catch {
   /* best-effort; worst case this boot asks, which is the safe direction */
 }
-/* The other boot that may skip the prompt (#300): the first boot of a character
+/* The boot that may carry an armed controller (#300): the first boot of a character
  * whose predecessor's autoplayer asked to carry on (AUTOPLAYER_ROLL_ON_KEY). The
  * birth screen's boot keeps the flag for the boot after it and installs nothing,
  * since its character is the throwaway behind the birth screen. Any other boot
  * clears it, so a player who backs out of birth and loads someone else is asked. */
 let rollOnAutoplayerId: string | null = null;
 let rollOnHeldForBirth: string | null = null;
-let rollOnLoaded = false;
 try {
   const armed = reloadStorage.getItem(AUTOPLAYER_ROLL_ON_KEY);
   if (birthPending) {
@@ -16909,7 +17062,6 @@ try {
     /* #430: the loaded character's own boot, armed by its load. */
     else if (loadRolledOnId) {
       rollOnAutoplayerId = loadRolledOnId;
-      rollOnLoaded = true;
     }
   }
 } catch {
@@ -16970,11 +17122,9 @@ for (const loaded of controllerCandidates()) {
      * gets, every single boot. */
     if (justConfirmedAutoplayerId === autoplayerConfirmationKey(loaded.id)) {
       finishAutoplayerInstall(loaded, install);
-    } else if (loaded.tier.trust === "first-party" && rollOnAutoplayerId === loaded.id) {
-      finishAutoplayerInstall(loaded, install);
-      say(rollOnLoaded
-        ? t("main.autoplayer.load-on", "{name} carries on with the loaded character.", { name: loaded.manifest.name })
-        : t("main.autoplayer.roll-on", "{name} carries on with the new character.", { name: loaded.manifest.name }));
+    } else if (rollOnAutoplayerId === loaded.id) {
+      /* A profile can arm a controller, but it cannot accept the session dialog. */
+      pendingAutoplayerInstall = { loaded, install };
     } else {
       pendingAutoplayerInstall = { loaded, install };
     }

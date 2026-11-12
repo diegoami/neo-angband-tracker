@@ -28,7 +28,6 @@
 
 import {
   CapabilitySet,
-  MOD_PERMISSION_TEXT,
   matchCapability,
   type CapabilityEntry,
   type CapabilityTier,
@@ -237,10 +236,13 @@ const TIER_WORDS: Readonly<Record<CapabilityTier, string>> = {
 
 /** Who may hold the capabilities of one namespace outside the public one. */
 interface SeamRule {
+  readonly worker?: readonly string[];
   /** Any mod running code in the page may hold it, with the player's consent. */
   readonly inProcess: boolean;
   /** A first-party mod whose FIRST_PARTY_ORIGINS entry names the capability may hold it. */
-  readonly firstPartyListed: boolean;
+  readonly originListed: boolean;
+  /** A Worker may hold it through the broker, with the player's consent. */
+  readonly brokered?: boolean;
   /**
    * The player confirms it on its own Core-drawn question, separately from
    * the other permissions, because it can install or turn on other code.
@@ -253,17 +255,16 @@ interface SeamRule {
  *
  * What an in-process mod may do in the game is not narrowed by its tier:
  * review, the unreviewed notice and the Worker sandbox are where safety comes
- * from. The one exception is a capability that is an escape route out of the
- * mod's own reach: `manage` can install or turn on other code, so it stays with
- * the game's own mods, each named for it in FIRST_PARTY_ORIGINS, and is
- * confirmed on its own Core-drawn question. `truth` (the real map) goes to any
- * in-process mod the player allows; its consent sentence says the mod sees what
- * the character has not found. A Worker mod gets either only when it is a
- * listed first-party mod. A namespace missing from this table is held by nobody.
+ * from. Workers of every author can request the named serialized management
+ * operations after a separate Core-drawn question. Broader management still
+ * requires a listed first-party in-process mechanism. `truth` (the real map)
+ * goes to any in-process mod the player allows and to any Worker through the
+ * broker; its consent sentence says the mod sees what the character has not
+ * found. A namespace missing from this table is held by nobody.
  */
 const SEAM_POLICY: Readonly<Record<string, SeamRule>> = Object.freeze({
-  manage: Object.freeze({ inProcess: false, firstPartyListed: true, confirm: true }),
-  truth: Object.freeze({ inProcess: true, firstPartyListed: true, confirm: false }),
+  manage: Object.freeze({ inProcess: false, originListed: true, confirm: true, worker: ["profiles:manage", "session:control", "options:manage", "saves:manage", "mod:install", "mod:session", "screens:manage"] }),
+  truth: Object.freeze({ inProcess: true, originListed: false, brokered: true, confirm: false }),
 });
 
 /** The vocabulary entry for a capability string, or undefined when it does not know it. */
@@ -277,12 +278,14 @@ function entryOf(capability: string): CapabilityEntry | undefined {
 
 /** Why the seam policy keeps `capability` from a mod of this tier, or null when it does not. */
 function seamRefusal(entry: CapabilityEntry, capability: string, tier: ModTier): string | null {
-  if (entry.namespace === "manage" && tier.execution !== "in-process") return "Only in-process first-party mods can manage the game.";
+  if (entry.namespace === "manage" && tier.execution === "data") return "this management operation requires executable mod code";
   const rule = SEAM_POLICY[entry.namespace];
-  if (!rule) return "only the game's own mods can have it";
+  if (!rule) return "this capability has no host mechanism yet";
+  if (entry.namespace === "manage" && tier.execution === "worker") return rule.worker?.includes(capability) ? null : "this management operation has no isolated Worker mechanism yet";
   if (rule.inProcess && tier.execution === "in-process") return null;
-  if (!rule.firstPartyListed || tier.trust !== "first-party") return "only the game's own mods can have it";
-  if (!tier.seams.includes(capability)) return "this version of the game does not give it to this mod";
+  if (rule.brokered && tier.execution === "worker") return null;
+  if (!rule.originListed || tier.trust !== "first-party") return "this needs a brokered mechanism Workers do not have yet";
+  if (!tier.seams.includes(capability)) return "this capability has no enabled host mechanism for this mod";
   return null;
 }
 
@@ -291,6 +294,7 @@ function seamRefusal(entry: CapabilityEntry, capability: string, tier: ModTier):
  * before it is granted (SEAM_POLICY `confirm`).
  */
 export function needsOwnConfirmation(capability: string): boolean {
+  if (["saves:manage", "mod:read", "debug:wizard"].includes(capability)) return true;
   const entry = entryOf(capability);
   return entry !== undefined && SEAM_POLICY[entry.namespace]?.confirm === true;
 }
@@ -301,17 +305,20 @@ export function needsOwnConfirmation(capability: string): boolean {
  * A capability the vocabulary does not know is never granted. One outside the
  * public namespace follows SEAM_POLICY. A public capability is never withheld
  * from code in the page; a Worker mod is held to the vocabulary's Worker tier,
- * which is what its runtime provides.
+ * which is what its runtime provides, including bounded spawning and published JSON.
  */
 export function tierRefusal(capability: string, tier: ModTier): string | null {
-  if (capability === "engine:access" && tier.execution === "worker") return "Worker mods cannot have live engine access";
-  if (capability === "engine:access" && tier.trust !== "first-party" && !tier.developerInProcess) return MOD_PERMISSION_TEXT.isolated;
+  if (capability === "registry:*" && tier.execution === "worker") return "registry:monster, registry:projection, registry:effect-info, and registry:rune have no Worker mechanism yet";
+  if (capability === "engine:access" && tier.execution === "worker") return "the save writer cannot atomically commit engine state and roster metadata; Workers need a production bridge adapter with atomic persistence";
+  if (capability === "engine:access" && tier.trust !== "first-party" && !tier.developerInProcess) return "this needs a live engine mechanism Workers do not have yet";
   const entry = entryOf(capability);
   if (!entry) return "the game does not know this permission";
+  if (tier.execution === "worker" && entry.namespace !== "public" && !entry.tiers.includes("worker")) return "this needs a brokered mechanism Workers do not have yet";
+  if (capability === "mod:authoring" && tier.execution === "worker" && entry.tiers.includes("worker")) return null;
   if (entry.namespace !== "public") return seamRefusal(entry, capability, tier);
   if (tier.execution !== "worker") return null;
-  if (!entry.tiers.includes(tier.capabilityTier)) {
-    return `${TIER_WORDS[tier.capabilityTier]} mods cannot have it`;
+  if (!entry.tiers.includes("worker")) {
+    return `this needs a mechanism ${TIER_WORDS.worker} mods do not have yet`;
   }
   return null;
 }
@@ -369,10 +376,6 @@ export function effectiveGrants(
   const yes = new Set(decisions.granted);
   const no = new Set(decisions.refused);
   for (const capability of new Set(declared)) {
-    if (capability === "engine:access" && tier.trust === "first-party" && tier.execution === "in-process") {
-      granted.push(capability);
-      continue;
-    }
     const why = tierRefusal(capability, tier);
     if (why !== null) {
       refusedByTier.push({ capability, why });
@@ -382,7 +385,8 @@ export function effectiveGrants(
     if (no.has(capability) || overridesRefusal(capability, decisions.refused)) {
       refusedByPlayer.push(capability);
       if (!canRunWithout(capability)) blocking.push(capability);
-    } else if (yes.has(capability)) {
+    } else if (yes.has(capability) || (tier.trust === "first-party" && tier.execution === "in-process" &&
+      (capability === "engine:access" || PRESENTATION_CAPABILITIES.includes(capability)))) {
       granted.push(capability);
     } else {
       undecided.push(capability);
@@ -469,7 +473,15 @@ export function grantRuntime(id: string, capability: string): void {
 
 /** Whether `id` holds `capability` right now. */
 export function modHolds(id: string, capability: string): boolean {
-  return grants.get(id)?.granted.includes(capability) === true;
+  return grants.get(id)?.granted.includes(capability) === true || uiReplacementWildcardHeld(id, capability);
+}
+
+const UI_REPLACEMENT_FAMILIES = new Set(["messages", "sidebar", "status", "menu", "screen", "birth"].map((family) => `ui:${family}.replace`));
+
+function uiReplacementWildcardHeld(id: string, capability: string): boolean {
+  const held = grants.get(id);
+  return UI_REPLACEMENT_FAMILIES.has(capability) && held?.granted.includes("ui:*.replace") === true &&
+    !held.refusedByPlayer.includes(capability) && !held.refusedByTier.some((refusal) => refusal.capability === capability);
 }
 
 /** Forget every tier and grant (tests). */
@@ -488,14 +500,20 @@ export function modTiers(): ReadonlyMap<string, ModTier> {
   return tiers;
 }
 
-/** The seams outside the public API the API 2 host may build for a mod (SEAM_POLICY). The name predates the policy. */
+/** The seams outside the public API the API 2 host may build for a mod (SEAM_POLICY). The exported name remains for compatibility. */
 export interface FirstPartyAllowlist {
   readonly manage?: boolean;
   readonly truth?: boolean;
   readonly presentation?: boolean;
 }
 
-/** What a runtime needs to start one mod: its tier, what it holds, and its first-party seams. */
+/** Declarations keep bundled presentation code subject to player refusals. */
+const PRESENTATION_CAPABILITIES: readonly string[] = [
+  "display:replace", "ui:*.replace", "ui:messages.replace", "ui:sidebar.replace", "ui:status.replace",
+  "ui:menu.replace", "ui:screen.replace", "ui:birth.replace", "ui:region.create", "keymap:edit", "ui:title",
+];
+
+/** What a runtime needs to start one mod: its tier, what it holds, and its seams. */
 export interface ModStartGrants {
   readonly tier: ModTier;
   /** Exactly the capabilities the mod is handed. Empty for a mod the loader did not settle. */
@@ -515,16 +533,16 @@ export function modStartGrants(id: string): ModStartGrants {
    * capability is the whole test; `manage` is first-party only by that policy. */
   const truth = granted.includes(TRUTH_MAP) || granted.includes(TRUTH_MONSTERS);
   const manage = tier.trust === "first-party" && tier.execution === "in-process" && granted.some((cap) => tier.seams.includes(cap) && entryOf(cap)?.namespace === "manage");
-  const presentation = tier.trust === "first-party" && tier.execution === "in-process";
+  const presentation = tier.trust === "first-party" && tier.execution === "in-process" &&
+    granted.some((cap) => PRESENTATION_CAPABILITIES.includes(cap) || cap === "screens:manage");
   if (!truth && !manage && !presentation) return Object.freeze({ tier, granted });
   return Object.freeze({ tier, granted, firstParty: Object.freeze({ ...(manage ? { manage } : {}), ...(truth ? { truth } : {}), ...(presentation ? { presentation } : {}) }) });
 }
 
 /** Whether any loaded mod holds a capability that marks the save. */
 export function saveMarkingGrantHeld(): boolean {
-  for (const [id, held] of grants) {
-    const marks = modTier(id).marksSave;
-    if (held.granted.some((cap) => marks.includes(cap))) return true;
+  for (const held of grants.values()) {
+    if (held.granted.some((cap) => cap === TRUTH_MAP || cap === TRUTH_MONSTERS)) return true;
   }
   return false;
 }

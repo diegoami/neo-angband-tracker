@@ -203,17 +203,37 @@ let revoked = false;
 
 /** How many Core-drawn questions are open; while any is, panels are hidden and inert. */
 let suspended = 0;
+let hostDialogOpen = false;
+let presentationSuspended = false;
 const suspensionListeners = new Set<(suspended: boolean) => void>();
+const permissionSuspensionListeners = new Set<(suspended: boolean) => void>();
 let suspensionHeld: { container: HTMLElement; visibility: string; inert: boolean }[] = [];
 
 export function modPanelsSuspended(): boolean {
   return suspended > 0;
 }
 
+export function modPresentationSuspended(): boolean {
+  return modPanelsSuspended() || hostDialogOpen;
+}
+
+/** Gameplay dialogs hide mod output without disabling the store controller. */
+export function setModHostDialogOpen(open: boolean): void {
+  hostDialogOpen = open;
+  updatePanelSuspension();
+}
+
 export function onModPanelSuspension(listener: (suspended: boolean) => void): () => void {
   suspensionListeners.add(listener);
-  listener(modPanelsSuspended());
+  listener(modPresentationSuspended());
   return () => { suspensionListeners.delete(listener); };
+}
+
+/** A presenter can own a gameplay modal, but it must yield to Core questions inside that modal. */
+export function onModPermissionSuspension(listener: (suspended: boolean) => void): () => void {
+  permissionSuspensionListeners.add(listener);
+  listener(modPanelsSuspended());
+  return () => { permissionSuspensionListeners.delete(listener); };
 }
 
 /**
@@ -223,29 +243,40 @@ export function onModPanelSuspension(listener: (suspended: boolean) => void): ()
  */
 export function suspendModPanels(): () => void {
   suspended++;
-  for (const listener of suspensionListeners) listener(true);
-  if (suspended === 1) suspensionHeld = panels.map((panel) => ({
-    container: panel.container,
-    visibility: panel.container.style.visibility,
-    inert: panel.container.inert,
-  }));
-  for (const { container } of suspensionHeld) {
-    container.style.visibility = "hidden";
-    container.inert = true;
-  }
+  updatePanelSuspension();
+  for (const listener of permissionSuspensionListeners) listener(true);
   let restored = false;
   return () => {
     if (restored) return;
     restored = true;
     suspended = Math.max(0, suspended - 1);
-    for (const listener of suspensionListeners) listener(suspended > 0);
-    if (suspended > 0) return;
+    updatePanelSuspension();
+    for (const listener of permissionSuspensionListeners) listener(modPanelsSuspended());
+  };
+}
+
+function updatePanelSuspension(): void {
+  const next = modPresentationSuspended();
+  if (next === presentationSuspended) return;
+  presentationSuspended = next;
+  for (const listener of suspensionListeners) listener(next);
+  if (next) {
+    suspensionHeld = panels.map((panel) => ({
+      container: panel.container,
+      visibility: panel.container.style.visibility,
+      inert: panel.container.inert,
+    }));
+    for (const { container } of suspensionHeld) {
+      container.style.visibility = "hidden";
+      container.inert = true;
+    }
+  } else {
     for (const { container, visibility, inert } of suspensionHeld) {
       container.style.visibility = visibility;
       container.inert = inert;
     }
     suspensionHeld = [];
-  };
+  }
 }
 
 /**
@@ -585,7 +616,7 @@ function mountPanel(
    * introduce. Same argument `installRegions` makes for refusing a bad
    * declaration loudly. */
   if (fault !== undefined) throw new Error(fault);
-  if (suspended > 0) {
+  if (modPresentationSuspended()) {
     throw new Error(`panel "${spec.id}": the game is asking the player about mod permissions; open it again afterwards`);
   }
   if (revoked) {
@@ -785,9 +816,9 @@ function mountPanel(
  * is loaded at all.
  */
 export const panelKeyboardOwner: DomKeyboardOwner = {
-  owns: (event: KeyboardEvent): boolean => suspended === 0 && panelForEvent(event) !== undefined,
+  owns: (event: KeyboardEvent): boolean => !modPresentationSuspended() && panelForEvent(event) !== undefined,
   escape: (event: KeyboardEvent): boolean => {
-    if (suspended > 0) return false;
+    if (modPresentationSuspended()) return false;
     if (!event.isTrusted || event.repeat || event.isComposing) return false;
     const top = topPanel();
     if (!top) return false;

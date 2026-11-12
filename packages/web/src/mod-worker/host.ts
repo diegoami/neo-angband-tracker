@@ -25,7 +25,10 @@
  */
 
 import { decideAutoplayerKey } from "../autoplayer-keys";
-import { disposeApi2Host } from "../mod-api2-host";
+import { revokeWorkerGameplay, serveWorkerGameplayCall } from "../mod-api2-host";
+import { GAMEPLAY_WORKER_CALLS } from "./protocol";
+import { copyBridgeJson } from "../engine-bridge/values";
+import { callWorkerManage, disposeApi2Host, serveSimpleWorkerCall, serveSpawnSharedWorkerCall } from "../mod-api2-host";
 import {
   API2_HOOK_NAMES,
   CAPABILITY_VOCABULARY,
@@ -50,10 +53,26 @@ import {
   type ModApi2,
 } from "@rpgm-tools/neo-angband-mod-sdk";
 import { modHealth } from "../mod-health";
+import { modHolds } from "../mod-tier";
+import { consentBinding } from "../mod-consent-binding";
+import { modPanelsSuspended } from "../panel-runtime";
+import { attachWorkerPresenters, serveWorkerPresenterCall } from "../mod-api2-host";
+import { PRESENTER_WORKER_CALLS } from "./protocol";
+import { BIRTH_WORKER_CALLS } from "./protocol";
+import { validWorkerBackupCall } from "./protocol";
+import { serveWorkerBackupCall, workerBackupAuthorization } from "../mod-api2-host";
+import { rememberWorkerBackupFile } from "../mod-api2-host";
+import { MAX_WORKER_BACKUP_FILE_BYTES } from "./protocol";
 import { cloneWorkerJson, payloadBytes, toWorkerJson } from "./clone";
 import {
   MOD_WORKER_PROTOCOL_VERSION,
   WORKER_CALLS,
+  WORKER_MANAGE_CALLS,
+  validWorkerManageCall,
+  SIMPLE_WORKER_CALLS,
+  SPAWN_SHARED_WORKER_CALLS,
+  CONTENT_WORKER_CALLS,
+  validWorkerContentCall,
   type HostToModWorker,
   type ModWorkerToHost,
   type WorkerDefinitionSummary,
@@ -184,7 +203,7 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
   const heartbeatMs = deps.timing?.heartbeatMs ?? HEARTBEAT_MS;
   const stallMs = deps.timing?.stallMs ?? STALL_MS;
   const maxCalls = deps.timing?.maxCallsPerSecond ?? MAX_CALLS_PER_SECOND;
-  const grants = deps.grants.filter((g) => g !== "*" && g !== "engine:access");
+  const grants = deps.grants.filter((g) => g !== "*" && g !== "engine:access" && g !== "registry:*");
   const capabilities = CapabilitySet.fromManifest({
     id: deps.id, name: deps.id, version: "0.0.0", shape: "plugin", capabilities: grants,
   });
@@ -232,7 +251,7 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
   };
   const envelope = (): { pluginId: string; epoch: number } => ({ pluginId: deps.id, epoch });
 
-  const ask = (question: WorkerQuestion, site: string): Promise<WorkerJson> => {
+  const ask = (question: WorkerQuestion, site: string, deadline = askMs): Promise<WorkerJson> => {
     if (state === "stopped") return Promise.reject(new Error("the mod's Worker has stopped"));
     nextAsk += 1;
     const askId = nextAsk;
@@ -243,8 +262,8 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
         /* The neutral answer is the caller's: this rejection. Every answer still
          * outstanding from this epoch is superseded with it. */
         supersede();
-        reject(new WorkerTimeoutError(`the mod did not answer ${site} within ${String(askMs)} ms`));
-      }, askMs);
+        reject(new WorkerTimeoutError(`the mod did not answer ${site} within ${String(deadline)} ms`));
+      }, deadline);
       asks.set(askId, { epoch: askedIn, sent: now(), site, timeout, resolve, reject });
       post({ type: "ask", ...envelope(), askId, question });
     });
@@ -254,6 +273,7 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
    * (its answer will be stale) and the next beat sends a fresh one. */
   const supersede = (): void => {
     epoch += 1;
+    if (api) revokeWorkerGameplay(api, epoch);
     for (const [askId, pending] of asks) {
       if (pending.site !== "ping") continue;
       clearTimeout(pending.timeout);
@@ -324,6 +344,10 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
     receivedTimes.push(time);
     let bytes: number;
     try {
+      if (raw !== null && typeof raw === "object") {
+        const method = Object.getOwnPropertyDescriptor(raw, "method");
+        if (method && "value" in method && typeof method.value === "string" && Object.hasOwn(GAMEPLAY_WORKER_CALLS, method.value)) copyBridgeJson(raw);
+      }
       cloneWorkerJson(raw);
       bytes = payloadBytes(raw);
     } catch (err) {
@@ -401,6 +425,7 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
       return;
     }
     state = "ready";
+    attachWorkerPresenters(api, (question) => ask(question, "presentation", 250));
     deps.onHooks?.(hooks, notify, registrations);
     heartbeat = setInterval(ping, heartbeatMs);
     resolveReady({ summary, policyHooks });
@@ -427,7 +452,7 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
     }
   };
 
-  const reply = (requestId: number, calledIn: number, result: Api2Result<unknown> | Error): void => {
+  const reply = (requestId: number, calledIn: number, result: Api2Result<unknown> | Error, authorized?: () => boolean): void => {
     if (result instanceof Error) {
       post({ type: "reply", pluginId: deps.id, epoch: calledIn, requestId, ok: false, error: result.message.slice(0, 4096) });
       return;
@@ -436,12 +461,14 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
     try {
       json = toWorkerJson(result);
     } catch (err) {
+      if (authorized && !authorized()) return;
       post({ type: "reply", pluginId: deps.id, epoch: calledIn, requestId, ok: false, error: `the answer could not be copied: ${messageOf(err)}`.slice(0, 4096) });
       return;
     }
     const time = now();
     while (replySizes[0] && replySizes[0].time < time - 1000) replySizes.shift();
     const bytes = payloadBytes(json);
+    if (authorized && !authorized()) return;
     if (bytes > MAX_REPLY_BYTES || replySizes.reduce((total, reply) => total + reply.bytes, bytes) > MAX_REPLY_BYTES_PER_SECOND) {
       post({ type: "reply", pluginId: deps.id, epoch: calledIn, requestId, ok: false, error: MOD_PERMISSION_TEXT.quota });
       health.switchOff(deps.id, "replies", new Error(MOD_PERMISSION_TEXT.quota));
@@ -464,7 +491,46 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
   };
 
   /** Serve one call. Every path answers with an Api2Result or an error. */
-  const serve = async (host: ModApi2, method: string, args: readonly WorkerJson[]): Promise<Api2Result<unknown>> => {
+  const serve = async (host: ModApi2, method: string, args: readonly WorkerJson[], current: () => boolean): Promise<Api2Result<unknown>> => {
+    if (Object.hasOwn(GAMEPLAY_WORKER_CALLS, method)) {
+      const capability = GAMEPLAY_WORKER_CALLS[method]!;
+      if (!capabilities.has(capability) || !host.meta.granted(capability) || !modHolds(deps.id, capability)) return api2NotGranted(capability);
+      return serveWorkerGameplayCall(host, method, args, epoch, current);
+    }
+    if (method.startsWith("backupFolder.")) {
+      if (!capabilities.has("backup:folder") || !host.meta.granted("backup:folder")) return api2NotGranted("backup:folder");
+      if (!validWorkerBackupCall(method, args)) return api2Refused("bad-call", "backup arguments cannot name a folder, purpose, or installation");
+      if (!workerBackupAuthorization(host, current)()) return api2NotGranted("backup:folder");
+      if (method !== "backupFolder.onSave" && method !== "backupFolder.off") return serveWorkerBackupCall(host, method, args, current);
+    }
+    if (Object.hasOwn(BIRTH_WORKER_CALLS, method)) {
+      const capability = BIRTH_WORKER_CALLS[method]!;
+      if (!capabilities.has(capability) || !host.meta.granted(capability)) return api2NotGranted(capability);
+      return serveWorkerPresenterCall(host, method, args, current);
+    }
+    if (Object.hasOwn(SPAWN_SHARED_WORKER_CALLS, method)) {
+      const capability = SPAWN_SHARED_WORKER_CALLS[method]!;
+      if (!capabilities.has(capability) || !host.meta.granted(capability) || !modHolds(deps.id, capability)) return api2NotGranted(capability);
+      return await serveSpawnSharedWorkerCall(host, method, args, current);
+    }
+    if (Object.hasOwn(PRESENTER_WORKER_CALLS, method)) {
+      const capability = PRESENTER_WORKER_CALLS[method]!;
+      if (!capabilities.has(capability) || !host.meta.granted(capability)) return api2NotGranted(capability);
+      return serveWorkerPresenterCall(host, method, args, current);
+    }
+    if (Object.hasOwn(SIMPLE_WORKER_CALLS, method)) {
+      const capability = SIMPLE_WORKER_CALLS[method as keyof typeof SIMPLE_WORKER_CALLS];
+      if (!capabilities.has(capability) || !host.meta.granted(capability)) return api2NotGranted(capability);
+      return await serveSimpleWorkerCall(host, method, args, current);
+    }
+    if (method.startsWith("truth.")) {
+      const capability = truthCapability(host, method);
+      if (!capability) return api2NotGranted(method === "truth.level" || method === "truth.storeKnowledge" ? "state:map-actual.read" : "state:monsters-actual.read");
+      if (method === "truth.race" ? args.length !== 1 || !Number.isSafeInteger(args[0]) || (args[0] as number) < 0 : args.length !== 0) {
+        return api2Refused("bad-call", "truth reads take no arguments except race, which takes a non-negative race index");
+      }
+      if (!host.truth) return api2NotGranted(capability);
+    }
     if ((method === "events.on" || method === "ui.onKey" || method === "backupFolder.onSave") && subscriptions.size + keySubscriptions.size + backupSubscriptions.size >= 64) return api2Refused("quota", MOD_PERMISSION_TEXT.quota);
     if (method === "ui.title.registerRow") {
       const row = args[0] as { id?: unknown; label?: unknown; callbackId?: unknown } | null;
@@ -544,7 +610,20 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
       if (method === "backupFolder.onSave") {
         const callbackId = args[0];
         if (!Number.isSafeInteger(callbackId) || (callbackId as number) <= 0 || backupSubscriptions.has(callbackId as number)) return api2Refused("bad-call", "backup subscription needs a fresh callback id");
-        const result = await host.backupFolder.onSave((file) => post({ type: "backup.save", ...envelope(), callbackId: callbackId as number, file }));
+        const authorized = workerBackupAuthorization(host, current);
+        const result = await host.backupFolder.onSave((file) => {
+          if (!authorized()) return;
+          const time = now();
+          while (replySizes[0] && replySizes[0].time < time - 1000) replySizes.shift();
+          const size = new TextEncoder().encode(file.text).byteLength;
+          if (size > MAX_WORKER_BACKUP_FILE_BYTES) return;
+          const id = rememberWorkerBackupFile(host, file, authorized);
+          const delivered = { id, name: file.name, size };
+          const bytes = payloadBytes(toWorkerJson(delivered));
+          if (bytes > MAX_REPLY_BYTES || replySizes.reduce((total, reply) => total + reply.bytes, bytes) > MAX_REPLY_BYTES_PER_SECOND) return;
+          replySizes.push({ time, bytes });
+          post({ type: "backup.save", ...envelope(), callbackId: callbackId as number, file: delivered });
+        });
         if (!result.ok) return result;
         backupSubscriptions.set(callbackId as number, result.value);
         return { ok: true, value: { id: String(callbackId) } };
@@ -584,8 +663,29 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
     return await (target(...args) as Promise<Api2Result<unknown>>);
   };
 
+  const truthCapability = (host: ModApi2, method: string): string | null => {
+    const held = (capability: string): boolean => capabilities.has(capability) && host.meta.granted(capability) && modHolds(deps.id, capability);
+    if (held("state:map-actual.read")) return "state:map-actual.read";
+    return method !== "truth.level" && method !== "truth.storeKnowledge" && held("state:monsters-actual.read") ? "state:monsters-actual.read" : null;
+  };
+
   const called = (message: Extract<ModWorkerToHost, { type: "call" }>): void => {
-    const respond = (result: Api2Result<unknown> | Error): void => reply(message.requestId, message.epoch, result);
+    let truthAdmitted = false;
+    let spawnSharedAdmitted = false;
+    let gameplayAdmitted = false;
+    const gameplayCapability = Object.hasOwn(GAMEPLAY_WORKER_CALLS, message.method) ? GAMEPLAY_WORKER_CALLS[message.method] : undefined;
+    let backupAuthorized: (() => boolean) | undefined;
+    const binding = consentBinding(deps.id);
+    const authorized = (): boolean => state === "running" && message.epoch === epoch && api !== null && (gameplayCapability
+      ? binding === consentBinding(deps.id) && capabilities.has(gameplayCapability) && api.meta.granted(gameplayCapability) && modHolds(deps.id, gameplayCapability)
+      : spawnSharedAdmitted
+      ? binding === consentBinding(deps.id) && api.meta.granted(SPAWN_SHARED_WORKER_CALLS[message.method]!) && modHolds(deps.id, SPAWN_SHARED_WORKER_CALLS[message.method]!)
+      : truthCapability(api, message.method) !== null);
+    const respond = (result: Api2Result<unknown> | Error): void => {
+      if (backupAuthorized && !backupAuthorized()) return;
+      if ((truthAdmitted || spawnSharedAdmitted || gameplayAdmitted) && !authorized()) return;
+      reply(message.requestId, message.epoch, result, backupAuthorized ?? (truthAdmitted || spawnSharedAdmitted || gameplayAdmitted ? authorized : undefined));
+    };
     if (message.epoch !== epoch) {
       stale += 1;
       health.recordStale(deps.id);
@@ -600,9 +700,9 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
       respond(api2NotGranted("engine:access"));
       return;
     }
-    if (!(WORKER_CALLS as readonly string[]).includes(message.method)) {
+    if (!(WORKER_CALLS as readonly string[]).includes(message.method) && !Object.hasOwn(WORKER_MANAGE_CALLS, message.method) && !Object.hasOwn(SIMPLE_WORKER_CALLS, message.method) && !Object.hasOwn(CONTENT_WORKER_CALLS, message.method) && !Object.hasOwn(SPAWN_SHARED_WORKER_CALLS, message.method) && !Object.hasOwn(PRESENTER_WORKER_CALLS, message.method) && !Object.hasOwn(BIRTH_WORKER_CALLS, message.method) && !gameplayCapability) {
       fail(`refused call to "${message.method}", which a Worker mod cannot make`);
-      respond(new Error(`"${message.method}" is not part of the API a Worker mod holds`));
+      respond(new Error(`"${message.method}" is not part of the API a Worker mod holds${message.method.startsWith("manage.") ? "; this operation has no isolated Worker mechanism, and exit, quit, and wizard require proven detachment from saves" : ""}`));
       return;
     }
     const t = now();
@@ -613,9 +713,20 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
     }
     callTimes.push(t);
     const host = controllerApi && (message.method === "act.submit" || message.method === "act.answer") ? controllerApi : api;
+    gameplayAdmitted = !!gameplayCapability && capabilities.has(gameplayCapability) && host.meta.granted(gameplayCapability) && modHolds(deps.id, gameplayCapability);
+    if (message.method.startsWith("backupFolder.") && capabilities.has("backup:folder") && host.meta.granted("backup:folder") && modHolds(deps.id, "backup:folder")) {
+      const check = workerBackupAuthorization(host, () => state === "running" && epoch === message.epoch);
+      if (check()) backupAuthorized = check;
+    }
+    truthAdmitted = message.method.startsWith("truth.") && truthCapability(host, message.method) !== null;
+    spawnSharedAdmitted = Object.hasOwn(SPAWN_SHARED_WORKER_CALLS, message.method) && capabilities.has(SPAWN_SHARED_WORKER_CALLS[message.method]!) && host.meta.granted(SPAWN_SHARED_WORKER_CALLS[message.method]!) && modHolds(deps.id, SPAWN_SHARED_WORKER_CALLS[message.method]!);
     let pending: Promise<Api2Result<unknown>>;
     try {
-      pending = health.run(deps.id, `Worker ${message.method}`, () => serve(host, message.method, message.args));
+      pending = health.run(deps.id, `Worker ${message.method}`, () => Object.hasOwn(CONTENT_WORKER_CALLS, message.method)
+        ? serveWorkerContent(host, message.method, message.args, capabilities, () => state === "running" && epoch === message.epoch)
+        : message.method.startsWith("manage.")
+        ? serveWorkerManage(host, message.method, message.args, capabilities, () => state === "running" && epoch === message.epoch)
+        : serve(host, message.method, message.args, () => state === "running" && message.epoch === epoch));
     } catch (err) {
       respond(err instanceof Error ? err : new Error(messageOf(err)));
       return;
@@ -727,7 +838,7 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
     hasKeyHandler: () => controllerPermitted() && summary?.onKey === true && capabilities.has("input:observe"),
     async key(press): Promise<Api2ControllerKeyAnswer> {
       if (state !== "running" || !controllerPermitted() || !capabilities.has("input:observe") || !summary?.onKey ||
-        press.key === "Escape" || (press.ctrl && !press.alt && !press.meta && press.key.toLowerCase() === "z")) return { kind: "release" };
+        modPanelsSuspended() || ["Escape", "F5", "F11", "F12"].includes(press.key) || (press.ctrl && !press.alt && !press.meta && press.key.toLowerCase() === "z")) return { kind: "release" };
       const reply = await ask({ kind: "controller.key", press: toWorkerJson(press) }, MOD_PERMISSION_TEXT.keySource);
       const outcome = decideAutoplayerKey(press, () => reply as unknown as Api2ControllerKeyAnswer);
       if (outcome.kind === "release" && outcome.fault) health.recordFault(deps.id, MOD_PERMISSION_TEXT.keySource, new Error(outcome.fault));
@@ -735,7 +846,7 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
       return { kind: "release", ...(outcome.kind === "release" && outcome.reason !== undefined ? { reason: outcome.reason } : {}) };
     },
     async decide(input, host): Promise<void> {
-      if (state !== "running" || controllerApi || !controllerPermitted() || health.isOff(deps.id)) return;
+      if (state !== "running" || controllerApi || !controllerPermitted() || health.isOff(deps.id) || modPanelsSuspended()) return;
       controllerApi = host;
       try { await ask({ kind: "controller", input: toWorkerJson(input) }, "controller"); }
       finally { if (controllerApi === host) controllerApi = null; }
@@ -759,6 +870,20 @@ export function startModWorker(worker: ModWorkerLike, deps: ModWorkerHostDeps): 
     staleCount: (): number => stale,
     teardown: stop,
   };
+}
+
+async function serveWorkerManage(host: ModApi2, method: string, args: readonly WorkerJson[], capabilities: CapabilitySet, current: () => boolean): Promise<Api2Result<unknown>> {
+  const capability = Object.hasOwn(WORKER_MANAGE_CALLS, method) ? WORKER_MANAGE_CALLS[method] : undefined;
+  if (!capability || !capabilities.has(capability) || !host.meta.granted(capability)) return api2NotGranted(capability ?? "profiles:manage");
+  if (!validWorkerManageCall(method, args)) return api2Refused("bad-call", "The management request has invalid arguments.");
+  return callWorkerManage(host, method, args, current);
+}
+
+async function serveWorkerContent(host: ModApi2, method: string, args: readonly WorkerJson[], capabilities: CapabilitySet, current: () => boolean): Promise<Api2Result<unknown>> {
+  const capability = CONTENT_WORKER_CALLS[method];
+  if (!capability || !capabilities.has(capability) || !host.meta.granted(capability)) return api2NotGranted(capability ?? "mod:install");
+  if (!validWorkerContentCall(method, args)) return api2Refused("bad-call", "The content request has invalid arguments.");
+  return callWorkerManage(host, method, args, current);
 }
 
 /** The API method at `path` on `api`, bound, or null when the domain is absent. */

@@ -24,12 +24,39 @@ const granting = (...capabilities: string[]): CapabilitySet =>
   CapabilitySet.fromManifest({ id: "m", name: "M", version: "1.0.0", shape: "plugin", capabilities });
 
 describe("the capability vocabulary", () => {
+  it("opens the eight data registry grants and discloses their permanent consequences", () => {
+    for (const domain of ["effect", "room", "profile", "blow", "glyph", "randart", "vocab", "menu"]) {
+      const capability = `registry:${domain}`;
+      expect(capabilityTiers(capability)).toContain("worker");
+      expect(consentText(matchCapability(capability)!)).toContain("permanently unscorable");
+    }
+    expect(capabilityTiers("registry:*")).not.toContain("worker");
+    expect(capabilityTiers("engine:access")).not.toContain("worker");
+  });
+  it("opens only the implemented simple option, keybinding, and filter grants", () => {
+    for (const capability of ["options:write", "keymap:edit", "display:filter", "ui:messages.replace", "ui:sidebar.replace", "ui:status.replace", "ui:region.create", "display:replace", "ui:menu.replace", "ui:screen.replace", "screens:manage", "mod:install", "mod:session", "mod:read", "debug:wizard", "session:control"]) expect(capabilityTiers(capability)).toContain("worker");
+    for (const capability of ["engine:access"]) expect(capabilityTiers(capability)).not.toContain("worker");
+    expect(consentText(matchCapability("options:write")!)).toContain("birth, cheat, or score");
+    expect(consentText(matchCapability("keymap:edit")!)).toContain("input to permission dialogs");
+  });
+  it("discloses unseen monsters, race truth, and permanent scoring consequences for Workers", () => {
+    const map = consentText(matchCapability("state:map-actual.read")!);
+    const monsters = consentText(matchCapability("state:monsters-actual.read")!);
+    expect(map).toContain("every monster");
+    expect(map).toContain("race abilities");
+    expect(monsters).toContain("every creature's location and exact state");
+    expect(monsters).toContain("creatures you have not seen");
+    for (const capability of ["state:map-actual.read", "state:monsters-actual.read"]) {
+      expect(consentText(matchCapability(capability)!)).toContain("permanently unscorable");
+      expect(capabilityTiers(capability)).toContain("worker");
+    }
+  });
   it("allows the Worker tier to request every policy table's registry permission", () => {
     for (const kind of API2_POLICY_KINDS) {
       expect(capabilityTiers(kind.capability), kind.name).toContain("worker");
       expect(granting(kind.capability).has(kind.capability)).toBe(true);
     }
-    expect(capabilityTiers("registry:*")).toContain("worker");
+    expect(capabilityTiers("registry:*")).not.toContain("worker");
   });
 
   it("has a complete entry for every capability, each spelled once", () => {
@@ -63,18 +90,19 @@ describe("the capability vocabulary", () => {
     for (const cap of MANAGEMENT) {
       expect(publicSpellings).not.toContain(cap);
       expect(isPublicCapability(cap)).toBe(false);
-      expect(capabilityTiers(cap)).toEqual(["first-party"]);
+      expect(capabilityTiers(cap)).toEqual(["profiles:manage", "session:control", "options:manage", "saves:manage"].includes(cap) ? CAPABILITY_TIERS : ["mod:authoring", "mod:install", "mod:session", "screens:manage"].includes(cap) ? ["first-party", "worker"] : ["first-party"]);
       expect(matchCapability(cap)?.entry.namespace).toBe("manage");
     }
     expect(CAPABILITY_VOCABULARY.filter((entry) => entry.namespace === "manage").map((entry) => entry.capability).sort())
       .toEqual([...MANAGEMENT].sort());
+    expect(capabilityTiers("saves:manage")).toContain("worker");
   });
 
-  it("puts true map state in its own namespace, held by first-party mods only", () => {
+  it("puts true map state in its own namespace, including Workers", () => {
     expect(isTruthCapability(TRUTH)).toBe(true);
     expect(isTruthCapability(parseCapability(TRUTH))).toBe(true);
     expect(isPublicCapability(TRUTH)).toBe(false);
-    expect(capabilityTiers(TRUTH)).toEqual(["first-party"]);
+    expect(capabilityTiers(TRUTH)).toEqual(["first-party", "worker"]);
     expect(isTruthCapability("state:map.read")).toBe(false);
   });
 
@@ -118,4 +146,22 @@ describe("the capability vocabulary", () => {
     expect(consentText(matchCapability("event:turn-start")!)).toBe("Observe the \"turn-start\" game event");
     expect(consentText(matchCapability("network:Example.TEST:8080")!)).toBe("Send network requests to example.test:8080");
   });
+});
+
+it("opens only bounded spawning and explicit shared JSON in this stage", () => {
+  for (const capability of ["debug:spawn", "shared:read", "shared:publish"]) expect(capabilityTiers(capability)).toContain("worker");
+  for (const capability of ["engine:access"]) expect(capabilityTiers(capability)).not.toContain("worker");
+  expect(consentText(matchCapability("shared:read")!)).toContain("Private mod storage stays hidden");
+  expect(consentText(matchCapability("shared:publish")!)).toContain("every other mod that holds shared:read");
+  expect(consentText(matchCapability("debug:spawn")!)).toContain("can no longer be scored");
+});
+
+it("opens serialized birth, all six replacement families, and desktop backup requests", () => {
+  for (const capability of ["ui:birth.replace", "ui:*.replace", "backup:folder"]) expect(capabilityTiers(capability)).toContain("worker");
+  const wildcard = consentText(matchCapability("ui:*.replace")!);
+  expect(CAPABILITY_VOCABULARY.filter((entry) => entry.capability.startsWith("ui:") && entry.capability.endsWith(".replace") && !entry.wildcard)
+    .map((entry) => entry.capability)).toEqual(["messages", "sidebar", "status", "menu", "screen", "birth"].map((family) => `ui:${family}.replace`));
+  for (const family of ["messages", "vitals", "status", "gameplay menus", "gameplay screens", "character creation"]) expect(wildcard).toContain(family);
+  expect(consentText(matchCapability("ui:birth.replace")!)).toContain("asks before starting");
+  expect(consentText(matchCapability("backup:folder")!)).toContain("desktop asks before each write");
 });

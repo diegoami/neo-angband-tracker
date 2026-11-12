@@ -26,6 +26,13 @@ export interface KnownGrid {
   readonly y: number;
 }
 
+/** A unique the character has killed, as the knowledge menu lists it. */
+export interface KnownSlainUnique {
+  readonly raceIndex: number;
+  readonly raceId?: string;
+  readonly name: string;
+}
+
 /**
  * The player's timed effects as the status line shows them: the name of the
  * grade each active effect is in ("Graze", "Heavy Stun", "Haste"), or null
@@ -45,6 +52,11 @@ export interface KnownPlayerStatus {
   readonly food: number;
   /** The food grade ("Hungry", "Fed", "Full"). */
   readonly foodGrade: string | null;
+  /**
+   * How many game ticks have counted a timed effect down since the game started. It rises while any effect is
+   * running out, even inside one grade, and says nothing about how many turns an effect has left.
+   */
+  readonly countdown: number;
   readonly fast: string | null;
   readonly sprint: string | null;
   readonly protEvil: string | null;
@@ -102,6 +114,11 @@ export interface KnownPlayer {
   readonly light: number;
   readonly grid: KnownGrid;
   readonly status: KnownPlayerStatus;
+  /**
+   * The uniques this character has killed, in race order. A unique killed by anything else, or killed before this
+   * character was started, is not listed: the game shows the player only their own kills.
+   */
+  readonly slainUniques: readonly KnownSlainUnique[];
   readonly dead: boolean;
   readonly winner: boolean;
   /** The low hit point warning threshold in hit points; 0 means the warning is off. */
@@ -170,6 +187,17 @@ export interface KnownItem {
   readonly unknownRunes: boolean;
   readonly inscription: string | null;
   readonly floorIndex?: number;
+  /**
+   * Names this object from the first read that shows it to the end of the session, whether it is carried, worn,
+   * dropped or left behind on another level. Not saved, and absent for a shop's ware. A split stack gives the
+   * dropped part its own id.
+   */
+  readonly objectId?: number;
+  /**
+   * Chests only: whether the player has learned its trap, so `pval` is the real trap value and 0 means no
+   * trap. False while the trap is undiscovered, when `pval` reads 0 whatever the chest holds.
+   */
+  readonly trapKnown?: boolean;
   readonly name?: string;
   readonly ignored?: boolean;
   readonly kindId?: string;

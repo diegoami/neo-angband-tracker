@@ -17,9 +17,9 @@ describe("describeCapability", () => {
   it("describes title additions and profile changes separately", () => {
     expect(describeCapability("ui:title")).toEqual({ cap: "ui:title", text: "Add title screen actions", elevated: false });
     expect(describeCapability("profiles:manage")).toEqual({ cap: "profiles:manage", text: "Create profiles and switch between them", elevated: true });
-    expect(describeCapability("session:control")).toEqual({ cap: "session:control", text: "Save the game, return to the title screen, or quit", elevated: false });
-    expect(describeCapability("shared:read")).toEqual({ cap: "shared:read", text: "Read data other mods share", elevated: false });
-    expect(describeCapability("shared:publish")).toEqual({ cap: "shared:publish", text: "Share data with other mods", elevated: false });
+    expect(describeCapability("session:control")).toEqual({ cap: "session:control", text: "Ask the game to save your character, return to the title screen, or quit after you confirm. Leaving ends your current session.", elevated: false });
+    expect(describeCapability("shared:read")).toEqual({ cap: "shared:read", text: "Read JSON data that other mods explicitly publish. Private mod storage stays hidden from this mod.", elevated: false });
+    expect(describeCapability("shared:publish")).toEqual({ cap: "shared:publish", text: "Share selected JSON data with every other mod that holds shared:read. Those mods can keep that data or send it elsewhere.", elevated: false });
   });
   it("describes each registry override domain, flagging system override as elevated", () => {
     expect(describeCapability("registry:effect")).toMatchObject({ elevated: true });
@@ -27,8 +27,8 @@ describe("describeCapability", () => {
     expect(describeCapability("registry:profile")).toMatchObject({ elevated: true });
     expect(describeCapability("registry:command")).toMatchObject({ elevated: true });
     expect(describeCapability("registry:monster")).toMatchObject({ elevated: true });
-    // vocabulary is additive, not an override of core logic -> not elevated.
-    expect(describeCapability("registry:vocab").elevated).toBe(false);
+    // Worker vocabulary activation permanently changes scoring eligibility.
+    expect(describeCapability("registry:vocab").elevated).toBe(true);
     expect(describeCapability("registry:*").elevated).toBe(true);
     expect(describeCapability("registry:*").text).toMatch(/ANY game system/i);
   });
@@ -72,16 +72,16 @@ describe("describeCapability", () => {
     /* The real map is never covered by the wildcard, so its own sentence has to
      * say what it shows, and it is flagged like the wildcard is. */
     expect(describeCapability("state:map-actual.read")).toMatchObject({ elevated: true });
-    expect(describeCapability("state:map-actual.read").text).toMatch(/traps, items, terrain and creatures/);
-    expect(describeCapability("state:map-actual.read").text).toMatch(/has not found/);
+    expect(describeCapability("state:map-actual.read").text).toMatch(/traps, items, shop knowledge, every monster/);
+    expect(describeCapability("state:map-actual.read").text).toMatch(/permanently unscorable/);
     expect(describeCapability("state:*.read").text).toMatch(/except the parts of the map/);
     expect(describeCapability("network:example.com")).toMatchObject({ elevated: true });
     expect(describeCapability("network:*").text).toMatch(/ANY host/i);
     expect(describeCapability("network:local").text).toMatch(/local network/);
     expect(describeCapability("network:localhost:8010").text).toBe("Send network requests to localhost:8010");
     expect(describeCapability("display:filter")).toMatchObject({ elevated: false });
-    expect(describeCapability("display:filter").text).toMatch(/post-processing filter/i);
-    expect(describeCapability("display:filter").text).toMatch(/canvas and panels/i);
+    expect(describeCapability("display:filter").text).toContain("make details hard to see");
+    expect(describeCapability("display:filter").text).toContain("host permission dialogs keep their own appearance");
   });
 
   it("gives mod:install and mod:session DIFFERENT sentences, and neither is padding", () => {
@@ -102,8 +102,8 @@ describe("describeCapability", () => {
      * the exact laundering this separation exists to prevent. */
     expect(session.text).not.toMatch(/switched off/i);
     expect(session.text).toMatch(/never code/i);
-    expect(session.text).toMatch(/reloads/i);
-    expect(session.text).toMatch(/what it did to a character is not/i);
+    expect(session.text).toMatch(/on reload/i);
+    expect(session.text).toMatch(/effects on characters can remain/i);
   });
 
   it("gives mod:read its own sentence, distinct from install and session", () => {
@@ -115,7 +115,7 @@ describe("describeCapability", () => {
     expect(read.text).not.toBe(session.text);
     /* It reaches the network on the player's behalf, and it is proportionate
      * because nothing lands in the library and nothing is installed. */
-    expect(read.text).toMatch(/on your behalf/i);
+    expect(read.text).toMatch(/GitHub learns about the lookup/i);
     expect(read.text).toMatch(/nothing is installed/i);
   });
 
@@ -140,6 +140,6 @@ describe("describeCapabilities / hasElevatedCapability", () => {
     const caps = ["command:add", "registry:vocab", "registry:effect"];
     expect(describeCapabilities(caps).map((d) => d.cap)).toEqual(caps);
     expect(hasElevatedCapability(caps)).toBe(true);
-    expect(hasElevatedCapability(["command:add", "registry:vocab"])).toBe(false);
+    expect(hasElevatedCapability(["command:add", "registry:vocab"])).toBe(true);
   });
 });

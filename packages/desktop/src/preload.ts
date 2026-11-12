@@ -40,6 +40,7 @@ import {
   UPDATE_PROGRESS_CHANNEL,
 } from "./bridge-channel.js";
 import type { HostBridgeInfo } from "./bridge-channel.js";
+import { MOD_AUTHORITY_CHANNEL, capLogBatch, hostFsCallIsSafe, hostFsFailure, updateCallIsSafe } from "./bridge-guard.js";
 
 /** Ask the main process what the platform is, once, at preload time. */
 function platformInfo(): HostBridgeInfo {
@@ -82,7 +83,9 @@ contextBridge.exposeInMainWorld("neoDesktop", {
    * renderer batches on a timer (LOG_FLUSH_MS) and this is the one call.
    */
   log(lines: readonly string[]): void {
-    ipcRenderer.send(LOG_CHANNEL, lines);
+    const batch = capLogBatch(lines);
+    if (batch === null) return;
+    ipcRenderer.send(LOG_CHANNEL, batch);
   },
 
   /** Report whether an autoplayer is driving (THROTTLE_CHANNEL). */
@@ -120,6 +123,7 @@ contextBridge.exposeInMainWorld("neoDesktop", {
    * with anything on disk.
    */
   update(op: string, arg?: unknown): Promise<unknown> {
+    if (!updateCallIsSafe(op, arg)) return Promise.resolve({ ok: false, error: "refused" });
     return ipcRenderer.invoke(UPDATE_CHANNEL, op, arg) as Promise<unknown>;
   },
 
@@ -140,15 +144,17 @@ contextBridge.exposeInMainWorld("neoDesktop", {
    * broken in this Electron build (see BACKUP_CHANNEL's doc comment); this is the
    * native replacement `mod-backup.ts` calls into on the desktop platform.
    *
-   * One operation channel, like `update`, rather than four methods: `"choose"`
-   * opens the native folder dialog and returns the chosen folder's DISPLAY NAME
-   * (never its path - the main process is the only side that ever holds that);
-   * `"name"` asks without prompting; `"forget"` clears it; `"write"` takes a
-   * LEAF file name and its text, same shape `archiveModZip` already uses for
-   * the same reason.
+   * Every operation requires an installation handle from native consent.
+   * Listing returns names and sizes; reading file text requires another native
+   * decision so the metadata channel cannot silently disclose file contents.
    */
   backup(op: string, arg?: unknown): Promise<unknown> {
     return ipcRenderer.invoke(BACKUP_CHANNEL, op, arg) as Promise<unknown>;
+  },
+
+  /** The main process confirms new authority natively before issuing a handle. */
+  consent(decision: unknown): Promise<unknown> {
+    return ipcRenderer.invoke(MOD_AUTHORITY_CHANNEL, decision) as Promise<unknown>;
   },
 
   /**
@@ -183,6 +189,7 @@ contextBridge.exposeInMainWorld(HOST_BRIDGE_GLOBAL, {
    * command layer and let the transport reshape the game's control flow.
    */
   call(op: string, args: readonly unknown[]): unknown {
+    if (!hostFsCallIsSafe(op, args)) return hostFsFailure(op);
     return ipcRenderer.sendSync(HOST_BRIDGE_CHANNEL, op, args);
   },
 

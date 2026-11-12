@@ -1,4 +1,8 @@
 /**
+ * Desktop IPC uses native-confirmed installation handles and separate subfolders.
+ * The purpose helpers retain the format of existing folder records; those records
+ * cannot authorize access through the desktop bridge.
+ *
  * Ticket #133's cloud-backup folder, generalised into a purpose-keyed
  * primitive (#158): the name rule and the small persisted record, kept
  * separate from main.ts so both are testable without an Electron process.
@@ -24,7 +28,9 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { randomBytes } from "node:crypto";
 import { backupFolderFormat, parseDocument, serializeDocument } from "@rpgm-tools/neo-angband-mod-sdk";
+import type { DesktopAuthority, DesktopAuthorityEntry } from "./net-relay.js";
 
 /** The file this module persists the chosen folder's path in, beside `mods/`. */
 export const BACKUP_FOLDER_FILE = "backup-folder.json";
@@ -64,11 +70,19 @@ export function hostFolderRecordFile(purpose: string): string {
  */
 export function isHostFolderFileName(name: unknown, ext: string): name is string {
   return (
+    /^\.[a-z0-9]{1,16}$/u.test(ext) &&
     typeof name === "string" &&
     name.length > 0 &&
     name.length <= 255 &&
     !name.includes("/") &&
     !name.includes("\\") &&
+    !name.includes(":") &&
+    !name.includes("..") &&
+    !/[<>"|?*]/u.test(name) &&
+    ![...name].some((char) => char.charCodeAt(0) < 32) &&
+    !/^(con|prn|aux|nul|conin\$|conout\$|com[1-9\u00b9\u00b2\u00b3]|lpt[1-9\u00b9\u00b2\u00b3])[ .]*(\.|$)/iu.test(name) &&
+    !name.endsWith(" ") &&
+    !name.endsWith(".") &&
     !name.startsWith(".") &&
     !name.includes("\0") &&
     name.endsWith(ext)
@@ -135,6 +149,72 @@ export function backupFolderDisplayName(folderPath: string): string {
   return path.basename(folderPath);
 }
 
+export const BACKUP_LIMITS = Object.freeze({ files: 200, fileBytes: 8 * 1024 * 1024, totalBytes: 256 * 1024 * 1024 });
+
+function plainFolder(folder: string): boolean {
+  const stat = fs.lstatSync(folder);
+  return stat.isDirectory() && !stat.isSymbolicLink() && path.relative(path.resolve(folder), fs.realpathSync(folder)) === "";
+}
+
+function plainFile(file: string): fs.Stats | null {
+  try {
+    const stat = fs.lstatSync(file);
+    if (!stat.isFile() || stat.isSymbolicLink() || stat.nlink !== 1) throw new Error("The backup file is not a plain file.");
+    return stat;
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === "ENOENT") return null;
+    throw error;
+  }
+}
+
+function sameFile(a: fs.Stats, b: fs.Stats): boolean {
+  return a.dev === b.dev && a.ino === b.ino && b.isFile() && b.nlink === 1;
+}
+
+/** The dialog must finish before a replacement opens the existing file for writing. */
+export async function writeBackupFile(
+  folder: string,
+  name: unknown,
+  text: unknown,
+  ext: string,
+  confirmReplace: () => Promise<boolean>,
+  authorized: () => boolean = () => true,
+): Promise<boolean> {
+  if (!isHostFolderFileName(name, ext) || typeof text !== "string") return false;
+  const bytes = Buffer.byteLength(text, "utf8");
+  if (bytes > BACKUP_LIMITS.fileBytes) return false;
+  try {
+    if (!authorized() || !plainFolder(folder)) return false;
+    const full = path.join(folder, name);
+    const initial = plainFile(full);
+    if (initial && !(await confirmReplace())) return false;
+    if (!authorized() || !plainFolder(folder)) return false;
+    const existing = plainFile(full);
+    if (!initial && existing) return false;
+    let count = 0;
+    let total = bytes;
+    for (const entry of fs.readdirSync(folder)) {
+      if (!isHostFolderFileName(entry, ext)) continue;
+      const stat = plainFile(path.join(folder, entry));
+      if (!stat) continue;
+      count++;
+      if (entry !== name) total += stat.size;
+    }
+    if (count + (existing ? 0 : 1) > BACKUP_LIMITS.files || total > BACKUP_LIMITS.totalBytes) return false;
+    const fd = fs.openSync(full, existing ? "r+" : "wx", 0o600);
+    try {
+      if (existing && !sameFile(existing, fs.fstatSync(fd))) return false;
+      fs.ftruncateSync(fd, 0);
+      fs.writeFileSync(fd, text, "utf8");
+      return true;
+    } finally {
+      fs.closeSync(fd);
+    }
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Ticket #24 (the read side of #133): every file matching `ext` currently
  * readable in `folderPath`, name plus its full text - the renderer's own
@@ -157,21 +237,148 @@ export function backupFolderDisplayName(folderPath: string): string {
 export function listBackupFiles(
   folderPath: string,
   ext = ".neochar",
+  onlyName?: string,
 ): { name: string; text: string }[] {
   let names: string[];
   try {
-    names = fs.readdirSync(folderPath);
+    if (!plainFolder(folderPath)) return [];
+    names = onlyName === undefined ? fs.readdirSync(folderPath) : [onlyName];
   } catch {
     return [];
   }
   const out: { name: string; text: string }[] = [];
+  let total = 0;
   for (const name of names) {
+    if (out.length >= BACKUP_LIMITS.files) break;
     if (!isHostFolderFileName(name, ext)) continue;
     try {
-      out.push({ name, text: fs.readFileSync(path.join(folderPath, name), "utf8") });
+      const full = path.join(folderPath, name);
+      const stat = plainFile(full);
+      if (!stat || stat.size > BACKUP_LIMITS.fileBytes || total + stat.size > BACKUP_LIMITS.totalBytes) continue;
+      const fd = fs.openSync(full, "r");
+      try {
+        if (!sameFile(stat, fs.fstatSync(fd))) continue;
+        const bytes = Buffer.alloc(stat.size);
+        const read = fs.readSync(fd, bytes, 0, bytes.length, 0);
+        out.push({ name, text: bytes.subarray(0, read).toString("utf8") });
+        total += read;
+      } finally {
+        fs.closeSync(fd);
+      }
     } catch {
       /* unreadable: skip it, keep the rest of the listing */
     }
   }
   return out;
+}
+
+export function createBackupRelay(deps: {
+  readonly authority: DesktopAuthority;
+  readonly userBase: string;
+  readonly choose: (entry: DesktopAuthorityEntry, owner: number) => Promise<string | null>;
+  readonly confirmReplace: (entry: DesktopAuthorityEntry, name: string, owner: number) => Promise<boolean>;
+  readonly confirmRead: (entry: DesktopAuthorityEntry, name: string, owner: number) => Promise<boolean>;
+  readonly confirmWrite?: (entry: DesktopAuthorityEntry, name: string, folder: string, owner: number) => Promise<boolean>;
+}) {
+  const busy = new Set<string>();
+  const plans = new Map<string, { token: string; expires: number; folder: string; previousFolder: string | null; signal: AbortSignal; name?: string; text?: string }>();
+  const hits = new Map<string, number[]>();
+  return {
+    async handle(op: unknown, arg: unknown, owner: number): Promise<unknown> {
+      const entry = deps.authority.lookup(arg, owner);
+      if (!entry || !entry.grants.includes("backup:folder")) return { ok: false };
+      const a = arg as Record<string, unknown>;
+      if (Object.keys(a).some((key) => !["ok", "installation", "modId", "digest", "grants", "ext", "name", "text", "ticket"].includes(key))) return { ok: false };
+      if (a["purpose"] !== undefined) return { ok: false };
+      const ext = entry.modId === "@host/mod-profile-sync" ? ".ndelve" : ".neochar";
+      if (a["ext"] !== undefined && a["ext"] !== ext) return { ok: false };
+      const slot = `${owner}:${entry.key}`;
+      if (["prepareChoose", "prepareWrite", "commit"].includes(op as string)) {
+        const fields = op === "prepareWrite" ? ["name", "text"] : op === "commit" ? ["ticket"] : [];
+        if (Object.keys(a).some((key) => !["ok", "installation", "modId", "digest", ...fields].includes(key))) return { ok: false };
+        const recent = (hits.get(slot) ?? []).filter((stamp) => Date.now() - stamp < 60_000);
+        for (const [key, stamps] of hits) if (stamps.at(-1)! < Date.now() - 60_000) hits.delete(key);
+        for (const [key, plan] of plans) if (plan.expires < Date.now()) plans.delete(key);
+        if (recent.length >= 32 || hits.size >= 128 && !hits.has(slot)) return { ok: false };
+        hits.set(slot, [...recent, Date.now()]);
+      }
+      if (busy.has(slot)) return { ok: false };
+      busy.add(slot);
+      try {
+        const folder = readBackupFolder(deps.userBase, entry.key);
+        if (op === "prepareChoose" || op === "prepareWrite") {
+          plans.delete(slot);
+          if (plans.size >= 128) return { ok: false };
+          let selected: string;
+          if (op === "prepareChoose") {
+            const chosen = await deps.choose(entry, owner);
+            if (chosen === null || entry.signal.aborted || !plainFolder(chosen)) return { ok: false };
+            selected = path.join(chosen, entry.key);
+          } else {
+            if (!folder || !plainFolder(folder) || !isHostFolderFileName(a["name"], ext) || typeof a["text"] !== "string" || Buffer.byteLength(a["text"], "utf8") > BACKUP_LIMITS.fileBytes ||
+              !deps.confirmWrite || !(await deps.confirmWrite(entry, a["name"], folder, owner)) || entry.signal.aborted) return { ok: false };
+            selected = folder;
+          }
+          const token = randomBytes(32).toString("hex");
+          plans.set(slot, { token, expires: Date.now() + 30_000, folder: selected, previousFolder: folder, signal: entry.signal,
+            ...(op === "prepareWrite" ? { name: a["name"] as string, text: a["text"] as string } : {}) });
+          return { ok: true, ticket: token };
+        }
+        if (op === "commit") {
+          const plan = plans.get(slot);
+          if (!plan || a["ticket"] !== plan.token || plan.expires < Date.now() || entry.signal.aborted || plan.signal !== entry.signal || plan.previousFolder !== folder) return { ok: false };
+          plans.delete(slot);
+          // Confirmation alone must not commit a request whose Worker authority expired while the dialog was open.
+          if (plan.name !== undefined) {
+            if (folder !== plan.folder) return { ok: false };
+            return { ok: await writeBackupFile(plan.folder, plan.name, plan.text, ext, async () => true, () => !entry.signal.aborted) };
+          }
+          if (!plainFolder(path.dirname(plan.folder))) return { ok: false };
+          if (!fs.existsSync(plan.folder)) fs.mkdirSync(plan.folder);
+          if (!plainFolder(plan.folder)) return { ok: false };
+          writeBackupFolder(deps.userBase, plan.folder, entry.key);
+          return { ok: true, name: backupFolderDisplayName(path.dirname(plan.folder)) };
+        }
+        if (op === "name") return folder === null ? null : backupFolderDisplayName(path.dirname(folder));
+        if (op === "choose") {
+          const chosen = await deps.choose(entry, owner);
+          if (chosen === null || entry.signal.aborted || !plainFolder(chosen)) return null;
+          const allocation = path.join(chosen, entry.key);
+          if (!fs.existsSync(allocation)) fs.mkdirSync(allocation);
+          if (!plainFolder(allocation) || entry.signal.aborted) return null;
+          writeBackupFolder(deps.userBase, allocation, entry.key);
+          return backupFolderDisplayName(chosen);
+        }
+        if (op === "forget") {
+          writeBackupFolder(deps.userBase, null, entry.key);
+          return { ok: true };
+        }
+        if (folder === null || !plainFolder(folder)) return op === "list" ? [] : { ok: false };
+        if (op === "list") {
+          const out: { name: string; size: number }[] = [];
+          let total = 0;
+          for (const name of fs.readdirSync(folder)) {
+            if (!isHostFolderFileName(name, ext)) continue;
+            const stat = plainFile(path.join(folder, name));
+            if (!stat || stat.size > BACKUP_LIMITS.fileBytes || total + stat.size > BACKUP_LIMITS.totalBytes) continue;
+            out.push({ name, size: stat.size });
+            total += stat.size;
+            if (out.length >= BACKUP_LIMITS.files) break;
+          }
+          return out;
+        }
+        if (!isHostFolderFileName(a["name"], ext)) return { ok: false };
+        const name = a["name"];
+        if (op === "write") return { ok: await writeBackupFile(folder, name, a["text"], ext,
+          () => deps.confirmReplace(entry, name, owner), () => !entry.signal.aborted) };
+        // Existing import callers need file text, so reads require a separate native decision.
+        if (op === "read") {
+          if (!(await deps.confirmRead(entry, name, owner)) || entry.signal.aborted) return { ok: false };
+          return listBackupFiles(folder, ext, name)[0] ?? { ok: false };
+        }
+        return { ok: false };
+      } catch { return { ok: false }; }
+      finally { busy.delete(slot); }
+    },
+  };
 }

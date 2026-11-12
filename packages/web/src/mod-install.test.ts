@@ -19,6 +19,8 @@ import { zipSync } from "fflate";
 import { discoverMod, type DiscoverEnv, type DiscoveredMod, type PayloadEntry } from "./mod-discover";
 import { classifyModPin, classifyModTag } from "./mod-updates";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { setConsentBindings } from "./mod-consent-binding";
+import * as snapshots from "./mod-code-snapshot";
 
 import { STORE_HANDLES, STORE_MODS, STORE_MOD_META, STORE_MOD_VERSIONS } from "./idb";
 import { activateModTransaction, stageModPlan, stageModRollback, previousModVersion, releasePreviousModVersions, type ModTransactionEnvironment } from "./mod-transactions";
@@ -63,8 +65,11 @@ import { contributedTileModes, mergeModSources } from "./tile-mods";
 import { loadModCode, type ModCodeReport } from "./mod-code";
 import { modPluginContext, setModInstallDoor } from "./mod-context";
 import { CapabilitySet, validateManifest } from "@rpgm-tools/neo-angband-mod-sdk";
+import { createWorkerContentBroker } from "./install-runtime";
 
 const subtle = webcrypto.subtle;
+
+afterEach(() => { vi.restoreAllMocks(); setConsentBindings(new Map()); });
 
 /* ------------------------------------------------------------------ *
  * A multi-store IndexedDB fake.
@@ -154,7 +159,9 @@ function fakeIdb(
               onerror?: (() => void) | null;
               onabort?: (() => void) | null;
               objectStore(name?: string): unknown;
+              abort(): void;
             } = {
+              abort: () => { failed = true; settle(); },
               objectStore: (name?: string) => {
                 const store = name ?? only;
                 return {
@@ -319,6 +326,66 @@ async function envFor(
   };
 }
 
+describe("Worker content installation", () => {
+  const archive = () => zipSync({
+    "manifest.json": enc(JSON.stringify({ id: "worker-draft", name: "Worker draft", version: "1.0.0", shape: "content", modApi: 1, engine: ">=0.1.0", author: "A player", repository: "https://github.com/a-player/draft" })),
+    "monster.json": enc("[]"),
+  });
+  const confirmed = async () => true;
+
+  it("installs the measured bytes through the player validator and consumes the plan", async () => {
+    const { env, stores } = await envFor({});
+    const broker = createWorkerContentBroker({ door: { env, allowed: () => true, reload: () => {} }, discovery: () => ({ engineVersion: "9.9.9" }), fetch: vi.fn() }, "builder");
+    const plan = await broker.plan({ archive: [...archive()] }, false, confirmed, () => true);
+    expect(await broker.apply(plan.id, false, confirmed, () => true)).toMatchObject({ ok: true, id: "worker-draft" });
+    expect(await installedMeta("worker-draft", env.scope)).toMatchObject({ installedByModId: "builder", listing: "file", repo: "a-player/draft" });
+    expect(stores.get(STORE_MODS)?.has("worker-draft/monster.json")).toBe(true);
+    await expect(broker.apply(plan.id, false, confirmed, () => true)).rejects.toThrow("unavailable");
+  });
+
+  it.each(["declined", "revoked", "digest", "collision"])("refuses %s during confirmation without writing payload bytes", async (attack) => {
+    const { env, stores } = await envFor({});
+    const broker = createWorkerContentBroker({ door: { env, allowed: () => true, reload: () => {} }, discovery: () => ({ engineVersion: "9.9.9" }), fetch: vi.fn() }, "builder");
+    let current = true;
+    const plan = await broker.plan({ archive: [...archive()] }, false, confirmed, () => current);
+    const confirm = async () => {
+      if (attack === "revoked") current = false;
+      if (attack === "digest") vi.spyOn(env.subtle, "digest").mockResolvedValue(new Uint8Array(32).buffer);
+      if (attack === "collision") {
+        expect((await installModFromZip(archive(), env, true)).ok).toBe(true);
+        stores.get(STORE_MODS)?.clear();
+      }
+      return attack !== "declined";
+    };
+    await expect(broker.apply(plan.id, false, confirm, () => current)).rejects.toThrow();
+    expect(stores.get(STORE_MODS)?.size ?? 0).toBe(0);
+  });
+
+  it("refuses code, capability declarations, and oversized expansion without an install", async () => {
+    const { env, stores } = await envFor({});
+    const broker = createWorkerContentBroker({ door: { env, allowed: () => true, reload: () => {} }, discovery: () => ({ engineVersion: "9.9.9" }), fetch: vi.fn() }, "builder");
+    const base = { id: "worker-draft", name: "Draft", version: "1.0.0", shape: "plugin", facets: ["plugin"], modApi: 1, repository: "https://github.com/a-player/draft" };
+    for (const files of [
+      { "manifest.json": enc(JSON.stringify(base)), "plugin.js": enc("export default {}") },
+      { "manifest.json": enc(JSON.stringify({ ...base, capabilities: ["engine:access"] })) },
+      { "manifest.json": enc(JSON.stringify(base)), "large.json": new Uint8Array(4 * 1024 * 1024 + 1) },
+    ]) await expect(broker.plan({ archive: [...zipSync(files)] }, false, confirmed, () => true)).rejects.toThrow();
+    expect(stores.get(STORE_MOD_META)?.size ?? 0).toBe(0);
+  });
+
+  it("refuses a plan issued in an earlier authorization epoch", async () => {
+    const { env, stores } = await envFor({});
+    const broker = createWorkerContentBroker({ door: { env, allowed: () => true, reload: () => {} }, discovery: () => ({ engineVersion: "9.9.9" }), fetch: vi.fn() }, "builder");
+    let originalEpoch = true;
+    const plan = await broker.plan({ archive: [...archive()] }, false, confirmed, () => originalEpoch);
+    originalEpoch = false;
+    const confirm = vi.fn(confirmed);
+    await expect(broker.apply(plan.id, false, confirm, () => true)).rejects.toThrow("unavailable");
+    expect(confirm).not.toHaveBeenCalled();
+    expect(stores.get(STORE_MOD_META)?.size ?? 0).toBe(0);
+  });
+});
+
 
 /* ------------------------------------------------------------------ *
  * Hashing.
@@ -328,6 +395,7 @@ async function envFor(
 const CURATED = { origin: "curated", allowed: false } as const;
 
 function transactionFixture(failPut?: (store: string, key: string, value: unknown) => boolean) {
+  setConsentBindings(new Map(["demo", "other", "bundled"].map((id) => [id, "measured-fixture"])));
   const made = fakeIdb({ ...(failPut ? { failPut } : {}) });
   const values = new Map<string, string>();
   const storage = {
@@ -539,7 +607,7 @@ describe("staged mod transactions", () => {
     await f.stage(f.makePlan("2.0.0"));
     const before = f.active();
     f.pending()!.data.phase = "activating";
-    f.store.setDecisions("demo", { granted: ["ui:sidebar.replace"], refused: [] }, "2.0.0");
+    f.store.setDecisions("demo", { granted: ["ui:sidebar.replace"], refused: [], binding: "measured-fixture" }, "2.0.0");
     expect(await activateModTransaction(f.env)).toContain("previous versions were restored");
     expect(f.store.getConsent("demo")).toEqual([]);
     expect(f.store.getConsentVersion("demo")).toBe("1.0.0");
@@ -562,7 +630,7 @@ describe("staged mod transactions", () => {
     const f = transactionFixture();
     await f.installInitial();
     f.store.setEnabled(["other", "demo"]);
-    f.store.setDecisions("demo", { granted: ["ui:sidebar.replace"], refused: ["ui:messages.replace"] }, "1.0.0");
+    f.store.setDecisions("demo", { granted: ["ui:sidebar.replace"], refused: ["ui:messages.replace"], binding: "measured-fixture" }, "1.0.0");
     f.store.setSettingValue("demo", "amount", 7);
     f.store.pinAgainst("demo", "other", "after");
     await f.stage(f.makePlan("2.0.0"));
@@ -842,7 +910,7 @@ describe("saved lists through staged activation", () => {
     expect(plan.value.downloads).toEqual([]);
     const pending = m.service.applyModListPlan(plan.value.id);
     if (pending.status !== "confirmation") throw new Error("The restore did not ask for confirmation.");
-    expect((await m.core.resolveConfirmation(pending.confirmation.id, { accepted: true, permissions: { bundled: { granted: ["ui:sidebar.replace"], refused: [] } } })).status).toBe("ok");
+    expect((await m.core.resolveConfirmation(pending.confirmation.id, { accepted: true, permissions: { bundled: { granted: ["ui:sidebar.replace"], refused: [], binding: "measured-fixture" } } })).status).toBe("ok");
     expect(f.store.getEnabled()).toEqual([]);
     expect(f.store.getConsent("bundled")).toEqual([]);
     expect(await activateModTransaction(f.env)).toBeNull();
@@ -2152,6 +2220,9 @@ describe("an INSTALLED mod's plugin.js actually runs", () => {
     const report = await loadInstalledMods({ indexedDB: made.factory });
     expect(report.problems).toEqual([]);
     expect(report.packs).toHaveLength(1);
+
+    setConsentBindings(new Map([["demo", "measured-fixture"]]));
+    vi.spyOn(snapshots, "modPayloadUrl").mockImplementation(report.codeUrl!);
 
     return await loadModCode({
       tier: () => ({ trust: "first-party", execution: "in-process", capabilityTier: "first-party", seams: [], marksSave: [], why: "verified fixture" }),

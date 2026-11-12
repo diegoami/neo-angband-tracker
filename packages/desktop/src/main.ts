@@ -52,17 +52,11 @@ import {
   UPDATE_CHANNEL,
   UPDATE_PROGRESS_CHANNEL,
 } from "./bridge-channel.js";
-import type { BackupOp } from "./bridge-channel.js";
-import {
-  CHARACTER_BACKUP_PURPOSE,
-  backupFolderDisplayName,
-  isBackupPurpose,
-  isHostFolderFileName,
-  listBackupFiles,
-  readBackupFolder,
-  writeBackupFolder,
-} from "./backup-folder.js";
+import { createBackupRelay } from "./backup-folder.js";
 import type { HostBridgeInfo } from "./bridge-channel.js";
+import { MOD_AUTHORITY_CHANNEL, capLogBatch, confirmHostAction, desktopConsentReport, hostFsCallIsSafe, hostFsFailure, updateCallIsSafe } from "./bridge-guard.js";
+import { createCheckedFetch } from "./net-guard.js";
+import * as dns from "node:dns";
 import { LOG_DIRNAME, openLogFile, writeReportFile } from "./log-file.js";
 import { describeValue, formatLogLine } from "@rpgm-tools/neo-angband-core/log";
 import type { LogLevel } from "@rpgm-tools/neo-angband-core/log";
@@ -85,10 +79,13 @@ import {
   APP_ORIGIN,
   APP_SCHEME,
   APP_SCHEME_PRIVILEGES,
+  GAME_PAGE_CSP,
   appRequestPath,
   isGameUrl,
+  isGameBridgeFrame,
   isLegacyProbe,
   legacyOrigin,
+  hostPayloadDigest,
 } from "./app-origin.js";
 import { handledPorts, planOriginMerge } from "./origin-merge.js";
 import {
@@ -111,7 +108,7 @@ import {
 } from "./mod-origin-merge.js";
 import type { ModRecord, ModSnapshot } from "./mod-origin-merge.js";
 import { ORIGIN_PROBE_ROUTE, planRequest } from "./routes.js";
-import { createNetRelay } from "./net-relay.js";
+import { createDesktopAuthority, createNetRelay } from "./net-relay.js";
 import type { OriginSnapshot } from "./origin-merge.js";
 import { readWindowState, startPlacement, writeWindowState } from "./window-state.js";
 import { mergedOriginsFormat, deathLedgerFormat, parseDocument, serializeDocument } from "@rpgm-tools/neo-angband-mod-sdk";
@@ -284,6 +281,7 @@ function respond(status: number, body: string | Buffer, type?: string): Response
     status,
     headers: {
       "Content-Type": type ?? "text/plain; charset=utf-8",
+      "Content-Security-Policy-Report-Only": GAME_PAGE_CSP,
       // Cross-origin isolation -> crossOriginIsolated -> SharedArrayBuffer.
       "Cross-Origin-Opener-Policy": "same-origin",
       "Cross-Origin-Embedder-Policy": "require-corp",
@@ -568,14 +566,13 @@ function installHostBridge(dirs: Readonly<Partial<Record<HostDir, string>>>): vo
   const serve = serveRawFs(new NodeRawFs(USER_BASE, dirs));
   ipcMain.on(HOST_BRIDGE_CHANNEL, (event, op: unknown, args: unknown) => {
     try {
-      event.returnValue = serve(
-        typeof op === "string" ? op : "",
-        Array.isArray(args) ? (args as unknown[]) : [],
-      );
+      event.returnValue = isGameBridgeFrame(event.senderFrame, event.sender.mainFrame) && hostFsCallIsSafe(op, args)
+        ? serve(op as string, args as unknown[])
+        : hostFsFailure(op);
     } catch {
       /* serveRawFs is written not to throw; this is the belt to its braces,
        * because leaving returnValue unset hangs the calling renderer forever. */
-      event.returnValue = undefined;
+      event.returnValue = hostFsFailure(op);
     }
   });
 
@@ -597,21 +594,51 @@ function installHostBridge(dirs: Readonly<Partial<Record<HostDir, string>>>): vo
    * window-all-closed path - which on macOS deliberately keeps the app alive, so a
    * player there would have "exited" to nothing at all.
    *
-   * The renderer has already written and verified the save before it gets here
-   * (closeGameSave retries and reports), so this must not second-guess it: a shell
-   * that refused to quit on the game's behalf would be the same class of bug as the
-   * row that never quit in the first place.
+   * Every script in the page can call this channel, so the native dialog must
+   * confirm the request even after closeGameSave writes the save.
    */
-  ipcMain.on(HOST_QUIT_CHANNEL, () => {
-    app.quit();
+  ipcMain.on(HOST_QUIT_CHANNEL, (event) => {
+    if (!isGameBridgeFrame(event.senderFrame, event.sender.mainFrame)) return;
+    void confirmAction(event.sender, "Quit Neo Angband?", "Quit").then((yes) => {
+      if (yes) app.quit();
+    });
   });
 
   installLogging();
   installThrottleChannel();
   installUpdater();
   installModZipChannel();
+  installAuthorityChannel();
   installBackupChannel();
   installNetChannel();
+}
+
+async function confirmAction(sender: Electron.WebContents, message: string, accept: string): Promise<boolean> {
+  const win = BrowserWindow.fromWebContents(sender);
+  if (!win || sender.isDestroyed()) return false;
+  const allowed = await confirmHostAction((options) => dialog.showMessageBox(win, options), message, accept);
+  return allowed && !sender.isDestroyed();
+}
+
+const desktopAuthority = createDesktopAuthority();
+
+function installAuthorityChannel(): void {
+  const watched = new Set<number>();
+  ipcMain.handle(MOD_AUTHORITY_CHANNEL, (event, arg: unknown) => {
+    if (!isGameBridgeFrame(event.senderFrame, event.sender.mainFrame)) return { ok: false };
+    const sender = event.sender;
+    if (!watched.has(sender.id)) {
+      watched.add(sender.id);
+      sender.on("did-start-navigation", (_event, _url, inPlace, isMainFrame) => {
+        if (isMainFrame && !inPlace) desktopAuthority.revokeWindow(sender.id);
+      });
+      sender.once("destroyed", () => { desktopAuthority.revokeWindow(sender.id); watched.delete(sender.id); });
+    }
+    const decision = desktopConsentReport(arg, () => hostPayloadDigest(WEB_ROOT, __filename));
+    if (decision === null) return { ok: false };
+    return desktopAuthority.report(decision, sender.id, (entry) => confirmAction(sender,
+      `Allow desktop access for ${entry.modId}?\nSHA-256: ${entry.digest}\nCapabilities: ${entry.grants.join(", ") || "none"}\nNetwork destinations: ${entry.destinations.join(", ") || "none"}`, "Allow"));
+  });
 }
 
 /**
@@ -623,7 +650,9 @@ function installHostBridge(dirs: Readonly<Partial<Record<HostDir, string>>>): vo
 function installNetChannel(): void {
   const file = path.join(USER_BASE, "mod-secrets.json");
   const relay = createNetRelay({
-    fetch: (input, init) => fetch(input, init),
+    authority: desktopAuthority,
+    fetch: createCheckedFetch(),
+    resolveHost: async (hostname) => (await dns.promises.lookup(hostname, { all: true })).map((record) => record.address),
     env: (name) => process.env[name],
     encryption: {
       available: () => safeStorage.isEncryptionAvailable(),
@@ -655,77 +684,41 @@ function installNetChannel(): void {
       return result.response === 0;
     },
   });
-  ipcMain.handle(NET_CHANNEL, (_event, op: unknown, arg: unknown) => relay.handle(op, arg));
+  ipcMain.handle(NET_CHANNEL, (event, op: unknown, arg: unknown) => {
+    if (!isGameBridgeFrame(event.senderFrame, event.sender.mainFrame)) return { ok: false, code: "not-declared", problem: "The caller is not the game frame." };
+    return relay.handle(op, arg, event.sender.id);
+  });
 }
 
 /**
- * Ticket #133's cloud-backup folder, now a purpose-keyed primitive (#158). See
- * BACKUP_CHANNEL's doc comment (bridge-channel.ts) for why this is a native
- * dialog rather than the browser's `showDirectoryPicker()`.
- *
- * `dialog.showOpenDialog(win, ...)`, not the no-window overload: passing the
- * window makes the native picker modal to it, matching every other dialog this
- * process already opens (`dialog.showMessageBox(win, ...)` at the crash and
- * load-failure sites below).
- *
- * `purpose` and `ext` travel inside `arg` (never a new channel argument, so
- * the channel's own shape - `invoke(op, arg)` - is unchanged) and both
- * default to the original ticket #133 caller's own values, so an existing
- * caller that has not been updated to pass them keeps reading and writing
- * exactly the file it always did.
+ * Native dialogs keep folder selection, replacement, and file import outside page control.
  */
 function installBackupChannel(): void {
+  const relay = createBackupRelay({
+    authority: desktopAuthority,
+    userBase: USER_BASE,
+    choose: async (entry, owner) => {
+      const win = BrowserWindow.getAllWindows().find((window) => window.webContents.id === owner);
+      if (!win) return null;
+      const result = await dialog.showOpenDialog(win, { title: `Backup folder for ${entry.modId}`, properties: ["openDirectory"] });
+      return result.canceled ? null : result.filePaths[0] ?? null;
+    },
+    confirmReplace: async (entry, name, owner) => {
+      const win = BrowserWindow.getAllWindows().find((window) => window.webContents.id === owner);
+      return win ? confirmAction(win.webContents, `Replace backup ${name} for ${entry.modId}?`, "Replace") : false;
+    },
+    confirmRead: async (entry, name, owner) => {
+      const win = BrowserWindow.getAllWindows().find((window) => window.webContents.id === owner);
+      return win ? confirmAction(win.webContents, `Read backup ${name} for ${entry.modId}?`, "Read") : false;
+    },
+    confirmWrite: async (entry, name, folder, owner) => {
+      const win = BrowserWindow.getAllWindows().find((window) => window.webContents.id === owner);
+      return win ? confirmAction(win.webContents, `Write backup ${name} for ${entry.modId}?\nFolder: ${folder}`, "Write") : false;
+    },
+  });
   ipcMain.handle(BACKUP_CHANNEL, async (event, op: unknown, arg: unknown) => {
-    const a = (arg ?? {}) as { purpose?: unknown; ext?: unknown; name?: unknown; text?: unknown };
-    const purpose = typeof a.purpose === "string" && a.purpose !== "" ? a.purpose : CHARACTER_BACKUP_PURPOSE;
-    if (!isBackupPurpose(purpose)) throw new Error("the backup purpose is not a valid id");
-    const ext = typeof a.ext === "string" && a.ext !== "" ? a.ext : ".neochar";
-    const folder = readBackupFolder(USER_BASE, purpose);
-    switch (op as BackupOp) {
-      case "name":
-        return folder === null ? null : backupFolderDisplayName(folder);
-
-      case "choose": {
-        const win = BrowserWindow.fromWebContents(event.sender);
-        const result = win
-          ? await dialog.showOpenDialog(win, { properties: ["openDirectory"] })
-          : await dialog.showOpenDialog({ properties: ["openDirectory"] });
-        if (result.canceled || result.filePaths.length === 0) return null;
-        const chosen = result.filePaths[0] as string;
-        writeBackupFolder(USER_BASE, chosen, purpose);
-        return backupFolderDisplayName(chosen);
-      }
-
-      case "forget":
-        writeBackupFolder(USER_BASE, null, purpose);
-        return { ok: true };
-
-      case "list":
-        /* #24, the read side of #133: every file matching `ext` this build can
-         * currently read out of the chosen folder, name plus text - the
-         * folder's own path never crosses this reply either, matching every
-         * other op on this channel. */
-        return folder === null ? [] : listBackupFiles(folder, ext);
-
-      case "write": {
-        const { name, text } = a;
-        if (!isHostFolderFileName(name, ext) || typeof text !== "string") {
-          return { ok: false };
-        }
-        if (folder === null) return { ok: false };
-        try {
-          fs.writeFileSync(path.join(folder, name), text, "utf8");
-          return { ok: true };
-        } catch {
-          /* Permission lapsed, folder removed, disk full: answered false, never
-           * thrown - the fault table's "write() resolves false without prompting". */
-          return { ok: false };
-        }
-      }
-
-      default:
-        return { ok: false, error: `unknown operation ${String(op)}` };
-    }
+    if (!isGameBridgeFrame(event.senderFrame, event.sender.mainFrame)) return { ok: false };
+    return relay.handle(op, arg, event.sender.id);
   });
 }
 
@@ -755,9 +748,10 @@ function installThrottleChannel(): void {
  * the main process down.
  */
 function installLogging(): void {
-  ipcMain.on(LOG_CHANNEL, (_event, payload: unknown) => {
-    if (!Array.isArray(payload)) return;
-    LOG_FILE.append((payload as unknown[]).filter((l): l is string => typeof l === "string"));
+  ipcMain.on(LOG_CHANNEL, (event, payload: unknown) => {
+    if (!isGameBridgeFrame(event.senderFrame, event.sender.mainFrame)) return;
+    const batch = capLogBatch(payload);
+    if (batch !== null) LOG_FILE.append(batch);
   });
 
   ipcMain.handle(REPORT_CHANNEL, (_event, text: unknown) => {
@@ -795,6 +789,8 @@ function installUpdater(): void {
   let staged: string | null = null;
 
   ipcMain.handle(UPDATE_CHANNEL, async (event, op: unknown, arg: unknown) => {
+    if (!isGameBridgeFrame(event.senderFrame, event.sender.mainFrame)) return { ok: false, error: "refused" };
+    if (!updateCallIsSafe(op, arg)) return { ok: false, error: "refused" };
     const shape = shapeOf({
       platform: process.platform,
       arch: process.arch,
@@ -812,6 +808,7 @@ function installUpdater(): void {
          * turn this capability into an arbitrary verified downloader. */
         const tag = releaseTagFromRenderer(arg);
         assertNewerThanInstalled(tag, app.getVersion());
+        if (!(await confirmAction(event.sender, `Download update ${tag}?`, "Download"))) return { ok: false, error: "The player declined." };
         const asset = await resolveReleaseAsset({
           tag,
           repo: UPDATE_REPO,
@@ -834,6 +831,9 @@ function installUpdater(): void {
       }
       if (op === "apply") {
         if (staged === null) return { ok: false, error: "nothing has been downloaded" };
+        const acceptedStaging = staged;
+        if (!(await confirmAction(event.sender, "Install the downloaded update and restart?", "Install"))) return { ok: false, error: "The player declined." };
+        if (staged !== acceptedStaging) return { ok: false, error: "The downloaded update changed." };
         /* AWAITED, and the quit is downstream of it. launchSwap rejects unless
          * the installer is confirmed running, and quitting anyway would put the
          * player back on the title screen of the old version with no error and
@@ -852,6 +852,7 @@ function installUpdater(): void {
         return { ok: true };
       }
       if (op === "reveal") {
+        if (!(await confirmAction(event.sender, "Open the release page in a browser?", "Open"))) return { ok: false, error: "The player declined." };
         const fallback = `https://github.com/${UPDATE_REPO}/releases`;
         /* `arg` reaches here from `window.neoDesktop.update("reveal", arg)`, a
          * bridge call any script in the renderer can make with any string - a
@@ -2102,6 +2103,7 @@ async function createWindow(): Promise<void> {
    * read-only-folder checks above use one: this is a packaged desktop app, and
    * a player has no terminal to read. */
   win.webContents.on("render-process-gone", (_event, details) => {
+    desktopAuthority.revokeWindow(win.webContents.id);
     void dialog.showMessageBox(win, {
       type: "error",
       title: "Neo Angband",

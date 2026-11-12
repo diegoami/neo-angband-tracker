@@ -63,7 +63,7 @@ import { distance } from "../loc.js";
 import { OBJ_NOTICE } from "../obj/knowledge.js";
 import { objectKnownShadow, objectRunesKnownUpstream } from "../obj/known-object.js";
 import type { GameObject } from "../obj/object.js";
-import { tvalCanHaveCharges, tvalCanHaveFlavor, tvalIsLight, tvalIsRod } from "../obj/object.js";
+import { tvalCanHaveCharges, tvalCanHaveFlavor, tvalIsChest, tvalIsLight, tvalIsRod } from "../obj/object.js";
 import { playerTimedGrade } from "../player/timed.js";
 import { captureCoreSnapshot } from "./boundary.js";
 import type { InputToken } from "./boundary.js";
@@ -168,6 +168,11 @@ export interface KnownPlayerStatus {
   readonly food: number;
   /** The food grade ("Hungry", "Fed", "Full"). */
   readonly foodGrade: string | null;
+  /**
+   * How many game ticks have counted a timed effect down since the game started. It rises while any effect is
+   * running out, even inside one grade, and says nothing about how many turns an effect has left.
+   */
+  readonly countdown: number;
   readonly fast: string | null;
   readonly sprint: string | null;
   readonly protEvil: string | null;
@@ -189,8 +194,20 @@ export interface KnownPlayerStatus {
   readonly image: string | null;
 }
 
+/** A unique the character has killed, as the knowledge menu lists it. */
+export interface KnownSlainUnique {
+  readonly raceIndex: number;
+  readonly raceId?: string;
+  readonly name: string;
+}
+
 /** The player as the character sheet and status line show them. */
 export type KnownPlayer = Omit<PlayerView, "status" | "recall" | "descent"> & {
+  /**
+   * The uniques this character has killed, in race order. A unique killed by anything else, or killed before this
+   * character was started, is not listed: the game shows the player only their own kills.
+   */
+  readonly slainUniques: readonly KnownSlainUnique[];
   readonly noscore: number;
   readonly shopnum: number | null;
   readonly depthText: string;
@@ -219,6 +236,17 @@ export type KnownItem = Omit<ItemView, "timeout"> & {
   readonly unknownRunes: boolean;
   readonly artifactId?: number;
   readonly fuel?: number;
+  /**
+   * Names this object from the first read that shows it to the end of the session, whether it is carried, worn,
+   * dropped or left behind on another level. Not saved, and absent for a shop's ware. A split stack gives the
+   * dropped part its own id.
+   */
+  readonly objectId?: number;
+  /**
+   * Chests only: whether the player has learned its trap, so `pval` is the real trap value and 0 means no
+   * trap. False while the trap is undiscovered, when `pval` reads 0 whatever the chest holds.
+   */
+  readonly trapKnown?: boolean;
 };
 
 /** One ware in a shop, or one item in the home. */
@@ -373,6 +401,25 @@ function handleBook(state: GameState): HandleBook {
   return book;
 }
 
+/* Item identities. An object keeps its id from the first read that shows it, through a pickup, a drop and a trip
+ * to another level, so a mod can tell the stack it dropped from the stack lying at its feet. Nothing here is
+ * saved, and a reloaded game starts a fresh book. Ids are handed out in the order the mod first reads each item. */
+interface ItemBook { next: number; ids: WeakMap<GameObject, number>; }
+const itemBooks = new WeakMap<GameState, ItemBook>();
+
+function itemBook(state: GameState): ItemBook {
+  let book = itemBooks.get(state);
+  if (!book) { book = { next: 1, ids: new WeakMap() }; itemBooks.set(state, book); }
+  return book;
+}
+
+function knownObjectId(state: GameState, obj: GameObject): number {
+  const book = itemBook(state);
+  let id = book.ids.get(obj);
+  if (id === undefined) { id = book.next++; book.ids.set(obj, id); }
+  return id;
+}
+
 /** Whether the player hallucinates (TMD_IMAGE), which hides every monster's identity. */
 export function playerHallucinates(state: GameState): boolean {
   return (state.actor.player.timed[TMD.IMAGE] ?? 0) > 0;
@@ -515,7 +562,7 @@ export function knownMonsters(state: GameState, deps: AgentViewDeps = {}): Known
  * The player, items and the target.
  * ------------------------------------------------------------------ */
 
-const STATUS_EFFECTS: ReadonlyArray<readonly [Exclude<keyof KnownPlayerStatus, "food" | "foodGrade" | "fearful" | "timed">, number]> = [
+const STATUS_EFFECTS: ReadonlyArray<readonly [Exclude<keyof KnownPlayerStatus, "food" | "foodGrade" | "fearful" | "timed" | "countdown">, number]> = [
   ["blind", TMD.BLIND],
   ["confused", TMD.CONFUSED],
   ["afraid", TMD.AFRAID],
@@ -552,7 +599,19 @@ function gradeName(state: GameState, tmd: number): string | null {
   return effect.grades.length > 0 ? (playerTimedGrade(effect, v).name || null) : null;
 }
 
-function knownPlayer(state: GameState, player: PlayerView): KnownPlayer {
+function slainUniques(state: GameState, deps: AgentViewDeps | undefined): KnownSlainUnique[] {
+  const races = (deps ?? state.knownWorldDeps)?.inspect?.races ?? [];
+  const resolver = (deps ?? state.knownWorldDeps)?.resolver;
+  const out: KnownSlainUnique[] = [];
+  for (const race of races) {
+    if (!race.flags.has(RF.UNIQUE) || (state.lore.get(race.ridx)?.pkills ?? 0) <= 0) continue;
+    const raceId = resolver?.raceIdOrNull(race.ridx) ?? null;
+    out.push({ raceIndex: race.ridx, ...(raceId !== null ? { raceId } : {}), name: race.name });
+  }
+  return out;
+}
+
+function knownPlayer(state: GameState, player: PlayerView, deps?: AgentViewDeps): KnownPlayer {
   const { status, recall, descent, ...rest } = player;
   const named = {} as Record<(typeof STATUS_EFFECTS)[number][0], string | null>;
   for (const [key, tmd] of STATUS_EFFECTS) named[key] = gradeName(state, tmd);
@@ -566,12 +625,14 @@ function knownPlayer(state: GameState, player: PlayerView): KnownPlayer {
     autoplayed: (state.actor.player.noscore & NOSCORE.BORG) !== 0,
     key: null,
     extraMoves: state.knownPlayerState?.numMoves ?? 0,
+    slainUniques: slainUniques(state, deps),
     status: {
       ...named,
       timed: Object.fromEntries(PLAYER_TIMED_ENTRIES.map((effect, index) => [effect.name,
         (state.actor.player.timed[index] ?? 0) > 0 ? gradeName(state, index) ?? "active" : null])),
       food: Math.trunc((state.actor.player.timed[TMD.FOOD] ?? 0) / 100),
       foodGrade: gradeName(state, TMD.FOOD),
+      countdown: state.timedTicks ?? 0,
       fearful: status.fearful ?? false,
     },
     recall: recall > 0,
@@ -616,6 +677,8 @@ export function knownItem(state: GameState, deps: AgentViewDeps, item: ItemView,
       ODESC.BASE | ODESC.SINGULAR | ODESC.NOEGO | (shopWare ? ODESC.STORE : 0), state.actor.player, state.runeEnv,
       { ...knownDescOf(state, true), isAware: () => item.aware }) : item.label,
     carried: false,
+    ...(obj && !shopWare ? { objectId: knownObjectId(state, obj) } : {}),
+    ...(obj && tvalIsChest(obj.tval) ? { trapKnown: obj.knownPval !== undefined } : {}),
     ...(item.artifact && obj?.artifact ? { artifactId: obj.artifact.aidx } : {}),
     ...(fuel ? { fuel: Number(fuel[1]) } : {}),
     charging: obj ? chargingShown(state, deps, obj, shopWare) : 0,
@@ -633,6 +696,8 @@ export function knownFloorItems(state: GameState, grid: { x: number; y: number }
     if (entry.sensed) return [];
     const seen = squareIsSeen(state.chunk, grid) && pile.includes(entry.obj);
     const obj = seen ? entry.obj : entry.remembered ?? entry.obj;
+    /* The remembered copy shares the id of the object it was copied from, so the id outlasts line of sight. */
+    if (seen && entry.remembered) itemBook(state).ids.set(entry.remembered, knownObjectId(state, entry.obj));
     const item = itemView(0, obj, state, deps);
     return [knownItem(state, deps, { ...item, name: describeObject(state, obj, ODESC.PREFIX | ODESC.FULL),
       itemKey: `memory:${grid.x},${grid.y}:${index}`, ...(seen ? { floorIndex: pile.indexOf(entry.obj) } : {}) }, obj)];
@@ -779,7 +844,7 @@ export function buildKnownWorld(
     version: KNOWN_WORLD_VERSION,
     token: snap.token,
     turn: snap.turn,
-    player: snap.player ? knownPlayer(state, snap.player) : null,
+    player: snap.player ? knownPlayer(state, snap.player, deps) : null,
     inventory: snap.inventory?.map((item) => carried(state, deps, item)) ?? null,
     equipment: snap.equipment?.map((item) => (item ? carried(state, deps, item) : null)) ?? null,
     equipmentSlots: snap.equipmentSlots,

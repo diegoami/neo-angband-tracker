@@ -8,12 +8,14 @@ import { CapabilitySet, type PackManifest } from "@rpgm-tools/neo-angband-mod-sd
 import {
   FIRST_PARTY_ORIGINS,
   TRUTH_MAP,
+  TRUTH_MONSTERS,
   assignTier,
   effectiveGrants,
   installListing,
   installedDigestsMatch,
   isUnreviewed,
   modStartGrants,
+  modHolds,
   needsOwnConfirmation,
   playerHeld,
   resetModTiers,
@@ -24,12 +26,65 @@ import {
   type ModTierFacts,
 } from "./mod-tier";
 import { setConsentBindings } from "./mod-consent-binding";
+import * as snapshots from "./mod-code-snapshot";
 import { loadModCode, measureModTiers, settledGrants, PLUGIN_FILE } from "./mod-code";
 import type { CodeUrlResolver, DiskPack } from "./disk-packs";
 import { MOD_API_VERSION } from "./mod-plugin";
 import { ModStore, buildCatalog, readEnabledModIds, type StorageLike } from "./mod-store";
 import { CORE_DRAWN_IDS, isCoreDrawn } from "./core-drawn";
 import { MODELLED_SCREENS } from "./screen-view";
+
+it("lets Workers stage pure authoring without opening management", () => {
+  const tier = assignTier({ id: "author", source: "folder", execution: "worker" });
+  expect(tierRefusal("mod:authoring", tier)).toBeNull();
+  expect(tierRefusal("ui:birth.replace", tier)).toBeNull();
+});
+
+it("opens the eight data registry mechanisms for every Worker author and keeps broad or live access closed", () => {
+  for (const id of ["anybandui", "other"]) {
+    const tier = assignTier({ id, source: "folder", execution: "worker" });
+    for (const domain of ["effect", "room", "profile", "blow", "glyph", "randart", "vocab", "menu"]) {
+      const capability = `registry:${domain}`;
+      expect(tierRefusal(capability, tier)).toBeNull();
+      expect(effectiveGrants([capability], tier, { granted: [capability], refused: [] }).granted).toEqual([capability]);
+      expect(effectiveGrants([capability], tier, { granted: [capability], refused: [capability] }).granted).toEqual([]);
+    }
+    expect(tierRefusal("registry:*", tier)).toContain("registry:monster");
+    expect(tierRefusal("engine:access", tier)).toContain("atomic");
+  }
+});
+
+it("applies Worker eligibility to first-party grants and refuses live engines", () => {
+  for (const id of ["anybandui", "other"]) {
+    const tier = id === "anybandui" ? assignTier(installed({ execution: "worker" })) : assignTier({ id, source: "folder", execution: "worker" });
+    for (const capability of ["options:write", "keymap:edit", "display:filter", "ui:messages.replace", "ui:sidebar.replace", "ui:status.replace", "ui:region.create", "mod:authoring", "debug:spawn", "shared:read", "shared:publish", "debug:wizard", "mod:install", "mod:session", "mod:read", "session:control", "ui:menu.replace", "ui:screen.replace", "display:replace", "screens:manage"]) {
+      expect(tierRefusal(capability, tier)).toBeNull();
+      expect(effectiveGrants([capability], tier, { granted: [], refused: [] }).granted).toEqual([]);
+    }
+    for (const capability of ["ui:*.replace", "ui:birth.replace", "backup:folder"]) {
+      expect(tierRefusal(capability, tier)).toBeNull();
+      expect(effectiveGrants([capability], tier, { granted: [], refused: [] }).granted).toEqual([]);
+      expect(effectiveGrants([capability], tier, { granted: [capability], refused: [] }).granted).toEqual([capability]);
+    }
+    for (const capability of ["engine:access"]) {
+      expect(tierRefusal(capability, tier)).not.toBeNull();
+      expect(effectiveGrants([capability], tier, { granted: [capability], refused: [] }).granted).toEqual([]);
+    }
+  }
+});
+
+it("expands only the six UI replacement families and honors every family refusal for Workers", () => {
+  const tier = assignTier({ id: "probe", source: "folder", execution: "worker" });
+  const families = ["messages", "sidebar", "status", "menu", "screen", "birth"].map((family) => `ui:${family}.replace`);
+  setModGrants(new Map([["probe", effectiveGrants(["ui:*.replace"], tier, { granted: ["ui:*.replace"], refused: [] })]]));
+  for (const family of families) expect(modHolds("probe", family)).toBe(true);
+  for (const capability of ["ui:region.create", "ui:panel.mount", "display:replace", "screens:manage", "backup:folder"]) expect(modHolds("probe", capability)).toBe(false);
+  for (const family of families) {
+    const held = effectiveGrants(["ui:*.replace"], tier, { granted: ["ui:*.replace"], refused: [family] });
+    expect(held.granted).toEqual([]); setModGrants(new Map([["probe", held]])); expect(modHolds("probe", family)).toBe(false);
+  }
+  resetModTiers();
+});
 import { consentSessionMod, rowLabel, unreviewedNoticeDue, unreviewedNoticeScreen } from "./mods";
 import * as overlay from "./overlay";
 import type { GridPointerInput, GridSurface } from "./term";
@@ -38,6 +93,7 @@ import { askInstalledPresenter, setMenuPresenter, type InstalledMenu } from "./m
 import { enterSafeLaunch, resetSafeLaunch } from "./safe-launch";
 import { parseRegistry } from "./mod-curated";
 import { createApi2Host } from "./mod-api2-host";
+import { modPluginContext } from "./mod-context";
 import type { ModPluginContext } from "./mod-plugin";
 
 const ANYBANDUI = "neostryder/neo-angband-mod-anybandui";
@@ -53,6 +109,33 @@ describe("engine consent", () => {
       expect(effectiveGrants(["engine:access"], { ...tier, developerInProcess: true }, { granted: ["engine:access"], refused: [] }).granted).toEqual(["engine:access"]);
     }
     expect(tierRefusal("engine:access", assignTier(installed({ execution: "worker" })))).toContain("Worker");
+  });
+
+  it("honors an engine refusal even when first-party code declares it and the store also grants it", () => {
+    const tier = assignTier(installed());
+    const grants = effectiveGrants(["engine:access"], tier, { granted: ["engine:access"], refused: ["engine:access"] });
+    expect(grants.granted).toEqual([]);
+    expect(grants.refusedByPlayer).toEqual(["engine:access"]);
+    expect(effectiveGrants([], tier, { granted: ["engine:access"], refused: [] }).granted).toEqual([]);
+  });
+
+  it("requires declared presentation grants and lets a refusal override defaults and wildcards", () => {
+    const tier = assignTier(installed());
+    setModTiers(new Map([["anybandui", tier]]));
+    const settle = (declared: string[], refused: string[] = []) => {
+      const grants = effectiveGrants(declared, tier, { granted: declared, refused });
+      setModGrants(new Map([["anybandui", grants]]));
+      return modStartGrants("anybandui");
+    };
+    expect(settle([]).firstParty?.presentation).toBeUndefined();
+    for (const capability of ["display:replace", "ui:*.replace", "ui:region.create", "keymap:edit"]) {
+      expect(effectiveGrants([capability], tier, { granted: [], refused: [] }).granted).toEqual([capability]);
+      expect(settle([capability]).firstParty?.presentation).toBe(true);
+      expect(settle([capability], [capability]).firstParty?.presentation).toBeUndefined();
+    }
+    expect(settle(["ui:*.replace"], ["ui:sidebar.replace"]).granted).toEqual([]);
+    expect(effectiveGrants(["profiles:manage"], tier, { granted: [], refused: [] }).undecided).toEqual(["profiles:manage"]);
+    expect(settle(["command:add"]).firstParty?.presentation).toBeUndefined();
   });
 
   it("requires recorded digests for each of the nine named first-party repos", () => {
@@ -110,6 +193,7 @@ const plugin = { default: { api: MOD_API_VERSION, hooks: () => ({}) } };
 
 afterEach(() => {
   vi.restoreAllMocks();
+  setConsentBindings(new Map());
   resetModTiers();
   resetSafeLaunch();
   setScreenPresenter(null);
@@ -221,7 +305,7 @@ describe("the seam policy", () => {
   const squire = assignTier(installed({ id: "squire", repo: "neostryder/neo-angband-mod-squire" }));
 
   it("refuses manage to a mod that is not first-party, visibly", () => {
-    expect(tierRefusal("profiles:manage", sideloaded)).toBe("only the game's own mods can have it");
+    expect(tierRefusal("profiles:manage", sideloaded)).toBe("this needs a brokered mechanism Workers do not have yet");
     const grants = effectiveGrants(["profiles:manage", "command:add"], sideloaded, {
       granted: ["profiles:manage", "command:add"],
       refused: [],
@@ -231,20 +315,28 @@ describe("the seam policy", () => {
   });
 
   it("refuses manage to a first-party mod its entry does not name", () => {
-    expect(tierRefusal("screens:manage", squire)).toBe("this version of the game does not give it to this mod");
+    expect(tierRefusal("screens:manage", squire)).toBe("this capability has no enabled host mechanism for this mod");
     expect(tierRefusal("profiles:manage", squire)).toBeNull();
   });
 
-  it("refuses every management capability in Workers and in non-first-party tiers", () => {
+  it("opens only the serialized management grants and the pure authoring library to Workers of every author", () => {
     const capabilities = ["screens:manage", "session:control", "profiles:manage", "mod:install", "mod:session", "mod:authoring", "options:manage"];
+    const workerCapabilities = ["profiles:manage", "session:control", "options:manage", "saves:manage", "mod:authoring", "mod:install", "mod:session", "screens:manage"];
     for (const capability of capabilities) {
       for (const trust of ["listed", "reviewed", "sideloaded"] as const) expect(tierRefusal(capability, { ...anybandui, trust })).not.toBeNull();
-      expect(tierRefusal(capability, { ...anybandui, execution: "worker" })).not.toBeNull();
+      for (const trust of ["first-party", "listed", "reviewed", "sideloaded"] as const) {
+        expect(tierRefusal(capability, { ...anybandui, trust, execution: "worker" }) === null).toBe(workerCapabilities.includes(capability));
+      }
       expect(tierRefusal(capability, { ...anybandui, execution: "data" })).not.toBeNull();
     }
     setModTiers(new Map([["anybandui", { ...anybandui, execution: "worker" }]]));
     setModGrants(new Map([["anybandui", { granted: ["mod:install"], refusedByTier: [], refusedByPlayer: [], undecided: [], blocking: [] }]]));
     expect(modStartGrants("anybandui").firstParty?.manage).toBeUndefined();
+    for (const capability of workerCapabilities) {
+      expect(needsOwnConfirmation(capability)).toBe(true);
+      expect(tierRefusal(capability, worker)).toBeNull();
+      expect(effectiveGrants([capability], worker, { granted: [capability], refused: [capability] }).granted).toEqual([]);
+    }
   });
 
   it("asks about manage on its own question", () => {
@@ -253,9 +345,17 @@ describe("the seam policy", () => {
     expect(needsOwnConfirmation("command:add")).toBe(false);
   });
 
-  it("lets any in-process mod hold the real map with consent, but not a sideloaded Worker", () => {
+  it("lets any in-process mod or Worker hold either truth grant with consent", () => {
     expect(tierRefusal(TRUTH_MAP, sideloaded)).toBeNull();
-    expect(tierRefusal(TRUTH_MAP, worker)).toBe("only the game's own mods can have it");
+    for (const trust of ["first-party", "listed", "reviewed", "sideloaded"] as const) {
+      for (const capability of [TRUTH_MAP, TRUTH_MONSTERS]) {
+        const tier = { ...worker, trust };
+        expect(tierRefusal(capability, tier)).toBeNull();
+        expect(effectiveGrants([capability], tier, { granted: [capability], refused: [] }).granted).toEqual([capability]);
+        expect(effectiveGrants([capability], tier, { granted: [capability], refused: [capability] }).granted).toEqual([]);
+        expect(effectiveGrants([capability], tier, { granted: [], refused: [] }).granted).toEqual([]);
+      }
+    }
     const held = effectiveGrants([TRUTH_MAP], sideloaded, { granted: [TRUTH_MAP], refused: [] });
     expect(held.granted).toEqual([TRUTH_MAP]);
   });
@@ -264,7 +364,7 @@ describe("the seam policy", () => {
     for (const cap of ["registry:effect", "registry:*", "state:*.read", "network:*", "command:add"]) {
       expect(tierRefusal(cap, sideloaded)).toBeNull();
     }
-    expect(tierRefusal("registry:effect", worker)).toBe("Worker mods cannot have it");
+    expect(tierRefusal("registry:effect", worker)).toBeNull();
   });
 
   it("never grants a capability the vocabulary does not know", () => {
@@ -279,23 +379,57 @@ describe("the seam policy", () => {
         ["s", effectiveGrants([TRUTH_MAP], sideloaded, { granted: [TRUTH_MAP], refused: [] })],
       ]),
     );
-    expect(modStartGrants("anybandui").firstParty).toEqual({ manage: true, truth: true, presentation: true });
+    expect(modStartGrants("anybandui").firstParty).toEqual({ manage: true, truth: true });
     expect(modStartGrants("s").firstParty).toEqual({ truth: true });
     expect(modStartGrants("unknown")).toMatchObject({ granted: [] });
     expect(modStartGrants("unknown").firstParty).toBeUndefined();
   });
 
-  it("marks the save only while a mod holds a capability its own entry marks", () => {
+  it("marks either truth grant for every author", () => {
     setModTiers(new Map([["anybandui", anybandui], ["s", sideloaded]]));
     setModGrants(new Map([["s", effectiveGrants([TRUTH_MAP], sideloaded, { granted: [TRUTH_MAP], refused: [] })]]));
-    expect(saveMarkingGrantHeld()).toBe(false);
+    expect(saveMarkingGrantHeld()).toBe(true);
+    setModGrants(new Map([["s", effectiveGrants([TRUTH_MONSTERS], sideloaded, { granted: [TRUTH_MONSTERS], refused: [] })]]));
+    expect(saveMarkingGrantHeld()).toBe(true);
     setModGrants(new Map([["anybandui", effectiveGrants([TRUTH_MAP], anybandui, { granted: [TRUTH_MAP], refused: [] })]]));
     expect(saveMarkingGrantHeld()).toBe(true);
     expect(FIRST_PARTY_ORIGINS.find((o) => o.id === "anybandui")?.marksSave).toEqual([TRUTH_MAP]);
+    setModGrants(new Map());
+    expect(saveMarkingGrantHeld()).toBe(false);
   });
 });
 
 describe("per-permission consent", () => {
+  it("rechecks first-party loader refusals and rejects an earlier payload binding", async () => {
+    vi.spyOn(snapshots, "modPayloadUrl").mockImplementation(codeUrl);
+    const tier = assignTier(installed());
+    const pack: DiskPack = { ...codePack("anybandui", []), manifest: {
+      id: "anybandui", name: "AnybandUI", version: "1.0.0", shape: "plugin", facets: ["plugin"],
+      manifestSchema: 2, runtime: "in-process", api: ">=2.0.0 <3.0.0", capabilities: ["engine:access", "keymap:edit"],
+    } };
+    const refused: string[] = [];
+    let api: ReturnType<typeof createApi2Host> | undefined;
+    measured("anybandui");
+    setModTiers(new Map([["anybandui", tier]]));
+    const report = await loadModCode({ packs: [pack], codeUrl, enabled: () => true, consented: () => [],
+      refused: () => refused, tier: () => tier, importer: async () => ({ default: { api: ">=2.0.0 <3.0.0", start: (host: ReturnType<typeof createApi2Host>) => { api = host; } } }) });
+    expect(report.problems).toEqual([]);
+    expect(report.skipped).toEqual([]);
+    setModGrants(settledGrants(report));
+    const loaded = report.plugins[0]!;
+    loaded.plugin.register?.({} as Parameters<NonNullable<typeof loaded.plugin.register>>[0], modPluginContext("anybandui", {}));
+    expect(api?.meta.granted("engine:access")).toBe(true);
+    const engine = api!.engine!;
+    refused.push("engine:access");
+    expect(api?.meta.granted("engine:access")).toBe(false);
+    expect(() => engine.core).toThrow(/engine:access/);
+    expect(api?.meta.granted("keymap:edit")).toBe(true);
+    setConsentBindings(new Map([["anybandui", "replacement"]]));
+    expect(api?.meta.granted("keymap:edit")).toBe(false);
+    expect(await api!.presentation!.cancelInput()).toMatchObject({ reason: "not-granted" });
+    loaded.plugin.uninstall?.();
+  });
+
   /* Public code in the game page is always measured before it loads. */
   const measured = (id: string): void => setConsentBindings(new Map([[id, "bound"]]));
   afterEach(() => setConsentBindings(new Map()));
@@ -339,13 +473,14 @@ describe("per-permission consent", () => {
   });
 
   it("requires the notice after a first-party copy loses trust", async () => {
+    vi.spyOn(snapshots, "modPayloadUrl").mockImplementation(codeUrl);
     const pack = codePack("anybandui", []);
     const importer = vi.fn(() => Promise.resolve(plugin));
     const opts = { packs: [pack], codeUrl, enabled: () => true, consented: () => [], importer };
-    measured("p");
+    measured("anybandui");
     expect((await loadModCode({ ...opts, tier: () => assignTier(installed()) })).plugins).toHaveLength(1);
     importer.mockClear();
-    measured("p");
+    measured("anybandui");
     expect((await loadModCode({ ...opts, tier: () => assignTier(installed({ digestsMatch: false })) })).plugins).toHaveLength(0);
     expect(importer).not.toHaveBeenCalled();
   });
@@ -417,13 +552,14 @@ describe("per-permission consent", () => {
     expect(report.plugins).toEqual([]);
     expect(report.skipped).toHaveLength(1);
     expect(report.problems.map((p) => p.why)).toContain(
-      "runs without profiles:manage: only the game's own mods can have it",
+      "runs without profiles:manage: this needs a brokered mechanism Workers do not have yet",
     );
   });
 
   it("asks an update only about what is new, keeping earlier choices", () => {
+    measured("m");
     const store = new ModStore(fakeStorage());
-    store.setDecisions("m", { granted: ["command:add"], refused: ["state:monsters.read"] }, "1.0.0");
+    store.setDecisions("m", { granted: ["command:add"], refused: ["state:monsters.read"], binding: "bound" }, "1.0.0");
     const row = (caps: string[]) =>
       buildCatalog({
         content: [],
@@ -436,7 +572,7 @@ describe("per-permission consent", () => {
       }).find((m) => m.id === "m");
     expect(row(["command:add", "state:monsters.read"])?.consented).toBe(true);
     expect(row(["command:add", "state:monsters.read", "event:message"])?.consented).toBe(false);
-    store.setDecisions("m", { granted: ["event:message"], refused: [] }, "1.1.0");
+    store.setDecisions("m", { granted: ["event:message"], refused: [], binding: "bound" }, "1.1.0");
     expect(store.getDecisions("m")).toEqual({
       granted: ["command:add", "event:message"],
       refused: ["state:monsters.read"],
@@ -484,6 +620,7 @@ describe("the unreviewed notice and badge", () => {
   });
 
   it("is due once, before the first enable, and only for a mod that runs code", () => {
+    setConsentBindings(new Map([["s", "bound"]]));
     const store = new ModStore(fakeStorage());
     const row = catalogRow(sideloaded);
     expect(unreviewedNoticeDue(row, store)).toBe(true);

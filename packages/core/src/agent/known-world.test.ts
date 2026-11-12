@@ -19,6 +19,7 @@ import { deleteMonster, monsterSwap } from "../game/context.js";
 import { describeObject } from "../game/describe.js";
 import { floorCarry, floorExcise } from "../game/floor.js";
 import { invenCarry } from "../game/gear.js";
+import { invenDrop } from "../game/obj-cmd.js";
 import { becomeAware, squareKnowPile, squareMemorize, updateMon, updateMonsters } from "../game/known.js";
 import { squareIsEmptyLive } from "../game/mon-place.js";
 import { emitCombatOutcome, emitHeal, emitMotion } from "../game/resolved-events.js";
@@ -303,6 +304,95 @@ describe("KnownWorld paired worlds", () => {
     expect(timed["SLOW"]).toEqual(expect.any(String));
     b.state.actor.player.timed[TMD.SLOW] = 0;
     expect(observed(b.state)).not.toBe(observed(a.state));
+  });
+
+  it("shows that a status is running out inside one grade without showing how long it has left", () => {
+    const [a, b] = pair();
+    a.state.actor.player.timed[TMD.SLOW] = 10;
+    b.state.actor.player.timed[TMD.SLOW] = 20;
+    a.state.timedTicks = 4;
+    b.state.timedTicks = 4;
+    /* Different counters, same history: the same observation. */
+    expect(observed(b.state)).toBe(observed(a.state));
+    expect(buildKnownWorld(a.state).player!.status.countdown).toBe(4);
+
+    /* A tick moves the countdown even though the grade has not changed. */
+    const before = buildKnownWorld(a.state).player!.status;
+    a.state.actor.player.timed[TMD.SLOW] = 9;
+    a.state.timedTicks = 5;
+    const after = buildKnownWorld(a.state).player!.status;
+    expect(after.timed["SLOW"]).toBe(before.timed["SLOW"]);
+    expect(after.countdown).toBe(before.countdown + 1);
+  });
+
+  it("keeps one object id from the pack to the floor and back out of sight", () => {
+    const [a] = pair();
+    const dagger = carry(a, kindNamed(a, TV.SWORD, "Dagger"));
+    const handle = [...a.state.gear.store.entries()].find(([, o]) => o === dagger)![0];
+    const idCarried = buildKnownWorld(a.state, a.state.knownWorldDeps).inventory!.find((i) => i.handle === handle)!.objectId;
+    expect(idCarried).toEqual(expect.any(Number));
+
+    expect(invenDrop(a.state, handle, 1)).not.toBeNull();
+    const grid = a.state.actor.grid;
+    squareKnowPile(a.state, grid);
+    const onFloor = buildKnownWorld(a.state, a.state.knownWorldDeps).floorHere!.find((i) => i.tval === TV.SWORD)!;
+    expect(onFloor.carried).toBe(false);
+    expect(onFloor.objectId).toBe(idCarried);
+
+    /* Out of sight the remembered copy still answers to the same id. */
+    a.state.chunk.sqinfoOff(grid, SQUARE.SEEN);
+    const remembered = buildKnownWorld(a.state, a.state.knownWorldDeps).floorHere!.find((i) => i.tval === TV.SWORD)!;
+    expect(remembered.objectId).toBe(idCarried);
+
+    /* A different object gets a different id. */
+    const other = carry(a, kindNamed(a, TV.SWORD, "Dagger"));
+    const otherId = buildKnownWorld(a.state, a.state.knownWorldDeps).inventory!.find((i) => i.tval === TV.SWORD)!.objectId;
+    expect(other).not.toBe(dagger);
+    expect(otherId).not.toBe(idCarried);
+  });
+
+  it("says whether a chest's trap is known without revealing it", () => {
+    const [a, b] = pair();
+    for (const game of [a, b]) {
+      const chest = carry(game, kindNamed(game, TV.CHEST, "Small wooden chest"));
+      chest.pval = game === a ? 0 : 5;
+    }
+    const chests = (g: StartedGame) => buildKnownWorld(g.state, g.state.knownWorldDeps).inventory!.filter((i) => i.tval === TV.CHEST);
+    /* An untrapped chest and a trapped one look alike until the trap is found. */
+    expect(chests(a)[0]!.trapKnown).toBe(false);
+    expect(chests(b)[0]!.trapKnown).toBe(false);
+    expect(chests(b)[0]!.pval).toBe(chests(a)[0]!.pval);
+    const found = [...b.state.gear.store.values()].find((o) => o.tval === TV.CHEST)!;
+    found.knownPval = found.pval;
+    expect(chests(b)[0]!.trapKnown).toBe(true);
+    expect(chests(b)[0]!.pval).toBe(5);
+    /* Nothing else carries the field. */
+    expect(buildKnownWorld(b.state, b.state.knownWorldDeps).equipment!.every((i) => !i || !("trapKnown" in i))).toBe(true);
+  });
+
+  it("lists the uniques the character has killed and no others", () => {
+    const [a, b] = pair();
+    const races = a.booted.registries.monsters.races;
+    /* The web client's deps carry the monster races under `inspect`; the pair here has none by default. */
+    for (const g of [a, b]) g.state.knownWorldDeps = { ...g.state.knownWorldDeps, inspect: { races } as unknown as NonNullable<AgentViewDeps["inspect"]> };
+    const unique = races.find((r) => r.flags.has(RF.UNIQUE) && r.name.startsWith("Fang"))!;
+    const plain = races.find((r) => !r.flags.has(RF.UNIQUE) && r.ridx > 0)!;
+    const slain = (g: StartedGame) => buildKnownWorld(g.state, g.state.knownWorldDeps).player!.slainUniques;
+    expect(slain(a)).toEqual([]);
+
+    /* Kills of an ordinary race, and a unique only seen, do not count. */
+    getLore(a.state.lore, plain.ridx === 0 ? races[1]! : plain).pkills = 7;
+    getLore(a.state.lore, unique).sights = 3;
+    expect(slain(a)).toEqual([]);
+    expect(observed(a.state)).toBe(observed(b.state));
+
+    getLore(a.state.lore, unique).pkills = 1;
+    expect(slain(a)).toEqual([{ raceIndex: unique.ridx, raceId: expect.any(String), name: unique.name }]);
+    expect(observed(a.state)).not.toBe(observed(b.state));
+
+    /* How many times it was killed is not part of the record. */
+    getLore(b.state.lore, unique).pkills = 5;
+    expect(observed(a.state)).toBe(observed(b.state));
   });
 
   it("uninspected store stock produces identical observations", () => {

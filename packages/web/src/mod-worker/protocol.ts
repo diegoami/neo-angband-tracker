@@ -44,8 +44,8 @@ export interface ModWorkerPanelPatch {
 
 /**
  * The `ModApi2` methods a Worker may call, by path. Anything else is refused
- * before it reaches the host's domains. `manage` and `truth` are absent: a
- * Worker mod never holds them.
+ * before it reaches the host's domains. Truth reads require a durable mark;
+ * management uses the separate schema table below.
  */
 export const WORKER_CALLS = [
   "meta.settings",
@@ -76,6 +76,10 @@ export const WORKER_CALLS = [
   "view.inspect.tileActions",
   "view.input",
   "view.isCurrent",
+  "truth.level",
+  "truth.monsters",
+  "truth.race",
+  "truth.storeKnowledge",
   "act.submit",
   "act.answer",
   "act.controller.owns",
@@ -122,6 +126,7 @@ export const WORKER_CALLS = [
   "backupFolder.choose",
   "backupFolder.forget",
   "backupFolder.write",
+  "backupFolder.writeSaved",
   "backupFolder.list",
   "backupFolder.onSave",
   "backupFolder.off",
@@ -174,6 +179,7 @@ export interface WorkerDefinitionSummary {
 
 /** A question the host asks the Worker, answered with `answer`. */
 export type WorkerQuestion =
+  | WorkerPresenterQuestion
   | { readonly kind: "migrateBag"; readonly data: WorkerJson; readonly fromSchema: number }
   | { readonly kind: "prefs.migrate"; readonly value: WorkerJson; readonly fromVersion: number }
   | { readonly kind: "install.migrate"; readonly value: WorkerJson; readonly fromVersion: number }
@@ -193,7 +199,7 @@ export type HostToModWorker =
   | (Addressed & { readonly type: "event"; readonly listenerId: number; readonly payload: WorkerJson })
   | (Addressed & { readonly type: "ui.action"; readonly callbackId: number; readonly action: string; readonly value?: string | boolean })
   | (Addressed & { readonly type: "ui.dismissed"; readonly callbackId: number })
-  | (Addressed & { readonly type: "backup.save"; readonly callbackId: number; readonly file: { readonly name: string; readonly text: string } })
+  | (Addressed & { readonly type: "backup.save"; readonly callbackId: number; readonly file: { readonly id: string; readonly name: string; readonly size: number } })
   | (Addressed & { readonly type: "ask"; readonly askId: number; readonly question: WorkerQuestion })
   | (Addressed & { readonly type: "notify"; readonly hook: string; readonly args: readonly WorkerJson[] })
   /** `policyHooks`: the hooks the host applies from the mod's policy tables, for `hooks.active`. */
@@ -211,3 +217,195 @@ export type ModWorkerToHost =
   | (FromWorker & { readonly type: "answer"; readonly askId: number; readonly ok: false; readonly error: string })
   | (FromWorker & { readonly type: "log"; readonly level: WorkerLogLevel; readonly message: string })
   | (FromWorker & { readonly type: "fault"; readonly site: string; readonly message: string });
+
+/** Management requests use explicit schemas rather than property traversal. */
+export const WORKER_MANAGE_CALLS: Readonly<Record<string, string>> = Object.freeze({
+  "manage.profiles.list": "profiles:manage",
+  "manage.profiles.create": "profiles:manage",
+  "manage.profiles.switchTo": "profiles:manage",
+  "manage.profiles.rename": "profiles:manage",
+  "manage.session.save": "session:control",
+  "manage.options.get": "options:manage",
+  "manage.options.set": "options:manage",
+  "manage.saves.list": "saves:manage",
+  "manage.saves.load": "saves:manage",
+  "manage.saves.rename": "saves:manage",
+  "manage.saves.delete": "saves:manage",
+  "manage.mods.snapshot": "profiles:manage",
+  "manage.mods.disable": "profiles:manage",
+  "manage.mods.setSettingValue": "profiles:manage",
+  "manage.mods.setSectionChoice": "profiles:manage",
+  "manage.mods.setConflictOverride": "profiles:manage",
+  "manage.mods.setThirdPartyConsent": "profiles:manage",
+});
+
+export function validWorkerManageCall(method: string, args: readonly WorkerJson[]): boolean {
+  const text = (v: WorkerJson | undefined, max = 120): v is string => typeof v === "string" && v.trim().length > 0 && v.length <= max && !/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u.test(v);
+  const object = (v: WorkerJson | undefined): v is Record<string, WorkerJson> => v !== null && typeof v === "object" && !Array.isArray(v);
+  const id = () => text(args[0], 128);
+  switch (method) {
+    case "manage.profiles.list": case "manage.session.save": case "manage.options.get":
+    case "manage.saves.list": case "manage.mods.snapshot": return args.length === 0;
+    case "manage.profiles.create": return args.length === 1 && text(args[0]);
+    case "manage.profiles.rename": case "manage.saves.rename": return args.length === 2 && id() && text(args[1], method === "manage.saves.rename" ? 15 : 120);
+    case "manage.profiles.switchTo": return (args.length === 1 || args.length === 2) && id() && (args.length === 1 || object(args[1]) && Object.keys(args[1]).every((key) => key === "kind" || key === "armController") && args[1].kind === "create-character" && (args[1].armController === undefined || typeof args[1].armController === "boolean"));
+    case "manage.saves.load": return (args.length === 1 || args.length === 2) && id() && (args.length === 1 || object(args[1]) && Object.keys(args[1]).every((key) => key === "resumeAutoplayer") && (args[1].resumeAutoplayer === undefined || typeof args[1].resumeAutoplayer === "boolean"));
+    case "manage.saves.delete": case "manage.mods.disable": return args.length === 1 && id();
+    case "manage.mods.setSettingValue": return args.length === 3 && id() && text(args[1], 64) && typeof args[2] === "number" && Number.isFinite(args[2]);
+    case "manage.mods.setSectionChoice": return args.length === 3 && id() && text(args[1], 64) && typeof args[2] === "boolean";
+    case "manage.mods.setConflictOverride": return args.length === 2 && text(args[0], 128) && (args[1] === null || text(args[1], 128));
+    case "manage.mods.setThirdPartyConsent": return args.length === 1 && args[0] === false;
+    case "manage.options.set": {
+      const change = args[0];
+      if (args.length !== 1 || !object(change) || !Object.keys(change).every((key) => ["values", "hitpointWarn", "delayFactor", "lazymoveDelay"].includes(key))) return false;
+      if (change.values !== undefined && (!object(change.values) || Object.keys(change.values).length > 64 || Object.entries(change.values).some(([key, value]) => !text(key, 64) || typeof value !== "boolean"))) return false;
+      return ["hitpointWarn", "delayFactor", "lazymoveDelay"].every((key) => change[key] === undefined || typeof change[key] === "number" && Number.isInteger(change[key]) && change[key] >= 0 && change[key] <= (key === "hitpointWarn" ? 9 : 255));
+    }
+    default: return false;
+  }
+}
+
+/** Simple grants use separate paths so they never open the management domain. */
+export const SIMPLE_WORKER_CALLS = {
+  "options.set": "options:write",
+  "keybindings.keyset": "keymap:edit",
+  "keybindings.list": "keymap:edit",
+  "keybindings.commands": "keymap:edit",
+  "keybindings.set": "keymap:edit",
+  "keybindings.remove": "keymap:edit",
+  "keybindings.capture": "keymap:edit",
+  "keybindings.cancelCapture": "keymap:edit",
+  "display.filter": "display:filter",
+  "ui.messages.replace": "ui:messages.replace",
+  "ui.sidebar.replace": "ui:sidebar.replace",
+  "ui.status.replace": "ui:status.replace",
+  "ui.region.create": "ui:region.create",
+  "ui.region.remove": "ui:region.create",
+} as const;
+
+export interface WorkerTextLine {
+  readonly text: string;
+  readonly style?: "normal" | "muted" | "warning" | "danger" | "good";
+}
+
+export interface WorkerTextRegion {
+  readonly id: string;
+  readonly rect: { readonly col: number; readonly row: number; readonly cols: number; readonly rows: number };
+  readonly lines: readonly WorkerTextLine[];
+}
+
+export const SPAWN_SHARED_WORKER_CALLS: Readonly<Record<string, string>> = Object.freeze({
+  "debug.spawnObject": "debug:spawn",
+  "debug.spawnMonster": "debug:spawn",
+  "shared.read": "shared:read",
+  "shared.publish": "shared:publish",
+  "shared.withdraw": "shared:publish",
+});
+
+/** Content plans contain no consent decisions or reusable confirmations. */
+export const CONTENT_WORKER_CALLS: Readonly<Record<string, string>> = Object.freeze({
+  "manage.content.planInstall": "mod:install",
+  "manage.content.applyInstall": "mod:install",
+  "manage.content.planSession": "mod:session",
+  "manage.content.applySession": "mod:session",
+  "manage.readMod": "mod:read",
+  "manage.session.exitToTitle": "session:control",
+  "manage.session.quit": "session:control",
+  "manage.wizard": "debug:wizard",
+  ...Object.fromEntries([
+    "sandboxed", "attached", "sandbox", "catalogue", "where", "spawnItem", "spawnCreature", "spawnArtifact",
+    "goToDepth", "grantExperience", "setExperience", "setGold", "setStat", "maxOut", "heal", "rerollLife",
+    "acquire", "summonRandom", "banish", "killVisible", "teleport", "mapLevel", "lightLevel", "findCreatures", "learnItems", "learnCreatures",
+  ].map((name) => [`manage.wizard.${name}`, "debug:wizard"])),
+});
+
+export const MAX_WORKER_ARCHIVE_BYTES = 12 * 1024;
+export type WorkerContentSource = { readonly repo: string } | { readonly archive: readonly number[] };
+
+export function validWorkerContentCall(method: string, args: readonly WorkerJson[]): boolean {
+  const text = (v: unknown, max = 512): v is string => typeof v === "string" && v.length > 0 && v.length <= max && !/[\p{Cc}\p{Cf}\p{Zl}\p{Zp}]/u.test(v);
+  const integer = (v: unknown, max = 1000000000): v is number => typeof v === "number" && Number.isSafeInteger(v) && v >= 0 && v <= max;
+  if (method === "manage.content.planInstall" || method === "manage.content.planSession") {
+    const source = args[0];
+    if (args.length !== 1 || !source || typeof source !== "object" || Array.isArray(source) || Object.keys(source).length !== 1) return false;
+    return Object.hasOwn(source, "repo") ? text(source.repo) : Object.hasOwn(source, "archive") && Array.isArray(source.archive) && source.archive.length > 0 && source.archive.length <= MAX_WORKER_ARCHIVE_BYTES && source.archive.every((byte) => integer(byte, 255));
+  }
+  if (method === "manage.content.applyInstall" || method === "manage.content.applySession") return args.length === 1 && text(args[0], 64);
+  if (method === "manage.readMod") return args.length === 1 && text(args[0]);
+  if (method === "manage.session.quit" || method === "manage.session.exitToTitle" || method === "manage.wizard") return args.length === 0;
+  if (!Object.hasOwn(CONTENT_WORKER_CALLS, method)) return false;
+  const command = method.slice("manage.wizard.".length);
+  if (["spawnItem", "spawnCreature"].includes(command)) return (args.length === 1 || args.length === 2) && (text(args[0], 120) || integer(args[0], 100000)) && (args.length === 1 || integer(args[1], 40) && args[1] !== 0);
+  if (command === "spawnArtifact") return args.length === 1 && (text(args[0], 120) || integer(args[0], 100000));
+  if (["goToDepth", "teleport"].includes(command)) return args.length === 1 && integer(args[0], 1000);
+  if (["grantExperience", "setExperience", "setGold"].includes(command)) return args.length === 1 && integer(args[0]);
+  switch (command) {
+    case "setStat": return args.length === 2 && text(args[0], 12) && integer(args[1], 118);
+    case "acquire": return (args.length === 1 || args.length === 2) && integer(args[0], 40) && args[0] !== 0 && (args.length === 1 || typeof args[1] === "boolean");
+    case "summonRandom": return args.length === 1 && integer(args[0], 40) && args[0] !== 0;
+    case "banish": case "learnItems": return args.length === 0 || args.length === 1 && integer(args[0], 1000);
+    default: return args.length === 0;
+  }
+}
+
+/** Presenter callbacks stay in the Worker; the host receives only their ids and JSON answers. */
+export interface WorkerPresenterQuestion {
+  readonly kind: "presentation";
+  readonly callbackId: number;
+  readonly presentationId: string;
+  readonly phase: "describe" | "select";
+  readonly input: WorkerJson;
+}
+
+export const PRESENTER_WORKER_CALLS: Readonly<Record<string, string>> = Object.freeze({
+  "ui.menu.replace": "ui:menu.replace",
+  "ui.screen.replace": "ui:screen.replace",
+  "ui.management.replace": "screens:manage",
+  "display.replace": "display:replace",
+});
+
+export interface WorkerPresentationDescription {
+  readonly title: string;
+  readonly lines: readonly string[];
+  readonly rows: readonly { readonly id: string; readonly label: string }[];
+}
+
+export interface WorkerGridCommand {
+  readonly col: number;
+  readonly row: number;
+  readonly glyph: string;
+  readonly color: "normal" | "muted" | "warning" | "danger" | "good";
+}
+
+export const GAMEPLAY_WORKER_CALLS: Readonly<Record<string, string>> = Object.freeze({
+  ...Object.fromEntries(["effect", "room", "profile", "blow", "glyph", "randart", "vocab", "menu"]
+    .map((domain) => [`registry.${domain}.declare`, `registry:${domain}`])),
+});
+
+/** Host-issued ids prevent a proposal from widening its birth authority. */
+export interface WorkerBirthProposal {
+  readonly stepId: string;
+  readonly choice: string;
+  readonly value?: string;
+}
+
+export const MAX_WORKER_BACKUP_FILE_BYTES = 8 * 1024 * 1024;
+
+export const BIRTH_WORKER_CALLS: Readonly<Record<string, string>> = Object.freeze({
+  "ui.birth.replace": "ui:birth.replace",
+});
+
+/** The desktop must retain directory and installation authority. */
+export function validWorkerBackupCall(method: string, args: readonly WorkerJson[]): boolean {
+  switch (method) {
+    case "backupFolder.name": case "backupFolder.choose": case "backupFolder.forget": case "backupFolder.list": return args.length === 0;
+    case "backupFolder.write": return args.length === 2 && typeof args[0] === "string" && args[0].length <= 255 &&
+      /^[a-zA-Z0-9_-][a-zA-Z0-9_.-]*\.neochar$/.test(args[0]) && !args[0].includes("..") &&
+      !/^(con|prn|aux|nul|conin\$|conout\$|com[1-9]|lpt[1-9])\./i.test(args[0]) && typeof args[1] === "string" && args[1].length <= 32768;
+    case "backupFolder.writeSaved": return args.length === 1 && typeof args[0] === "string" && /^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/.test(args[0]);
+    case "backupFolder.onSave": return args.length === 1 && Number.isSafeInteger(args[0]) && (args[0] as number) > 0;
+    case "backupFolder.off": return args.length === 1 && args[0] !== null && typeof args[0] === "object" && !Array.isArray(args[0]) &&
+      Object.keys(args[0]).length === 1 && typeof args[0].id === "string" && /^[1-9][0-9]{0,15}$/.test(args[0].id);
+    default: return false;
+  }
+}

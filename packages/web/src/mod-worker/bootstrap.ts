@@ -35,6 +35,7 @@ export function installModWorkerBootstrap(
 ): void {
   type Pending = { readonly epoch: number; resolve(value: unknown): void; reject(reason: Error): void };
   type Listener = (payload: unknown) => void;
+  type BackupFile = { readonly id: string; readonly name: string; readonly size: number };
   const NOTIFY = ["optionsChanged", "abilityGained", "monsterBecameVisible", "artifactIdentified"];
   let id: string | null = null;
   let epoch = 0;
@@ -49,7 +50,7 @@ export function installModWorkerBootstrap(
   const pending = new Map<number, Pending>();
   const listeners = new Map<number, Listener>();
   const callbacks = new Map<number, (action: string, value?: string | boolean) => void>();
-  const backupCallbacks = new Map<number, (file: { readonly name: string; readonly text: string }) => void>();
+  const backupCallbacks = new Map<number, (file: BackupFile) => void>();
 
   const freeze = <T>(value: T): T => {
     if (value !== null && typeof value === "object" && !Object.isFrozen(value)) {
@@ -74,6 +75,8 @@ export function installModWorkerBootstrap(
     const requestId = nextRequest;
     return new Promise((resolve, reject) => {
       try {
+        const gameplay = method.startsWith("engine.") || method.startsWith("registry.");
+        if (gameplay) validateGameplay(list);
         const message = { type: "call", requestId, method, args: list.map(plain), protocolVersion, pluginId: id, epoch };
         if (new TextEncoder().encode(JSON.stringify(message)).byteLength > 64 * 1024) {
           throw new Error("refused worker payload larger than 65536 bytes");
@@ -98,6 +101,16 @@ export function installModWorkerBootstrap(
 
   const buildApi = (m: WorkerMeta, active: readonly string[]): ModApi2 => {
     const api = {
+      registry: Object.fromEntries(["effect", "room", "profile", "blow", "glyph", "randart", "vocab", "menu"]
+        .filter((domain) => m.granted.includes(`registry:${domain}`))
+        .map((domain) => [domain, { declare: method(`registry.${domain}.declare`) }])),
+      options: { set: method("options.set") },
+      display: { filter: method("display.filter"), replace: presenter("display.replace") },
+      keybindings: {
+        keyset: method("keybindings.keyset"), list: method("keybindings.list"), commands: method("keybindings.commands"),
+        set: method("keybindings.set"), remove: method("keybindings.remove"),
+        capture: method("keybindings.capture"), cancelCapture: method("keybindings.cancelCapture"),
+      },
       meta: {
         id: m.id,
         api: m.api,
@@ -177,6 +190,14 @@ export function installModWorkerBootstrap(
         lookup: method("content.lookup"),
       },
       ui: {
+        birth: { replace: presenter("ui.birth.replace") },
+        menu: { replace: presenter("ui.menu.replace") },
+        screen: { replace: presenter("ui.screen.replace") },
+        management: { replace: presenter("ui.management.replace") },
+        messages: { replace: method("ui.messages.replace") },
+        sidebar: { replace: method("ui.sidebar.replace") },
+        status: { replace: method("ui.status.replace") },
+        region: { create: method("ui.region.create"), remove: method("ui.region.remove") },
         ...(m.granted.includes("ui:title") ? { title: {
           registerRow: (row: { id: string; label: string; run: () => void }) => {
             const callbackId = ++nextCallback;
@@ -229,6 +250,28 @@ export function installModWorkerBootstrap(
         prefs: { get: method("store.prefs.get"), set: method("store.prefs.set") },
         character: { get: method("store.character.get"), set: method("store.character.set") },
       },
+      ...(m.granted.includes("state:map-actual.read") || m.granted.includes("state:monsters-actual.read") ? {
+        truth: {
+          level: method("truth.level"), monsters: method("truth.monsters"),
+          race: method("truth.race"), storeKnowledge: method("truth.storeKnowledge"),
+        },
+      } : {}),
+      ...(["profiles:manage", "session:control", "options:manage", "saves:manage", "mod:install", "mod:session", "mod:read", "debug:wizard"].some((cap) => m.granted.includes(cap)) ? {
+        manage: {
+          profiles: { list: method("manage.profiles.list"), create: method("manage.profiles.create"), switchTo: method("manage.profiles.switchTo"), rename: method("manage.profiles.rename") },
+          session: { save: method("manage.session.save"), exitToTitle: method("manage.session.exitToTitle"), quit: method("manage.session.quit") },
+          options: { get: method("manage.options.get"), set: method("manage.options.set") },
+          saves: { list: method("manage.saves.list"), load: method("manage.saves.load"), rename: method("manage.saves.rename"), delete: method("manage.saves.delete") },
+          mods: { snapshot: method("manage.mods.snapshot"), disable: method("manage.mods.disable"), setSettingValue: method("manage.mods.setSettingValue"), setSectionChoice: method("manage.mods.setSectionChoice"), setConflictOverride: method("manage.mods.setConflictOverride"), setThirdPartyConsent: method("manage.mods.setThirdPartyConsent") },
+          ...contentManage(m),
+        },
+      } : {}),
+      ...(m.granted.includes("debug:spawn") ? {
+        debug: { spawnObject: method("debug.spawnObject"), spawnMonster: method("debug.spawnMonster") },
+      } : {}),
+      ...(m.granted.includes("shared:read") || m.granted.includes("shared:publish") ? {
+        shared: { read: method("shared.read"), publish: method("shared.publish"), withdraw: method("shared.withdraw") },
+      } : {}),
       ...(m.net ? {
         net: {
           request: method("net.request"),
@@ -246,8 +289,8 @@ export function installModWorkerBootstrap(
       ...(m.granted.includes("backup:folder") ? {
         backupFolder: {
           name: method("backupFolder.name"), choose: method("backupFolder.choose"), forget: method("backupFolder.forget"),
-          write: method("backupFolder.write"), list: method("backupFolder.list"),
-          onSave: async (listener: (file: { readonly name: string; readonly text: string }) => void) => {
+          write: method("backupFolder.write"), writeSaved: method("backupFolder.writeSaved"), list: method("backupFolder.list"),
+          onSave: async (listener: (file: BackupFile) => void) => {
             const callbackId = ++nextCallback;
             backupCallbacks.set(callbackId, listener);
             const result = await call("backupFolder.onSave", [callbackId]) as { ok: boolean };
@@ -333,6 +376,10 @@ export function installModWorkerBootstrap(
       } else if (q.kind === "install.migrate") {
         if (!definition?.install) throw new Error("this mod declares no install migration");
         value = await definition.install.migrate(q.value as never, q.fromVersion);
+      } else if (q.kind === "presentation") {
+        const handler = presenterCallbacks.get(q.callbackId);
+        if (!handler) throw new Error("this presenter is no longer registered");
+        value = await (q.phase === "describe" ? handler.describe : handler.select)?.(freeze(q.input), q.presentationId);
       }
       reply({ ok: true, value: plain(value) });
     } catch (err) {
@@ -437,6 +484,7 @@ export function installModWorkerBootstrap(
         listeners.clear();
         callbacks.clear();
         backupCallbacks.clear();
+        presenterCallbacks.clear();
         for (const request of pending.values()) request.reject(new Error("the mod was stopped"));
         pending.clear();
         try {
@@ -450,4 +498,78 @@ export function installModWorkerBootstrap(
         return;
     }
   };
+
+  function contentManage(m: WorkerMeta): Record<string, unknown> {
+    const content: Record<string, unknown> = {};
+    const source = (value: unknown) => value instanceof Uint8Array ? { archive: [...value] } : value;
+    if (m.granted.includes("mod:install")) {
+      content.planInstall = (value: unknown) => call("manage.content.planInstall", [source(value)]);
+      content.applyInstall = method("manage.content.applyInstall");
+    }
+    if (m.granted.includes("mod:session")) {
+      content.planSession = (value: unknown) => call("manage.content.planSession", [source(value)]);
+      content.applySession = method("manage.content.applySession");
+    }
+    const wizard = Object.fromEntries([
+      "sandboxed", "attached", "sandbox", "catalogue", "where", "spawnItem", "spawnCreature", "spawnArtifact",
+      "goToDepth", "grantExperience", "setExperience", "setGold", "setStat", "maxOut", "heal", "rerollLife",
+      "acquire", "summonRandom", "banish", "killVisible", "teleport", "mapLevel", "lightLevel", "findCreatures", "learnItems", "learnCreatures",
+    ].map((name) => [name, method(`manage.wizard.${name}`)]));
+    return {
+      ...(Object.keys(content).length ? { content } : {}),
+      ...(m.granted.includes("mod:read") ? { readMod: method("manage.readMod") } : {}),
+      ...(m.granted.includes("debug:wizard") ? { wizard: async () => {
+        const result = await call("manage.wizard", []) as unknown as { ok: boolean };
+        return result.ok ? { ok: true, value: freeze(wizard) } : result;
+      } } : {}),
+    };
+  }
+
+  // The shipped bootstrap keeps its helpers inside this function's source.
+  type PresenterCallback = (input: unknown, presentationId: string) => unknown;
+  const presenterCallbacks = new Map<number, { describe: PresenterCallback; select?: PresenterCallback }>();
+  function presenter(path: string) {
+    let previous: number | undefined;
+    return async (describe: PresenterCallback | null, select?: PresenterCallback): Promise<unknown> => {
+      if (describe !== null && typeof describe !== "function") throw new Error("a presenter needs a local description callback or null");
+      const callbackId = describe === null ? null : ++nextCallback;
+      if (callbackId !== null && describe !== null) presenterCallbacks.set(callbackId, { describe, ...(select ? { select } : {}) });
+      try {
+        const result = await call(path, [callbackId]) as { ok: boolean };
+        if (result.ok) {
+          if (previous !== undefined) presenterCallbacks.delete(previous);
+          previous = callbackId ?? undefined;
+        } else if (callbackId !== null) presenterCallbacks.delete(callbackId);
+        return result;
+      } catch (error) {
+        if (callbackId !== null) presenterCallbacks.delete(callbackId);
+        throw error;
+      }
+    };
+  }
+
+  function validateGameplay(value: unknown): void {
+    const ancestors = new Set<object>();
+    let nodes = 0;
+    const visit = (item: unknown, depth: number): void => {
+      if (++nodes > 4096 || depth > 12) throw new Error("Gameplay data exceeds its structural limits.");
+      if (item === null || typeof item === "boolean" || typeof item === "string" || typeof item === "number" && Number.isFinite(item)) return;
+      if (!item || typeof item !== "object") throw new Error("Gameplay accepts only JSON data.");
+      const array = Array.isArray(item);
+      const proto: unknown = Object.getPrototypeOf(item);
+      if (proto !== (array ? Array.prototype : Object.prototype) && !(proto === null && !array) || ancestors.has(item)) throw new Error("Gameplay accepts only acyclic plain data.");
+      ancestors.add(item);
+      const keys = Reflect.ownKeys(item);
+      if (array && keys.length !== item.length + 1) throw new Error("Gameplay arrays must be dense.");
+      for (const key of keys) {
+        if (array && key === "length") continue;
+        if (typeof key !== "string" || ["__proto__", "prototype", "constructor"].includes(key)) throw new Error("Gameplay rejects prototype keys.");
+        const descriptor = Object.getOwnPropertyDescriptor(item, key)!;
+        if (!descriptor.enumerable || !("value" in descriptor)) throw new Error("Gameplay rejects accessors.");
+        visit(descriptor.value, depth + 1);
+      }
+      ancestors.delete(item);
+    };
+    visit(value, 0);
+  }
 }
