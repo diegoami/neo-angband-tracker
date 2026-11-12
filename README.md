@@ -10,8 +10,9 @@ start from, plus our session documentation.
 
 1. **Finding and proving bugs in original Angband, above all its C Borg.**
    Each defect in the C Borg or the C game has one canonical issue here, with
-   source lines, evidence level and any local fix proposal. The C source is
-   pinned at angband/angband `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`.
+   source lines, evidence level and any local fix proposal. New C fix branches
+   start from angband/angband `42cd156ac9f95ddf4311e88dd7ad462292d6d1d6`;
+   existing findings record the commit they were observed at (`e473720ed`).
 2. **Repairing the Neo Angband engine** (TypeScript), with its own source tree
    and regression tests.
 3. **Understanding the C Borg well enough to build a better one.** The C
@@ -83,8 +84,9 @@ Original upstream credits, licence and legal policies remain in their files.
 ## Current Neo source and build profiles
 
 [Engine integration372](https://github.com/diegoami/neo-angband-tracker/issues/372)
-imports exact upstream06a2321ce30a414df20d1b20d486446e7688171c, the source of
-GitHub desktop `v1.23.0-edge.218`. Registry Core/SDK/content still publish
+imported upstream `06a2321ce30a414df20d1b20d486446e7688171c`, the source of
+GitHub desktop `v1.23.0-edge.218`; master has since merged upstream
+`765f39976462c2d6e414ba88d44feb15ca28ceb8` (2026-11-09). Registry Core/SDK/content still publish
 `next=1.23.0-beta.3` (`latest=1.22.0`); edge.218 is not an npm package release.
 Source package manifests also retain beta.3 versions, so exact source and
 artifact hashes, not their version strings, identify the new compatibility
