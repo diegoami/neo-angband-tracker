@@ -25,7 +25,8 @@ the cycle done.
 ## 1. Branches
 
 - **Source branch** `task/c-borg-<slug>` from pristine `c-borg-reference`
-  (currently `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`). One defect, minimal
+  (currently `42cd156ac9f95ddf4311e88dd7ad462292d6d1d6`; proposals before
+  2026-11-12 used `e473720ed`). One defect, minimal
   diff; confirm scope with `git diff --name-only BASE FIX`. Never base a C
   proposal on Neo master or the workbench branch.
 - **Evidence branch** `task/cbug-<ID>-evidence` from owned master (or the
