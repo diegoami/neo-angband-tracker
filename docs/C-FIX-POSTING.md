@@ -231,12 +231,13 @@ site at the current pin fails the probe, then follow §1–§7.
 
 **Source.** A 2022 community write-up on r/angband ("I've been trying to use
 the borg and here is what I learned so far"; URL not recorded) described
-running the Borg on Angband 3.4/3.5. It is summarised here, not quoted. The
-4.2 Borg was largely reworked after that, so its observations are classes to
-re-check, not known 4.2 bugs. The status column records what has been checked
-at `42cd156ac`.
+running the Borg on Angband 3.4/3.5. It is summarised here, not quoted. Much
+of that Borg code was written for 3.x; the 4.x Borg is a new version, so none
+of these observations carries over as a lead or as evidence. They only suggest
+kinds of failure worth probing in the 4.x code. The status column records what
+has been checked at `42cd156ac`.
 
-| Class (as reported for 3.4/3.5) | How to probe at the current pin | Status at `42cd156ac` |
+| Class (suggested by the 3.4/3.5 report) | How to probe at the current pin | Status at `42cd156ac` |
 | --- | --- | --- |
 | **Prompt and menu drift.** The Borg types keys as a player would. When the game's item prompts change (e.g. it jumps straight to equipment or the quiver when the pack has no valid item), the Borg's keys land in the wrong menu. | For each `borg_keypress` sequence that selects an item, compare the keys sent with the current prompt behaviour (`ui-object.c` item menus, `/` equipment, `\|` quiver). Build a fixture where the pack has no valid item and see what the queued keys select. | Enchanting handles `/` and `\|` explicitly (`borg-item-enchant.c:80-104`). Other item prompts not yet checked. |
 | **Items mistaken for rechargeable ones.** A light that never recharges was treated as an activation on cooldown, so the Borg waited in town for days before leaving the level. | `borg_wear_recharge()` and any "wait for recharge" path: list which items with a non-zero `timeout` can never reach zero, and check that they are skipped. | Addressed. Torches and Lanterns are skipped by kind (`borg-item-wear.c:1484-1487`); *(Everburning)* is a Lantern ego with `NO_FUEL`. |
