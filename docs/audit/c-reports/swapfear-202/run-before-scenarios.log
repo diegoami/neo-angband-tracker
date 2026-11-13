@@ -1,0 +1,3 @@
+fear-plain {'exit': 0, 'passed': False, 'state': {'fear_slot': 4, 'plus1_slot': 5, 'swap_slot': 5, 'rfear': 0, 'swap_rfear': 0}, 'outcome': {'sells_fear': 1, 'sells_plus1': 0}}
+fear-brave {'exit': 0, 'passed': True, 'state': {'fear_slot': 4, 'plus1_slot': 5, 'swap_slot': 5, 'rfear': 1, 'swap_rfear': 0}, 'outcome': {'sells_fear': 1, 'sells_plus1': 0}}
+plain-plain {'exit': 0, 'passed': True, 'state': {'fear_slot': 5, 'plus1_slot': 4, 'swap_slot': 4, 'rfear': 0, 'swap_rfear': 0}, 'outcome': {'sells_fear': 1, 'sells_plus1': 0}}

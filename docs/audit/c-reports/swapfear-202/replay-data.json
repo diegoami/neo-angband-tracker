@@ -1,0 +1,149 @@
+{
+  "fear-plain": {
+    "label": "Fear-protecting Mace against a plain Mace with +1 damage",
+    "explanation": "A level-29 Warrior with no fear protection of its own carries two spare Maces: one protects from fear, the other has one extra point of damage. Original: the fear protection is never recorded, so the +1 Mace scores higher, is kept as the swap weapon, and the fear-protecting Mace is offered for sale. Corrected: the fear-protection bonus applies, the fear-protecting Mace is kept and the +1 Mace is offered for sale.",
+    "control": false,
+    "before": {
+      "raw": "native-c/swapfear-202: starting...\nSETUP seed=202 mode=fear-plain class=Warrior clevel=29 maxdepth=50 gold=0 rfear=0\n  fear_protecting_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 1 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 2 tval=25 desc=[Scroll of Word of Recall] to_d=0 value=125\nPACK 3 tval=19 desc=[Wooden Torch (5000 turns)] to_d=0 value=2\nPACK 4 tval=7 desc=[Mace (2d4) (+0,+0)] to_d=0 value=130\nPACK 5 tval=7 desc=[Mace (2d4) (+0,+1)] to_d=1 value=230\nSTATE fear_slot=4 plus1_slot=5 swap_slot=5 rfear=0 swap_rfear=0\nTRACK swap_value=1299\nTRACK swap_weapon=Mace (2d4) (+0,+1)\nTRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)\nDECISION sell_slot=4 keeps_fear_weapon=0\nOUTCOME sells_fear=1 sells_plus1=0\nFailed\n    native-c/swapfear-202:208: requirement '(weapon_swap - 1) == zero' failed\nnative-c/swapfear-202 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "fear_slot": 4,
+        "plus1_slot": 5,
+        "swap_slot": 5,
+        "rfear": 0,
+        "swap_rfear": 0
+      },
+      "outcome": {
+        "sells_fear": 1,
+        "sells_plus1": 0
+      },
+      "notes": [
+        "TRACK swap_value=1299",
+        "TRACK swap_weapon=Mace (2d4) (+0,+1)",
+        "TRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)",
+        "DECISION sell_slot=4 keeps_fear_weapon=0"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/swapfear-202: starting...\nSETUP seed=202 mode=fear-plain class=Warrior clevel=29 maxdepth=50 gold=0 rfear=0\n  fear_protecting_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 1 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 2 tval=25 desc=[Scroll of Word of Recall] to_d=0 value=125\nPACK 3 tval=19 desc=[Wooden Torch (5000 turns)] to_d=0 value=2\nPACK 4 tval=7 desc=[Mace (2d4) (+0,+0)] to_d=0 value=130\nPACK 5 tval=7 desc=[Mace (2d4) (+0,+1)] to_d=1 value=230\nSTATE fear_slot=4 plus1_slot=5 swap_slot=4 rfear=0 swap_rfear=1\nTRACK swap_value=6724\nTRACK swap_weapon=Mace (2d4) (+0,+0)\nTRACK sells=1 item_slot=5 item=Mace (2d4) (+0,+1)\nDECISION sell_slot=5 keeps_fear_weapon=1\nOUTCOME sells_fear=0 sells_plus1=1\nPassed\nnative-c/swapfear-202 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "fear_slot": 4,
+        "plus1_slot": 5,
+        "swap_slot": 4,
+        "rfear": 0,
+        "swap_rfear": 1
+      },
+      "outcome": {
+        "sells_fear": 0,
+        "sells_plus1": 1
+      },
+      "notes": [
+        "TRACK swap_value=6724",
+        "TRACK swap_weapon=Mace (2d4) (+0,+0)",
+        "TRACK sells=1 item_slot=5 item=Mace (2d4) (+0,+1)",
+        "DECISION sell_slot=5 keeps_fear_weapon=1"
+      ],
+      "value": 0
+    }
+  },
+  "fear-brave": {
+    "label": "Control: the same Maces, Warrior already fearless",
+    "explanation": "The same two Maces, but at level 30 the Warrior class protects from fear by itself, so a swap's fear protection is worth nothing and the bonus correctly does not apply. The +1 Mace is kept in both builds and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/swapfear-202: starting...\nSETUP seed=202 mode=fear-brave class=Warrior clevel=30 maxdepth=50 gold=0 rfear=1\n  fear_protecting_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 1 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 2 tval=25 desc=[Scroll of Word of Recall] to_d=0 value=125\nPACK 3 tval=19 desc=[Wooden Torch (5000 turns)] to_d=0 value=2\nPACK 4 tval=7 desc=[Mace (2d4) (+0,+0)] to_d=0 value=130\nPACK 5 tval=7 desc=[Mace (2d4) (+0,+1)] to_d=1 value=230\nSTATE fear_slot=4 plus1_slot=5 swap_slot=5 rfear=1 swap_rfear=0\nTRACK swap_value=1299\nTRACK swap_weapon=Mace (2d4) (+0,+1)\nTRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)\nDECISION sell_slot=4 keeps_fear_weapon=0\nOUTCOME sells_fear=1 sells_plus1=0\nPassed\nnative-c/swapfear-202 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "fear_slot": 4,
+        "plus1_slot": 5,
+        "swap_slot": 5,
+        "rfear": 1,
+        "swap_rfear": 0
+      },
+      "outcome": {
+        "sells_fear": 1,
+        "sells_plus1": 0
+      },
+      "notes": [
+        "TRACK swap_value=1299",
+        "TRACK swap_weapon=Mace (2d4) (+0,+1)",
+        "TRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)",
+        "DECISION sell_slot=4 keeps_fear_weapon=0"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/swapfear-202: starting...\nSETUP seed=202 mode=fear-brave class=Warrior clevel=30 maxdepth=50 gold=0 rfear=1\n  fear_protecting_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 1 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 2 tval=25 desc=[Scroll of Word of Recall] to_d=0 value=125\nPACK 3 tval=19 desc=[Wooden Torch (5000 turns)] to_d=0 value=2\nPACK 4 tval=7 desc=[Mace (2d4) (+0,+0)] to_d=0 value=130\nPACK 5 tval=7 desc=[Mace (2d4) (+0,+1)] to_d=1 value=230\nSTATE fear_slot=4 plus1_slot=5 swap_slot=5 rfear=1 swap_rfear=0\nTRACK swap_value=1299\nTRACK swap_weapon=Mace (2d4) (+0,+1)\nTRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)\nDECISION sell_slot=4 keeps_fear_weapon=0\nOUTCOME sells_fear=1 sells_plus1=0\nPassed\nnative-c/swapfear-202 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "fear_slot": 4,
+        "plus1_slot": 5,
+        "swap_slot": 5,
+        "rfear": 1,
+        "swap_rfear": 0
+      },
+      "outcome": {
+        "sells_fear": 1,
+        "sells_plus1": 0
+      },
+      "notes": [
+        "TRACK swap_value=1299",
+        "TRACK swap_weapon=Mace (2d4) (+0,+1)",
+        "TRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)",
+        "DECISION sell_slot=4 keeps_fear_weapon=0"
+      ],
+      "value": 1
+    }
+  },
+  "plain-plain": {
+    "label": "Control: two plain Maces",
+    "explanation": "Two plain Maces, one with +1 damage. No fear protection anywhere: the +1 Mace is kept and the other offered in both builds, with byte-identical logs.",
+    "control": true,
+    "before": {
+      "raw": "native-c/swapfear-202: starting...\nSETUP seed=202 mode=plain-plain class=Warrior clevel=29 maxdepth=50 gold=0 rfear=0\n  fear_protecting_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 1 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 2 tval=25 desc=[Scroll of Word of Recall] to_d=0 value=125\nPACK 3 tval=19 desc=[Wooden Torch (5000 turns)] to_d=0 value=2\nPACK 4 tval=7 desc=[Mace (2d4) (+0,+1)] to_d=1 value=230\nPACK 5 tval=7 desc=[Mace (2d4) (+0,+0)] to_d=0 value=130\nSTATE fear_slot=5 plus1_slot=4 swap_slot=4 rfear=0 swap_rfear=0\nTRACK swap_value=1299\nTRACK swap_weapon=Mace (2d4) (+0,+1)\nTRACK sells=1 item_slot=5 item=Mace (2d4) (+0,+0)\nDECISION sell_slot=5 keeps_fear_weapon=0\nOUTCOME sells_fear=1 sells_plus1=0\nPassed\nnative-c/swapfear-202 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "fear_slot": 5,
+        "plus1_slot": 4,
+        "swap_slot": 4,
+        "rfear": 0,
+        "swap_rfear": 0
+      },
+      "outcome": {
+        "sells_fear": 1,
+        "sells_plus1": 0
+      },
+      "notes": [
+        "TRACK swap_value=1299",
+        "TRACK swap_weapon=Mace (2d4) (+0,+1)",
+        "TRACK sells=1 item_slot=5 item=Mace (2d4) (+0,+0)",
+        "DECISION sell_slot=5 keeps_fear_weapon=0"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/swapfear-202: starting...\nSETUP seed=202 mode=plain-plain class=Warrior clevel=29 maxdepth=50 gold=0 rfear=0\n  fear_protecting_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 1 tval=28 desc=[Rations of Food] to_d=0 value=3\nPACK 2 tval=25 desc=[Scroll of Word of Recall] to_d=0 value=125\nPACK 3 tval=19 desc=[Wooden Torch (5000 turns)] to_d=0 value=2\nPACK 4 tval=7 desc=[Mace (2d4) (+0,+1)] to_d=1 value=230\nPACK 5 tval=7 desc=[Mace (2d4) (+0,+0)] to_d=0 value=130\nSTATE fear_slot=5 plus1_slot=4 swap_slot=4 rfear=0 swap_rfear=0\nTRACK swap_value=1299\nTRACK swap_weapon=Mace (2d4) (+0,+1)\nTRACK sells=1 item_slot=5 item=Mace (2d4) (+0,+0)\nDECISION sell_slot=5 keeps_fear_weapon=0\nOUTCOME sells_fear=1 sells_plus1=0\nPassed\nnative-c/swapfear-202 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "fear_slot": 5,
+        "plus1_slot": 4,
+        "swap_slot": 4,
+        "rfear": 0,
+        "swap_rfear": 0
+      },
+      "outcome": {
+        "sells_fear": 1,
+        "sells_plus1": 0
+      },
+      "notes": [
+        "TRACK swap_value=1299",
+        "TRACK swap_weapon=Mace (2d4) (+0,+1)",
+        "TRACK sells=1 item_slot=5 item=Mace (2d4) (+0,+0)",
+        "DECISION sell_slot=5 keeps_fear_weapon=0"
+      ],
+      "value": 1
+    }
+  }
+}
