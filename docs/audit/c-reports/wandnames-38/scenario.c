@@ -210,8 +210,9 @@ static int scenario(void *state)
         require(value[1] > 0);
         require(chosen == BF_WAND_ELEC_BALL);
     } else if (streq(mode, "confuse-only")) {
-        /* A real Confuse Monster wand is usable as one. */
-        require(value[3] > 0);
+        /* A real Confuse Monster wand is evaluated as the confusion attack
+         * (any non-zero score; 0 means no matching wand was found). */
+        require(value[3] != 0);
     } else if (streq(mode, "scare-only")) {
         /* A Scare Monster wand does not confuse. */
         require(value[3] == 0);
