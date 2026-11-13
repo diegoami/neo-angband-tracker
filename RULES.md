@@ -76,10 +76,13 @@
     source tracker blocks v* tag creation/update/deletion by ruleset; do not
     bypass it or import product tags. CI remains active. Mandos intentionally
     retains its own product-release workflows under its separate session.
-15. borg-rs reports directly to diegoami/neo-angband-tracker. Triage and
-    deduplicate those posted reports normally; verify C-versus-Rust attribution
+15. borg-reborn-rs, the current Rust Borg peer, reports directly to
+    diegoami/neo-angband-tracker. borg-rs is the earlier Rust project it
+    succeeds; its reports and CBUG imports are historical. Triage and
+    deduplicate posted reports normally; verify C-versus-Rust attribution
     and evidence before making a source-defect claim. Do not proactively poll
-    or fetch its repository, docs/c-bugs.md or external issue board, or create
+    or fetch either Rust repository, their docs (including borg-rs
+    docs/c-bugs.md) or external issue boards, or create
     another managed reference clone. Existing snapshots/watch implementation
     remain legacy/manual evidence only; they are not a startup/end-of-session
     obligation. Rust source work and managed Rust adoption tasks are out of scope.

@@ -21,7 +21,9 @@ start from, plus our session documentation.
    issues. Other repositories build on this:
    - [better-borg-c](https://github.com/diegoami/better-borg-c): a native C
      Angband/Borg product that carries the fixes verified here;
-   - [borg-rs](https://github.com/diegoami/borg-rs): a Rust port of the C Borg;
+   - [borg-reborn-rs](https://github.com/diegoami/borg-reborn-rs): the current
+     Rust Borg, successor to the earlier Rust port
+     [borg-rs](https://github.com/diegoami/borg-rs);
    - [Mandos](https://github.com/diegoami/mandos): a TypeScript derivative that
      translates applicable C fixes for itself.
 
@@ -41,7 +43,7 @@ comments are submitted from here under the standing owner pause.
 | See quick gains and experiment ideas | [Open enhancement issues](https://github.com/diegoami/neo-angband-tracker/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement) |
 | Check how the specification and the findings were verified | [Source-level check programs](docs/audit/c-reports/spec-checks/README.md), the [re-check record](docs/audit/c-reports/spec-checks/RECHECK.md) and the [findings' provenance](docs/audit/c-reports/spec-checks/PROVENANCE.md) |
 | Reuse one of our C fixes | [Reusing a local C fix](docs/c-fix-handoff.md) and the [proposal patches](patches) |
-| Report a C lead from borg-rs | [borg-rs intake contract](docs/BORG-RS-INTAKE.md) |
+| Report a C lead from the Rust Borg (borg-reborn-rs) | [Rust Borg intake contract](docs/BORG-RS-INTAKE.md) |
 | Start or resume a session | [AGENTS](AGENTS.md), [RULES](RULES.md), [PLAN](PLAN.md), the [session map](docs/SESSION.md) and the checkpoints below |
 | Read the Neo engine's own documentation | [Neo Angband documentation](docs/README.md) and the [upstream README](docs/upstream-reference/README.md) |
 
@@ -100,20 +102,23 @@ stock desktop installation or first-party profile/management access. Consumers
 verify their own named package/plugin/harness profiles; the retained lab is
 not deployed by an engine source merge.
 
-## C fix consumers and borg-rs intake
+## C fix consumers and Rust Borg intake
 
-[borg-rs](https://github.com/diegoami/borg-rs) posts C defect leads directly to
-this repository's issue board. Triage and deduplicate those reports here;
-verify C-versus-Rust attribution and evidence before a native defect claim.
-Do not proactively fetch/poll its repository, docs/c-bugs.md or external
-issue board. Old snapshots, ../borg-rs-reference and tools/borg-rs-watch.mjs
+[borg-reborn-rs](https://github.com/diegoami/borg-reborn-rs), the current Rust
+Borg peer, posts C defect leads directly to this repository's issue board.
+Triage and deduplicate those reports here; verify C-versus-Rust attribution
+and evidence before a native defect claim. Do not proactively fetch/poll its
+repository, docs or external issue board. The earlier
+[borg-rs](https://github.com/diegoami/borg-rs) project's reports and CBUG
+imports are historical; do not poll its repository, docs/c-bugs.md or issue
+board either. Old snapshots, ../borg-rs-reference and tools/borg-rs-watch.mjs
 remain legacy/manual evidence only, with no automatic startup/end sweep.
 No Rust worker, adoption task or new managed clone belongs to this workspace.
 [Intake contract](docs/BORG-RS-INTAKE.md).
 
 This session proposes/proves the native C correction. Mandos decides whether
 it has a TS counterpart, translates it there with scenario controls and
-carries it under a linked consumer issue. Any borg-rs Rust translation/carry
+carries it under a linked consumer issue. Any Rust (borg-reborn-rs) translation/carry
 is independently managed outside this workspace. The Neo Borg mod tracker
 restores C fidelity and is not asked to translate proposed C corrections as a separate repair service.
 

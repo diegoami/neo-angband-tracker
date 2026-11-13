@@ -1,7 +1,10 @@
-# Direct borg-rs report intake
+# Direct Rust Borg report intake
 
-borg-rs is an independent Rust Borg port with no Neo Angband responsibility.
-It posts reports directly to diegoami/neo-angband-tracker. Those posted
+borg-reborn-rs (https://github.com/diegoami/borg-reborn-rs) is the current
+Rust Borg peer, an independent project with no Neo Angband responsibility.
+It succeeds borg-rs, the earlier Rust Borg port: borg-rs reports and CBUG
+imports already on this tracker are historical provenance. borg-reborn-rs
+posts reports directly to diegoami/neo-angband-tracker. Those posted
 reports are this workspace's intake entry point; no Rust worker or Rust
 adoption task is managed here.
 
@@ -10,7 +13,8 @@ adoption task is managed here.
 Read the report on this tracker and deduplicate against canonical source
 issues, existing CBUG IDs and source URLs/anchors. Reuse/comment on the
 canonical issue rather than creating another source defect. Include
-source:borg-rs plus upstream-c/finding and an appropriate evidence/candidate
+source:borg-rs (the existing Rust-source label; its name is unchanged)
+plus upstream-c/finding and an appropriate evidence/candidate
 label where applicable. Record supplied source repository/issue/commit,
 C pin, repro, controls and existing CBUG ID where known; missing evidence
 remains a limitation, not an invitation to restart external polling.
@@ -38,8 +42,9 @@ this documentation update does not change the watcher implementation.
 
 ## Retained historical/manual evidence
 
-Do not proactively poll/fetch the borg-rs repository, docs/c-bugs.md or its
-external issue board. Do not run tools/borg-rs-watch.mjs at startup/end or
+Do not proactively poll/fetch the borg-reborn-rs or borg-rs repository,
+their docs (including borg-rs docs/c-bugs.md) or external issue boards.
+Do not run tools/borg-rs-watch.mjs (a borg-rs-era tool) at startup/end or
 after source changes as a standing routine. Its implementation, tests,
 last-successful baseline, existing read-only reference and historical
 snapshots remain preserved as legacy/manual evidence. They do not define
