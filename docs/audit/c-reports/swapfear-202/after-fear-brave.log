@@ -1,0 +1,16 @@
+native-c/swapfear-202: starting...
+SETUP seed=202 mode=fear-brave class=Warrior clevel=30 maxdepth=50 gold=0 rfear=1
+  fear_protecting_weapon_is_kept_as_swap  PACK 0 tval=28 desc=[Rations of Food] to_d=0 value=3
+PACK 1 tval=28 desc=[Rations of Food] to_d=0 value=3
+PACK 2 tval=25 desc=[Scroll of Word of Recall] to_d=0 value=125
+PACK 3 tval=19 desc=[Wooden Torch (5000 turns)] to_d=0 value=2
+PACK 4 tval=7 desc=[Mace (2d4) (+0,+0)] to_d=0 value=130
+PACK 5 tval=7 desc=[Mace (2d4) (+0,+1)] to_d=1 value=230
+STATE fear_slot=4 plus1_slot=5 swap_slot=5 rfear=1 swap_rfear=0
+TRACK swap_value=1299
+TRACK swap_weapon=Mace (2d4) (+0,+1)
+TRACK sells=1 item_slot=4 item=Mace (2d4) (+0,+0)
+DECISION sell_slot=4 keeps_fear_weapon=0
+OUTCOME sells_fear=1 sells_plus1=0
+Passed
+native-c/swapfear-202 finished: 1/1 passed
