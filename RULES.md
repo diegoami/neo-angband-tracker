@@ -18,7 +18,7 @@
    A faithful copy of a C defect belongs to the engine/C repository; the Neo
    port follows C. Do not use the mod tracker as a C-correction translation
    service. Mandos independently translates applicable C fixes into its own
-   TS derivative; borg-rs independently translates/adopts them in Rust. Neither
+   TS derivative; borg-reborn-rs independently translates/adopts them in Rust. Neither
    translation is a port-fidelity defect. Mark Mandos departures explicitly.
 5. No angband/angband issues, PRs or comments from us under the standing pause.
    Keep C proposals in diegoami repositories with reproducible native legal
@@ -71,11 +71,13 @@
     rework. Backlogged gameplay strategies/learning/unattended stage-resume
     features stay parked unless the owner explicitly changes that scope.
 
-14. Owner intake policy (2026-11-06): borg-rs posts C leads directly as issues
-    on diegoami/neo-angband-tracker. Review and deduplicate those board reports;
-    do not routinely fetch/watch the borg-rs repository, bug file or issue feed.
+14. Owner intake policy (2026-11-06): the Rust Borg posts C leads directly as
+    issues on diegoami/neo-angband-tracker. The current Rust Borg peer is
+    borg-reborn-rs; borg-rs is the earlier project it succeeds, and its reports
+    and CBUG imports are historical. Review and deduplicate those board reports;
+    do not routinely fetch/watch either Rust repository, bug file or issue feed.
     Retain historical source attribution and CBUG IDs. A direct report remains
-    a lead until independently validated against native C. Revisit the Rust
+    a lead until independently validated against native C. Revisit a Rust
     repository only for an explicit owner request or a specific investigation
     that requires its historical evidence.
 

@@ -42,4 +42,5 @@ were already present. On another host install a C compiler, Make and CMake
 first. No privileged system package or owner lab/data change is required.
 
 Native C checkpoint: https://github.com/diegoami/neo-angband-tracker/issues/207.
-borg-rs supplies leads directly on our issue board; see RULES.md for intake.
+borg-reborn-rs, the current Rust Borg peer (successor to the earlier borg-rs),
+supplies leads directly on our issue board; see RULES.md for intake.

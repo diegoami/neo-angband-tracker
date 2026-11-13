@@ -19,8 +19,10 @@ The owner authorizes this dedicated C lane alongside the Neo engine worker;
 older combined-session/no-fourth-session wording above is superseded for this
 purpose. Engine checkpoint #25 retains its independent next actions.
 
-borg-rs now posts C leads directly on this fork's issue board. Do not run
-routine Rust repository/file/issue-feed watches. Preserve attribution and
+borg-reborn-rs, the current Rust Borg peer, posts C leads directly on this
+fork's issue board. It succeeds borg-rs, whose reports and CBUG imports are
+historical. Do not run routine Rust repository/file/issue-feed watches for
+either project. Preserve attribution and
 CBUG IDs; independently validate direct reports before calling them defects.
 The canonical C issue board and historical evidence remain in this repository.
 

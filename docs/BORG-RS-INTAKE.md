@@ -1,15 +1,20 @@
-# Direct borg-rs reports and independent C-fix consumption
+# Direct Rust Borg reports and independent C-fix consumption
 
-Owner policy updated 2026-11-06: borg-rs posts C leads directly as issues on
+The current Rust Borg peer is borg-reborn-rs
+(https://github.com/diegoami/borg-reborn-rs). It succeeds borg-rs, the earlier
+Rust Borg port, whose reports and CBUG imports are historical provenance.
+
+Owner policy updated 2026-11-06: the Rust Borg posts C leads directly as issues on
 **diegoami/neo-angband-tracker**. Review that board as the intake source.
-Do not routinely fetch/watch the Rust repository, docs/c-bugs.md or its issue
-feed, and do not run tools/borg-rs-watch.mjs at session start/end or after
+Do not routinely fetch/watch either Rust repository, borg-rs docs/c-bugs.md or
+their issue feeds, and do not run tools/borg-rs-watch.mjs at session start/end or after
 source changes. The script and prior snapshots remain historical tooling and
-provenance; their presence does not authorize routine monitoring. Consult the
+provenance; their presence does not authorize routine monitoring. Consult a
 Rust repository only for an explicit owner request or historical evidence
 needed by a specific investigation.
 
-Direct reports use source:borg-rs, upstream-c/finding and an appropriate
+Direct reports use source:borg-rs (the existing Rust-source label; its name is
+unchanged), upstream-c/finding and an appropriate
 evidence/candidate label. Preserve supplied source IDs, commits, C pins and
 CBUG IDs. Search existing source issues before creating a finding; reuse the
 canonical issue for a duplicate. Missing provenance should be recorded as a
@@ -23,7 +28,7 @@ and file snapshots remain unchanged and are not a second live queue.
 
 The C source issue links local proposals/native receipts and distinct consumer
 records where useful. Mandos independently translates/adopts applicable C
-corrections to TS; borg-rs independently translates/adopts them to Rust. Neither
+corrections to TS; borg-reborn-rs independently translates/adopts them to Rust. Neither
 is the Neo mod's fidelity task. Consumers do not duplicate source state;
 carried/fixed/patch-active labels belong only on the relevant consumer records.
 

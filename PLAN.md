@@ -3,9 +3,10 @@
 1. Read the current checkpoint and open issues here. Review official C and Neo
    engine boards/source and our linked proposals first. Preserve existing
    linked Mandos consumer receipts; no issue closure by upstream title alone.
-2. Review C leads posted directly to this tracker by borg-rs. Follow
-   docs/BORG-RS-INTAKE.md; deduplicate by source issue/anchor/CBUG ID. Do not
-   routinely fetch/watch the Rust repository, bug file or issue feed. Preserve
+2. Review C leads posted directly to this tracker by borg-reborn-rs, the
+   current Rust Borg peer (borg-rs is its earlier, now historical source).
+   Follow docs/BORG-RS-INTAKE.md; deduplicate by source issue/anchor/CBUG ID. Do not
+   routinely fetch/watch either Rust repository, bug file or issue feed. Preserve
    historical provenance and distinguish reported leads from verified C faults.
 3. Choose the source tree before implementation. Neo tasks use pristine
    upstream/master from neostryder/neo-angband. C tasks use angband/master at
@@ -26,7 +27,7 @@
 7. Keep patch/index/watch receipts current, then link the delivered correction
    to a distinct Mandos adoption/translation task if applicable. Mandos
    translates C corrections into TS only in its derivative, with its own
-   package/plugin/harness/lab scenario proof. borg-rs independently adopts or
+   package/plugin/harness/lab scenario proof. borg-reborn-rs independently adopts or
    translates the C correction in Rust and links its own consumer record. Do not
    mutate or deploy the running lab from this session.
 8. Checkpoint at merge/stop. Keep proposals, source fixes and linked consumer adoption distinct. Gameplay features remain parked.
