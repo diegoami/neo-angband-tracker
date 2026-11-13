@@ -93,3 +93,10 @@
     discussion by link — for upstream conversations, link the upstream issue
     or PR so readers can consult the original wording there. This applies to
     issue bodies, comments, PR descriptions and documentation alike.
+17. File every lead as an issue as soon as it is found (owner instruction,
+    2026-11-13). A suspected defect noticed during any task (a code-reading
+    aside, a triage side note, a review remark or a subagent report) gets its
+    own issue on this tracker at the evidence level actually reached
+    (`evidence:reported-lead` or `evidence:source-checked`), after a duplicate
+    search that includes in-review and closed issues. Do not leave a lead only
+    in a comment, receipt, report or chat message.
