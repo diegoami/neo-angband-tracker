@@ -88,7 +88,8 @@ Original upstream credits, licence and legal policies remain in their files.
 [Engine integration372](https://github.com/diegoami/neo-angband-tracker/issues/372)
 imported upstream `06a2321ce30a414df20d1b20d486446e7688171c`, the source of
 GitHub desktop `v1.23.0-edge.218`; master has since merged upstream
-`765f39976462c2d6e414ba88d44feb15ca28ceb8` (2026-11-09). Registry Core/SDK/content still publish
+`765f39976462c2d6e414ba88d44feb15ca28ceb8` (upstream commit of 2026-11-09,
+merged into master on 2026-11-12). Registry Core/SDK/content still publish
 `next=1.23.0-beta.3` (`latest=1.22.0`); edge.218 is not an npm package release.
 Source package manifests also retain beta.3 versions, so exact source and
 artifact hashes, not their version strings, identify the new compatibility
