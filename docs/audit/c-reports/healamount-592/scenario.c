@@ -131,11 +131,11 @@ int setup_tests(void **state)
     /* Fixture intervention: hit points. The danger D at the Borg's grid is
      * read first; current HP is then set so that D lies 32 above it (inside
      * [HP+25, HP+40): above the original estimate of a Cure Serious Wounds,
-     * below its real 40) or, in the control, 15 above it (below both). Max HP
+     * below its real 40) or, in the control, 50 above it (above both). Max HP
      * is set so 45% of it is lost (the Cure Serious Wounds band). */
     set_hp(player->mhp, player->mhp);
     int d = borg_danger(borg.c.y, borg.c.x, 1, true, false);
-    int gap = streq(mode, "control") ? 15 : 32;
+    int gap = streq(mode, "control") ? 50 : 32;
     int cur = d - gap;
     if (cur < 10) { printf("SETUPFAIL danger too low d=%d\n", d); return 1; }
     set_hp(cur, cur * 100 / 55);
@@ -174,9 +174,14 @@ static int scenario_heal(void *state)
         if (strstr(m, "Healing Level 2")) csw = 1;
     }
     printf("OUTCOME quaffs_csw=%d\n", csw);
-    /* The danger is below current HP plus the 40 a Cure Serious Wounds heals,
-     * so the Borg should drink one (in the control too). */
-    require(csw);
+    if (streq(mode, "control"))
+        /* Danger above current HP plus 40: no Cure Serious Wounds covers it,
+         * in either build. */
+        require(!csw);
+    else
+        /* Danger below current HP plus the 40 a Cure Serious Wounds heals:
+         * the Borg should drink one. */
+        require(csw);
     ok;
 }
 
