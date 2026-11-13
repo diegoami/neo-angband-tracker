@@ -1,0 +1,205 @@
+{
+  "issue": "diegoami/neo-angband-tracker#38 (CBUG-0022)",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "f9f0384a6dec8cc3a1e78d8210df8b004f594e8a",
+  "fixtures_ref": "460eddbd46b166e8e722d13b13811138a94f30c3",
+  "cases": {
+    "before": {
+      "bolts-vs-frost": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "attacked": 1,
+          "elec_bolt": 1,
+          "elec_ball": 1,
+          "cold_bolt": 1,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 0,
+          "chose_elec_ball": 1
+        }
+      },
+      "balls-only": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "attacked": 0,
+          "elec_bolt": 0,
+          "elec_ball": 0,
+          "cold_bolt": 0,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 0,
+          "chose_elec_ball": 0
+        }
+      },
+      "confuse-only": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "attacked": 0,
+          "elec_bolt": 0,
+          "elec_ball": 0,
+          "cold_bolt": 0,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 0,
+          "chose_elec_ball": 0
+        }
+      },
+      "scare-only": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "attacked": 0,
+          "elec_bolt": 0,
+          "elec_ball": 0,
+          "cold_bolt": 0,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 0,
+          "chose_elec_ball": 0
+        }
+      },
+      "frost-only": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "attacked": 1,
+          "elec_bolt": 0,
+          "elec_ball": 0,
+          "cold_bolt": 1,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 1,
+          "chose_elec_ball": 0
+        }
+      }
+    },
+    "after": {
+      "bolts-vs-frost": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "attacked": 1,
+          "elec_bolt": 1,
+          "elec_ball": 0,
+          "cold_bolt": 1,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 1,
+          "chose_elec_ball": 0
+        }
+      },
+      "balls-only": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "attacked": 1,
+          "elec_bolt": 0,
+          "elec_ball": 1,
+          "cold_bolt": 0,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 0,
+          "chose_elec_ball": 1
+        }
+      },
+      "confuse-only": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "attacked": 0,
+          "elec_bolt": 0,
+          "elec_ball": 0,
+          "cold_bolt": 0,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 0,
+          "chose_elec_ball": 0
+        }
+      },
+      "scare-only": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "attacked": 0,
+          "elec_bolt": 0,
+          "elec_ball": 0,
+          "cold_bolt": 0,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 0,
+          "chose_elec_ball": 0
+        }
+      },
+      "frost-only": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "attacked": 1,
+          "elec_bolt": 0,
+          "elec_ball": 0,
+          "cold_bolt": 1,
+          "confuse": 0,
+          "fear": 0,
+          "chose_cold": 1,
+          "chose_elec_ball": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "frost-only"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-item-val.c": "db6e929165674ae98d4b236e3fb7e3cb55017b761f9d871bbfd820c044483f26"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=7 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "7b2983503885ef096f608e1356471bab25c805ecbc799cacf436dab5f7672279",
+    "after-balls-only.log": "0c008e775995b39d8d99eafd42f210797ce0904586263d0ab74e80f6124e59b1",
+    "after-bolts-vs-frost.log": "474bcd606c84e49978f188daa56a3140d375e1ac24ca219a3306d079984b8a89",
+    "after-confuse-only.log": "2cbf161c0252083b6afd7f4e2551d66f7a8c4d3978b152c7256e5fbaab730822",
+    "after-frost-only.log": "577be364eeb9815cfcf47deaf151d0f8b3c95f657f4e209e050bcd269f487816",
+    "after-results.json": "3e329c561f9a47cead7b6cbe86a5ac8430adb8dde80e3bd6eed9cd59c788842d",
+    "after-scare-only.log": "aa718f0bcdb1a0f2939f35a817c8d13de74b395a7263024d574dd9e4b997f89b",
+    "before-balls-only.log": "f2acd94bfbd7f45120298b148ba40ef22a6b3377bd5739292a261d1642dcaa58",
+    "before-bolts-vs-frost.log": "76c475dcfe384d5c9f71ab3f58db85516ebb5b2edaeade11457030d3999c1864",
+    "before-confuse-only.log": "615e82e4ad9e08adfac782fe4165c85af179880b0bab1c3b9e71464ec05a6bc9",
+    "before-frost-only.log": "577be364eeb9815cfcf47deaf151d0f8b3c95f657f4e209e050bcd269f487816",
+    "before-results.json": "4c65195d1e7e379d7587f598a14398940c4b01a84b0ce4227b15603c051165e0",
+    "before-scare-only.log": "6f0e60effc593a296ebd2aec23a79b106530457df0bacb542ba601eb099b53c6",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "024ad3cec7a934093391fd4c7ce6e1e88a1e8757a9af691fa75205e403caab22",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "3a307c369b8aa66a9bd950e0141d49a64a8bf89ff309d0373658d345702eb0fd",
+    "replay.html": "b067d6232223311fcabcec3a8b533f77f92dd28e8a987e2d58607f10e0f5a7b1",
+    "reproduce.py": "915e4552f2e7c9ae6ceb2f51de71db73eb8874a37c76439c7674a23c5f140f8f",
+    "result.json": "fc78a17eb528e238690d9d240f4e098e8d7bfeca2c3b1f5cf32cb2ace10e5cdc",
+    "run-after-alltests.log": "c4045ffb80c193197587ef9496e3e82cda72848bc8741a9714543cbeca7a29fa",
+    "run-after-build.log": "82a5a52972947098d5deefa1d8381e28789646e0b67d4542b0ef342f3abd8e23",
+    "run-after-scenarios.log": "e9ffc11cba07f3100e559e345cfe4c1c42b80664593782e33c9e14fdee374cab",
+    "run-before-alltests.log": "f74516cd59af46358425bf82e341ab3f1e37e236244742bfa55c9f3209b6d6b6",
+    "run-before-build.log": "ddebbc349ccc0bc115a70fbbebeb6388823285e0a5f7d94a967fe71d2ad88d09",
+    "run-before-scenarios.log": "f85e5d9e2952c0e31612440680bda214266028282b561bca6c2a7732783a0694",
+    "run-cases.py": "1d050eed895432d709a356910af8434f5631220c6db92a07f75b395c14b68b3b",
+    "run-configure.log": "873796a69907af89c8d3c295eef5b7bbdb1560960c93ea84b35539ca2588984c",
+    "scenario.c": "6182d591fc8c12d5f3272436c1c8aeb06e6d84e761e750a80f0a3c6e361e5a67"
+  }
+}
