@@ -453,7 +453,7 @@ void borg_init_item_val(void)
     sv_wand_hold_monster    = borg_lookup_sval_fail(tval, "Hold Monster");
     sv_wand_slow_monster    = borg_lookup_sval_fail(tval, "Slow Monster");
     sv_wand_fear_monster    = borg_lookup_sval_fail(tval, "Scare Monster");
-    sv_wand_confuse_monster = borg_lookup_sval_fail(tval, "Scare Monster");
+    sv_wand_confuse_monster = borg_lookup_sval_fail(tval, "Confuse Monster");
     sv_wand_fire_bolt       = borg_lookup_sval_fail(tval, "Fire Bolts");
     sv_wand_cold_bolt       = borg_lookup_sval_fail(tval, "Frost Bolts");
     sv_wand_acid_bolt       = borg_lookup_sval_fail(tval, "Acid Bolts");
@@ -461,7 +461,7 @@ void borg_init_item_val(void)
     sv_wand_fire_ball       = borg_lookup_sval_fail(tval, "Fire Balls");
     sv_wand_cold_ball       = borg_lookup_sval_fail(tval, "Cold Balls");
     sv_wand_acid_ball       = borg_lookup_sval_fail(tval, "Acid Balls");
-    sv_wand_elec_ball       = borg_lookup_sval_fail(tval, "Lightning Bolts");
+    sv_wand_elec_ball       = borg_lookup_sval_fail(tval, "Lightning Balls");
     sv_wand_dragon_cold     = borg_lookup_sval_fail(tval, "Dragon's Frost");
     sv_wand_dragon_fire     = borg_lookup_sval_fail(tval, "Dragon's Flame");
     sv_wand_drain_life      = borg_lookup_sval_fail(tval, "Drain Life");
