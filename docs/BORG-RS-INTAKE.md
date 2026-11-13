@@ -12,8 +12,8 @@ provenance; their presence does not authorize routine monitoring. Consult a
 Rust repository only for an explicit owner request or historical evidence
 needed by a specific investigation.
 
-Direct reports use source:borg-rs (the existing Rust-source label; its name is
-unchanged), upstream-c/finding and an appropriate
+Direct reports use the label of the reporting project, source:borg-rs or
+source:borg-reborn-rs (created on first use), plus upstream-c/finding and an appropriate
 evidence/candidate label. Preserve supplied source IDs, commits, C pins and
 CBUG IDs. Search existing source issues before creating a finding; reuse the
 canonical issue for a duplicate. Missing provenance should be recorded as a

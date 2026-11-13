@@ -221,3 +221,31 @@ assertion):
 
 A triage comment must carry the same standard of evidence as a fix:
 file:line traces and stock-data checks that a maintainer can re-run.
+
+## 8. Failure classes to probe when hunting leads
+
+Use these classes when reading Borg code for new leads or when a run stalls,
+crashes or loops. Each class names a probe that works on the current pin.
+A class is not a defect: file an issue (RULES 19) only when a concrete code
+site at the current pin fails the probe, then follow §1–§7.
+
+**Source.** A 2022 community write-up on r/angband ("I've been trying to use
+the borg and here is what I learned so far"; URL not recorded) described
+running the Borg on Angband 3.4/3.5. It is summarised here, not quoted. The
+4.2 Borg was largely reworked after that, so its observations are classes to
+re-check, not known 4.2 bugs. The status column records what has been checked
+at `42cd156ac`.
+
+| Class (as reported for 3.4/3.5) | How to probe at the current pin | Status at `42cd156ac` |
+| --- | --- | --- |
+| **Prompt and menu drift.** The Borg types keys as a player would. When the game's item prompts change (e.g. it jumps straight to equipment or the quiver when the pack has no valid item), the Borg's keys land in the wrong menu. | For each `borg_keypress` sequence that selects an item, compare the keys sent with the current prompt behaviour (`ui-object.c` item menus, `/` equipment, `\|` quiver). Build a fixture where the pack has no valid item and see what the queued keys select. | Enchanting handles `/` and `\|` explicitly (`borg-item-enchant.c:80-104`). Other item prompts not yet checked. |
+| **Items mistaken for rechargeable ones.** A light that never recharges was treated as an activation on cooldown, so the Borg waited in town for days before leaving the level. | `borg_wear_recharge()` and any "wait for recharge" path: list which items with a non-zero `timeout` can never reach zero, and check that they are skipped. | Addressed. Torches and Lanterns are skipped by kind (`borg-item-wear.c:1484-1487`); *(Everburning)* is a Lantern ego with `NO_FUEL`. |
+| **Spell list drift.** Spells moved within class books, so the Borg cast the wrong slot and the game rejected it. | `borg-magic.c` maps spells by name (`:748` compares `cspell->name`); check what happens on a mismatch and that every `borg_spell_ratings` name exists in `class.txt` for its class. | Name check present. The mismatch behaviour and per-class coverage are not yet checked. |
+| **Quiver items in item actions.** Enchant, identify and brand steps got stuck on quiver ammunition. | For each action that can target ammunition, build a fixture with the target in the quiver and check the queued keys and the game's response. | Enchanting iterates `QUIVER_START..QUIVER_END` with quiver keys. Identify and brand not yet checked. |
+| **Pointer misuse and crashes.** | Run the ASAN variant (§3.4) over existing fixtures and long seeded runs; record the stack and the first Borg frame. | Method in place (§3.4); no sweep recorded. |
+| **Respawn.** Respawning crashed, and a rebuilt respawn left the pack four slots smaller than the game's, so the Borg starved trying to pick items up. | Reincarnation path (`borg-reincarnate.c`): after a native respawn, compare the Borg's pack size and quiver accounting with the game's (`z_info->pack_size`, `player->upkeep->quiver_cnt`). | Race and class keys fixed in #52 (pair #579/#578). Pack accounting after respawn not yet checked. |
+| **Actions assumed to succeed.** The Borg acts and assumes success without reading the game's response, which leads to loops and a model that disagrees with the game. | For each action, check whether the Borg confirms the result (message parse, item count, timer) before updating its model. Loops show up as repeated identical notes. | Known instances: #113 (bless/resist ignore the cast result) and #110/#516 (regeneration cast during scoring). |
+| **Long stalls.** Progress slowed sharply at about character level 20, with long town stays. | In seeded runs, log game turns spent in town per visit and flag outliers; trace the reason the Borg gives for staying (`borg_note` lines). | Method only. |
+
+Ideas in the write-up about a different architecture (a client/server Borg
+that sends semantic commands instead of keys) are out of scope (RULES 13).

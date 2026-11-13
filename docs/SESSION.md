@@ -113,6 +113,10 @@ or promote deferred source100 from a source-reading lead into a verified bug.
 
 ## Reporting the next native C bug
 
+To find the next lead, use the failure classes and probes in
+[C-FIX-POSTING.md §8](C-FIX-POSTING.md#8-failure-classes-to-probe-when-hunting-leads),
+and file each concrete site as an issue at once (RULES 19).
+
 Follow RULES17 before posting. A maintainer new to this work must first learn
 what situation the Borg encounters, what it does wrong, what consequence was
 measured and what changes after the fix. Use CBUG-0066 (PR226/issue82) as the
