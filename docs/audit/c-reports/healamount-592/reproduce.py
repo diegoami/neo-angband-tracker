@@ -132,7 +132,7 @@ add_compile_definitions(PRIVATE_USER_PATH="{root / 'test-user'}")
                "fixed_source_sha256": {p: hashlib.sha256((source / p).read_bytes()).hexdigest() for p in fixed}}
     (root / "result.json").write_text(json.dumps(summary, indent=2) + "\n")
     subprocess.run([sys.executable, str(evidence / "make_replay.py"), str(evidence)], check=True)
-    print('VERIFIED: with the danger between current HP plus 25 and plus 40, the corrected Borg drinks Cure Serious Wounds (it heals 40); the control below both estimates is byte-identical.', flush=True)
+    print('VERIFIED: with the danger between current HP plus 25 and plus 40, the corrected Borg drinks Cure Serious Wounds (it heals 40); the control above both estimates is byte-identical (neither build drinks).', flush=True)
     print(f"Logs and result.json: {root}", flush=True)
 
 
