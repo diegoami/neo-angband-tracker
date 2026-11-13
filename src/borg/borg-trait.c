@@ -824,6 +824,7 @@ const char *prefix_pref[] = {
     "resist nether",
     "resist chaos",
     "resist dis",
+    "prot stun",
     "hold life",
     "free action",
     "resist fire with swap", /* same as without S but includes swap */
@@ -1370,6 +1371,8 @@ static void borg_notice_equipment(void)
         borg.trait[BI_RBLIND] = true;
     if (rf_has(f, OF_PROT_CONF))
         borg.trait[BI_RCONF] = true;
+    if (rf_has(f, OF_PROT_STUN))
+        borg.trait[BI_PSTUN] = true;
 
     /* Sustain flags */
     if (rf_has(f, OF_SUST_STR))
@@ -1638,6 +1641,8 @@ static void borg_notice_equipment(void)
             borg.trait[BI_RCONF] = true;
         if (of_has(item->flags, OF_PROT_BLIND))
             borg.trait[BI_RBLIND] = true;
+        if (of_has(item->flags, OF_PROT_STUN))
+            borg.trait[BI_PSTUN] = true;
 
         /* Immunity flags */
         /* if you are immune you automatically resist */
