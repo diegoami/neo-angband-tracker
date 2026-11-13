@@ -1,14 +1,14 @@
 # Engine/C session plan
 
 1. Read the lane checkpoint (Neo engine #25; native C #207, session:c) and
-   open issues here. Review official C and Neo engine boards/source and our linked proposals first. Preserve existing
-   linked Mandos consumer receipts; no issue closure by upstream title alone.
-2. Triage reports posted directly to this tracker by borg-reborn-rs, the
-   current Rust Borg peer (borg-rs is its earlier, now historical source). Follow
+   open issues here. Review official C and Neo engine boards/source and our
+   linked proposals first. No issue closure by upstream title alone.
+2. Triage reports posted directly to this tracker by the two Rust Borg
+   peers, borg-rs and borg-reborn-rs. Follow
    docs/BORG-RS-INTAKE.md; deduplicate against canonical issues, source URLs
    and CBUG IDs. Separate reported C leads from verified native faults,
    Rust-only issues and progress notes. Do not proactively fetch/poll the
-   borg-reborn-rs or borg-rs repository, their docs (including borg-rs
+   borg-rs or borg-reborn-rs repository, their docs (including borg-rs
    docs/c-bugs.md) or external issue boards. Retained
    snapshots/watch tooling are legacy/manual evidence, not a live intake queue.
    No Rust worker/adoption task or new managed clone is created here. Keep
@@ -30,11 +30,8 @@
    no official C submissions. Neo engine offers go to the Neo engine repo
    after duplicate/provenance checks. Do not offer a C behavioral departure
    to the Neo Borg port as parity. Route port omissions to the mod fork.
-7. Keep patch/index/watch receipts current, then link the delivered correction
-   to a distinct Mandos adoption/translation task if applicable. Mandos
-   translates C corrections into TS only in its derivative, with its own
-   package/plugin/harness/lab scenario proof. Any Rust (borg-reborn-rs) translation/adoption
-   is external; do not dispatch or manage Rust work from this plan. Do not
+7. Keep patch/index/watch receipts current. Any Rust (borg-rs or
+   borg-reborn-rs) translation/adoption is external; do not dispatch or manage Rust work from this plan. Do not
    mutate or deploy the running lab from this session.
 8. Checkpoint at merge/stop. Keep proposals, source fixes and linked consumer adoption distinct. Gameplay features remain parked.
 

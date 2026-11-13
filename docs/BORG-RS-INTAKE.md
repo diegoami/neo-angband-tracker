@@ -1,10 +1,9 @@
 # Direct Rust Borg report intake
 
-borg-reborn-rs (https://github.com/diegoami/borg-reborn-rs) is the current
-Rust Borg peer, an independent project with no Neo Angband responsibility.
-It succeeds borg-rs, the earlier Rust Borg port: borg-rs reports and CBUG
-imports already on this tracker are historical provenance. borg-reborn-rs
-posts reports directly to diegoami/neo-angband-tracker. Those posted
+borg-rs (https://github.com/diegoami/borg-rs) and borg-reborn-rs
+(https://github.com/diegoami/borg-reborn-rs) are the two Rust Borg peers,
+independent projects with no Neo Angband responsibility. Both post reports
+directly to diegoami/neo-angband-tracker. Those posted
 reports are this workspace's intake entry point; no Rust worker or Rust
 adoption task is managed here.
 
@@ -42,9 +41,9 @@ this documentation update does not change the watcher implementation.
 
 ## Retained historical/manual evidence
 
-Do not proactively poll/fetch the borg-reborn-rs or borg-rs repository,
+Do not proactively poll/fetch the borg-rs or borg-reborn-rs repository,
 their docs (including borg-rs docs/c-bugs.md) or external issue boards.
-Do not run tools/borg-rs-watch.mjs (a borg-rs-era tool) at startup/end or
+Do not run tools/borg-rs-watch.mjs at startup/end or
 after source changes as a standing routine. Its implementation, tests,
 last-successful baseline, existing read-only reference and historical
 snapshots remain preserved as legacy/manual evidence. They do not define
@@ -54,11 +53,10 @@ this document does not authorize background monitoring or Rust adoption.
 
 ## Source and consumer boundaries
 
-The canonical C source issue links proposals/native receipts and applicable
-Mandos TS translation/adoption records. Independently supplied external
-Rust receipts may be linked as evidence; this workspace neither dispatches
-nor manages their work. Consumers do not duplicate source state. Only Mandos
-issues have its carried/fixed/patch-active tags. Port-fidelity work remains
+The canonical C source issue links proposals/native receipts. Independently
+supplied external Rust receipts may be linked as evidence; this workspace
+neither dispatches nor manages their work. Consumers do not duplicate source
+state. Port-fidelity work remains
 in neo-angband-borg-mod-tracker, not a C-correction translator. The standing
 pause on angband/angband submissions and prohibition on Rust source changes
 remain in force.

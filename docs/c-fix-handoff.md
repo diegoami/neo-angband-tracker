@@ -51,11 +51,11 @@ gh pr create --repo angband/angband --base master \
   --body-file proposal.md
 ```
 
-`proposal.md` should identify the observed effect, original commit/local proposal, source/testing pins and actual tests you ran. Preserve credit to the original author and discovery source. Link `diegoami/neo-angband-tracker#13` (formerly Mandos94) as a reference; use `Fixes` only for the actual issue you intend to close in the correct repository. There is no automatic PR transfer between repositories.
+`proposal.md` should identify the observed effect, original commit/local proposal, source/testing pins and actual tests you ran. Preserve credit to the original author and discovery source. Link `diegoami/neo-angband-tracker#13` as a reference; use `Fixes` only for the actual issue you intend to close in the correct repository. There is no automatic PR transfer between repositories.
 
 ## Patch/report-only proposals
 
-Some older proposals, such as [Mandos #88](https://github.com/diegoami/mandos/pull/88), contain a nested `patches/upstream-c/*.patch` and a report. For those, extract the actual C patch, inspect it, use `git apply --check` and then `git apply`, and create your own attributed commit. Cherry-picking the wrapper commit would add the report/patch file instead of applying its C hunks. That lighting proposal still lacks demonstrated practical impact.
+Some older proposals contain a nested `patches/upstream-c/*.patch` and a report. For those, extract the actual C patch, inspect it, use `git apply --check` and then `git apply`, and create your own attributed commit. Cherry-picking the wrapper commit would add the report/patch file instead of applying its C hunks.
 
 ## Make the upstream result discoverable
 

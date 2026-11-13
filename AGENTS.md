@@ -21,18 +21,18 @@ node tools/check-session.mjs
 node tools/c-upstream-watch.mjs
 ```
 
-[borg-reborn-rs](https://github.com/diegoami/borg-reborn-rs), the current Rust
-Borg peer, reports directly to this repository. Triage those posted reports under
-[the intake contract](docs/BORG-RS-INTAKE.md); do not proactively fetch/poll
-its source, docs or external issue board. borg-rs is the earlier Rust project
-it succeeds: its reports and CBUG imports are historical. Do not poll borg-rs
-source, docs/c-bugs.md or its issue board either; its old watch tool and
+[borg-rs](https://github.com/diegoami/borg-rs) and
+[borg-reborn-rs](https://github.com/diegoami/borg-reborn-rs), the two Rust
+Borg peers, both report C leads directly to this repository. Triage those
+posted reports under [the intake contract](docs/BORG-RS-INTAKE.md); do not
+proactively fetch/poll either project's source, docs (including borg-rs
+docs/c-bugs.md) or external issue board. The old borg-rs watch tool and
 snapshots are legacy/manual evidence, not startup work. Keep Rust
 provenance in Source/discovery fields rather than watched Threads references;
 no routine Rust polling includes indirect monitor follows. No Rust worker,
 adoption task or new reference clone is managed here.
 
-Use this repository's issue board, not Mandos's former upstream queue.
+Use this repository's issue board.
 Preserve transferred history and link component/integration work across repos.
 The default branch contains our session docs; upstream source references and
 fix branches remain separate. Follow the source-base rules in PLAN before

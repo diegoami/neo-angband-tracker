@@ -18,7 +18,7 @@ body:
     id: consumer
     attributes:
       label: Linked downstream integration
-      description: "Consumer carried/fixed state belongs in a linked Mandos issue."
+      description: "Consumer carried/fixed state belongs in the linked consumer issue."
   - type: textarea
     id: threads
     attributes:

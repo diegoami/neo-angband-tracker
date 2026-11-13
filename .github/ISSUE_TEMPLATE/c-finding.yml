@@ -1,5 +1,5 @@
 name: Original Angband C finding
-description: C Borg or C game lead, including Rust Borg (borg-reborn-rs) reports
+description: C Borg or C game lead, including Rust Borg (borg-rs, borg-reborn-rs) reports
 labels: [upstream-c, finding, candidate, "evidence:reported-lead"]
 body:
   - type: markdown
@@ -9,7 +9,7 @@ body:
     id: source
     attributes:
       label: Original source and stable ID
-      description: "borg-reborn-rs (or historical borg-rs) issue/file+commit, existing CBUG ID, or independent discovery. Check existing findings first."
+      description: "borg-rs or borg-reborn-rs issue/file+commit, existing CBUG ID, or independent discovery. Check existing findings first."
     validations:
       required: true
   - type: dropdown
@@ -36,7 +36,7 @@ body:
     id: consumers
     attributes:
       label: Related proposals or independent consumers
-      description: "Link Mandos TS translation/adoption or borg-reborn-rs Rust translation where applicable. The fidelity-only port does not translate proposed C corrections."
+      description: "Link borg-rs or borg-reborn-rs Rust translation where applicable. The fidelity-only port does not translate proposed C corrections."
   - type: textarea
     id: threads
     attributes:

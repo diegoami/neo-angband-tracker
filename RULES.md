@@ -14,14 +14,13 @@
    work as a distinct integration/adoption task; do not copy live defect state.
    Preserve transferred issue history and old redirects; qualify cross-repo
    references as owner/repo#number or full URLs, never bare numbers.
-4. Name the origin: C Borg, C game, Neo engine, Neo port or Mandos-only.
+4. Name the origin: C Borg, C game, Neo engine or Neo port.
    Compare pinned current C and imported4.2.6 when attributing port behavior.
    A faithful copy of a C defect belongs to the engine/C repository; the Neo
    port follows C. Do not use the mod tracker as a C-correction translation
-   service. Mandos independently translates applicable C fixes into its own
-   TS derivative. Any Rust translation/adoption remains external to this
+   service. Any Rust translation/adoption remains external to this
    workspace; we manage no Rust worker or adoption task. A consumer
-   translation is not a port-fidelity defect. Mark Mandos departures explicitly.
+   translation is not a port-fidelity defect.
 5. No angband/angband issues, PRs or comments from us under the standing pause.
    Keep C proposals in diegoami repositories with reproducible native legal
    scenarios, controls, human consequence and patch links. Confirmed Neo
@@ -51,16 +50,13 @@
    package release; a real recurrence found after adoption gets a NEW linked
    bug. Closed cases need no permanent merged label.
    Do not put carried/fixed/partial/not-carried or patch-active consumer tags
-   on source issues. Link a distinct Mandos adoption issue where applicable.
-   On Mandos adoption issues, carried means fixed on our side but still open
-   until the correction is fixed upstream AND adopted downstream with our
-   changes, rebuilt and verified. Then fixed/closed; partial scope stays open.
+   on source issues.
    patch-active belongs only on consumer backport maintenance, independently
    of closure. Proposals or stored patches alone are not applied corrections.
 10. Preserve owner saves, browser profiles, install data and the running lab.
     A source merge is not a deployment. Read-only references stay pristine;
     work in task worktrees. Run records/evidence already committed are append-only.
-11. Coordinate heavy local checks across all three sessions with the shared
+11. Coordinate heavy local checks across all sessions with the shared
     lock: flock /tmp/angband-validation.lock <command>. Log long runs, watch
     progress and keep one heavy local gate at a time. Do not launch background
     agents without owner direction. Reviews inspect; they do not mutate code.
@@ -74,11 +70,9 @@
     workflow and trigger. Inherited product jobs are FORK-guarded to their
     original repository; run node tools/check-fork-workflows.mjs. The owned
     source tracker blocks v* tag creation/update/deletion by ruleset; do not
-    bypass it or import product tags. CI remains active. Mandos intentionally
-    retains its own product-release workflows under its separate session.
-15. borg-reborn-rs, the current Rust Borg peer, reports directly to
-    diegoami/neo-angband-tracker. borg-rs is the earlier Rust project it
-    succeeds; its reports and CBUG imports are historical. Triage and
+    bypass it or import product tags. CI remains active.
+15. borg-rs and borg-reborn-rs, the two Rust Borg peers, both report directly
+    to diegoami/neo-angband-tracker. Triage and
     deduplicate posted reports normally; verify C-versus-Rust attribution
     and evidence before making a source-defect claim. Do not proactively poll
     or fetch either Rust repository, their docs (including borg-rs
