@@ -40,12 +40,16 @@ From a clone of `diegoami/neo-angband-tracker`, copy these three commands:
 
 ```sh
 git fetch https://github.com/diegoami/neo-angband-tracker.git task/slay-239-evidence
-git show 8bb78983a83384993eaaa7d3c2da09be43c65fd4:docs/audit/c-reports/slay-239/reproduce.py > /tmp/reproduce-slay-239.py
-python3 /tmp/reproduce-slay-239.py --fixtures-ref 8bb78983a83384993eaaa7d3c2da09be43c65fd4 --full-tests
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/c-borg-slay-traits-max
+git show 7e8af1f97572f6dd11467ab1bb18ef12391be062:docs/audit/c-reports/slay-239/reproduce.py > /tmp/reproduce-slay-239.py
+python3 /tmp/reproduce-slay-239.py --fixtures-ref 7e8af1f97572f6dd11467ab1bb18ef12391be062 --full-tests
 ```
 
+These commands pin the current correction `720ab3c4f` (the `MAX()` form
+accepted in upstream review; see the 2026-11-13 section at the end).
+
 The runner builds original and corrected variants from pristine C
-`e473720`, verifies the source diff is exactly the accumulating slays
+`e473720`, verifies the source diff is exactly the `MAX()` slays
 plus the kill-trait derivation, runs two recorded situations per
 variant, checks the fail-before and pass-after matrix and the
 byte-identical control, records both full gates and writes an offline
@@ -75,7 +79,7 @@ no relevant skips, checked from actual run summaries.
 ### Source explanation
 
 Original C: `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`. Correction:
-`9ab78ae605ca4463268a669121d69b216285c2f1`. One block in
+`720ab3c4f796c79d6108dd9d27a37fa573ca5917` (earlier form `9ab78ae60`, see below). One block in
 `src/borg/borg-trait.c`. Inside the equipment loop of
 `borg_notice_equipment()`, the eight slay traits were plain
 assignments (`borg.trait[BI_WS_ANIMAL] = item->slays[RF_ANIMAL];`), so
@@ -83,7 +87,9 @@ each later slot overwrote whatever an earlier slot provided — and
 since the weapon slot comes before the light and boots, which have no
 slays, the result was always zero. The brand traits directly below
 already used the accumulate-safe form (`if (item->brands[...]) trait
-= true`). The correction accumulates the slays with `|=` and derives
+= true`). The correction keeps the largest multiplier across slots
+with `MAX()` (first proposed as `|=`; the review preferred `MAX()`
+because `item->slays` holds the multiplier) and derives
 the kill traits (whose slay-table entries share the race flags but
 carry the largest multiplier) for the multiplier ladder in
 `borg_thrust_damage_one()` (×2 animal/evil, ×3 other slays and brands,
@@ -91,9 +97,9 @@ carry the largest multiplier) for the multiplier ladder in
 set.
 
 ```sh
-git fetch --no-tags origin task/c-borg-slay-traits
+git fetch --no-tags origin task/c-borg-slay-traits-max
 git show e473720ed88a0f0c7ca66815cef3000eb4a38bc3:src/borg/borg-trait.c | sed -n '1440,1470p'
-git diff e473720ed88a0f0c7ca66815cef3000eb4a38bc3 9ab78ae605ca4463268a669121d69b216285c2f1 -- src/borg/borg-trait.c
+git diff e473720ed88a0f0c7ca66815cef3000eb4a38bc3 720ab3c4f796c79d6108dd9d27a37fa573ca5917 -- src/borg/borg-trait.c
 ```
 
 ### Conditions and limits
@@ -209,4 +215,46 @@ logs and `receipt.json` remain the original two-situation run.
 git fetch https://github.com/diegoami/neo-angband-tracker.git task/slay-239-evidence
 git show cafe3462c68445753b6eec99542a7788b7d9afec:docs/audit/c-reports/slay-239/reproduce.py > /tmp/reproduce-slay-239.py
 python3 /tmp/reproduce-slay-239.py --full-tests --fixtures-ref cafe3462c68445753b6eec99542a7788b7d9afec
+```
+
+## Review shape: `MAX()` (2026-11-13, fix `720ab3c4f`, fixtures `7e8af1f97`)
+
+Upstream review of [angband/angband#6817](https://github.com/angband/angband/pull/6817)
+suggested combining each slot's slay with `MAX()` rather than `|=`, as the
+combat code does for multipliers from different items. `item->slays` holds
+the multiplier (2, 3 or 5), so `|=` could merge two different multipliers
+for one race into a value that is neither (3 | 5 = 7); `MAX()` keeps the
+real one. Every current reader of `BI_WS_*` only tests for non-zero, so
+behaviour does not change. The kill-trait derivation reads each item's own
+multiplier and is unaffected.
+
+New correction commit `720ab3c4f796c79d6108dd9d27a37fa573ca5917` sits on top of `9ab78ae60` (no rebase,
+same base `e473720ed`); `git diff e473720ed 720ab3c4f796c79d6108dd9d27a37fa573ca5917` is still the single
+file `src/borg/borg-trait.c`. Fixtures commit
+`7e8af1f97572f6dd11467ab1bb18ef12391be062` changes only the runner's pinned fix and
+expected source text and the replay narration (it now names the `MAX()`
+shape); `scenario.c`, `run-cases.py` and `borg.txt` are unchanged.
+
+| Case | Original (before) | Corrected (after) |
+| --- | --- | --- |
+| `animal` | `ws_animal=0`, `auto=17`; 0/1 | `ws_animal=2`, `auto=20`; 1/1 |
+| `kill-undead` | `ws_undead=0 wk_undead=0`, `auto=11`; 0/1 | `ws_undead=5 wk_undead=1`, `auto=36`; 1/1 |
+| `nonanimal` (control) | `auto=19`; 1/1 | byte-identical log |
+
+Every case log, per-phase result and scenario log is byte-identical to the
+`|=` run in `reverify-2026-11-08-kill-undead/`; in the regenerated replay
+data only the two explanation strings differ. Gates per phase: 965/965
+unit checks and 5/5 frontend tests. Corrected source sha256
+`5bd3aa8a0c8711d0c021c3e1fccfeae982545da9da398b0af2935ec84a9f1cfc`.
+Replay render check (headless Chromium, every option and button):
+`actions=4 errors=0`, page names `MAX()`. Run output, replay and receipt
+(pins, cases, gates, toolchain, sha256 of every file):
+[`reverify-2026-11-13-max/`](reverify-2026-11-13-max/).
+**This pin supersedes `cafe3462c`** as the package's repeat pin.
+
+```sh
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/slay-239-evidence
+git fetch https://github.com/diegoami/neo-angband-tracker.git task/c-borg-slay-traits-max
+git show 7e8af1f97572f6dd11467ab1bb18ef12391be062:docs/audit/c-reports/slay-239/reproduce.py > /tmp/reproduce-slay-239.py
+python3 /tmp/reproduce-slay-239.py --full-tests --fixtures-ref 7e8af1f97572f6dd11467ab1bb18ef12391be062
 ```

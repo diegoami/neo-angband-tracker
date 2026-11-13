@@ -1,0 +1,120 @@
+{
+  "purpose": "Re-pin to the review-accepted MAX() correction 720ab3c4f (angband/angband#6817 review asked for MAX() instead of |=). New fixtures 7e8af1f97 change only the runner's pinned fix text and the replay narration; scenario.c, run-cases.py and borg.txt are unchanged.",
+  "date": "2026-11-13",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "720ab3c4f796c79d6108dd9d27a37fa573ca5917",
+  "fixtures_ref": "7e8af1f97572f6dd11467ab1bb18ef12391be062",
+  "superseded_fix": "9ab78ae605ca4463268a669121d69b216285c2f1",
+  "superseded_fixtures_ref": "cafe3462c68445753b6eec99542a7788b7d9afec",
+  "cases": {
+    "before": {
+      "animal": {
+        "exit": 0,
+        "passed": false,
+        "trait": "ws_animal=0",
+        "rating": "auto=17 without=17 with=20",
+        "outcome": "auto=17 without=17 with=20"
+      },
+      "nonanimal": {
+        "exit": 0,
+        "passed": true,
+        "rating": "auto=19 without=19 with=19",
+        "outcome": "auto=19 without=19 with=19"
+      },
+      "kill-undead": {
+        "exit": 0,
+        "passed": false,
+        "trait": "ws_undead=0 wk_undead=0 rf_undead=1",
+        "rating": "auto=11 slay_only=24 kill=36",
+        "outcome": "auto=11 slay_only=24 kill=36 wk_undead=0"
+      }
+    },
+    "after": {
+      "animal": {
+        "exit": 0,
+        "passed": true,
+        "trait": "ws_animal=2",
+        "rating": "auto=20 without=17 with=20",
+        "outcome": "auto=20 without=17 with=20"
+      },
+      "nonanimal": {
+        "exit": 0,
+        "passed": true,
+        "rating": "auto=19 without=19 with=19",
+        "outcome": "auto=19 without=19 with=19"
+      },
+      "kill-undead": {
+        "exit": 0,
+        "passed": true,
+        "trait": "ws_undead=5 wk_undead=1 rf_undead=1",
+        "rating": "auto=36 slay_only=24 kill=36",
+        "outcome": "auto=36 slay_only=24 kill=36 wk_undead=1"
+      }
+    }
+  },
+  "identical_full_logs": [
+    "nonanimal"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "gate_lines_from_alltests_logs": {
+    "before": [
+      "Total: 965/965 passed (100.0%)",
+      "Total: 5/5"
+    ],
+    "after": [
+      "Total: 965/965 passed (100.0%)",
+      "Total: 5/5"
+    ]
+  },
+  "fixed_source_sha256": "5bd3aa8a0c8711d0c021c3e1fccfeae982545da9da398b0af2935ec84a9f1cfc",
+  "files_byte_identical_to_previous_run": [
+    "after-animal.log",
+    "after-kill-undead.log",
+    "after-nonanimal.log",
+    "after-results.json",
+    "after-scenarios.log",
+    "before-animal.log",
+    "before-kill-undead.log",
+    "before-nonanimal.log",
+    "before-results.json",
+    "before-scenarios.log"
+  ],
+  "previous_run": "reverify-2026-11-08-kill-undead",
+  "replay_data_vs_previous_run": "only the animal and kill-undead explanation strings differ (they name the MAX() shape); all recorded data identical",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=4 errors=0 mentionsMAX=true OK"
+  },
+  "sha256": {
+    "after-alltests.log": "e0656518e7edfe014ec2c6bd773ac398bcbe6b81a54f0bce733b5c0a47acddf4",
+    "after-animal.log": "1f3119a22c7905694bae7159861cd646a676366dcb28273255beffeabfcd2019",
+    "after-build.log": "52dceb0465863fd8d45459f98b798824365fc3d44afd6cc5d88aa22b9c9947a3",
+    "after-kill-undead.log": "2649dd6405b5092ce837a15d61f8aa3846b99dc092af73845359b07ae89f4b0e",
+    "after-nonanimal.log": "3d336fd890527a42c795f8f39ad82b24a4a9126900e45f854f7887fc634a4c8a",
+    "after-results.json": "5896f24aef55f950d18e58b98e5e911ec2664e4c18b69747c25b4fa86fdec27f",
+    "after-scenarios.log": "92738d17784dc4af9435df49d2a607362d80e2cbf07539b20c9b490d45312860",
+    "before-alltests.log": "c9a74dca9204b5e58646b98a6cbf2521bd952bfb0c9ca9605e2ec42664a2756b",
+    "before-animal.log": "30fab686920641e5235cabd3f4ed7a6c9a29c701a35073c44812c2f6717d25d8",
+    "before-build.log": "b0b6573474ad94c3736cd698db8668df5d8341980fbc47583f94a7484843dced",
+    "before-kill-undead.log": "4dc81c432259eceffe83c8256779276e0872fbede78660b67de8219ecc27c117",
+    "before-nonanimal.log": "3d336fd890527a42c795f8f39ad82b24a4a9126900e45f854f7887fc634a4c8a",
+    "before-results.json": "e6682558fcf9743cb644d709be75d39ed41d848d7d29885c6eca4993e11b0602",
+    "before-scenarios.log": "df1cdf43d44c735100aa41d352ab59a34c9f213c2001c541fd5432856122a181",
+    "configure.log": "58f39d84e1d38feff550fefc5e6f837615b7692b2469e61c80407285781a1395",
+    "replay-data.json": "3fa59ae196cb19d3ba8e05d9cbe9af9299374f297cae9b469de4ea0d5191c676",
+    "replay.html": "a9e6460032d7271f3edef9a429eb9d894f1622a3db75164bf696a214c6990340",
+    "result.json": "73f3c646fc7c465076550998ec4e8bbfb7ee1635cb7f14f725cb52ff5c370744",
+    "runner-stdout.txt": "5175ccddf6ef3934fe50861cfa6f6dae6aa7f0df33495f4d5681f8c5f382f69f"
+  }
+}

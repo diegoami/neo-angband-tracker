@@ -1,0 +1,13 @@
+Native evidence directory: /tmp/angband-slay-239-af4a5d26
+Preparing worktree (detached HEAD e473720ed)
+HEAD is now at e473720ed Term_clear() and loop over height calling Term_erase() are not synonyms
+configure: shared validation lock; log /tmp/angband-slay-239-af4a5d26/configure.log
+before-build: shared validation lock; log /tmp/angband-slay-239-af4a5d26/before-build.log
+before-scenarios: shared validation lock; log /tmp/angband-slay-239-af4a5d26/before-scenarios.log
+before-alltests: shared validation lock; log /tmp/angband-slay-239-af4a5d26/before-alltests.log
+after-build: shared validation lock; log /tmp/angband-slay-239-af4a5d26/after-build.log
+after-scenarios: shared validation lock; log /tmp/angband-slay-239-af4a5d26/after-scenarios.log
+after-alltests: shared validation lock; log /tmp/angband-slay-239-af4a5d26/after-alltests.log
+Open in your browser: /tmp/angband-slay-239-af4a5d26/evidence/replay.html
+VERIFIED (fix 720ab3c4f, MAX() form): the original rates the Slay Animal weapon at 17 against an animal (the no-slay reading), the correction at 20; control identical; kill-undead trait 0 before, 1 after.
+Logs and result.json: /tmp/angband-slay-239-af4a5d26
