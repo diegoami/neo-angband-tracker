@@ -66,7 +66,8 @@ sudo apt-get install -y git python3 cmake build-essential util-linux libx11-dev
 Do not use pnpm, the Neo build, a workstation save, or the running lab for this
 C task. The fixture constructs its own character, inventory, monsters and arena.
 
-To repeat the accepted CBUG-0066 evidence at its immutable publication pin:
+To repeat the accepted CBUG-0066 evidence at its immutable publication pin
+(run under a UTF-8 locale, e.g. `export LANG=C.UTF-8`; the frontend tests need it):
 
 ```sh
 git fetch --no-tags origin task/cbug-0066-evidence
@@ -107,10 +108,9 @@ The source proposal is on `task/c-borg-safer-swap`, evidence on
 `task/cbug-0066-evidence`, and shared verification policy on
 `task/human-verifiable-bug-evidence`. Fetch a named branch before inspecting it
 in a single-branch clone. Keep pristine `c-borg-reference` and published history;
-never merge C source into Neo master. Upstream review is at
-[angband/angband6809](https://github.com/angband/angband/pull/6809).
-Agent posting there remains paused. Check live status rather than assuming
-acceptance. Shared policy/evidence review and source adoption are distinct;
+never merge C source into Neo master. Upstream merged the correction through
+[angband/angband6809](https://github.com/angband/angband/pull/6809); it is in
+the current C pin `42cd156ac`. Agent posting there remains paused. Shared policy/evidence review and source adoption are distinct;
 checkpoint207 records outstanding decisions. Do not restart knockout experiments
 or promote deferred source100 from a source-reading lead into a verified bug.
 

@@ -91,6 +91,7 @@ Captured artifacts from the verified run, **committed to the evidence branch**
 3. **Full native gates on both variants** (`--full-tests`): currently
    965/965 unit checks and 5/5 frontend tests, checked from actual run
    summaries (the native unit runner can exit zero after failed assertions).
+   Run the gates under a UTF-8 locale (e.g. `LANG=C.UTF-8`); the frontend tests need it.
 4. **Memory-safety defects: asan variant**. gcc's AddressSanitizer reports
    `heap-buffer-overflow` for both directions (clang says `underflow`) —
    detect the `WRITE|READ of size` line, the function and the allocation

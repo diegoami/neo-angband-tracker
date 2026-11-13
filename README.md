@@ -36,6 +36,7 @@ This project defines alltests/allunittests custom targets (not a CTest suite).
 These are the original C CMake options, not Rust harness flags or Neo package
 commands. Add the issue's legal game scenario and before/after controls to the
 unit/build checks. Coordinate builds with the shared validation lock.
+Run the tests under a UTF-8 locale (e.g. `export LANG=C.UTF-8`); the frontend tests need it.
 
 Local bootstrap installed CMake3.31.10 as a user tool via uv; GCC/Make/pkg-config
 were already present. On another host install a C compiler, Make and CMake
