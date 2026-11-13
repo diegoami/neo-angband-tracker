@@ -1,0 +1,150 @@
+{
+  "rsound": {
+    "label": "Sound resistance, no stun protection",
+    "explanation": "The armour gives sound resistance only. Gravity breath stuns regardless. Original: the stun penalty is skipped (0) because the Borg resists sound. Corrected: the penalty applies.",
+    "control": false,
+    "before": {
+      "raw": "native-c/stunprot-589: starting...\nSETUP seed=589 mode=rsound class=Warrior clevel=35 hp=402 stun=10\n  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402\nOUTCOME danger=156 calm=156 stun_penalty=0\nFailed\n    native-c/stunprot-589:161: requirement 'penalty > 0' failed\nnative-c/stunprot-589 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "rsound": 1,
+        "isstun": 1,
+        "avoidance": 402
+      },
+      "outcome": {
+        "danger": 156,
+        "calm": 156,
+        "stun_penalty": 0
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/stunprot-589: starting...\nSETUP seed=589 mode=rsound class=Warrior clevel=35 hp=402 stun=10\n  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402\nOUTCOME danger=656 calm=156 stun_penalty=500\nPassed\nnative-c/stunprot-589 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "rsound": 1,
+        "isstun": 1,
+        "avoidance": 402
+      },
+      "outcome": {
+        "danger": 656,
+        "calm": 156,
+        "stun_penalty": 500
+      },
+      "notes": [],
+      "value": 500
+    }
+  },
+  "pstun": {
+    "label": "Stun protection, no sound resistance",
+    "explanation": "The armour gives protection from stun only, so gravity cannot stun. Original: the penalty applies, because the Borg does not know about stun protection. Corrected: no penalty.",
+    "control": false,
+    "before": {
+      "raw": "native-c/stunprot-589: starting...\nSETUP seed=589 mode=pstun class=Warrior clevel=35 hp=402 stun=10\n  stun_danger_follows_stun_protection  STATE rsound=0 isstun=1 avoidance=402\nOUTCOME danger=656 calm=156 stun_penalty=500\nFailed\n    native-c/stunprot-589:158: requirement 'penalty == 0' failed\nnative-c/stunprot-589 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "rsound": 0,
+        "isstun": 1,
+        "avoidance": 402
+      },
+      "outcome": {
+        "danger": 656,
+        "calm": 156,
+        "stun_penalty": 500
+      },
+      "notes": [],
+      "value": 500
+    },
+    "after": {
+      "raw": "native-c/stunprot-589: starting...\nSETUP seed=589 mode=pstun class=Warrior clevel=35 hp=402 stun=10\n  stun_danger_follows_stun_protection  STATE rsound=0 isstun=1 avoidance=402\nOUTCOME danger=156 calm=156 stun_penalty=0\nPassed\nnative-c/stunprot-589 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "rsound": 0,
+        "isstun": 1,
+        "avoidance": 402
+      },
+      "outcome": {
+        "danger": 156,
+        "calm": 156,
+        "stun_penalty": 0
+      },
+      "notes": [],
+      "value": 0
+    }
+  },
+  "both": {
+    "label": "Sound resistance and stun protection",
+    "explanation": "Both: no penalty in either build (for different reasons).",
+    "control": false,
+    "before": {
+      "raw": "native-c/stunprot-589: starting...\nSETUP seed=589 mode=both class=Warrior clevel=35 hp=402 stun=10\n  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402\nOUTCOME danger=156 calm=156 stun_penalty=0\nPassed\nnative-c/stunprot-589 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "rsound": 1,
+        "isstun": 1,
+        "avoidance": 402
+      },
+      "outcome": {
+        "danger": 156,
+        "calm": 156,
+        "stun_penalty": 0
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/stunprot-589: starting...\nSETUP seed=589 mode=both class=Warrior clevel=35 hp=402 stun=10\n  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402\nOUTCOME danger=156 calm=156 stun_penalty=0\nPassed\nnative-c/stunprot-589 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "rsound": 1,
+        "isstun": 1,
+        "avoidance": 402
+      },
+      "outcome": {
+        "danger": 156,
+        "calm": 156,
+        "stun_penalty": 0
+      },
+      "notes": [],
+      "value": 0
+    }
+  },
+  "rsound-unstunned": {
+    "label": "Control: not stunned",
+    "explanation": "Sound resistance, not stunned: the stun penalty never applies, and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/stunprot-589: starting...\nSETUP seed=589 mode=rsound-unstunned class=Warrior clevel=35 hp=402 stun=0\n  stun_danger_follows_stun_protection  STATE rsound=1 isstun=0 avoidance=402\nOUTCOME danger=156 calm=156 stun_penalty=0\nPassed\nnative-c/stunprot-589 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "rsound": 1,
+        "isstun": 0,
+        "avoidance": 402
+      },
+      "outcome": {
+        "danger": 156,
+        "calm": 156,
+        "stun_penalty": 0
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/stunprot-589: starting...\nSETUP seed=589 mode=rsound-unstunned class=Warrior clevel=35 hp=402 stun=0\n  stun_danger_follows_stun_protection  STATE rsound=1 isstun=0 avoidance=402\nOUTCOME danger=156 calm=156 stun_penalty=0\nPassed\nnative-c/stunprot-589 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "rsound": 1,
+        "isstun": 0,
+        "avoidance": 402
+      },
+      "outcome": {
+        "danger": 156,
+        "calm": 156,
+        "stun_penalty": 0
+      },
+      "notes": [],
+      "value": 0
+    }
+  }
+}

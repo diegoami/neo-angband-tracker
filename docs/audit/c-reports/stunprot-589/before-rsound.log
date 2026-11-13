@@ -1,0 +1,7 @@
+native-c/stunprot-589: starting...
+SETUP seed=589 mode=rsound class=Warrior clevel=35 hp=402 stun=10
+  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402
+OUTCOME danger=156 calm=156 stun_penalty=0
+Failed
+    native-c/stunprot-589:161: requirement 'penalty > 0' failed
+native-c/stunprot-589 finished: 0/1 passed

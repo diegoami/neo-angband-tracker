@@ -1,0 +1,141 @@
+{
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "3088b91d965ca483917377e4e1553329b7e292e8",
+  "fixtures_ref": "ba9ebcb174a61055436b9ae2e0a60adccd733c17",
+  "cases": {
+    "before": {
+      "rsound": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "rsound": 1,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      },
+      "pstun": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "rsound": 0,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 656,
+          "calm": 156,
+          "stun_penalty": 500
+        }
+      },
+      "both": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      },
+      "rsound-unstunned": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 0,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      }
+    },
+    "after": {
+      "rsound": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 656,
+          "calm": 156,
+          "stun_penalty": 500
+        }
+      },
+      "pstun": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 0,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      },
+      "both": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      },
+      "rsound-unstunned": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 0,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "rsound-unstunned"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "ffe1632ec2bcb2bae0def7ecf4c53a91f494399d5ed0ed564d79e6c518be9f2a",
+    "src/borg/borg-trait.c": "df524094379371eb8131a2b518542d1f8addcd3b4b0f894094f2544882e9ff71",
+    "src/borg/borg-trait.h": "87cd8a4779f42afd58c011426bea47ea6b074407233172db1d55e51f6dd756b1"
+  }
+}
