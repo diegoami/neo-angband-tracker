@@ -12,8 +12,8 @@ adoption task is managed here.
 Read the report on this tracker and deduplicate against canonical source
 issues, existing CBUG IDs and source URLs/anchors. Reuse/comment on the
 canonical issue rather than creating another source defect. Include
-source:borg-rs (the existing Rust-source label; its name is unchanged)
-plus upstream-c/finding and an appropriate evidence/candidate
+the reporting project's label, source:borg-rs or source:borg-reborn-rs
+(created on first use), plus upstream-c/finding and an appropriate evidence/candidate
 label where applicable. Record supplied source repository/issue/commit,
 C pin, repro, controls and existing CBUG ID where known; missing evidence
 remains a limitation, not an invitation to restart external polling.
