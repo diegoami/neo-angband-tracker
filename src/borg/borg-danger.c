@@ -787,7 +787,7 @@ static int borg_danger_spell(
                 z = 500;
             if (borg.trait[BI_RSND])
                 z = (z * 5) / 9;
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_RSND] || borg.trait[BI_PSTUN])
                 break;
             /* if already stunned be REALLY nervous about this */
             if (borg.trait[BI_ISSTUN])
@@ -872,7 +872,7 @@ static int borg_danger_spell(
             /* do not count. */
             /* Add fear for the effect */
             p += 100;
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_PSTUN])
                 break;
             /* if already stunned be REALLY nervous about this */
             if (borg.trait[BI_ISSTUN])
@@ -901,7 +901,7 @@ static int borg_danger_spell(
             /* max damage */
             if (z > 150)
                 z = 150;
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_PSTUN])
                 break;
             /* Pump this up if you have goi so that the borg is sure */
             /* to be made nervous */
@@ -918,7 +918,7 @@ static int borg_danger_spell(
             /* max damage */
             if (z > 200)
                 z = 200;
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_PSTUN])
                 break;
             /* if already stunned be REALLY nervous about this */
             if (borg.trait[BI_ISSTUN])
@@ -1044,7 +1044,7 @@ static int borg_danger_spell(
 
         case RSF_BA_WATE:
             z = (r_ptr->spell_power * 5) / 2 + 50;
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_PSTUN])
                 break;
             /* if already stunned be REALLY nervous about this */
             if (borg.trait[BI_ISSTUN])
@@ -1107,7 +1107,7 @@ static int borg_danger_spell(
 
         case RSF_STORM:
             z = 70 + (r_ptr->spell_power * 5);
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_PSTUN])
                 break;
             /* if already stunned be REALLY nervous about this */
             if (borg.trait[BI_ISSTUN])
@@ -1233,7 +1233,7 @@ static int borg_danger_spell(
         case RSF_BO_WATE:
             z    = (10 * 10) + (r_ptr->spell_power);
             bolt = true;
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_PSTUN])
                 break;
             /* if already stunned be REALLY nervous about this */
             if (borg.trait[BI_ISSTUN])
@@ -1260,7 +1260,7 @@ static int borg_danger_spell(
         case RSF_BO_PLAS:
             z    = (10 + (8 * 7) + (r_ptr->spell_power));
             bolt = true;
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_PSTUN])
                 break;
             /* if already stunned be REALLY nervous about this */
             if (borg.trait[BI_ISSTUN])
@@ -1276,7 +1276,7 @@ static int borg_danger_spell(
             /* do not count. */
             /* Add fear for the effect */
             p += 20;
-            if (borg.trait[BI_RSND])
+            if (borg.trait[BI_PSTUN])
                 break;
             /* if already stunned be REALLY nervous about this */
             if (borg.trait[BI_ISSTUN])

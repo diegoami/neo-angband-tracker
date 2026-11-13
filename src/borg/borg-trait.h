@@ -145,6 +145,7 @@ enum {
     BI_RNTHR,
     BI_RKAOS,
     BI_RDIS,
+    BI_PSTUN,
     BI_HLIFE,
     BI_FRACT,
     BI_SRFIRE,
