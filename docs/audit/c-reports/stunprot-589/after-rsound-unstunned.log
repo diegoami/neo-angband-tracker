@@ -1,0 +1,6 @@
+native-c/stunprot-589: starting...
+SETUP seed=589 mode=rsound-unstunned class=Warrior clevel=35 hp=402 stun=0
+  stun_danger_follows_stun_protection  STATE rsound=1 isstun=0 avoidance=402
+OUTCOME danger=156 calm=156 stun_penalty=0
+Passed
+native-c/stunprot-589 finished: 1/1 passed

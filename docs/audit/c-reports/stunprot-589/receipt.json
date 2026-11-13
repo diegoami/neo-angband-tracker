@@ -1,0 +1,178 @@
+{
+  "issue": "diegoami/neo-angband-tracker#589",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "3088b91d965ca483917377e4e1553329b7e292e8",
+  "fixtures_ref": "ba9ebcb174a61055436b9ae2e0a60adccd733c17",
+  "cases": {
+    "before": {
+      "rsound": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "rsound": 1,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      },
+      "pstun": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "rsound": 0,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 656,
+          "calm": 156,
+          "stun_penalty": 500
+        }
+      },
+      "both": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      },
+      "rsound-unstunned": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 0,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      }
+    },
+    "after": {
+      "rsound": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 656,
+          "calm": 156,
+          "stun_penalty": 500
+        }
+      },
+      "pstun": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 0,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      },
+      "both": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 1,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      },
+      "rsound-unstunned": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "rsound": 1,
+          "isstun": 0,
+          "avoidance": 402
+        },
+        "outcome": {
+          "danger": 156,
+          "calm": 156,
+          "stun_penalty": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "rsound-unstunned"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "ffe1632ec2bcb2bae0def7ecf4c53a91f494399d5ed0ed564d79e6c518be9f2a",
+    "src/borg/borg-trait.c": "df524094379371eb8131a2b518542d1f8addcd3b4b0f894094f2544882e9ff71",
+    "src/borg/borg-trait.h": "87cd8a4779f42afd58c011426bea47ea6b074407233172db1d55e51f6dd756b1"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=6 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "38cf9ecb66ab63d304efc6fa24802aecc943ec328e1721473a622b817eb3c7ab",
+    "after-both.log": "dd476c530d2af7b07b862ef322f039e49dddd95d173ce25053e0c014f1c84465",
+    "after-pstun.log": "ee358351d9ca56420ebad98ca22bc0df595c4837c67069cee8c162b5d06d816e",
+    "after-results.json": "facf77e4df907ece4e65fa06903b41fcf54e28283b2f6561cdd9ee0b266232e9",
+    "after-rsound-unstunned.log": "736d1eb8c6a030c2d9aa27794408e08167c1e7e00db8bc2886855b8ef0a11e91",
+    "after-rsound.log": "1782378b8e5c829d97ce11f88c36ad444dbd91a6ae8c05e366d706eb96d62d8e",
+    "before-both.log": "dd476c530d2af7b07b862ef322f039e49dddd95d173ce25053e0c014f1c84465",
+    "before-pstun.log": "12f2fb7a10c7537366a0b1bcbc56951b148f3220c44dbd6369be7b4e5efe23c8",
+    "before-results.json": "a6b6aa415e6f28362ad32efe1842e86e023cf0b546eeadd50f4093e80da86c79",
+    "before-rsound-unstunned.log": "736d1eb8c6a030c2d9aa27794408e08167c1e7e00db8bc2886855b8ef0a11e91",
+    "before-rsound.log": "8f0dc5045b56ba83fdc2481d4f00ebeca41dafc266c6cba820f6ed7c361e3354",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "fix.patch": "fa8e7616c21ea31469bd385edfe94d1d7eef3bc971259ad7d53d849cfd5831ab",
+    "make_replay.py": "87519be511bde8749cdbe0988cef4cbef287b9bd1513bfcd355bba39bce41217",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "9ef71ab2de715c97ac6e57a144fad12ccf696c7030b3ea8cc0122bf2f749191c",
+    "replay.html": "43969e05d4b3eb6bfea24601c3069aa8c3f30cbedcdc0fe66e8ca1b197d2737d",
+    "reproduce.py": "737a96afc74dd7f70b0b58fb7cfb45f7671dc728d0163ac3596fcc7e259ce9d3",
+    "result.json": "a24d2059b9bbe54560f5903d0a33c2f0e796d9eef89c62df18fea3218350d967",
+    "run-after-alltests.log": "2fe0d15a75dfdaa26077afc0e85de18f1f051771f421ded6d42e9aa2eb8c3859",
+    "run-after-build.log": "f9bfdcbef60b201fd7703d19e66b7298fce01a731abb93ae8d314714af8359c9",
+    "run-after-scenarios.log": "a43b34d3091ca923fca6744e86fa6c23f52a72dfefe24e817b575e26adcea826",
+    "run-before-alltests.log": "7100b7a95477a7f10a9a6fa0b23fb0bb84b709e260ceed69d6f6b674f072d5ad",
+    "run-before-build.log": "4f2ae73855c168b6f8c575edb04286e491c8c7972b5332b24c453820c89b1c10",
+    "run-before-scenarios.log": "b57631b7c7e3cfbe0e7ffaefd0c76ee6b30b0c18ea56f22dc1ac2b5ad10b1668",
+    "run-cases.py": "6a91b9392a92a6c47de5b185a4a4daf083e3471779d7bba94e244abe6be1249b",
+    "run-configure.log": "4a3cbe349fb77301041620e4e47d0b74350ace8e006085e333ec82605d905b3e",
+    "scenario.c": "4e71e4dbbdcbd1f3d3d489858d4b4e756564704e2172c4f68c9454b415111e8f"
+  }
+}
