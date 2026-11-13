@@ -1,0 +1,10 @@
+native-c/healamount-592: starting...
+SETUP seed=592 mode=window class=Warrior clevel=10 hp=57/103 danger=89 cut=5
+  cure_serious_heal_is_valued_at_40  STATE danger=89 curhp=57 maxhp=103 pct_down=44 cut=1
+DECISION rc=1 key=113
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:57/103 SP:0/0 Danger:p=89
+TRACK # Quaffing Potions of Cure Serious Wounds.
+TRACK # Healing Level 2.
+OUTCOME quaffs_csw=1
+Passed
+native-c/healamount-592 finished: 1/1 passed
