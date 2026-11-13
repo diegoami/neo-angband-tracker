@@ -1,0 +1,56 @@
+{
+  "animal": {
+    "label": "A Slay Animal weapon against an animal",
+    "explanation": "A level thirty-one warrior wields a Broad Sword carrying the animals slay, with a lit torch in the later light slot, and faces an adjacent white harpy. The original assigns the slay traits per equipment slot instead of accumulating them, so the weaponless light slot erases the weapon slays: the Borg values the thrust as if the weapon slew nothing. The correction keeps the largest slay multiplier across slots with MAX(), the form accepted in upstream review, and the weapon counts.",
+    "before": {
+      "raw": "native-c/slay-239: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior level=31 depth=5 weapon=Broad Sword (2d5) (+0,+0) light_tval=19\n  slay_weapon_counts  MODE animal\nGEOMETRY player=(11,11) animal=(12,11) rf_animal=1 temp_n=0\nTRAIT ws_animal=0\nRATING auto=17 without=17 with=20\nOUTCOME auto=17 without=17 with=20\nFailed\n    native-c/slay-239:251: requirement 'auto_value > without_slay' failed\nnative-c/slay-239 finished: 0/1 passed\n",
+      "passed": false,
+      "trait": "ws_animal=0",
+      "rating": "auto=17 without=17 with=20",
+      "outcome": "auto=17 without=17 with=20"
+    },
+    "after": {
+      "raw": "native-c/slay-239: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior level=31 depth=5 weapon=Broad Sword (2d5) (+0,+0) light_tval=19\n  slay_weapon_counts  MODE animal\nGEOMETRY player=(11,11) animal=(12,11) rf_animal=1 temp_n=0\nTRAIT ws_animal=2\nRATING auto=20 without=17 with=20\nOUTCOME auto=20 without=17 with=20\nPassed\nnative-c/slay-239 finished: 1/1 passed\n",
+      "passed": true,
+      "trait": "ws_animal=2",
+      "rating": "auto=20 without=17 with=20",
+      "outcome": "auto=20 without=17 with=20"
+    }
+  },
+  "kill-undead": {
+    "label": "A *Slay Undead* weapon against a zombified orc (kill trait)",
+    "explanation": "The same warrior wields a Broad Sword carrying the race-destroying undead slay (multiplier five) and faces an adjacent zombified orc. The original never sets the kill traits from equipment and also loses the plain slay to the later light slot, so the thrust is valued as if the weapon slew nothing. The correction keeps the slay (MAX() across slots) and sets the kill trait, so the five-times value applies.",
+    "before": {
+      "raw": "native-c/slay-239: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior level=31 depth=5 weapon=Broad Sword (2d5) (+0,+0) light_tval=19\n  slay_weapon_counts  MODE kill-undead\nGEOMETRY player=(11,11) animal=(12,11) rf_animal=0 temp_n=0\nTRAIT ws_undead=0 wk_undead=0 rf_undead=1\nRATING auto=11 slay_only=24 kill=36\nOUTCOME auto=11 slay_only=24 kill=36 wk_undead=0\nFailed\n    native-c/slay-239:225: requirement 'wk' failed\nnative-c/slay-239 finished: 0/1 passed\n",
+      "passed": false,
+      "trait": "ws_undead=0 wk_undead=0 rf_undead=1",
+      "rating": "auto=11 slay_only=24 kill=36",
+      "outcome": "auto=11 slay_only=24 kill=36 wk_undead=0"
+    },
+    "after": {
+      "raw": "native-c/slay-239: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior level=31 depth=5 weapon=Broad Sword (2d5) (+0,+0) light_tval=19\n  slay_weapon_counts  MODE kill-undead\nGEOMETRY player=(11,11) animal=(12,11) rf_animal=0 temp_n=0\nTRAIT ws_undead=5 wk_undead=1 rf_undead=1\nRATING auto=36 slay_only=24 kill=36\nOUTCOME auto=36 slay_only=24 kill=36 wk_undead=1\nPassed\nnative-c/slay-239 finished: 1/1 passed\n",
+      "passed": true,
+      "trait": "ws_undead=5 wk_undead=1 rf_undead=1",
+      "rating": "auto=36 slay_only=24 kill=36",
+      "outcome": "auto=36 slay_only=24 kill=36 wk_undead=1"
+    }
+  },
+  "nonanimal": {
+    "label": "Control: the same weapon against a small kobold",
+    "explanation": "The same warrior and weapon face a small kobold, which carries no animal flag. The slay cannot apply, all three readings coincide, and the complete log is byte-identical before and after the correction: the fix changes only the animal case.",
+    "before": {
+      "raw": "native-c/slay-239: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior level=31 depth=5 weapon=Broad Sword (2d5) (+0,+0) light_tval=19\n  slay_weapon_counts  MODE nonanimal\nGEOMETRY player=(11,11) animal=(12,11) rf_animal=0 temp_n=0\nRATING auto=19 without=19 with=19\nOUTCOME auto=19 without=19 with=19\nPassed\nnative-c/slay-239 finished: 1/1 passed\n",
+      "passed": true,
+      "trait": null,
+      "rating": "auto=19 without=19 with=19",
+      "outcome": "auto=19 without=19 with=19"
+    },
+    "after": {
+      "raw": "native-c/slay-239: starting...\nSETUPSTEP profile\nSETUP seed=1000 class=Warrior level=31 depth=5 weapon=Broad Sword (2d5) (+0,+0) light_tval=19\n  slay_weapon_counts  MODE nonanimal\nGEOMETRY player=(11,11) animal=(12,11) rf_animal=0 temp_n=0\nRATING auto=19 without=19 with=19\nOUTCOME auto=19 without=19 with=19\nPassed\nnative-c/slay-239 finished: 1/1 passed\n",
+      "passed": true,
+      "trait": null,
+      "rating": "auto=19 without=19 with=19",
+      "outcome": "auto=19 without=19 with=19"
+    }
+  }
+}
