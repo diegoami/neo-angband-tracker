@@ -14,7 +14,7 @@ Review the diff and choose **Create pull request** if your account has the requi
 - [Reported or unproven candidates](https://github.com/diegoami/neo-angband-tracker/issues?q=is%3Aissue+label%3Aupstream-c+label%3Afinding+label%3Acandidate)
 - [Native C-game reproductions](https://github.com/diegoami/neo-angband-tracker/issues?q=is%3Aissue+label%3Aupstream-c+label%3Afinding+label%3Aevidence%3Ac-game-reproduced)
 
-Reported candidates are not silently promoted to verified defects. Source issue open/closed state concerns the source correction; downstream carried/fixed state belongs only in linked Mandos adoption issues.
+Reported candidates are not silently promoted to verified defects. Source issue open/closed state concerns the source correction; downstream carried/fixed state belongs only in linked consumer adoption issues.
 
 ## Scope and supporting records
 

@@ -88,7 +88,7 @@ const rendered = [
   "- [Open C findings](" + issueBoard + "+is%3Aopen)",
   "- [Reported or unproven candidates](" + issueBoard + "+label%3Acandidate)",
   "- [Native C-game reproductions](" + issueBoard + "+label%3Aevidence%3Ac-game-reproduced)", "",
-  "Reported candidates are not silently promoted to verified defects. Source issue open/closed state concerns the source correction; downstream carried/fixed state belongs only in linked Mandos adoption issues.", "",
+  "Reported candidates are not silently promoted to verified defects. Source issue open/closed state concerns the source correction; downstream carried/fixed state belongs only in linked consumer adoption issues.", "",
   "## Scope and supporting records", "",
   "This tracker covers original Angband, especially its C Borg, alongside Neo Angband engine repairs. Neo Borg port defects belong in [our mod tracker](https://github.com/diegoami/neo-angband-borg-mod-tracker/issues).", "",
   "[Per-finding import/provenance records](c-bugs/findings), [source snapshot](audit/c-reports/borg-rs-c-bugs.md), native scenario reports and [proposal patches](../patches) preserve evidence. They are historical import/audit material, not a second editable issue-state ledger.", "",
