@@ -5,8 +5,7 @@
   "scope": "C Borg, Angband game and Neo Angband engine fixes",
   "issue_repositories": [
     "diegoami/neo-angband-tracker",
-    "diegoami/neo-angband-borg-mod-tracker",
-    "diegoami/mandos"
+    "diegoami/neo-angband-borg-mod-tracker"
   ],
   "catalogue_repository": "diegoami/neo-angband-tracker",
   "upstreams": {

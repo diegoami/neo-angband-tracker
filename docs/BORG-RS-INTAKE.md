@@ -1,10 +1,9 @@
 # Direct Rust Borg reports and independent C-fix consumption
 
-The current Rust Borg peer is borg-reborn-rs
-(https://github.com/diegoami/borg-reborn-rs). It succeeds borg-rs, the earlier
-Rust Borg port, whose reports and CBUG imports are historical provenance.
+borg-rs (https://github.com/diegoami/borg-rs) and borg-reborn-rs
+(https://github.com/diegoami/borg-reborn-rs) are the two Rust Borg peers.
 
-Owner policy updated 2026-11-06: the Rust Borg posts C leads directly as issues on
+Owner policy updated 2026-11-06: the Rust Borg peers post C leads directly as issues on
 **diegoami/neo-angband-tracker**. Review that board as the intake source.
 Do not routinely fetch/watch either Rust repository, borg-rs docs/c-bugs.md or
 their issue feeds, and do not run tools/borg-rs-watch.mjs at session start/end or after
@@ -27,9 +26,8 @@ official Angband posting is authorized by intake. Historical import records
 and file snapshots remain unchanged and are not a second live queue.
 
 The C source issue links local proposals/native receipts and distinct consumer
-records where useful. Mandos independently translates/adopts applicable C
-corrections to TS; borg-reborn-rs independently translates/adopts them to Rust. Neither
-is the Neo mod's fidelity task. Consumers do not duplicate source state;
+records where useful. borg-rs and borg-reborn-rs independently translate/adopt
+C corrections to Rust; that is not the Neo mod's fidelity task. Consumers do not duplicate source state;
 carried/fixed/patch-active labels belong only on the relevant consumer records.
 
 Native C checkpoint: https://github.com/diegoami/neo-angband-tracker/issues/207.

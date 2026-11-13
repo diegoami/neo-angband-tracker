@@ -1,11 +1,10 @@
 # Engine/C session plan
 
 1. Read the current checkpoint and open issues here. Review official C and Neo
-   engine boards/source and our linked proposals first. Preserve existing
-   linked Mandos consumer receipts; no issue closure by upstream title alone.
-2. Review C leads posted directly to this tracker by borg-reborn-rs, the
-   current Rust Borg peer (borg-rs is its earlier, now historical source).
-   Follow docs/BORG-RS-INTAKE.md; deduplicate by source issue/anchor/CBUG ID. Do not
+   engine boards/source and our linked proposals first. No issue closure by
+   upstream title alone.
+2. Review C leads posted directly to this tracker by the two Rust Borg
+   peers, borg-rs and borg-reborn-rs. Follow docs/BORG-RS-INTAKE.md; deduplicate by source issue/anchor/CBUG ID. Do not
    routinely fetch/watch either Rust repository, bug file or issue feed. Preserve
    historical provenance and distinguish reported leads from verified C faults.
 3. Choose the source tree before implementation. Neo tasks use pristine
@@ -24,11 +23,8 @@
    no official C submissions. Neo engine offers go to the Neo engine repo
    after duplicate/provenance checks. Do not offer a C behavioral departure
    to the Neo Borg port as parity. Route port omissions to the mod fork.
-7. Keep patch/index/watch receipts current, then link the delivered correction
-   to a distinct Mandos adoption/translation task if applicable. Mandos
-   translates C corrections into TS only in its derivative, with its own
-   package/plugin/harness/lab scenario proof. borg-reborn-rs independently adopts or
-   translates the C correction in Rust and links its own consumer record. Do not
+7. Keep patch/index/watch receipts current. The Rust peers (borg-rs,
+   borg-reborn-rs) independently adopt or translate the C correction in Rust and links its own consumer record. Do not
    mutate or deploy the running lab from this session.
 8. Checkpoint at merge/stop. Keep proposals, source fixes and linked consumer adoption distinct. Gameplay features remain parked.
 
