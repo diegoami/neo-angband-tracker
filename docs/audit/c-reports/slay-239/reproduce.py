@@ -11,7 +11,7 @@ import sys
 import tempfile
 
 BASE = "e473720ed88a0f0c7ca66815cef3000eb4a38bc3"
-FIX = "9ab78ae605ca4463268a669121d69b216285c2f1"
+FIX = "720ab3c4f796c79d6108dd9d27a37fa573ca5917"
 DIRECTORY = "docs/audit/c-reports/slay-239/"
 SOURCE = "src/borg/borg-trait.c"
 PHASES = ("before", "after")
@@ -44,17 +44,26 @@ def main():
         borg.trait[BI_WS_TROLL]  = item->slays[RF_TROLL];
         borg.trait[BI_WS_GIANT]  = item->slays[RF_GIANT];
         borg.trait[BI_WS_DRAGON] = item->slays[RF_DRAGON];"""
-    replacement = """        /* various slays: accumulate across slots.  Assigning them per
-         * slot made the last occupied slot (usually the light or boots,
-         * with no slays) erase the wielded weapon's slays. */
-        borg.trait[BI_WS_ANIMAL] |= item->slays[RF_ANIMAL];
-        borg.trait[BI_WS_EVIL]   |= item->slays[RF_EVIL];
-        borg.trait[BI_WS_UNDEAD] |= item->slays[RF_UNDEAD];
-        borg.trait[BI_WS_DEMON]  |= item->slays[RF_DEMON];
-        borg.trait[BI_WS_ORC]    |= item->slays[RF_ORC];
-        borg.trait[BI_WS_TROLL]  |= item->slays[RF_TROLL];
-        borg.trait[BI_WS_GIANT]  |= item->slays[RF_GIANT];
-        borg.trait[BI_WS_DRAGON] |= item->slays[RF_DRAGON];
+    replacement = """        /* various slays: keep the largest multiplier across slots, as
+         * the combat code does.  Assigning them per slot made the last
+         * occupied slot (usually the light or boots, with no slays)
+         * erase the wielded weapon's slays. */
+        borg.trait[BI_WS_ANIMAL] = MAX(borg.trait[BI_WS_ANIMAL],
+            item->slays[RF_ANIMAL]);
+        borg.trait[BI_WS_EVIL]   = MAX(borg.trait[BI_WS_EVIL],
+            item->slays[RF_EVIL]);
+        borg.trait[BI_WS_UNDEAD] = MAX(borg.trait[BI_WS_UNDEAD],
+            item->slays[RF_UNDEAD]);
+        borg.trait[BI_WS_DEMON]  = MAX(borg.trait[BI_WS_DEMON],
+            item->slays[RF_DEMON]);
+        borg.trait[BI_WS_ORC]    = MAX(borg.trait[BI_WS_ORC],
+            item->slays[RF_ORC]);
+        borg.trait[BI_WS_TROLL]  = MAX(borg.trait[BI_WS_TROLL],
+            item->slays[RF_TROLL]);
+        borg.trait[BI_WS_GIANT]  = MAX(borg.trait[BI_WS_GIANT],
+            item->slays[RF_GIANT]);
+        borg.trait[BI_WS_DRAGON] = MAX(borg.trait[BI_WS_DRAGON],
+            item->slays[RF_DRAGON]);
 
         /* the greater, race-destroying slays are stored under the same
          * race flag with the largest multiplier */
@@ -67,7 +76,7 @@ def main():
     if original.count(anchor)!=1:
         raise RuntimeError("Expected original slay assignments missing")
     if original.replace(anchor, replacement, 1)!=fixed:
-        raise RuntimeError("Source correction is not exactly the accumulating slays")
+        raise RuntimeError("Source correction is not exactly the MAX() slays plus kill traits")
     if subprocess.check_output(["git","diff","--name-only",BASE,FIX],cwd=repo).decode().strip()!=SOURCE:
         raise RuntimeError("Source scope changed")
     variants={"before":original,"after":fixed}
@@ -145,7 +154,7 @@ add_compile_definitions(PRIVATE_USER_PATH="{root/'test-user'}")
              "fixed_source_sha256":hashlib.sha256((source/SOURCE).read_bytes()).hexdigest()}
     (root/"result.json").write_text(json.dumps(summary,indent=2)+"\n")
     subprocess.run([sys.executable,str(evidence/"make_replay.py"),str(evidence)],check=True)
-    print("VERIFIED: the original rates the Slay Animal weapon at 17 against an animal (the no-slay reading), the correction at 20; control identical; kill-undead trait 0 before, 1 after.",flush=True)
+    print("VERIFIED (fix 720ab3c4f, MAX() form): the original rates the Slay Animal weapon at 17 against an animal (the no-slay reading), the correction at 20; control identical; kill-undead trait 0 before, 1 after.",flush=True)
     print(f"Logs and result.json: {root}",flush=True)
 
 if __name__=="__main__":
