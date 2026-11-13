@@ -1,0 +1,127 @@
+diff --git a/src/borg/borg-danger.c b/src/borg/borg-danger.c
+index 11efe9f1a..55f98ef75 100644
+--- a/src/borg/borg-danger.c
++++ b/src/borg/borg-danger.c
+@@ -787,7 +787,7 @@ static int borg_danger_spell(
+                 z = 500;
+             if (borg.trait[BI_RSND])
+                 z = (z * 5) / 9;
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_RSND] || borg.trait[BI_PSTUN])
+                 break;
+             /* if already stunned be REALLY nervous about this */
+             if (borg.trait[BI_ISSTUN])
+@@ -872,7 +872,7 @@ static int borg_danger_spell(
+             /* do not count. */
+             /* Add fear for the effect */
+             p += 100;
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_PSTUN])
+                 break;
+             /* if already stunned be REALLY nervous about this */
+             if (borg.trait[BI_ISSTUN])
+@@ -901,7 +901,7 @@ static int borg_danger_spell(
+             /* max damage */
+             if (z > 150)
+                 z = 150;
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_PSTUN])
+                 break;
+             /* Pump this up if you have goi so that the borg is sure */
+             /* to be made nervous */
+@@ -918,7 +918,7 @@ static int borg_danger_spell(
+             /* max damage */
+             if (z > 200)
+                 z = 200;
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_PSTUN])
+                 break;
+             /* if already stunned be REALLY nervous about this */
+             if (borg.trait[BI_ISSTUN])
+@@ -1044,7 +1044,7 @@ static int borg_danger_spell(
+ 
+         case RSF_BA_WATE:
+             z = (r_ptr->spell_power * 5) / 2 + 50;
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_PSTUN])
+                 break;
+             /* if already stunned be REALLY nervous about this */
+             if (borg.trait[BI_ISSTUN])
+@@ -1107,7 +1107,7 @@ static int borg_danger_spell(
+ 
+         case RSF_STORM:
+             z = 70 + (r_ptr->spell_power * 5);
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_PSTUN])
+                 break;
+             /* if already stunned be REALLY nervous about this */
+             if (borg.trait[BI_ISSTUN])
+@@ -1233,7 +1233,7 @@ static int borg_danger_spell(
+         case RSF_BO_WATE:
+             z    = (10 * 10) + (r_ptr->spell_power);
+             bolt = true;
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_PSTUN])
+                 break;
+             /* if already stunned be REALLY nervous about this */
+             if (borg.trait[BI_ISSTUN])
+@@ -1260,7 +1260,7 @@ static int borg_danger_spell(
+         case RSF_BO_PLAS:
+             z    = (10 + (8 * 7) + (r_ptr->spell_power));
+             bolt = true;
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_PSTUN])
+                 break;
+             /* if already stunned be REALLY nervous about this */
+             if (borg.trait[BI_ISSTUN])
+@@ -1276,7 +1276,7 @@ static int borg_danger_spell(
+             /* do not count. */
+             /* Add fear for the effect */
+             p += 20;
+-            if (borg.trait[BI_RSND])
++            if (borg.trait[BI_PSTUN])
+                 break;
+             /* if already stunned be REALLY nervous about this */
+             if (borg.trait[BI_ISSTUN])
+diff --git a/src/borg/borg-trait.c b/src/borg/borg-trait.c
+index 154eb3849..8ae9d1e14 100644
+--- a/src/borg/borg-trait.c
++++ b/src/borg/borg-trait.c
+@@ -824,6 +824,7 @@ const char *prefix_pref[] = {
+     "resist nether",
+     "resist chaos",
+     "resist dis",
++    "prot stun",
+     "hold life",
+     "free action",
+     "resist fire with swap", /* same as without S but includes swap */
+@@ -1370,6 +1371,8 @@ static void borg_notice_equipment(void)
+         borg.trait[BI_RBLIND] = true;
+     if (rf_has(f, OF_PROT_CONF))
+         borg.trait[BI_RCONF] = true;
++    if (rf_has(f, OF_PROT_STUN))
++        borg.trait[BI_PSTUN] = true;
+ 
+     /* Sustain flags */
+     if (rf_has(f, OF_SUST_STR))
+@@ -1638,6 +1641,8 @@ static void borg_notice_equipment(void)
+             borg.trait[BI_RCONF] = true;
+         if (of_has(item->flags, OF_PROT_BLIND))
+             borg.trait[BI_RBLIND] = true;
++        if (of_has(item->flags, OF_PROT_STUN))
++            borg.trait[BI_PSTUN] = true;
+ 
+         /* Immunity flags */
+         /* if you are immune you automatically resist */
+diff --git a/src/borg/borg-trait.h b/src/borg/borg-trait.h
+index 4eb2c690c..61ae3b281 100644
+--- a/src/borg/borg-trait.h
++++ b/src/borg/borg-trait.h
+@@ -145,6 +145,7 @@ enum {
+     BI_RNTHR,
+     BI_RKAOS,
+     BI_RDIS,
++    BI_PSTUN,
+     BI_HLIFE,
+     BI_FRACT,
+     BI_SRFIRE,
