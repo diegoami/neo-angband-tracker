@@ -224,18 +224,39 @@ file:line traces and stock-data checks that a maintainer can re-run.
 
 ## 8. Failure classes to probe when hunting leads
 
-Use these classes when reading Borg code for new leads or when a run stalls,
-crashes or loops. Each class names a probe that works on the current pin.
-A class is not a defect: file an issue (RULES 19) only when a concrete code
-site at the current pin fails the probe, then follow §1–§7.
+### 8.1 Where leads come from
 
-**Source.** A 2022 community write-up on r/angband ("I've been trying to use
+Look for leads in these sources, in this order of authority. A lead is
+filed (RULES 19) only for a concrete code site at the current pin, then
+taken through §1–§7.
+
+1. **The 4.x Borg code at the pin** (`src/borg/` at `c-borg-reference`).
+   Read decision code against the game code it models (`src/`, `lib/gamedata/`):
+   copy-paste slips, values read from the wrong field, flags never written,
+   loops that stop early, and actions whose result is never checked.
+   Examples fixed this way: #38, #202, #239 and #364.
+2. **Our 4.2 manuals**, written from this source and data:
+   [the strategy manual](strategy/README.md) (`docs/strategy/`, on this branch)
+   and the C manual (`docs/c-manual/` on `master`). Take a recommendation the
+   manuals derive from the game, such as the resistances needed before a depth,
+   which monsters not to melee, when to heal or escape, or what to keep as a
+   swap. Find the Borg code that makes that decision and check it does the same.
+   A Borg decision that contradicts what the game's own numbers say is a lead.
+   The manuals cite `file:function`, so the game side is already located.
+3. **The official Players' Guide** (`docs/guide.rst`, [online](https://angband.readthedocs.io/en/latest/guide.html)).
+   It was written for 3.5.0 and is partly out of date. Use its advice only where
+   our 4.2 manuals confirm the mechanic still holds. Never cite it alone as
+   evidence about 4.x.
+
+### 8.2 Optional probes from a 3.x Borg report
+
+A 2022 write-up on r/angband ("I've been trying to use
 the borg and here is what I learned so far"; URL not recorded) described
 running the Borg on Angband 3.4/3.5. It is summarised here, not quoted. Much
 of that Borg code was written for 3.x; the 4.x Borg is a new version, so none
 of these observations carries over as a lead or as evidence. They only suggest
 kinds of failure worth probing in the 4.x code. The status column records what
-has been checked at `42cd156ac`.
+has been checked at `42cd156ac`; the checklist is #586.
 
 | Class (suggested by the 3.4/3.5 report) | How to probe at the current pin | Status at `42cd156ac` |
 | --- | --- | --- |

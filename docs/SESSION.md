@@ -113,9 +113,11 @@ or promote deferred source100 from a source-reading lead into a verified bug.
 
 ## Reporting the next native C bug
 
-To find the next lead, use the failure classes and probes in
-[C-FIX-POSTING.md §8](C-FIX-POSTING.md#8-failure-classes-to-probe-when-hunting-leads),
-and file each concrete site as an issue at once (RULES 19).
+To find the next lead, read the 4.x Borg code against the game code and
+against our 4.2 strategy and C manuals (the 3.5 Players' Guide only where
+they confirm it), as set out in
+[C-FIX-POSTING.md §8](C-FIX-POSTING.md#8-failure-classes-to-probe-when-hunting-leads).
+File each concrete site as an issue at once (RULES 19).
 
 Follow RULES17 before posting. A maintainer new to this work must first learn
 what situation the Borg encounters, what it does wrong, what consequence was
