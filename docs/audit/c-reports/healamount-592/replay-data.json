@@ -1,0 +1,102 @@
+{
+  "window": {
+    "label": "Danger 32 above current HP",
+    "explanation": "A Cure Serious Wounds heals 40, so it covers the danger. Original: the Borg expects only 25 and does not drink it. Corrected: it drinks it.",
+    "control": false,
+    "before": {
+      "raw": "native-c/healamount-592: starting...\nSETUP seed=592 mode=window class=Warrior clevel=10 hp=57/103 danger=89 cut=5\n  cure_serious_heal_is_valued_at_40  STATE danger=89 curhp=57 maxhp=103 pct_down=44 cut=1\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:10 Lev:10 HP:57/103 SP:0/0 Danger:p=89\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nOUTCOME quaffs_csw=0\nFailed\n    native-c/healamount-592:184: requirement 'csw' failed\nnative-c/healamount-592 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 89,
+        "curhp": 57,
+        "maxhp": 103,
+        "pct_down": 44,
+        "cut": 1
+      },
+      "outcome": {
+        "quaffs_csw": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:10 Lev:10 HP:57/103 SP:0/0 Danger:p=89",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/healamount-592: starting...\nSETUP seed=592 mode=window class=Warrior clevel=10 hp=57/103 danger=89 cut=5\n  cure_serious_heal_is_valued_at_40  STATE danger=89 curhp=57 maxhp=103 pct_down=44 cut=1\nDECISION rc=1 key=113\nTRACK # Loc:12,10 Dep:10 Lev:10 HP:57/103 SP:0/0 Danger:p=89\nTRACK # Quaffing Potions of Cure Serious Wounds.\nTRACK # Healing Level 2.\nOUTCOME quaffs_csw=1\nPassed\nnative-c/healamount-592 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 89,
+        "curhp": 57,
+        "maxhp": 103,
+        "pct_down": 44,
+        "cut": 1
+      },
+      "outcome": {
+        "quaffs_csw": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=113",
+        "TRACK # Loc:12,10 Dep:10 Lev:10 HP:57/103 SP:0/0 Danger:p=89",
+        "TRACK # Quaffing Potions of Cure Serious Wounds.",
+        "TRACK # Healing Level 2."
+      ],
+      "value": 1
+    }
+  },
+  "control": {
+    "label": "Control: danger 50 above current HP",
+    "explanation": "The danger is above what a Cure Serious Wounds can cover by either estimate, so neither build drinks one and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/healamount-592: starting...\nSETUP seed=592 mode=control class=Warrior clevel=10 hp=39/70 danger=89 cut=5\n  cure_serious_heal_is_valued_at_40  STATE danger=89 curhp=39 maxhp=70 pct_down=44 cut=1\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:10 Lev:10 HP:39/70 SP:0/0 Danger:p=89\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nOUTCOME quaffs_csw=0\nPassed\nnative-c/healamount-592 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 89,
+        "curhp": 39,
+        "maxhp": 70,
+        "pct_down": 44,
+        "cut": 1
+      },
+      "outcome": {
+        "quaffs_csw": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:10 Lev:10 HP:39/70 SP:0/0 Danger:p=89",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/healamount-592: starting...\nSETUP seed=592 mode=control class=Warrior clevel=10 hp=39/70 danger=89 cut=5\n  cure_serious_heal_is_valued_at_40  STATE danger=89 curhp=39 maxhp=70 pct_down=44 cut=1\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:10 Lev:10 HP:39/70 SP:0/0 Danger:p=89\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nOUTCOME quaffs_csw=0\nPassed\nnative-c/healamount-592 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 89,
+        "curhp": 39,
+        "maxhp": 70,
+        "pct_down": 44,
+        "cut": 1
+      },
+      "outcome": {
+        "quaffs_csw": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:10 Lev:10 HP:39/70 SP:0/0 Danger:p=89",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)"
+      ],
+      "value": 0
+    }
+  }
+}
