@@ -5,7 +5,7 @@ import { readFileSync, writeFileSync, unlinkSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
-const TRACKERS = (process.env.ANGBAND_TRACKER_REPOS ?? "diegoami/neo-angband-tracker,diegoami/neo-angband-borg-mod-tracker,diegoami/mandos").split(",").filter(Boolean);
+const TRACKERS = (process.env.ANGBAND_TRACKER_REPOS ?? "diegoami/neo-angband-tracker,diegoami/neo-angband-borg-mod-tracker").split(",").filter(Boolean);
 const CARRY_LABELS = ["fixed", "carried", "not-carried", "partially-carried"];
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const cachePath = process.env.MANDOS_UPSTREAM_WATCH_CACHE ?? join(root, ".upstream-watch.json");
@@ -119,7 +119,7 @@ console.log(moved.length
   : rows.some((row) => row.error) || process.exitCode || problems.length
     ? "No confirmed movement; the upstream audit is incomplete."
     : "No upstream movement since the last baseline.");
-console.log("Source issue state and linked Mandos consumer state are distinct. Carried stays open until upstream correction is adopted downstream and verified; this report never changes labels or removes patches.");
+console.log("Source issue state and linked consumer state are distinct. Carried stays open until upstream correction is adopted downstream and verified; this report never changes labels or removes patches.");
 if (problems.length) {
   console.log("\nAudit problems:\n" + problems.map((problem) => `- ${problem}`).join("\n"));
   process.exitCode = 1;
