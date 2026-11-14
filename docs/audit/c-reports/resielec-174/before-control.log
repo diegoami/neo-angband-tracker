@@ -1,0 +1,11 @@
+native-c/resielec-174: starting...
+SETUP seed=174 mode=control class=Warrior clevel=33 hp=424/424 danger=64 p1=64 p2=64 avoid=424 relec=1 racid=0 kills=1
+SETUP kill=1 race=black ogre power=86 awake=1 at=(13,11)
+  resist_electricity_note_names_the_right_element  STATE danger=64 curhp=424 avoidance=424 relec=1 racid=0
+DECISION rc=1 keys="qb"
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64
+TRACK # Performing defense type 13 with value 5
+TRACK # Quaffing Potion of Berserk Strength.
+OUTCOME cast_note=0 defense_note=1 note_elec=0 note_acid=0
+Passed
+native-c/resielec-174 finished: 1/1 passed

@@ -1,0 +1,13 @@
+native-c/resielec-174: starting...
+SETUP seed=174 mode=elec class=Warrior clevel=33 hp=424/424 danger=96 p1=96 p2=88 avoid=424 relec=1 racid=0 kills=1
+SETUP kill=1 race=energy hound power=30 awake=1 at=(13,11)
+  resist_electricity_note_names_the_right_element  STATE danger=96 curhp=424 avoidance=424 relec=1 racid=0
+DECISION rc=1 keys="Ac*5"
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96
+TRACK # Performing defense type 7 with value 8
+TRACK # Attempting to cast RAcid
+TRACK # Activating ring Ring of Lightning [+20].
+OUTCOME cast_note=1 defense_note=1 note_elec=0 note_acid=1
+Failed
+    native-c/resielec-174:225: requirement 'prefix(note, "# Attempting to cast RElec")' failed
+native-c/resielec-174 finished: 0/1 passed

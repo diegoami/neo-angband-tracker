@@ -1,0 +1,110 @@
+{
+  "elec": {
+    "label": "Electric bites: the note must name RElec",
+    "explanation": "The Borg chooses the resist-electricity defence against the energy hound. The original writes the acid routine's RAcid text; the correction writes RElec. Keys are Ac*5 in both variants.",
+    "control": false,
+    "before": {
+      "raw": "native-c/resielec-174: starting...\nSETUP seed=174 mode=elec class=Warrior clevel=33 hp=424/424 danger=96 p1=96 p2=88 avoid=424 relec=1 racid=0 kills=1\nSETUP kill=1 race=energy hound power=30 awake=1 at=(13,11)\n  resist_electricity_note_names_the_right_element  STATE danger=96 curhp=424 avoidance=424 relec=1 racid=0\nDECISION rc=1 keys=\"Ac*5\"\nTRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96\nTRACK # Performing defense type 7 with value 8\nTRACK # Attempting to cast RAcid\nTRACK # Activating ring Ring of Lightning [+20].\nOUTCOME cast_note=1 defense_note=1 note_elec=0 note_acid=1\nFailed\n    native-c/resielec-174:225: requirement 'prefix(note, \"# Attempting to cast RElec\")' failed\nnative-c/resielec-174 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 96,
+        "curhp": 424,
+        "avoidance": 424,
+        "relec": 1,
+        "racid": 0
+      },
+      "outcome": {
+        "cast_note": 1,
+        "defense_note": 1,
+        "note_elec": 0,
+        "note_acid": 1
+      },
+      "notes": [
+        "DECISION rc=1 keys=\"Ac*5\"",
+        "TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96",
+        "TRACK # Performing defense type 7 with value 8",
+        "TRACK # Attempting to cast RAcid",
+        "TRACK # Activating ring Ring of Lightning [+20]."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/resielec-174: starting...\nSETUP seed=174 mode=elec class=Warrior clevel=33 hp=424/424 danger=96 p1=96 p2=88 avoid=424 relec=1 racid=0 kills=1\nSETUP kill=1 race=energy hound power=30 awake=1 at=(13,11)\n  resist_electricity_note_names_the_right_element  STATE danger=96 curhp=424 avoidance=424 relec=1 racid=0\nDECISION rc=1 keys=\"Ac*5\"\nTRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96\nTRACK # Performing defense type 7 with value 8\nTRACK # Attempting to cast RElec\nTRACK # Activating ring Ring of Lightning [+20].\nOUTCOME cast_note=1 defense_note=1 note_elec=1 note_acid=0\nPassed\nnative-c/resielec-174 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 96,
+        "curhp": 424,
+        "avoidance": 424,
+        "relec": 1,
+        "racid": 0
+      },
+      "outcome": {
+        "cast_note": 1,
+        "defense_note": 1,
+        "note_elec": 1,
+        "note_acid": 0
+      },
+      "notes": [
+        "DECISION rc=1 keys=\"Ac*5\"",
+        "TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96",
+        "TRACK # Performing defense type 7 with value 8",
+        "TRACK # Attempting to cast RElec",
+        "TRACK # Activating ring Ring of Lightning [+20]."
+      ],
+      "value": 1
+    }
+  },
+  "control": {
+    "label": "Plain melee (black ogre): unchanged control",
+    "explanation": "The same ring and chooser against a monster with no electric damage: the electricity routine is entered, finds no improvement, and no cast note is written. The complete log is byte-identical between the variants.",
+    "control": true,
+    "before": {
+      "raw": "native-c/resielec-174: starting...\nSETUP seed=174 mode=control class=Warrior clevel=33 hp=424/424 danger=64 p1=64 p2=64 avoid=424 relec=1 racid=0 kills=1\nSETUP kill=1 race=black ogre power=86 awake=1 at=(13,11)\n  resist_electricity_note_names_the_right_element  STATE danger=64 curhp=424 avoidance=424 relec=1 racid=0\nDECISION rc=1 keys=\"qb\"\nTRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64\nTRACK # Performing defense type 13 with value 5\nTRACK # Quaffing Potion of Berserk Strength.\nOUTCOME cast_note=0 defense_note=1 note_elec=0 note_acid=0\nPassed\nnative-c/resielec-174 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 64,
+        "curhp": 424,
+        "avoidance": 424,
+        "relec": 1,
+        "racid": 0
+      },
+      "outcome": {
+        "cast_note": 0,
+        "defense_note": 1,
+        "note_elec": 0,
+        "note_acid": 0
+      },
+      "notes": [
+        "DECISION rc=1 keys=\"qb\"",
+        "TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64",
+        "TRACK # Performing defense type 13 with value 5",
+        "TRACK # Quaffing Potion of Berserk Strength."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/resielec-174: starting...\nSETUP seed=174 mode=control class=Warrior clevel=33 hp=424/424 danger=64 p1=64 p2=64 avoid=424 relec=1 racid=0 kills=1\nSETUP kill=1 race=black ogre power=86 awake=1 at=(13,11)\n  resist_electricity_note_names_the_right_element  STATE danger=64 curhp=424 avoidance=424 relec=1 racid=0\nDECISION rc=1 keys=\"qb\"\nTRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64\nTRACK # Performing defense type 13 with value 5\nTRACK # Quaffing Potion of Berserk Strength.\nOUTCOME cast_note=0 defense_note=1 note_elec=0 note_acid=0\nPassed\nnative-c/resielec-174 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 64,
+        "curhp": 424,
+        "avoidance": 424,
+        "relec": 1,
+        "racid": 0
+      },
+      "outcome": {
+        "cast_note": 0,
+        "defense_note": 1,
+        "note_elec": 0,
+        "note_acid": 0
+      },
+      "notes": [
+        "DECISION rc=1 keys=\"qb\"",
+        "TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64",
+        "TRACK # Performing defense type 13 with value 5",
+        "TRACK # Quaffing Potion of Berserk Strength."
+      ],
+      "value": 0
+    }
+  }
+}

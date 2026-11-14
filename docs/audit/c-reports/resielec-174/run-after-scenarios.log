@@ -1,0 +1,2 @@
+elec {'exit': 0, 'passed': True, 'state': {'danger': 96, 'curhp': 424, 'avoidance': 424, 'relec': 1, 'racid': 0}, 'outcome': {'cast_note': 1, 'defense_note': 1, 'note_elec': 1, 'note_acid': 0}}
+control {'exit': 0, 'passed': True, 'state': {'danger': 64, 'curhp': 424, 'avoidance': 424, 'relec': 1, 'racid': 0}, 'outcome': {'cast_note': 0, 'defense_note': 1, 'note_elec': 0, 'note_acid': 0}}

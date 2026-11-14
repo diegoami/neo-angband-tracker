@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Resist-electricity defence logs the acid note</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Resist-electricity defence logs the acid note</h1><p>A Warrior carrying an elemental ring stands next to an awake monster whose bites are electric. The Borg&#x27;s defence chooser picks the resist-electricity defence and, on the acting pass, writes its note into the log. In the original the note says Attempting to cast RAcid, a copy of the acid routine&#x27;s text one function above; the corrected routine names the resistance it actually attempts, RElec. The queued keys are identical in both variants.</p><p><label>Scenario: <select id="scenario"><option value="elec">Electric bites: the note must name RElec</option><option value="control">Plain melee (black ogre): unchanged control</option></select></label></p><section class="scenario" data-mode="elec"><p class="summary">The Borg chooses the resist-electricity defence against the energy hound. The original writes the acid routine&#x27;s RAcid text; the correction writes RElec. Keys are Ac*5 in both variants.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>1: the note names RElec; 0: it does not</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 keys=&quot;Ac*5&quot;
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96
+TRACK # Performing defense type 7 with value 8
+TRACK # Attempting to cast RAcid
+TRACK # Activating ring Ring of Lightning [+20].</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>1: the note names RElec; 0: it does not</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 keys=&quot;Ac*5&quot;
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96
+TRACK # Performing defense type 7 with value 8
+TRACK # Attempting to cast RElec
+TRACK # Activating ring Ring of Lightning [+20].</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/resielec-174: starting...
+SETUP seed=174 mode=elec class=Warrior clevel=33 hp=424/424 danger=96 p1=96 p2=88 avoid=424 relec=1 racid=0 kills=1
+SETUP kill=1 race=energy hound power=30 awake=1 at=(13,11)
+  resist_electricity_note_names_the_right_element  STATE danger=96 curhp=424 avoidance=424 relec=1 racid=0
+DECISION rc=1 keys=&quot;Ac*5&quot;
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96
+TRACK # Performing defense type 7 with value 8
+TRACK # Attempting to cast RAcid
+TRACK # Activating ring Ring of Lightning [+20].
+OUTCOME cast_note=1 defense_note=1 note_elec=0 note_acid=1
+Failed
+    native-c/resielec-174:225: requirement &#x27;prefix(note, &quot;# Attempting to cast RElec&quot;)&#x27; failed
+native-c/resielec-174 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/resielec-174: starting...
+SETUP seed=174 mode=elec class=Warrior clevel=33 hp=424/424 danger=96 p1=96 p2=88 avoid=424 relec=1 racid=0 kills=1
+SETUP kill=1 race=energy hound power=30 awake=1 at=(13,11)
+  resist_electricity_note_names_the_right_element  STATE danger=96 curhp=424 avoidance=424 relec=1 racid=0
+DECISION rc=1 keys=&quot;Ac*5&quot;
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=96
+TRACK # Performing defense type 7 with value 8
+TRACK # Attempting to cast RElec
+TRACK # Activating ring Ring of Lightning [+20].
+OUTCOME cast_note=1 defense_note=1 note_elec=1 note_acid=0
+Passed
+native-c/resielec-174 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="control"><p class="summary">The same ring and chooser against a monster with no electric damage: the electricity routine is entered, finds no improvement, and no cast note is written. The complete log is byte-identical between the variants.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>1: the note names RElec; 0: it does not</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 keys=&quot;qb&quot;
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64
+TRACK # Performing defense type 13 with value 5
+TRACK # Quaffing Potion of Berserk Strength.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>1: the note names RElec; 0: it does not</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 keys=&quot;qb&quot;
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64
+TRACK # Performing defense type 13 with value 5
+TRACK # Quaffing Potion of Berserk Strength.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/resielec-174: starting...
+SETUP seed=174 mode=control class=Warrior clevel=33 hp=424/424 danger=64 p1=64 p2=64 avoid=424 relec=1 racid=0 kills=1
+SETUP kill=1 race=black ogre power=86 awake=1 at=(13,11)
+  resist_electricity_note_names_the_right_element  STATE danger=64 curhp=424 avoidance=424 relec=1 racid=0
+DECISION rc=1 keys=&quot;qb&quot;
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64
+TRACK # Performing defense type 13 with value 5
+TRACK # Quaffing Potion of Berserk Strength.
+OUTCOME cast_note=0 defense_note=1 note_elec=0 note_acid=0
+Passed
+native-c/resielec-174 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/resielec-174: starting...
+SETUP seed=174 mode=control class=Warrior clevel=33 hp=424/424 danger=64 p1=64 p2=64 avoid=424 relec=1 racid=0 kills=1
+SETUP kill=1 race=black ogre power=86 awake=1 at=(13,11)
+  resist_electricity_note_names_the_right_element  STATE danger=64 curhp=424 avoidance=424 relec=1 racid=0
+DECISION rc=1 keys=&quot;qb&quot;
+TRACK # Loc:12,10 Dep:18 Lev:33 HP:424/424 SP:0/0 Danger:p=64
+TRACK # Performing defense type 13 with value 5
+TRACK # Quaffing Potion of Berserk Strength.
+OUTCOME cast_note=0 defense_note=1 note_elec=0 note_acid=0
+Passed
+native-c/resielec-174 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native arena fixture (24x40), Human Warrior at character level 33, full hit points (avoidance 424), a worn Ring of Lightning (its RES_ELEC value derives after player_learn_all_runes), no heal items, and one awake energy hound (bite 2d6 electric) adjacent south-east; depth 18, seed 174, borg_rand_local 1000. The danger at the Borg&#x27;s grid is 96 against a temporary-resistance danger of 88, so the routine&#x27;s three improvement gates hold (p1 &gt; p2, p2 &lt;= avoidance/2, p1 &gt; avoidance/7). The control wears the same ring next to a black ogre, whose plain melee gives the routine no improvement, so no cast note is written at all. Measured: the production borg_caution() -&gt; borg_defend() decision, the Borg notes it wrote, and the queued keys. Not measured: the real game&#x27;s cast roll for the ring activation, other Borg turns, and any effect of the note on later Borg decisions.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/174">issue 174</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
