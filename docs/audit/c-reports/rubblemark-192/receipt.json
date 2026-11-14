@@ -1,0 +1,117 @@
+{
+  "issue": "diegoami/neo-angband-tracker#192",
+  "report": "rubblemark-192",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "1abc778496e01d97cd40720cd72ec2759b6d3586",
+  "fix_branch": "rubblemark-192",
+  "fixtures_ref": "28a1553daefcc9251755cb50e319e49c2618a86b",
+  "cases": {
+    "dark": {
+      "before": {
+        "passed": false,
+        "state": {
+          "removed": 1,
+          "light": 0
+        },
+        "outcome": {
+          "broken": 0,
+          "rubble": 5,
+          "light": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "removed": 1,
+          "light": 0
+        },
+        "outcome": {
+          "broken": 5,
+          "rubble": 0,
+          "light": 0
+        }
+      }
+    },
+    "control": {
+      "before": {
+        "passed": true,
+        "state": {
+          "removed": 1,
+          "light": 1
+        },
+        "outcome": {
+          "broken": 0,
+          "rubble": 5,
+          "light": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "removed": 1,
+          "light": 1
+        },
+        "outcome": {
+          "broken": 0,
+          "rubble": 5,
+          "light": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "claim": "A lightless Borg that digs rubble next to itself keeps all five dug neighbourhood grids as rubble on its own map with the original handler (which tests only the goal grid, here clear floor), and has all five converted to broken doors with the correction. The lit control, where the handler skips everything, is byte-identical between the variants, and both full native gates pass at 965/965 and 5/5 in each variant.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-messages.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-messages.c": "232c3a76b484b2612834fc6eea0cad8be890b9ccb601aa928f3406ec0c9fdb6f"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "abb1fc90221847ad22bf2dc7aebc200c413f376af090d47f7a5a57fabf7df31e",
+    "after-control.log": "bd06b5cfa11ceb567add1f8004ccfed137263382b7c916cf98c6f5a1b70b67bd",
+    "after-dark.log": "2be368a9028f38708e3610ea7fec31f6c285791e2999f82e12a7e6b5f1991961",
+    "after-results.json": "c953516f8fa16dff1f21671772250ed04559512e6050abde7304fb81604271d9",
+    "before-control.log": "bd06b5cfa11ceb567add1f8004ccfed137263382b7c916cf98c6f5a1b70b67bd",
+    "before-dark.log": "3b5c188cf5cce68f1cabca498c01cbe97a2c7e0ba8b9e0b4473351f0478c9748",
+    "before-results.json": "23c5a62eea2e2a4485ca3f517b75af699335bcc1ec597e3b9c6d3d83970a6fd2",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "2909c56f861baebf4b8c34391eb7f6ea38a960f9c01c9659c96ae20480604a15",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "9d5d77c760f6bf6142280a0d241d62519aef1cece67d720d23655f0129a52dbd",
+    "replay.html": "5b2d55d6f694f4cf5af88a68cff28d2098a7c823a457ca03634e3d1a5cbaaeca",
+    "reproduce.py": "8824176843fd3a574f5c0df660300c231a32d4044155bbbbf7ff9eda5c736fc3",
+    "result.json": "f05357cfb146c0f49591535c4200a173cc61364a370f3c7ebb61638c20f01aa2",
+    "run-after-alltests.log": "be0d0fdf6aa112fbfdbaf1b263255422b2c7603c20fc654314b11fe00046f766",
+    "run-after-build.log": "f27adf683d4bf78d46cc1fb11286485d9ad993102fd51fb84af8d5fd8f085f53",
+    "run-after-scenarios.log": "f850dc34752065a1c7b7d772fe501ab282539ada52f4cee4611e61f26a2a4d36",
+    "run-before-alltests.log": "f6465d3cfa4f41972eaf2a3545438b14fc0acbeadf44cfa213a75fe3de9b80d1",
+    "run-before-build.log": "029251b02c4004687448e587e31c2050654da80069b9979e35bdab56ae423ff2",
+    "run-before-scenarios.log": "a20187687c70ff4047b1e6730824a0e01da469f003822e4e15c63c5449ca95aa",
+    "run-cases.py": "bca25803c28100c3b57483e8635be1108530de2d2cd515de641df154af174f65",
+    "run-configure.log": "6baedb311cc762f2dfc52f55f89fc01e1fcbdb2a8824c4ef98f8ea912d6b8471",
+    "scenario.c": "6ede2ccf423213c6c02c4d9569f558aee519e2a0319b41dd0b860f25d5755b91"
+  }
+}

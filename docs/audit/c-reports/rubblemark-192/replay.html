@@ -1,0 +1,50 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Removed-rubble handler marks only the goal grid</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Removed-rubble handler marks only the goal grid</h1><p>A lightless Warrior digs rubble next to himself in the dark. The game prints its real dig message; the Borg&#x27;s screen reader hands it to the production parser. The handler is meant to convert the rubble grids around the Borg to broken doors on the Borg&#x27;s own map so the freshly dug ground is not treated as rubble any more. In the original, the loop walks a 2x2 block while the body only ever inspects the goal grid, so with a goal on clear floor nothing is converted and every dug grid stays rubble on the Borg&#x27;s map. The correction walks the full 3x3 block around the Borg and converts each grid that is rubble.</p><p><label>Scenario: <select id="scenario"><option value="dark">Lightless dig: the whole neighbourhood is marked</option><option value="control">Lit dig: unchanged control</option></select></label></p><section class="scenario" data-mode="dark"><p class="summary">The Warrior carries no light and digs the rubble grid north of himself. The original converts nothing (its body tests only the clear-floored goal grid); the correction converts all five rubble grids around the Borg to broken doors.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>rubble grids converted to broken doors (0..5)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">5</div><p>rubble grids converted to broken doors (0..5)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/rubblemark-192: starting...
+SETUP seed=192 mode=dark class=Warrior clevel=16 light=0 goal=(12,6)
+  removed_rubble_is_marked_around_the_borg  TRACK game-message &lt;You have removed the rubble with your weapon.&gt;
+STATE removed=1 light=0
+MAP grid=(12,9) feat=16
+MAP grid=(13,9) feat=16
+MAP grid=(13,10) feat=16
+MAP grid=(13,11) feat=16
+MAP grid=(11,9) feat=16
+OUTCOME broken=0 rubble=5 light=0
+Failed
+    native-c/rubblemark-192:220: requirement &#x27;broken == N_SPOTS&#x27; failed
+native-c/rubblemark-192 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/rubblemark-192: starting...
+SETUP seed=192 mode=dark class=Warrior clevel=16 light=0 goal=(12,6)
+  removed_rubble_is_marked_around_the_borg  TRACK game-message &lt;You have removed the rubble with your weapon.&gt;
+STATE removed=1 light=0
+MAP grid=(12,9) feat=4
+MAP grid=(13,9) feat=4
+MAP grid=(13,10) feat=4
+MAP grid=(13,11) feat=4
+MAP grid=(11,9) feat=4
+OUTCOME broken=5 rubble=0 light=0
+Passed
+native-c/rubblemark-192 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="control"><p class="summary">The same dig with a worn torch: the handler skips everything while the Borg has light, so no grid changes on either variant and the complete log is byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>rubble grids converted to broken doors (0..5)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>rubble grids converted to broken doors (0..5)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/rubblemark-192: starting...
+SETUP seed=192 mode=control class=Warrior clevel=16 light=1 goal=(12,6)
+  removed_rubble_is_marked_around_the_borg  TRACK game-message &lt;You have removed the rubble with your weapon.&gt;
+STATE removed=1 light=1
+MAP grid=(12,9) feat=16
+MAP grid=(13,9) feat=16
+MAP grid=(13,10) feat=16
+MAP grid=(13,11) feat=16
+MAP grid=(11,9) feat=16
+OUTCOME broken=0 rubble=5 light=1
+Passed
+native-c/rubblemark-192 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/rubblemark-192: starting...
+SETUP seed=192 mode=control class=Warrior clevel=16 light=1 goal=(12,6)
+  removed_rubble_is_marked_around_the_borg  TRACK game-message &lt;You have removed the rubble with your weapon.&gt;
+STATE removed=1 light=1
+MAP grid=(12,9) feat=16
+MAP grid=(13,9) feat=16
+MAP grid=(13,10) feat=16
+MAP grid=(13,11) feat=16
+MAP grid=(11,9) feat=16
+OUTCOME broken=0 rubble=5 light=1
+Passed
+native-c/rubblemark-192 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native arena fixture (24x40), Human Warrior at character level 16 with a wielded Shovel and a fixture-set digging skill of 400 so the fixed seed&#x27;s dig roll clears; no light source at all in the defect case (the birth torch is taken off), a worn torch in the control; five rubble grids laid around the Borg (north, north-east, east, south-east, north-west); the Borg&#x27;s goal grid sits on clear floor outside the neighbourhood, as it may in ordinary play; depth 8, seed 192, borg_rand_local 1000. The dig runs through the production command (do_cmd_tunnel), the game&#x27;s own message is captured through the EVENT_MESSAGE handler and handed to borg_parse exactly as the screen reader would. Measured: the Borg map features at the five rubble grids after the parse. Not measured: later Borg decisions that consume the marked map, other dig positions, and any game-side effect of the dig beyond the message.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/192">issue 192</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
