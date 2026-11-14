@@ -1,14 +1,14 @@
 import html,json,re,sys
 from pathlib import Path
 root=Path(sys.argv[1]);data={}
-SUITE='native-c/deepdescent-590'
-TITLE='About to die, the Borg read Deep Descent, which takes effect turns later'
-INTRO="When the Borg is about to die it runs down a list of escapes. One entry falls back to Deep Descent when no Teleport Level is carried, and the list treats that as a successful flight. But Deep Descent only acts after 3+1d4 player turns and then drops the player below the deepest level reached. So the Borg spent its last turn without moving, and the escapes after it in the list (retries, Teleport Level by spell, Phase Door) were never tried. The correction keeps Deep Descent only for the one caller that wants a delayed dive (starving on level 1)."
-CONDITIONS='Native Human Warrior, seed 590, character level 10, dungeon level 10, lit room, an awake black ogre adjacent. Carried escapes: one Scroll of Deep Descent and five Phase Door (plus one Teleport Level in the control); no teleport, no potions. Fixture interventions: the danger D is read first and hit points set to D/2 so the about-to-die escape (Danger Level 1) applies; the ogre enters the Borg monster list through the production observe_kill_diff(). The production borg_caution() runs once.'
-ISSUE=590
-CARD_KEY='reads_deep_descent'
-CARD_LABEL='the Borg reads Deep Descent as its emergency escape (1 = yes)'
-CASES=[('dd-phase', 'Deep Descent and Phase Door, about to die', 'Original: the Borg reads Deep Descent and counts it as fled. Corrected: Deep Descent is skipped and the escapes after it in the list are tried.', False), ('control', 'Control: Teleport Level also carried', 'Teleport Level is tried before Deep Descent in both builds, so both read Teleport Level; logs byte-identical.', True)]
+SUITE='native-c/tportcheck-593'
+TITLE='With only teleport scrolls, the Borg destroyed the area instead of teleporting'
+INTRO="Before casting Destruction (or Teleport Level) in a dangerous fight, the Borg asks whether a plain teleport would land somewhere safe, and if so it teleports instead. That landing check returned at once unless the Borg had both a teleport scroll or spell and a teleport staff. So a Borg carrying only Teleportation scrolls (or only a staff) never ran the check and used Destruction, wiping out the area and everything on its floor, even when a safe landing existed. The correction runs the check with either kind of teleport."
+CONDITIONS='Native Human Warrior, seed 593, character level 40, 300 of 466 hit points, dungeon level 40, a fully known lit 66x198 arena, an awake ancient blue dragon adjacent (danger 2000). Carried: five Scrolls of Teleportation and a Staff of *Destruction* (plus a Staff of Teleportation in the control). Fixture interventions: the map is built directly; hit points set to 300 (the Destruction defence needs at least 275); the dragon enters the Borg monster list through the production observe_kill_diff(). The production borg_caution_teleport(75, 2) and borg_defend() run once; nothing is played.'
+ISSUE=593
+CARD_KEY='uses_destruction'
+CARD_LABEL='the Borg uses Destruction instead of teleporting (1 = yes)'
+CASES=[('scrolls', 'Teleportation scrolls only', 'Original: the landing check is skipped (no teleport staff), so the Borg uses its Staff of *Destruction*. Corrected: the check runs, finds a safe landing, and the Borg does not destroy the area.', False), ('control', 'Control: a Staff of Teleportation as well', 'With both kinds of teleport the check ran before too: both builds find a safe landing and skip Destruction; logs byte-identical.', True)]
 for mode,label,explanation,control in CASES:
  item={'label':label,'explanation':explanation,'control':control}
  for phase in ('before','after'):
