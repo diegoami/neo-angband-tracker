@@ -1,0 +1,56 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>About to die, the Borg read Deep Descent, which takes effect turns later</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>About to die, the Borg read Deep Descent, which takes effect turns later</h1><p>When the Borg is about to die it runs down a list of escapes. One entry falls back to Deep Descent when no Teleport Level is carried, and the list treats that as a successful flight. But Deep Descent only acts after 3+1d4 player turns and then drops the player below the deepest level reached. So the Borg spent its last turn without moving, and the escapes after it in the list (retries, Teleport Level by spell, Phase Door) were never tried. The correction keeps Deep Descent only for the one caller that wants a delayed dive (starving on level 1).</p><p><label>Scenario: <select id="scenario"><option value="dd-phase">Deep Descent and Phase Door, about to die</option><option value="control">Control: Teleport Level also carried</option></select></label></p><section class="scenario" data-mode="dd-phase"><p class="summary">Original: the Borg reads Deep Descent and counts it as fled. Corrected: Deep Descent is skipped and the escapes after it in the list are tried.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg reads Deep Descent as its emergency escape (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Reading Scroll of Deep Descent.
+TRACK # Danger Level 1.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg reads Deep Descent as its emergency escape (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Safe to Phase. scary squares: 0
+TRACK # Reading Scrolls of Phase Door.
+TRACK # Danger Level 1.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/deepdescent-590: starting...
+SETUP seed=590 mode=dd-phase class=Warrior clevel=10 hp=44/119 danger=89
+  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Reading Scroll of Deep Descent.
+TRACK # Danger Level 1.
+OUTCOME reads_deep_descent=1 reads_phase=0 reads_teleport_level=0
+Failed
+    native-c/deepdescent-590:179: requirement &#x27;!dd&#x27; failed
+native-c/deepdescent-590 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/deepdescent-590: starting...
+SETUP seed=590 mode=dd-phase class=Warrior clevel=10 hp=44/119 danger=89
+  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Safe to Phase. scary squares: 0
+TRACK # Reading Scrolls of Phase Door.
+TRACK # Danger Level 1.
+OUTCOME reads_deep_descent=0 reads_phase=1 reads_teleport_level=0
+Passed
+native-c/deepdescent-590 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="control"><p class="summary">Teleport Level is tried before Deep Descent in both builds, so both read Teleport Level; logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg reads Deep Descent as its emergency escape (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Reading Scroll of Teleport Level.
+TRACK # Danger Level 1.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg reads Deep Descent as its emergency escape (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Reading Scroll of Teleport Level.
+TRACK # Danger Level 1.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/deepdescent-590: starting...
+SETUP seed=590 mode=control class=Warrior clevel=10 hp=44/119 danger=89
+  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Reading Scroll of Teleport Level.
+TRACK # Danger Level 1.
+OUTCOME reads_deep_descent=0 reads_phase=0 reads_teleport_level=1
+Passed
+native-c/deepdescent-590 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/deepdescent-590: starting...
+SETUP seed=590 mode=control class=Warrior clevel=10 hp=44/119 danger=89
+  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Reading Scroll of Teleport Level.
+TRACK # Danger Level 1.
+OUTCOME reads_deep_descent=0 reads_phase=0 reads_teleport_level=1
+Passed
+native-c/deepdescent-590 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 590, character level 10, dungeon level 10, lit room, an awake black ogre adjacent. Carried escapes: one Scroll of Deep Descent and five Phase Door (plus one Teleport Level in the control); no teleport, no potions. Fixture interventions: the danger D is read first and hit points set to D/2 so the about-to-die escape (Danger Level 1) applies; the ogre enters the Borg monster list through the production observe_kill_diff(). The production borg_caution() runs once.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/590">issue 590</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
