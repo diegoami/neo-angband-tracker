@@ -1,0 +1,120 @@
+{
+  "issue": "diegoami/neo-angband-tracker#593",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "edc4dcb3ff4c869b1fd366dd87330751a0de4d9c",
+  "fixtures_ref": "bcc2c86aef432b1aaa6824b02f41fea84bc23b3b",
+  "cases": {
+    "before": {
+      "scrolls": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "danger": 2000,
+          "curhp": 300,
+          "avoidance": 300,
+          "ateleport": 5,
+          "aescape": 0
+        },
+        "outcome": {
+          "landing_ok": 0,
+          "uses_destruction": 1
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 2000,
+          "curhp": 300,
+          "avoidance": 300,
+          "ateleport": 5,
+          "aescape": 6
+        },
+        "outcome": {
+          "landing_ok": 1,
+          "uses_destruction": 0
+        }
+      }
+    },
+    "after": {
+      "scrolls": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 2000,
+          "curhp": 300,
+          "avoidance": 300,
+          "ateleport": 5,
+          "aescape": 0
+        },
+        "outcome": {
+          "landing_ok": 1,
+          "uses_destruction": 0
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 2000,
+          "curhp": 300,
+          "avoidance": 300,
+          "ateleport": 5,
+          "aescape": 6
+        },
+        "outcome": {
+          "landing_ok": 1,
+          "uses_destruction": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-escape.c": "2c908a89ac7515f8a1b55818ebc0e19fa703ea5c288857b6bc7801f81b390d0a"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=4 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "7c18f955b0fc5154b0db147b71959bbb1b2f329c2626c41582be452e48e9d14f",
+    "after-control.log": "b6fd18f6377e910e759566b7b7e2271785f8940d74aebffdc12492401146a098",
+    "after-results.json": "ff74fcc2aae61957cc8932e821bd66090816898e6d6af78ff6896d8dc0ef88c1",
+    "after-scrolls.log": "2cc229623fc18cc17e5a894685ce2a6bf4b367c2e90830209507c331f741cad0",
+    "before-control.log": "b6fd18f6377e910e759566b7b7e2271785f8940d74aebffdc12492401146a098",
+    "before-results.json": "37750f86846b64e2f0706fba449e35705e9941f454eaeda58389f2c4810187a2",
+    "before-scrolls.log": "8b8e7453176f56d877d51a3f671adf7f3d5ea08845f64e24760f3c8f0a486066",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "fix.patch": "dd2c8b976a602bb8f073f186eecae95ff0006662165e306d3ffaec3a642caca0",
+    "make_replay.py": "c29440448265645a7659260281c7387334b692ddd06dbf6ecc2996fe7b0f96cc",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "474b28e6653aa30c2305da0502ad574f4091a2a329c76a3e9fc097e44f970c3e",
+    "replay.html": "1b9a04090d24544417a0d5ed91dd97fc879c6b8d0f8a5691d1d7f5e557db1b56",
+    "reproduce.py": "32c17d0bfc47ab192527bc094f93e375f3756c4da2cd85fe6fdcc796aad9d402",
+    "result.json": "8799be7255307b033f8183f6260d1fb102fd2cc43b0141726923ef3831ba97f9",
+    "run-after-alltests.log": "54690338585fd3e159354cb38f1a3ee444355695b0db73250a7419b96f04402e",
+    "run-after-build.log": "a261fde9c7427d0c9f71fc05c74af7d7018e4d823b5c291d0b74fb60d318580f",
+    "run-after-scenarios.log": "1029e3374c242f6b07a3ddc8f33daa3e3dbe685b480e34c4a1356505d2187ab7",
+    "run-before-alltests.log": "283791e14b603c80eccf03b18515de7c19588a30f7b333d80ce0a6c9602781ea",
+    "run-before-build.log": "d8962cd7212ea206764abdeb0426111c1f8fbd09ab7e295d0ddb94cb6992b952",
+    "run-before-scenarios.log": "65dcae3adacb84f3e7622ddada011a6b9fecab9501cea4ad50c70cb19b93c8d6",
+    "run-cases.py": "4f2c97e771a1fc3dfb478c3590621d9ef58ae1ac4be6cbee0b89e75601c926bf",
+    "run-configure.log": "fc923f41286cc733681365b2439411c8c65bb89f1d02875978b6773d6e0069e0",
+    "scenario.c": "7f64fee947cd0e22a062a9b2337320daeb04f476af1ccfb4c6038c4c0320edc4"
+  }
+}

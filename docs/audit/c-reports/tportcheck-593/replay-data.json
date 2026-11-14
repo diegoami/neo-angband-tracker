@@ -1,0 +1,90 @@
+{
+  "scrolls": {
+    "label": "Teleportation scrolls only",
+    "explanation": "Original: the landing check is skipped (no teleport staff), so the Borg uses its Staff of *Destruction*. Corrected: the check runs, finds a safe landing, and the Borg does not destroy the area.",
+    "control": false,
+    "before": {
+      "raw": "native-c/tportcheck-593: starting...\nSETUP seed=593 mode=scrolls class=Warrior clevel=40 hp=300/466 danger=2000\n  teleport_landing_check_runs_with_scrolls  STATE danger=2000 curhp=300 avoidance=300 ateleport=5 aescape=0\nDECISION landing_ok=0 defended=1 key=117\nTRACK # Performing defense type 22 with value 2000\nTRACK # Using Staff of *Destruction* (5 charges).\nOUTCOME landing_ok=0 uses_destruction=1\nFailed\n    native-c/tportcheck-593:184: requirement 'landing_ok' failed\nnative-c/tportcheck-593 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 2000,
+        "curhp": 300,
+        "avoidance": 300,
+        "ateleport": 5,
+        "aescape": 0
+      },
+      "outcome": {
+        "landing_ok": 0,
+        "uses_destruction": 1
+      },
+      "notes": [
+        "DECISION landing_ok=0 defended=1 key=117",
+        "TRACK # Performing defense type 22 with value 2000",
+        "TRACK # Using Staff of *Destruction* (5 charges)."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/tportcheck-593: starting...\nSETUP seed=593 mode=scrolls class=Warrior clevel=40 hp=300/466 danger=2000\n  teleport_landing_check_runs_with_scrolls  STATE danger=2000 curhp=300 avoidance=300 ateleport=5 aescape=0\nDECISION landing_ok=1 defended=0 key=0\nOUTCOME landing_ok=1 uses_destruction=0\nPassed\nnative-c/tportcheck-593 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 2000,
+        "curhp": 300,
+        "avoidance": 300,
+        "ateleport": 5,
+        "aescape": 0
+      },
+      "outcome": {
+        "landing_ok": 1,
+        "uses_destruction": 0
+      },
+      "notes": [
+        "DECISION landing_ok=1 defended=0 key=0"
+      ],
+      "value": 0
+    }
+  },
+  "control": {
+    "label": "Control: a Staff of Teleportation as well",
+    "explanation": "With both kinds of teleport the check ran before too: both builds find a safe landing and skip Destruction; logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/tportcheck-593: starting...\nSETUP seed=593 mode=control class=Warrior clevel=40 hp=300/466 danger=2000\n  teleport_landing_check_runs_with_scrolls  STATE danger=2000 curhp=300 avoidance=300 ateleport=5 aescape=6\nDECISION landing_ok=1 defended=0 key=0\nOUTCOME landing_ok=1 uses_destruction=0\nPassed\nnative-c/tportcheck-593 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 2000,
+        "curhp": 300,
+        "avoidance": 300,
+        "ateleport": 5,
+        "aescape": 6
+      },
+      "outcome": {
+        "landing_ok": 1,
+        "uses_destruction": 0
+      },
+      "notes": [
+        "DECISION landing_ok=1 defended=0 key=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/tportcheck-593: starting...\nSETUP seed=593 mode=control class=Warrior clevel=40 hp=300/466 danger=2000\n  teleport_landing_check_runs_with_scrolls  STATE danger=2000 curhp=300 avoidance=300 ateleport=5 aescape=6\nDECISION landing_ok=1 defended=0 key=0\nOUTCOME landing_ok=1 uses_destruction=0\nPassed\nnative-c/tportcheck-593 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 2000,
+        "curhp": 300,
+        "avoidance": 300,
+        "ateleport": 5,
+        "aescape": 6
+      },
+      "outcome": {
+        "landing_ok": 1,
+        "uses_destruction": 0
+      },
+      "notes": [
+        "DECISION landing_ok=1 defended=0 key=0"
+      ],
+      "value": 0
+    }
+  }
+}

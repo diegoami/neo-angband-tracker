@@ -1,0 +1,10 @@
+native-c/tportcheck-593: starting...
+SETUP seed=593 mode=scrolls class=Warrior clevel=40 hp=300/466 danger=2000
+  teleport_landing_check_runs_with_scrolls  STATE danger=2000 curhp=300 avoidance=300 ateleport=5 aescape=0
+DECISION landing_ok=0 defended=1 key=117
+TRACK # Performing defense type 22 with value 2000
+TRACK # Using Staff of *Destruction* (5 charges).
+OUTCOME landing_ok=0 uses_destruction=1
+Failed
+    native-c/tportcheck-593:184: requirement 'landing_ok' failed
+native-c/tportcheck-593 finished: 0/1 passed
