@@ -1,0 +1,28 @@
+{
+  "vuln": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "game_fire_res_level": 0,
+      "borg_rfire": 1,
+      "borg_fire_vuln": 1
+    },
+    "outcome": {
+      "danger": 72,
+      "borg_rfire": 1
+    }
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "game_fire_res_level": 1,
+      "borg_rfire": 1,
+      "borg_fire_vuln": 0
+    },
+    "outcome": {
+      "danger": 72,
+      "borg_rfire": 1
+    }
+  }
+}
