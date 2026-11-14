@@ -620,7 +620,13 @@ bool borg_dimension_door(int allow_fail)
     return false;
 }
 
-static bool borg_teleport_off_level(void)
+/*
+ * Leave the level by Teleport Level or, if allow_delayed, by Deep Descent.
+ * Deep Descent takes effect only after a delay (3+1d4 player turns) and
+ * lands below the deepest level reached, so it is no use as an emergency
+ * escape: callers escaping immediate danger pass allow_delayed = false.
+ */
+static bool borg_teleport_off_level(bool allow_delayed)
 {
     /* don't if we are already recalling or waiting for */
     /* deep descent */
@@ -630,8 +636,9 @@ static bool borg_teleport_off_level(void)
             || borg_activate_item(act_tele_level))
             return true;
 
-        if (borg_activate_item(act_deep_descent)
-            || borg_read_scroll(sv_scroll_deep_descent))
+        if (allow_delayed
+            && (borg_activate_item(act_deep_descent)
+                || borg_read_scroll(sv_scroll_deep_descent)))
             return true;
     }
 
@@ -708,7 +715,7 @@ bool borg_escape(int b_q)
      * benefit of rising to town.
      */
     if (borg.trait[BI_ISWEAK] && borg.trait[BI_CDEPTH] == 1) {
-        if (borg_teleport_off_level()) {
+        if (borg_teleport_off_level(true)) {
             borg_note("# Attempting to leave via teleport level/deep descent");
             return true;
         }
@@ -748,7 +755,7 @@ bool borg_escape(int b_q)
                     || borg_read_scroll(sv_scroll_teleport)
                     || borg_use_staff_fail(sv_staff_teleportation)
                     || borg_activate_item(act_tele_long)
-                    || borg_teleport_off_level()
+                    || borg_teleport_off_level(false)
 
                     /* revisit spells, increased fail rate */
                     || borg_dimension_door(tmp_allow_fail + 9)
@@ -961,7 +968,7 @@ bool borg_escape(int b_q)
         }
 
         /* Use Tport Level after the above attempts failed. */
-        if (borg_teleport_off_level()) {
+        if (borg_teleport_off_level(false)) {
             /* Flee! */
             borg_note("# Danger Level 3.4");
 
@@ -1266,7 +1273,7 @@ bool borg_escape(int b_q)
                 || borg_activate_item(act_tele_long)
                 || borg_read_scroll(sv_scroll_teleport)
                 || borg_use_staff_fail(sv_staff_teleportation)
-                || borg_teleport_off_level())) {
+                || borg_teleport_off_level(false))) {
             /* Flee! */
             borg_note("# Danger Level 8");
 
