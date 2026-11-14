@@ -1,0 +1,280 @@
+diff --git a/src/borg/borg-danger.c b/src/borg/borg-danger.c
+index 11efe9f1a..db92a6216 100644
+--- a/src/borg/borg-danger.c
++++ b/src/borg/borg-danger.c
+@@ -221,8 +221,10 @@ static int borg_danger_physical(int i, bool full_damage)
+             z = (d_dice * d_side);
+             if (borg.trait[BI_RACID])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_acid)
++            if (borg.temp.res_acid && !borg.trait[BI_VACID])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VACID] && !borg.temp.res_acid)
++                z = z * 4 / 3;
+             /* Add fear for the effect */
+             z += 200; /* We don't want our armour corroded. */
+             if ((pfe) && !borg_attacking)
+@@ -236,8 +238,10 @@ static int borg_danger_physical(int i, bool full_damage)
+             power = 10;
+             if (borg.trait[BI_RELEC])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_elec)
++            if (borg.temp.res_elec && !borg.trait[BI_VELEC])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VELEC] && !borg.temp.res_elec)
++                z = z * 4 / 3;
+             /* Add fear for the effect */
+             z = z * 2;
+             if ((pfe) && !borg_attacking)
+@@ -251,8 +255,10 @@ static int borg_danger_physical(int i, bool full_damage)
+             power = 10;
+             if (borg.trait[BI_RFIRE])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_fire)
++            if (borg.temp.res_fire && !borg.trait[BI_VFIRE])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VFIRE] && !borg.temp.res_fire)
++                z = z * 4 / 3;
+             /* Add fear for the effect */
+             z = z * 2;
+             if ((pfe) && !borg_attacking)
+@@ -268,6 +274,8 @@ static int borg_danger_physical(int i, bool full_damage)
+                 z = (z + 2) / 3;
+             if (borg.temp.res_acid)
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VCOLD] && !borg.temp.res_cold)
++                z = z * 4 / 3;
+             /* Add fear for the effect */
+             z = z * 2;
+             if ((pfe) && !borg_attacking)
+@@ -657,8 +665,10 @@ static int borg_danger_spell(
+                 z = 1600;
+             if (borg.trait[BI_RACID])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_acid)
++            if (borg.temp.res_acid && !borg.trait[BI_VACID])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VACID] && !borg.temp.res_acid)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count.*/
+             /* Add fear for the effect */
+@@ -674,8 +684,10 @@ static int borg_danger_spell(
+                 z = 1600;
+             if (borg.trait[BI_RELEC])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_elec)
++            if (borg.temp.res_elec && !borg.trait[BI_VELEC])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VELEC] && !borg.temp.res_elec)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count.*/
+             /* Add fear for the effect */
+@@ -691,8 +703,10 @@ static int borg_danger_spell(
+                 z = 1600;
+             if (borg.trait[BI_RFIRE])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_fire)
++            if (borg.temp.res_fire && !borg.trait[BI_VFIRE])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VFIRE] && !borg.temp.res_fire)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -708,8 +722,10 @@ static int borg_danger_spell(
+                 z = 1600;
+             if (borg.trait[BI_RCOLD])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_cold)
++            if (borg.temp.res_cold && !borg.trait[BI_VCOLD])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VCOLD] && !borg.temp.res_cold)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -952,8 +968,10 @@ static int borg_danger_spell(
+             z = (r_ptr->spell_power * 3) + 15;
+             if (borg.trait[BI_RACID])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_acid)
++            if (borg.temp.res_acid && !borg.trait[BI_VACID])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VACID] && !borg.temp.res_acid)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -966,8 +984,10 @@ static int borg_danger_spell(
+             z = (r_ptr->spell_power * 3) / 2 + 8;
+             if (borg.trait[BI_RELEC])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_elec)
++            if (borg.temp.res_elec && !borg.trait[BI_VELEC])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VELEC] && !borg.temp.res_elec)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -980,8 +1000,10 @@ static int borg_danger_spell(
+             z = (r_ptr->spell_power * 7) / 2 + 10;
+             if (borg.trait[BI_RFIRE])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_fire)
++            if (borg.temp.res_fire && !borg.trait[BI_VFIRE])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VFIRE] && !borg.temp.res_fire)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -994,8 +1016,10 @@ static int borg_danger_spell(
+             z = (r_ptr->spell_power * 3 / 2) + 10;
+             if (borg.trait[BI_RCOLD])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_cold)
++            if (borg.temp.res_cold && !borg.trait[BI_VCOLD])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VCOLD] && !borg.temp.res_cold)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -1153,8 +1177,10 @@ static int borg_danger_spell(
+             z = ((7 * 8) + (r_ptr->spell_power / 3));
+             if (borg.trait[BI_RACID])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_acid)
++            if (borg.temp.res_acid && !borg.trait[BI_VACID])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VACID] && !borg.temp.res_acid)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -1168,8 +1194,10 @@ static int borg_danger_spell(
+             z    = ((4 * 8) + (r_ptr->spell_power / 3));
+             if (borg.trait[BI_RELEC])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_elec)
++            if (borg.temp.res_elec && !borg.trait[BI_VELEC])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VELEC] && !borg.temp.res_elec)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -1183,8 +1211,10 @@ static int borg_danger_spell(
+             z    = ((9 * 8) + (r_ptr->spell_power / 3));
+             if (borg.trait[BI_RFIRE])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_fire)
++            if (borg.temp.res_fire && !borg.trait[BI_VFIRE])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VFIRE] && !borg.temp.res_fire)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -1198,8 +1228,10 @@ static int borg_danger_spell(
+             z    = ((6 * 8) + (r_ptr->spell_power / 3));
+             if (borg.trait[BI_RCOLD])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_cold)
++            if (borg.temp.res_cold && !borg.trait[BI_VCOLD])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VCOLD] && !borg.temp.res_cold)
++                z = z * 4 / 3;
+             /* if looking at full damage, things that are just annoying */
+             /* do not count. */
+             /* Add fear for the effect */
+@@ -1296,8 +1328,10 @@ static int borg_danger_spell(
+             z = ((5 * 5) + (r_ptr->spell_power * 2) + 30);
+             if (borg.trait[BI_RELEC])
+                 z = (z + 2) / 3;
+-            if (borg.temp.res_elec)
++            if (borg.temp.res_elec && !borg.trait[BI_VELEC])
+                 z = (z + 2) / 3;
++            if (borg.trait[BI_VELEC] && !borg.temp.res_elec)
++                z = z * 4 / 3;
+             bolt = true;
+             break;
+ 
+diff --git a/src/borg/borg-trait.c b/src/borg/borg-trait.c
+index 5bac81478..fe6a066cd 100644
+--- a/src/borg/borg-trait.c
++++ b/src/borg/borg-trait.c
+@@ -939,6 +939,10 @@ const char *prefix_pref[] = {
+     "vuln elec", /* Vulnerable to elec */
+     "vuln cold", /* Vulnerable to Cold */
+     "vuln acid", /* Vulnerable to Acid */
++    "unresisted vuln fire", /* Vulnerable, no permanent resistance left */
++    "unresisted vuln elec",
++    "unresisted vuln cold",
++    "unresisted vuln acid",
+     "unknown curse",
+ 
+     /* weapon attributes */
+@@ -2170,16 +2174,34 @@ static void borg_notice_equipment(void)
+     /* A vulnerability (such as the burning up, chilled to the bone or
+      * steelskin curse) takes away one level of the permanent resistance
+      * to that element unless immune (calc_bonuses()), so a single
+-     * resistance and a vulnerability leave none.  Temporary resistance is
+-     * counted separately (borg.temp). */
+-    if (borg.trait[BI_CRSFVULN] && !borg.trait[BI_IFIRE])
+-        borg.trait[BI_RFIRE] = false;
+-    if (borg.trait[BI_CRSCVULN] && !borg.trait[BI_ICOLD])
+-        borg.trait[BI_RCOLD] = false;
+-    if (borg.trait[BI_CRSEVULN] && !borg.trait[BI_IELEC])
+-        borg.trait[BI_RELEC] = false;
+-    if (borg.trait[BI_CRSAVULN] && !borg.trait[BI_IACID])
+-        borg.trait[BI_RACID] = false;
++     * resistance and a vulnerability leave none, and a vulnerability with
++     * no resistance leaves the player vulnerable (x4/3 damage,
++     * adjust_dam()).  Temporary resistance is counted separately
++     * (borg.temp). */
++    if (borg.trait[BI_CRSFVULN] && !borg.trait[BI_IFIRE]) {
++        if (borg.trait[BI_RFIRE])
++            borg.trait[BI_RFIRE] = false;
++        else
++            borg.trait[BI_VFIRE] = true;
++    }
++    if (borg.trait[BI_CRSCVULN] && !borg.trait[BI_ICOLD]) {
++        if (borg.trait[BI_RCOLD])
++            borg.trait[BI_RCOLD] = false;
++        else
++            borg.trait[BI_VCOLD] = true;
++    }
++    if (borg.trait[BI_CRSEVULN] && !borg.trait[BI_IELEC]) {
++        if (borg.trait[BI_RELEC])
++            borg.trait[BI_RELEC] = false;
++        else
++            borg.trait[BI_VELEC] = true;
++    }
++    if (borg.trait[BI_CRSAVULN] && !borg.trait[BI_IACID]) {
++        if (borg.trait[BI_RACID])
++            borg.trait[BI_RACID] = false;
++        else
++            borg.trait[BI_VACID] = true;
++    }
+ 
+     /*** Quiver needs to be evaluated ***/
+ 
+diff --git a/src/borg/borg-trait.h b/src/borg/borg-trait.h
+index 4eb2c690c..729edf34c 100644
+--- a/src/borg/borg-trait.h
++++ b/src/borg/borg-trait.h
+@@ -256,6 +256,10 @@ enum {
+     BI_CRSEVULN,
+     BI_CRSCVULN,
+     BI_CRSAVULN,
++    BI_VFIRE,
++    BI_VELEC,
++    BI_VCOLD,
++    BI_VACID,
+     BI_CRSUNKNO,
+ 
+     BI_WS_ANIMAL,

@@ -1,0 +1,7 @@
+native-c/vulnmod-610: starting...
+SETUP seed=610 mode=temp class=Warrior clevel=35 hp=427
+  fire_danger_follows_the_game_resistance_level  STATE game_fire_res_level=0 reference_game_fire_res_level=0 borg_rfire=0 borg_temp_rfire=1 borg_fire_vuln=1
+OUTCOME danger=73 reference=137
+Failed
+    native-c/vulnmod-610:176: requirement 'danger == ref_danger' failed
+native-c/vulnmod-610 finished: 0/1 passed
