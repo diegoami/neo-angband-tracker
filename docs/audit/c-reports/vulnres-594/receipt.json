@@ -1,0 +1,112 @@
+{
+  "issue": "diegoami/neo-angband-tracker#594",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "82fd25a5477054a0727ab920701b7555898586b2",
+  "fixtures_ref": "6ec100d75c00ad1d0712491b0dd7d3e20a86a075",
+  "cases": {
+    "before": {
+      "vuln": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "game_fire_res_level": 0,
+          "borg_rfire": 1,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 72,
+          "borg_rfire": 1
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 1,
+          "borg_rfire": 1,
+          "borg_fire_vuln": 0
+        },
+        "outcome": {
+          "danger": 72,
+          "borg_rfire": 1
+        }
+      }
+    },
+    "after": {
+      "vuln": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 134,
+          "borg_rfire": 0
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 1,
+          "borg_rfire": 1,
+          "borg_fire_vuln": 0
+        },
+        "outcome": {
+          "danger": 72,
+          "borg_rfire": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-trait.c": "ca454d64b877440157c6a6541251a84ac6b9817f463702a1e30d15a30245bde0"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=4 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "8caa387a9eb40c078b7415656a65ca38da918970d23247c7327b4169d248aae7",
+    "after-control.log": "c177b1c6f5af8e3c1dc3e6d607544cd5cc342e74d9969356b6e7c65594cb4477",
+    "after-results.json": "ca18a2990e1d0afb0026b0233da46315e20c2d9c55e2f654161e950ceff630fb",
+    "after-vuln.log": "054542998961dc9428077e36a69a596e546acd951dc29a9007d619b2c103bc9c",
+    "before-control.log": "c177b1c6f5af8e3c1dc3e6d607544cd5cc342e74d9969356b6e7c65594cb4477",
+    "before-results.json": "c14abcce8a91006705a1369b13cd995de58d1249845f82f52dee5f37f8581dce",
+    "before-vuln.log": "4425a8c2c8afa51ceb502499ac8d206648a0960751d284425ec7a3c8203c40d4",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "fix.patch": "5797d2a7a95d51f1d219dc7182b1b65827e89af95c93948847480db639abab76",
+    "make_replay.py": "db7bd0403ef54a3c8094e564e796cd0e94f289fc470f4dcd367b80d52c4bc687",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "d8d09267a3062af9c38aecd3e2f695952c8b7ddba2c67b9c018774dac0b3678b",
+    "replay.html": "2a850440e73c206f8a4485ad27b4ad5d52ab66684aca1a2c52a03c014d009c10",
+    "reproduce.py": "728e03fc3e58bf6715a242e69c5460bada83d9b7463002184b5869d13141d72a",
+    "result.json": "ba15ff71b27fce98aa41d6bd13269b9e4fd5095573ce46e338fb417b0eba1e63",
+    "run-after-alltests.log": "aef4a3c558f239803ade21014d86656541712676e12755aed804dee09beb709f",
+    "run-after-build.log": "298c7c746bba29234a62a689857599e13f9bdb41c75505c0b8c39ec5fa15edc0",
+    "run-after-scenarios.log": "038203e0542ba2d7cf528a66b53e54078c4ed4998f45904fb38e3493e2c148dc",
+    "run-before-alltests.log": "797bafb564950e789d67c306fb8c938b26ec327c6facdd3f874b6474a86b766b",
+    "run-before-build.log": "23312be9adf396f1f9501dbe380b01cc98b6c65b4f7f3990bc5da8c33bc3d01b",
+    "run-before-scenarios.log": "7d13f6e41339e8a1be15e8853f46ab042e1fdfbc57d135487974663956c5b5f4",
+    "run-cases.py": "c6d504e59ac52f06b898fb6e6a7920a64f1d2fd73e2aa187d79be491b3a1991a",
+    "run-configure.log": "98b464bdced9db6345111150060844b98f3d6963b19852258bf6b7f229c832ec",
+    "scenario.c": "aadd8e7d751515d4f49336b58743b4c7e3e066ed844f89e0b85040bbd0d64026"
+  }
+}
