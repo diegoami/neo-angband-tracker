@@ -1214,9 +1214,11 @@ static void borg_parse_aux(char *msg, int len)
     /* Removed rubble.  Important when out of lite */
     if (prefix(msg, "You have removed the ")) {
         int x, y;
+        borg_grid *rx;
         /* remove rubbles from array */
-        for (y = borg.c.y - 1; y < borg.c.y + 1; y++) {
-            for (x = borg.c.x - 1; x < borg.c.x + 1; x++) {
+        for (y = borg.c.y - 1; y <= borg.c.y + 1; y++) {
+            for (x = borg.c.x - 1; x <= borg.c.x + 1; x++) {
+                rx = &borg_grids[y][x];
                 /* replace all rubble with broken doors, the borg ignores
                  * broken doors.  This routine is only needed if the borg
                  * is out of lite and searching in the dark.
@@ -1224,8 +1226,8 @@ static void borg_parse_aux(char *msg, int len)
                 if (borg.trait[BI_LIGHT])
                     continue;
 
-                if (ag->feat == FEAT_RUBBLE)
-                    ag->feat = FEAT_BROKEN;
+                if (rx->feat == FEAT_RUBBLE)
+                    rx->feat = FEAT_BROKEN;
             }
         }
         return;
