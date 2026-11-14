@@ -24,6 +24,7 @@ import {
   storeMaint,
   storeCarry,
   storeReset,
+  storeChooseOwner,
   storeUpdate,
   storeWillBuy,
 } from "./store.js";
@@ -232,6 +233,34 @@ describe("store maintenance (store.c store_reset/store_maint)", () => {
 });
 
 describe("store stock identity", () => {
+  it("matches native C's first two maintenance RNG checkpoints from a common store input", () => {
+    const fixture = JSON.parse(readFileSync(new URL("./native-stock-rng.fixture.json", import.meta.url), "utf8"));
+    const { ctx, stores } = context();
+    ctx.rng.setState({ ...ctx.rng.getState(), ...fixture.before_owner });
+    const general = stores.find(store => store.feat === FEAT.STORE_GENERAL)!;
+    general.owner = storeChooseOwner(ctx.rng, general);
+    const pool = () => ({ stateI: ctx.rng.getState().stateI, state: ctx.rng.getState().state });
+    storeMaint(ctx, general);
+    expect(pool()).toEqual({ stateI: fixture.after_first.stateI, state: fixture.after_first.state });
+    storeMaint(ctx, general);
+    expect(pool()).toEqual({ stateI: fixture.after_second.stateI, state: fixture.after_second.state });
+  });
+
+  it("prepends new stacks as C pile_insert, preserving a merged stack's position", () => {
+    const { ctx, stores } = context();
+    const store = stores.find(s => s.feat === FEAT.STORE_GENERAL)!;
+    const first = makeKind(TV.POTION), second = makeKind(TV.FLASK), third = makeKind(TV.LIGHT);
+    for (const obj of [first, second, third])
+      expect(storeCarry(ctx.rng, reg, constants, store, obj, true)).toBe(obj);
+    // store.c:981 uses pile_insert; obj-pile.c:167 prepends at the head.
+    expect(store.stock).toEqual([third, second, first]);
+    const merged = makeKind(TV.FLASK);
+    const previous = second.number;
+    expect(storeCarry(ctx.rng, reg, constants, store, merged, true)).toBe(second);
+    expect(second.number).toBe(previous + merged.number);
+    expect(store.stock).toEqual([third, second, first]);
+  });
+
   it("does not merge differently discounted stock", () => {
     const { ctx, stores } = context();
     const general = stores.find((store) => store.feat === FEAT.STORE_GENERAL);
@@ -246,7 +275,8 @@ describe("store stock identity", () => {
     storeCarry(ctx.rng, reg, constants, general, halfPrice, true);
 
     expect(general.stock).toHaveLength(2);
-    expect(general.stock.map((obj) => obj.discount ?? 0)).toEqual([0, 50]);
+    // New distinct stock is at the head, matching C pile_insert.
+    expect(general.stock.map((obj) => obj.discount ?? 0)).toEqual([50, 0]);
   });
 });
 
