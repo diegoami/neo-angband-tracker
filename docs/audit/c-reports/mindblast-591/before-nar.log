@@ -1,0 +1,6 @@
+native-c/mindblast-591: starting...
+SETUP seed=591 mode=nar class=Warrior clevel=20 hp=200/200 save=39 rconf=0 foe=Nár, the Dwarf level=17
+  mind_blast_danger_reaches_8d8  OUTCOME danger=40
+Failed
+    native-c/mindblast-591:123: requirement 'danger >= 64' failed
+native-c/mindblast-591 finished: 0/1 passed

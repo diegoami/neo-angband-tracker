@@ -1,0 +1,2 @@
+nar {'exit': 0, 'passed': False, 'outcome': {'danger': 40}}
+control {'exit': 0, 'passed': True, 'outcome': {'danger': 600}}

@@ -1,0 +1,16 @@
+{
+  "nar": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "danger": 74
+    }
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "danger": 600
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "nar": {
+    "label": "Nar, the Dwarf four grids away",
+    "explanation": "Nar casts Mind Blast (8d8, up to 64) among other spells. Original: the Borg values the Mind Blast at about 9. Corrected: at 64, so Nar is rated by his strongest attack.",
+    "control": false,
+    "before": {
+      "raw": "native-c/mindblast-591: starting...\nSETUP seed=591 mode=nar class=Warrior clevel=20 hp=200/200 save=39 rconf=0 foe=N\u00e1r, the Dwarf level=17\n  mind_blast_danger_reaches_8d8  OUTCOME danger=40\nFailed\n    native-c/mindblast-591:123: requirement 'danger >= 64' failed\nnative-c/mindblast-591 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "danger": 40
+      },
+      "notes": [],
+      "value": 40
+    },
+    "after": {
+      "raw": "native-c/mindblast-591: starting...\nSETUP seed=591 mode=nar class=Warrior clevel=20 hp=200/200 save=39 rconf=0 foe=N\u00e1r, the Dwarf level=17\n  mind_blast_danger_reaches_8d8  OUTCOME danger=74\nPassed\nnative-c/mindblast-591 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "danger": 74
+      },
+      "notes": [],
+      "value": 74
+    }
+  },
+  "control": {
+    "label": "Control: an illusionist (no Mind Blast)",
+    "explanation": "A caster without Mind Blast: the danger is identical in both builds and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/mindblast-591: starting...\nSETUP seed=591 mode=control class=Warrior clevel=20 hp=200/200 save=39 rconf=0 foe=illusionist level=13\n  mind_blast_danger_reaches_8d8  OUTCOME danger=600\nPassed\nnative-c/mindblast-591 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "danger": 600
+      },
+      "notes": [],
+      "value": 600
+    },
+    "after": {
+      "raw": "native-c/mindblast-591: starting...\nSETUP seed=591 mode=control class=Warrior clevel=20 hp=200/200 save=39 rconf=0 foe=illusionist level=13\n  mind_blast_danger_reaches_8d8  OUTCOME danger=600\nPassed\nnative-c/mindblast-591 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "danger": 600
+      },
+      "notes": [],
+      "value": 600
+    }
+  }
+}
