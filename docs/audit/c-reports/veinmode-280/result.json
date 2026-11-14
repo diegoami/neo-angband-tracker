@@ -1,0 +1,82 @@
+{
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "083dd7b0af3097aec2ed47759dead7224f52a8f8",
+  "fixtures_ref": "855046c85d77b24ed9575a3842f3b749661b13fa",
+  "cases": {
+    "before": {
+      "mixed": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 0,
+          "vein_note": 1
+        }
+      },
+      "magma-only": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 0,
+          "vein_note": 1
+        }
+      },
+      "capable": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 1,
+          "vein_note": 1
+        }
+      }
+    },
+    "after": {
+      "mixed": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 0,
+          "vein_note": 1
+        }
+      },
+      "magma-only": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 0,
+          "vein_note": 1
+        }
+      },
+      "capable": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 1,
+          "vein_note": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "magma-only",
+    "capable"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "aa8c3128d27ffd83929d80fbdac214d4f46a543063d7c40906e83ea2f2cd197f"
+  }
+}

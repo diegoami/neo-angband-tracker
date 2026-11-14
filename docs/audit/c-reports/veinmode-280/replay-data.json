@@ -1,0 +1,95 @@
+{
+  "mixed": {
+    "label": "Near quartz, far magma: the flow must take the diggable vein",
+    "explanation": "The borg can dig magma but not quartz, and has twitched past the threshold that lowers the vein gate to magma. The original commits toward the near quartz vein it can never dig (step 8); the correction skips it and commits toward the magma vein (step 6).",
+    "control": false,
+    "before": {
+      "raw": "native-c/veinmode-280: starting...\nSETUP seed=280 mode=mixed class=Warrior clevel=23 dig=13 quartz_diggable=0 magma_diggable=1 veins=2 twitch=27 gold=140\n  the_committed_vein_must_be_diggable  DECISION rc=1 keys=\"8\"\nTRACK # Flowing toward vein at cost 3\nOUTCOME flowed=1 keys=\"8\" quartz_diggable=0 vein_note=1\nFailed\n    native-c/veinmode-280:195: requirement 'streq(keybuf, \"6\")' failed\nnative-c/veinmode-280 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "flowed": 1,
+        "quartz_diggable": 0,
+        "vein_note": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward vein at cost 3"
+      ],
+      "value": "n/a"
+    },
+    "after": {
+      "raw": "native-c/veinmode-280: starting...\nSETUP seed=280 mode=mixed class=Warrior clevel=23 dig=13 quartz_diggable=0 magma_diggable=1 veins=2 twitch=27 gold=140\n  the_committed_vein_must_be_diggable  DECISION rc=1 keys=\"6\"\nTRACK # Flowing toward vein at cost 4\nOUTCOME flowed=1 keys=\"6\" quartz_diggable=0 vein_note=1\nPassed\nnative-c/veinmode-280 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "quartz_diggable": 0,
+        "vein_note": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward vein at cost 4"
+      ],
+      "value": "n/a"
+    }
+  },
+  "magma-only": {
+    "label": "Only the magma vein: unchanged control",
+    "explanation": "With the quartz vein removed, both variants commit to the diggable magma vein (step 6) and the complete log is byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/veinmode-280: starting...\nSETUP seed=280 mode=magma-only class=Warrior clevel=23 dig=13 quartz_diggable=0 magma_diggable=1 veins=1 twitch=27 gold=140\n  the_committed_vein_must_be_diggable  DECISION rc=1 keys=\"6\"\nTRACK # Flowing toward vein at cost 4\nOUTCOME flowed=1 keys=\"6\" quartz_diggable=0 vein_note=1\nPassed\nnative-c/veinmode-280 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "quartz_diggable": 0,
+        "vein_note": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward vein at cost 4"
+      ],
+      "value": "n/a"
+    },
+    "after": {
+      "raw": "native-c/veinmode-280: starting...\nSETUP seed=280 mode=magma-only class=Warrior clevel=23 dig=13 quartz_diggable=0 magma_diggable=1 veins=1 twitch=27 gold=140\n  the_committed_vein_must_be_diggable  DECISION rc=1 keys=\"6\"\nTRACK # Flowing toward vein at cost 4\nOUTCOME flowed=1 keys=\"6\" quartz_diggable=0 vein_note=1\nPassed\nnative-c/veinmode-280 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "quartz_diggable": 0,
+        "vein_note": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward vein at cost 4"
+      ],
+      "value": "n/a"
+    }
+  },
+  "capable": {
+    "label": "Every vein diggable: unchanged control",
+    "explanation": "A borg with a wielded Shovel and digging 60 passes the per-target check on both variants, mines the near quartz vein (step 8) as before, and the complete log is byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/veinmode-280: starting...\nSETUP seed=280 mode=capable class=Warrior clevel=23 dig=38 quartz_diggable=1 magma_diggable=1 veins=2 twitch=27 gold=140\n  the_committed_vein_must_be_diggable  DECISION rc=1 keys=\"8\"\nTRACK # Flowing toward vein at cost 3\nOUTCOME flowed=1 keys=\"8\" quartz_diggable=1 vein_note=1\nPassed\nnative-c/veinmode-280 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "quartz_diggable": 1,
+        "vein_note": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward vein at cost 3"
+      ],
+      "value": "n/a"
+    },
+    "after": {
+      "raw": "native-c/veinmode-280: starting...\nSETUP seed=280 mode=capable class=Warrior clevel=23 dig=38 quartz_diggable=1 magma_diggable=1 veins=2 twitch=27 gold=140\n  the_committed_vein_must_be_diggable  DECISION rc=1 keys=\"8\"\nTRACK # Flowing toward vein at cost 3\nOUTCOME flowed=1 keys=\"8\" quartz_diggable=1 vein_note=1\nPassed\nnative-c/veinmode-280 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 1,
+        "quartz_diggable": 1,
+        "vein_note": 1
+      },
+      "notes": [
+        "TRACK # Flowing toward vein at cost 3"
+      ],
+      "value": "n/a"
+    }
+  }
+}
