@@ -1,0 +1,62 @@
+{
+  "dark": {
+    "label": "No up-stair seen: the gates must hold",
+    "explanation": "A lightless Borg stands one grid from a down staircase and has seen no up staircase. The original skips every dive gate and queues the step toward the stairs; the correction runs the no-light gate and refuses.",
+    "control": false,
+    "before": {
+      "raw": "native-c/divegate-629: starting...\nSETUP seed=629 mode=dark class=Warrior clevel=17 light=0 depth=8 up=0 down=1 food=7\n  a_lightless_borg_may_not_dive_without_seen_gates  DECISION rc=1 keys=\"8\"\nTRACK # Flowing toward down-stairs at cost 1\nOUTCOME flowed=1 keys=1 up=0 light=0\nFailed\n    native-c/divegate-629:179: requirement '!rc' failed\nnative-c/divegate-629 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "flowed": 1,
+        "keys": 1,
+        "up": 0,
+        "light": 0
+      },
+      "notes": [
+        "TRACK # Flowing toward down-stairs at cost 1"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/divegate-629: starting...\nSETUP seed=629 mode=dark class=Warrior clevel=17 light=0 depth=8 up=0 down=1 food=7\n  a_lightless_borg_may_not_dive_without_seen_gates  DECISION rc=0 keys=\"\"\nOUTCOME flowed=0 keys=0 up=0 light=0\nPassed\nnative-c/divegate-629 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 0,
+        "keys": 0,
+        "up": 0,
+        "light": 0
+      },
+      "notes": [],
+      "value": 0
+    }
+  },
+  "control": {
+    "label": "Up-stair seen: unchanged control",
+    "explanation": "The same lightless Borg with an up staircase also seen: the no-light gate already ran inside the wrapper, so both variants refuse, and the complete log is byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/divegate-629: starting...\nSETUP seed=629 mode=control class=Warrior clevel=17 light=0 depth=8 up=1 down=1 food=7\n  a_lightless_borg_may_not_dive_without_seen_gates  DECISION rc=0 keys=\"\"\nOUTCOME flowed=0 keys=0 up=1 light=0\nPassed\nnative-c/divegate-629 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 0,
+        "keys": 0,
+        "up": 1,
+        "light": 0
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/divegate-629: starting...\nSETUP seed=629 mode=control class=Warrior clevel=17 light=0 depth=8 up=1 down=1 food=7\n  a_lightless_borg_may_not_dive_without_seen_gates  DECISION rc=0 keys=\"\"\nOUTCOME flowed=0 keys=0 up=1 light=0\nPassed\nnative-c/divegate-629 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "flowed": 0,
+        "keys": 0,
+        "up": 1,
+        "light": 0
+      },
+      "notes": [],
+      "value": 0
+    }
+  }
+}
