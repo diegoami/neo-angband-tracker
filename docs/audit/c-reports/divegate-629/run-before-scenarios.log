@@ -1,0 +1,2 @@
+dark {'exit': 0, 'passed': False, 'outcome': {'flowed': 1, 'keys': 1, 'up': 0, 'light': 0}}
+control {'exit': 0, 'passed': True, 'outcome': {'flowed': 0, 'keys': 0, 'up': 1, 'light': 0}}

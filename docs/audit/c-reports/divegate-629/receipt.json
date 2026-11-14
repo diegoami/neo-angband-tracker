@@ -1,0 +1,105 @@
+{
+  "issue": "diegoami/neo-angband-tracker#629",
+  "report": "divegate-629",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "cdd36650d774c8ecd423d0c770d1af9ffc07731d",
+  "fix_branch": "divegate-629",
+  "fixtures_ref": "97d3524ab2afc84cab09348c6e361333c47d599d",
+  "cases": {
+    "dark": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "flowed": 1,
+          "keys": 1,
+          "up": 0,
+          "light": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "flowed": 0,
+          "keys": 0,
+          "up": 0,
+          "light": 0
+        }
+      }
+    },
+    "control": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "flowed": 0,
+          "keys": 0,
+          "up": 1,
+          "light": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "flowed": 0,
+          "keys": 0,
+          "up": 1,
+          "light": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "claim": "A lightless Borg one grid from a down staircase, having seen no up staircase, dives (queues the step) on the original and refuses with the correction; the same lightless Borg with the up staircase also seen refuses on both variants, and that control's complete log is byte-identical. Both full native gates pass at 965/965 and 5/5 in each variant.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-stairs.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-stairs.c": "833306feab0ac0e459482ee3324f9d3c7b4cff8ca54fa9472d217c295d6951a0"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "455488fa87d58e61734789fae4aef4626fe93549a917d4a701245461988d24ff",
+    "after-control.log": "ad6e985ea1b3cf046bf5d8f56f56a7aca04dfaa76e6bb24183e998fae17ced2f",
+    "after-dark.log": "3f48b7e9d5aad384bb34175ef1237c92521e5c2bd26df7fd0786e713f0a37dcf",
+    "after-results.json": "75e0fbfe3e82956b6436db642da54dce1b0124ab059a1822830ba2726f2953d9",
+    "before-control.log": "ad6e985ea1b3cf046bf5d8f56f56a7aca04dfaa76e6bb24183e998fae17ced2f",
+    "before-dark.log": "0b3fd6165de5f9ce5d5ee1b285091754785f40a02c865712a6012b73848269ae",
+    "before-results.json": "5cc6882f4db6ddad54dee167f356db7e53da6e01da063f1485c642878ab1c55c",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "c58cda265f096038f752b70108b250f6fc44368decc690c3b9c6f2c6bbaef9e4",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "257ff441d184c0deaa68bb5ace4b5483549c372029adab8dd52e3adfd8cf56b5",
+    "replay.html": "808012d9605cf392e659637456ab5e120e1788ee7de6a53d6e3f08940014db74",
+    "reproduce.py": "c62352d5695d0590071da0b30deb7a31ab4c1ce30e18e1a4821f700edbac73ab",
+    "result.json": "ac7e12f7a2d2ab23dd1422cc6e2ba2959d044b799f795e6a5c6cf1cef2030731",
+    "run-after-alltests.log": "172ba17ae10e6b5ce6947475150aa97fcdd9b06bad5294c77e0a1ac1fe7fc89b",
+    "run-after-build.log": "ad34641a1cf404f3ac9d3630721b2c297f3630e7ebb434bc9f6f6b477dfd3aa4",
+    "run-after-scenarios.log": "25181892d60daecf37bc9ae32a10387ffedf482b0badef0984664f92cd465be0",
+    "run-before-alltests.log": "2a105cffa3d321d15d0b965f5acd1e62592718f45a842fc9df55a99c0736cbed",
+    "run-before-build.log": "6beb7710f5564c03bdc3c93e895d64b4070e6098caf5ba74ffbb80a7f4b3c6a7",
+    "run-before-scenarios.log": "440919724495004ef7f0653c21b41deb4086caedb6f59cb5002e59bf02cb3cd3",
+    "run-cases.py": "2dc3310d5087dee0e8029a35e6806a77ca1afeee885bc66d1e63f0dba90d0baf",
+    "run-configure.log": "71094bb795fa527ebb1374747a32b97a7d3c27c04e9997db36a0b1ccb60a46cd",
+    "scenario.c": "792546997ef43d6bff70cac7f36140388349dd1937f485829909531bcd7345e4"
+  }
+}

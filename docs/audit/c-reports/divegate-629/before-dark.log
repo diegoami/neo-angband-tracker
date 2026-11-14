@@ -1,0 +1,8 @@
+native-c/divegate-629: starting...
+SETUP seed=629 mode=dark class=Warrior clevel=17 light=0 depth=8 up=0 down=1 food=7
+  a_lightless_borg_may_not_dive_without_seen_gates  DECISION rc=1 keys="8"
+TRACK # Flowing toward down-stairs at cost 1
+OUTCOME flowed=1 keys=1 up=0 light=0
+Failed
+    native-c/divegate-629:179: requirement '!rc' failed
+native-c/divegate-629 finished: 0/1 passed

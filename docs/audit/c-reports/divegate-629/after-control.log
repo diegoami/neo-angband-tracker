@@ -1,0 +1,6 @@
+native-c/divegate-629: starting...
+SETUP seed=629 mode=control class=Warrior clevel=17 light=0 depth=8 up=1 down=1 food=7
+  a_lightless_borg_may_not_dive_without_seen_gates  DECISION rc=0 keys=""
+OUTCOME flowed=0 keys=0 up=1 light=0
+Passed
+native-c/divegate-629 finished: 1/1 passed
