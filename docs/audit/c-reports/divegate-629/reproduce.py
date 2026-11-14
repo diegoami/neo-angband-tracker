@@ -17,7 +17,7 @@ import subprocess
 import sys
 import tempfile
 
-BASE = "e473720ed88a0f0c7ca66815cef3000eb4a38bc3"
+BASE = "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6"
 DIRECTORY = "docs/audit/c-reports/divegate-629/"
 OBSERVER = 'D629Observer'
 PHASES = ("before", "after")
