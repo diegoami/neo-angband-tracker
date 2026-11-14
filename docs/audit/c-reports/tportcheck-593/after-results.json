@@ -1,0 +1,32 @@
+{
+  "scrolls": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 2000,
+      "curhp": 300,
+      "avoidance": 300,
+      "ateleport": 5,
+      "aescape": 0
+    },
+    "outcome": {
+      "landing_ok": 1,
+      "uses_destruction": 0
+    }
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 2000,
+      "curhp": 300,
+      "avoidance": 300,
+      "ateleport": 5,
+      "aescape": 6
+    },
+    "outcome": {
+      "landing_ok": 1,
+      "uses_destruction": 0
+    }
+  }
+}

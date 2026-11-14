@@ -1,0 +1,7 @@
+native-c/tportcheck-593: starting...
+SETUP seed=593 mode=control class=Warrior clevel=40 hp=300/466 danger=2000
+  teleport_landing_check_runs_with_scrolls  STATE danger=2000 curhp=300 avoidance=300 ateleport=5 aescape=6
+DECISION landing_ok=1 defended=0 key=0
+OUTCOME landing_ok=1 uses_destruction=0
+Passed
+native-c/tportcheck-593 finished: 1/1 passed
