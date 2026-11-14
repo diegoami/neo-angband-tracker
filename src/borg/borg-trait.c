@@ -2167,6 +2167,20 @@ static void borg_notice_equipment(void)
         && borg.trait[BI_RLITE])
         borg.trait[BI_RBLIND] = true;
 
+    /* A vulnerability (such as the burning up, chilled to the bone or
+     * steelskin curse) takes away one level of the permanent resistance
+     * to that element unless immune (calc_bonuses()), so a single
+     * resistance and a vulnerability leave none.  Temporary resistance is
+     * counted separately (borg.temp). */
+    if (borg.trait[BI_CRSFVULN] && !borg.trait[BI_IFIRE])
+        borg.trait[BI_RFIRE] = false;
+    if (borg.trait[BI_CRSCVULN] && !borg.trait[BI_ICOLD])
+        borg.trait[BI_RCOLD] = false;
+    if (borg.trait[BI_CRSEVULN] && !borg.trait[BI_IELEC])
+        borg.trait[BI_RELEC] = false;
+    if (borg.trait[BI_CRSAVULN] && !borg.trait[BI_IACID])
+        borg.trait[BI_RACID] = false;
+
     /*** Quiver needs to be evaluated ***/
 
     /* Ignore invalid missiles */
