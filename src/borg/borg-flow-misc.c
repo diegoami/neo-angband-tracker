@@ -405,6 +405,13 @@ bool borg_flow_vein(bool viewable, int nearness)
         if (viewable && !(ag->info & BORG_VIEW))
             continue;
 
+        /* Skip veins this borg cannot dig: the gate above only checked
+         * the minimum vein kind, so after the twitch fallback a
+         * magma-capable borg would otherwise commit a flow toward a
+         * quartz vein it can never dig. */
+        if (!borg_can_dig(true, ag->feat))
+            continue;
+
         /* Clear the flow codes */
         borg_flow_clear();
 
