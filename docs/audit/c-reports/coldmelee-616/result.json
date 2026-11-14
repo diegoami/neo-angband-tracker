@@ -1,0 +1,111 @@
+{
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "28d478129862086b77f537dca4ff2e8f9235bcf7",
+  "fixtures_ref": "d6d93e3be21d919ffc71635c1fd05cc7fea4f8b2",
+  "cases": {
+    "before": {
+      "cold": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "temp_cold": 1,
+          "temp_acid": 0,
+          "temp_fire": 0,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 160,
+          "reference": 160
+        }
+      },
+      "acid": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "temp_cold": 0,
+          "temp_acid": 1,
+          "temp_fire": 0,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 56,
+          "reference": 160
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "temp_cold": 0,
+          "temp_acid": 0,
+          "temp_fire": 1,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 160,
+          "reference": 160
+        }
+      }
+    },
+    "after": {
+      "cold": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "temp_cold": 1,
+          "temp_acid": 0,
+          "temp_fire": 0,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 56,
+          "reference": 160
+        }
+      },
+      "acid": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "temp_cold": 0,
+          "temp_acid": 1,
+          "temp_fire": 0,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 160,
+          "reference": 160
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "temp_cold": 0,
+          "temp_acid": 0,
+          "temp_fire": 1,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 160,
+          "reference": 160
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "bad414fee0b7b1cedf694f0726ad4b10bb97bf3717032e80472777eb89adbe58"
+  }
+}
