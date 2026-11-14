@@ -1,0 +1,59 @@
+{
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "37acca6c162698e3f8ecd0d111ae69c3e1309cdd",
+  "fixtures_ref": "30fef466412c6e5f1e9e30731c10ca7e82e53ffc",
+  "cases": {
+    "before": {
+      "ring": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "safe": 0,
+          "scary": 37
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "safe": 1,
+          "scary": 0
+        }
+      }
+    },
+    "after": {
+      "ring": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "safe": 1,
+          "scary": 0
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "safe": 1,
+          "scary": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-escape.c": "ce3e07b00bad804eb91754599d695942fc74850f9a695cc91b7ffbdc96f32b13"
+  }
+}
