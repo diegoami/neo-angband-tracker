@@ -1,0 +1,44 @@
+{
+  "down": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "danger": 40,
+      "avoidance": 15,
+      "hp": 15,
+      "fleeing": 1
+    },
+    "outcome": {
+      "takes_stairs": 0,
+      "key": 57344
+    }
+  },
+  "up": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 40,
+      "avoidance": 15,
+      "hp": 15,
+      "fleeing": 0
+    },
+    "outcome": {
+      "takes_stairs": 1,
+      "key": 60
+    }
+  },
+  "safe": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 0,
+      "avoidance": 15,
+      "hp": 15,
+      "fleeing": 0
+    },
+    "outcome": {
+      "takes_stairs": 0,
+      "key": 0
+    }
+  }
+}

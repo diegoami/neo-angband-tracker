@@ -1,0 +1,13 @@
+native-c/dnstair-615: starting...
+SETUP seed=615 mode=up class=Warrior clevel=5 hp=15 depth=5 up=1 down=0
+  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34
+STATE danger=40 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=60
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on up-stairs
+TRACK # Flowing toward up-stairs at cost 0
+TRACK # Escaping level via stairs.
+TRACK # Danger Level 1.
+OUTCOME takes_stairs=1 key=60
+Passed
+native-c/dnstair-615 finished: 1/1 passed
