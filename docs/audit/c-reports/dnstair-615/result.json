@@ -1,0 +1,112 @@
+{
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "142ed35fd7f4d90fe0dca147976934943d53afb9",
+  "fixtures_ref": "a0c25b35f91a8456e52c44077f2a179ca67d5c70",
+  "cases": {
+    "before": {
+      "down": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "danger": 40,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 1
+        },
+        "outcome": {
+          "takes_stairs": 0,
+          "key": 57344
+        }
+      },
+      "up": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 40,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "takes_stairs": 1,
+          "key": 60
+        }
+      },
+      "safe": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 0,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "takes_stairs": 0,
+          "key": 0
+        }
+      }
+    },
+    "after": {
+      "down": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 40,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "takes_stairs": 1,
+          "key": 62
+        }
+      },
+      "up": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 40,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "takes_stairs": 1,
+          "key": 60
+        }
+      },
+      "safe": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 0,
+          "avoidance": 15,
+          "hp": 15,
+          "fleeing": 0
+        },
+        "outcome": {
+          "takes_stairs": 0,
+          "key": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "up",
+    "safe"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "8dcb0c0be425823a2ed9b4e4e3341f2ac0efa74dea1830c445046b53b0fd0e9c"
+  }
+}
