@@ -150,18 +150,15 @@ static int scenario_cure(void *state)
         memset(&borg.goal, 0, sizeof(borg.goal));
         borg_notice(true); borg_notice_player();
         state_i = 0; Rand_state_init((uint32_t)t);
-        uint16_t before = messages_num();
         bool rc = borg_recover();
-        uint16_t after = messages_num();
-        int w = 0, c = 0;
-        for (int i = (int)(after - before) - 1; i >= 0; --i) {
-            const char *m = message_str((uint16_t)i);
-            printf("NOTE seed=%d %s\n", t, m);
-            if (strstr(m, "Waybread")) w = 1;
-            if (strstr(m, "Cure Light Wounds")) c = 1;
-        }
+        /* The first queued key says what the Borg does: 'E' eat (the only
+         * food carried in "blind" is Waybread besides rations, which are not
+         * a cure), 'q' quaff (Cure Light Wounds is the only potion). Keys are
+         * used rather than notes because the message log merges repeats. */
+        keycode_t key = borg_inkey(false);
+        int w = rc && key == 'E', c = rc && key == 'q';
         if (w) waybread++; else if (c) clw++; else if (rc) other++; else none++;
-        printf("TRIAL seed=%d rc=%d waybread=%d clw=%d\n", t, rc ? 1 : 0, w, c);
+        printf("TRIAL seed=%d rc=%d key=%d waybread=%d clw=%d\n", t, rc ? 1 : 0, (int)key, w, c);
     }
     printf("OUTCOME eats_waybread=%d quaffs_clw=%d other=%d nothing=%d\n", waybread, clw, other, none);
     /* Waybread does not cure blindness: a blind Borg must not choose it. */
