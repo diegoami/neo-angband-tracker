@@ -939,6 +939,10 @@ const char *prefix_pref[] = {
     "vuln elec", /* Vulnerable to elec */
     "vuln cold", /* Vulnerable to Cold */
     "vuln acid", /* Vulnerable to Acid */
+    "unresisted vuln fire", /* Vulnerable, no permanent resistance left */
+    "unresisted vuln elec",
+    "unresisted vuln cold",
+    "unresisted vuln acid",
     "unknown curse",
 
     /* weapon attributes */
@@ -2170,16 +2174,34 @@ static void borg_notice_equipment(void)
     /* A vulnerability (such as the burning up, chilled to the bone or
      * steelskin curse) takes away one level of the permanent resistance
      * to that element unless immune (calc_bonuses()), so a single
-     * resistance and a vulnerability leave none.  Temporary resistance is
-     * counted separately (borg.temp). */
-    if (borg.trait[BI_CRSFVULN] && !borg.trait[BI_IFIRE])
-        borg.trait[BI_RFIRE] = false;
-    if (borg.trait[BI_CRSCVULN] && !borg.trait[BI_ICOLD])
-        borg.trait[BI_RCOLD] = false;
-    if (borg.trait[BI_CRSEVULN] && !borg.trait[BI_IELEC])
-        borg.trait[BI_RELEC] = false;
-    if (borg.trait[BI_CRSAVULN] && !borg.trait[BI_IACID])
-        borg.trait[BI_RACID] = false;
+     * resistance and a vulnerability leave none, and a vulnerability with
+     * no resistance leaves the player vulnerable (x4/3 damage,
+     * adjust_dam()).  Temporary resistance is counted separately
+     * (borg.temp). */
+    if (borg.trait[BI_CRSFVULN] && !borg.trait[BI_IFIRE]) {
+        if (borg.trait[BI_RFIRE])
+            borg.trait[BI_RFIRE] = false;
+        else
+            borg.trait[BI_VFIRE] = true;
+    }
+    if (borg.trait[BI_CRSCVULN] && !borg.trait[BI_ICOLD]) {
+        if (borg.trait[BI_RCOLD])
+            borg.trait[BI_RCOLD] = false;
+        else
+            borg.trait[BI_VCOLD] = true;
+    }
+    if (borg.trait[BI_CRSEVULN] && !borg.trait[BI_IELEC]) {
+        if (borg.trait[BI_RELEC])
+            borg.trait[BI_RELEC] = false;
+        else
+            borg.trait[BI_VELEC] = true;
+    }
+    if (borg.trait[BI_CRSAVULN] && !borg.trait[BI_IACID]) {
+        if (borg.trait[BI_RACID])
+            borg.trait[BI_RACID] = false;
+        else
+            borg.trait[BI_VACID] = true;
+    }
 
     /*** Quiver needs to be evaluated ***/
 

@@ -256,6 +256,10 @@ enum {
     BI_CRSEVULN,
     BI_CRSCVULN,
     BI_CRSAVULN,
+    BI_VFIRE,
+    BI_VELEC,
+    BI_VCOLD,
+    BI_VACID,
     BI_CRSUNKNO,
 
     BI_WS_ANIMAL,
