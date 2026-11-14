@@ -860,7 +860,7 @@ static int borg_defend_aux_resist_e(int p1)
         if (borg_simulate)
             return (p1 - p2);
 
-        borg_note("# Attempting to cast RAcid");
+        borg_note("# Attempting to cast RElec");
 
         /* do it! */
         if (borg_spell(RESISTANCE)) {
