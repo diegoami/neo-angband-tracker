@@ -1,0 +1,72 @@
+{
+  "dark": {
+    "label": "Lightless dig: the whole neighbourhood is marked",
+    "explanation": "The Warrior carries no light and digs the rubble grid north of himself. The original converts nothing (its body tests only the clear-floored goal grid); the correction converts all five rubble grids around the Borg to broken doors.",
+    "control": false,
+    "before": {
+      "raw": "native-c/rubblemark-192: starting...\nSETUP seed=192 mode=dark class=Warrior clevel=16 light=0 goal=(12,6)\n  removed_rubble_is_marked_around_the_borg  TRACK game-message <You have removed the rubble with your weapon.>\nSTATE removed=1 light=0\nMAP grid=(12,9) feat=16\nMAP grid=(13,9) feat=16\nMAP grid=(13,10) feat=16\nMAP grid=(13,11) feat=16\nMAP grid=(11,9) feat=16\nOUTCOME broken=0 rubble=5 light=0\nFailed\n    native-c/rubblemark-192:220: requirement 'broken == N_SPOTS' failed\nnative-c/rubblemark-192 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "removed": 1,
+        "light": 0
+      },
+      "outcome": {
+        "broken": 0,
+        "rubble": 5,
+        "light": 0
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/rubblemark-192: starting...\nSETUP seed=192 mode=dark class=Warrior clevel=16 light=0 goal=(12,6)\n  removed_rubble_is_marked_around_the_borg  TRACK game-message <You have removed the rubble with your weapon.>\nSTATE removed=1 light=0\nMAP grid=(12,9) feat=4\nMAP grid=(13,9) feat=4\nMAP grid=(13,10) feat=4\nMAP grid=(13,11) feat=4\nMAP grid=(11,9) feat=4\nOUTCOME broken=5 rubble=0 light=0\nPassed\nnative-c/rubblemark-192 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "removed": 1,
+        "light": 0
+      },
+      "outcome": {
+        "broken": 5,
+        "rubble": 0,
+        "light": 0
+      },
+      "notes": [],
+      "value": 5
+    }
+  },
+  "control": {
+    "label": "Lit dig: unchanged control",
+    "explanation": "The same dig with a worn torch: the handler skips everything while the Borg has light, so no grid changes on either variant and the complete log is byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/rubblemark-192: starting...\nSETUP seed=192 mode=control class=Warrior clevel=16 light=1 goal=(12,6)\n  removed_rubble_is_marked_around_the_borg  TRACK game-message <You have removed the rubble with your weapon.>\nSTATE removed=1 light=1\nMAP grid=(12,9) feat=16\nMAP grid=(13,9) feat=16\nMAP grid=(13,10) feat=16\nMAP grid=(13,11) feat=16\nMAP grid=(11,9) feat=16\nOUTCOME broken=0 rubble=5 light=1\nPassed\nnative-c/rubblemark-192 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "removed": 1,
+        "light": 1
+      },
+      "outcome": {
+        "broken": 0,
+        "rubble": 5,
+        "light": 1
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/rubblemark-192: starting...\nSETUP seed=192 mode=control class=Warrior clevel=16 light=1 goal=(12,6)\n  removed_rubble_is_marked_around_the_borg  TRACK game-message <You have removed the rubble with your weapon.>\nSTATE removed=1 light=1\nMAP grid=(12,9) feat=16\nMAP grid=(13,9) feat=16\nMAP grid=(13,10) feat=16\nMAP grid=(13,11) feat=16\nMAP grid=(11,9) feat=16\nOUTCOME broken=0 rubble=5 light=1\nPassed\nnative-c/rubblemark-192 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "removed": 1,
+        "light": 1
+      },
+      "outcome": {
+        "broken": 0,
+        "rubble": 5,
+        "light": 1
+      },
+      "notes": [],
+      "value": 0
+    }
+  }
+}

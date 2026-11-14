@@ -1,0 +1,12 @@
+native-c/rubblemark-192: starting...
+SETUP seed=192 mode=control class=Warrior clevel=16 light=1 goal=(12,6)
+  removed_rubble_is_marked_around_the_borg  TRACK game-message <You have removed the rubble with your weapon.>
+STATE removed=1 light=1
+MAP grid=(12,9) feat=16
+MAP grid=(13,9) feat=16
+MAP grid=(13,10) feat=16
+MAP grid=(13,11) feat=16
+MAP grid=(11,9) feat=16
+OUTCOME broken=0 rubble=5 light=1
+Passed
+native-c/rubblemark-192 finished: 1/1 passed

@@ -1,0 +1,2 @@
+dark {'exit': 0, 'passed': True, 'state': {'removed': 1, 'light': 0}, 'outcome': {'broken': 5, 'rubble': 0, 'light': 0}}
+control {'exit': 0, 'passed': True, 'state': {'removed': 1, 'light': 1}, 'outcome': {'broken': 0, 'rubble': 5, 'light': 1}}
