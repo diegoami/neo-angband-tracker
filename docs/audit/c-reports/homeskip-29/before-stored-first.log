@@ -1,0 +1,16 @@
+native-c/homeskip-29: starting...
+SETUP seed=29 mode=stored-first class=Warrior clevel=11 gold=3000 free_from=2
+  home_grab_useless  
+HISTORY 0 tval=26 sval=10 store=7
+PACK start 0 qty=3 desc=[Rations of Food]
+PACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME start 0 qty=1 desc=[Potion of Cure Critical Wounds]
+HOME start 1 qty=1 desc=[Scroll of Light]
+TRACK home_power=1514
+TRACK without_ware0 home_power=14
+TRACK without_ware1 home_power=1514
+DECISION chose=0 goal_shop=-1 goal_ware=-1 goal_item=-1
+OUTCOME grabs_scroll_of_light=0 scrolls_in_pack=0
+Failed
+    native-c/homeskip-29:297: requirement 'grabs' failed
+native-c/homeskip-29 finished: 0/1 passed

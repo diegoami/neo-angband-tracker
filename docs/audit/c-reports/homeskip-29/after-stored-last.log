@@ -1,0 +1,25 @@
+native-c/homeskip-29: starting...
+SETUP seed=29 mode=stored-last class=Warrior clevel=11 gold=3000 free_from=2
+  home_grab_useless  
+HISTORY 0 tval=6 sval=1 store=7
+PACK start 0 qty=3 desc=[Rations of Food]
+PACK start 1 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME start 0 qty=1 desc=[Scroll of Light]
+HOME start 1 qty=1 desc=[Shovel (1d2) {??}]
+TRACK home_power=1019
+TRACK without_ware0 home_power=1019
+TRACK without_ware1 home_power=14
+NOTE # Grabbing (to sell) 'Scroll of Light' from the home
+DECISION chose=1 goal_shop=7 goal_ware=0 goal_item=-1
+NOTE # Currently in preferred store '8'.
+NOTE # Buying Scroll of Light.
+KEYS store=7 n=7 97 112 156 156 57344 57344 57344
+ACTION retrieve ware=a qty=1 from=[a Scroll of Light]
+MSG You have a Scroll of Light (b).
+PACK end 0 qty=3 desc=[Rations of Food]
+PACK end 1 qty=1 desc=[Scroll of Light]
+PACK end 2 qty=1 desc=[Wooden Torch (5000 turns)]
+HOME end 0 qty=1 desc=[Shovel (1d2) {??}]
+OUTCOME grabs_scroll_of_light=1 scrolls_in_pack=1
+Passed
+native-c/homeskip-29 finished: 1/1 passed

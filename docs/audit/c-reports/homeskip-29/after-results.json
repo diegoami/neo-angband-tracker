@@ -1,0 +1,26 @@
+{
+  "stored-first": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "grabs_scroll_of_light": 1,
+      "scrolls_in_pack": 1
+    }
+  },
+  "stored-last": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "grabs_scroll_of_light": 1,
+      "scrolls_in_pack": 1
+    }
+  },
+  "no-history": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "grabs_scroll_of_light": 1,
+      "scrolls_in_pack": 1
+    }
+  }
+}
