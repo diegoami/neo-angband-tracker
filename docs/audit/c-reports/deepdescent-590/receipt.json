@@ -1,0 +1,116 @@
+{
+  "issue": "diegoami/neo-angband-tracker#590",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "e8c8cae0df448c04259264e6427d28abf65605a1",
+  "fixtures_ref": "860efeb9007d4d90e93ad2ad9aa2d3f8c8815292",
+  "cases": {
+    "before": {
+      "dd-phase": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "danger": 89,
+          "curhp": 44,
+          "avoidance": 44
+        },
+        "outcome": {
+          "reads_deep_descent": 1,
+          "reads_phase": 0,
+          "reads_teleport_level": 0
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 89,
+          "curhp": 44,
+          "avoidance": 44
+        },
+        "outcome": {
+          "reads_deep_descent": 0,
+          "reads_phase": 0,
+          "reads_teleport_level": 1
+        }
+      }
+    },
+    "after": {
+      "dd-phase": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 89,
+          "curhp": 44,
+          "avoidance": 44
+        },
+        "outcome": {
+          "reads_deep_descent": 0,
+          "reads_phase": 1,
+          "reads_teleport_level": 0
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 89,
+          "curhp": 44,
+          "avoidance": 44
+        },
+        "outcome": {
+          "reads_deep_descent": 0,
+          "reads_phase": 0,
+          "reads_teleport_level": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-escape.c": "6242f2b1d659dfc32a83811e87ea9d20078843657aab66ecb9965d7bd0d033ee"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=4 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "f287feec237bf61117944906a611090c4d9a4b5fe4df50bf42c9f3d33ea7a3f7",
+    "after-control.log": "14f6326704df42074fded27c4f033376e510fc2a4254da9b50ebca0bc06ed9e8",
+    "after-dd-phase.log": "568a51d05dedc35c30e2fa8ec3efc3997f5217892ca9de954d98c439238a4962",
+    "after-results.json": "c61b52a025e49d0224570c8e904307fa43afb87addde00a71cc9524d4737f931",
+    "before-control.log": "14f6326704df42074fded27c4f033376e510fc2a4254da9b50ebca0bc06ed9e8",
+    "before-dd-phase.log": "aa1a1439942b4a0e12d444217730367501c30b4795e56225c522cbc6167eaa96",
+    "before-results.json": "4966058dacdcab5f2f2aaf1fdfb572a42060a48b0db91bdf6b71652b28c30e5a",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "fix.patch": "eaac62538d3a00469f3fb6674bca3ebeb8d80da58e0ae3a65a391d45b596de8b",
+    "make_replay.py": "872ee597596f2190e4b1a537c838c8c9896b8a9768fea2db0d0e9631b6dfb518",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "ab037050e9e73a9e825e8403996cefbc25a64e1d6e3f65d80165a2af5149172a",
+    "replay.html": "0f29868a0b4026dea5b115b76a75171b66a7dca99d3b62984df6ea217f1430ca",
+    "reproduce.py": "05d61b90911c21da43d3bc2c6bc8ea7ed248a11ba56a1e5930ac957ebab25710",
+    "result.json": "77a011da93bc8cf6995c3778c00a09af15c62b590dee618b35b76b88ae27bf8b",
+    "run-after-alltests.log": "ec1c2bdb62e9409ac9c1699869d14cce9fdaeb681a27dca02f9028401fce1c89",
+    "run-after-build.log": "1dac038398fb88d7b5c89614bfd0bacd2f955374eaad510e443976567920b745",
+    "run-after-scenarios.log": "9c06ac23a8d48536b8ee6b412fa94d70940c59ca2bd0ab15427a568b129b0314",
+    "run-before-alltests.log": "c82ec00809b450469ff54813f91b16f23a6f363fd452003aa20e22a21fd7e7bb",
+    "run-before-build.log": "75400b4da0a72b6974f88fcadd98d98ebc1dd70ee74b06b04bf7d9fdcfc058a6",
+    "run-before-scenarios.log": "a5725eab8bfc5eeccaab5660581e7bd0695a47510490168abd12ab467fd7523e",
+    "run-cases.py": "7a99589927548f0991d278924dde2440ed01772a3d662f8844c1fff8d33d4afd",
+    "run-configure.log": "a49902b36582ad759a13727b3057e13502d95c95ec11b87d75ffa80a2d80bae9",
+    "scenario.c": "87e0cde20a2393b53f120b2dbc448a810a9f12acc744904fd8428caf243a047b"
+  }
+}
