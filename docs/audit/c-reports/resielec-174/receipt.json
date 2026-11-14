@@ -1,0 +1,133 @@
+{
+  "issue": "diegoami/neo-angband-tracker#174",
+  "report": "resielec-174",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "d7e2377dcf9c4e6d690872e55db9e6138028a362",
+  "fix_branch": "resielec-174",
+  "fixtures_ref": "ee22d19ebb3cfa07fc0bbe271a167f77362d79cc",
+  "cases": {
+    "elec": {
+      "before": {
+        "passed": false,
+        "state": {
+          "danger": 96,
+          "curhp": 424,
+          "avoidance": 424,
+          "relec": 1,
+          "racid": 0
+        },
+        "outcome": {
+          "cast_note": 1,
+          "defense_note": 1,
+          "note_elec": 0,
+          "note_acid": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 96,
+          "curhp": 424,
+          "avoidance": 424,
+          "relec": 1,
+          "racid": 0
+        },
+        "outcome": {
+          "cast_note": 1,
+          "defense_note": 1,
+          "note_elec": 1,
+          "note_acid": 0
+        }
+      }
+    },
+    "control": {
+      "before": {
+        "passed": true,
+        "state": {
+          "danger": 64,
+          "curhp": 424,
+          "avoidance": 424,
+          "relec": 1,
+          "racid": 0
+        },
+        "outcome": {
+          "cast_note": 0,
+          "defense_note": 1,
+          "note_elec": 0,
+          "note_acid": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "danger": 64,
+          "curhp": 424,
+          "avoidance": 424,
+          "relec": 1,
+          "racid": 0
+        },
+        "outcome": {
+          "cast_note": 0,
+          "defense_note": 1,
+          "note_elec": 0,
+          "note_acid": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "claim": "Next to an awake electric biter, a Borg carrying a lightning ring prepares its electricity defence through the production caution and defence chooser, and the note it writes named the acid routine's text (RAcid) on the original and the electricity text (RElec) with the correction, with identical queued keys. The plain-melee control, where the routine finds no improvement and writes no note, is byte-identical between the variants, and both full native gates pass at 965/965 and 5/5 in each variant.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-fight-defend.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-fight-defend.c": "09deab5a1aac3c161f32af3eaf7f3864d0d48a81c5d4165574428cd94f725bea"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 12,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "94c65a6e33edcc678f6bdb80e0261e3e5a11c261864ad840426ae2a2d9308cdc",
+    "after-control.log": "b5003f59e991c47048ed17fd854f52182039a9d817d69088622236f7e94fd777",
+    "after-elec.log": "99d31b26c80bc67f5948ccf880e97793d3f7e0be8e10f31e72e1c0e75265f562",
+    "after-results.json": "d5d206eb2b0fe5c02c3b8477d4f03c11fbc618257b38897862d1b7625a0a3d18",
+    "before-control.log": "b5003f59e991c47048ed17fd854f52182039a9d817d69088622236f7e94fd777",
+    "before-elec.log": "e016474dce011c3ce42b3a20911a3290272b7eb2d33264ebce9e44b0542a841b",
+    "before-results.json": "c96a6033d0a927304a6b7338d499df6aab84942e8b5fc6972abd56c98563627b",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "ea9eaf54f92ab8f8654b6df30f46407ef70330d29502009421d38606e57c3b9b",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "8e5a8a55f616f400c4768f971c978cc8ee84b0b9f7e3687a8950b6b32829e5f6",
+    "replay.html": "998393f075641ec996953a6d771fd146b5e0565f78fb2f5605eb05771644608d",
+    "reproduce.py": "7d054004821e2f76066dc2277a1846c59354ba0c97a1480407d99f176b5a78d5",
+    "result.json": "3b64b6fddbb373fcf1857a6ad8e0b6b78bd9c6379c0f1c06cf33d9f701c5a889",
+    "run-after-alltests.log": "67c28a80d98540daf392785fb9f6515ad38667f8ba55965eba2843610c663e74",
+    "run-after-build.log": "378dd8543e28cc9e81b589ce7e0444df49dc6a6d316c65200ec7b334a2cc5c79",
+    "run-after-scenarios.log": "6766868796dc9cfa72ed25f92e4694de7154450d746bd1745ce9659d1e423432",
+    "run-before-alltests.log": "366fc4fda5ce2b877d6e544cc924802ed04ecc873a41d2da0971b0c3bbfd9989",
+    "run-before-build.log": "ccafeb75836030f42e64847282902c3e5f259d9e755ad51f38cd9ce5980cb2c9",
+    "run-before-scenarios.log": "951ef83e689a6286a7496e1c8442ccf67fa377178b95f7bb7557fffc7ac1e495",
+    "run-cases.py": "e3ae0f36ace78eb08f30c86a6e0774dc216ea01fe939f6fe365b788529caf335",
+    "run-configure.log": "cb743ef67ebdf8746e5a1870e54ff1c7dee889bd81cf296e9452689073a101db",
+    "scenario.c": "df69e2f0b428c928ed4ca89b117287bc021a8c3e7d6d881fdbc7c785755d60ec"
+  }
+}
