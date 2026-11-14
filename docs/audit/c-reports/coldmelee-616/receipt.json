@@ -1,0 +1,146 @@
+{
+  "issue": "diegoami/neo-angband-tracker#616",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "28d478129862086b77f537dca4ff2e8f9235bcf7",
+  "fixtures_ref": "d6d93e3be21d919ffc71635c1fd05cc7fea4f8b2",
+  "cases": {
+    "before": {
+      "cold": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "temp_cold": 1,
+          "temp_acid": 0,
+          "temp_fire": 0,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 160,
+          "reference": 160
+        }
+      },
+      "acid": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "temp_cold": 0,
+          "temp_acid": 1,
+          "temp_fire": 0,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 56,
+          "reference": 160
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "temp_cold": 0,
+          "temp_acid": 0,
+          "temp_fire": 1,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 160,
+          "reference": 160
+        }
+      }
+    },
+    "after": {
+      "cold": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "temp_cold": 1,
+          "temp_acid": 0,
+          "temp_fire": 0,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 56,
+          "reference": 160
+        }
+      },
+      "acid": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "temp_cold": 0,
+          "temp_acid": 1,
+          "temp_fire": 0,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 160,
+          "reference": 160
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "temp_cold": 0,
+          "temp_acid": 0,
+          "temp_fire": 1,
+          "borg_rcold": 0
+        },
+        "outcome": {
+          "danger": 160,
+          "reference": 160
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "bad414fee0b7b1cedf694f0726ad4b10bb97bf3717032e80472777eb89adbe58"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=5 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "5b699647259438d1f7126bbd757ec92bca59f2126058619ea92030d675b2875f",
+    "after-acid.log": "1c97129f3dd2888172ce78656bdfad73b8f4db36705bcc84e8d6177731bb380e",
+    "after-cold.log": "a35346a0d4ad402d3c9407848bf08b5c3684953d51536d05e36272d8a3179d4b",
+    "after-control.log": "c19dd670bd48772388c777aa9d431ea02731a805630c235f4408bf39bc546f7d",
+    "after-results.json": "1a7315e3d58f14110e84ba6b5437d65f6605dd23cca1757e2b1983ca192c3afa",
+    "before-acid.log": "c66babf757ee4f3343338596c2f294a1c5b310be9ed883daae3d2b3564111436",
+    "before-cold.log": "5b9dedd996a4b5e635c7aa5d7b4c593c3dcb1a72d66894a9d24726fcf58e9d6e",
+    "before-control.log": "c19dd670bd48772388c777aa9d431ea02731a805630c235f4408bf39bc546f7d",
+    "before-results.json": "2b6856684a1a79d797d87db4419ec1fd4511142b52d0cf70fa9d0007bd7a9615",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "fix.patch": "6563491991967ea06154d60541fd45543ccbfff641c7a3d08f5e5d1245bac385",
+    "make_replay.py": "03b9f382732396fca3151d691a1897726d5c8ed4732847a7152405e23795659d",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "710cf6bb5e724f547ea8c1296e04f209b42a73b260ceba965e00b754066e620c",
+    "replay.html": "9061e753899916460be69cad65426ae93fbb0e6d1e991b4ede06695033e042bb",
+    "reproduce.py": "ed2282aa120fb84b7f02dcf1498a03118d3bc004e98896bd68aadb4d457335dc",
+    "result.json": "27a67751d9b57ed19da8823cc272ca89ae6d1d0a7e55075d6f5fb02319cadedc",
+    "run-after-alltests.log": "6d46327c9a00ec6b4111a479340d987100b9e8cad5eca8325d648ad9ab961b5c",
+    "run-after-build.log": "19e60f5a301b239d0773419bb38d98c1457c99f0422591ae47350aebb288056d",
+    "run-after-scenarios.log": "a39bdc6c20da0341166e7dc5e7ebef1c105ea30b1870e88e46dbf71b31ad76ff",
+    "run-before-alltests.log": "fcdf5c7978f660ae5f920465ea311e3e5143007c8649c39aa3f987e6e7b550ab",
+    "run-before-build.log": "0aa2f88fb533e44312b01ac1ce494ba2183cbf6df96d2c8043643197423c21e3",
+    "run-before-scenarios.log": "3c7a8a77245d4ddd1c05a38be9bd9a0df3da17bfa87a6d3a730654c4c5b08883",
+    "run-cases.py": "17b6bf7751bcad4c4b18cf31ea2f09a923af42d820fcf0e36fd4dc6f8a431ca4",
+    "run-configure.log": "a376358eeaa078f370b0be7416b876e0557f1fb533ae5c2c495ff7a4e0513423",
+    "scenario.c": "bd4e16bc005a88301ff9daf7b575f0ed25ef75ae7111ed4798ff5f4cbb19c234"
+  }
+}
