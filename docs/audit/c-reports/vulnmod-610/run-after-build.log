@@ -1,0 +1,60 @@
+Copying needed files
+[  0%] Built target TransferLib
+[  1%] Built target OurUnitTestLib
+[  1%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-attack-munchkin.c.o
+[  1%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-caution.c.o
+[  3%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-cave-light.c.o
+[  3%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-cave-view.c.o
+[  3%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-commands.c.o
+[  3%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-danger.c.o
+[  3%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-escape.c.o
+[  5%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-fight-attack.c.o
+[  5%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-fight-defend.c.o
+[  5%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-fight-perm.c.o
+[  5%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-dark.c.o
+[  7%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-glyph.c.o
+[  7%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-kill.c.o
+[  7%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-misc.c.o
+[  7%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-stairs.c.o
+[  9%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow-take.c.o
+[  9%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-flow.c.o
+[  9%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-formulas.c.o
+[  9%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-formulas-calc.c.o
+[ 10%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-home-notice.c.o
+[ 10%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-home-power.c.o
+[ 10%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-init.c.o
+[ 10%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-inventory.c.o
+[ 12%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-io.c.o
+[ 12%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-item-decurse.c.o
+[ 14%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-item-enchant.c.o
+[ 14%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-item-id.c.o
+[ 14%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-item-use.c.o
+[ 16%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-item-wear.c.o
+[ 16%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-junk.c.o
+[ 16%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-light.c.o
+[ 18%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-log.c.o
+[ 18%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-magic-play.c.o
+[ 18%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-magic.c.o
+[ 18%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-messages-react.c.o
+[ 20%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-messages.c.o
+[ 20%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-power.c.o
+[ 20%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-prepared.c.o
+[ 21%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-projection.c.o
+[ 21%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-recover.c.o
+[ 21%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-reincarnate.c.o
+[ 21%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-store-buy.c.o
+[ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-store-sell.c.o
+[ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-dungeon-util.c.o
+[ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-dungeon.c.o
+[ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-store.c.o
+[ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think.c.o
+[ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-trait-swap.c.o
+[ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-trait.c.o
+[ 27%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-update.c.o
+[ 27%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg.c.o
+[ 98%] Built target OurCoreLib
+[ 98%] Linking C executable game/angband
+[ 98%] Building C object CMakeFiles/VM610Observer.dir/tmp/angband-vulnmod-610-lgn_iy6s/evidence/scenario.c.o
+[ 98%] Linking C executable game/VM610Observer
+[100%] Built target OurExecutable
+[100%] Built target VM610Observer

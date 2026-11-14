@@ -1,0 +1,119 @@
+{
+  "vuln": {
+    "label": "Fire vulnerability, no resistance",
+    "explanation": "The game takes fire damage x4/3 (level -1). Original: the Borg rates the danger exactly like the no-resistance reference. Corrected: it rates it higher.",
+    "control": false,
+    "before": {
+      "raw": "native-c/vulnmod-610: starting...\nSETUP seed=610 mode=vuln class=Warrior clevel=35 hp=427\n  fire_danger_follows_the_game_resistance_level  STATE game_fire_res_level=-1 reference_game_fire_res_level=0 borg_rfire=0 borg_temp_rfire=0 borg_fire_vuln=1\nOUTCOME danger=137 reference=137\nFailed\n    native-c/vulnmod-610:174: requirement 'danger > ref_danger' failed\nnative-c/vulnmod-610 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "game_fire_res_level": -1,
+        "reference_game_fire_res_level": 0,
+        "borg_rfire": 0,
+        "borg_temp_rfire": 0,
+        "borg_fire_vuln": 1
+      },
+      "outcome": {
+        "danger": 137,
+        "reference": 137
+      },
+      "notes": [],
+      "value": 137
+    },
+    "after": {
+      "raw": "native-c/vulnmod-610: starting...\nSETUP seed=610 mode=vuln class=Warrior clevel=35 hp=427\n  fire_danger_follows_the_game_resistance_level  STATE game_fire_res_level=-1 reference_game_fire_res_level=0 borg_rfire=0 borg_temp_rfire=0 borg_fire_vuln=1\nOUTCOME danger=169 reference=137\nPassed\nnative-c/vulnmod-610 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_fire_res_level": -1,
+        "reference_game_fire_res_level": 0,
+        "borg_rfire": 0,
+        "borg_temp_rfire": 0,
+        "borg_fire_vuln": 1
+      },
+      "outcome": {
+        "danger": 169,
+        "reference": 137
+      },
+      "notes": [],
+      "value": 169
+    }
+  },
+  "temp": {
+    "label": "Fire vulnerability plus temporary fire resistance",
+    "explanation": "The game is back to level 0 (no reduction). Original: the Borg divides the fire damage by three and rates the danger below the reference. Corrected: equal to the reference.",
+    "control": false,
+    "before": {
+      "raw": "native-c/vulnmod-610: starting...\nSETUP seed=610 mode=temp class=Warrior clevel=35 hp=427\n  fire_danger_follows_the_game_resistance_level  STATE game_fire_res_level=0 reference_game_fire_res_level=0 borg_rfire=0 borg_temp_rfire=1 borg_fire_vuln=1\nOUTCOME danger=73 reference=137\nFailed\n    native-c/vulnmod-610:176: requirement 'danger == ref_danger' failed\nnative-c/vulnmod-610 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "game_fire_res_level": 0,
+        "reference_game_fire_res_level": 0,
+        "borg_rfire": 0,
+        "borg_temp_rfire": 1,
+        "borg_fire_vuln": 1
+      },
+      "outcome": {
+        "danger": 73,
+        "reference": 137
+      },
+      "notes": [],
+      "value": 73
+    },
+    "after": {
+      "raw": "native-c/vulnmod-610: starting...\nSETUP seed=610 mode=temp class=Warrior clevel=35 hp=427\n  fire_danger_follows_the_game_resistance_level  STATE game_fire_res_level=0 reference_game_fire_res_level=0 borg_rfire=0 borg_temp_rfire=1 borg_fire_vuln=1\nOUTCOME danger=137 reference=137\nPassed\nnative-c/vulnmod-610 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_fire_res_level": 0,
+        "reference_game_fire_res_level": 0,
+        "borg_rfire": 0,
+        "borg_temp_rfire": 1,
+        "borg_fire_vuln": 1
+      },
+      "outcome": {
+        "danger": 137,
+        "reference": 137
+      },
+      "notes": [],
+      "value": 137
+    }
+  },
+  "control": {
+    "label": "Control: fire resistance cancelled by the vulnerability (as #594)",
+    "explanation": "The game is at level 0 and the Borg already agrees (the #594 correction); logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/vulnmod-610: starting...\nSETUP seed=610 mode=control class=Warrior clevel=35 hp=427\n  fire_danger_follows_the_game_resistance_level  STATE game_fire_res_level=0 reference_game_fire_res_level=0 borg_rfire=0 borg_temp_rfire=0 borg_fire_vuln=1\nOUTCOME danger=137 reference=137\nPassed\nnative-c/vulnmod-610 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_fire_res_level": 0,
+        "reference_game_fire_res_level": 0,
+        "borg_rfire": 0,
+        "borg_temp_rfire": 0,
+        "borg_fire_vuln": 1
+      },
+      "outcome": {
+        "danger": 137,
+        "reference": 137
+      },
+      "notes": [],
+      "value": 137
+    },
+    "after": {
+      "raw": "native-c/vulnmod-610: starting...\nSETUP seed=610 mode=control class=Warrior clevel=35 hp=427\n  fire_danger_follows_the_game_resistance_level  STATE game_fire_res_level=0 reference_game_fire_res_level=0 borg_rfire=0 borg_temp_rfire=0 borg_fire_vuln=1\nOUTCOME danger=137 reference=137\nPassed\nnative-c/vulnmod-610 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_fire_res_level": 0,
+        "reference_game_fire_res_level": 0,
+        "borg_rfire": 0,
+        "borg_temp_rfire": 0,
+        "borg_fire_vuln": 1
+      },
+      "outcome": {
+        "danger": 137,
+        "reference": 137
+      },
+      "notes": [],
+      "value": 137
+    }
+  }
+}
