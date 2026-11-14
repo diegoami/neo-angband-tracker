@@ -100,7 +100,7 @@ int setup_tests(void **state)
     known_item(TV_FOOD, "Ration of Food", 5);
     /* Carried: Elvish Waybread and Cure Light Wounds potions ("blind"), or
      * Cure Light Wounds only ("control"). */
-    if (streq(mode, "blind")) known_item(TV_FOOD, "Elvish Waybread", 3);
+    if (streq(mode, "blind")) known_item(TV_FOOD, "Piece of Elvish Waybread", 3);
     known_item(TV_POTION, "Cure Light Wounds", 3);
     player->upkeep->update |= PU_BONUS | PU_HP | PU_TORCH | PU_INVEN;
     update_stuff(player);
@@ -156,6 +156,7 @@ static int scenario_cure(void *state)
         int w = 0, c = 0;
         for (int i = (int)(after - before) - 1; i >= 0; --i) {
             const char *m = message_str((uint16_t)i);
+            printf("NOTE seed=%d %s\n", t, m);
             if (strstr(m, "Waybread")) w = 1;
             if (strstr(m, "Cure Light Wounds")) c = 1;
         }
