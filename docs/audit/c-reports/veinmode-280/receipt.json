@@ -1,0 +1,122 @@
+{
+  "issue": "diegoami/neo-angband-tracker#280",
+  "report": "veinmode-280",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "083dd7b0af3097aec2ed47759dead7224f52a8f8",
+  "fix_branch": "veinmode-280",
+  "fixtures_ref": "855046c85d77b24ed9575a3842f3b749661b13fa",
+  "cases": {
+    "mixed": {
+      "before": {
+        "passed": false,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 0,
+          "vein_note": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 0,
+          "vein_note": 1
+        }
+      }
+    },
+    "magma-only": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 0,
+          "vein_note": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 0,
+          "vein_note": 1
+        }
+      }
+    },
+    "capable": {
+      "before": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 1,
+          "vein_note": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "outcome": {
+          "flowed": 1,
+          "quartz_diggable": 1,
+          "vein_note": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "magma-only",
+    "capable"
+  ],
+  "claim": "A magma-capable, quartz-incapable borg standing three grids from an undiggable quartz vein and four from a diggable magma vein commits its vein flow toward the quartz vein on the original (step key 8) and toward the magma vein with the per-target diggability check (step key 6). The magma-only and every-vein-diggable controls behave identically on both variants with byte-identical logs, and both full native gates pass at 965/965 and 5/5 in each variant.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-misc.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-misc.c": "aa8c3128d27ffd83929d80fbdac214d4f46a543063d7c40906e83ea2f2cd197f"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 17,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "e869e747ead728ae173df41bbefec228ba41712034fbaa2ca34b320bb8391a99",
+    "after-capable.log": "114724d1d39a3c4eb3c5ea218ab31f6ae2dca6e5c8806d93e07e3d46960d24f1",
+    "after-magma-only.log": "7c1ce75f9bd3cf902213cb0ecbbc1022bab8c7c6d86abe5a2965dfcb1055e0a5",
+    "after-mixed.log": "1cfacc7bafc9af9750fd6af8834200c0447b4c5e48f1d20573c15f017a808c45",
+    "after-results.json": "03fcd1011db052fa2cd2ba2d0c4bf1b7c9b413928d9d4c482535b3fdafd686b5",
+    "before-capable.log": "114724d1d39a3c4eb3c5ea218ab31f6ae2dca6e5c8806d93e07e3d46960d24f1",
+    "before-magma-only.log": "7c1ce75f9bd3cf902213cb0ecbbc1022bab8c7c6d86abe5a2965dfcb1055e0a5",
+    "before-mixed.log": "bc8ba61a7d9680453a34d495ccb673ae9b4bf5632518dd5e3c9d46c1a92dd1df",
+    "before-results.json": "fb9cffaf1ce9670f20518b5972410a9c01c4a523e0d8ba38c471a7b19a7066f8",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "af3fb5778c686eeabad517cdb2b3d8a9b5d30322f6376e0ec9a74e07a1a72ae4",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "6e1b8e14e5dfbd610fa1c234d1a2ee325cb1d2bb85a8c6055bce5806adf36f49",
+    "replay.html": "2770bc9cffe12ad6e4b1d5e24012c04a09e397c525e873020371de93b23d9ff1",
+    "reproduce.py": "0308c69e0b524a45598357dfaed6bd435c4b7b7a2101aea52a068a5facc7a119",
+    "result.json": "0ac65644319fe7d2a7a4fe2071463834d93cde02adb0db19abce8f2ad8cd6da4",
+    "run-after-alltests.log": "5b1c37d9754512d324a80c60c4a3ffb4e6f6a0b57afea9105c1cdb92b184c667",
+    "run-after-build.log": "7e312f9f3c3194409d0637f7c5b25a22bf2401a170e646f6ff020a8cb1b03784",
+    "run-after-scenarios.log": "ce060f67f58ea3931b41693c56a307d63ee201814b36adce051c61c53f3834d6",
+    "run-before-alltests.log": "fb14d730df9f37b0226161aae2b6404ee938fcd3e0a46124df86c3ad00fc5da7",
+    "run-before-build.log": "83b108f8ad852375556d4c9185fb20e48846232cba9b9a1c2ece1ff70eea1485",
+    "run-before-scenarios.log": "826678b3ffe4912b3a22b144975669b8d7b16e1bf33566383b09224dcde3decb",
+    "run-cases.py": "cc5b18d6d00130d6c257f54799b37302f5626574c4710773c49589c0cf3d1a6c",
+    "run-configure.log": "91baa707a5636e75dd4bd399c0ca9ca39285eed5daeada0b87beb7f5776e5825",
+    "scenario.c": "eba705bdf3b189207a90dc3b091c65346cfc8f3357b4288ffb43f42db2e4c833"
+  }
+}

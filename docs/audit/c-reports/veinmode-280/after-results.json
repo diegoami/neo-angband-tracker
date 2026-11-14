@@ -1,0 +1,29 @@
+{
+  "mixed": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "flowed": 1,
+      "quartz_diggable": 0,
+      "vein_note": 1
+    }
+  },
+  "magma-only": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "flowed": 1,
+      "quartz_diggable": 0,
+      "vein_note": 1
+    }
+  },
+  "capable": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "flowed": 1,
+      "quartz_diggable": 1,
+      "vein_note": 1
+    }
+  }
+}
