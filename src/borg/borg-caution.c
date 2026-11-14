@@ -803,6 +803,7 @@ bool borg_caution(void)
     bool nasty         = false;
     bool on_dnstair    = false;
     bool on_upstair    = false;
+    bool in_danger_on_dnstair = false;
 
     /*** Notice "nasty" situations ***/
 
@@ -1112,13 +1113,21 @@ bool borg_caution(void)
 
     /*** Stairs ***/
 
+    /* In danger while standing on a down staircase */
+    in_danger_on_dnstair
+        = (pos_danger > borg.avoidance
+              || (borg.trait[BI_CLEVEL] < 5
+                  && pos_danger > borg.avoidance / 2))
+          && borg_grids[borg.c.y][borg.c.x].feat == FEAT_MORE;
+
     /* Leaving or Fleeing, take stairs */
     if (borg.goal.leaving || borg.goal.fleeing || borg.mon.scary
         || borg.goal.fleeing_lunal || borg.goal.fleeing_munchkin
         || ((pos_danger > borg.avoidance
                 || (borg.trait[BI_CLEVEL] < 5
                     && pos_danger > borg.avoidance / 2))
-            && on_upstair)) /* danger and standing on stair */
+            && on_upstair) /* danger and standing on stair */
+        || in_danger_on_dnstair)
     {
         if (borg.ready_morgoth == 0 && !borg.trait[BI_KING]
             && !OPT(player, birth_force_descend)) {
@@ -1160,6 +1169,12 @@ bool borg_caution(void)
 
         /* Its ok to go one level deep if evading scary guy */
         if (borg.mon.scary)
+            borg.stair_more = true;
+
+        /* Its ok to go one level deep to get away from danger when
+         * standing on a down staircase: the stairs work at once, while
+         * recall or a failed teleport leaves the borg next to the danger */
+        if (in_danger_on_dnstair)
             borg.stair_more = true;
 
         /* if fleeing town, then dive */
