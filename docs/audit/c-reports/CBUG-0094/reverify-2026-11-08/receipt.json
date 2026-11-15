@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-08",
+  "scope": "render check and generator layout only; no native re-run (all phase logs were already committed and hash-verified by the original receipt)",
+  "evidence_head": "2aa35a90c88a3ac72d8eda34fae9948e0adb13c6",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "31a042d00581ed914d30f17cca1ed0e70e99d21f",
+  "replay_fixtures_ref": "c9f8ab50686e6c5baf3081a749f7f5f905c4580a",
+  "render_check": {
+    "tool": "tools/c-evidence/render-smoke.js (headless Chromium via Playwright)",
+    "page": "replay.html",
+    "page_sha256": "2230958ef9a27046bb905a58395800d174821320911a55b4f3bd360c913c0ddd",
+    "result": "RENDER-SMOKE actions=36 errors=0 OK",
+    "node": "v22.23.4",
+    "playwright": "1.63.0",
+    "chromium": "153.0.8010.12",
+    "checks": "every <select> option visited, every visible button clicked per option; no console/page errors; no 'undefined' or 'NaN' in rendered text"
+  },
+  "make_replay_copy": {
+    "path": "make_replay.py",
+    "byte_identical_to": "review/make_replay.py",
+    "sha256": "5e86c595d25f39c39ee3adb1dc87c906f41ac2301763756d864b086474c10b3f"
+  },
+  "sha256": {
+    "replay.html": "2230958ef9a27046bb905a58395800d174821320911a55b4f3bd360c913c0ddd",
+    "replay-data.json": "be72335dbd389dad876684e068801fe458c144f8b99dbe710cb876873edaa493",
+    "make_replay.py": "5e86c595d25f39c39ee3adb1dc87c906f41ac2301763756d864b086474c10b3f",
+    "review/make_replay.py": "5e86c595d25f39c39ee3adb1dc87c906f41ac2301763756d864b086474c10b3f"
+  },
+  "readme_hash_update": {
+    "reason": "README.md gained the appended 'Re-verification (2026-11-08)' section; earlier text unchanged",
+    "sha256_before": "81815efb5a0bb28256b68a86df0145eba8ed15fcd7939db0b0e0a86efe59db62",
+    "sha256_after": "2c4ce79262dd88edd861c8a9d15d5cf6e74452b6d14da27333f6c1ff0ba3a0b3",
+    "earlier_bytes_at": "2aa35a90c88a3ac72d8eda34fae9948e0adb13c6"
+  }
+}
