@@ -666,7 +666,8 @@ export function storeCarry(
   /* No space? */
   if (store.stock.length >= store.stockSize) return null;
 
-  store.stock.push(obj);
+  // C store_carry/home_carry use pile_insert (obj-pile.c:167): head first.
+  store.stock.unshift(obj);
   return obj;
 }
 

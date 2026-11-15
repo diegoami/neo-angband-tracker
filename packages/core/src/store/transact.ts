@@ -645,7 +645,8 @@ export function homeCarry(
   /* No space? Then the object is lost (upstream frees it). */
   if (store.stock.length >= store.stockSize) return;
 
-  store.stock.push(obj);
+  // C store_carry/home_carry use pile_insert (obj-pile.c:167): head first.
+  store.stock.unshift(obj);
 }
 
 /**

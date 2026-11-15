@@ -19,6 +19,7 @@ import { priceItem } from "./price.js";
 import { bindStoreRuntime, storeReset } from "./store.js";
 import type { Store, StoreMaintContext } from "./store.js";
 import {
+  homeCarry,
   homeRetrieve,
   homeStash,
   purchaseAnalyze,
@@ -669,5 +670,20 @@ describe("object_flavor_aware ignore fix at storeBuy/storeSell (#89)", () => {
     expect(flavor.isAware(sword.kind)).toBe(true);
     expect(rec.awareIgnored).toEqual([sword.kind.kidx]);
     expect(rec.noticeRequests).toBe(1);
+  });
+});
+
+describe("native home stock insertion order", () => {
+  it("prepends new home stacks and keeps a merged stack in place", () => {
+    const { stores } = setup();
+    const home = stores.find(s => s.feat === FEAT.HOME)!;
+    const first = makeObj(TV.POTION), second = makeObj(TV.FLASK), third = makeObj(TV.LIGHT);
+    for (const obj of [first, second, third]) homeCarry(home, obj, constants);
+    // C home_carry uses the same head insertion as store_carry.
+    expect(home.stock).toEqual([third, second, first]);
+    const merged = makeObj(TV.FLASK), previous = second.number;
+    homeCarry(home, merged, constants);
+    expect(second.number).toBe(previous + merged.number);
+    expect(home.stock).toEqual([third, second, first]);
   });
 });
