@@ -10,15 +10,23 @@ const CARRY_LABELS = ["fixed", "carried", "not-carried", "partially-carried"];
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const cachePath = process.env.MANDOS_UPSTREAM_WATCH_CACHE ?? join(root, ".upstream-watch.json");
 const apiCache = new Map();
+// Tracker discovery returns every issue body, which exceeds execFileSync's 1 MiB
+// default buffer on this tracker (~2 MiB). Raise it so discovery does not fail
+// and silently retain a stale baseline.
+const GH_MAX_BUFFER = 64 * 1024 * 1024;
 const ghJson = (args) => {
   const key = JSON.stringify(args);
   if (args[0] === "api" && apiCache.has(key)) return apiCache.get(key);
-  const result = JSON.parse(execFileSync("gh", args, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }));
+  const result = JSON.parse(execFileSync("gh", args, { encoding: "utf8", stdio: ["ignore", "pipe", "ignore"], maxBuffer: GH_MAX_BUFFER }));
   if (args[0] === "api") apiCache.set(key, result);
   return result;
 };
 const canonicalRepo = (repo) => repo === "diegoami/neo-angband" ? "diegoami/neo-angband-tracker"
   : repo === "diegoami/neo-angband-mod-borg" ? "diegoami/neo-angband-borg-mod-tracker" : repo;
+// The two Rust Borg peers report to this tracker directly and are never polled
+// here (RULE 15). A Rust reference that still sits in a Threads line must not
+// turn this read-only audit into an indirect status follow.
+const RUST_PEERS = new Set(["diegoami/borg-rs", "diegoami/borg-reborn-rs"]);
 const labelsOf = (issue) => issue.labels.map((label) => typeof label === "string" ? label : label.name);
 
 if (process.argv.includes("--reset")) {
@@ -57,7 +65,13 @@ for (const issue of tracking) {
   if (consumer && line === undefined) problems.push(`${issue.repository}#${issue.number}: missing **Threads**: line (use 'none yet' for an internal candidate)`);
   const refs = [...(line ?? "").matchAll(/([\w.-]+\/[\w.-]+)#(\d+)/g)];
   if (consumer && refs.length === 0) candidates.push(local);
-  for (const match of refs) threads.push({ ...local, repo: canonicalRepo(match[1]), num: Number(match[2]) });
+  for (const match of refs) {
+    if (RUST_PEERS.has(match[1])) {
+      problems.push(`${issue.repository}#${issue.number}: Threads references the Rust peer ${match[1]}; move that provenance to a Source/discovery field`);
+      continue;
+    }
+    threads.push({ ...local, repo: canonicalRepo(match[1]), num: Number(match[2]) });
+  }
 }
 
 const rows = [];

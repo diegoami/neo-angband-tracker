@@ -9,6 +9,9 @@ const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const cacheFile = process.env.MANDOS_C_WATCH_CACHE ?? join(root, "artifacts/c-upstream-watch.json");
 const gh = (args) => JSON.parse(execFileSync("gh", args, {
   encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], timeout: 20000,
+  // The upstream-c issue query returns every body (~1.7 MiB), which exceeds
+  // execFileSync's 1 MiB default buffer and aborts the read.
+  maxBuffer: 64 * 1024 * 1024,
 }));
 let previous = {};
 try { previous = JSON.parse(readFileSync(cacheFile, "utf8")); } catch {}
