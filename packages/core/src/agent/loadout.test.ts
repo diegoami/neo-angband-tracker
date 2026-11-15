@@ -530,6 +530,9 @@ describe("a loadout read needs the read for every place it looks", () => {
     const handle = invenCarry(state.gear, p, make(0, TV.SOFT_ARMOR), limits);
     const shop = (state.stores ?? []).findIndex((s) => s.stock.length > 0);
     expect(shop).toBeGreaterThanOrEqual(0);
+    /* These permission checks require a wieldable ware. Supply one explicitly
+     * instead of relying on whichever generated shop object is first. */
+    state.stores![shop]!.stock.unshift(make(0, TV.SOFT_ARMOR));
     const grid = { x: state.actor.grid.x + 1, y: state.actor.grid.y };
     const mail = make(Number.MAX_SAFE_INTEGER, TV.HARD_ARMOR);
     mail.grid = { ...grid };
