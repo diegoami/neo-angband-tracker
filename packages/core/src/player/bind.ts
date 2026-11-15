@@ -1024,13 +1024,15 @@ function bindClass(
 
   const { skills, extra } = classSkills(rec);
 
+  // C parse_class_equip prepends each entry (init.c:3663). Preserve that
+  // runtime traversal order so player_outfit assigns the same random counts.
   const startItems: StartItem[] = (rec.equip ?? []).map((e) => ({
     tval: e.tval,
     sval: e.sval,
     min: e.min,
     max: e.max,
     eopts: parseEopts(e.eopts),
-  }));
+  })).reverse();
 
   /*
    * parse_class_title (init.c L3564-3572) fills the fixed-size

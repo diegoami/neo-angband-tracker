@@ -180,11 +180,12 @@ function hiddenEmptyGrid(state: GameState, not: { x: number; y: number }) {
   throw new Error("no hidden empty grid");
 }
 
-function carry(game: StartedGame, kind: ObjectKind): GameObject {
+function carry(game: StartedGame, kind: ObjectKind, prepare?: (obj: GameObject) => void): GameObject {
   const reg = game.booted.registries;
   const obj = objectPrep(new Rng(1), reg.objects, reg.constants, kind, 1, "minimise");
   obj.notice |= OBJ_NOTICE.ASSESSED;
   obj.number = 1;
+  prepare?.(obj);
   invenCarry(game.state.gear, game.state.actor.player, obj, {
     quiverSlotSize: reg.constants.quiverSlotSize,
     thrownQuiverMult: reg.constants.thrownQuiverMult,
@@ -225,14 +226,19 @@ describe("KnownWorld paired worlds", () => {
 
   it("reports only the fuel printed in a light's name", () => {
     const [a, b] = pair();
-    const torchA = carry(a, kindNamed(a, TV.LIGHT, "Wooden Torch"));
-    const torchB = carry(b, kindNamed(b, TV.LIGHT, "Wooden Torch"));
-    torchA.flags.on(OF.NO_FUEL);
-    torchB.flags.on(OF.NO_FUEL);
-    torchA.timeout = 25;
-    torchB.timeout = 2500;
+    /* Configure before carrying so these fixtures cannot merge into spare
+     * starting torches. Then observe the controlled torch by its handle. */
+    carry(a, kindNamed(a, TV.LIGHT, "Wooden Torch"), (obj) => {
+      obj.flags.on(OF.NO_FUEL);
+      obj.timeout = 25;
+    });
+    const torchB = carry(b, kindNamed(b, TV.LIGHT, "Wooden Torch"), (obj) => {
+      obj.flags.on(OF.NO_FUEL);
+      obj.timeout = 2500;
+    });
+    const handle = [...b.state.gear.store.entries()].find(([, obj]) => obj === torchB)![0];
     expect(observed(b.state)).toBe(observed(a.state));
-    const item = () => buildKnownWorld(b.state, b.state.knownWorldDeps).inventory!.find((entry) => entry.label.includes("Wooden Torch"))!;
+    const item = () => buildKnownWorld(b.state, b.state.knownWorldDeps).inventory!.find((entry) => entry.handle === handle)!;
     expect(item()).not.toHaveProperty("fuel");
     torchB.flags.off(OF.NO_FUEL);
     expect(item().name).toContain("(2500 turns)");

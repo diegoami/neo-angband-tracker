@@ -145,6 +145,12 @@ describe("Warrior class spot check (class.txt)", () => {
     expect(w.magic.totalSpells).toBe(0);
   });
 
+  it("binds native prepended equip order, so RNG quantities go to the same kinds", () => {
+    expect(w!.startItems.map(item => item.sval)).toEqual([
+      "Word of Recall", "Soft Leather Armour", "Dagger", "Berserk Strength", "Wooden Torch", "Ration of Food",
+    ]);
+  });
+
   it("binds starting inventory as kind-name refs with birth-option codes", () => {
     if (!w) return;
     expect(w.startItems.length).toBe(6);

@@ -800,8 +800,7 @@ describe("c-info.c: player class binding", () => {
       ];
     });
     expect(cls.startItems.map((s) => [s.tval, s.sval, s.min, s.max, s.eopts])).toEqual([
-      ["magic book", "2", 2, 5, []],
-      ["light", "lantern", 1, 1, ["birth_no_recall"]],
+      /* C parse_class_equip prepends each record to the linked list. */
       [
         "light",
         "wooden torch",
@@ -809,6 +808,8 @@ describe("c-info.c: player class binding", () => {
         2,
         ["NOT-birth_no_recall", "birth_force_descend"],
       ],
+      ["light", "lantern", 1, 1, ["birth_no_recall"]],
+      ["magic book", "2", 2, 5, []],
     ]);
   });
 
