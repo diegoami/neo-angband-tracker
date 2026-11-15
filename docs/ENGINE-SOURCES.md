@@ -3,13 +3,16 @@
 | Defect | Upstream proposal | Fork source | Consumer boundary |
 | --- | --- | --- | --- |
 | [setFeat memory, source4](https://github.com/diegoami/neo-angband-tracker/issues/4) | Original [429](https://github.com/neostryder/neo-angband/pull/429), `2553cb496da46692fd64eade5f089acecdc5088e`; upstream explicitly accepted the correction and closed [428](https://github.com/neostryder/neo-angband/issues/428) completed | Existing exact executable hook imported as `9565cab2`, regressions/FORK marker `9e946f74`, normal merge `19ff25ea`, retained in verified `5928146b`; [original integration evidence](runs/2026-11-05-engine-notespot/README.md). Source issue closed after accepted resolution and already-complete fork import/checks. | [Upstream mod67 acceptance](https://github.com/neostryder/neo-angband-mod-borg/pull/67#issuecomment-6676556092) reports core1.23.0-beta.3 and port70/`440d8d9` with915 tests. Port [25](https://github.com/diegoami/neo-angband-borg-mod-tracker/issues/25) retains independent adoption authority; our source resolution changes no consumer dependency, backport or lab. |
-| [disturb input-flush, source5](https://github.com/diegoami/neo-angband-tracker/issues/5) | [432](https://github.com/neostryder/neo-angband/pull/432), `e8729a285474325ca25a03534db14f8c10808794`, still open | Exact existing correction/tests/docs imported as `b02adb89`; FORK provenance `94f2d1f6`; [verification and integration receipt](runs/2026-11-06-engine-input-flush/README.md) | No npm release. No patch removal or lab deployment follows from this import. |
+| [disturb input-flush, source5](https://github.com/diegoami/neo-angband-tracker/issues/5) | [432](https://github.com/neostryder/neo-angband/pull/432), `e8729a285474325ca25a03534db14f8c10808794`; upstream closed the PR unmerged on 2026-11-07 and ships the correction itself | Exact existing correction/tests/docs imported as `b02adb89`; FORK provenance `94f2d1f6`; [verification and integration receipt](runs/2026-11-06-engine-input-flush/README.md) | Shipped upstream in published beta.4 (`packages/core/src/game/player-path.ts:117`); still absent from the recorded beta.3 release. That package fact changes no consumer dependency, patch removal or lab deployment. |
 
 The preserved [exact proposal patch](../patches/upstream-neo/429-square-note-spot.patch)
 contains only the original source diff; tests and the FORK marker live in the
 integration commits. The [exact input-flush proposal patch](../patches/upstream-neo/432-disturb-input-flush.patch)
 retains its source/tests/docs diff; original author/date are preserved by its
-import commit. Other proposals (#433/#442) remain unapplied here.
+import commit. Other proposals (#433/#442) remain unapplied in **our** source
+tree. That is a statement about this fork: upstream now ships both in published
+beta.4, which is recorded in the beta.4 audit below and does not retroactively
+import them here.
 
 The pristine source reference remains `upstream/master`; `session.json` records
 that source base, not a claim that upstream has accepted our carried correction.
@@ -74,6 +77,38 @@ remain open because432/433 are still unmerged upstream and absent from the relea
 package. No consumer patch-active or lab state changes automatically. The earlier
 resolution receipts remain historical; the new package audit establishes actual
 npm delivery instead of relying only on a version string or maintainer statement.
+
+## Published beta.4 package audit — 2026-11-15
+
+Upstream published `1.23.0-beta.4` on 2026-11-15 01:02Z, `gitHead`
+`a0f252de23eb672e2ccf12e0377a96088c66e24d`, npm `next` tag. The previously
+recorded release was beta.3 at `97ceec2925e6715ba725624a61866ab93a196a12`.
+
+Checked against the published `@rpgm-tools/neo-angband-core@1.23.0-beta.4`
+tarball (sha256 `5981a43a98230af09c3cb41b9e4062dd6e4c034f43b06d716a1ba114230a1f8f`,
+integrity `sha512-3ZUBdd2d+n/Tna6mW9waHTGOYDkGriFlJhqaxvaoJeMA99FiBFagWxxClwltzxaaWX9LmxYHK89HbAMKvs8uuA==`):
+
+| Correction | beta.3 | beta.4 | Published location |
+| --- | --- | --- | --- |
+| noteSpot429 | present | present | `packages/core/src/game/trap.ts:217`, in the live `onFeatSet` hook |
+| input-flush432 | absent | **present** | `packages/core/src/game/player-path.ts:117`, signalled unconditionally |
+| seed/birth433 | absent | **present** | `packages/core/src/session/game.ts:3625`, `save.ts:1734`, `game.ts:4707` |
+
+This changes the **published-package** facts recorded in the beta.3 receipt: that
+receipt's "still lacks input-flush432 and seed/birth433" boundary no longer holds
+for the released artifact. It changes nothing else. It is not a source-issue
+closure, not a consumer adoption, not a patch retirement, not a lab deployment and
+not a package publication by this fork. Source5 and source6 keep their own
+upstream-resolution state, and each consumer keeps independent adoption authority.
+
+The published package is not our source base. Our source reference stays the
+pristine upstream tree, now `d27ed50f9e3b650a43cceda5a0c007d03cc321df`
+(54 commits past the previous `765f399`, a clean fast-forward), and our own
+corrections for store/home stock order ([635](https://github.com/diegoami/neo-angband-tracker/issues/635))
+and class starting-equipment order ([636](https://github.com/diegoami/neo-angband-tracker/issues/636))
+remain unmerged upstream as of this audit: upstream master still has
+`packages/core/src/store/store.ts:669` `store.stock.push(obj)` and the
+input-order `startItems` mapping at `packages/core/src/player/bind.ts:1027`.
 
 ## Disposable source packaging
 
