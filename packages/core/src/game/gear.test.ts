@@ -798,3 +798,27 @@ describe("partialStackMerge (mod/hooks.ts seam, entry 3 / neostryder/neo-angband
     expect(seen).toEqual([[source, dest]]);
   });
 });
+
+describe("native point-buy outfit continuation", () => {
+  it("matches C seed303 quantities and gold from the same pre-outfit state", () => {
+    const fixture = JSON.parse(readFileSync(new URL("./native-outfit-rng.fixture.json", import.meta.url), "utf8"));
+    const { race, cls, body } = humanWarrior();
+    const player = blankPlayer(race, cls, body), gear = newGear(), reg = new ObjRegistry(pack.obj);
+    player.statBirth = [...fixture.stats]; player.statCur = [...fixture.stats]; player.statMax = [...fixture.stats];
+    player.au = player.auBirth = 600;
+    const rng = new Rng(fixture.seed);
+    rng.setState({ ...rng.getState(), ...fixture.after_stores });
+    rng.randint0(0x10000000); // C seed_flavor; flavor_init uses the separate quick stream.
+    outfitPlayer(gear, player, reg, rng, constants, {
+      opt: name => name === "birth_no_selling" || name === "birth_start_kit",
+    });
+    expect(player.au).toBe(fixture.gold);
+    const actual = [...gear.store.entries()].map(([handle, obj]) => ({
+      tval: obj.tval, sval: obj.sval, number: obj.number, slot: player.equipment.indexOf(handle),
+    }));
+    const sorted = (items: typeof actual) => [...items].sort((a,b) => a.tval-b.tval || a.sval-b.sval || a.slot-b.slot);
+    expect(sorted(actual)).toEqual(sorted(fixture.inventory));
+    expect(rng.getState().state).toEqual(fixture.after_outfit.state);
+    expect(rng.getState().stateI).toBe(fixture.after_outfit.stateI);
+  });
+});
