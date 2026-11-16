@@ -1,0 +1,100 @@
+{
+  "issue": "diegoami/neo-angband-tracker#596",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "ac214e76bc9560ce21d2e1c9479d20436544226a",
+  "fixtures_ref": "c74322650791a20c8cdca6692160d22818f4039c",
+  "cases": {
+    "before": {
+      "blind": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "eats_waybread": 25,
+          "quaffs_clw": 0,
+          "other": 0,
+          "nothing": 75
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "eats_waybread": 0,
+          "quaffs_clw": 25,
+          "other": 0,
+          "nothing": 75
+        }
+      }
+    },
+    "after": {
+      "blind": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "eats_waybread": 0,
+          "quaffs_clw": 25,
+          "other": 0,
+          "nothing": 75
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "eats_waybread": 0,
+          "quaffs_clw": 25,
+          "other": 0,
+          "nothing": 75
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-recover.c": "aa675746ab097fca3ac356419e7228ddb94323c8e43bdd079c5e0012be247b8c"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=4 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "ee5ec9753b4fda6dec6d34c4943f8b425b3c8debd0970f64d2a1df74ea00a951",
+    "after-blind.log": "9c3243e4705a91e16afd4c872dcf66890167f07700e0d1bf3c1e3f165b6d1bda",
+    "after-control.log": "312122b4c9b94a48b8643cd6e5aa249ea49963857a588700479a2edb4a23bfb8",
+    "after-results.json": "2a4ee8c95d52b419a3de9597f685c4b5313b36773af80221ccc47930398bf334",
+    "before-blind.log": "fc8621d586d02450c3b683e7fd0d78147abbf3f001abc358063f757e6644cd5c",
+    "before-control.log": "312122b4c9b94a48b8643cd6e5aa249ea49963857a588700479a2edb4a23bfb8",
+    "before-results.json": "853fe5a997819faac33bf86481c4b9cc723acb85de60f89eb54899948094cd4e",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "fix.patch": "38c73835dffe739d95192b2bc2220c6c2f52177b80c6ac362c7dd1775c8caf6e",
+    "make_replay.py": "75d506d0e6f54494c92d4d2d00ae5af25a62e1ca6fd36b4f18ecca7d7fa4f4d0",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "706680884d9919ac6ac11b8e6dd614809406731df9f10f21d0321e151d897dd8",
+    "replay.html": "8a94ee60ea8bb5186c8cd5982d68922ec7392da2c3104a9add584de6d16cef54",
+    "reproduce.py": "aa6686bbbd32ec09d446d1fb48a8dad1c62ac3660f9706dca326374d8d017882",
+    "result.json": "b0b3f8d07fb897321943f7b113cd498e52c4f9d58719aea2ccf4fa26009b5562",
+    "run-after-alltests.log": "facf1a36ae57ceb7a4bd447462fb5241683a175382a38b614ceab0161ca421ad",
+    "run-after-build.log": "e2b1ef19a4f0b5d0e36a3ffbae0c6bf18169aae82d1b4362f3fbdd5987379d7e",
+    "run-after-scenarios.log": "6435d4d4c6b8ffcb1ce69105f38bba34588c75cce662cfc23b801ec5e6e8effc",
+    "run-before-alltests.log": "a5ad97b65a891d6b1db49d53a900bde77c64246cacf0930ea546c48c7ccdf457",
+    "run-before-build.log": "9805b01b2d19ec4dd0e30b71981343569a2150f11ad8ba974ad58853c2e77dcf",
+    "run-before-scenarios.log": "7a3fe5f376fd5077a757c81e465b88e54ca245b881499c0f7ea3623925c2cbab",
+    "run-cases.py": "04fe89cb71f72475f4c6320b96089b9b5f724f14e98e47e0765b2117c1eb4bcb",
+    "run-configure.log": "978fabcacdb600eef50bb330723773a9d8d034e7ced8022859c79ce33618cda3",
+    "scenario.c": "7b0230baa02093720e074ca6e9a45e66367ed29d46af0b07c2ac0719c3f3deda"
+  }
+}

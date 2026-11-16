@@ -1,0 +1,2 @@
+blind {'exit': 0, 'passed': True, 'outcome': {'eats_waybread': 0, 'quaffs_clw': 25, 'other': 0, 'nothing': 75}}
+control {'exit': 0, 'passed': True, 'outcome': {'eats_waybread': 0, 'quaffs_clw': 25, 'other': 0, 'nothing': 75}}
