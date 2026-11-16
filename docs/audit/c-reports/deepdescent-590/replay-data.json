@@ -1,0 +1,97 @@
+{
+  "dd-phase": {
+    "label": "Deep Descent and Phase Door, about to die",
+    "explanation": "Original: the Borg reads Deep Descent and counts it as fled. Corrected: Deep Descent is skipped and the escapes after it in the list are tried.",
+    "control": false,
+    "before": {
+      "raw": "native-c/deepdescent-590: starting...\nSETUP seed=590 mode=dd-phase class=Warrior clevel=10 hp=44/119 danger=89\n  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89\nTRACK # Reading Scroll of Deep Descent.\nTRACK # Danger Level 1.\nOUTCOME reads_deep_descent=1 reads_phase=0 reads_teleport_level=0\nFailed\n    native-c/deepdescent-590:179: requirement '!dd' failed\nnative-c/deepdescent-590 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 89,
+        "curhp": 44,
+        "avoidance": 44
+      },
+      "outcome": {
+        "reads_deep_descent": 1,
+        "reads_phase": 0,
+        "reads_teleport_level": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89",
+        "TRACK # Reading Scroll of Deep Descent.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/deepdescent-590: starting...\nSETUP seed=590 mode=dd-phase class=Warrior clevel=10 hp=44/119 danger=89\n  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89\nTRACK # Safe to Phase. scary squares: 0\nTRACK # Reading Scrolls of Phase Door.\nTRACK # Danger Level 1.\nOUTCOME reads_deep_descent=0 reads_phase=1 reads_teleport_level=0\nPassed\nnative-c/deepdescent-590 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 89,
+        "curhp": 44,
+        "avoidance": 44
+      },
+      "outcome": {
+        "reads_deep_descent": 0,
+        "reads_phase": 1,
+        "reads_teleport_level": 0
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89",
+        "TRACK # Safe to Phase. scary squares: 0",
+        "TRACK # Reading Scrolls of Phase Door.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 0
+    }
+  },
+  "control": {
+    "label": "Control: Teleport Level also carried",
+    "explanation": "Teleport Level is tried before Deep Descent in both builds, so both read Teleport Level; logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/deepdescent-590: starting...\nSETUP seed=590 mode=control class=Warrior clevel=10 hp=44/119 danger=89\n  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89\nTRACK # Reading Scroll of Teleport Level.\nTRACK # Danger Level 1.\nOUTCOME reads_deep_descent=0 reads_phase=0 reads_teleport_level=1\nPassed\nnative-c/deepdescent-590 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 89,
+        "curhp": 44,
+        "avoidance": 44
+      },
+      "outcome": {
+        "reads_deep_descent": 0,
+        "reads_phase": 0,
+        "reads_teleport_level": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89",
+        "TRACK # Reading Scroll of Teleport Level.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/deepdescent-590: starting...\nSETUP seed=590 mode=control class=Warrior clevel=10 hp=44/119 danger=89\n  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89\nTRACK # Reading Scroll of Teleport Level.\nTRACK # Danger Level 1.\nOUTCOME reads_deep_descent=0 reads_phase=0 reads_teleport_level=1\nPassed\nnative-c/deepdescent-590 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 89,
+        "curhp": 44,
+        "avoidance": 44
+      },
+      "outcome": {
+        "reads_deep_descent": 0,
+        "reads_phase": 0,
+        "reads_teleport_level": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89",
+        "TRACK # Reading Scroll of Teleport Level.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 0
+    }
+  }
+}

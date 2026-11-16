@@ -1,0 +1,11 @@
+native-c/deepdescent-590: starting...
+SETUP seed=590 mode=dd-phase class=Warrior clevel=10 hp=44/119 danger=89
+  no_deep_descent_as_emergency_escape  STATE danger=89 curhp=44 avoidance=44
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:44/119 SP:0/0 Danger:p=89
+TRACK # Reading Scroll of Deep Descent.
+TRACK # Danger Level 1.
+OUTCOME reads_deep_descent=1 reads_phase=0 reads_teleport_level=0
+Failed
+    native-c/deepdescent-590:179: requirement '!dd' failed
+native-c/deepdescent-590 finished: 0/1 passed

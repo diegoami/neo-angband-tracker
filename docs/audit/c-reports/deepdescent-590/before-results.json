@@ -1,0 +1,30 @@
+{
+  "dd-phase": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "danger": 89,
+      "curhp": 44,
+      "avoidance": 44
+    },
+    "outcome": {
+      "reads_deep_descent": 1,
+      "reads_phase": 0,
+      "reads_teleport_level": 0
+    }
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 89,
+      "curhp": 44,
+      "avoidance": 44
+    },
+    "outcome": {
+      "reads_deep_descent": 0,
+      "reads_phase": 0,
+      "reads_teleport_level": 1
+    }
+  }
+}
