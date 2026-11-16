@@ -1,0 +1,12 @@
+native-c/healamount-592: starting...
+SETUP seed=592 mode=control class=Warrior clevel=10 hp=39/70 danger=89 cut=5
+  cure_serious_heal_is_valued_at_40  STATE danger=89 curhp=39 maxhp=70 pct_down=44 cut=1
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:10 Lev:10 HP:39/70 SP:0/0 Danger:p=89
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)
+OUTCOME quaffs_csw=0
+Passed
+native-c/healamount-592 finished: 1/1 passed

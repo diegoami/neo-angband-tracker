@@ -1,0 +1,30 @@
+{
+  "window": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "danger": 89,
+      "curhp": 57,
+      "maxhp": 103,
+      "pct_down": 44,
+      "cut": 1
+    },
+    "outcome": {
+      "quaffs_csw": 0
+    }
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "danger": 89,
+      "curhp": 39,
+      "maxhp": 70,
+      "pct_down": 44,
+      "cut": 1
+    },
+    "outcome": {
+      "quaffs_csw": 0
+    }
+  }
+}

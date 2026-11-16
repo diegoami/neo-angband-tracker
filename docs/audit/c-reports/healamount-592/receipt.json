@@ -1,0 +1,116 @@
+{
+  "issue": "diegoami/neo-angband-tracker#592",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "65151df9e89079471faf18e7501e116f175238c3",
+  "fixtures_ref": "5c6a2aa4bc11f6dabe7bbb13fec7bd69fbe5a354",
+  "cases": {
+    "before": {
+      "window": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "danger": 89,
+          "curhp": 57,
+          "maxhp": 103,
+          "pct_down": 44,
+          "cut": 1
+        },
+        "outcome": {
+          "quaffs_csw": 0
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 89,
+          "curhp": 39,
+          "maxhp": 70,
+          "pct_down": 44,
+          "cut": 1
+        },
+        "outcome": {
+          "quaffs_csw": 0
+        }
+      }
+    },
+    "after": {
+      "window": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 89,
+          "curhp": 57,
+          "maxhp": 103,
+          "pct_down": 44,
+          "cut": 1
+        },
+        "outcome": {
+          "quaffs_csw": 1
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 89,
+          "curhp": 39,
+          "maxhp": 70,
+          "pct_down": 44,
+          "cut": 1
+        },
+        "outcome": {
+          "quaffs_csw": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "bff3d023198d10d3ca5fdc9f34fd88c1e93dddf6f870e4c054eba1ad1680b961"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=4 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "59bc2e72dbaf88d7e66957bf1e474eced5644d76d6a54fb3db7f4f76e165a564",
+    "after-control.log": "e7ee953d07089ca83bfb71a367d25afb86b604cd818895248bfb3d94fc646bf0",
+    "after-results.json": "9bdb4cf8fe56a76345e05161035865d8363b07c95a1cd56015f8c8b8b60787fb",
+    "after-window.log": "5c3db630db14d1cce4f8e246fc40b9f19188ad4dc9def61b6c74479dc0068568",
+    "before-control.log": "e7ee953d07089ca83bfb71a367d25afb86b604cd818895248bfb3d94fc646bf0",
+    "before-results.json": "5893e646cb8cccb5e0fe23b3d31681fe1f5ebae41ac8780b0290a5e3f7650037",
+    "before-window.log": "4b2eaaac2ac95c94a464b7044158e5bf0bef34f5b7f870d38aa079826afbd80e",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "fix.patch": "64516d53c52cbe7db312def778f4e24037e730ff880298bc339a25f93f9a50b8",
+    "make_replay.py": "1b1b84cf40c1de09475df385cbf13990154ccbcd5b6ad6ad2aae0aeae1fd9df6",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "f3a3c262d40dd64d0aab76c88df3ea918b9a1e2a0f06c3d1e77f2aa8dbc830fb",
+    "replay.html": "866d734808e13f86dcd3e7188b9525a3c69657b1c68665255daa84ee186899df",
+    "reproduce.py": "7992d9418e5a28cb2f13183b541426b6120e132951d39ca6213bdc065a525559",
+    "result.json": "57f0da766f3ae47b43a8bd6d1823620206993417af5882fcac5b7d7023bf26a6",
+    "run-after-alltests.log": "b431e859d2ed5fffc4753ed355bf796d76bd3cbfdd577521f4d7d4ccaac546aa",
+    "run-after-build.log": "102d5ca03cf4edebb3589a5659ac2a266336c1940cde65be5a3ee06ba96e0cd4",
+    "run-after-scenarios.log": "5897bf17d109d5d9e75e7baa95503458c7c38be2de38627d219463efd37d84b7",
+    "run-before-alltests.log": "03b839b37ff25d257a4b3e23bb4e04dcd70769557009c9a205407e11653b866a",
+    "run-before-build.log": "695c00074271761a321368d6a5934e9c25fb3641e1f55df25671a9dda5e171d5",
+    "run-before-scenarios.log": "6f76f462a14a1429e3c6a9358569230eeb3d3e19700b4f51a1262838c6e07ffb",
+    "run-cases.py": "3da716703221c5a29ae70b31456802d98beccdf919c344d03547671dec75fc0c",
+    "run-configure.log": "ebaf80e8bdc6e2bda8a2c3137503f8b1c1b1ef0aaf2f8b622ae20026729001f1",
+    "scenario.c": "4c7332c4974adbae4d70a4b2317d3eaeb6c0795657003fae46faebc298a6659d"
+  }
+}
