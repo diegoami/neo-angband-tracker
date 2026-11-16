@@ -1,0 +1,72 @@
+{
+  "vuln": {
+    "label": "Fire resistance plus a fire vulnerability",
+    "explanation": "The game computes no fire resistance (level 0). Original: the Borg still believes it resists fire and divides the breath by three. Corrected: it agrees with the game.",
+    "control": false,
+    "before": {
+      "raw": "native-c/vulnres-594: starting...\nSETUP seed=594 mode=vuln class=Warrior clevel=35 hp=418 game_fire_res_level=0\n  fire_resistance_matches_the_game  STATE game_fire_res_level=0 borg_rfire=1 borg_fire_vuln=1\nOUTCOME danger=72 borg_rfire=1\nFailed\n    native-c/vulnres-594:144: requirement '(borg.trait[BI_RFIRE] ? 1 : 0) == (game_level >= 1 ? 1 : 0)' failed\nnative-c/vulnres-594 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "game_fire_res_level": 0,
+        "borg_rfire": 1,
+        "borg_fire_vuln": 1
+      },
+      "outcome": {
+        "danger": 72,
+        "borg_rfire": 1
+      },
+      "notes": [],
+      "value": 72
+    },
+    "after": {
+      "raw": "native-c/vulnres-594: starting...\nSETUP seed=594 mode=vuln class=Warrior clevel=35 hp=418 game_fire_res_level=0\n  fire_resistance_matches_the_game  STATE game_fire_res_level=0 borg_rfire=0 borg_fire_vuln=1\nOUTCOME danger=134 borg_rfire=0\nPassed\nnative-c/vulnres-594 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_fire_res_level": 0,
+        "borg_rfire": 0,
+        "borg_fire_vuln": 1
+      },
+      "outcome": {
+        "danger": 134,
+        "borg_rfire": 0
+      },
+      "notes": [],
+      "value": 134
+    }
+  },
+  "control": {
+    "label": "Control: fire resistance, no vulnerability",
+    "explanation": "The game and the Borg both see fire resistance; logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/vulnres-594: starting...\nSETUP seed=594 mode=control class=Warrior clevel=35 hp=418 game_fire_res_level=1\n  fire_resistance_matches_the_game  STATE game_fire_res_level=1 borg_rfire=1 borg_fire_vuln=0\nOUTCOME danger=72 borg_rfire=1\nPassed\nnative-c/vulnres-594 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_fire_res_level": 1,
+        "borg_rfire": 1,
+        "borg_fire_vuln": 0
+      },
+      "outcome": {
+        "danger": 72,
+        "borg_rfire": 1
+      },
+      "notes": [],
+      "value": 72
+    },
+    "after": {
+      "raw": "native-c/vulnres-594: starting...\nSETUP seed=594 mode=control class=Warrior clevel=35 hp=418 game_fire_res_level=1\n  fire_resistance_matches_the_game  STATE game_fire_res_level=1 borg_rfire=1 borg_fire_vuln=0\nOUTCOME danger=72 borg_rfire=1\nPassed\nnative-c/vulnres-594 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "game_fire_res_level": 1,
+        "borg_rfire": 1,
+        "borg_fire_vuln": 0
+      },
+      "outcome": {
+        "danger": 72,
+        "borg_rfire": 1
+      },
+      "notes": [],
+      "value": 72
+    }
+  }
+}

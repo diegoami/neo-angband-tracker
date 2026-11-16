@@ -1,0 +1,6 @@
+native-c/vulnres-594: starting...
+SETUP seed=594 mode=vuln class=Warrior clevel=35 hp=418 game_fire_res_level=0
+  fire_resistance_matches_the_game  STATE game_fire_res_level=0 borg_rfire=0 borg_fire_vuln=1
+OUTCOME danger=134 borg_rfire=0
+Passed
+native-c/vulnres-594 finished: 1/1 passed

@@ -1,0 +1,7 @@
+native-c/vulnres-594: starting...
+SETUP seed=594 mode=vuln class=Warrior clevel=35 hp=418 game_fire_res_level=0
+  fire_resistance_matches_the_game  STATE game_fire_res_level=0 borg_rfire=1 borg_fire_vuln=1
+OUTCOME danger=72 borg_rfire=1
+Failed
+    native-c/vulnres-594:144: requirement '(borg.trait[BI_RFIRE] ? 1 : 0) == (game_level >= 1 ? 1 : 0)' failed
+native-c/vulnres-594 finished: 0/1 passed
