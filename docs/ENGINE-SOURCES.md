@@ -110,6 +110,23 @@ remain unmerged upstream as of this audit: upstream master still has
 `packages/core/src/store/store.ts:669` `store.stock.push(obj)` and the
 input-order `startItems` mapping at `packages/core/src/player/bind.ts:1027`.
 
+## Exact beta.4 source adoption — 2026-11-16
+
+Owner task [641](https://github.com/diegoami/neo-angband-tracker/issues/641)
+imports release/npm gitHead `a0f252de23eb672e2ccf12e0377a96088c66e24d`
+by normal merge `dc1093b3731f8e452fd10c2299577dddd77768ee` onto owned master
+`0c00e7761`. All pre-release runtime commits were already ancestors of that
+owned master. The merge therefore changes only 14 release/version/documentation
+files; existing fork source corrections for 635/636 and workflow guards remain.
+The latest edge.241 is a separate prerelease and is not selected in this adoption.
+The pristine source reference pin remains `d27ed50f9`; a release import does not
+replace that later source reference with an older release commit.
+
+[Validation receipt](runs/2026-11-16-engine-beta4/README.md) records the build,
+53 focused tests, aligned versions and workflow audit. Required hosted full
+checks and production smoke determine readiness to merge. This is a fork source
+adoption; published registry artifacts remain distinct from our fork builds.
+
 ## Disposable source packaging
 
 This living recipe corrects the earlier beta.3 receipt's generic pack block,
