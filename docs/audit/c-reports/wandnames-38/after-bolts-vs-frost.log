@@ -1,0 +1,14 @@
+native-c/wandnames-38: starting...
+SETUP seed=38 mode=bolts-vs-frost class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104
+  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]
+PACK 1 tval=23 sval=2 desc=[Wand of Lightning Bolts (10 charges)]
+PACK 2 tval=23 sval=3 desc=[Wand of Frost Bolts (10 charges)]
+VALUE elec_bolt=16
+VALUE elec_ball=0
+VALUE cold_bolt=49
+VALUE confuse=0
+VALUE fear=0
+DECISION attacked=1 type=75 (cold_bolt) value=49
+OUTCOME attacked=1 elec_bolt=1 elec_ball=0 cold_bolt=1 confuse=0 fear=0 chose_cold=1 chose_elec_ball=0
+Passed
+native-c/wandnames-38 finished: 1/1 passed

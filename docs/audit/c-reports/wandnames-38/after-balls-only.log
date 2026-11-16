@@ -1,0 +1,13 @@
+native-c/wandnames-38: starting...
+SETUP seed=38 mode=balls-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104
+  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]
+PACK 1 tval=23 sval=7 desc=[Wand of Lightning Balls (10 charges)]
+VALUE elec_bolt=0
+VALUE elec_ball=59
+VALUE cold_bolt=0
+VALUE confuse=0
+VALUE fear=0
+DECISION attacked=1 type=86 (elec_ball) value=59
+OUTCOME attacked=1 elec_bolt=0 elec_ball=1 cold_bolt=0 confuse=0 fear=0 chose_cold=0 chose_elec_ball=1
+Passed
+native-c/wandnames-38 finished: 1/1 passed

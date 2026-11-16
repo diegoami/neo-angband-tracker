@@ -1,0 +1,207 @@
+{
+  "bolts-vs-frost": {
+    "label": "Lightning Bolts wand against Frost Bolts wand",
+    "explanation": "The Borg carries a Lightning Bolts wand (6d6 beam, about 21 damage) and a Frost Bolts wand (12d8 bolt, about 54 damage). Original: the Lightning Bolts wand is also offered as a Lightning Balls attack worth 64 damage, so the Borg chooses it and would fire a 21-damage beam. Corrected: the Lightning Bolts wand is offered only as a beam and the Borg chooses the Frost Bolts wand.",
+    "control": false,
+    "before": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=bolts-vs-frost class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=2 desc=[Wand of Lightning Bolts (10 charges)]\nPACK 2 tval=23 sval=3 desc=[Wand of Frost Bolts (10 charges)]\nVALUE elec_bolt=16\nVALUE elec_ball=59\nVALUE cold_bolt=49\nVALUE confuse=0\nVALUE fear=0\nDECISION attacked=1 type=86 (elec_ball) value=59\nOUTCOME attacked=1 elec_bolt=1 elec_ball=1 cold_bolt=1 confuse=0 fear=0 chose_cold=0 chose_elec_ball=1\nFailed\n    native-c/wandnames-38:206: requirement 'value[1] == 0' failed\nnative-c/wandnames-38 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "attacked": 1,
+        "elec_bolt": 1,
+        "elec_ball": 1,
+        "cold_bolt": 1,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 0,
+        "chose_elec_ball": 1
+      },
+      "notes": [
+        "DECISION attacked=1 type=86 (elec_ball) value=59"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=bolts-vs-frost class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=2 desc=[Wand of Lightning Bolts (10 charges)]\nPACK 2 tval=23 sval=3 desc=[Wand of Frost Bolts (10 charges)]\nVALUE elec_bolt=16\nVALUE elec_ball=0\nVALUE cold_bolt=49\nVALUE confuse=0\nVALUE fear=0\nDECISION attacked=1 type=75 (cold_bolt) value=49\nOUTCOME attacked=1 elec_bolt=1 elec_ball=0 cold_bolt=1 confuse=0 fear=0 chose_cold=1 chose_elec_ball=0\nPassed\nnative-c/wandnames-38 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "attacked": 1,
+        "elec_bolt": 1,
+        "elec_ball": 0,
+        "cold_bolt": 1,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 1,
+        "chose_elec_ball": 0
+      },
+      "notes": [
+        "DECISION attacked=1 type=75 (cold_bolt) value=49"
+      ],
+      "value": 1
+    }
+  },
+  "balls-only": {
+    "label": "Real Lightning Balls wand",
+    "explanation": "The Borg carries only a Lightning Balls wand (64 damage, radius 2). Original: no attack type matches it, so the Borg never zaps it. Corrected: it is offered as the Lightning Balls attack and chosen.",
+    "control": false,
+    "before": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=balls-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=7 desc=[Wand of Lightning Balls (10 charges)]\nVALUE elec_bolt=0\nVALUE elec_ball=0\nVALUE cold_bolt=0\nVALUE confuse=0\nVALUE fear=0\nDECISION attacked=0 type=-1 (none) value=0\nOUTCOME attacked=0 elec_bolt=0 elec_ball=0 cold_bolt=0 confuse=0 fear=0 chose_cold=0 chose_elec_ball=0\nFailed\n    native-c/wandnames-38:210: requirement 'value[1] > 0' failed\nnative-c/wandnames-38 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "attacked": 0,
+        "elec_bolt": 0,
+        "elec_ball": 0,
+        "cold_bolt": 0,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 0,
+        "chose_elec_ball": 0
+      },
+      "notes": [
+        "DECISION attacked=0 type=-1 (none) value=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=balls-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=7 desc=[Wand of Lightning Balls (10 charges)]\nVALUE elec_bolt=0\nVALUE elec_ball=59\nVALUE cold_bolt=0\nVALUE confuse=0\nVALUE fear=0\nDECISION attacked=1 type=86 (elec_ball) value=59\nOUTCOME attacked=1 elec_bolt=0 elec_ball=1 cold_bolt=0 confuse=0 fear=0 chose_cold=0 chose_elec_ball=1\nPassed\nnative-c/wandnames-38 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "attacked": 1,
+        "elec_bolt": 0,
+        "elec_ball": 1,
+        "cold_bolt": 0,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 0,
+        "chose_elec_ball": 1
+      },
+      "notes": [
+        "DECISION attacked=1 type=86 (elec_ball) value=59"
+      ],
+      "value": 0
+    }
+  },
+  "confuse-only": {
+    "label": "Real Confuse Monster wand",
+    "explanation": "The Borg carries only a Confuse Monster wand, which the Magic shop sells. Original: no attack type matches it, so it is never even scored (0). Corrected: it is scored as the confusion attack. Against this ogre the Borg scores a confusion bolt below zero, so it is not zapped in either build: this case shows recognition, not a changed zap.",
+    "control": false,
+    "before": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=confuse-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=12 desc=[Wand of Confuse Monster (10 charges)]\nVALUE elec_bolt=0\nVALUE elec_ball=0\nVALUE cold_bolt=0\nVALUE confuse=0\nVALUE fear=0\nDECISION attacked=0 type=-1 (none) value=0\nOUTCOME attacked=0 elec_bolt=0 elec_ball=0 cold_bolt=0 confuse=0 fear=0 chose_cold=0 chose_elec_ball=0\nFailed\n    native-c/wandnames-38:215: requirement 'value[3] != 0' failed\nnative-c/wandnames-38 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "attacked": 0,
+        "elec_bolt": 0,
+        "elec_ball": 0,
+        "cold_bolt": 0,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 0,
+        "chose_elec_ball": 0
+      },
+      "notes": [
+        "DECISION attacked=0 type=-1 (none) value=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=confuse-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=12 desc=[Wand of Confuse Monster (10 charges)]\nVALUE elec_bolt=0\nVALUE elec_ball=0\nVALUE cold_bolt=0\nVALUE confuse=-6\nVALUE fear=0\nDECISION attacked=0 type=-1 (none) value=0\nOUTCOME attacked=0 elec_bolt=0 elec_ball=0 cold_bolt=0 confuse=0 fear=0 chose_cold=0 chose_elec_ball=0\nPassed\nnative-c/wandnames-38 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "attacked": 0,
+        "elec_bolt": 0,
+        "elec_ball": 0,
+        "cold_bolt": 0,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 0,
+        "chose_elec_ball": 0
+      },
+      "notes": [
+        "DECISION attacked=0 type=-1 (none) value=0"
+      ],
+      "value": 0
+    }
+  },
+  "scare-only": {
+    "label": "Scare Monster wand",
+    "explanation": "The Borg carries only a Scare Monster wand. Original: it is scored both as a fear bolt and, wrongly, as a confusion bolt. Corrected: only as a fear bolt. Both scores are below zero against this ogre, so it is not zapped in either build: this case shows the wrong recognition, not a changed zap.",
+    "control": false,
+    "before": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=scare-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=15 desc=[Wand of Scare Monster (10 charges)]\nVALUE elec_bolt=0\nVALUE elec_ball=0\nVALUE cold_bolt=0\nVALUE confuse=-6\nVALUE fear=-6\nDECISION attacked=0 type=-1 (none) value=0\nOUTCOME attacked=0 elec_bolt=0 elec_ball=0 cold_bolt=0 confuse=0 fear=0 chose_cold=0 chose_elec_ball=0\nFailed\n    native-c/wandnames-38:218: requirement 'value[3] == 0' failed\nnative-c/wandnames-38 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "attacked": 0,
+        "elec_bolt": 0,
+        "elec_ball": 0,
+        "cold_bolt": 0,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 0,
+        "chose_elec_ball": 0
+      },
+      "notes": [
+        "DECISION attacked=0 type=-1 (none) value=0"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=scare-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=15 desc=[Wand of Scare Monster (10 charges)]\nVALUE elec_bolt=0\nVALUE elec_ball=0\nVALUE cold_bolt=0\nVALUE confuse=0\nVALUE fear=-6\nDECISION attacked=0 type=-1 (none) value=0\nOUTCOME attacked=0 elec_bolt=0 elec_ball=0 cold_bolt=0 confuse=0 fear=0 chose_cold=0 chose_elec_ball=0\nPassed\nnative-c/wandnames-38 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "attacked": 0,
+        "elec_bolt": 0,
+        "elec_ball": 0,
+        "cold_bolt": 0,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 0,
+        "chose_elec_ball": 0
+      },
+      "notes": [
+        "DECISION attacked=0 type=-1 (none) value=0"
+      ],
+      "value": 0
+    }
+  },
+  "frost-only": {
+    "label": "Control: Frost Bolts wand only",
+    "explanation": "The Borg carries only a Frost Bolts wand, whose lookup was always right. It is chosen in both builds and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=frost-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=3 desc=[Wand of Frost Bolts (10 charges)]\nVALUE elec_bolt=0\nVALUE elec_ball=0\nVALUE cold_bolt=49\nVALUE confuse=0\nVALUE fear=0\nDECISION attacked=1 type=75 (cold_bolt) value=49\nOUTCOME attacked=1 elec_bolt=0 elec_ball=0 cold_bolt=1 confuse=0 fear=0 chose_cold=1 chose_elec_ball=0\nPassed\nnative-c/wandnames-38 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "attacked": 1,
+        "elec_bolt": 0,
+        "elec_ball": 0,
+        "cold_bolt": 1,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 1,
+        "chose_elec_ball": 0
+      },
+      "notes": [
+        "DECISION attacked=1 type=75 (cold_bolt) value=49"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/wandnames-38: starting...\nSETUP seed=38 mode=frost-only class=Warrior clevel=21 depth=20 hp=254/254 ogre_kill=1 ogre_hp=104\n  each_wand_is_offered_as_what_it_does  PACK 0 tval=28 sval=5 desc=[Ration of Food]\nPACK 1 tval=23 sval=3 desc=[Wand of Frost Bolts (10 charges)]\nVALUE elec_bolt=0\nVALUE elec_ball=0\nVALUE cold_bolt=49\nVALUE confuse=0\nVALUE fear=0\nDECISION attacked=1 type=75 (cold_bolt) value=49\nOUTCOME attacked=1 elec_bolt=0 elec_ball=0 cold_bolt=1 confuse=0 fear=0 chose_cold=1 chose_elec_ball=0\nPassed\nnative-c/wandnames-38 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "attacked": 1,
+        "elec_bolt": 0,
+        "elec_ball": 0,
+        "cold_bolt": 1,
+        "confuse": 0,
+        "fear": 0,
+        "chose_cold": 1,
+        "chose_elec_ball": 0
+      },
+      "notes": [
+        "DECISION attacked=1 type=75 (cold_bolt) value=49"
+      ],
+      "value": 1
+    }
+  }
+}
