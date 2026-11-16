@@ -11,11 +11,19 @@ const base = 'a'.repeat(40), head = 'b'.repeat(40), topic = 'c'.repeat(40);
 test('only reviewed inert regular records take the small lane', () => {
   for (const path of ['AGENTS.md', 'RULES.md', 'docs/SESSION.md', 'docs/reviews/verification.md', 'docs/audit/c-reports/CBUG-0002/after-knockout.log', 'docs/audit/c-reports/CBUG-0002/receipt.json', 'docs/c-bugs/findings/CBUG-0002.json', 'patches/upstream-c/proposal.patch']) assert.equal(classify([change(path)]).full, false, path);
 });
+test('native C evidence packages take the small lane, but not executable files or mixed diffs', () => {
+  const pkg = ['scenario.c', 'run-cases.py', 'make_replay.py', 'reproduce.py', 'fix.patch', 'borg.txt', 'profile/borg.txt', 'replay.html', 'replay-data.json', 'result.json', 'before-down.log', 'receipt.json', 'README.md'];
+  const changes = pkg.map(name => change('docs/audit/c-reports/dnstair-615/' + name, { status: 'A', oldMode: '000000' }));
+  assert.equal(classify(changes).full, false);
+  assert.equal(classify([change('docs/audit/c-reports/flowcache-404/reproduce.py', { newMode: '100755' })]).full, true);
+  assert.equal(classify([...changes, change('packages/core/src/game/trap.ts')]).full, true);
+  assert.equal(classify([change('docs/audit/c-reports/dnstair-615/scenario.c', { status: 'D', newMode: '000000' })]).full, true);
+});
 test('README, CONTRIBUTING and installation prose select real doc contracts', () => {
   for (const path of ['README.md', 'CONTRIBUTING.md', 'docs/INSTALL.md']) assert.deepEqual(classify([change(path)]), { full: false, contracts: true, reason: 'only allowlisted regular documentation/evidence records' });
 });
-test('runtime, tests, dependencies, workflows, config, unknown docs and runnable evidence stay full', () => {
-  for (const path of ['packages/core/src/game/trap.ts', 'packages/core/src/game/trap.test.ts', 'tests/e2e/play.spec.ts', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'tsconfig.json', '.github/workflows/ci.yml', '.github/actions/private-scan/action.yml', 'tools/ci-scope.mjs', 'tools/vitest-doc-contracts.config.mjs', 'docs/modding/API2.md', 'docs/new.md', 'docs/audit/c-reports/CBUG-0002/scenario.c', 'docs/audit/c-reports/CBUG-0002/run-modes.py', 'docs/audit/c-reports/CBUG-0002/borg.txt', 'docs/audit/c-reports/CBUG-0002/config.json', 'reference/src/borg.c']) assert.equal(classify([change(path)]).full, true, path);
+test('runtime, tests, dependencies, workflows, config and unknown docs stay full', () => {
+  for (const path of ['packages/core/src/game/trap.ts', 'packages/core/src/game/trap.test.ts', 'tests/e2e/play.spec.ts', 'package.json', 'pnpm-lock.yaml', 'pnpm-workspace.yaml', 'tsconfig.json', '.github/workflows/ci.yml', '.github/actions/private-scan/action.yml', 'tools/ci-scope.mjs', 'tools/vitest-doc-contracts.config.mjs', 'docs/modding/API2.md', 'docs/new.md', 'docs/audit/scenario.c', 'docs/audit/c-reportsX/scenario.c', 'reference/src/borg.c']) assert.equal(classify([change(path)]).full, true, path);
   assert.equal(classify([change('AGENTS.md'), change('package.json')]).full, true);
 });
 test('empty, removed, renamed, executable, symlink and malformed paths stay full', () => {

@@ -20,7 +20,8 @@ test/live-game jobs.
 
 The small lane accepts only reviewed regular non-executable additions or
 modifications: named session docs, review Markdown, named source catalogue
-records, selected textual run/evidence receipts and stored proposal patches.
+records, selected textual run/evidence receipts, native C evidence packages
+under docs/audit/c-reports/ and stored proposal patches.
 The exact allowlist lives in tools/ci-scope.mjs. This is not an extension-wide
 Markdown exemption or a docs-directory exemption. Deletes, renames, symlinks,
 executable files and unknown paths select full CI.
@@ -44,17 +45,23 @@ dependency, tool, configuration, runtime and unknown-path changes always
 select full. This CI-maintenance PR therefore runs its own full hosted gate.
 No publisher workflow, tag ruleset or package publication is changed.
 
-C evidence with a runnable observer, driver or configuration is deliberately
-not classified as inert. It still selects the conservative full gate; the
-Neo gameplay suite is not claimed as proof of native C behavior. A future
-separate, validated C-evidence gate could optimise that case. Native C source
-proposals continue through their independently owned native workflow; this
-change neither validates their scenarios nor replaces their human receipts.
-No Rust source/feed is read by classification or its fixture-only tests.
+Native C evidence packages under docs/audit/c-reports/ take the small lane
+as a whole, runnable fixtures included: scenario.c, the Python runners,
+fix.patch, borg.txt, replays, logs and receipts. Nothing in the Neo build or
+tests reads them; they run only by hand against the native C game through
+their reproduce.py, so the Neo gameplay suite proves nothing about them and
+running it on an evidence PR only spent about ten minutes per update. This
+reverses the earlier rule (#223) that kept runnable C evidence on the full
+gate. Executable files, deletions, renames, symlinks, and any diff that also
+touches another path still select full CI. Native C source proposals keep
+their independently owned native validation; this change neither validates
+their scenarios nor replaces their human receipts. No Rust source/feed is
+read by classification or its fixture-only tests.
 
 For a local control run use node --test tools/ci-scope.node-test.mjs. The tests
-cover pure records, actual doc contracts, code/lock/test/workflow/unknown and
-runnable evidence paths, mixed diffs, symlinks/renames, exact push/PR ranges,
+cover pure records, actual doc contracts, code/lock/test/workflow/unknown
+paths, native C evidence packages with their executable/mixed exceptions,
+mixed diffs, symlinks/renames, exact push/PR ranges,
 real Git merge trees and uncertain/missing-diff fallback. Hosted workflow
 checks remain authoritative; a metadata-only local check does not waive the
 full gate when scope is full.

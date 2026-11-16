@@ -13,6 +13,11 @@ const INERT = new Set([
 // These three documents have executable product contracts; run the real suites.
 const CONTRACTS = new Set(['README.md', 'CONTRIBUTING.md', 'docs/INSTALL.md']);
 const RECORD = /^(?:docs\/reviews\/[^\0]+\.md|docs\/(?:runs|audit\/c-reports)\/[^\0]+\.(?:md|log)|docs\/(?:runs|audit\/c-reports)\/[^\0]+\/(?:receipt|reuse-receipt|comparison|before-results|after-results|duplicate-search|summary|pins|gates)\.json|docs\/c-bugs\/(?:findings\/CBUG-\d+\.json|catalogue\.json|watch-index\.json)|patches\/(?:upstream-c|upstream-neo)\/[^\0]+\.patch)$/u;
+// Native C evidence packages (fixtures, runners, patches, configs, replays,
+// logs, receipts). Nothing in the Neo build or tests reads them; they run only
+// by hand against the C game, so the Neo gate proves nothing about them.
+// Executable files, deletions, renames and symlinks still select full CI.
+const C_EVIDENCE = /^docs\/audit\/c-reports\/[^\0]+$/u;
 const full = (reason) => ({ full: true, contracts: false, reason });
 export function classify(changes) {
   if (!Array.isArray(changes) || changes.length === 0) return full('empty or unavailable diff');
@@ -23,7 +28,7 @@ export function classify(changes) {
     // Deletions, renames, copies, symlinks and executable files cannot be inert.
     if (!['A', 'M'].includes(status) || newMode !== '100644' || !['000000', '100644'].includes(oldMode)) return full(`non-regular addition/modification: ${path}`);
     if (CONTRACTS.has(path)) { contracts = true; continue; }
-    if (!INERT.has(path) && !RECORD.test(path)) return full(`unclassified path: ${path}`);
+    if (!INERT.has(path) && !RECORD.test(path) && !C_EVIDENCE.test(path)) return full(`unclassified path: ${path}`);
   }
   return { full: false, contracts, reason: 'only allowlisted regular documentation/evidence records' };
 }
