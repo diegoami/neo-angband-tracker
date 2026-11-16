@@ -1,0 +1,154 @@
+{
+  "issue": "diegoami/neo-angband-tracker#610",
+  "base": "82fd25a5477054a0727ab920701b7555898586b2",
+  "fix": "16a8ac653bc4f6e9564f7b914358a1ebe8a16e1f",
+  "fixtures_ref": "91685999bb307a8f32329b4ea5628ea535d0a0e4",
+  "cases": {
+    "before": {
+      "vuln": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "game_fire_res_level": -1,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 137,
+          "reference": 137
+        }
+      },
+      "temp": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "game_fire_res_level": 0,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 1,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 73,
+          "reference": 137
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 0,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 137,
+          "reference": 137
+        }
+      }
+    },
+    "after": {
+      "vuln": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": -1,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 169,
+          "reference": 137
+        }
+      },
+      "temp": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 0,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 1,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 137,
+          "reference": 137
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 0,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 137,
+          "reference": 137
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "ee718ab8103c6febc05dc7410773e8f143ad927069813d1f0dc8f96aad34981e",
+    "src/borg/borg-trait.c": "996969fcdf516355d38fd6bdb5cc1b580d9fbcc01096bfbe7a118acc74fdc91e",
+    "src/borg/borg-trait.h": "edd021a049608f239f3aa7deceedc18a22d2f67f8b9c714c84403e0127c50b17"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=5 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "92cdfe5205537cca1b14c4ac58163cae421343882b7c6ca7f11f775810a7a4da",
+    "after-control.log": "caf9121cf2865c6fdec31c18b528d794f74e489043c8252738042f4b8a4a32a3",
+    "after-results.json": "8f54a18e5ae5bb8f884270e206feb83df7b7166391204650826feac152d7e54c",
+    "after-temp.log": "4815878cef98f7ac5b1624edac8916b0a0349b79d85056b8a88f042a692a71f2",
+    "after-vuln.log": "022aeffaf67d7b530f22fd6e63f125dc5774a25f46fdbad2bee4d0c2cc4a7947",
+    "before-control.log": "caf9121cf2865c6fdec31c18b528d794f74e489043c8252738042f4b8a4a32a3",
+    "before-results.json": "a80f8b07b652f7b62f2c032fe9cb3e97b5a2c614c76a7fb7ce015abf42e292a6",
+    "before-temp.log": "fc024a46649883054df8f36445228a9fc379fb90ce90c8ae977ffa1086cd68ca",
+    "before-vuln.log": "51bba43365fa13beb462504c804875b1ef9479225fa230dda7a796da69c8a89f",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "fix.patch": "467786e68f26538a238238207a1763697eaa5eae322b64ab7b0af95a172810c1",
+    "make_replay.py": "c14ca68ee91676398118d50d537c594f8cef36609e82aad5d3e6e241eb2a6473",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "82137c4d12d944c765f8a4ec4695a9fc90b142a146eb9a03f38dbf0b9a19433b",
+    "replay.html": "6a2dedc6ad90a1502cf607ac639f3a3d8286384b7df9590929291781a0fadc62",
+    "reproduce.py": "99bc1146a32c5d2b49e2a9f006335be7e675e34119926a38003e0e421902d061",
+    "result.json": "6f6b848ef254d4f81ca267738fadc5c4256ca961c2e45f55c549208aef023a0a",
+    "run-after-alltests.log": "e9a805f75b30501fc2843a52a95543841b514915c4ccad6f6fdfa284492e58db",
+    "run-after-build.log": "dd33012b9403a7045d711cfea0d84c0266cf2d05bef8506dc79e7c06fc3b16e9",
+    "run-after-scenarios.log": "ccec2a280a9178e2ebc33584940e4a87a307637a096938bef32ae28e74ddf2a1",
+    "run-before-alltests.log": "943e65bcc767b121fdcdc9392c42ccb4dd3fd2793ab605493f9ad3e417f686cf",
+    "run-before-build.log": "d2912d4a2eaebb408d9bbd549374cc3b9d812418694fb7b2f56dd9d26f702575",
+    "run-before-scenarios.log": "acdada65cb6b6edee9c018b26464c5bd369937040fa15a7c9db887c60ab4cebc",
+    "run-cases.py": "89338932874fd232df09429db127e06c1abb6ef882c224da8ca18870a9a82432",
+    "run-configure.log": "2a72e7da19c0b575852908bbade1ca96184a52e22268f694fc0f277dbcf73b91",
+    "scenario.c": "c0fdb09535dd80a7b60c9b3be946ebd9fb0ef2c42755e239d344d66517ee0656"
+  }
+}

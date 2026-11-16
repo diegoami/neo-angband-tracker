@@ -1,0 +1,119 @@
+{
+  "base": "82fd25a5477054a0727ab920701b7555898586b2",
+  "fix": "16a8ac653bc4f6e9564f7b914358a1ebe8a16e1f",
+  "fixtures_ref": "91685999bb307a8f32329b4ea5628ea535d0a0e4",
+  "cases": {
+    "before": {
+      "vuln": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "game_fire_res_level": -1,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 137,
+          "reference": 137
+        }
+      },
+      "temp": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "game_fire_res_level": 0,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 1,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 73,
+          "reference": 137
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 0,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 137,
+          "reference": 137
+        }
+      }
+    },
+    "after": {
+      "vuln": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": -1,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 169,
+          "reference": 137
+        }
+      },
+      "temp": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 0,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 1,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 137,
+          "reference": 137
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "game_fire_res_level": 0,
+          "reference_game_fire_res_level": 0,
+          "borg_rfire": 0,
+          "borg_temp_rfire": 0,
+          "borg_fire_vuln": 1
+        },
+        "outcome": {
+          "danger": 137,
+          "reference": 137
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-danger.c": "ee718ab8103c6febc05dc7410773e8f143ad927069813d1f0dc8f96aad34981e",
+    "src/borg/borg-trait.c": "996969fcdf516355d38fd6bdb5cc1b580d9fbcc01096bfbe7a118acc74fdc91e",
+    "src/borg/borg-trait.h": "edd021a049608f239f3aa7deceedc18a22d2f67f8b9c714c84403e0127c50b17"
+  }
+}

@@ -1,0 +1,3 @@
+vuln {'exit': 0, 'passed': True, 'state': {'game_fire_res_level': -1, 'reference_game_fire_res_level': 0, 'borg_rfire': 0, 'borg_temp_rfire': 0, 'borg_fire_vuln': 1}, 'outcome': {'danger': 169, 'reference': 137}}
+temp {'exit': 0, 'passed': True, 'state': {'game_fire_res_level': 0, 'reference_game_fire_res_level': 0, 'borg_rfire': 0, 'borg_temp_rfire': 1, 'borg_fire_vuln': 1}, 'outcome': {'danger': 137, 'reference': 137}}
+control {'exit': 0, 'passed': True, 'state': {'game_fire_res_level': 0, 'reference_game_fire_res_level': 0, 'borg_rfire': 0, 'borg_temp_rfire': 0, 'borg_fire_vuln': 1}, 'outcome': {'danger': 137, 'reference': 137}}
