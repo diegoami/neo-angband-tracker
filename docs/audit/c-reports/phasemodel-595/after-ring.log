@@ -1,0 +1,6 @@
+native-c/phasemodel-595: starting...
+SETUP seed=595 mode=ring class=Warrior clevel=20 hp=3/242 molds=32
+  phase_check_judges_real_landings  TRACK # Safe to Phase. scary squares: 0
+OUTCOME safe=1 scary=0
+Passed
+native-c/phasemodel-595 finished: 1/1 passed

@@ -1,0 +1,41 @@
+diff --git a/src/borg/borg-escape.c b/src/borg/borg-escape.c
+index 1a77bc61b..41989c960 100644
+--- a/src/borg/borg-escape.c
++++ b/src/borg/borg-escape.c
+@@ -326,7 +326,7 @@ bool borg_caution_phase(int emergency, int turns)
+     int n, k, i, d, x, y, p;
+ 
+     int dis       = 10;
+-    int min       = dis / 2;
++    int want;
+ 
+     borg_grid *ag = &borg_grids[borg.c.y][borg.c.x];
+ 
+@@ -336,14 +336,23 @@ bool borg_caution_phase(int emergency, int turns)
+ 
+     /* Simulate 100 attempts */
+     for (n = k = 0; k < 100; k++) {
++        /* The game's teleport aims at the dice distance, randomised a little
++         * (effect_handler_TELEPORT), and lands as close to it as it can:
++         * 9, 10 or 11 squares for Phase Door */
++        want = dis;
++        if (one_in_(2))
++            want -= randint0(dis / 4);
++        else
++            want += randint0(dis / 4);
++
+         /* Pick a location */
+         for (i = 0; i < 100; i++) {
+-            /* Pick a (possibly illegal) location */
++            /* Pick a (possibly illegal) location at that distance */
+             while (1) {
+-                y = rand_spread(borg.c.y, dis);
+-                x = rand_spread(borg.c.x, dis);
++                y = rand_spread(borg.c.y, want);
++                x = rand_spread(borg.c.x, want);
+                 d = distance(borg.c, loc(x, y));
+-                if ((d >= min) && (d <= dis))
++                if (d == want)
+                     break;
+             }
+ 

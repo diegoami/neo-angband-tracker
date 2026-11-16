@@ -1,0 +1,52 @@
+{
+  "ring": {
+    "label": "Grey molds 6 squares away all around",
+    "explanation": "A real Phase Door lands 9 to 11 squares away, never next to a mold. Original: about a third of its sampled landings are 5 to 7 squares away, next to a mold, so it refuses. Corrected: it judges 9 to 11 squares and finds Phase Door safe.",
+    "control": false,
+    "before": {
+      "raw": "native-c/phasemodel-595: starting...\nSETUP seed=595 mode=ring class=Warrior clevel=20 hp=3/242 molds=32\n  phase_check_judges_real_landings  TRACK # No Phase. scary squares: 37\nOUTCOME safe=0 scary=37\nFailed\n    native-c/phasemodel-595:157: requirement 'safe' failed\nnative-c/phasemodel-595 finished: 0/1 passed\n",
+      "passed": false,
+      "outcome": {
+        "safe": 0,
+        "scary": 37
+      },
+      "notes": [],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/phasemodel-595: starting...\nSETUP seed=595 mode=ring class=Warrior clevel=20 hp=3/242 molds=32\n  phase_check_judges_real_landings  TRACK # Safe to Phase. scary squares: 0\nOUTCOME safe=1 scary=0\nPassed\nnative-c/phasemodel-595 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "safe": 1,
+        "scary": 0
+      },
+      "notes": [],
+      "value": 1
+    }
+  },
+  "control": {
+    "label": "Control: no monsters",
+    "explanation": "Nothing is scary at any distance: both builds find Phase Door safe; logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/phasemodel-595: starting...\nSETUP seed=595 mode=control class=Warrior clevel=20 hp=3/242 molds=0\n  phase_check_judges_real_landings  TRACK # Safe to Phase. scary squares: 0\nOUTCOME safe=1 scary=0\nPassed\nnative-c/phasemodel-595 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "safe": 1,
+        "scary": 0
+      },
+      "notes": [],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/phasemodel-595: starting...\nSETUP seed=595 mode=control class=Warrior clevel=20 hp=3/242 molds=0\n  phase_check_judges_real_landings  TRACK # Safe to Phase. scary squares: 0\nOUTCOME safe=1 scary=0\nPassed\nnative-c/phasemodel-595 finished: 1/1 passed\n",
+      "passed": true,
+      "outcome": {
+        "safe": 1,
+        "scary": 0
+      },
+      "notes": [],
+      "value": 1
+    }
+  }
+}

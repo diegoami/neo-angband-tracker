@@ -1,0 +1,18 @@
+{
+  "ring": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "safe": 1,
+      "scary": 0
+    }
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "outcome": {
+      "safe": 1,
+      "scary": 0
+    }
+  }
+}

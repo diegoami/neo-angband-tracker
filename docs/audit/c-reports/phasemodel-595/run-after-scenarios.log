@@ -1,0 +1,2 @@
+ring {'exit': 0, 'passed': True, 'outcome': {'safe': 1, 'scary': 0}}
+control {'exit': 0, 'passed': True, 'outcome': {'safe': 1, 'scary': 0}}

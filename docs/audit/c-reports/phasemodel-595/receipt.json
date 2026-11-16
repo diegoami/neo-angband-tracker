@@ -1,0 +1,92 @@
+{
+  "issue": "diegoami/neo-angband-tracker#595",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "37acca6c162698e3f8ecd0d111ae69c3e1309cdd",
+  "fixtures_ref": "30fef466412c6e5f1e9e30731c10ca7e82e53ffc",
+  "cases": {
+    "before": {
+      "ring": {
+        "exit": 0,
+        "passed": false,
+        "outcome": {
+          "safe": 0,
+          "scary": 37
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "safe": 1,
+          "scary": 0
+        }
+      }
+    },
+    "after": {
+      "ring": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "safe": 1,
+          "scary": 0
+        }
+      },
+      "control": {
+        "exit": 0,
+        "passed": true,
+        "outcome": {
+          "safe": 1,
+          "scary": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "control"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-escape.c": "ce3e07b00bad804eb91754599d695942fc74850f9a695cc91b7ffbdc96f32b13"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=4 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "d17a158446926b571213c07d48813536b83741ab39a8bd39e771a51cbb544fb2",
+    "after-control.log": "2c24509f96bf9fd114513e56b2fb3dbdb6b7dcbfa0a777f54cd30be4bd93742f",
+    "after-results.json": "8916780b8b9b07960a9079019ac26e13a8c507f009b59939eb9e42313ba7b648",
+    "after-ring.log": "a966f63dc31967a3b341f56fcb4a2c6ef9ce73b9cb5d6a53af4de67a2631c3f2",
+    "before-control.log": "2c24509f96bf9fd114513e56b2fb3dbdb6b7dcbfa0a777f54cd30be4bd93742f",
+    "before-results.json": "7a6264833546e69e6c64f6ac4123a895f43dca0fa8a211bb6e483d06e0bccd18",
+    "before-ring.log": "586cb97ccf2bd95a1625fae1c159e3c674f3367db3e6174fe65b171802ba826f",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "fix.patch": "13a18587849cc26cd2665299226dd1563dbf9a0cde38c10335680cceb0318c37",
+    "make_replay.py": "da591e27b5c639900fd90501cf3c531b7b2e34864fad4ea62cc951519e6830fa",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "a7025446883ea85b4f6ab2ff316b4bf839b1f1b52dfa2b1f82ee703c0334b7e7",
+    "replay.html": "6690096990d0836514eb993711c0fe23f9c2c8c37b3f874bdb96ee4a41b5f6d6",
+    "reproduce.py": "b3416dee4fb25428e432d8f127ba5772cf45be92b7ddde8c31197db9a41b88f8",
+    "result.json": "e2144cd9bf80546d5ec832743b9671a95e25d38a3d1aa8b2ec485b40bd89fca3",
+    "run-after-alltests.log": "0551fc402f751993255db996ee3af3517f4a4249c0cf6fadc6dafe0062be6d43",
+    "run-after-build.log": "863d29f284c221261e05c5f19e05310314a0b539eb32a36d5beedf65c7784b99",
+    "run-after-scenarios.log": "b6d32bc9423248ec447bdfb22491006bcff0fe89556f02608454b95df2e96a62",
+    "run-before-alltests.log": "fec50c75f1560d147c5f0177f095b0277aabb08089e0fe2578269f489df232d0",
+    "run-before-build.log": "4868ddcaa5300b3f0162b364c226defa1d64ef8372b511addb74b38b32667a90",
+    "run-before-scenarios.log": "dcc950f4a413eef4fde3d6f74a3d701842a8e21687831246f8246d970bad805d",
+    "run-cases.py": "9ff57d9ace6659c272da2dada0196f628bf94a8a15972bf0fdcd29df3a833d74",
+    "run-configure.log": "e9be87ef0c08b45e6f6f7484c15e07c61164d47c84461cddb0ae86fb5045f8c8",
+    "scenario.c": "54e2bbf0705aa5d6ae7db007342418c8d423e3008457e3c9b52c3381782b5ae9"
+  }
+}
