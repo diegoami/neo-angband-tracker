@@ -1,0 +1,60 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A hurt Borg retreated through a grid next to a faster monster</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A hurt Borg retreated through a grid next to a faster monster</h1><p>When a monster makes its current grid too dangerous, the Borg looks for a strategic retreat: a safer grid in view and a short path to it. For the first step it means to skip any grid next to a monster faster than itself, because that monster will hit it as it lands. The check found such a monster but only left the monster scan, so the step was taken anyway. The correction skips that route.</p><p><label>Scenario: <select id="scenario"><option value="spider">Faster cave spider beside the retreat route</option><option value="ant">Control: a soldier ant (not faster) beside the route</option></select></label></p><section class="scenario" data-mode="spider"><p class="summary">A cave spider, faster than the Borg, waits in an alcove beside the first step east. Original: the Borg retreats east through that grid anyway. Corrected: that route is skipped.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the retreat first steps next to the side monster (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=54 goal=(15,12)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=24
+TRACK # Retreating to 12,15 (distance 1) via 12,15 (24 &gt; 8)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the retreat first steps next to the side monster (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0 goal=(0,0)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=24</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/retreatadj-154: starting...
+SETUP bear kill=1 speed=110
+SETUP spider kill=2 speed=120
+SETUP seed=154 mode=spider class=Warrior clevel=20 hp=40 speed=110 view_n=100
+  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110
+KILL k=2 r=50 pos=(16,11) awake=1 speed=120
+STATE danger=24 step_danger=8 avoidance=40 hp=40
+DECISION rc=1 key=54 goal=(15,12)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=24
+TRACK # Retreating to 12,15 (distance 1) via 12,15 (24 &gt; 8)
+OUTCOME retreat=1 first_step_next_to_side=1
+Failed
+    native-c/retreatadj-154:191: requirement &#x27;!via_side&#x27; failed
+native-c/retreatadj-154 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/retreatadj-154: starting...
+SETUP bear kill=1 speed=110
+SETUP spider kill=2 speed=120
+SETUP seed=154 mode=spider class=Warrior clevel=20 hp=40 speed=110 view_n=100
+  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110
+KILL k=2 r=50 pos=(16,11) awake=1 speed=120
+STATE danger=24 step_danger=8 avoidance=40 hp=40
+DECISION rc=0 key=0 goal=(0,0)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=24
+OUTCOME retreat=0 first_step_next_to_side=0
+Passed
+native-c/retreatadj-154 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="ant"><p class="summary">The same corridor with a soldier ant, which is not faster than the Borg, in the alcove. The check does not apply, the retreat is the same in both builds and the logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the retreat first steps next to the side monster (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54 goal=(15,12)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20
+TRACK # Retreating to 12,15 (distance 1) via 12,15 (20 &gt; 2)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the retreat first steps next to the side monster (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=54 goal=(15,12)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20
+TRACK # Retreating to 12,15 (distance 1) via 12,15 (20 &gt; 2)</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/retreatadj-154: starting...
+SETUP bear kill=1 speed=110
+SETUP ant kill=2 speed=110
+SETUP seed=154 mode=ant class=Warrior clevel=20 hp=40 speed=110 view_n=100
+  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110
+KILL k=2 r=30 pos=(16,11) awake=1 speed=110
+STATE danger=20 step_danger=2 avoidance=40 hp=40
+DECISION rc=1 key=54 goal=(15,12)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20
+TRACK # Retreating to 12,15 (distance 1) via 12,15 (20 &gt; 2)
+OUTCOME retreat=1 first_step_next_to_side=1
+Passed
+native-c/retreatadj-154 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/retreatadj-154: starting...
+SETUP bear kill=1 speed=110
+SETUP ant kill=2 speed=110
+SETUP seed=154 mode=ant class=Warrior clevel=20 hp=40 speed=110 view_n=100
+  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110
+KILL k=2 r=30 pos=(16,11) awake=1 speed=110
+STATE danger=20 step_danger=2 avoidance=40 hp=40
+DECISION rc=1 key=54 goal=(15,12)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20
+TRACK # Retreating to 12,15 (distance 1) via 12,15 (20 &gt; 2)
+OUTCOME retreat=1 first_step_next_to_side=1
+Passed
+native-c/retreatadj-154 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 154, character level 19, 40 hit points, dungeon level 5, a lit one-wide east-west corridor with one alcove, a torch. An awake cave bear (normal speed) stands next to the Borg on the west; in the alcove beside the first step east stands a cave spider (faster than the Borg, a weak 1d4 bite) or, in the control, a soldier ant (normal speed, a 1d2 bite). Fixture interventions: the map is built directly and recorded in the Borg map; both monsters enter the Borg monster list through the production observe_kill_diff(); hit points set to 40. The production borg_caution() runs once; the step is not played.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/154">issue 154</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

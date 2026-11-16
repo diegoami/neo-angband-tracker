@@ -1,0 +1,13 @@
+native-c/retreatadj-154: starting...
+SETUP bear kill=1 speed=110
+SETUP ant kill=2 speed=110
+SETUP seed=154 mode=ant class=Warrior clevel=20 hp=40 speed=110 view_n=100
+  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110
+KILL k=2 r=30 pos=(16,11) awake=1 speed=110
+STATE danger=20 step_danger=2 avoidance=40 hp=40
+DECISION rc=1 key=54 goal=(15,12)
+TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20
+TRACK # Retreating to 12,15 (distance 1) via 12,15 (20 > 2)
+OUTCOME retreat=1 first_step_next_to_side=1
+Passed
+native-c/retreatadj-154 finished: 1/1 passed

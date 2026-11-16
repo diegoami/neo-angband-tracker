@@ -1,0 +1,2 @@
+spider {'exit': 0, 'passed': False, 'state': {'danger': 24, 'step_danger': 8, 'avoidance': 40, 'hp': 40}, 'outcome': {'retreat': 1, 'first_step_next_to_side': 1}}
+ant {'exit': 0, 'passed': True, 'state': {'danger': 20, 'step_danger': 2, 'avoidance': 40, 'hp': 40}, 'outcome': {'retreat': 1, 'first_step_next_to_side': 1}}

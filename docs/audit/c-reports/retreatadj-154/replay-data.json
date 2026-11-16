@@ -1,0 +1,91 @@
+{
+  "spider": {
+    "label": "Faster cave spider beside the retreat route",
+    "explanation": "A cave spider, faster than the Borg, waits in an alcove beside the first step east. Original: the Borg retreats east through that grid anyway. Corrected: that route is skipped.",
+    "control": false,
+    "before": {
+      "raw": "native-c/retreatadj-154: starting...\nSETUP bear kill=1 speed=110\nSETUP spider kill=2 speed=120\nSETUP seed=154 mode=spider class=Warrior clevel=20 hp=40 speed=110 view_n=100\n  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110\nKILL k=2 r=50 pos=(16,11) awake=1 speed=120\nSTATE danger=24 step_danger=8 avoidance=40 hp=40\nDECISION rc=1 key=54 goal=(15,12)\nTRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=24\nTRACK # Retreating to 12,15 (distance 1) via 12,15 (24 > 8)\nOUTCOME retreat=1 first_step_next_to_side=1\nFailed\n    native-c/retreatadj-154:191: requirement '!via_side' failed\nnative-c/retreatadj-154 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 24,
+        "step_danger": 8,
+        "avoidance": 40,
+        "hp": 40
+      },
+      "outcome": {
+        "retreat": 1,
+        "first_step_next_to_side": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=54 goal=(15,12)",
+        "TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=24",
+        "TRACK # Retreating to 12,15 (distance 1) via 12,15 (24 > 8)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/retreatadj-154: starting...\nSETUP bear kill=1 speed=110\nSETUP spider kill=2 speed=120\nSETUP seed=154 mode=spider class=Warrior clevel=20 hp=40 speed=110 view_n=100\n  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110\nKILL k=2 r=50 pos=(16,11) awake=1 speed=120\nSTATE danger=24 step_danger=8 avoidance=40 hp=40\nDECISION rc=0 key=0 goal=(0,0)\nTRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=24\nOUTCOME retreat=0 first_step_next_to_side=0\nPassed\nnative-c/retreatadj-154 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 24,
+        "step_danger": 8,
+        "avoidance": 40,
+        "hp": 40
+      },
+      "outcome": {
+        "retreat": 0,
+        "first_step_next_to_side": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0 goal=(0,0)",
+        "TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=24"
+      ],
+      "value": 0
+    }
+  },
+  "ant": {
+    "label": "Control: a soldier ant (not faster) beside the route",
+    "explanation": "The same corridor with a soldier ant, which is not faster than the Borg, in the alcove. The check does not apply, the retreat is the same in both builds and the logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/retreatadj-154: starting...\nSETUP bear kill=1 speed=110\nSETUP ant kill=2 speed=110\nSETUP seed=154 mode=ant class=Warrior clevel=20 hp=40 speed=110 view_n=100\n  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110\nKILL k=2 r=30 pos=(16,11) awake=1 speed=110\nSTATE danger=20 step_danger=2 avoidance=40 hp=40\nDECISION rc=1 key=54 goal=(15,12)\nTRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20\nTRACK # Retreating to 12,15 (distance 1) via 12,15 (20 > 2)\nOUTCOME retreat=1 first_step_next_to_side=1\nPassed\nnative-c/retreatadj-154 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "step_danger": 2,
+        "avoidance": 40,
+        "hp": 40
+      },
+      "outcome": {
+        "retreat": 1,
+        "first_step_next_to_side": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=54 goal=(15,12)",
+        "TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20",
+        "TRACK # Retreating to 12,15 (distance 1) via 12,15 (20 > 2)"
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/retreatadj-154: starting...\nSETUP bear kill=1 speed=110\nSETUP ant kill=2 speed=110\nSETUP seed=154 mode=ant class=Warrior clevel=20 hp=40 speed=110 view_n=100\n  retreat_skips_step_next_to_faster_monster  KILL k=1 r=140 pos=(13,12) awake=1 speed=110\nKILL k=2 r=30 pos=(16,11) awake=1 speed=110\nSTATE danger=20 step_danger=2 avoidance=40 hp=40\nDECISION rc=1 key=54 goal=(15,12)\nTRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20\nTRACK # Retreating to 12,15 (distance 1) via 12,15 (20 > 2)\nOUTCOME retreat=1 first_step_next_to_side=1\nPassed\nnative-c/retreatadj-154 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 20,
+        "step_danger": 2,
+        "avoidance": 40,
+        "hp": 40
+      },
+      "outcome": {
+        "retreat": 1,
+        "first_step_next_to_side": 1
+      },
+      "notes": [
+        "DECISION rc=1 key=54 goal=(15,12)",
+        "TRACK # Loc:12,14 Dep:5 Lev:20 HP:40/259 SP:0/0 Danger:p=20",
+        "TRACK # Retreating to 12,15 (distance 1) via 12,15 (20 > 2)"
+      ],
+      "value": 1
+    }
+  }
+}

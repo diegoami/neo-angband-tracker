@@ -1,0 +1,116 @@
+{
+  "issue": "diegoami/neo-angband-tracker#154 (CBUG-0138)",
+  "base": "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+  "fix": "3b0a9467344b461a1d0177877dc190b17aee08e4",
+  "fixtures_ref": "f87cada6322bc2108c44b86a4b14a070fe7f26e1",
+  "cases": {
+    "before": {
+      "spider": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "danger": 24,
+          "step_danger": 8,
+          "avoidance": 40,
+          "hp": 40
+        },
+        "outcome": {
+          "retreat": 1,
+          "first_step_next_to_side": 1
+        }
+      },
+      "ant": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "step_danger": 2,
+          "avoidance": 40,
+          "hp": 40
+        },
+        "outcome": {
+          "retreat": 1,
+          "first_step_next_to_side": 1
+        }
+      }
+    },
+    "after": {
+      "spider": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 24,
+          "step_danger": 8,
+          "avoidance": 40,
+          "hp": 40
+        },
+        "outcome": {
+          "retreat": 0,
+          "first_step_next_to_side": 0
+        }
+      },
+      "ant": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "danger": 20,
+          "step_danger": 2,
+          "avoidance": 40,
+          "hp": 40
+        },
+        "outcome": {
+          "retreat": 1,
+          "first_step_next_to_side": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "ant"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "965/965",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "965/965",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "2b256df39d56ef5ecd7c4388cc94d6af887e241d29de46fd02e22e89c0ce26ef"
+  },
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "render_check": {
+    "tool": "Playwright Chromium headless, every select option and visible button exercised",
+    "result": "RENDER actions=4 errors=0 OK"
+  },
+  "sha256": {
+    "README.md": "cc0fab66ee941cfbf44d79748cf1a3240603c5b50a90e6160bf1295e59b26fad",
+    "__pycache__/reproduce.cpython-313.pyc": "e87b269c83212d05159b2444bf14e36526440fd2ac37aab4e4b42227e97dd448",
+    "after-ant.log": "5e80f55e5bafae4a47e80db3cc75c2ab4a843ab19645293cad0ac02e94cb24a1",
+    "after-results.json": "3e8ef888248817136a3302d0a500506441628fb2a9845a65ce0f3dbb6f652353",
+    "after-spider.log": "49aa2d322acd125dd86c7e217911f4b1c35008925ced036f61ed8873189f7666",
+    "before-ant.log": "5e80f55e5bafae4a47e80db3cc75c2ab4a843ab19645293cad0ac02e94cb24a1",
+    "before-results.json": "d206c460fba9d890b2ae85017b794d9665ef0974974b2be0bc4dd32617e13bcf",
+    "before-spider.log": "57886fad62e533a5c4db509cb945dbe655938b360f5e9eaf804b10aa527a4355",
+    "borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "make_replay.py": "3a5eefc756df64031ba29e1dcf879df23a5e1020f711df6e33d97cb9405f7bfb",
+    "profile/borg.txt": "6d591c5b04a742833cdff704bc10827f8859906424df70c591701bf4de521c94",
+    "replay-data.json": "344439bc4af858c3fa1bbc6bad061dbabb8d8d027c8e0bdef391e6407ff98e05",
+    "replay.html": "dd167ab2eb9d08e082a5bf56a9354c4f17aa54265740ba5b5236ccb6fb84db06",
+    "reproduce.py": "e8039fc7b07e8994e23edd3aae4a93fe663ccb228fccce2573bcb97c1b571a46",
+    "result.json": "f0e4f5f4049df6c6965388912df619bc4e34db57f141710a2b898c1e2433c5a1",
+    "run-after-alltests.log": "73e4f1dbacbf7b9f804ca0834d3ec3e5c69ed4dcdea27b8e0d97bae6dbc06f3b",
+    "run-after-build.log": "2d186cc3e3a0fd154acfb4bcb149f017c2776281eaf6c5c0c6da068322df16c0",
+    "run-after-scenarios.log": "fd53e090544dedc7e5ec3c8c1c26189f9fce0c7394d8fe63bb9dd2342b89d47c",
+    "run-before-alltests.log": "9ae30369e42fa4ed926e194a2d4c6d233896b4747b6508445694f5494c6a494e",
+    "run-before-build.log": "6302b1b4d4727e6646b116a3fc05e422d8ed85a27631fa5a13d00c515b138993",
+    "run-before-scenarios.log": "a2cfff74ea25e93cd9b4d2d3164e10584e99ba8cc7ff69d0e501057c40daa471",
+    "run-cases.py": "cef86326383b2944173bf01b60f5eacb636bf93e8c388e6a079efb36afb35577",
+    "run-configure.log": "5729b73da5b848294a770a5e1268990f44804b08620c9a478495bcfbac29e400",
+    "scenario.c": "6c008b2b7560cdb0b828775c0344be16fc40430f6e52a4be87cb7feac964c8e8"
+  }
+}
