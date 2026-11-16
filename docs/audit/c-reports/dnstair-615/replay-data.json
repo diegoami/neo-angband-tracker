@@ -1,0 +1,146 @@
+{
+  "down": {
+    "label": "In danger on a down staircase",
+    "explanation": "Original: the stairs are not taken; teleport fails (none carried) and the Borg reads Word of Recall, staying next to the bear. Corrected: it takes the stairs (\">\").",
+    "control": false,
+    "before": {
+      "raw": "native-c/dnstair-615: starting...\nSETUP seed=615 mode=down class=Warrior clevel=5 hp=15 depth=5 up=0 down=1\n  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34\nSTATE danger=40 avoidance=15 hp=15 fleeing=1\nDECISION rc=1 key=57344\nTRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40\nTRACK # Standing on dn-stairs\nTRACK # Flowing toward down-stairs at cost 0\nTRACK # Fleeing (failed to teleport)\nTRACK # Leaving (failed to teleport)\nTRACK # Reading Scroll of Word of Recall.\nTRACK # Fleeing the level (recall)\nOUTCOME takes_stairs=0 key=57344\nFailed\n    native-c/dnstair-615:175: requirement 'stairs' failed\nnative-c/dnstair-615 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "danger": 40,
+        "avoidance": 15,
+        "hp": 15,
+        "fleeing": 1
+      },
+      "outcome": {
+        "takes_stairs": 0,
+        "key": 57344
+      },
+      "notes": [
+        "DECISION rc=1 key=57344",
+        "TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40",
+        "TRACK # Standing on dn-stairs",
+        "TRACK # Flowing toward down-stairs at cost 0",
+        "TRACK # Fleeing (failed to teleport)",
+        "TRACK # Leaving (failed to teleport)",
+        "TRACK # Reading Scroll of Word of Recall.",
+        "TRACK # Fleeing the level (recall)"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/dnstair-615: starting...\nSETUP seed=615 mode=down class=Warrior clevel=5 hp=15 depth=5 up=0 down=1\n  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34\nSTATE danger=40 avoidance=15 hp=15 fleeing=0\nDECISION rc=1 key=62\nTRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40\nTRACK # Standing on dn-stairs\nOUTCOME takes_stairs=1 key=62\nPassed\nnative-c/dnstair-615 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 40,
+        "avoidance": 15,
+        "hp": 15,
+        "fleeing": 0
+      },
+      "outcome": {
+        "takes_stairs": 1,
+        "key": 62
+      },
+      "notes": [
+        "DECISION rc=1 key=62",
+        "TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40",
+        "TRACK # Standing on dn-stairs"
+      ],
+      "value": 1
+    }
+  },
+  "up": {
+    "label": "Control: in danger on an up staircase",
+    "explanation": "Both builds take the stairs (\"<\"); logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/dnstair-615: starting...\nSETUP seed=615 mode=up class=Warrior clevel=5 hp=15 depth=5 up=1 down=0\n  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34\nSTATE danger=40 avoidance=15 hp=15 fleeing=0\nDECISION rc=1 key=60\nTRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40\nTRACK # Standing on up-stairs\nTRACK # Flowing toward up-stairs at cost 0\nTRACK # Escaping level via stairs.\nTRACK # Danger Level 1.\nOUTCOME takes_stairs=1 key=60\nPassed\nnative-c/dnstair-615 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 40,
+        "avoidance": 15,
+        "hp": 15,
+        "fleeing": 0
+      },
+      "outcome": {
+        "takes_stairs": 1,
+        "key": 60
+      },
+      "notes": [
+        "DECISION rc=1 key=60",
+        "TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40",
+        "TRACK # Standing on up-stairs",
+        "TRACK # Flowing toward up-stairs at cost 0",
+        "TRACK # Escaping level via stairs.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/dnstair-615: starting...\nSETUP seed=615 mode=up class=Warrior clevel=5 hp=15 depth=5 up=1 down=0\n  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34\nSTATE danger=40 avoidance=15 hp=15 fleeing=0\nDECISION rc=1 key=60\nTRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40\nTRACK # Standing on up-stairs\nTRACK # Flowing toward up-stairs at cost 0\nTRACK # Escaping level via stairs.\nTRACK # Danger Level 1.\nOUTCOME takes_stairs=1 key=60\nPassed\nnative-c/dnstair-615 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 40,
+        "avoidance": 15,
+        "hp": 15,
+        "fleeing": 0
+      },
+      "outcome": {
+        "takes_stairs": 1,
+        "key": 60
+      },
+      "notes": [
+        "DECISION rc=1 key=60",
+        "TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40",
+        "TRACK # Standing on up-stairs",
+        "TRACK # Flowing toward up-stairs at cost 0",
+        "TRACK # Escaping level via stairs.",
+        "TRACK # Danger Level 1."
+      ],
+      "value": 1
+    }
+  },
+  "safe": {
+    "label": "Control: on a down staircase, no monster",
+    "explanation": "No danger: neither build takes the stairs; logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/dnstair-615: starting...\nSETUP seed=615 mode=safe class=Warrior clevel=5 hp=15 depth=5 up=0 down=1\n  in_danger_on_a_staircase_take_it  STATE danger=0 avoidance=15 hp=15 fleeing=0\nDECISION rc=0 key=0\nTRACK # Standing on dn-stairs\nOUTCOME takes_stairs=0 key=0\nPassed\nnative-c/dnstair-615 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 0,
+        "avoidance": 15,
+        "hp": 15,
+        "fleeing": 0
+      },
+      "outcome": {
+        "takes_stairs": 0,
+        "key": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Standing on dn-stairs"
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/dnstair-615: starting...\nSETUP seed=615 mode=safe class=Warrior clevel=5 hp=15 depth=5 up=0 down=1\n  in_danger_on_a_staircase_take_it  STATE danger=0 avoidance=15 hp=15 fleeing=0\nDECISION rc=0 key=0\nTRACK # Standing on dn-stairs\nOUTCOME takes_stairs=0 key=0\nPassed\nnative-c/dnstair-615 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "danger": 0,
+        "avoidance": 15,
+        "hp": 15,
+        "fleeing": 0
+      },
+      "outcome": {
+        "takes_stairs": 0,
+        "key": 0
+      },
+      "notes": [
+        "DECISION rc=0 key=0",
+        "TRACK # Standing on dn-stairs"
+      ],
+      "value": 0
+    }
+  }
+}

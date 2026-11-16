@@ -1,0 +1,90 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A hurt Borg on a down staircase did not take it</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A hurt Borg on a down staircase did not take it</h1><p>When the Borg is in danger while standing on an up staircase it leaves the level by it. On a down staircase danger alone did nothing: the stairs were taken only when fleeing or prepared for the next depth, so a hurt, unprepared Borg tried to teleport or read Word of Recall while staying next to the monster, although the stairs work at once. The correction lets it go one level deeper when in danger (the same test as for up staircases) on a down staircase.</p><p><label>Scenario: <select id="scenario"><option value="down">In danger on a down staircase</option><option value="up">Control: in danger on an up staircase</option><option value="safe">Control: on a down staircase, no monster</option></select></label></p><section class="scenario" data-mode="down"><p class="summary">Original: the stairs are not taken; teleport fails (none carried) and the Borg reads Word of Recall, staying next to the bear. Corrected: it takes the stairs (&quot;&gt;&quot;).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>takes the staircase it stands on (1 = yes)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on dn-stairs
+TRACK # Flowing toward down-stairs at cost 0
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>takes the staircase it stands on (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=62
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on dn-stairs</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dnstair-615: starting...
+SETUP seed=615 mode=down class=Warrior clevel=5 hp=15 depth=5 up=0 down=1
+  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34
+STATE danger=40 avoidance=15 hp=15 fleeing=1
+DECISION rc=1 key=57344
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on dn-stairs
+TRACK # Flowing toward down-stairs at cost 0
+TRACK # Fleeing (failed to teleport)
+TRACK # Leaving (failed to teleport)
+TRACK # Reading Scroll of Word of Recall.
+TRACK # Fleeing the level (recall)
+OUTCOME takes_stairs=0 key=57344
+Failed
+    native-c/dnstair-615:175: requirement &#x27;stairs&#x27; failed
+native-c/dnstair-615 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dnstair-615: starting...
+SETUP seed=615 mode=down class=Warrior clevel=5 hp=15 depth=5 up=0 down=1
+  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34
+STATE danger=40 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=62
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on dn-stairs
+OUTCOME takes_stairs=1 key=62
+Passed
+native-c/dnstair-615 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="up"><p class="summary">Both builds take the stairs (&quot;&lt;&quot;); logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>takes the staircase it stands on (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=60
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on up-stairs
+TRACK # Flowing toward up-stairs at cost 0
+TRACK # Escaping level via stairs.
+TRACK # Danger Level 1.</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>takes the staircase it stands on (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=1 key=60
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on up-stairs
+TRACK # Flowing toward up-stairs at cost 0
+TRACK # Escaping level via stairs.
+TRACK # Danger Level 1.</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dnstair-615: starting...
+SETUP seed=615 mode=up class=Warrior clevel=5 hp=15 depth=5 up=1 down=0
+  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34
+STATE danger=40 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=60
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on up-stairs
+TRACK # Flowing toward up-stairs at cost 0
+TRACK # Escaping level via stairs.
+TRACK # Danger Level 1.
+OUTCOME takes_stairs=1 key=60
+Passed
+native-c/dnstair-615 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dnstair-615: starting...
+SETUP seed=615 mode=up class=Warrior clevel=5 hp=15 depth=5 up=1 down=0
+  in_danger_on_a_staircase_take_it  KILL k=1 r=140 pos=(11,13) awake=1 power=34
+STATE danger=40 avoidance=15 hp=15 fleeing=0
+DECISION rc=1 key=60
+TRACK # Loc:12,10 Dep:5 Lev:5 HP:15/56 SP:0/0 Danger:p=40
+TRACK # Standing on up-stairs
+TRACK # Flowing toward up-stairs at cost 0
+TRACK # Escaping level via stairs.
+TRACK # Danger Level 1.
+OUTCOME takes_stairs=1 key=60
+Passed
+native-c/dnstair-615 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="safe"><p class="summary">No danger: neither build takes the stairs; logs byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>takes the staircase it stands on (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Standing on dn-stairs</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>takes the staircase it stands on (1 = yes)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION rc=0 key=0
+TRACK # Standing on dn-stairs</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/dnstair-615: starting...
+SETUP seed=615 mode=safe class=Warrior clevel=5 hp=15 depth=5 up=0 down=1
+  in_danger_on_a_staircase_take_it  STATE danger=0 avoidance=15 hp=15 fleeing=0
+DECISION rc=0 key=0
+TRACK # Standing on dn-stairs
+OUTCOME takes_stairs=0 key=0
+Passed
+native-c/dnstair-615 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/dnstair-615: starting...
+SETUP seed=615 mode=safe class=Warrior clevel=5 hp=15 depth=5 up=0 down=1
+  in_danger_on_a_staircase_take_it  STATE danger=0 avoidance=15 hp=15 fleeing=0
+DECISION rc=0 key=0
+TRACK # Standing on dn-stairs
+OUTCOME takes_stairs=0 key=0
+Passed
+native-c/dnstair-615 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 615, level 5, depth 5, 15 hit points left, starting kit (no teleport; Word of Recall carried), a lit 38x22 room, the shipped borg.txt. The Borg stands on a staircase it has seen: down, or up in the up control. A cave bear stands awake next to it (south-east), except in the safe control. The production borg_caution() runs once and the first queued key is read.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/615">issue 615</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
