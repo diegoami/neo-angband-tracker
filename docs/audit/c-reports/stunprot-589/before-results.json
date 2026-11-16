@@ -1,0 +1,58 @@
+{
+  "rsound": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "rsound": 1,
+      "isstun": 1,
+      "avoidance": 402
+    },
+    "outcome": {
+      "danger": 156,
+      "calm": 156,
+      "stun_penalty": 0
+    }
+  },
+  "pstun": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "rsound": 0,
+      "isstun": 1,
+      "avoidance": 402
+    },
+    "outcome": {
+      "danger": 656,
+      "calm": 156,
+      "stun_penalty": 500
+    }
+  },
+  "both": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "rsound": 1,
+      "isstun": 1,
+      "avoidance": 402
+    },
+    "outcome": {
+      "danger": 156,
+      "calm": 156,
+      "stun_penalty": 0
+    }
+  },
+  "rsound-unstunned": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "rsound": 1,
+      "isstun": 0,
+      "avoidance": 402
+    },
+    "outcome": {
+      "danger": 156,
+      "calm": 156,
+      "stun_penalty": 0
+    }
+  }
+}

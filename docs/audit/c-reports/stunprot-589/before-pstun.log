@@ -1,0 +1,7 @@
+native-c/stunprot-589: starting...
+SETUP seed=589 mode=pstun class=Warrior clevel=35 hp=402 stun=10
+  stun_danger_follows_stun_protection  STATE rsound=0 isstun=1 avoidance=402
+OUTCOME danger=656 calm=156 stun_penalty=500
+Failed
+    native-c/stunprot-589:158: requirement 'penalty == 0' failed
+native-c/stunprot-589 finished: 0/1 passed

@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The Borg treated sound resistance as protection from stun</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The Borg treated sound resistance as protection from stun</h1><p>Gravity, plasma and force breath, water attacks, storms and ice bolts can stun. In the game only protection from stun stops that; sound resistance stops only the stun of sound itself. The Borg skipped its extra danger for being stunned again whenever it resisted sound, for all of these attacks, and it did not track protection from stun at all. The correction adds a protection-from-stun trait and uses it for those attacks.</p><p><label>Scenario: <select id="scenario"><option value="rsound">Sound resistance, no stun protection</option><option value="pstun">Stun protection, no sound resistance</option><option value="both">Sound resistance and stun protection</option><option value="rsound-unstunned">Control: not stunned</option></select></label></p><section class="scenario" data-mode="rsound"><p class="summary">The armour gives sound resistance only. Gravity breath stuns regardless. Original: the stun penalty is skipped (0) because the Borg resists sound. Corrected: the penalty applies.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>extra danger the Borg assigns to being stunned again by the gravity hound</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">500</div><p>extra danger the Borg assigns to being stunned again by the gravity hound</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/stunprot-589: starting...
+SETUP seed=589 mode=rsound class=Warrior clevel=35 hp=402 stun=10
+  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402
+OUTCOME danger=156 calm=156 stun_penalty=0
+Failed
+    native-c/stunprot-589:161: requirement &#x27;penalty &gt; 0&#x27; failed
+native-c/stunprot-589 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/stunprot-589: starting...
+SETUP seed=589 mode=rsound class=Warrior clevel=35 hp=402 stun=10
+  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402
+OUTCOME danger=656 calm=156 stun_penalty=500
+Passed
+native-c/stunprot-589 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="pstun"><p class="summary">The armour gives protection from stun only, so gravity cannot stun. Original: the penalty applies, because the Borg does not know about stun protection. Corrected: no penalty.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">500</div><p>extra danger the Borg assigns to being stunned again by the gravity hound</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>extra danger the Borg assigns to being stunned again by the gravity hound</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/stunprot-589: starting...
+SETUP seed=589 mode=pstun class=Warrior clevel=35 hp=402 stun=10
+  stun_danger_follows_stun_protection  STATE rsound=0 isstun=1 avoidance=402
+OUTCOME danger=656 calm=156 stun_penalty=500
+Failed
+    native-c/stunprot-589:158: requirement &#x27;penalty == 0&#x27; failed
+native-c/stunprot-589 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/stunprot-589: starting...
+SETUP seed=589 mode=pstun class=Warrior clevel=35 hp=402 stun=10
+  stun_danger_follows_stun_protection  STATE rsound=0 isstun=1 avoidance=402
+OUTCOME danger=156 calm=156 stun_penalty=0
+Passed
+native-c/stunprot-589 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="both"><p class="summary">Both: no penalty in either build (for different reasons).</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>extra danger the Borg assigns to being stunned again by the gravity hound</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>extra danger the Borg assigns to being stunned again by the gravity hound</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/stunprot-589: starting...
+SETUP seed=589 mode=both class=Warrior clevel=35 hp=402 stun=10
+  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402
+OUTCOME danger=156 calm=156 stun_penalty=0
+Passed
+native-c/stunprot-589 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/stunprot-589: starting...
+SETUP seed=589 mode=both class=Warrior clevel=35 hp=402 stun=10
+  stun_danger_follows_stun_protection  STATE rsound=1 isstun=1 avoidance=402
+OUTCOME danger=156 calm=156 stun_penalty=0
+Passed
+native-c/stunprot-589 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="rsound-unstunned"><p class="summary">Sound resistance, not stunned: the stun penalty never applies, and the logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>extra danger the Borg assigns to being stunned again by the gravity hound</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>extra danger the Borg assigns to being stunned again by the gravity hound</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/stunprot-589: starting...
+SETUP seed=589 mode=rsound-unstunned class=Warrior clevel=35 hp=402 stun=0
+  stun_danger_follows_stun_protection  STATE rsound=1 isstun=0 avoidance=402
+OUTCOME danger=156 calm=156 stun_penalty=0
+Passed
+native-c/stunprot-589 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/stunprot-589: starting...
+SETUP seed=589 mode=rsound-unstunned class=Warrior clevel=35 hp=402 stun=0
+  stun_danger_follows_stun_protection  STATE rsound=1 isstun=0 avoidance=402
+OUTCOME danger=156 calm=156 stun_penalty=0
+Passed
+native-c/stunprot-589 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, seed 589, character level 35, dungeon level 35, lit arena, already lightly stunned (timer 10) except in the unstunned control, an awake gravity hound three grids away. Fixture interventions: one Soft Leather Armour is made directly with sound resistance and/or protection from stun and worn; all runes known; the stun timer is set; the hound enters the Borg monster list through the production observe_kill_diff(). The production borg_danger() is read at the Borg grid, then again with only the Borg stunned traits cleared; the difference is the stun penalty.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/589">issue 589</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
