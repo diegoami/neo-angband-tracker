@@ -1,0 +1,113 @@
+{
+  "cold": {
+    "label": "Temporary cold resistance",
+    "explanation": "The game reduces cold damage (resistance level 1). Original: the danger equals the no-resistance reference. Corrected: lower.",
+    "control": false,
+    "before": {
+      "raw": "native-c/coldmelee-616: starting...\nSETUP seed=616 mode=cold class=Warrior clevel=30 hp=351\n  cold_blow_danger_follows_temporary_cold_resistance  STATE temp_cold=1 temp_acid=0 temp_fire=0 borg_rcold=0\nOUTCOME danger=160 reference=160\nFailed\n    native-c/coldmelee-616:162: requirement 'danger < ref_danger' failed\nnative-c/coldmelee-616 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "temp_cold": 1,
+        "temp_acid": 0,
+        "temp_fire": 0,
+        "borg_rcold": 0
+      },
+      "outcome": {
+        "danger": 160,
+        "reference": 160
+      },
+      "notes": [],
+      "value": 160
+    },
+    "after": {
+      "raw": "native-c/coldmelee-616: starting...\nSETUP seed=616 mode=cold class=Warrior clevel=30 hp=351\n  cold_blow_danger_follows_temporary_cold_resistance  STATE temp_cold=1 temp_acid=0 temp_fire=0 borg_rcold=0\nOUTCOME danger=56 reference=160\nPassed\nnative-c/coldmelee-616 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "temp_cold": 1,
+        "temp_acid": 0,
+        "temp_fire": 0,
+        "borg_rcold": 0
+      },
+      "outcome": {
+        "danger": 56,
+        "reference": 160
+      },
+      "notes": [],
+      "value": 56
+    }
+  },
+  "acid": {
+    "label": "Temporary acid resistance only",
+    "explanation": "Cold damage is unchanged in the game. Original: the Borg divides the cold blows by three and rates the danger below the reference. Corrected: equal to the reference.",
+    "control": false,
+    "before": {
+      "raw": "native-c/coldmelee-616: starting...\nSETUP seed=616 mode=acid class=Warrior clevel=30 hp=351\n  cold_blow_danger_follows_temporary_cold_resistance  STATE temp_cold=0 temp_acid=1 temp_fire=0 borg_rcold=0\nOUTCOME danger=56 reference=160\nFailed\n    native-c/coldmelee-616:164: requirement 'danger == ref_danger' failed\nnative-c/coldmelee-616 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "temp_cold": 0,
+        "temp_acid": 1,
+        "temp_fire": 0,
+        "borg_rcold": 0
+      },
+      "outcome": {
+        "danger": 56,
+        "reference": 160
+      },
+      "notes": [],
+      "value": 56
+    },
+    "after": {
+      "raw": "native-c/coldmelee-616: starting...\nSETUP seed=616 mode=acid class=Warrior clevel=30 hp=351\n  cold_blow_danger_follows_temporary_cold_resistance  STATE temp_cold=0 temp_acid=1 temp_fire=0 borg_rcold=0\nOUTCOME danger=160 reference=160\nPassed\nnative-c/coldmelee-616 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "temp_cold": 0,
+        "temp_acid": 1,
+        "temp_fire": 0,
+        "borg_rcold": 0
+      },
+      "outcome": {
+        "danger": 160,
+        "reference": 160
+      },
+      "notes": [],
+      "value": 160
+    }
+  },
+  "control": {
+    "label": "Control: temporary fire resistance",
+    "explanation": "Unrelated to cold blows in both builds; logs byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/coldmelee-616: starting...\nSETUP seed=616 mode=control class=Warrior clevel=30 hp=351\n  cold_blow_danger_follows_temporary_cold_resistance  STATE temp_cold=0 temp_acid=0 temp_fire=1 borg_rcold=0\nOUTCOME danger=160 reference=160\nPassed\nnative-c/coldmelee-616 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "temp_cold": 0,
+        "temp_acid": 0,
+        "temp_fire": 1,
+        "borg_rcold": 0
+      },
+      "outcome": {
+        "danger": 160,
+        "reference": 160
+      },
+      "notes": [],
+      "value": 160
+    },
+    "after": {
+      "raw": "native-c/coldmelee-616: starting...\nSETUP seed=616 mode=control class=Warrior clevel=30 hp=351\n  cold_blow_danger_follows_temporary_cold_resistance  STATE temp_cold=0 temp_acid=0 temp_fire=1 borg_rcold=0\nOUTCOME danger=160 reference=160\nPassed\nnative-c/coldmelee-616 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "temp_cold": 0,
+        "temp_acid": 0,
+        "temp_fire": 1,
+        "borg_rcold": 0
+      },
+      "outcome": {
+        "danger": 160,
+        "reference": 160
+      },
+      "notes": [],
+      "value": 160
+    }
+  }
+}

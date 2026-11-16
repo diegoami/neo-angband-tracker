@@ -1,0 +1,6 @@
+native-c/coldmelee-616: starting...
+SETUP seed=616 mode=cold class=Warrior clevel=30 hp=351
+  cold_blow_danger_follows_temporary_cold_resistance  STATE temp_cold=1 temp_acid=0 temp_fire=0 borg_rcold=0
+OUTCOME danger=56 reference=160
+Passed
+native-c/coldmelee-616 finished: 1/1 passed

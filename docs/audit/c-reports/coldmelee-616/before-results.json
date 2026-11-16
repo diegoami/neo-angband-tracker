@@ -1,0 +1,44 @@
+{
+  "cold": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "temp_cold": 1,
+      "temp_acid": 0,
+      "temp_fire": 0,
+      "borg_rcold": 0
+    },
+    "outcome": {
+      "danger": 160,
+      "reference": 160
+    }
+  },
+  "acid": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "temp_cold": 0,
+      "temp_acid": 1,
+      "temp_fire": 0,
+      "borg_rcold": 0
+    },
+    "outcome": {
+      "danger": 56,
+      "reference": 160
+    }
+  },
+  "control": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "temp_cold": 0,
+      "temp_acid": 0,
+      "temp_fire": 1,
+      "borg_rcold": 0
+    },
+    "outcome": {
+      "danger": 160,
+      "reference": 160
+    }
+  }
+}
