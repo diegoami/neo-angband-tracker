@@ -213,8 +213,8 @@ Copying needed files
 [ 96%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-util.c.o
 [ 98%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg.c.o
 [ 98%] Built target OurCoreLib
+[ 98%] Building C object CMakeFiles/HC63Observer.dir/tmp/angband-hitchance-63-vkzusffr/evidence/scenario.c.o
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-x11.c.o
-[ 98%] Building C object CMakeFiles/HC63Observer.dir/tmp/angband-hitchance-63-ds89ckj_/evidence/scenario.c.o
 [ 98%] Linking C executable game/HC63Observer
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-spoil.c.o
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-test.c.o
