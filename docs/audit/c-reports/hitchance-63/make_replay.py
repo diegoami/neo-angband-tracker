@@ -8,7 +8,18 @@ CONDITIONS="Native Human Warrior, seed 63, character level 15, 177 hit points, 1
 ISSUE=63
 CARD_KEY='shoots'
 CARD_LABEL='the Borg shoots at the sleeping monster (1 = yes)'
+MAP_LEGEND="'@' the Borg; 'T' cave troll, asleep; 't' boil-covered wretch, asleep (the harmless control); '#' the arena wall; '.' lit floor; '-' the path of the bolt the Borg fires."
 CASES=[('brute', 'Sleeping cave troll six grids away', "A level-15 Warrior at full hit points (177) with 10 armour sees a sleeping cave troll six grids east. The production ranged-attack scorer rates a bolt at it. Original: the partial melee danger of the troll is 0 (a 5% hit chance), so the check that avoids waking a hard sleeping monster does not trigger and the bolt scores 12. Corrected: every blow's hit chance reaches the 100% cap, so the partial melee danger is 162, equal to the full-damage danger and well above half the Borg's avoidance (88), and the scorer refuses the attack. In both runs the partial estimate does not exceed the full-damage figure.", False), ('wretch', 'Control: sleeping boil-covered wretch', 'The same Warrior and a sleeping boil-covered wretch, a level-0 monster whose only blow does no damage. It goes through the same hit-chance lines, the partial and full danger are 0 before and after, and the bolt scores 12 in both.', True)]
+def maps_of(raw):
+ # MAP <caption> / MAPROW <text>... / MAPEND blocks printed by the scenario's
+ # evidence_map() (tools/c-evidence/evidence-map.c): the level drawn with the
+ # game's own feature and monster symbols.
+ out=[];cur=None
+ for line in raw.splitlines():
+  if line.startswith('MAP '):cur={'caption':line[4:],'rows':[]};out.append(cur)
+  elif line.startswith('MAPROW ') and cur is not None:cur['rows'].append(line[7:])
+  elif line=='MAPEND':cur=None
+ return out
 for mode,label,explanation,control in CASES:
  item={'label':label,'explanation':explanation,'control':control}
  for phase in ('before','after'):
@@ -19,6 +30,7 @@ for mode,label,explanation,control in CASES:
     entry.setdefault(key,{}).update({k:int(v) for k,v in re.findall(r'(\w+)=(-?\d+)',match)})
   notes=[l for l in raw.splitlines() if l.startswith(('PREPARED ','SWAP ','DECISION ','TRACK ','KEYS '))]
   entry['notes']=notes
+  entry['maps']=maps_of(raw)
   entry['value']=entry.get('outcome',{}).get(CARD_KEY,entry.get('state',{}).get(CARD_KEY,'n/a'))
   item[phase]=entry
  data[mode]=item
@@ -32,14 +44,29 @@ CSS=("body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}"
  ".hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}"
  "pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}"
  "details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}"
+ "figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}"
+ "pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%}"
+ "pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}"
+ ".maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}"
  "@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}")
 def esc(s):return html.escape(str(s))
+def glyph(c):
+ if c=='@':return '<span class="me">@</span>'
+ if c in '*-|/\\':return '<span class="mark">'+esc(c)+'</span>'
+ if c.isalpha():return '<span class="mon">'+esc(c)+'</span>'
+ if c in '#%':return '<span class="wall">'+esc(c)+'</span>'
+ return esc(c)
+def map_html(entry):
+ return ''.join('<figure><figcaption>'+esc(mp['caption'])+'</figcaption><pre class="map">'+'\n'.join(''.join(glyph(c) for c in r) for r in mp['rows'])+'</pre></figure>' for mp in entry.get('maps',[]))
 opts=''.join('<option value="%s">%s</option>'%(esc(m),esc(d['label'])) for m,d in data.items())
 panels=''
 for m,d in data.items():
  b,a=d['before'],d['after']
  panels+=('<section class="scenario%s" data-mode="%s">'%('' if m==CASES[0][0] else ' hidden',esc(m))+
-  '<p class="summary">'+esc(d['explanation'])+('<br><strong>Unchanged control:</strong> both logs are byte-identical.' if d['control'] else '')+'</p>'
+  '<p class="summary">'+esc(d['explanation'])+('<br><strong>Unchanged control:</strong> both logs are byte-identical.' if d['control'] else '')+'</p>'+
+  (('<div class="cards maps"><section class="card original"><h2>Original</h2>'+map_html(b)+'</section>'
+    '<section class="card corrected"><h2>Corrected</h2>'+map_html(a)+'</section></div>'
+    +('<p class="legend">'+esc(MAP_LEGEND)+'</p>' if MAP_LEGEND else '')) if (b.get('maps') or a.get('maps')) else '')+
   '<button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button>'
   '<div class="cards decision hidden">'
   '<section class="card original"><h2>Original</h2><div class="num">'+esc(b['value'])+'</div><p>'+esc(CARD_LABEL)+'</p><p>Scenario check: <strong>'+('passed' if b['passed'] else 'failed')+'</strong></p><pre>'+esc('\n'.join(b['notes']))+'</pre></section>'

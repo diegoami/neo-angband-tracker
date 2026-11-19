@@ -19,6 +19,7 @@
 #include "player-birth.h"
 #include "player-calcs.h"
 #include "player-util.h"
+#include "project.h"
 #include "trap.h"
 #include "ui-term.h"
 #include "ui-prefs.h"
@@ -40,6 +41,56 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+/* Dungeon map for the evidence replay (tools/c-evidence/evidence-map.c).
+ *
+ * Copy this block into a package's scenario.c, after its includes (it needs
+ * cave.h, monster.h and player.h, which every fixture already includes).
+ * The evidence runner copies only scenario.c, so the helper travels inline.
+ *
+ * evidence_map() prints the current level with the game's own symbols: each
+ * grid's feature symbol from f_info, each monster's race symbol, '@' for the
+ * player, plus up to a few marks the scenario chooses (for example '*' on the
+ * grid the Borg's chosen step leads to, '-' along a bolt's path).  It reads
+ * the game's cave, not the Borg's memory, and changes no game state.
+ *
+ * Output, parsed by the generated make_replay.py:
+ *   MAP <caption>
+ *   MAPROW <text>      (one per row, top to bottom)
+ *   MAPEND
+ *
+ * Print the same maps in every phase; a control's map is then byte-identical
+ * before and after like the rest of its log. */
+struct evidence_mark {
+    struct loc grid;
+    char glyph;
+};
+
+static void evidence_map(const char *caption, const struct evidence_mark *marks,
+    int n)
+{
+    printf("MAP %s\n", caption);
+    for (int y = 0; y < cave->height; ++y) {
+        char row[256];
+        int x;
+        for (x = 0; x < cave->width && x < 255; ++x) {
+            struct loc grid = loc(x, y);
+            wchar_t c = f_info[square(cave, grid)->feat].d_char;
+            struct monster *mon = square_monster(cave, grid);
+            for (int i = 0; i < n; ++i)
+                if (loc_eq(grid, marks[i].grid))
+                    c = (wchar_t)marks[i].glyph;
+            if (mon)
+                c = mon->race->d_char;
+            if (loc_eq(grid, player->grid))
+                c = L'@';
+            row[x] = (c > 31 && c < 127) ? (char)c : '?';
+        }
+        row[x] = 0;
+        printf("MAPROW %s\n", row);
+    }
+    printf("MAPEND\n");
+}
 
 static term screen;
 #define H 24
@@ -170,6 +221,20 @@ static int scenario_wake(void *state)
     borg_temp_y[0] = borg_kills[k].pos.y;
     int score = borg_launch_bolt(0, 12, BORG_ATTACK_MISSILE, 10, 0);
     printf("DECISION bolt_score=%d\n", score);
+    /* The level after the decision; when the Borg shoots, '-' marks the
+     * grids of the bolt's path to the monster (the game's project_path()). */
+    if (score > 0) {
+        struct loc path[256];
+        struct evidence_mark marks[256];
+        int n = project_path(cave, path, z_info->max_range, player->grid,
+            borg_kills[k].pos, PROJECT_STOP), m = 0;
+        for (int i = 0; i < n && m < 256; ++i)
+            if (!loc_eq(path[i], borg_kills[k].pos)) {
+                marks[m].grid = path[i]; marks[m].glyph = '-'; m++;
+            }
+        evidence_map("After the ranged-attack decision: the Borg fires along the - line and wakes the monster", marks, m);
+    } else
+        evidence_map("After the ranged-attack decision: no shot, the monster sleeps on", NULL, 0);
     printf("OUTCOME shoots=%d\n", score > 0 ? 1 : 0);
     /* The partial estimate scales each blow by a hit chance; it must never
      * exceed the full-damage figure for the same monster and grid. */
