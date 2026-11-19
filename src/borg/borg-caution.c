@@ -63,9 +63,11 @@ static bool borg_heal(int danger)
     int pct_down;
     int allow_fail = 15;
     int chance;
-    int clw_heal          = 15;
-    int csw_heal          = 25;
-    int ccw_heal          = 30;
+    /* Cure Light, Serious and Critical Wounds heal a fixed 20, 40 and 60
+     * hit points (object.txt HEAL_HP dice, no percentage part) */
+    int clw_heal          = 20;
+    int csw_heal          = 40;
+    int ccw_heal          = 60;
     int cmw_heal          = 50;
 
     int heal_heal         = 300;
@@ -77,18 +79,9 @@ static bool borg_heal(int danger)
     hp_down               = borg.trait[BI_MAXHP] - borg.trait[BI_CURHP];
     pct_down              = ((borg.trait[BI_MAXHP] - borg.trait[BI_CURHP]) * 100
                 / borg.trait[BI_MAXHP]);
-    clw_heal  = ((borg.trait[BI_MAXHP] - borg.trait[BI_CURHP]) * 15 / 100);
-    csw_heal  = ((borg.trait[BI_MAXHP] - borg.trait[BI_CURHP]) * 20 / 100);
-    ccw_heal  = ((borg.trait[BI_MAXHP] - borg.trait[BI_CURHP]) * 25 / 100);
     cmw_heal  = ((borg.trait[BI_MAXHP] - borg.trait[BI_CURHP]) * 30 / 100);
     heal_heal = ((borg.trait[BI_MAXHP] - borg.trait[BI_CURHP]) * 35 / 100);
 
-    if (clw_heal < 15)
-        clw_heal = 15;
-    if (csw_heal < 25)
-        csw_heal = 25;
-    if (ccw_heal < 30)
-        ccw_heal = 30;
     if (cmw_heal < 50)
         cmw_heal = 50;
     if (heal_heal < 300)
@@ -350,7 +343,7 @@ static bool borg_heal(int danger)
             && !borg.trait[BI_ISPOISONED] && !borg.trait[BI_ISCUT]))
         return false;
 
-    /* Cure light Wounds (2d10) */
+    /* Cure light Wounds (20) */
     if (pct_down >= 30 && (pct_down <= 40 || borg.trait[BI_CLEVEL] < 10)
         && ((danger) < borg.trait[BI_CURHP] + clw_heal)
         && (clw_heal > danger / 3) && /* No rope-a-doping */
@@ -360,7 +353,7 @@ static bool borg_heal(int danger)
         borg_note("# Healing Level 1.");
         return true;
     }
-    /* Cure Serious Wounds (4d10) */
+    /* Cure Serious Wounds (40) */
     if (pct_down >= 40 && (pct_down <= 50 || borg.trait[BI_CLEVEL] < 20)
         && ((danger) < borg.trait[BI_CURHP] + csw_heal)
         && (csw_heal > danger / 3) && /* No rope-a-doping */
@@ -370,7 +363,7 @@ static bool borg_heal(int danger)
         return true;
     }
 
-    /* Cure Critical Wounds (6d10) */
+    /* Cure Critical Wounds (60) */
     if (pct_down >= 50 && pct_down <= 55
         && ((danger) < borg.trait[BI_CURHP] + ccw_heal)
         && (ccw_heal > danger / 3) && /* No rope-a-doping */
