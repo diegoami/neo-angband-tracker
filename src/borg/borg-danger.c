@@ -2742,7 +2742,7 @@ int borg_danger_one_kill(
         if ((kill->power * (100 - kill->injury)) / 100 < borg.trait[BI_CLEVEL] * 4) {
             borg_grid* ag = &borg_grids[y9][x9];
             if (ag->info & BORG_VIEW && borg_cave_floor_grid(ag))
-                v1 = 0;
+                v2 = 0;
         }
     }
 
