@@ -223,9 +223,9 @@ bool borg_recover(void)
 
     /* Cure stun */
     if (borg.trait[BI_ISSTUN] && (q < 25)) {
+        /* (the HEAL1 and HEAL2 activations cure only cuts, not stun) */
         if (borg_use_staff_fail(sv_staff_curing) || borg_zap_rod(sv_rod_curing)
-            || borg_zap_rod(sv_rod_healing) || borg_activate_item(act_heal1)
-            || borg_activate_item(act_heal2) || borg_quaff_crit(false)) {
+            || borg_zap_rod(sv_rod_healing) || borg_quaff_crit(false)) {
             return true;
         }
     }
@@ -233,8 +233,7 @@ bool borg_recover(void)
     /* Cure heavy stun */
     if (borg.trait[BI_ISHEAVYSTUN] && (q < 95)) {
         if (borg_quaff_crit(true) || borg_use_staff_fail(sv_staff_curing)
-            || borg_zap_rod(sv_rod_curing) || borg_zap_rod(sv_rod_healing)
-            || borg_activate_item(act_heal1) || borg_activate_item(act_heal2)) {
+            || borg_zap_rod(sv_rod_curing) || borg_zap_rod(sv_rod_healing)) {
             return true;
         }
     }
@@ -266,13 +265,12 @@ bool borg_recover(void)
 
     /* Cure blindness */
     if (borg.trait[BI_ISBLIND] && (q < 25)) {
+        /* (Waybread cures only poison, so it is not tried here) */
         if (borg_eat(TV_MUSHROOM, sv_mush_fast_recovery)
-            || borg_eat(TV_FOOD, sv_food_waybread)
             || borg_quaff_potion(sv_potion_cure_light)
             || borg_quaff_potion(sv_potion_cure_serious)
             || borg_quaff_crit(false) || borg_use_staff_fail(sv_staff_curing)
-            || borg_zap_rod(sv_rod_curing)
-            || borg_activate_item(act_food_waybread)) {
+            || borg_zap_rod(sv_rod_curing)) {
             return true;
         }
     }
