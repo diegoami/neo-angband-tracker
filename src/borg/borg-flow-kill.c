@@ -345,7 +345,7 @@ static void borg_update_kill_old(int i)
      * around
      */
     if ((rf_has(r_ptr->flags, RF_UNIQUE)) && r_ptr->max_num == 0)
-        borg_race_death[i] = 1;
+        borg_race_death[kill->r_idx] = 1;
 
     /* We want to remember Morgy's panel */
     if (kill->r_idx == borg.id.morgoth) {
