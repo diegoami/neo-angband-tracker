@@ -1086,7 +1086,7 @@ bool borg_excavate_vault(int range)
             /* Not Lit */
             borg_grids[borg_temp_y[i]][borg_temp_x[i]].info &= ~BORG_GLOW;
             /* Dark */
-            borg_grids[borg_temp_y[i]][borg_temp_x[i]].info |= BORG_GLOW;
+            borg_grids[borg_temp_y[i]][borg_temp_x[i]].info |= BORG_DARK;
             /* Feat Floor */
             borg_grids[borg_temp_y[i]][borg_temp_x[i]].feat = FEAT_FLOOR;
             /*
