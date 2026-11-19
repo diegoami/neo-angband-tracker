@@ -1237,9 +1237,6 @@ bool borg_check_rest(int y, int x)
         && (borg.trait[BI_CURSP] >= borg.trait[BI_MAXSP] * 7 / 10))
         return false;
 
-    /* Set this to Zero */
-    borg.time.last_kill_mult = 0;
-
     /* Most of the time, its ok to rest in a vault */
     if (borg.status.vault) {
         for (i = -1; i < 1; i++) {
