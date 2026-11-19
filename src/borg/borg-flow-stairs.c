@@ -190,29 +190,30 @@ bool borg_flow_stair_more(int why, bool sneak, bool brave)
     if (!track_more.num)
         return false;
 
-    /* if there are no down stairs, don't filter use of up stairs */
-    if (track_less.num) {
-        /* not unless safe or munchkin/Lunal Mode or brave */
-        if (!borg.lunal_mode && !borg.munchkin_mode && !brave
-            && (char *)NULL != borg_prepared(borg.trait[BI_CDEPTH] + 1))
-            return false;
+    /* The dive gates run whether or not an up staircase has been seen:
+     * a borg dropped onto a level with no seen up-stair (monster
+     * Teleport-Level, Deep Descent) must not skip them. */
 
-        /* dont go down if hungry or low on food, unless fleeing a scary town */
-        if (!brave && borg.trait[BI_CDEPTH] && !borg.mon.scary
-            && (borg.trait[BI_ISWEAK] || borg.trait[BI_ISHUNGRY]
-                || borg.trait[BI_FOOD] < 2))
-            return false;
+    /* not unless safe or munchkin/Lunal Mode or brave */
+    if (!borg.lunal_mode && !borg.munchkin_mode && !brave
+        && (char *)NULL != borg_prepared(borg.trait[BI_CDEPTH] + 1))
+        return false;
 
-        /* If I need to sell crap, then don't go down */
-        if (borg.trait[BI_CDEPTH] && borg.trait[BI_CLEVEL] < 25
-            && borg.trait[BI_GOLD] < 25000 && borg_count_sell() >= 13
-            && !borg.munchkin_mode)
-            return false;
+    /* dont go down if hungry or low on food, unless fleeing a scary town */
+    if (!brave && borg.trait[BI_CDEPTH] && !borg.mon.scary
+        && (borg.trait[BI_ISWEAK] || borg.trait[BI_ISHUNGRY]
+            || borg.trait[BI_FOOD] < 2))
+        return false;
 
-        /* No diving if no light */
-        if (borg.trait[BI_LIGHT] == 0 && borg.munchkin_mode == false)
-            return false;
-    }
+    /* If I need to sell crap, then don't go down */
+    if (borg.trait[BI_CDEPTH] && borg.trait[BI_CLEVEL] < 25
+        && borg.trait[BI_GOLD] < 25000 && borg_count_sell() >= 13
+        && !borg.munchkin_mode)
+        return false;
+
+    /* No diving if no light */
+    if (borg.trait[BI_LIGHT] == 0 && borg.munchkin_mode == false)
+        return false;
 
     /* don't head for the stairs if you are recalling,  */
     /* even if you are fleeing. */
