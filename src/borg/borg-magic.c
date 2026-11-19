@@ -21,6 +21,7 @@
 
 #ifdef ALLOW_BORG
 
+#include "../cave.h"
 #include "../effects.h"
 #include "../player-spell.h"
 #include "../ui-menu.h"
@@ -528,10 +529,10 @@ int borg_spell_fail_rate(const enum borg_spells spell)
             minfail = 5;
     }
 
-    /* Necromancers are punished by being on lit squares */
-    /* necromancers like the dark */
+    /* Necromancers are punished by being on lit squares, whatever lights
+     * them (their own light, permanent light, a monster's light) */
     if (borg.trait[BI_CLASS] == CLASS_NECROMANCER &&
-        borg_grids[borg.c.y][borg.c.x].info & BORG_LIGHT) {
+        square_islit(cave, borg.c)) {
         chance += 25;
 
     }
