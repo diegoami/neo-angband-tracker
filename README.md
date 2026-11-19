@@ -11,7 +11,7 @@ start from, plus our session documentation.
 1. **Finding and proving bugs in original Angband, above all its C Borg.**
    Each defect in the C Borg or the C game has one canonical issue here, with
    source lines, evidence level and any local fix proposal. New C fix branches
-   start from angband/angband `42cd156ac9f95ddf4311e88dd7ad462292d6d1d6`;
+   start from angband/angband `574b618c3bfec595f3503a58f8e488b1c4ae3a46`;
    existing findings record the commit they were observed at (`e473720ed`).
 2. **Repairing the Neo Angband engine** (TypeScript), with its own source tree
    and regression tests.
