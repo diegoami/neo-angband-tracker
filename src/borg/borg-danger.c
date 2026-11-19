@@ -2663,7 +2663,7 @@ int borg_danger_one_kill(
                 continue;
 
             /* Cannot occupy a wall/seam grid (unless pass_wall or kill_wall) */
-            if (borg_grids[y_temp][x_temp].feat >= FEAT_GRANITE
+            if (borg_grids[y_temp][x_temp].feat == FEAT_GRANITE
                 || (borg_grids[y_temp][x_temp].feat == FEAT_MAGMA
                     || borg_grids[y_temp][x_temp].feat == FEAT_QUARTZ
                     || borg_grids[y_temp][x_temp].feat == FEAT_MAGMA_K
