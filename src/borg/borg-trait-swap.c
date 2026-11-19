@@ -244,6 +244,7 @@ void borg_notice_weapon_swap(void)
         weapon_swap_resist_shard = false;
         weapon_swap_resist_nexus = false;
         weapon_swap_resist_blind = false;
+        weapon_swap_resist_fear  = false;
         weapon_swap_resist_neth  = false;
         decurse_weapon_swap      = false;
 
@@ -327,6 +328,8 @@ void borg_notice_weapon_swap(void)
                 weapon_swap_resist_conf = true;
             if (of_has(item->flags, OF_PROT_BLIND))
                 weapon_swap_resist_blind = true;
+            if (of_has(item->flags, OF_PROT_FEAR))
+                weapon_swap_resist_fear = true;
 
             /* curses */
             if (borg_has_bad_curse(item))
@@ -598,6 +601,7 @@ void borg_notice_weapon_swap(void)
     weapon_swap_resist_shard = false;
     weapon_swap_resist_nexus = false;
     weapon_swap_resist_blind = false;
+    weapon_swap_resist_fear  = false;
     weapon_swap_resist_neth  = false;
     decurse_weapon_swap      = false;
 
@@ -695,6 +699,8 @@ void borg_notice_weapon_swap(void)
         weapon_swap_resist_conf = true;
     if (of_has(item->flags, OF_PROT_BLIND))
         weapon_swap_resist_blind = true;
+    if (of_has(item->flags, OF_PROT_FEAR))
+        weapon_swap_resist_fear = true;
 
     /* curses */
     if (borg_has_bad_curse(item))
@@ -838,6 +844,7 @@ void borg_notice_armour_swap(void)
         armour_swap_resist_shard = false;
         armour_swap_resist_nexus = false;
         armour_swap_resist_blind = false;
+        armour_swap_resist_fear  = false;
         armour_swap_resist_neth  = false;
         decurse_armour_swap      = false;
 
@@ -907,6 +914,8 @@ void borg_notice_armour_swap(void)
                 armour_swap_resist_conf = true;
             if (of_has(item->flags, OF_PROT_BLIND))
                 armour_swap_resist_blind = true;
+            if (of_has(item->flags, OF_PROT_FEAR))
+                armour_swap_resist_fear = true;
 
             if (borg_has_bad_curse(item))
                 armour_swap_bad_curse = true;
@@ -1172,6 +1181,7 @@ void borg_notice_armour_swap(void)
     armour_swap_resist_shard = false;
     armour_swap_resist_nexus = false;
     armour_swap_resist_blind = false;
+    armour_swap_resist_fear  = false;
     armour_swap_resist_neth  = false;
     decurse_armour_swap      = false;
 
@@ -1232,6 +1242,8 @@ void borg_notice_armour_swap(void)
         armour_swap_resist_conf = true;
     if (of_has(item->flags, OF_PROT_BLIND))
         armour_swap_resist_blind = true;
+    if (of_has(item->flags, OF_PROT_FEAR))
+        armour_swap_resist_fear = true;
 
     /* curses */
     if (borg_has_bad_curse(item))
