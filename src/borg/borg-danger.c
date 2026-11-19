@@ -374,7 +374,7 @@ static int borg_danger_physical(int i, bool full_damage)
             /* Add fear for the effect */
             z += 150;
             /* extra scary to have con drain below 8 */
-            if (borg.trait[BI_CSTR] < 8)
+            if (borg.trait[BI_CCON] < 8)
                 z += 100;
             if ((pfe) && !borg_attacking)
                 z /= 2;
