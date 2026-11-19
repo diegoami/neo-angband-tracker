@@ -37,7 +37,18 @@ CONDITIONS=%(conditions)r
 ISSUE=%(issue)d
 CARD_KEY=%(card_key)r
 CARD_LABEL=%(card_label)r
+MAP_LEGEND=%(map_legend)r
 CASES=%(cases)r
+def maps_of(raw):
+ # MAP <caption> / MAPROW <text>... / MAPEND blocks printed by the scenario's
+ # evidence_map() (tools/c-evidence/evidence-map.c): the level drawn with the
+ # game's own feature and monster symbols.
+ out=[];cur=None
+ for line in raw.splitlines():
+  if line.startswith('MAP '):cur={'caption':line[4:],'rows':[]};out.append(cur)
+  elif line.startswith('MAPROW ') and cur is not None:cur['rows'].append(line[7:])
+  elif line=='MAPEND':cur=None
+ return out
 for mode,label,explanation,control in CASES:
  item={'label':label,'explanation':explanation,'control':control}
  for phase in ('before','after'):
@@ -48,6 +59,7 @@ for mode,label,explanation,control in CASES:
     entry.setdefault(key,{}).update({k:int(v) for k,v in re.findall(r'(\w+)=(-?\d+)',match)})
   notes=[l for l in raw.splitlines() if l.startswith(('PREPARED ','SWAP ','DECISION ','TRACK ','KEYS '))]
   entry['notes']=notes
+  entry['maps']=maps_of(raw)
   entry['value']=entry.get('outcome',{}).get(CARD_KEY,entry.get('state',{}).get(CARD_KEY,'n/a'))
   item[phase]=entry
  data[mode]=item
@@ -61,14 +73,29 @@ CSS=("body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}"
  ".hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}"
  "pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}"
  "details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}"
+ "figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}"
+ "pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%%}"
+ "pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}"
+ ".maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}"
  "@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}")
 def esc(s):return html.escape(str(s))
+def glyph(c):
+ if c=='@':return '<span class="me">@</span>'
+ if c in '*-|/\\':return '<span class="mark">'+esc(c)+'</span>'
+ if c.isalpha():return '<span class="mon">'+esc(c)+'</span>'
+ if c in '#%%':return '<span class="wall">'+esc(c)+'</span>'
+ return esc(c)
+def map_html(entry):
+ return ''.join('<figure><figcaption>'+esc(mp['caption'])+'</figcaption><pre class="map">'+'\n'.join(''.join(glyph(c) for c in r) for r in mp['rows'])+'</pre></figure>' for mp in entry.get('maps',[]))
 opts=''.join('<option value="%%s">%%s</option>'%%(esc(m),esc(d['label'])) for m,d in data.items())
 panels=''
 for m,d in data.items():
  b,a=d['before'],d['after']
  panels+=('<section class="scenario%%s" data-mode="%%s">'%%('' if m==CASES[0][0] else ' hidden',esc(m))+
-  '<p class="summary">'+esc(d['explanation'])+('<br><strong>Unchanged control:</strong> both logs are byte-identical.' if d['control'] else '')+'</p>'
+  '<p class="summary">'+esc(d['explanation'])+('<br><strong>Unchanged control:</strong> both logs are byte-identical.' if d['control'] else '')+'</p>'+
+  (('<div class="cards maps"><section class="card original"><h2>Original</h2>'+map_html(b)+'</section>'
+    '<section class="card corrected"><h2>Corrected</h2>'+map_html(a)+'</section></div>'
+    +('<p class="legend">'+esc(MAP_LEGEND)+'</p>' if MAP_LEGEND else '')) if (b.get('maps') or a.get('maps')) else '')+
   '<button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button>'
   '<div class="cards decision hidden">'
   '<section class="card original"><h2>Original</h2><div class="num">'+esc(b['value'])+'</div><p>'+esc(CARD_LABEL)+'</p><p>Scenario check: <strong>'+('passed' if b['passed'] else 'failed')+'</strong></p><pre>'+esc('\n'.join(b['notes']))+'</pre></section>'
@@ -94,6 +121,7 @@ page=('<!doctype html><html lang="en"><meta charset="utf-8">'
 print('Open in your browser:',root/'replay.html')
 ''' % {'suite': S['suite'], 'title': S['title'], 'intro': S['intro'], 'conditions': S['conditions'],
        'issue': S['issue'], 'card_key': S['card_key'], 'card_label': S['card_label'],
+       'map_legend': S.get('map_legend', ''),
        'cases': [(m['name'], m['label'], m['explanation'], m.get('control', False)) for m in S['modes']]}
 
 REPRODUCE = r'''#!/usr/bin/env python3
@@ -115,7 +143,7 @@ import subprocess
 import sys
 import tempfile
 
-BASE = "e473720ed88a0f0c7ca66815cef3000eb4a38bc3"
+BASE = "%(base)s"
 DIRECTORY = "docs/audit/c-reports/%(slug)s/"
 OBSERVER = %(observer)r
 PHASES = ("before", "after")
@@ -213,9 +241,9 @@ add_compile_definitions(PRIVATE_USER_PATH="{root / 'test-user'}")
         if args.full_tests:
             log, code = run(phase + "-alltests", ["cmake", "--build", str(build), "--target", "alltests", "--parallel", "2"])
             text = re.sub(r"\x1b\[[0-9;]*m", "", log.read_text())
-            if code or "Total: 965/965 passed (100.0%%)" not in text or "Total: 5/5" not in text:
+            if code or "Total: %(units)s passed (100.0%%)" not in text or "Total: 5/5" not in text:
                 raise RuntimeError("Expected native regression totals missing or frontend failure")
-            gates[phase] = {"units": "965/965", "frontends": "5/5"}
+            gates[phase] = {"units": "%(units)s", "frontends": "5/5"}
 
     controls = []
     for mode, (want_before, want_after, control) in EXPECT.items():
@@ -254,7 +282,11 @@ REPRO = REPRODUCE % {
     'doc': S['doc'], 'branch': S['branch'], 'slug': S['slug'], 'observer': S['observer'],
     'changes': changes_src,
     'expect': {m['name']: (m['before'], m['after'], m.get('control', False)) for m in S['modes']},
-    'verified': 'VERIFIED: ' + S['verified']}
+    'verified': 'VERIFIED: ' + S['verified'],
+    # C base of the fix branch and its native unit total: e473720ed and 42cd156ac
+    # run 965 unit checks, 574b618c3 (2026-11-19) runs 966.
+    'base': S.get('base', 'e473720ed88a0f0c7ca66815cef3000eb4a38bc3'),
+    'units': S.get('units', '965/965')}
 (out / 'run-cases.py').write_text(RUN_CASES)
 (out / 'make_replay.py').write_text(MAKE_REPLAY)
 (out / 'reproduce.py').write_text(REPRO)

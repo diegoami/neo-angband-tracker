@@ -29,6 +29,13 @@ git show {fixtures}:docs/audit/c-reports/{slug}/reproduce.py > /tmp/reproduce-{s
 python3 /tmp/reproduce-{slug}.py --full-tests --fixtures-ref {fixtures} --fix-ref {fix}
 ```"""
 
+has_maps = any('MAPROW ' in (root / 'evidence' / f'{ph}-{m["name"]}.log').read_text()
+               for ph in ('before', 'after') for m in spec['modes']
+               if (root / 'evidence' / f'{ph}-{m["name"]}.log').exists())
+maps_note = (' to see the original and corrected runs side by side on the dungeon map,'
+             ' drawn with the game\'s own symbols (the legend under the maps explains them)'
+             if has_maps else '')
+
 text = f"""# {spec['title']}
 
 This is **{slug} / issue #{issue}**, a C Borg defect
@@ -51,7 +58,7 @@ This is **{slug} / issue #{issue}**, a C Borg defect
 {spec['conditions']}
 
 [replay.html](replay.html) is the offline page for the captured run (download
-it and open it locally): choose a scenario, press **Show decision** for the
+it and open it locally): choose a scenario{maps_note}, press **Show decision** for the
 original and corrected results side by side, and **Show raw logs** for the
 complete native output.
 

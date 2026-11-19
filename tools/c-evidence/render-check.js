@@ -27,6 +27,17 @@ const fs = require('fs');
     if (corr !== String(item.after.value)) fail(`${mode} corrected ${corr} != ${item.after.value}`); checks++;
     if (!(await panel.locator('.decision').isVisible())) fail(mode + ' decision not shown'); checks++;
     if (!(await panel.locator('.logs').isVisible())) fail(mode + ' logs not shown'); checks++;
+    // Dungeon maps (evidence-map.c): shown without a click, one per phase, with the player on them.
+    const want = (item.before.maps || []).length + (item.after.maps || []).length;
+    if (want) {
+      const maps = panel.locator('.maps pre.map');
+      if ((await maps.count()) !== want) fail(`${mode} ${await maps.count()} maps rendered, ${want} recorded`); checks++;
+      for (let i = 0; i < want; i++) {
+        if (!(await maps.nth(i).isVisible())) fail(`${mode} map ${i} hidden`);
+        if (!(await maps.nth(i).innerText()).includes('@')) fail(`${mode} map ${i} has no @`);
+      }
+      checks++;
+    }
   }
   const body = await page.locator('main').innerText();
   if (body.includes('undefined')) fail('undefined in rendered text'); checks++;

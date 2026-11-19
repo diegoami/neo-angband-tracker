@@ -19,6 +19,9 @@ PLACEHOLDERS = ("EVID_SHA", "pull/SOURCE", "#…", "<SOURCE>", "<EVIDENCE>")
 
 
 PRISTINE_BASE = "e473720ed88a0f0c7ca66815cef3000eb4a38bc3"
+# Recorded C fix bases (session.json c pin history); a source branch must start on one.
+PRISTINE_BASES = (PRISTINE_BASE, "42cd156ac9f95ddf4311e88dd7ad462292d6d1d6",
+                  "574b618c3bfec595f3503a58f8e488b1c4ae3a46")
 
 
 def git(*args, check=True):
@@ -128,7 +131,11 @@ def check_package(ref, d, rep):
             if b is not None and a is not None:
                 rep.check(a == b, f"control '{c}' logs byte-identical")
     gates = json.dumps(receipt.get("full_tests", {}))
-    rep.check(gates.count("965/965") >= 2 and gates.count("5/5") >= 2, "full gates 965/965 + 5/5 recorded for both phases")
+    rep.check(len(re.findall(r"96[56]/96[56]", gates)) >= 2 and gates.count("5/5") >= 2,
+              "full gates (965/965 at e473720ed or 42cd156ac, 966/966 at 574b618c3) + 5/5 recorded for both phases")
+    data = show(ref, d + "replay-data.json") or b""
+    rep.check(b'"maps"' in data and b'"rows"' in data,
+              "replay shows the dungeon map (scenario prints evidence_map(); tools/c-evidence/evidence-map.c)", warn=True)
     render = json.dumps({k: receipt.get(k) for k in ("render_check", "browser_verification")})
     rep.check("planned" not in render.lower() and render != '{"render_check": null, "browser_verification": null}',
               "replay render check recorded (not 'planned')")
@@ -175,12 +182,16 @@ def check_github(issue_no, src_no, ev_no, rep):
         sref = ((src or {}).get("head") or {}).get("ref")
         if sref:
             git("fetch", "-q", "--no-tags", "origin", sref, check=False)
-            mb = git("merge-base", PRISTINE_BASE, f"origin/{sref}", check=False).stdout.decode().strip()
-            rep.check(mb == PRISTINE_BASE,
-                      f"source branch {sref} is based on pristine {PRISTINE_BASE[:9]}")
+            on = [b for b in PRISTINE_BASES
+                  if git("merge-base", b, f"origin/{sref}", check=False).stdout.decode().strip() == b]
+            rep.check(bool(on), f"source branch {sref} is based on a recorded pristine C pin "
+                      f"({', '.join(b[:9] for b in PRISTINE_BASES)})")
+            # c-borg-reference fast-forwards to official C on each upstream refresh
+            # (2026-11-12 42cd156ac, 2026-11-19 574b618c3); it must stay pristine upstream.
             git("fetch", "-q", "--no-tags", "origin", "c-borg-reference", check=False)
-            extra = git("rev-list", "--count", f"{PRISTINE_BASE}..origin/c-borg-reference", check=False).stdout.decode().strip()
-            rep.check(extra in ("", "0"), "origin/c-borg-reference is still the pristine base", warn=True)
+            git("fetch", "-q", "--no-tags", "https://github.com/angband/angband.git", "master", check=False)
+            pristine = git("merge-base", "--is-ancestor", "origin/c-borg-reference", "FETCH_HEAD", check=False).returncode == 0
+            rep.check(pristine, "origin/c-borg-reference is pristine official C (an ancestor of angband/master)", warn=True)
     else:
         rep.check(False, "source PR found for this evidence PR")
     ev = gh(f"pulls/{ev_no}")
