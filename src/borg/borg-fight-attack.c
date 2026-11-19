@@ -3499,7 +3499,7 @@ static int borg_attack_aux_maim_foe(void)
     borg_spell(MAIM_FOE);
     borg_keypress(I2D(dir));
 
-    return d;
+    return b_d;
 }
 
 /* trying the Vampire Strike spell */
