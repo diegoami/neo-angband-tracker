@@ -109,25 +109,17 @@ static int32_t borg_object_value_known(borg_item *item)
     case TV_LIGHT:
     case TV_AMULET:
     case TV_RING: {
-        /* Negative "pval" is always bad */
-        if (item->pval < 0)
-            return (0L);
-
-        /* No pval */
-        if (!item->pval)
-            break;
-
         /* Give credit for stat bonuses */
-        if (of_has(item->flags, STAT_STR))
-            value += (item->pval * 200L);
-        if (of_has(item->flags, STAT_INT))
-            value += (item->pval * 200L);
-        if (of_has(item->flags, STAT_WIS))
-            value += (item->pval * 200L);
-        if (of_has(item->flags, STAT_DEX))
-            value += (item->pval * 200L);
-        if (of_has(item->flags, STAT_CON))
-            value += (item->pval * 200L);
+        if (item->modifiers[OBJ_MOD_STR] > 0)
+            value += (item->modifiers[OBJ_MOD_STR] * 200L);
+        if (item->modifiers[OBJ_MOD_INT] > 0)
+            value += (item->modifiers[OBJ_MOD_INT] * 200L);
+        if (item->modifiers[OBJ_MOD_WIS] > 0)
+            value += (item->modifiers[OBJ_MOD_WIS] * 200L);
+        if (item->modifiers[OBJ_MOD_DEX] > 0)
+            value += (item->modifiers[OBJ_MOD_DEX] * 200L);
+        if (item->modifiers[OBJ_MOD_CON] > 0)
+            value += (item->modifiers[OBJ_MOD_CON] * 200L);
 
         /* Give credit for stealth and searching */
         value += (item->modifiers[OBJ_MOD_STEALTH] * 100L);
@@ -161,6 +153,10 @@ static int32_t borg_object_value_known(borg_item *item)
 
         /* Give credit for damage reduction */
         value += (item->modifiers[OBJ_MOD_DAM_RED] * 200L);
+
+        /* Penalties never make an item worth less than nothing */
+        if (value < 0)
+            return (0L);
 
         break;
     }
