@@ -8,7 +8,18 @@ CONDITIONS="Native Human Warrior, seed 98, level 20, depth 5, full hit points (2
 ISSUE=98
 CARD_KEY='flowed'
 CARD_LABEL='sets off toward a monster to fight it (1 = yes)'
+MAP_LEGEND="'@' the Borg; 'a' soldier ant; 'C' wild dog (a pack monster); '#' granite or the arena's permanent wall; '.' lit floor; '*' the grid the Borg's first step goes to."
 CASES=[('leak', 'Open room: ant 2 steps east noted first, ant 5 steps south second', 'Original: the near ant is dropped (two steps away, melee only), the drop note is kept, the far ant is dropped too; no target, the Borg does not move. Corrected: the far ant at (10,17) is the target and the Borg steps south (key 50).', False), ('reverse', 'Control: the same two ants, far one noted first', 'The far ant is judged before the near one sets the note; both versions target it and step south. Logs are byte-identical.', True), ('hall', 'Borg in a corridor, wild dog (pack monster) in the open room', "Original: the dog's wall count continues from the Borg's own six corridor walls and the 'fewer than four walls' test never fires; the Borg steps east out of the corridor toward the dog (key 54). Corrected: the dog has no walls around it, it is dropped, and the Borg stays put.", False), ('hallctl', 'Control: Borg and wild dog both in the corridor', 'The dog has six walls around it, so both versions keep it and step west toward it (key 52). Logs are byte-identical.', True)]
+def maps_of(raw):
+ # MAP <caption> / MAPROW <text>... / MAPEND blocks printed by the scenario's
+ # evidence_map() (tools/c-evidence/evidence-map.c): the level drawn with the
+ # game's own feature and monster symbols.
+ out=[];cur=None
+ for line in raw.splitlines():
+  if line.startswith('MAP '):cur={'caption':line[4:],'rows':[]};out.append(cur)
+  elif line.startswith('MAPROW ') and cur is not None:cur['rows'].append(line[7:])
+  elif line=='MAPEND':cur=None
+ return out
 for mode,label,explanation,control in CASES:
  item={'label':label,'explanation':explanation,'control':control}
  for phase in ('before','after'):
@@ -19,6 +30,7 @@ for mode,label,explanation,control in CASES:
     entry.setdefault(key,{}).update({k:int(v) for k,v in re.findall(r'(\w+)=(-?\d+)',match)})
   notes=[l for l in raw.splitlines() if l.startswith(('PREPARED ','SWAP ','DECISION ','TRACK ','KEYS '))]
   entry['notes']=notes
+  entry['maps']=maps_of(raw)
   entry['value']=entry.get('outcome',{}).get(CARD_KEY,entry.get('state',{}).get(CARD_KEY,'n/a'))
   item[phase]=entry
  data[mode]=item
@@ -32,14 +44,29 @@ CSS=("body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}"
  ".hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}"
  "pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}"
  "details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}"
+ "figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}"
+ "pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%}"
+ "pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}"
+ ".maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}"
  "@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}")
 def esc(s):return html.escape(str(s))
+def glyph(c):
+ if c=='@':return '<span class="me">@</span>'
+ if c in '*-|/\\':return '<span class="mark">'+esc(c)+'</span>'
+ if c.isalpha():return '<span class="mon">'+esc(c)+'</span>'
+ if c in '#%':return '<span class="wall">'+esc(c)+'</span>'
+ return esc(c)
+def map_html(entry):
+ return ''.join('<figure><figcaption>'+esc(mp['caption'])+'</figcaption><pre class="map">'+'\n'.join(''.join(glyph(c) for c in r) for r in mp['rows'])+'</pre></figure>' for mp in entry.get('maps',[]))
 opts=''.join('<option value="%s">%s</option>'%(esc(m),esc(d['label'])) for m,d in data.items())
 panels=''
 for m,d in data.items():
  b,a=d['before'],d['after']
  panels+=('<section class="scenario%s" data-mode="%s">'%('' if m==CASES[0][0] else ' hidden',esc(m))+
-  '<p class="summary">'+esc(d['explanation'])+('<br><strong>Unchanged control:</strong> both logs are byte-identical.' if d['control'] else '')+'</p>'
+  '<p class="summary">'+esc(d['explanation'])+('<br><strong>Unchanged control:</strong> both logs are byte-identical.' if d['control'] else '')+'</p>'+
+  (('<div class="cards maps"><section class="card original"><h2>Original</h2>'+map_html(b)+'</section>'
+    '<section class="card corrected"><h2>Corrected</h2>'+map_html(a)+'</section></div>'
+    +('<p class="legend">'+esc(MAP_LEGEND)+'</p>' if MAP_LEGEND else '')) if (b.get('maps') or a.get('maps')) else '')+
   '<button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button>'
   '<div class="cards decision hidden">'
   '<section class="card original"><h2>Original</h2><div class="num">'+esc(b['value'])+'</div><p>'+esc(CARD_LABEL)+'</p><p>Scenario check: <strong>'+('passed' if b['passed'] else 'failed')+'</strong></p><pre>'+esc('\n'.join(b['notes']))+'</pre></section>'
