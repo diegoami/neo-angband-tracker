@@ -621,8 +621,11 @@ static void borg_parse_aux(char *msg, int len)
                         }
                         track_glyph.num = 0;
 
-                        /* Check for glyphs under player -- Cheat*/
-                        if (square_iswarded(cave, borg.c)) {
+                        /* Check for glyphs under player -- Cheat.  The
+                         * position may still be on the previous level when
+                         * this is parsed just after a level change. */
+                        if (square_in_bounds(cave, borg.c)
+                            && square_iswarded(cave, borg.c)) {
                             track_glyph.x[track_glyph.num] = borg.c.x;
                             track_glyph.y[track_glyph.num] = borg.c.y;
                             track_glyph.num++;
@@ -1184,8 +1187,11 @@ static void borg_parse_aux(char *msg, int len)
         /* no known glyphs */
         track_glyph.num = 0;
 
-        /* Check for glyphs under player -- Cheat*/
-        if (square_iswarded(cave, borg.c)) {
+        /* Check for glyphs under player -- Cheat.  The position may still
+         * be on the previous level when this is parsed just after a level
+         * change. */
+        if (square_in_bounds(cave, borg.c)
+            && square_iswarded(cave, borg.c)) {
             track_glyph.x[track_glyph.num] = borg.c.x;
             track_glyph.y[track_glyph.num] = borg.c.y;
             track_glyph.num++;
