@@ -514,10 +514,12 @@ bool borg_think_home_buy_useful(void)
         p = 0;
         if (slot >= 0) {
             /* Require two empty slots */
-            if (hole == -1)
+            if (hole == -1 || (hole + 1) >= PACK_SLOTS) {
+                /* Restore shop item */
+                memcpy(&borg_shops[BORG_HOME].ware[n],
+                    &borg_safe_shops[BORG_HOME].ware[n], sizeof(borg_item));
                 continue;
-            if ((hole + 1) >= PACK_SLOTS)
-                continue;
+            }
 
             /* Check Rings */
             if (slot == INVEN_LEFT) {
@@ -636,10 +638,12 @@ bool borg_think_home_buy_useful(void)
                 hole = stack;
 
             /* Require two empty slots */
-            if (stack == -1 && hole == -1)
+            if (stack == -1 && (hole == -1 || (hole + 1) >= PACK_SLOTS)) {
+                /* Restore shop item */
+                memcpy(&borg_shops[BORG_HOME].ware[n],
+                    &borg_safe_shops[BORG_HOME].ware[n], sizeof(borg_item));
                 continue;
-            if (stack == -1 && (hole + 1) >= PACK_SLOTS)
-                continue;
+            }
 
             /* Move new item into inventory */
             memcpy(&borg_items[hole], &borg_safe_shops[BORG_HOME].ware[n],
