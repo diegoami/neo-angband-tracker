@@ -1,0 +1,50 @@
+{
+  "leak": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "targets": 1,
+      "hp": 247,
+      "avoidance": 247
+    },
+    "outcome": {
+      "flowed": 1
+    }
+  },
+  "reverse": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "targets": 1,
+      "hp": 247,
+      "avoidance": 247
+    },
+    "outcome": {
+      "flowed": 1
+    }
+  },
+  "hall": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "targets": 0,
+      "hp": 247,
+      "avoidance": 247
+    },
+    "outcome": {
+      "flowed": 0
+    }
+  },
+  "hallctl": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "targets": 1,
+      "hp": 247,
+      "avoidance": 247
+    },
+    "outcome": {
+      "flowed": 1
+    }
+  }
+}

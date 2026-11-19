@@ -1,0 +1,166 @@
+{
+  "issue": "diegoami/neo-angband-tracker#98",
+  "report": "flowkillhall-98",
+  "base": "e473720ed88a0f0c7ca66815cef3000eb4a38bc3",
+  "fix": "69862d0f5e2a860d63281df9157d77951875adf3",
+  "fix_branch": "task/flowkillhall-98",
+  "fixtures_ref": "e4dd3482b818662373679007a5c2b42b50fb4c77",
+  "cases": {
+    "leak": {
+      "before": {
+        "passed": false,
+        "state": {
+          "targets": 0,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      }
+    },
+    "reverse": {
+      "before": {
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      }
+    },
+    "hall": {
+      "before": {
+        "passed": false,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "targets": 0,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 0
+        }
+      }
+    },
+    "hallctl": {
+      "before": {
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "targets": 1,
+          "hp": 247,
+          "avoidance": 247
+        },
+        "outcome": {
+          "flowed": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "reverse",
+    "hallctl"
+  ],
+  "claim": "borg_flow_kill() sets skip_monster and hall_walls once per call instead of once per monster. Once one monster is skipped every later monster is skipped too (a level-20 Warrior with a two-step soldier ant noted first does not hunt a second ant in plain view), and the pack-monster wall count runs on from the Borg's own count with the test inside the counting loop, so it never fires (the Borg leaves a corridor for a wild dog in an open room). Resetting both per monster and testing the count after all nine grids restores both decisions; two controls are byte-identical.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "965/965",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-kill.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "c957ebe548524686783607eccf7a819d4f485558c514ee05a4d055c4292cdaca"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cmake": "cmake version 3.28.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 30,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "82c421171bb17feddd39338f8a844cb922e70a9fd7be06d1f509023eefa2fdae",
+    "after-hall.log": "4faa0027bfb3d228a1480d58bea5cba72dacb8808db777dd7f892420b69ab576",
+    "after-hallctl.log": "d55f187c07d09c3e4f6dc8415034e4c30583f70d051ef96be236e4cb586c5ea3",
+    "after-leak.log": "34bc3fbfbbd04ab64ab0d07012ef867b3d82625a61e57603264440809617a722",
+    "after-results.json": "437959d75a830bbf949581f345515adad9364f237da1615c351eeaeba8cbb731",
+    "after-reverse.log": "165edfd68762479e502f1b6aae3b2528662e48850d12fba7795e18a1e2fa7e89",
+    "before-hall.log": "52ae0f53ba8bf37c71cfc949f2c1165f3e91b9b157f4687baebda6ac3e66510e",
+    "before-hallctl.log": "d55f187c07d09c3e4f6dc8415034e4c30583f70d051ef96be236e4cb586c5ea3",
+    "before-leak.log": "992348e4dac1076379b6159c470eed102ca2f745c341458f4b64e9888814e778",
+    "before-results.json": "d92fb208feee241fdd70d794aea86d774c886c5ad403ed8d884e98cde5182923",
+    "before-reverse.log": "165edfd68762479e502f1b6aae3b2528662e48850d12fba7795e18a1e2fa7e89",
+    "borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "make_replay.py": "f401ca83ec7641fbdd4cc20b9c19bcc5729175a0a2e53d10b32ca0b1a0cd03e7",
+    "profile/borg.txt": "80738da248ed74e343925e0348fc75da993d8c03ffff03c7bce1a9090005be47",
+    "replay-data.json": "fdc12247d3d193e89b40db9dd8c9e35c2d4c7b88f2c80bb942f704db2be6429e",
+    "replay.html": "bbe9d6c34b0e486bf6980e1f0b9c7e8f8a637aea161c2dba08f8f663a4facdc6",
+    "reproduce.py": "3fcfed17a6b15b76f3608ac5409582ae1ff012f8a762163f85b65d96d19d7583",
+    "result.json": "741d44c9d421631725922ef0570044571dd07bea13a521c5cc3833cc4c0399cb",
+    "run-after-alltests.log": "e8f5c4dd5d4323b8c5b04d993709d8f6c5a836a939d15862b37107abd711b369",
+    "run-after-build.log": "685406edd80e3fafd5b4588efbea124b3f4b3c4d5229c5ec735a8f99b3aaa962",
+    "run-after-scenarios.log": "5d3b891d9db794fafbf542204bf40fa58157feed997c576cc54662d16e1ae1bb",
+    "run-before-alltests.log": "44fe2c08531ce9d807d1c0391fc1d5b4434538407bf60dc4939687e9d69c7bf6",
+    "run-before-build.log": "ce51412aee493f9a9d5112165f6abfdb7a062263c8ee818565f15478c2afef1e",
+    "run-before-scenarios.log": "d03aff64acf242b0148fb600b2f6ba547fdd4668b3c4baa3540ef3e071859f56",
+    "run-cases.py": "d4d29a81f4cd710a0142df6287988576bb7d24043e23160c86f9e7ecf5020569",
+    "run-configure.log": "71330e6228bf625525332eea179d819e29a72ee1b52e8b93cda992063439dd99",
+    "scenario.c": "51a8b50dfd827ddfccc0668967fb0145124b5d12febe471e8e3bbd8ed8383023"
+  }
+}
