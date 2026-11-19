@@ -250,7 +250,7 @@ bool borg_flow_glyph(void)
                         continue;
 
                     /* Tweak -- Reward certain floors, punish distance */
-                    v = 500 + (tmp_glyph * 500) - (cost * 1);
+                    v = 500 - (cost * 1);
 
                     /* The grid is not searchable */
                     if (v <= 0)
