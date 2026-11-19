@@ -1331,7 +1331,9 @@ bool borg_check_rest(int y, int x)
         if (!kill->awake && d > 8 && !borg.munchkin_mode)
             continue;
 
-        /* one call for dangers */
+        /* Rate the monster at its own grid, not at (y, x): this is the
+         * danger it poses once it has closed in, so a melee monster a few
+         * grids away still counts against resting here. */
         p = borg_danger_one_kill(y9, x9, 1, i, true, true);
 
         /* Ignore proximity checks while inside a vault */
