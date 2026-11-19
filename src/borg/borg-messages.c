@@ -1614,7 +1614,8 @@ static void borg_init_spell_messages(void)
 /* load monster in pain messages */
 static char *borg_get_parsed_pain(const char *pain, bool do_plural)
 {
-    size_t buflen = strlen(pain) + 1;
+    /* Room for the leading space, the text and the terminator */
+    size_t buflen = strlen(pain) + 2;
     char  *buf    = mem_zalloc(buflen);
 
     int    state  = MSG_PARSE_NORMAL;
