@@ -1124,8 +1124,12 @@ static int borg_danger_spell(
             break;
 
         case RSF_MIND_BLAST:
-            if (borg.trait[BI_SAV] < 100)
-                z = (r_ptr->spell_power / 2 + 1);
+            if (borg.trait[BI_SAV] >= 100)
+                break;
+            /* 8d8 damage (monster_spell.txt), then 3+1d4 turns of confusion */
+            z = 8 * 8;
+            if (!borg.trait[BI_RCONF])
+                p += 10;
             break;
 
         case RSF_BRAIN_SMASH:
