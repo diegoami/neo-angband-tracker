@@ -51,8 +51,8 @@ Copying needed files
 [ 21%] Building C object CMakeFiles/OurCoreLib.dir/src/mon-timed.c.o
 [ 21%] Building C object CMakeFiles/OurCoreLib.dir/src/mon-util.c.o
 [ 21%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-chest.c.o
+[ 21%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-desc.c.o
 [ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-curse.c.o
-[ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-desc.c.o
 [ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-gear.c.o
 [ 23%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-ignore.c.o
 [ 25%] Building C object CMakeFiles/OurCoreLib.dir/src/obj-info.c.o
@@ -73,8 +73,8 @@ Copying needed files
 [ 30%] Building C object CMakeFiles/OurCoreLib.dir/src/player-birth.c.o
 [ 32%] Building C object CMakeFiles/OurCoreLib.dir/src/player-calcs.c.o
 [ 32%] Building C object CMakeFiles/OurCoreLib.dir/src/player-class.c.o
-[ 32%] Building C object CMakeFiles/OurCoreLib.dir/src/player-path.c.o
 [ 32%] Building C object CMakeFiles/OurCoreLib.dir/src/player-history.c.o
+[ 32%] Building C object CMakeFiles/OurCoreLib.dir/src/player-path.c.o
 [ 34%] Building C object CMakeFiles/OurCoreLib.dir/src/player-properties.c.o
 [ 34%] Building C object CMakeFiles/OurCoreLib.dir/src/player-quest.c.o
 [ 34%] Building C object CMakeFiles/OurCoreLib.dir/src/player-race.c.o
@@ -85,8 +85,8 @@ Copying needed files
 [ 38%] Building C object CMakeFiles/OurCoreLib.dir/src/project-feat.c.o
 [ 38%] Building C object CMakeFiles/OurCoreLib.dir/src/project-mon.c.o
 [ 38%] Building C object CMakeFiles/OurCoreLib.dir/src/project-obj.c.o
-[ 38%] Building C object CMakeFiles/OurCoreLib.dir/src/project-player.c.o
 [ 40%] Building C object CMakeFiles/OurCoreLib.dir/src/project.c.o
+[ 40%] Building C object CMakeFiles/OurCoreLib.dir/src/project-player.c.o
 [ 40%] Building C object CMakeFiles/OurCoreLib.dir/src/randname.c.o
 [ 40%] Building C object CMakeFiles/OurCoreLib.dir/src/save.c.o
 [ 40%] Building C object CMakeFiles/OurCoreLib.dir/src/save-charoutput.c.o
@@ -95,8 +95,8 @@ Copying needed files
 [ 41%] Building C object CMakeFiles/OurCoreLib.dir/src/score-util.c.o
 [ 41%] Building C object CMakeFiles/OurCoreLib.dir/src/sound-core.c.o
 [ 43%] Building C object CMakeFiles/OurCoreLib.dir/src/source.c.o
-[ 43%] Building C object CMakeFiles/OurCoreLib.dir/src/target.c.o
 [ 43%] Building C object CMakeFiles/OurCoreLib.dir/src/store.c.o
+[ 43%] Building C object CMakeFiles/OurCoreLib.dir/src/target.c.o
 [ 43%] Building C object CMakeFiles/OurCoreLib.dir/src/trap.c.o
 [ 45%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-birth.c.o
 [ 45%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-command.c.o
@@ -130,8 +130,8 @@ Copying needed files
 [ 58%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-prefs.c.o
 [ 58%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-score.c.o
 [ 60%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-signals.c.o
-[ 60%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-spoil.c.o
 [ 60%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-spell.c.o
+[ 60%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-spoil.c.o
 [ 60%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-store.c.o
 [ 61%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-target.c.o
 [ 61%] Building C object CMakeFiles/OurCoreLib.dir/src/ui-term.c.o
@@ -199,8 +199,8 @@ Copying needed files
 [ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-prepared.c.o
 [ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-projection.c.o
 [ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-recover.c.o
+[ 90%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-store-buy.c.o
 [ 92%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-reincarnate.c.o
-[ 92%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-store-buy.c.o
 [ 92%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-store-sell.c.o
 [ 92%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-store.c.o
 [ 94%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-think-dungeon-util.c.o
@@ -213,12 +213,12 @@ Copying needed files
 [ 96%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg-util.c.o
 [ 98%] Building C object CMakeFiles/OurCoreLib.dir/src/borg/borg.c.o
 [ 98%] Built target OurCoreLib
-[ 98%] Building C object CMakeFiles/FK98Observer.dir/tmp/angband-flowkillhall-98-2wdjygen/evidence/scenario.c.o
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-x11.c.o
+[ 98%] Building C object CMakeFiles/FK98Observer.dir/tmp/angband-flowkillhall-98-1gf75to8/evidence/scenario.c.o
 [ 98%] Linking C executable game/FK98Observer
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-spoil.c.o
 [ 98%] Building C object CMakeFiles/OurExecutable.dir/src/main-test.c.o
-[ 98%] Built target FK98Observer
 [100%] Building C object CMakeFiles/OurExecutable.dir/src/main.c.o
+[100%] Built target FK98Observer
 [100%] Linking C executable game/angband
 [100%] Built target OurExecutable

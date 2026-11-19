@@ -1,6 +1,6 @@
 # One skipped monster stopped the Borg hunting any monster
 
-This is **flowkillhall-98 / issue98**, a C Borg defect
+This is **flowkillhall-98 / issue #98**, a C Borg defect
 (diegoami/neo-angband-tracker#98).
 
 When the Borg looks for a monster to walk up to and fight, it goes through every monster it knows about and drops the unsuitable ones. The note that a monster should be dropped was never cleared for the next monster, so once one monster was dropped every monster after it in the list was dropped too. A level-20 Warrior with one soldier ant two steps away (dropped by design: stepping closer lets it bite first) and a second soldier ant in plain view five steps away hunted neither and stood still. A second check, meant to keep the Borg in a corridor rather than chase a pack monster out in an open room, counted walls on top of the Borg's own count and so never fired; the Borg left its corridor for a wild dog in the open room. The correction judges each monster on its own: the Borg walks toward the second ant, and stays in its corridor instead of chasing the dog.
@@ -29,7 +29,7 @@ Sets off toward a monster to fight it (1 = yes); the suite line is the scenario'
 Native Human Warrior, seed 98, level 20, depth 5, full hit points (247), torch and rations, a lit 38x22 room. Corridor cases fill columns 1-14 with granite except row 12, so the Borg at (10,12) stands in a one-wide corridor that opens into the room at column 15. Monsters are placed with t_add_monster (single monsters; the wild dog's pack is not generated) and noted by the Borg's own observe_kill_diff in the stated order, which fixes their order in the Borg's monster list. The production borg_flow_kill(true, 250) runs once and the first queued key is read back. This isolates the hunt decision; it does not play out the walk or the fight.
 
 [replay.html](replay.html) is the offline page for the captured run (download
-it and open it locally): choose a scenario, press **Show decision** for the
+it and open it locally): choose a scenario to see the original and corrected runs side by side on the dungeon map, drawn with the game's own symbols (the legend under the maps explains them), press **Show decision** for the
 original and corrected results side by side, and **Show raw logs** for the
 complete native output.
 
@@ -38,8 +38,8 @@ complete native output.
 ```sh
 git fetch https://github.com/diegoami/neo-angband-tracker.git task/flowkillhall-98
 git fetch https://github.com/diegoami/neo-angband-tracker.git task/flowkillhall-98-evidence
-git show 8ca38b4bba96a8d03d234b6d473648e84d91059f:docs/audit/c-reports/flowkillhall-98/reproduce.py > /tmp/reproduce-flowkillhall-98.py
-python3 /tmp/reproduce-flowkillhall-98.py --full-tests --fixtures-ref 8ca38b4bba96a8d03d234b6d473648e84d91059f --fix-ref 69862d0f5e2a860d63281df9157d77951875adf3
+git show e4dd3482b818662373679007a5c2b42b50fb4c77:docs/audit/c-reports/flowkillhall-98/reproduce.py > /tmp/reproduce-flowkillhall-98.py
+python3 /tmp/reproduce-flowkillhall-98.py --full-tests --fixtures-ref e4dd3482b818662373679007a5c2b42b50fb4c77 --fix-ref 69862d0f5e2a860d63281df9157d77951875adf3
 ```
 
 The fetches bring the fix commit and the evidence branch; both the fixtures
@@ -53,7 +53,7 @@ writes `replay.html`. Heavy steps wait on `/tmp/angband-validation.lock`.
 ## Recorded receipt (this run)
 
 - base `e473720ed88a0f0c7ca66815cef3000eb4a38bc3`, fix `69862d0f5e2a860d63281df9157d77951875adf3` (branch `task/flowkillhall-98`), fixtures
-  `8ca38b4bba96a8d03d234b6d473648e84d91059f` (branch `task/flowkillhall-98-evidence`). The native run executed at
+  `e4dd3482b818662373679007a5c2b42b50fb4c77` (branch `task/flowkillhall-98-evidence`). The native run executed at
   the fixtures pin; later commits on the evidence branch only add these
   captured artifacts (README, receipt, logs, replay).
 - controls byte-identical: reverse, hallctl
