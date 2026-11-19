@@ -222,7 +222,7 @@ struct borg_struct {
     int16_t no_retreat; /* amount of time to not retreat */
     int16_t resistance; /* borg is Resistant to all elements */
 
-    int16_t no_rest_prep; /* borg won't rest for a few turns */
+    int     no_rest_prep; /* borg won't rest for a few turns */
 
     int16_t times_twitch; /* how often twitchy on this level */
     int16_t escapes; /* how often teleported on this level */
