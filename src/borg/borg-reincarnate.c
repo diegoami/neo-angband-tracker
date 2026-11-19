@@ -332,13 +332,13 @@ void borg_reincarnate_start(void)
 
     /* pick race */
     if (race != player->race->ridx) {
-        borg_keypress(all_letters[race]);
+        borg_keypress(all_letters_nohjkl[race]);
     }
     borg_keypress(KC_ENTER);
 
     /* pick class */
     if (class != player->class->cidx) {
-        borg_keypress(all_letters[class]);
+        borg_keypress(all_letters_nohjkl[class]);
     }
     borg_keypress(KC_ENTER);
 
