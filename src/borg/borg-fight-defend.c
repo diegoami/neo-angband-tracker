@@ -1156,7 +1156,8 @@ static int borg_defend_aux_tele_away(int p1)
     if (borg_spell_okay_fail(TELEPORT_OTHER, fail_allowed)
         || borg_equips_item(act_tele_other, true)
         || (-1 != borg_slot(TV_WAND, sv_wand_teleport_away)
-            && borg_items[borg_slot(TV_WAND, sv_wand_teleport_away)].pval))
+            && borg_items[borg_slot(TV_WAND, sv_wand_teleport_away)].pval)
+        || borg_equips_rod(sv_rod_teleport_other))
         spell_ok = true;
 
     if (!spell_ok)
@@ -1270,7 +1271,8 @@ static int borg_defend_aux_tele_away(int p1)
 
     /* Cast the spell */
     if (borg_spell(TELEPORT_OTHER) || borg_activate_item(act_tele_other)
-        || borg_aim_wand(sv_wand_teleport_away)) {
+        || borg_aim_wand(sv_wand_teleport_away)
+        || borg_zap_rod(sv_rod_teleport_other)) {
         /* Use target */
         borg_keypress('5');
 
