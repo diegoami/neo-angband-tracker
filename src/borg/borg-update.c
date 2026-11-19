@@ -361,21 +361,21 @@ static void borg_update_map(void)
                     ag->info |= BORG_DARK;
             }
             /* Floors */
-            else if (g.f_idx == FEAT_NONE) {
+            else if (g.f_idx == FEAT_FLOOR) {
                 /* Handle "blind" */
                 if (borg.trait[BI_ISBLIND]) {
                     /* Nothing */
                 }
 
                 /* Handle "dark" floors */
-                if (g.lighting == LIGHTING_DARK) {
+                if (!square_isglow(cave, l) && !square_islit(cave, l)) {
                     /* Dark floor grid */
                     ag->info |= BORG_DARK;
                     ag->info &= ~BORG_GLOW;
                 }
 
                 /* Handle Glowing floors */
-                else if (g.lighting == LIGHTING_LIT) {
+                else if (square_isglow(cave, l)) {
                     /* Perma Glowing Grid */
                     ag->info |= BORG_GLOW;
 
