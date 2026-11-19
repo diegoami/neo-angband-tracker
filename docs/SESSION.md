@@ -107,7 +107,7 @@ The source proposal is on `task/c-borg-safer-swap`, evidence on
 in a single-branch clone. Keep pristine `c-borg-reference` and published history;
 never merge C source into Neo master. Upstream merged the correction through
 [angband/angband6809](https://github.com/angband/angband/pull/6809); it is in
-the current C pin `42cd156ac`. Agent posting there remains paused. Shared policy/evidence review and source adoption are distinct;
+the C pin since `42cd156ac` (current pin `574b618c3`). Agent posting there remains paused. Shared policy/evidence review and source adoption are distinct;
 checkpoint207 records outstanding decisions. Do not restart knockout experiments
 or promote deferred source100 from a source-reading lead into a verified bug.
 

@@ -25,8 +25,8 @@ the cycle done.
 ## 1. Branches
 
 - **Source branch** `task/c-borg-<slug>` from pristine `c-borg-reference`
-  (currently `42cd156ac9f95ddf4311e88dd7ad462292d6d1d6`; proposals before
-  2026-11-12 used `e473720ed`). One defect, minimal
+  (currently `574b618c3bfec595f3503a58f8e488b1c4ae3a46`; proposals before
+  2026-11-19 used `42cd156ac`, before 2026-11-12 `e473720ed`). One defect, minimal
   diff; confirm scope with `git diff --name-only BASE FIX`. Never base a C
   proposal on Neo master or the workbench branch.
 - **Evidence branch** `task/cbug-<ID>-evidence` from owned master (or the
@@ -89,7 +89,8 @@ Captured artifacts from the verified run, **committed to the evidence branch**
    complete log is identical before/after. Changed-case action/outcome lines
    are compared field-by-field.
 3. **Full native gates on both variants** (`--full-tests`): currently
-   965/965 unit checks and 5/5 frontend tests, checked from actual run
+   966/966 unit checks and 5/5 frontend tests at `574b618c3` (965/965 at
+   earlier pins), checked from actual run
    summaries (the native unit runner can exit zero after failed assertions).
    Run the gates under a UTF-8 locale (e.g. `LANG=C.UTF-8`); the frontend tests need it.
 4. **Memory-safety defects: asan variant**. gcc's AddressSanitizer reports
