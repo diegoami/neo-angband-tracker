@@ -707,7 +707,8 @@ bool borg_flow_spastic(bool bored)
 
             /* Tweak -- Reward walls, punish visitation, distance, time on level
              */
-            v = (supp * 500) + (diag * 100) - (ag->xtra * 40) - (cost * 2)
+            v = (supp * 500) + (diag * 100) - (borg_grids[y][x].xtra * 40)
+                - (cost * 2)
                 - borg_timer(borg.time.level);
 
             /* Punish low level and searching too much */
