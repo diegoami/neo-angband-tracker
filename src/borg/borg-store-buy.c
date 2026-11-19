@@ -249,7 +249,7 @@ bool borg_think_shop_buy_useful(void)
 
         /* If I am bad shape up, only see certain stores */
         if ((borg.trait[BI_LIGHT] == 0 || borg.trait[BI_FOOD] == 0) && k != 0
-            && k != BORG_HOME)
+            && k != BORG_HOME && !(borg.trait[BI_FOOD] == 0 && k == 4))
             continue;
         if ((borg.trait[BI_ISCUT] || borg.trait[BI_ISPOISONED]) && k != 3)
             continue;
@@ -279,10 +279,9 @@ bool borg_think_shop_buy_useful(void)
             /* Skip it if I just sold this item. XXX XXX*/
 
             /* Special check for 'immediate shopping' */
-            if (borg.trait[BI_FOOD] == 0
-                && (item->tval != TV_FOOD
-                    && (item->tval != TV_SCROLL
-                        && item->sval != sv_scroll_satisfy_hunger)))
+            if (borg.trait[BI_FOOD] == 0 && item->tval != TV_FOOD
+                && !(item->tval == TV_SCROLL
+                    && item->sval == sv_scroll_satisfy_hunger))
                 continue;
 
             /* Don't fill up on attack wands, its ok to buy a few */

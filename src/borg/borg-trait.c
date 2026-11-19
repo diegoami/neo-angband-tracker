@@ -2200,6 +2200,7 @@ static void borg_notice_equipment(void)
 static void borg_notice_inventory(void)
 {
     int i;
+    int remove_hunger = 0;
 
     borg_item *item;
 
@@ -2388,6 +2389,8 @@ static void borg_notice_inventory(void)
 
             if (item->sval == sv_scroll_identify)
                 borg.trait[BI_AID] += item->iqty;
+            else if (item->sval == sv_scroll_satisfy_hunger)
+                remove_hunger += item->iqty;
             else if (item->sval == sv_scroll_recharging)
                 borg.trait[BI_ARECHARGE] += item->iqty;
             else if (item->sval == sv_scroll_phase_door)
@@ -2828,6 +2831,10 @@ static void borg_notice_inventory(void)
     /* Correct the high and low calorie foods */
     borg.trait[BI_FOOD] += borg.trait[BI_FOOD_HI];
     borg.trait[BI_FOOD] += borg.trait[BI_FOOD_LO];
+
+    /* With no other food, Remove Hunger scrolls are the food supply */
+    if (borg.trait[BI_FOOD] == 0)
+        borg.trait[BI_FOOD] = remove_hunger;
 
     /* If weak, do not count food spells */
     if (borg.trait[BI_ISWEAK] && (borg.trait[BI_FOOD] >= 1000))
