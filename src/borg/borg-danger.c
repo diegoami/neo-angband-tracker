@@ -2846,6 +2846,9 @@ int borg_danger(int y, int x, int c, bool average, bool full_damage)
     if (borg.antibounce_count <= 200 && !square_isvault(cave, loc(x, y)))
         p += borg_fear_monsters[y][x] * c;
 
+    /* Grid danger is always the full (worst case) damage, so the
+     * full_damage argument is deliberately overridden.  Reduced estimates
+     * come only from direct calls to borg_danger_one_kill(). */
     full_damage = true;
 
     /* Examine all the monsters */
