@@ -1209,6 +1209,7 @@ static int32_t borg_power_inventory(void)
                 for (; k < 4 && k < borg.trait[BI_ARESCOLD]; k++)
                     value += 500L;
             }
+            k = 0;
             /* collect pots if not immune */
             if (!borg.trait[BI_IPOIS]) {
                 for (; k < 4 && k < borg.trait[BI_ARESPOIS]; k++)
