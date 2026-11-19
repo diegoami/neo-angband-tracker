@@ -1985,6 +1985,15 @@ void borg_update(void)
             int spell = atoi(msg + 6);
             if (spell == RSF_TRAPS)
                 created_traps = true;
+
+            /* Teleport-to and teleport-away move the borg off his grid.
+             * If in Lunal mode better shut that off, he is not on the
+             * stairs anymore */
+            if ((spell == RSF_TELE_TO || spell == RSF_TELE_AWAY)
+                && borg.lunal_mode) {
+                borg.lunal_mode = false;
+                borg_note("# Disconnecting Lunal Mode due to monster spell.");
+            }
         }
 
         /* Handle "cackles evilly" */
