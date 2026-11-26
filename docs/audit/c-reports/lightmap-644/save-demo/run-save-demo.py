@@ -172,13 +172,17 @@ add_compile_definitions(PRIVATE_USER_PATH="{out / 'test-user'}")
     # base borg has forgotten the worm but kept the kobold (the scary
     # guy that sends it back east for the stairs), and its first
     # movement key is a step east (54 = '6') straight toward the
-    # forgotten mass; the fixed borg keeps both records, queues no step
-    # at all, and reads the Word of Recall instead.
+    # forgotten mass; the fixed borg keeps both records, refuses the
+    # east route (the flow through the corner is priced at 35 against
+    # 12 HP), and steps away instead (49 = '1', deterministically into
+    # the room's south edge) - with two Phase Door scrolls and the
+    # sealed pockets, its escape when pressed is the scroll, not the
+    # walk into the mass.
     if rows[("base", "lure")]["step_key"] != 54:
         print(f"UNEXPECTED base/lure step: {rows[('base', 'lure')]['step_key']} (want 54, '6' east)")
         ok = False
-    if rows[("fix", "lure")]["step_key"] != 0:
-        print(f"UNEXPECTED fix/lure step: {rows[('fix', 'lure')]['step_key']} (want 0, no step: it recalls)")
+    if rows[("fix", "lure")]["step_key"] != 49:
+        print(f"UNEXPECTED fix/lure step: {rows[('fix', 'lure')]['step_key']} (want 49, '1': it turns away from the remembered corner)")
         ok = False
     if rows[("base", "lure")]["kills"] != 1:
         print(f"UNEXPECTED base/lure kills: {rows[('base', 'lure')]['kills']} (want 1: the kobold, the worm forgotten)")

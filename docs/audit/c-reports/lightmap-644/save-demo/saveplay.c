@@ -115,9 +115,11 @@ int setup_tests(void **state)
     on_new_level();
     player->upkeep->update |= PU_UPDATE_VIEW | PU_MONSTERS;
     update_stuff(player);
-    /* Sanity: the loaded state. */
-    if (!loc_eq(player->grid, loc(10, CORR_Y))) { printf("SETUPFAIL player=(%d,%d)\n", player->grid.x, player->grid.y); return 1; }
-    if (player->depth != 5) { printf("SETUPFAIL depth=%d\n", player->depth); return 1; }
+    /* Sanity: the loaded state (a post-play dump skips these). */
+    if (!getenv("LM644S_DUMP")) {
+        if (!loc_eq(player->grid, loc(10, CORR_Y))) { printf("SETUPFAIL player=(%d,%d)\n", player->grid.x, player->grid.y); return 1; }
+        if (player->depth != 5) { printf("SETUPFAIL depth=%d\n", player->depth); return 1; }
+    }
     printf("LOADED mode=%s save=%s class=%s clevel=%d hp=%d/%d depth=%d player=(%d,%d)\n",
            mode, savepath, player->class->name, player->lev, player->chp, player->mhp,
            player->depth, player->grid.x, player->grid.y);
@@ -171,6 +173,27 @@ static void light_info(int y, int x)
 
 static int scenario_light(void *state)
 {
+    if (getenv("LM644S_DUMP")) {
+        /* Dump the post-play state of a save the real game wrote: the
+         * message log the savefile carries, the player, and every
+         * monster on the level. */
+        printf("POST player=(%d,%d) hp=%d/%d depth=%d turn=%lu\n",
+               player->grid.x, player->grid.y, player->chp, player->mhp,
+               player->depth, (unsigned long)turn);
+        for (int i = 1; i < cave_monster_max(cave); i++) {
+            struct monster *m = cave_monster(cave, i);
+            if (!m->race) continue;
+            printf("MON i=%d race=%s pos=(%d,%d) visible=%d aware=%d\n", i,
+                   m->race->name, m->grid.x, m->grid.y,
+                   mflag_has(m->mflag, MFLAG_VISIBLE) ? 1 : 0,
+                   mflag_has(m->mflag, MFLAG_AWARE) ? 1 : 0);
+        }
+        for (uint16_t m = messages_num(); m > 0; m--) {
+            printf("MSG %s\n", message_str(m - 1));
+        }
+        return 0;
+    }
+
     struct monster *mon = square_monster(cave, streq(mode, "stay") ? loc(11, CORR_Y) : loc(12, CORR_Y));
     if (!mon) { printf("SETUPFAIL no monster\n"); return 1; }
     bool lure = streq(mode, "lure");

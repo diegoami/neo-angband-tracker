@@ -1,0 +1,97 @@
+native-c/lightmap-644-saveplay: starting...
+LOADED mode=lure save=/tmp/opencode/lightmap644-save/out/profile/save/live-lure-base-120.sav class=Druid clevel=1 hp=12/12 depth=5 player=(5,12)
+MON i=1 race=white worm mass pos=(13,12) visible=0 aware=1
+MON i=2 race=kobold pos=(7,12) visible=0 aware=1
+PREPARE infra=0 light=2
+  record_outside_the_light  POST player=(5,12) hp=12/12 depth=5 turn=121
+MON i=1 race=white worm mass pos=(13,12) visible=0 aware=1
+MON i=2 race=kobold pos=(7,12) visible=0 aware=1
+MSG # Scary guy on level.
+MSG # Leaving (Scary guy on level)
+MSG # Fleeing (Scary guy on level)
+MSG # Loc:12,11 Dep:5 Lev:1 HP:12/12 SP:2/2 Danger:p=32
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Safe to Phase. scary squares: 0
+MSG # Reading Scrolls of Phase Door.
+MSG # Danger Level 1.
+MSG You have a Scroll of Phase Door (b).
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-2 at cost 3
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-2 at cost 3
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-3 at cost 2
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-2 at cost 3
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-3 at cost 2
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-3 at cost 2
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # heading up, not prep for current level: Clevel < depth)
+MSG # Climbing (too deep: Clevel < depth)
+MSG # Looking for up stairs.  Going up.
+MSG # Bored but unable to flow to up stairs.
+MSG # heading up, not prep for current level: Clevel < depth)
+MSG # heading up (bored and unable to dive: restock clw+csw+ccw)
+MSG # Climbing (too deep: Clevel < depth)
+MSG # Looking for up stairs.  Going up.
+MSG # Bored but unable to flow to up stairs.
+MSG # Boosting bravery (1) from 12 to 24!
+MSG # Fleeing and leaving the level. Brave Thinking.
+MSG # heading up, not prep for current level: Clevel < depth)
+MSG # heading up (bored and unable to dive: restock clw+csw+ccw)
+MSG # Climbing (too deep: Clevel < depth)
+MSG # Looking for up stairs.  Going up.
+MSG # Bored but unable to flow to up stairs.
+MSG # Flowing toward spastic at cost 0
+MSG # Considering Phase (twitchy)
+MSG # Reading Scroll of Phase Door.
+MSG You have no more Scrolls of Phase Door (b).
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-2 at cost 3
+MSG # User key press <24>
+MSG # Key type was <1><>
+MSG # Aborting (user abort).
+MSG # Removing keypress hook
+MSG You can learn 1 more verse.
+MSG You are still uncertain about this place.
+MSG Initializing the Borg... (memory)
+MSG Initializing the Borg... (borg.txt)
+MSG Initializing the Borg... (options)
+MSG Initializing the Borg... (various)
+MSG Initializing the Borg... done.
+MSG # Ready...
+native-c/lightmap-644-saveplay finished: 1/1 passed

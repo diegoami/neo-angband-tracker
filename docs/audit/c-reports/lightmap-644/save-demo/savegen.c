@@ -90,6 +90,17 @@ static term screen;
 #define LURE_ROOM_Y1 13
 #define LURE_KOBOLD_X 7
 #define LURE_KOBOLD_Y 12
+/* Two sealed pockets (floor inside granite, no way in on foot) within
+ * the phase door's 5..10 grid ring of the corridor: the only way in or
+ * out is the scroll, and once there nothing can follow. */
+#define LURE_POCKET_A_X0 15
+#define LURE_POCKET_A_X1 18
+#define LURE_POCKET_A_Y0 5
+#define LURE_POCKET_A_Y1 8
+#define LURE_POCKET_B_X0 1
+#define LURE_POCKET_B_X1 4
+#define LURE_POCKET_B_Y0 5
+#define LURE_POCKET_B_Y1 8
 
 static char savepath[1024];
 static const char *mode;
@@ -146,20 +157,41 @@ int setup_tests(void **state)
     textui_prefs_init();
     cave = t_build_arena(H, W);
     /* A dark corridor (no SQUARE_GLOW anywhere); the lure corridor runs
-     * east from the player to the up staircase, and west of the player
-     * a small room opens onto it. */
+     * east from the player to the up staircase, west of the player a
+     * small room opens onto it, and two sealed pockets sit inside the
+     * phase door's reach. */
     for (int y = 0; y < H; ++y)
         for (int x = 0; x < W; ++x) {
-            bool floor_grid = streq(mode, "lure")
-                ? ((y == LURE_STAIR_Y && x >= LURE_X0 && x <= LURE_X1)
-                   || (y >= LURE_ROOM_Y0 && y <= LURE_ROOM_Y1
-                       && x >= LURE_ROOM_X0 && x <= LURE_ROOM_X1))
-                : (y == CORR_Y && x >= CORR_X0 && x <= CORR_X1);
+            bool floor_grid;
+            if (streq(mode, "lure")) {
+                floor_grid =
+                    (y == LURE_STAIR_Y && x >= LURE_X0 && x <= LURE_X1)
+                    || (y >= LURE_ROOM_Y0 && y <= LURE_ROOM_Y1
+                        && x >= LURE_ROOM_X0 && x <= LURE_ROOM_X1)
+                    || (y >= LURE_POCKET_A_Y0 && y <= LURE_POCKET_A_Y1
+                        && x >= LURE_POCKET_A_X0 && x <= LURE_POCKET_A_X1)
+                    || (y >= LURE_POCKET_B_Y0 && y <= LURE_POCKET_B_Y1
+                        && x >= LURE_POCKET_B_X0 && x <= LURE_POCKET_B_X1);
+            } else {
+                floor_grid =
+                    (y == CORR_Y && x >= CORR_X0 && x <= CORR_X1);
+            }
             square_set_feat(cave, loc(x, y), floor_grid ? FEAT_FLOOR : FEAT_GRANITE);
         }
     if (streq(mode, "lure"))
         square_set_feat(cave, loc(LURE_STAIR_X, LURE_STAIR_Y), FEAT_LESS);
     player->cave = cave_new(H, W);
+    if (streq(mode, "lure")) {
+        /* The sealed pockets are on her map (the level memory the save
+         * keeps): phase door is the only way between the corridor and
+         * them, and once there nothing can follow. */
+        for (int y = LURE_POCKET_A_Y0; y <= LURE_POCKET_A_Y1; ++y)
+            for (int x = LURE_POCKET_A_X0; x <= LURE_POCKET_A_X1; ++x)
+                square_set_feat(player->cave, loc(x, y), FEAT_FLOOR);
+        for (int y = LURE_POCKET_B_Y0; y <= LURE_POCKET_B_Y1; ++y)
+            for (int x = LURE_POCKET_B_X0; x <= LURE_POCKET_B_X1; ++x)
+                square_set_feat(player->cave, loc(x, y), FEAT_FLOOR);
+    }
     player->depth = player->max_depth = cave->depth = player->cave->depth = 5;
     if (!weak)
         player_exp_gain(player, player_exp[18] * player->expfact / 100);
@@ -188,6 +220,25 @@ int setup_tests(void **state)
                 player, books[i], books[i]->number, false, &none_left);
             object_delete(NULL, NULL, &book);
         }
+        /* ... and no Word of Recall either: her way out of trouble is
+         * the Phase Door.  A couple of them. */
+        {
+            struct object *scrolls[8];
+            int nscrolls = 0;
+            for (struct object *obj = player->gear; obj; obj = obj->next) {
+                struct object_kind *wor =
+                    lookup_kind(TV_SCROLL, lookup_sval(TV_SCROLL, "Word of Recall"));
+                if (wor && obj->kind == wor && nscrolls < 8)
+                    scrolls[nscrolls++] = obj;
+            }
+            for (int i = 0; i < nscrolls; i++) {
+                bool none_left = false;
+                struct object *scroll = gear_object_for_use(
+                    player, scrolls[i], scrolls[i]->number, false, &none_left);
+                object_delete(NULL, NULL, &scroll);
+            }
+        }
+        known_item(TV_SCROLL, "Phase Door", 2);
     }
     /* Compute the torch's radius once (and the HPs), then walk. */
     player->upkeep->update |= PU_BONUS | PU_HP | PU_TORCH | PU_INVEN | PU_UPDATE_VIEW | PU_MONSTERS;

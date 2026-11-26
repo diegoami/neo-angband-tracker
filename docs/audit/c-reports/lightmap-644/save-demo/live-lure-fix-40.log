@@ -1,0 +1,79 @@
+native-c/lightmap-644-saveplay: starting...
+LOADED mode=lure save=/tmp/opencode/lightmap644-save/out/profile/save/livepost-fix.sav class=Druid clevel=1 hp=12/12 depth=5 player=(4,6)
+MON i=1 race=white worm mass pos=(12,12) visible=0 aware=1
+MON i=2 race=kobold pos=(9,12) visible=0 aware=1
+PREPARE infra=0 light=2
+  record_outside_the_light  POST player=(4,6) hp=12/12 depth=5 turn=71
+MON i=1 race=white worm mass pos=(12,12) visible=0 aware=1
+MON i=2 race=kobold pos=(9,12) visible=0 aware=1
+MSG  
+MSG   
+MSG ====================
+MSG   
+MSG  
+MSG Your light source is a Wooden Torch (4000 turns) (f).
+MSG You combine some items in your pack.
+MSG You are wielding a Whip (1d3) (+0,+0) (a).
+MSG You combine some items in your pack.
+MSG You can learn 1 more verse.
+MSG You are still uncertain about this place.
+MSG You are about to use the dangerous, unsupported, borg commands!
+MSG Your machine may crash, and your savefile may become corrupted!
+MSG Initializing the Borg... (memory)
+MSG Initializing the Borg... (borg.txt)
+MSG Initializing the Borg... (options)
+MSG Initializing the Borg... (various)
+MSG Initializing the Borg... done.
+MSG # Ready...
+MSG # Installing keypress hook
+MSG # Stepping Borg 40 times
+MSG # Needing to get back on correct depth
+MSG # Flowing toward up-stairs at cost 4
+MSG # Looking for stairs. Goal_less, Fleeing.
+MSG # Creating a monster 'white worm mass' at (12,12), HP: 11, Index: 26
+MSG # Scary guy on level.
+MSG # Leaving (Scary guy on level)
+MSG # Fleeing (Scary guy on level)
+MSG # Loc:12,11 Dep:5 Lev:1 HP:12/12 SP:2/2 Danger:p=32
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Safe to Phase. scary squares: 0
+MSG # Reading Scrolls of Phase Door.
+MSG # Danger Level 1.
+MSG You have a Scroll of Phase Door (b).
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-2 at cost 3
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-2 at cost 3
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-3 at cost 2
+MSG # Scary guy on level.
+MSG # Fleeing and leaving the level. (scaryguy)
+MSG # Fleeing and leaving the level. (Looking for any stair)
+MSG # Fleeing and leaving the level (Looking for Up Stair).
+MSG # Flowing toward dark-2 at cost 3
+MSG # User key press <24>
+MSG # Key type was <1><>
+MSG # Aborting (user abort).
+MSG # Removing keypress hook
+MSG You can learn 1 more verse.
+MSG You are still uncertain about this place.
+MSG Initializing the Borg... (memory)
+MSG Initializing the Borg... (borg.txt)
+MSG Initializing the Borg... (options)
+MSG Initializing the Borg... (various)
+MSG Initializing the Borg... done.
+MSG # Ready...
+native-c/lightmap-644-saveplay finished: 1/1 passed
