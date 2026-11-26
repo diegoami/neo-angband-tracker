@@ -167,6 +167,20 @@ add_compile_definitions(PRIVATE_USER_PATH="{out / 'test-user'}")
             if rows[(label, mode)]["kept"] != EXPECT[mode][label]:
                 print(f"UNEXPECTED {label}/{mode}: kept={rows[(label, mode)]['kept']}")
                 ok = False
+
+    # The lure is the acted-out consequence: after the dance the base
+    # borg has forgotten the worm, wants the up staircase east (the way
+    # its map says it came from), and its first movement key is a step
+    # east (54 = '6') straight toward the forgotten mass; the fixed
+    # borg, which remembers the worm, queues no step at all - it reads
+    # the Word of Recall instead.
+    if rows[("base", "lure")]["step_key"] != 54:
+        print(f"UNEXPECTED base/lure step: {rows[('base', 'lure')]['step_key']} (want 54, '6' east)")
+        ok = False
+    if rows[("fix", "lure")]["step_key"] != 0:
+        print(f"UNEXPECTED fix/lure step: {rows[('fix', 'lure')]['step_key']} (want 0, no step: it recalls)")
+        ok = False
+
     if (out / "base-stay.log").read_bytes() != (out / "fix-stay.log").read_bytes():
         print("control logs are NOT byte-identical")
         ok = False

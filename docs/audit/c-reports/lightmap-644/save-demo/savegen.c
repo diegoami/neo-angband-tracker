@@ -17,11 +17,25 @@
  *           forgets a monster waiting just outside its light.  With the
  *           correction the grid is dark, the record is not viewable,
  *           and it is kept.
+ *  worm     as retreat, but the corridor's last floor is held by a
+ *           white worm mass (slow, random-mover: the lingering hunter).
+ *  lure     a level 1 Human Druid with a whip, played by saveplay.c
+ *           through borg_think().  He came down the up staircase east
+ *           of the corridor's dead end and walked west; the level
+ *           memory covers the corridor and the staircase, and nothing
+ *           lies west.  A white worm mass spawned on the mid-corridor
+ *           grid, two grids east, in the dark: after the same
+ *           step-east/step-back dance the base borg forgets it and has
+ *           no reason not to walk east - the way it remembers coming -
+ *           straight past the breeding mass; the corrected borg keeps
+ *           the record, prices the danger against its 12 HP, and
+ *           leaves the level instead.
  *  stay     control: the ant stands one grid east, inside the real
  *           light, visible in the save itself.
  *
- * Env: LM644S_PROFILE (user dir), LM644S_MODE (retreat|stay),
- *      LM644S_SAVE (savefile name, written into $LM644S_PROFILE/save).
+ * Env: LM644S_PROFILE (user dir), LM644S_MODE
+ *      (retreat|worm|lure|stay), LM644S_SAVE (savefile name, written
+ *      into $LM644S_PROFILE/save).
  */
 #include "unit-test.h"
 #include "test-utils.h"
@@ -37,6 +51,7 @@
 #include "obj-knowledge.h"
 #include "obj-make.h"
 #include "obj-pile.h"
+#include "obj-tval.h"
 #include "obj-util.h"
 #include "player.h"
 #include "player-birth.h"
@@ -54,14 +69,17 @@ static term screen;
 #define H 24
 #define W 40
 
-/* The level by mode.  retreat/stay: floor on row 12 from x=1 to x=12
- * (dead end).  lure: the corridor turns south at x=12 and ends in a down
- * staircase, so something the borg wants lies beyond the monster. */
+/* The level by mode.  retreat/stay/worm: floor on row 12 from x=1 to
+ * x=12 (dead end).  lure: the corridor runs from the player's west dead
+ * end (x=10) east to an up staircase (x=14), so what the borg wants -
+ * the way back up - lies beyond the monster. */
 #define CORR_Y 12
 #define CORR_X0 1
 #define CORR_X1 12
-#define LURE_STAIR_Y 15
-#define LURE_STAIR_X 12
+#define LURE_X0 10
+#define LURE_X1 13
+#define LURE_STAIR_Y 12
+#define LURE_STAIR_X 14
 
 static char savepath[1024];
 static const char *mode;
@@ -117,18 +135,17 @@ int setup_tests(void **state)
     term_init(&screen, 198, 66, 256); Term_activate(&screen); angband_term[0] = &screen;
     textui_prefs_init();
     cave = t_build_arena(H, W);
-    /* A dark corridor (no SQUARE_GLOW anywhere); lure adds the south leg
-     * and the down staircase at its end. */
+    /* A dark corridor (no SQUARE_GLOW anywhere); the lure corridor runs
+     * east from the player's dead end to the up staircase. */
     for (int y = 0; y < H; ++y)
         for (int x = 0; x < W; ++x) {
-            bool floor_grid =
-                (y == CORR_Y && x >= CORR_X0 && x <= CORR_X1)
-                || (streq(mode, "lure") && x == LURE_STAIR_X
-                    && y >= CORR_Y + 1 && y <= LURE_STAIR_Y - 1);
+            bool floor_grid = streq(mode, "lure")
+                ? (y == LURE_STAIR_Y && x >= LURE_X0 && x <= LURE_X1)
+                : (y == CORR_Y && x >= CORR_X0 && x <= CORR_X1);
             square_set_feat(cave, loc(x, y), floor_grid ? FEAT_FLOOR : FEAT_GRANITE);
         }
     if (streq(mode, "lure"))
-        square_set_feat(cave, loc(LURE_STAIR_X, LURE_STAIR_Y), FEAT_MORE);
+        square_set_feat(cave, loc(LURE_STAIR_X, LURE_STAIR_Y), FEAT_LESS);
     player->cave = cave_new(H, W);
     player->depth = player->max_depth = cave->depth = player->cave->depth = 5;
     if (!weak)
@@ -142,6 +159,23 @@ int setup_tests(void **state)
         inven_wield(whip, wield_slot(whip));
     }
     known_item(TV_FOOD, "Ration of Food", 5);
+    if (weak) {
+        /* The druid carries no spellbook: nothing to study, nothing to
+         * cast, so the borg's attention goes straight to what its level
+         * memory offers - the way back up, east of the corridor. */
+        struct object *books[16];
+        int nbooks = 0;
+        for (struct object *obj = player->gear; obj; obj = obj->next) {
+            if (tval_is_book_k(obj->kind) && nbooks < 16)
+                books[nbooks++] = obj;
+        }
+        for (int i = 0; i < nbooks; i++) {
+            bool none_left = false;
+            struct object *book = gear_object_for_use(
+                player, books[i], books[i]->number, false, &none_left);
+            object_delete(NULL, NULL, &book);
+        }
+    }
     /* Compute the torch's radius once (and the HPs), then walk. */
     player->upkeep->update |= PU_BONUS | PU_HP | PU_TORCH | PU_INVEN | PU_UPDATE_VIEW | PU_MONSTERS;
     update_stuff(player);
@@ -149,9 +183,13 @@ int setup_tests(void **state)
      * the whole floor and, in lure mode, the staircase are memorized),
      * then walk back west. */
     {
-        /* loc() takes (x, y): the corner is (12, 12), the south stand is
-         * (12, 14) - one grid west of the staircase at (12, 15). */
-        int walk_lure[][2] = {{12, CORR_Y}, {12, CORR_Y + 2}, {12, CORR_Y}, {10, CORR_Y}};
+        /* loc() takes (x, y).  The player came down the up staircase in
+         * the east (14, 12) and walked the corridor west to its dead end
+         * (10, 12): every stand memorizes its lit ring, so the whole
+         * corridor, the corner and the staircase are in the level
+         * memory.  The worm mass spawns at (12, 12) only after this
+         * walk - in the meantime, as it were. */
+        int walk_lure[][2] = {{14, CORR_Y}, {13, CORR_Y}, {12, CORR_Y}, {11, CORR_Y}, {10, CORR_Y}};
         int walk_flat[][2] = {{11, CORR_Y}, {10, CORR_Y}};
         int (*walk)[2] = streq(mode, "lure") ? walk_lure : walk_flat;
         size_t nwalk = streq(mode, "lure")
@@ -168,10 +206,12 @@ int setup_tests(void **state)
     player->chp = player->mhp;
     /* The monster, awake: retreat/stay a soldier ant (on the corridor's
      * last floor, or one grid east of the player for the control); lure
-     * and worm a white worm mass holding the dark corner / the last
-     * floor - slow, random-moving, breeding, poison: the lingering
-     * hunter, and a real threat to the level 1 Druid with a whip that
-     * plays the lure save. */
+     * and worm a white worm mass holding the dark grid two grids east
+     * of the player (the lure's mid-corridor corner, the retreat/worm's
+     * last floor) - slow, random-moving, breeding, poison: the
+     * lingering hunter, spawned after the player walked past, and a
+     * real threat to the level 1 Druid with a whip that plays the lure
+     * save. */
     ant_x = streq(mode, "stay") ? 11 : 12;
     const char *race;
     if (streq(mode, "lure") || streq(mode, "worm"))

@@ -7,7 +7,7 @@
  * the map scan through map_info, the view, the light map and the
  * missing-monster pass).
  *
- * Modes (the save carries the matching ant position):
+ * Modes (the save carries the matching monster position):
  *  retreat  the ant holds the corridor's last floor, two grids east, in
  *           the dark.  The borg steps one grid east (the production
  *           view/light updates make the ant visible, and the scan notes
@@ -18,12 +18,17 @@
  *           really move" - the borg forgets a monster it just saw.  With
  *           the correction the grid is dark, the record is not viewable,
  *           and it is kept.
+ *  worm     as retreat, with a white worm mass (the lingering hunter).
+ *  lure     the level 1 Druid: after the same dance, borg_think() weighs
+ *           the up staircase east - the way the save's walk says he came
+ *           from, and the only thing on his map worth walking to -
+ *           against the danger he knows about on the way.
  *  stay     control: the ant stands one grid east, inside the real
  *           light; the scan re-observes it every pass and both variants
  *           keep the record.
  *
  * Env: LM644S_PROFILE (user dir with borg.txt), LM644S_MODE
- *      (retreat|stay), LM644S_SAVE (savefile name inside
+ *      (retreat|worm|lure|stay), LM644S_SAVE (savefile name inside
  *      $LM644S_PROFILE/save).
  */
 #include "unit-test.h"
@@ -199,8 +204,11 @@ static int scenario_light(void *state)
 
     print_kills();
     light_info(CORR_Y, mon->grid.x);
-    if (lure)
-        light_info(CORR_Y + 1, 12);
+    if (lure) {
+        /* The grid one step east of the monster: the corridor toward the
+         * up staircase, the path the borg believes is clear. */
+        light_info(CORR_Y, mon->grid.x + 1);
+    }
     /* What the borg believes about the monster's grid after the pass: the
      * danger it expects on the grid itself and one grid west of it. */
     printf("DANGER monster_grid=%d west_of_monster=%d\n",
@@ -208,8 +216,9 @@ static int scenario_light(void *state)
            borg_danger(CORR_Y, mon->grid.x - 1, 1, true, false));
 
     /* What the borg does next, in lure mode: the production per-turn
-     * brain.  borg_think() weighs the down staircase it wants beyond
-     * the guardian against the danger it knows about, and queues its
+     * brain.  borg_think() weighs the up staircase east - the way its
+     * map says it came from, and the only thing worth walking to -
+     * against the danger it knows about on the way, and queues its
      * keys; the borg's own notes say what it decided. */
     bool flowed = false;
     int step_key = 0;

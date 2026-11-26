@@ -10,10 +10,10 @@ STEP2 player=(10,12) monster=(12,12) visible=0
 KILL k=1 race=white worm mass pos=(12,12) awake=1
 KILLS kills=1
 LIGHTINFO grid=(12,12) light=0 glow=0 view=1 dark=0
-LIGHTINFO grid=(12,13) light=0 glow=0 view=1 dark=0
+LIGHTINFO grid=(13,12) light=0 glow=0 view=1 dark=0
 DANGER monster_grid=35 west_of_monster=32
-DECISION flowed=1 keys=[57344,57344,114,99,57344] step=0
-NOTES | # Creating a monster 'white worm mass' at (12,12), HP: 11, Index: 26 | # Scary guy on level. | # Leaving (Scary guy on level) | # Fleeing (Scary guy on level) | # Loc:12,10 Dep:5 Lev:1 HP:12/12 SP:2/2 Danger:p=1 | # Fleeing and leaving the level. (scaryguy) | # Reading Scroll of Word of Recall. | # Fleeing the level (recall)
+DECISION flowed=1 keys=[57344,57344,114,98,57344] step=0
+NOTES | # Needing to get back on correct depth | # Scary guy on level. | # Leaving (Scary guy on level) | # Fleeing (Scary guy on level) | # Loc:12,10 Dep:5 Lev:1 HP:12/12 SP:2/2 Danger:p=1 | # Fleeing and leaving the level. (scaryguy) | # Reading Scroll of Word of Recall. | # Fleeing the level (recall)
 MAP After the pass: @ = the Borg, w = the monster, ? = the borg's record, * = the borg's committed step
 MAPROW ########################################
 MAPROW ########################################
@@ -27,10 +27,10 @@ MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
-MAPROW #.........@.?###########################
-MAPROW ############.###########################
-MAPROW ############.###########################
-MAPROW ############>###########################
+MAPROW ##########@.?.<#########################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################

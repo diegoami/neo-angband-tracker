@@ -59,8 +59,8 @@
         "record_x": -1,
         "monster_x": 12,
         "flowed": 1,
-        "keys": "71,97,97",
-        "step_key": 0,
+        "keys": "54",
+        "step_key": 54,
         "passed": false
       },
       "fix": {
@@ -69,7 +69,7 @@
         "record_x": 12,
         "monster_x": 12,
         "flowed": 1,
-        "keys": "57344,57344,114,99,57344",
+        "keys": "57344,57344,114,98,57344",
         "step_key": 0,
         "passed": true
       }
@@ -98,28 +98,28 @@
     }
   },
   "sha256": {
-    "base-lure.log": "c8fcc4c1a82aaa23f87ef564f04f9514c60e939901032666be97fd459fa1b0f6",
-    "base-retreat.log": "c11f6897224f06845ffd03ef90ce04910e01bf69ff90d42fe58b407f6cc92cc5",
+    "base-lure.log": "3c8f2147f386f65882ef10de1ff0d337f695d5924cb65215863cfa9d3cf80e94",
+    "base-retreat.log": "e61eb34d14032677418910e00988dea5c1c01fc2169f85ef1607e31128035835",
     "base-stay.log": "8d4f8ab1a4248dfdaec273ad8e40786c1d15ba079a2024b407c305c8d8d52880",
-    "base-worm.log": "11682a0ca97c3a051053291f1b8b7f26e170b0fa7880ed8f33f7b66e7642a40c",
-    "build-base.log": "48157bad0557c01650d0606f2eccd01506b1f57e8687b7047b83cdc36f76a01e",
-    "build-fix.log": "48157bad0557c01650d0606f2eccd01506b1f57e8687b7047b83cdc36f76a01e",
+    "base-worm.log": "64957f1183e47d2e59b22cbc46b4f6f2bf87a5a35ac31e5d78906246b57049e9",
+    "build-base.log": "ee2e4c0e860570c6f1acf88cc146a458338f6aca4c8f37a07ea632420970f013",
+    "build-fix.log": "ee2e4c0e860570c6f1acf88cc146a458338f6aca4c8f37a07ea632420970f013",
     "configure-base.log": "edad7d1dbb4ce215e449a35412fa5c4666a44f0993003ac76a6d9b65abe1e7a5",
     "configure-fix.log": "e2b8249d71626b192b7b2ab15dbe541b5aee99bd4a661ad58f217e03163e3696",
-    "fix-lure.log": "1b45cb437e9d6ba7e02f0c1566f36bfc6f1bf89d9f11ae5eb48bf4dc66a0bbd4",
+    "fix-lure.log": "61666027dc0c196e8c53611cad4a997964742b0b59d37ee37096fc51c788f30a",
     "fix-retreat.log": "7fd278abe83b477d89324c323f6e1b23b964f7bb4c68402455e71bf47c8b622e",
     "fix-stay.log": "8d4f8ab1a4248dfdaec273ad8e40786c1d15ba079a2024b407c305c8d8d52880",
     "fix-worm.log": "e05a9a3b7282da951aa3afe15688aab0a68e5ee0ab78c1b8b0f671a52c4073ed",
     "game-build-base.log": "8dbdb879021bac33ecd8454c41bdababb0e5c914bb37f1375d476f2fc4676790",
     "game-build-fix.log": "8dbdb879021bac33ecd8454c41bdababb0e5c914bb37f1375d476f2fc4676790",
-    "savegen-lure.log": "fe2d87121a53733693d55735a44b59f888d6b2f25bf14d80d42a40ab1570c51b",
+    "savegen-lure.log": "21c6ffd24b551c7eff904a4d5b2fb923e63678c624a5de7496953eb610b363fd",
     "savegen-retreat.log": "b2f7a6aeb3b52d367ef07967cf6219becdd425b752961a5d98d42d713fa173c2",
     "savegen-stay.log": "e7786f674801e1511714d363882ab4d452bdd0e87486316e234a3181f4ac0825",
     "savegen-worm.log": "a9a7750ddba89838e9718fb7290b73e7ae712ca0b1a75712ac508dbd98503fff",
     "worktree-base.log": "c82a23fc0890d16435eb3b7939b79d65141cfb96295bbf83a0c0a3165e879bfa",
     "worktree-fix.log": "0ab61b71bfcf0ad82dda3d4012a2164cb6e7e3d87deff6ddb6a42e296ce7729b",
     "lightmap644-retreat.sav": "c1a6857a0d1663befa73ef10ef09a22a0650fde7a80793862bb1540c6a6cd105",
-    "lightmap644-lure.sav": "5981675d833f44a621908a1f9b9c097ac9ff97fffd455f546f0e97e23ec66e0c",
+    "lightmap644-lure.sav": "699675b3b4202206bef981a0f795b99ecec0ec40a8f8397ffbb0b9ece7b3114c",
     "lightmap644-worm.sav": "50cf6fba50bcef8679cd9f830ec37cfcc54659b53ce6e4de521b61c8f14999a5",
     "lightmap644-stay.sav": "b3682099aa84b9d0a1aeedd3de0be95cee436a57a1094832adc302a9c797d1f4"
   }

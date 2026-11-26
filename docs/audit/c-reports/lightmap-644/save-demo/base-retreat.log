@@ -39,5 +39,5 @@ MAPEND
 STATE kills=0 record_x=-1 monster_x=12 flowed=0
 OUTCOME kept=0
 [01;31mFailed[00m
-    native-c/lightmap-644-saveplay:263: requirement 'kept == 1' failed
+    native-c/lightmap-644-saveplay:292: requirement 'kept == 1' failed
 native-c/lightmap-644-saveplay finished: 0/1 passed
