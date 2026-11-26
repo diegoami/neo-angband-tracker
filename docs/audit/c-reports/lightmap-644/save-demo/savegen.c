@@ -20,16 +20,19 @@
  *  worm     as retreat, but the corridor's last floor is held by a
  *           white worm mass (slow, random-mover: the lingering hunter).
  *  lure     a level 1 Human Druid with a whip, played by saveplay.c
- *           through borg_think().  He came down the up staircase east
- *           of the corridor's dead end and walked west; the level
- *           memory covers the corridor and the staircase, and nothing
- *           lies west.  A white worm mass spawned on the mid-corridor
- *           grid, two grids east, in the dark: after the same
- *           step-east/step-back dance the base borg forgets it and has
- *           no reason not to walk east - the way it remembers coming -
+ *           through borg_think().  She came down the up staircase east
+ *           of the corridor and walked west into the room; the level
+ *           memory covers the corridor, the room and the staircase.
+ *           A kobold lurks in the dark of the west room - a scary guy
+ *           for a character of her level, and the reason she is going
+ *           back east to the stairs - and a white worm mass spawned on
+ *           the corridor's middle grid, two grids east, in the dark:
+ *           after the dances (glimpse the kobold, retreat, glimpse the
+ *           worms, retreat) the base borg forgets the worm, keeps only
+ *           the kobold's fear, and walks east toward the stairs
  *           straight past the breeding mass; the corrected borg keeps
- *           the record, prices the danger against its 12 HP, and
- *           leaves the level instead.
+ *           both records, prices the worm against its 12 HP, and
+ *           leaves the level by recall instead.
  *  stay     control: the ant stands one grid east, inside the real
  *           light, visible in the save itself.
  *
@@ -70,9 +73,10 @@ static term screen;
 #define W 40
 
 /* The level by mode.  retreat/stay/worm: floor on row 12 from x=1 to
- * x=12 (dead end).  lure: the corridor runs from the player's west dead
- * end (x=10) east to an up staircase (x=14), so what the borg wants -
- * the way back up - lies beyond the monster. */
+ * x=12 (dead end).  lure: the corridor runs east from the player (x=10)
+ * to an up staircase (x=14), and west of the player a small room holds
+ * a kobold - so what the borg wants (the way back up, away from the
+ * scary guy) lies beyond the monster. */
 #define CORR_Y 12
 #define CORR_X0 1
 #define CORR_X1 12
@@ -80,6 +84,12 @@ static term screen;
 #define LURE_X1 13
 #define LURE_STAIR_Y 12
 #define LURE_STAIR_X 14
+#define LURE_ROOM_X0 5
+#define LURE_ROOM_X1 9
+#define LURE_ROOM_Y0 11
+#define LURE_ROOM_Y1 13
+#define LURE_KOBOLD_X 7
+#define LURE_KOBOLD_Y 12
 
 static char savepath[1024];
 static const char *mode;
@@ -136,11 +146,14 @@ int setup_tests(void **state)
     textui_prefs_init();
     cave = t_build_arena(H, W);
     /* A dark corridor (no SQUARE_GLOW anywhere); the lure corridor runs
-     * east from the player's dead end to the up staircase. */
+     * east from the player to the up staircase, and west of the player
+     * a small room opens onto it. */
     for (int y = 0; y < H; ++y)
         for (int x = 0; x < W; ++x) {
             bool floor_grid = streq(mode, "lure")
-                ? (y == LURE_STAIR_Y && x >= LURE_X0 && x <= LURE_X1)
+                ? ((y == LURE_STAIR_Y && x >= LURE_X0 && x <= LURE_X1)
+                   || (y >= LURE_ROOM_Y0 && y <= LURE_ROOM_Y1
+                       && x >= LURE_ROOM_X0 && x <= LURE_ROOM_X1))
                 : (y == CORR_Y && x >= CORR_X0 && x <= CORR_X1);
             square_set_feat(cave, loc(x, y), floor_grid ? FEAT_FLOOR : FEAT_GRANITE);
         }
@@ -184,12 +197,18 @@ int setup_tests(void **state)
      * then walk back west. */
     {
         /* loc() takes (x, y).  The player came down the up staircase in
-         * the east (14, 12) and walked the corridor west to its dead end
-         * (10, 12): every stand memorizes its lit ring, so the whole
-         * corridor, the corner and the staircase are in the level
-         * memory.  The worm mass spawns at (12, 12) only after this
-         * walk - in the meantime, as it were. */
-        int walk_lure[][2] = {{14, CORR_Y}, {13, CORR_Y}, {12, CORR_Y}, {11, CORR_Y}, {10, CORR_Y}};
+         * the east (14, 12), walked the corridor west into the room to
+         * its west edge, and turned back east to (10, 12): every stand
+         * memorizes its lit ring, so the corridor, the room and the
+         * staircase are all in the level memory.  The kobold and the
+         * worm mass are placed only after this walk - in the meantime,
+         * as it were. */
+        int walk_lure[][2] = {
+            {14, CORR_Y}, {13, CORR_Y}, {12, CORR_Y}, {11, CORR_Y},
+            {10, CORR_Y}, {9, CORR_Y}, {8, CORR_Y}, {7, CORR_Y},
+            {6, CORR_Y}, {7, CORR_Y}, {8, CORR_Y}, {9, CORR_Y},
+            {10, CORR_Y}
+        };
         int walk_flat[][2] = {{11, CORR_Y}, {10, CORR_Y}};
         int (*walk)[2] = streq(mode, "lure") ? walk_lure : walk_flat;
         size_t nwalk = streq(mode, "lure")
@@ -228,6 +247,20 @@ int setup_tests(void **state)
         printf("SETUPFAIL ant visible=%d expected=%d\n",
                mflag_has(mon->mflag, MFLAG_VISIBLE) ? 1 : 0, ant_x == 11 ? 1 : 0);
         return 1;
+    }
+    if (streq(mode, "lure")) {
+        /* The kobold in the west room: awake, mobile, three grids west
+         * of the player and dark.  It is in the borg's scary-guy list
+         * (BI_CLEVEL <= 8), so once the borg has seen it the borg
+         * flees the level - back east, to the up staircase. */
+        struct monster *kob =
+            t_add_monster(cave, loc(LURE_KOBOLD_X, LURE_KOBOLD_Y), "Kobold");
+        if (!kob) { printf("SETUPFAIL kobold\n"); return 1; }
+        mflag_on(kob->mflag, MFLAG_AWARE);
+        update_mon(kob, cave, true);
+        if (rf_has(kob->race->flags, RF_NEVER_MOVE)) { printf("SETUPFAIL kobold never moves\n"); return 1; }
+        if (kob->m_timed[MON_TMD_SLEEP] != 0) { printf("SETUPFAIL kobold asleep\n"); return 1; }
+        if (mflag_has(kob->mflag, MFLAG_VISIBLE)) { printf("SETUPFAIL kobold visible\n"); return 1; }
     }
     path_build(savepath, sizeof(savepath), ANGBAND_DIR_SAVE, savename);
     return 0;

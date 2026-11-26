@@ -1,16 +1,24 @@
 native-c/lightmap-644-saveplay: starting...
 LOADED mode=lure save=/tmp/opencode/lightmap644-save/out/profile/save/lightmap644-lure.sav class=Druid clevel=1 hp=12/12 depth=5 player=(10,12)
 MON i=1 race=white worm mass pos=(12,12) visible=0 aware=1
+MON i=2 race=kobold pos=(7,12) visible=0 aware=1
 PREPARE infra=0 light=2
-  record_outside_the_light  STEP1 player=(11,12) monster=(12,12) visible=1
+  record_outside_the_light  KSTEP1 player=(8,12) kobold=(7,12) visible=1
+KILL k=1 race=kobold pos=(7,12) awake=1
+KILLS kills=1
+KSTEP2 player=(10,12) kobold=(7,12) visible=0
+STEP1 player=(11,12) monster=(12,12) visible=1
 OBSERVED the monster while lit
-KILL k=1 race=white worm mass pos=(12,12) awake=1
-KILLS kills=1
+KILL k=1 race=kobold pos=(7,12) awake=1
+KILL k=2 race=white worm mass pos=(12,12) awake=1
+KILLS kills=2
 STEP2 player=(10,12) monster=(12,12) visible=0
-KILL k=1 race=white worm mass pos=(12,12) awake=1
-KILLS kills=1
+KILL k=1 race=kobold pos=(7,12) awake=1
+KILL k=2 race=white worm mass pos=(12,12) awake=1
+KILLS kills=2
 LIGHTINFO grid=(12,12) light=0 glow=0 view=1 dark=0
 LIGHTINFO grid=(13,12) light=0 glow=0 view=1 dark=0
+LIGHTINFO grid=(7,12) light=0 glow=0 view=1 dark=0
 DANGER monster_grid=35 west_of_monster=32
 DECISION flowed=1 keys=[57344,57344,114,98,57344] step=0
 NOTES | # Needing to get back on correct depth | # Scary guy on level. | # Leaving (Scary guy on level) | # Fleeing (Scary guy on level) | # Loc:12,10 Dep:5 Lev:1 HP:12/12 SP:2/2 Danger:p=1 | # Fleeing and leaving the level. (scaryguy) | # Reading Scroll of Word of Recall. | # Fleeing the level (recall)
@@ -26,9 +34,9 @@ MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
-MAPROW ########################################
-MAPROW ##########@.?.<#########################
-MAPROW ########################################
+MAPROW #####.....##############################
+MAPROW #####..k..@.?.<#########################
+MAPROW #####.....##############################
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
@@ -40,7 +48,7 @@ MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
 MAPEND
-STATE kills=1 record_x=12 monster_x=12 flowed=1
+STATE kills=2 tracked_x=12 monster_x=12 flowed=1
 OUTCOME kept=1
 [01;32mPassed[00m
 native-c/lightmap-644-saveplay finished: 1/1 passed

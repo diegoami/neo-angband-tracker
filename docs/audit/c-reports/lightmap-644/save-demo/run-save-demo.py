@@ -147,12 +147,12 @@ add_compile_definitions(PRIVATE_USER_PATH="{out / 'test-user'}")
             text = log.read_text()
             kept = re.search(r"OUTCOME kept=(-?\d+)", text)
             record = re.search(
-                r"STATE kills=(-?\d+) record_x=(-?\d+) monster_x=(-?\d+) flowed=(\d+)", text)
+                r"STATE kills=(-?\d+) tracked_x=(-?\d+) monster_x=(-?\d+) flowed=(\d+)", text)
             decision = re.search(r"DECISION flowed=(\d+) keys=\[([^\]]*)\] step=(-?\d+)", text)
             rows[(label, mode)] = {
                 "kept": int(kept.group(1)) if kept else None,
                 "kills": int(record.group(1)) if record else None,
-                "record_x": int(record.group(2)) if record else None,
+                "tracked_x": int(record.group(2)) if record else None,
                 "monster_x": int(record.group(3)) if record else None,
                 "flowed": int(record.group(4)) if record else 0,
                 "keys": decision.group(2) if decision else None,
@@ -168,17 +168,23 @@ add_compile_definitions(PRIVATE_USER_PATH="{out / 'test-user'}")
                 print(f"UNEXPECTED {label}/{mode}: kept={rows[(label, mode)]['kept']}")
                 ok = False
 
-    # The lure is the acted-out consequence: after the dance the base
-    # borg has forgotten the worm, wants the up staircase east (the way
-    # its map says it came from), and its first movement key is a step
-    # east (54 = '6') straight toward the forgotten mass; the fixed
-    # borg, which remembers the worm, queues no step at all - it reads
-    # the Word of Recall instead.
+    # The lure is the acted-out consequence: after the two dances the
+    # base borg has forgotten the worm but kept the kobold (the scary
+    # guy that sends it back east for the stairs), and its first
+    # movement key is a step east (54 = '6') straight toward the
+    # forgotten mass; the fixed borg keeps both records, queues no step
+    # at all, and reads the Word of Recall instead.
     if rows[("base", "lure")]["step_key"] != 54:
         print(f"UNEXPECTED base/lure step: {rows[('base', 'lure')]['step_key']} (want 54, '6' east)")
         ok = False
     if rows[("fix", "lure")]["step_key"] != 0:
         print(f"UNEXPECTED fix/lure step: {rows[('fix', 'lure')]['step_key']} (want 0, no step: it recalls)")
+        ok = False
+    if rows[("base", "lure")]["kills"] != 1:
+        print(f"UNEXPECTED base/lure kills: {rows[('base', 'lure')]['kills']} (want 1: the kobold, the worm forgotten)")
+        ok = False
+    if rows[("fix", "lure")]["kills"] != 2:
+        print(f"UNEXPECTED fix/lure kills: {rows[('fix', 'lure')]['kills']} (want 2: the kobold and the worm)")
         ok = False
 
     if (out / "base-stay.log").read_bytes() != (out / "fix-stay.log").read_bytes():

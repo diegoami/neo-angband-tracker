@@ -35,7 +35,7 @@ MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
 MAPEND
-STATE kills=1 record_x=11 monster_x=11 flowed=0
+STATE kills=1 tracked_x=11 monster_x=11 flowed=0
 OUTCOME kept=1
 [01;32mPassed[00m
 native-c/lightmap-644-saveplay finished: 1/1 passed

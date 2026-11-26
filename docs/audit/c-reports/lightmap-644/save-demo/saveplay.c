@@ -19,10 +19,11 @@
  *           the correction the grid is dark, the record is not viewable,
  *           and it is kept.
  *  worm     as retreat, with a white worm mass (the lingering hunter).
- *  lure     the level 1 Druid: after the same dance, borg_think() weighs
- *           the up staircase east - the way the save's walk says he came
- *           from, and the only thing on his map worth walking to -
- *           against the danger he knows about on the way.
+ *  lure     the level 1 Druid: after the two dances (glimpse the kobold
+ *           in the west room and retreat; glimpse the worms and
+ *           retreat), borg_think() weighs the up staircase east - the
+ *           way home from the scary guy - against the danger it knows
+ *           about on the way.
  *  stay     control: the ant stands one grid east, inside the real
  *           light; the scan re-observes it every pass and both variants
  *           keep the record.
@@ -174,6 +175,31 @@ static int scenario_light(void *state)
     if (!mon) { printf("SETUPFAIL no monster\n"); return 1; }
     bool lure = streq(mode, "lure");
 
+    if (lure) {
+        /* The druid steps west to the room's edge and her torch lights
+         * the kobold one grid away: the scan records it - the scary guy
+         * that makes the borg want the stairs east. */
+        struct monster *kob = square_monster(cave, loc(7, CORR_Y));
+        if (!kob) { printf("SETUPFAIL no kobold\n"); return 1; }
+        step_player(9);
+        step_player(8);
+        printf("KSTEP1 player=(%d,%d) kobold=(%d,%d) visible=%d\n",
+               player->grid.x, player->grid.y, kob->grid.x, kob->grid.y,
+               mflag_has(kob->mflag, MFLAG_VISIBLE) ? 1 : 0);
+        borg_update();
+        print_kills();
+        /* Back east, away from the scary guy: the kobold goes dark, and
+         * standing three grids from it the borg cannot see its grid
+         * even with the base commit's light map, so both builds keep
+         * the record - the fear of it survives the light map. */
+        step_player(9);
+        step_player(10);
+        printf("KSTEP2 player=(%d,%d) kobold=(%d,%d) visible=%d\n",
+               player->grid.x, player->grid.y, kob->grid.x, kob->grid.y,
+               mflag_has(kob->mflag, MFLAG_VISIBLE) ? 1 : 0);
+        borg.time.now++;
+    }
+
     if (streq(mode, "retreat") || lure || streq(mode, "worm")) {
         /* The borg steps one grid east: the torch lights the monster's
          * grid, the game sees it, and the scan notes the record. */
@@ -208,6 +234,10 @@ static int scenario_light(void *state)
         /* The grid one step east of the monster: the corridor toward the
          * up staircase, the path the borg believes is clear. */
         light_info(CORR_Y, mon->grid.x + 1);
+        /* The kobold's grid, three grids west: dark and not viewable, so
+         * its record - the fear that drives the flight east - survives
+         * the light map on both builds. */
+        light_info(CORR_Y, 7);
     }
     /* What the borg believes about the monster's grid after the pass: the
      * danger it expects on the grid itself and one grid west of it. */
@@ -280,11 +310,16 @@ static int scenario_light(void *state)
         }
         printf("MAPEND\n");
     }
-    int kills = 0, kx = -1;
+    int kills = 0, tracked = -1;
     for (int k = 1; k < borg_kills_nxt; ++k)
-        if (borg_kills[k].r_idx) { kills++; kx = borg_kills[k].pos.x; }
-    printf("STATE kills=%d record_x=%d monster_x=%d flowed=%d\n", kills, kx, mon->grid.x, flowed ? 1 : 0);
-    int kept = kills > 0 ? 1 : 0;
+        if (borg_kills[k].r_idx) {
+            kills++;
+            if (borg_kills[k].r_idx == mon->race->ridx)
+                tracked = borg_kills[k].pos.x;
+        }
+    printf("STATE kills=%d tracked_x=%d monster_x=%d flowed=%d\n",
+           kills, tracked, mon->grid.x, flowed ? 1 : 0);
+    int kept = tracked >= 0 ? 1 : 0;
     printf("OUTCOME kept=%d\n", kept);
     /* Corrected contract: a monster that was seen while lit and now
      * stands in the dark just outside the light is remembered, and one
