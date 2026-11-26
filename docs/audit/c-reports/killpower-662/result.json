@@ -1,0 +1,132 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "f87b535af3f35649704641dee887a0f161bb34b7",
+  "fixtures_ref": "a41612c45ab405962cad449984b962c6342ee196",
+  "cases": {
+    "before": {
+      "full": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 12,
+          "game_hp": 12
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 12
+        }
+      },
+      "one_of_hp": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "power_ok": 0,
+          "borg_power": 0,
+          "game_hp": 1
+        },
+        "outcome": {
+          "power_ok": 0,
+          "borg_power": 0
+        }
+      },
+      "above_edge": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "power_ok": 0,
+          "borg_power": 1,
+          "game_hp": 2
+        },
+        "outcome": {
+          "power_ok": 0,
+          "borg_power": 1
+        }
+      },
+      "zero_alive": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 0,
+          "game_hp": 0
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 0
+        }
+      }
+    },
+    "after": {
+      "full": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 12,
+          "game_hp": 12
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 12
+        }
+      },
+      "one_of_hp": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 1,
+          "game_hp": 1
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 1
+        }
+      },
+      "above_edge": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 2,
+          "game_hp": 2
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 2
+        }
+      },
+      "zero_alive": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 0,
+          "game_hp": 0
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "full",
+    "zero_alive"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "966/966",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "966/966",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "0be4d20caf37820a5fb8ae252a7044cbaea22051831bd89d66775d0680c96814"
+  }
+}

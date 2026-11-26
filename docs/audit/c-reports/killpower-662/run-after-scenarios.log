@@ -1,0 +1,4 @@
+full {'exit': 0, 'passed': True, 'state': {'power_ok': 1, 'borg_power': 12, 'game_hp': 12}, 'outcome': {'power_ok': 1, 'borg_power': 12}}
+one_of_hp {'exit': 0, 'passed': True, 'state': {'power_ok': 1, 'borg_power': 1, 'game_hp': 1}, 'outcome': {'power_ok': 1, 'borg_power': 1}}
+above_edge {'exit': 0, 'passed': True, 'state': {'power_ok': 1, 'borg_power': 2, 'game_hp': 2}, 'outcome': {'power_ok': 1, 'borg_power': 2}}
+zero_alive {'exit': 0, 'passed': True, 'state': {'power_ok': 1, 'borg_power': 0, 'game_hp': 0}, 'outcome': {'power_ok': 1, 'borg_power': 0}}
