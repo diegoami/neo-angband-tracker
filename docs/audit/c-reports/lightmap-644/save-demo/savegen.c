@@ -164,7 +164,13 @@ int setup_tests(void **state)
      * guardian the borg flees the level from when it remembers it, and
      * walks blindly past when it forgets it. */
     ant_x = streq(mode, "stay") ? 11 : 12;
-    const char *race = streq(mode, "lure") ? "Ancient green dragon" : "Soldier ant";
+    const char *race;
+    if (streq(mode, "lure"))
+        race = "Ancient green dragon";
+    else if (streq(mode, "worm"))
+        race = "White worm mass"; /* slow, random-mover: lingers in the dark */
+    else
+        race = "Soldier ant";
     struct monster *mon = t_add_monster(cave, loc(ant_x, CORR_Y), race);
     if (!mon) { printf("SETUPFAIL monster\n"); return 1; }
     mflag_on(mon->mflag, MFLAG_AWARE);

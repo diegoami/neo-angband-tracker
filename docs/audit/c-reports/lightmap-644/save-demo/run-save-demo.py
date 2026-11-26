@@ -29,12 +29,13 @@ from pathlib import Path
 DEFAULT_REPO = "/home/diego/projects/angband-workspace/neo-angband-tracker"
 BASE = "574b618c3bfec595f3503a58f8e488b1c4ae3a46"
 FIX = "d8d31359ec2ef9c73c9d9aa4b92579dc73a3b5fb"
-MODES = ["retreat", "lure", "stay"]
+MODES = ["retreat", "worm", "lure", "stay"]
 SAVES = {"retreat": "lightmap644-retreat.sav", "lure": "lightmap644-lure.sav",
-         "stay": "lightmap644-stay.sav"}
+         "worm": "lightmap644-worm.sav", "stay": "lightmap644-stay.sav"}
 # kept expectation per build and mode
 EXPECT = {
     "retreat": {"base": 0, "fix": 1},
+    "worm": {"base": 0, "fix": 1},
     "lure": {"base": 0, "fix": 1},
     "stay": {"base": 1, "fix": 1},
 }

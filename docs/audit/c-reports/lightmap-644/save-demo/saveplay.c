@@ -169,7 +169,7 @@ static int scenario_light(void *state)
     if (!mon) { printf("SETUPFAIL no monster\n"); return 1; }
     bool lure = streq(mode, "lure");
 
-    if (streq(mode, "retreat") || lure) {
+    if (streq(mode, "retreat") || lure || streq(mode, "worm")) {
         /* The borg steps one grid east: the torch lights the monster's
          * grid, the game sees it, and the scan notes the record. */
         step_player(11);

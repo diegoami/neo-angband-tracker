@@ -15,6 +15,7 @@ light map, the missing-monster pass).
 | Save | Situation |
 | --- | --- |
 | `lightmap644-retreat.sav` | A soldier ant holds the corridor's last floor, two grids east of the player, in the dark outside the torch's real light (the corridor was walked, so the level's memory covers that floor). |
+| `lightmap644-worm.sav` | The same dead end with a **white worm mass** (poison touch, slow, a random-mover): the monster that lingers in the dark ring — the live in-game forget. |
 | `lightmap644-lure.sav` | The corridor turns south at an ancient green dragon (poison breath, 1600+ HP) holding the dark corner and ends in a down staircase; the borg wants the stairs, and the dragon is something to retreat from. |
 | `lightmap644-stay.sav` | Control: an ant stands one grid east, inside the real light, visible. |
 
@@ -108,15 +109,35 @@ In the game: press a key at the startup banner, then **Ctrl+Z** (confirm
 the borg warning once), **`z`** to activate the borg — **`x`** steps one
 borg action at a time.
 
-What to watch on the retreat save: walk east one grid yourself (the
-torch lights the ant at the corridor's end), walk back west (the ant
-goes dark), then step the borg. On the **base** build the message log
-shows `# There was a monster 'Soldier ant' at (12,12)` — the borg judged
-the dark grid viewable and then expunged the record ("did not really
-move"). On the **fixed** build no such message appears: the grid is
-dark, the record is not viewable, and the ant stays in the borg's
-memory. The `stay` save loads identically in both. For the deterministic
-before/after comparison, use `saveplay.c` (the runner above): on a bare
-arena with no stairs or items the borg goes idle after its startup
-checks, so free-running play shows the divergence only around the
-single step that processes the aged record.
+Who the defect actually bites (worth knowing when playing these):
+`borg_follow_kill()` explicitly spares sleepers and never-moving
+monsters — "Don't 'forget' certain ones" — so the forget only ever
+deletes records of **awake, mobile** monsters: the hunters. But a fast
+pursuer steps back into your light the same turn and is re-observed, so
+the live forget needs a monster that *lingers* one turn in the dark ring
+— an ambusher pausing, a wanderer, a slow pursuer that falls two grids
+behind. (The port's 44-of-50 forgotten worms were exactly that.)
+
+What to watch in game:
+
+- **`lightmap644-worm.sav` — the live forget.** The white worm mass is
+  slow and moves at random, so it lingers. Walk east one grid (see it),
+  walk back west (it goes dark), then step the borg. On the **base**
+  build the message log shows `# There was a monster 'White worm mass'
+  at (12,12)` and the record is expunged; on the **fixed** build the
+  message never appears and the worm stays on the borg's map.
+- **`lightmap644-lure.sav` — the decision, in saveplay only.** The
+  ancient green dragon is a fast pursuer: in free play it chases you
+  into the light and is re-observed, so the forget does not occur while
+  it hunts. Its save is for the `saveplay` matrix, which freezes the
+  world after the step-back (the issue's "monster waiting just outside
+  its light") and shows the decision: stroll on the original, flee the
+  level with the fix.
+- **`lightmap644-retreat.sav` / `lightmap644-stay.sav`** — the ant pair;
+  the ant is also fast, so treat the retreat save the same way as the
+  dragon's (its divergence is the saveplay run).
+
+For the deterministic before/after comparison, always use `saveplay.c`
+(the runner above): on a bare arena with no stairs or items the borg
+goes idle after its startup checks, so free-running play shows the
+divergence only around the single step that processes the aged record.
