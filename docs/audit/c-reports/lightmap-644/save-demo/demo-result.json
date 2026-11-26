@@ -1,0 +1,126 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "d8d31359ec2ef9c73c9d9aa4b92579dc73a3b5fb",
+  "saves": {
+    "retreat": "lightmap644-retreat.sav",
+    "lure": "lightmap644-lure.sav",
+    "worm": "lightmap644-worm.sav",
+    "stay": "lightmap644-stay.sav"
+  },
+  "modes": {
+    "retreat": {
+      "base": {
+        "kept": 0,
+        "kills": 0,
+        "tracked_x": -1,
+        "monster_x": 12,
+        "flowed": 0,
+        "keys": null,
+        "step_key": null,
+        "passed": false
+      },
+      "fix": {
+        "kept": 1,
+        "kills": 1,
+        "tracked_x": 12,
+        "monster_x": 12,
+        "flowed": 0,
+        "keys": null,
+        "step_key": null,
+        "passed": true
+      }
+    },
+    "worm": {
+      "base": {
+        "kept": 0,
+        "kills": 0,
+        "tracked_x": -1,
+        "monster_x": 12,
+        "flowed": 0,
+        "keys": null,
+        "step_key": null,
+        "passed": false
+      },
+      "fix": {
+        "kept": 1,
+        "kills": 1,
+        "tracked_x": 12,
+        "monster_x": 12,
+        "flowed": 0,
+        "keys": null,
+        "step_key": null,
+        "passed": true
+      }
+    },
+    "lure": {
+      "base": {
+        "kept": 0,
+        "kills": 1,
+        "tracked_x": -1,
+        "monster_x": 12,
+        "flowed": 1,
+        "keys": "54",
+        "step_key": 54,
+        "passed": false
+      },
+      "fix": {
+        "kept": 1,
+        "kills": 4,
+        "tracked_x": 12,
+        "monster_x": 12,
+        "flowed": 1,
+        "keys": "50",
+        "step_key": 50,
+        "passed": true
+      }
+    },
+    "stay": {
+      "base": {
+        "kept": 1,
+        "kills": 1,
+        "tracked_x": 11,
+        "monster_x": 11,
+        "flowed": 0,
+        "keys": null,
+        "step_key": null,
+        "passed": true
+      },
+      "fix": {
+        "kept": 1,
+        "kills": 1,
+        "tracked_x": 11,
+        "monster_x": 11,
+        "flowed": 0,
+        "keys": null,
+        "step_key": null,
+        "passed": true
+      }
+    }
+  },
+  "sha256": {
+    "base-lure.log": "9305678b1a59cf57fd51dc2b0bf255d2a4a423b30250b363f59b1fc46c77847c",
+    "base-retreat.log": "80a0c894dd7e70eabf2bc20b97a13ecbc4429908939a826595409063322cbaf4",
+    "base-stay.log": "a9064d9ac91e9a5a49793bd3bd386e32e0d1da25a3ffd521bc75e4d9bc1057a1",
+    "base-worm.log": "efc077e64b437191a6352177ab5a63dafef5456ae8fc4826486f3766f4c88eba",
+    "build-base.log": "a255a3dfde8c2b196bf32dd0bc2bb253d64c9c25f1b4080ac2e9c9484995281f",
+    "build-fix.log": "a255a3dfde8c2b196bf32dd0bc2bb253d64c9c25f1b4080ac2e9c9484995281f",
+    "configure-base.log": "edad7d1dbb4ce215e449a35412fa5c4666a44f0993003ac76a6d9b65abe1e7a5",
+    "configure-fix.log": "e2b8249d71626b192b7b2ab15dbe541b5aee99bd4a661ad58f217e03163e3696",
+    "fix-lure.log": "e357160e81ca6326df99c3d9ad324e84b29d93729891e5c99c451b16fdf5c46d",
+    "fix-retreat.log": "5edbe7367d119cee07fa7460df281729ba477140a602868aa7f6082679bc6cc1",
+    "fix-stay.log": "a9064d9ac91e9a5a49793bd3bd386e32e0d1da25a3ffd521bc75e4d9bc1057a1",
+    "fix-worm.log": "910f3866cba861998947db1006858b4947be96e06afef739c9c5c3d66af11684",
+    "game-build-base.log": "8dbdb879021bac33ecd8454c41bdababb0e5c914bb37f1375d476f2fc4676790",
+    "game-build-fix.log": "8dbdb879021bac33ecd8454c41bdababb0e5c914bb37f1375d476f2fc4676790",
+    "savegen-lure.log": "4561b964d574d819559b8231e73edcb66c6cd000a8809f31e120facefe753a0e",
+    "savegen-retreat.log": "b2f7a6aeb3b52d367ef07967cf6219becdd425b752961a5d98d42d713fa173c2",
+    "savegen-stay.log": "e7786f674801e1511714d363882ab4d452bdd0e87486316e234a3181f4ac0825",
+    "savegen-worm.log": "a9a7750ddba89838e9718fb7290b73e7ae712ca0b1a75712ac508dbd98503fff",
+    "worktree-base.log": "c82a23fc0890d16435eb3b7939b79d65141cfb96295bbf83a0c0a3165e879bfa",
+    "worktree-fix.log": "0ab61b71bfcf0ad82dda3d4012a2164cb6e7e3d87deff6ddb6a42e296ce7729b",
+    "lightmap644-retreat.sav": "c1a6857a0d1663befa73ef10ef09a22a0650fde7a80793862bb1540c6a6cd105",
+    "lightmap644-lure.sav": "4442536e6c7e12210b9157c9f7791b3d32a248a3b0c73a8f33ab5374258be402",
+    "lightmap644-worm.sav": "50cf6fba50bcef8679cd9f830ec37cfcc54659b53ce6e4de521b61c8f14999a5",
+    "lightmap644-stay.sav": "b3682099aa84b9d0a1aeedd3de0be95cee436a57a1094832adc302a9c797d1f4"
+  }
+}

@@ -1,0 +1,567 @@
+LightMap644 the Human Druid, Level 1/1
+Exp: 500  Gold: 385  Turn: 100
+Killed on level: 4 (max. 5) by poison
+
+Borg Compile Date: Nov 26 2026
+######################################################################################################################################################################################################
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                          &                                                                                                                         #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                &                                                                                                                                   #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                 &                                                                  #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                        &                                                                                                        &                                                                  #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                              &                                     #
+#                                                                                                                                                                                                    #
+#                                        & &                                                                                                                                                         #
+#                                                                                                              &                                                                                     #
+#                           #.#                                                                                                                                                                      #
+#                           #@#                                                                                                                                                                      #
+#                           #..                                                                                                                                                                      #
+#                           #.#                                                                            &                                                                                         #
+#                           #>#                                                                                                                                                                      #
+#                           ###                                                                                                                                                                      #
+#                                                                                                                                                                                                    #
+#                                                                                                   &                                                                                                #
+#                                                                                                                                                                &                                   #
+#                  &&                                                                                                                                                                                #
+#                &                                                                                  &                                                              &                                 #
+#                  & &                                                                                                                                                 &                             #
+#                      &        &                                                                                                                                                                    #
+#                      &        &                                                                                       &           &                                                                #
+#                                                                                                                                                                                 &                  #
+#              & &         &    &                                                              &                                                                                       &             #
+#                &       &                                                                                                                                                                           #
+#                                                                                               &                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                           &                                                                                                        #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+######################################################################################################################################################################################################
+
+
+  [Last Messages]
+
+ 
+  
+====================
+  
+ 
+Your light source is a Wooden Torch (4000 turns) (f).
+You combine some items in your pack.
+You are wielding a Whip (1d3) (+0,+0) (a).
+You combine some items in your pack.
+You can learn 1 more verse.
+You are still uncertain about this place.
+You are about to use the dangerous, unsupported, borg commands!
+Your machine may crash, and your savefile may become corrupted!
+Initializing the Borg... (memory)
+Initializing the Borg... (borg.txt)
+Initializing the Borg... (options)
+Initializing the Borg... (various)
+Initializing the Borg... done.
+# Ready...
+# Installing keypress hook
+# Stepping Borg 150 times
+# Creating a monster 'kobold' at (12,2), HP: 7, Index: 32
+# Needing to get back on correct depth
+# Scary guy on level.
+# Leaving (Scary guy on level)
+# Fleeing (Scary guy on level)
+# Fleeing and leaving the level. (scaryguy)
+# Flowing toward up-stairs at cost 4
+# Desperate for Stairs (three)
+# Creating a monster 'white worm mass' at (13,12), HP: 10, Index: 26
+# Creating a monster 'white worm mass' at (12,12), HP: 11, Index: 26
+# Creating a monster 'white worm mass' at (11,12), HP: 10, Index: 26
+# Scary guy on level.
+# Loc:12,11 Dep:5 Lev:1 HP:12/12 SP:2/2 Danger:p=111
+# Fleeing and leaving the level. (scaryguy)
+# Performing attack type 1 with value 31.
+# Facing white worm mass at (11,12) who has 10 Hit Points.
+# Attacking with weapon 'Whip (1d3) (+0,+0)'
+You hit the white worm mass.
+The white worm mass crawls on you.
+You are poisoned!
+The white worm mass crawls on you.
+You are more poisoned!
+# HIT:the white worm mass (+)
+# HIT:the white worm mass (2)
+# Scary guy on level.
+# Loc:12,11 Dep:5 Lev:1 HP:9/12 SP:2/2 Danger:p=111
+# Fleeing and leaving the level. (scaryguy)
+# Performing attack type 1 with value 31.
+# Facing white worm mass at (11,12) who has 9 Hit Points.
+# Attacking with weapon 'Whip (1d3) (+0,+0)'
+You hit the white worm mass.
+# HIT:the white worm mass (+)
+# HIT:the white worm mass (2)
+# There was a monster 'white worm mass' at (12,12)
+# Forgetting a monster 'white worm mass' at (12,12)
+# Scary guy on level.
+# Loc:12,11 Dep:5 Lev:1 HP:8/12 SP:2/2 Danger:p=64
+# Fleeing and leaving the level. (scaryguy)
+# Flowing toward up-stairs at cost 3
+# Desperate for Stairs (three)
+The white worm mass crawls on you.
+You are more poisoned!
+# Creating a monster 'white worm mass' at (11,13), HP: 11, Index: 26
+# Close enough to Stair.
+# Needing to get back on correct depth
+# Scary guy on level.
+# Loc:12,12 Dep:5 Lev:1 HP:5/12 SP:2/2 Danger:p=104
+# Fleeing and leaving the level. (scaryguy)
+# Flowing toward up-stairs at cost 2
+# Desperate for Stairs (two)
+# Creating a monster 'white worm mass' at (12,12), HP: 9, Index: 26
+# Close enough to Stair.
+# Needing to get back on correct depth
+# Possibility of being surrounded (monsters/safegrids)(4/3)
+# Scary guy on level.
+# Loc:12,13 Dep:5 Lev:1 HP:4/12 SP:2/2 Danger:p=127
+# Fleeing and leaving the level. (scaryguy)
+# Flowing toward up-stairs at cost 1
+# Desperate for Stairs (two)
+# Close enough to Stair.
+# Needing to get back on correct depth
+You enter a maze of up staircases.
+This seems a tame, sheltered place.
+# FEELING_DANGER:8 (+)
+# FEELING_DANGER:8 (1)
+# Standing on dn-stairs
+# Flowing toward dark-2 at cost 3
+You die.
+Score not registered for borgs.
+
+
+  [Character Equipment]
+
+a) Whip (1d3) (+0,+0)
+b) (nothing)
+c) (nothing)
+d) (nothing)
+e) (nothing)
+f) Wooden Torch (3991 turns)
+g) (nothing)
+i) (nothing)
+m) (nothing)
+n) (nothing)
+o) (nothing)
+p) (nothing)
+
+
+  [Character Quiver]
+
+a) (nothing)
+b) (nothing)
+c) (nothing)
+d) (nothing)
+e) (nothing)
+f) (nothing)
+g) (nothing)
+i) (nothing)
+m) (nothing)
+n) (nothing)
+
+
+  [Character Inventory]
+
+a) 6 Rations of Food
+b) 2 Wooden Torches (5000 turns)
+c) Whip (1d3) (+0,+0)
+
+
+  [Home Inventory (page 1)]
+
+a) (nothing)
+b) (nothing)
+c) (nothing)
+d) (nothing)
+e) (nothing)
+f) (nothing)
+g) (nothing)
+i) (nothing)
+m) (nothing)
+n) (nothing)
+o) (nothing)
+p) (nothing)
+
+
+  [Home Inventory (page 2)]
+
+a) (nothing)
+b) (nothing)
+c) (nothing)
+d) (nothing)
+e) (nothing)
+f) (nothing)
+g) (nothing)
+i) (nothing)
+m) (nothing)
+n) (nothing)
+o) (nothing)
+p) (nothing)
+
+
+  [Swap info]
+
+Swap Weapon:  NONE
+Swap Armour:  NONE
+
+
+  [Player State at Death] 
+
+Current speed: 110. 
+You are poisoned.
+
+
+Anti-bounce counter: 5
+Time on this level: 4
+Time since left town: 21
+Borg_no_retreat: 0
+borg.near.breeder: 0
+borg.mon.unique: 0
+It is daytime in town.
+
+
+borg_uses_swaps: 1
+borg_worships_damage: 0
+borg_worships_speed: 0
+borg_worships_hp: 0
+borg_worships_mana: 0
+borg_worships_ac: 0
+borg_worships_gold: 0
+borg_plays_risky: 0
+prepping for big fight: 0
+
+
+
+
+
+   [ Spells ] 
+
+Name                           Legal Times cast
+Detect Life                      No    0   fail:17 
+Fox Form                         No    0   fail:14 
+Remove Hunger                    No    0   fail:22 
+Stinking Cloud                   No    0   fail:27 
+Confuse Monster                  No    0   fail:36 
+Slow Monster                     No    0   fail:39 
+Cure Poison                      No    0   fail:33 
+Resist Poison                    No    0   fail:44 
+Turn Stone to Mud                No    0   fail:40 
+Sense Surroundings               No    0   fail:50 
+Lightning Strike                 No    0   fail:50 
+Earth Rising                     No    0   fail:50 
+Trance                           No    0   fail:50 
+Mass Sleep                       No    0   fail:50 
+Become Pukel-man                 No    0   fail:50 
+Eagle's Flight                   No    0   fail:50 
+Bear Form                        No    0   fail:50 
+Tremor                           No    0   fail:50 
+Haste Self                       No    0   fail:50 
+Revitalize                       No    0   fail:50 
+Rapid Regeneration               No    0   fail:50 
+Herbal Curing                    No    0   fail:50 
+Meteor Swarm                     No    0   fail:50 
+Rift                             No    0   fail:50 
+Ice Storm                        No    0   fail:50 
+Volcanic Eruption                No    0   fail:50 
+River of Lightning               No    0   fail:50 
+
+skill 0 (str) value= 15.
+skill 1 (int) value= 10.
+skill 2 (wis) value= 28.
+skill 3 (dex) value= 8.
+skill 4 (con) value= 16.
+skill 5 (str adj) value= 0.
+skill 6 (int adj) value= 0.
+skill 7 (wis adj) value= 0.
+skill 8 (dex adj) value= 0.
+skill 9 (con adj) value= 0.
+skill 10 (cur str) value= 17.
+skill 11 (cur int) value= 10.
+skill 12 (cur wis) value= 16.
+skill 13 (cur dex) value= 10.
+skill 14 (cur con) value= 16.
+skill 15 (str index) value= 12.
+skill 16 (int index) value= 7.
+skill 17 (wis index) value= 16.
+skill 18 (dex index) value= 5.
+skill 19 (con index) value= 13.
+skill 20 (sust str) value= 0.
+skill 21 (sust int) value= 0.
+skill 22 (sust wis) value= 0.
+skill 23 (sust dex) value= 0.
+skill 24 (sust con) value= 0.
+skill 25 (class) value= 2.
+skill 26 (light) value= 2.
+skill 27 (cur hp) value= -1.
+skill 28 (max hp) value= 12.
+skill 29 (hp adj) value= 12.
+skill 30 (cur sp) value= 2.
+skill 31 (max sp) value= 2.
+skill 32 (sp adj) value= 80.
+skill 33 (SFAIL1) value= 6.
+skill 34 (SFAIL2) value= 6.
+skill 35 (clevel) value= 1.
+skill 36 (max clevel) value= 1.
+skill 37 (esp) value= 0.
+skill 38 (recall) value= 0.
+skill 39 (food) value= 6.
+skill 40 (food high) value= 6.
+skill 41 (food low) value= 0.
+skill 42 (food cure conf) value= 0.
+skill 43 (food cure blind) value= 0.
+skill 44 (speed) value= 110.
+skill 45 (gold) value= 385.
+skill 46 (extra moves) value= 0.
+skill 47 (damage reduction) value= 0.
+skill 48 (slow dig) value= 0.
+skill 49 (feather fall) value= 0.
+skill 50 (regen) value= 0.
+skill 51 (see inv) value= 0.
+skill 52 (infravision) value= 0.
+skill 53 (fast shots) value= 0.
+skill 54 (disarm ph) value= 32.
+skill 55 (disarm mag) value= 32.
+skill 56 (use device) value= 26.
+skill 57 (save) value= 34.
+skill 58 (stealth) value= 4.
+skill 59 (search) value= 13.
+skill 60 (to hit normal) value= 47.
+skill 61 (to hit bow) value= 43.
+skill 62 (to hit throw) value= 43.
+skill 63 (dig) value= 10.
+skill 64 (immune fire) value= 0.
+skill 65 (immune acid) value= 0.
+skill 66 (immune cold) value= 0.
+skill 67 (immune elec) value= 0.
+skill 68 (immune poison) value= 0.
+skill 69 (resist fire) value= 0.
+skill 70 (resist cold) value= 0.
+skill 71 (resist elec) value= 0.
+skill 72 (resist acid) value= 0.
+skill 73 (resist poison) value= 0.
+skill 74 (resist fear) value= 0.
+skill 75 (resist lite) value= 0.
+skill 76 (resist dark) value= 0.
+skill 77 (resist blind) value= 0.
+skill 78 (resist conf) value= 0.
+skill 79 (resist sound) value= 0.
+skill 80 (resist shards) value= 0.
+skill 81 (resist nexus) value= 0.
+skill 82 (resist nether) value= 0.
+skill 83 (resist chaos) value= 0.
+skill 84 (resist dis) value= 0.
+skill 85 (hold life) value= 0.
+skill 86 (free action) value= 0.
+skill 87 (resist fire with swap) value= 0.
+skill 88 (resist cold with swap) value= 0.
+skill 89 (resist elec with swap) value= 0.
+skill 90 (resist acid with swap) value= 0.
+skill 91 (resist poison with swap) value= 0.
+skill 92 (resist fear with swap) value= 0.
+skill 93 (resist lite with swap) value= 0.
+skill 94 (resist dark with swap) value= 0.
+skill 95 (resist blind with swap) value= 0.
+skill 96 (resist conf with swap) value= 0.
+skill 97 (resist sound with swap) value= 0.
+skill 98 (resist shards with swap) value= 0.
+skill 99 (resist nexus with swap) value= 0.
+skill 100 (resist nether with swap) value= 0.
+skill 101 (resist chaos with swap) value= 0.
+skill 102 (resist dis with swap) value= 0.
+skill 103 (hold life with swap) value= 0.
+skill 104 (free action with swap) value= 0.
+skill 105 (depth) value= 4.
+skill 106 (max depth) value= 5.
+skill 107 (king) value= 0.
+skill 108 (is weak) value= 0.
+skill 109 (is hungry) value= 0.
+skill 110 (is full) value= 0.
+skill 111 (is gorged) value= 0.
+skill 112 (is blind) value= 0.
+skill 113 (is afraid) value= 0.
+skill 114 (is confused) value= 0.
+skill 115 (is poisoned) value= 1.
+skill 116 (is cut) value= 0.
+skill 117 (is stun) value= 0.
+skill 118 (is heavystun) value= 0.
+skill 119 (is paralyzed) value= 0.
+skill 120 (is image) value= 0.
+skill 121 (is forget) value= 0.
+skill 122 (is encumb) value= 0.
+skill 123 (is study) value= 1.
+skill 124 (is fixlev) value= 0.
+skill 125 (is fixexp) value= 0.
+skill 126 (has fixexp) value= 1.
+skill 127 (is fixstr) value= 0.
+skill 128 (is fixint) value= 0.
+skill 129 (is fixwis) value= 0.
+skill 130 (is fixdex) value= 0.
+skill 131 (is fixcon) value= 0.
+skill 132 (is fixall) value= 0.
+skill 133 (armor) value= 0.
+skill 134 (to hit) value= 0.
+skill 135 (to damage) value= 0.
+skill 136 (wep to hit) value= 0.
+skill 137 (wep to damage) value= 0.
+skill 138 (wep id) value= 1.
+skill 139 (wep damage dice) value= 1.
+skill 140 (wep damage sides) value= 3.
+skill 141 (bow id) value= 1.
+skill 142 (bow to hit) value= 0.
+skill 143 (bow to damage) value= 0.
+skill 144 (bow is sling) value= 0.
+skill 145 (bow artifact) value= 0.
+skill 146 (blows) value= 1.
+skill 147 (EXTRA_BLOWS) value= 0.
+skill 148 (shots) value= 1.
+skill 149 (heavy weapon) value= 0.
+skill 150 (heavy bow) value= 0.
+skill 151 (ammo count) value= 0.
+skill 152 (ammo tval) value= -1.
+skill 153 (ammo sides) value= 4.
+skill 154 (ammo power) value= 0.
+skill 155 (amt missiles) value= 0.
+skill 156 (amt ego missiles) value= 0.
+skill 157 (amt cursed missiles) value= 0.
+skill 158 (quiver slots) value= 0.
+skill 159 (first cursed) value= 0.
+skill 160 (where cursed) value= 0.
+skill 161 (enveloping) value= 0.
+skill 162 (irritation) value= 0.
+skill 163 (teleport) value= 0.
+skill 164 (curse poison) value= 0.
+skill 165 (siren) value= 0.
+skill 166 (hallucinate) value= 0.
+skill 167 (paralysis) value= 0.
+skill 168 (summon demon) value= 0.
+skill 169 (summon dragon) value= 0.
+skill 170 (summon undead) value= 0.
+skill 171 (curse stone) value= 0.
+skill 172 (no teleport) value= 0.
+skill 173 (treach wep) value= 0.
+skill 174 (aggravate) value= 0.
+skill 175 (vulnerable) value= 0.
+skill 176 (dullness) value= 0.
+skill 177 (sickness) value= 0.
+skill 178 (weakness) value= 0.
+skill 179 (clumsiness) value= 0.
+skill 180 (slowness) value= 0.
+skill 181 (annoyance) value= 0.
+skill 182 (impair hp) value= 0.
+skill 183 (CRSMPIMP) value= 0.
+skill 184 (curse steel) value= 0.
+skill 185 (air swing) value= 0.
+skill 186 (fear) value= 0.
+skill 187 (drain xp) value= 0.
+skill 188 (vuln fire) value= 0.
+skill 189 (vuln elec) value= 0.
+skill 190 (vuln cold) value= 0.
+skill 191 (vuln acid) value= 0.
+skill 192 (unknown curse) value= 0.
+skill 193 (wep slay animal) value= 0.
+skill 194 (wep slay evil) value= 0.
+skill 195 (wep slay undead) value= 0.
+skill 196 (wep slay demon) value= 0.
+skill 197 (wep slay orc) value= 0.
+skill 198 (wep slay troll) value= 0.
+skill 199 (wep slay giant) value= 0.
+skill 200 (wep slay dragon) value= 0.
+skill 201 (wep kill undead) value= 0.
+skill 202 (wep kill demon) value= 0.
+skill 203 (wep kill dragon) value= 0.
+skill 204 (wep impact) value= 0.
+skill 205 (wep brand acid) value= 0.
+skill 206 (wep brand elec) value= 0.
+skill 207 (wep brand fire) value= 0.
+skill 208 (wep brand cold) value= 0.
+skill 209 (wep brand poison) value= 0.
+skill 210 (amt phase) value= 0.
+skill 211 (amt teleport) value= 0.
+skill 212 (amt escape) value= 0.
+skill 213 (fuel) value= 2.
+skill 214 (amt heal) value= 0.
+skill 215 (amt ezheal) value= 0.
+skill 216 (amt life) value= 0.
+skill 217 (amt id) value= 0.
+skill 218 (amt speed) value= 0.
+skill 219 (amt staff magi) value= 0.
+skill 220 (amt staff destruction) value= 0.
+skill 221 (amt teleport other) value= 0.
+skill 222 (amt cure poison) value= 0.
+skill 223 (amt detect traps) value= 0.
+skill 224 (amt detect door) value= 0.
+skill 225 (amt detect evil) value= 0.
+skill 226 (amt magic map) value= 0.
+skill 227 (amt recharge) value= 0.
+skill 228 (amt call lite) value= 0.
+skill 229 (amt prot evil) value= 0.
+skill 230 (amt glyph) value= 0.
+skill 231 (amt potion ccw) value= 0.
+skill 232 (amt potion csw) value= 0.
+skill 233 (amt potion clw) value= 0.
+skill 234 (amt ench to hit) value= 0.
+skill 235 (amt ench to dam) value= 0.
+skill 236 (amt *ench to wep*) value= 0.
+skill 237 (amt ench to armor) value= 0.
+skill 238 (amt *ench to armor*) value= 0.
+skill 239 (amt brand) value= 0.
+skill 240 (need ench to armor) value= 0.
+skill 241 (need ench to hit) value= 8.
+skill 242 (need ench to dam) value= 8.
+skill 243 (need brand) value= 0.
+skill 244 (amt resist heat) value= 0.
+skill 245 (amt resist cold) value= 0.
+skill 246 (amt resist poison) value= 0.
+skill 247 (amt teleport level) value= 0.
+skill 248 (holy word) value= 0.
+skill 249 (mass banishment) value= 0.
+skill 250 (amt cool shroom) value= 0.
+skill 251 (amt attack rods1) value= 0.
+skill 252 (amt attack rods2) value= 0.
+skill 253 (worn need id) value= 0.
+skill 254 (amt need id) value= 0.
+skill 255 (amt diggers) value= 0.
+skill 256 (amt good staff chg) value= 0.
+skill 257 (amt good wand chg) value= 0.
+skill 258 (multi bonus) value= 0.
+skill 259 (detect inv) value= 0.
+skill 260 (weight) value= 174.
+skill 261 (carry) value= 1700.
+skill 262 (empty slots) value= 20.
+skill 263 (sauron dead) value= 0.
+skill 264 (prep big fight) value= 0.

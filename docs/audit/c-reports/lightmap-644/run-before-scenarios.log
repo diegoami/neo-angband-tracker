@@ -1,0 +1,2 @@
+forget {'exit': 0, 'passed': False, 'state': {'kills': 0, 'light': 1}, 'outcome': {'kept': 0}}
+adjacent {'exit': 0, 'passed': True, 'state': {'kills': 1, 'light': 1}, 'outcome': {'kept': 1}}

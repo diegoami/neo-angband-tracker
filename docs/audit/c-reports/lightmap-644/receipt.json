@@ -1,0 +1,111 @@
+{
+  "issue": "diegoami/neo-angband-tracker#644",
+  "report": "lightmap-644",
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "d8d31359ec2ef9c73c9d9aa4b92579dc73a3b5fb",
+  "fix_branch": "task/lightmap-644",
+  "fixtures_ref": "3df4d5cc99fdf705e48cfb70ba3dfab7b9c78ad3",
+  "cases": {
+    "forget": {
+      "before": {
+        "passed": false,
+        "state": {
+          "kills": 0,
+          "light": 1
+        },
+        "outcome": {
+          "kept": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "kills": 1,
+          "light": 0
+        },
+        "outcome": {
+          "kept": 1
+        }
+      }
+    },
+    "adjacent": {
+      "before": {
+        "passed": true,
+        "state": {
+          "kills": 1,
+          "light": 1
+        },
+        "outcome": {
+          "kept": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "kills": 1,
+          "light": 1
+        },
+        "outcome": {
+          "kept": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "adjacent"
+  ],
+  "claim": "A torch-carrying Human Warrior in a dark dead-end corridor with an awake soldier ant two grids east, invisible to the player, loses the ant's kill record on the original (deleted by the missing-monster pass after the light map marks the dark grid BORG_LIGHT) and keeps it with the engine's radius (BI_LIGHT - 1). The adjacent control, an ant one grid east the player sees, is kept by both variants with byte-identical logs, and both full native gates pass at 966/966 and 5/5 in each variant.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-cave-light.c",
+    "src/borg/borg-light.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-cave-light.c": "59fec2a1e36040acd49d139ea82c73fe4e6cb7162edea36d69d9ede77129c241",
+    "src/borg/borg-light.c": "3b859ec65fbea3ea4888b2776fee692cd41a43de87d257e9991a174b6a0faddb"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 16,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "7840109e7cde760e309cb40a78db17384f647a53a824a69391c3ab576413c6ac",
+    "after-adjacent.log": "17eb494bd2544fde8516ff5deac2eb591114618f91641246e103db488f9f3165",
+    "after-forget.log": "afdc895e7133752f640f8f9f3d6c77c32826232c37bb2fe93d7f2a970814d418",
+    "after-results.json": "1db6a1a67a59799d0925493580217635420f2879bb0396b2a9205f85ca6fe630",
+    "before-adjacent.log": "17eb494bd2544fde8516ff5deac2eb591114618f91641246e103db488f9f3165",
+    "before-forget.log": "2a229c770b00814756a623ae8096b0f0205625b68c688d4d6a697625d34ebd8d",
+    "before-results.json": "0e064125fffd25357b2f7b35c378791ed26be8d4d17a3ad26635f190fcac8fcf",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "414ff06a4be83b759f606d30af7dac091daee78791b1816536bc6023dd9dbded",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "d6fe85394be9af6c88d3c1de4131c2ad4323c9f9710475883b502d7f5b614eeb",
+    "replay.html": "649955e5454c73cc2564460aefd8f5b7988e7e1a70fc9e3ffc5443bd86f20f7a",
+    "reproduce.py": "1a2205a7ef01414f64bf7a404ebd61b5b660cd5a4a6079f4f07ead925cab3081",
+    "result.json": "c78ecd48f638c27c790b6139c6d66133f3f67d1e05f0a65b0cef2ab19907a3b0",
+    "run-after-alltests.log": "c4348966733944deb9df85d8ae06bca0846b692e10a31bea248a9f015afd5cb5",
+    "run-after-build.log": "9003d41b78aa6159fe0bf00864492c57c8bb2001fba9f54e3ef24bacd49691c4",
+    "run-after-scenarios.log": "709e94f8d49a3cac0f239be6d1ea2f7e64a27bd23cd20a4a2a21d1b8eaa7f572",
+    "run-before-alltests.log": "3df33004e13c1e7bc7665b90789c123bca44d7087629f6559bcd43076a89db7a",
+    "run-before-build.log": "2a60dbff0d76f138ee1b1448ce177aa4010f148cc4c8c508111d0820a91320fc",
+    "run-before-scenarios.log": "ece38a936c2f7198f0f64327e27d841178f4d8a12c1ba50c23d1d6f7ff10d465",
+    "run-cases.py": "b98fe32151a9d4438f1107027ae0b0778fdbaa1a6424e00dfcc5b6c6d1b013b5",
+    "run-configure.log": "16fd6f0bf1eef62f274118a39aea17d41285fdeda917fe42ddd40aa131eda4e6",
+    "scenario.c": "1e633412f4420d60c3e5b0ea0ac59bd062c6b135c76c7986eb5dff918efbb4d2"
+  }
+}

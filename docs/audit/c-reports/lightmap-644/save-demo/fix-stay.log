@@ -1,0 +1,41 @@
+native-c/lightmap-644-saveplay: starting...
+LOADED mode=stay save=/tmp/opencode/lightmap644-save/out/profile/save/lightmap644-stay.sav class=Warrior clevel=20 hp=226/226 depth=5 player=(10,12)
+MON i=1 race=soldier ant pos=(11,12) visible=1 aware=1
+PREPARE infra=0 light=2
+  record_outside_the_light  OBSERVED the monster while lit
+KILL k=1 race=soldier ant pos=(11,12) awake=1
+KILLS kills=1
+KILL k=1 race=soldier ant pos=(11,12) awake=1
+KILLS kills=1
+LIGHTINFO grid=(11,12) light=1 glow=0 view=1 dark=0
+DANGER monster_grid=2 west_of_monster=2
+MAP After the pass: @ = the Borg, a = the monster, ? = the borg's record
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW #.........@?.###########################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPEND
+STATE kills=1 tracked_x=11 monster_x=11 flowed=0
+OUTCOME kept=1
+[01;32mPassed[00m
+native-c/lightmap-644-saveplay finished: 1/1 passed

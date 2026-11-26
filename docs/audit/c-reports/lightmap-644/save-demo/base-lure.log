@@ -1,0 +1,55 @@
+native-c/lightmap-644-saveplay: starting...
+LOADED mode=lure save=/tmp/opencode/lightmap644-save/out/profile/save/lightmap644-lure.sav class=Druid clevel=1 hp=12/12 depth=5 player=(10,12)
+MON i=1 race=white worm mass pos=(12,12) visible=0 aware=1
+MON i=2 race=white worm mass pos=(12,11) visible=0 aware=1
+MON i=3 race=white worm mass pos=(12,13) visible=0 aware=1
+MON i=4 race=kobold pos=(2,12) visible=1 aware=1
+MON i=5 race=kobold pos=(7,12) visible=0 aware=0
+PREPARE infra=0 light=2
+  record_outside_the_light  STEP1 player=(11,12) monster=(12,12) visible=1
+OBSERVED the monster while lit
+KILL k=1 race=kobold pos=(2,12) awake=1
+KILL k=2 race=white worm mass pos=(12,12) awake=1
+KILL k=3 race=white worm mass pos=(12,13) awake=1
+KILL k=4 race=white worm mass pos=(12,11) awake=1
+KILLS kills=4
+STEP2 player=(10,12) monster=(12,12) visible=0
+KILL k=1 race=kobold pos=(2,12) awake=1
+KILLS kills=1
+LIGHTINFO grid=(12,12) light=1 glow=0 view=1 dark=0
+LIGHTINFO grid=(13,12) light=0 glow=0 view=1 dark=0
+LIGHTINFO grid=(7,12) light=0 glow=0 view=1 dark=0
+DANGER monster_grid=0 west_of_monster=0
+DECISION flowed=1 keys=[54] step=54
+NOTES | # Converting a monster 'kobold' at (12,2) | # Needing to get back on correct depth | # Scary guy on level. | # Leaving (Scary guy on level) | # Fleeing (Scary guy on level) | # Fleeing and leaving the level. (scaryguy) | # Flowing toward up-stairs at cost 4 | # Desperate for Stairs (three)
+MAP After the pass: @ = the Borg, w = the monster, ? = the borg's record, * = the borg's committed step
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW #...##......w.##########################
+MAPROW #.?....k..@*w.<#########################
+MAPROW #...##......w.##########################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPEND
+STATE kills=1 tracked_x=-1 monster_x=12 flowed=1
+OUTCOME kept=0
+[01;31mFailed[00m
+    native-c/lightmap-644-saveplay:325: requirement 'kept == 1' failed
+native-c/lightmap-644-saveplay finished: 0/1 passed
