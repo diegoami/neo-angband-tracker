@@ -1,0 +1,615 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Worn stat curses never lower the borg&#x27;s derived stats</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%}pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}.maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Worn stat curses never lower the borg&#x27;s derived stats</h1><p>When the Borg notices a known-cursed non-artifact it is wearing, it skips the item entirely in its equipment scan - it is going to take the item off, so the scan does not total its bonuses. One consequence: the four stat curses (dullness, sickliness, weakness, clumsiness) are never recorded, and the penalties that the code did apply went to current-stat traits that the effective-stat pass immediately overwrites with the game&#x27;s own base stat. The engine instead adds the curse&#x27;s own modifiers into stat_add, so the game&#x27;s effective stats include the penalties. The result is that a Borg wearing, say, weakness gloves believes it has STR 38 when the game gives it 10, and plans a carry allowance of 2400 where the game allows 1200. The fixture equips the mode&#x27;s known-cursed item through the real wear path (append_object_curse, inven_wield, the wear-time notice), recomputes the game&#x27;s stats, runs one production borg_notice() and requires every derived stat to equal the game&#x27;s own effective stat.</p><p><label>Scenario: <select id="scenario"><option value="plain">Plain Leather Gloves (control)</option><option value="weak">Weakness gloves (STR -10)</option><option value="weak_clum">Weakness and clumsiness gloves (STR -10, DEX -10)</option><option value="sickly">Sickliness helm (STR/DEX/CON -5)</option><option value="dull">Dullness helm (INT/WIS -5)</option></select></label></p><section class="scenario" data-mode="plain"><p class="summary">Uncursed gloves. The borg&#x27;s derived stats already equal the game&#x27;s; the complete log is byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=plain class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=38 game=38 match=1
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=18 game=18 match=1
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=0 clum=0 sick=0 dull=0 str_index=17 carry=2400
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=1 carry=2400 str_index=17
+OUTCOME stats_ok=1 carry=2400
+Passed
+native-c/statcurse-645 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=plain class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=38 game=38 match=1
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=18 game=18 match=1
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=0 clum=0 sick=0 dull=0 str_index=17 carry=2400
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=1 carry=2400 str_index=17
+OUTCOME stats_ok=1 carry=2400
+Passed
+native-c/statcurse-645 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="weak"><p class="summary">Gloves carrying a known weakness curse. The game&#x27;s effective STR is 10; the original borg derives 38 and a carry allowance of 2400 where the game allows 1200. The corrected borg derives 10 and 1200.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=weak class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=38 game=10 match=0
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=18 game=18 match=1
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=0 clum=0 sick=0 dull=0 str_index=17 carry=2400
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=0 carry=2400 str_index=17
+OUTCOME stats_ok=0 carry=2400
+Failed
+    native-c/statcurse-645:215: requirement &#x27;stats_ok == 1&#x27; failed
+native-c/statcurse-645 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=weak class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=10 game=10 match=1
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=18 game=18 match=1
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=1 clum=0 sick=0 dull=0 str_index=7 carry=1200
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=1 carry=1200 str_index=7
+OUTCOME stats_ok=1 carry=1200
+Passed
+native-c/statcurse-645 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="weak_clum"><p class="summary">Both glove curses. The game&#x27;s effective STR/DEX are 10/8; the original borg derives 38/18. The corrected borg derives 10/8.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=weak_clum class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=38 game=10 match=0
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=18 game=8 match=0
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=0 clum=0 sick=0 dull=0 str_index=17 carry=2400
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=0 carry=2400 str_index=17
+OUTCOME stats_ok=0 carry=2400
+Failed
+    native-c/statcurse-645:215: requirement &#x27;stats_ok == 1&#x27; failed
+native-c/statcurse-645 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=weak_clum class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=10 game=10 match=1
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=8 game=8 match=1
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=1 clum=1 sick=0 dull=0 str_index=7 carry=1200
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=1 carry=1200 str_index=7
+OUTCOME stats_ok=1 carry=1200
+Passed
+native-c/statcurse-645 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="sickly"><p class="summary">An Iron Helm carrying sickliness. The game&#x27;s effective STR/DEX/CON are 15/13/13; the original borg derives 38/18/18. The corrected borg matches the game on all three.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=sickly class=Warrior clevel=20 hp=217 depth=5
+  stats_match_engine  STATINFO stat=STR borg=38 game=15 match=0
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=18 game=13 match=0
+STATINFO stat=CON borg=18 game=13 match=0
+CURSEINFO weak=0 clum=0 sick=0 dull=0 str_index=17 carry=2400
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=0 carry=2400 str_index=17
+OUTCOME stats_ok=0 carry=2400
+Failed
+    native-c/statcurse-645:215: requirement &#x27;stats_ok == 1&#x27; failed
+native-c/statcurse-645 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=sickly class=Warrior clevel=20 hp=217 depth=5
+  stats_match_engine  STATINFO stat=STR borg=15 game=15 match=1
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=13 game=13 match=1
+STATINFO stat=CON borg=13 game=13 match=1
+CURSEINFO weak=0 clum=0 sick=1 dull=0 str_index=12 carry=1700
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=1 carry=1700 str_index=12
+OUTCOME stats_ok=1 carry=1700
+Passed
+native-c/statcurse-645 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="dull"><p class="summary">An Iron Helm carrying dullness. The game&#x27;s effective INT/WIS are 3/3; the original borg derives 8/8, which overstates mana and spell-failure adjustments. The corrected borg derives 3/3.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>1 = every derived stat equals the game&#x27;s own effective stat (per-stat values on the STATINFO lines of each log)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=dull class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=38 game=38 match=1
+STATINFO stat=INT borg=8 game=3 match=0
+STATINFO stat=WIS borg=8 game=3 match=0
+STATINFO stat=DEX borg=18 game=18 match=1
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=0 clum=0 sick=0 dull=0 str_index=17 carry=2400
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=0 carry=2400 str_index=17
+OUTCOME stats_ok=0 carry=2400
+Failed
+    native-c/statcurse-645:215: requirement &#x27;stats_ok == 1&#x27; failed
+native-c/statcurse-645 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/statcurse-645: starting...
+SETUP seed=645 mode=dull class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=38 game=38 match=1
+STATINFO stat=INT borg=3 game=3 match=1
+STATINFO stat=WIS borg=3 game=3 match=1
+STATINFO stat=DEX borg=18 game=18 match=1
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=0 clum=0 sick=0 dull=1 str_index=17 carry=2400
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=1 carry=2400 str_index=17
+OUTCOME stats_ok=1 carry=2400
+Passed
+native-c/statcurse-645 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, level 20 (experience forced), depth 5 in a synthetic open lit arena with no monsters, a wooden torch as the only light, infravision 0. Each mode equips one plain or cursed item (Set of Leather Gloves / Iron Helm) with curses attached by the game&#x27;s own append_object_curse() and learned through the wear-time notice path (object_learn_on_wield, player_learn_curse), then recomputes the engine bonuses (PU_BONUS) and runs one production borg_notice(). No combat, movement or random placement consumes the RNG (fixed seed 645); a scenario log is fully determined by its mode. Limits: the fixture measures the stat model (derived stats, stat index, carry allowance), not a specific fight or wear decision; the borg&#x27;s wider skip of known-cursed non-artifacts (armor, speed and weight totals while such an item is worn) is untouched by this change and left as a separate owner question recorded on the issue.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/645">issue 645</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

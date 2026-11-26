@@ -1,0 +1,38 @@
+native-c/statcurse-645: starting...
+SETUP seed=645 mode=sickly class=Warrior clevel=20 hp=217 depth=5
+  stats_match_engine  STATINFO stat=STR borg=15 game=15 match=1
+STATINFO stat=INT borg=8 game=8 match=1
+STATINFO stat=WIS borg=8 game=8 match=1
+STATINFO stat=DEX borg=13 game=13 match=1
+STATINFO stat=CON borg=13 game=13 match=1
+CURSEINFO weak=0 clum=0 sick=1 dull=0 str_index=12 carry=1700
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=1 carry=1700 str_index=12
+OUTCOME stats_ok=1 carry=1700
+Passed
+native-c/statcurse-645 finished: 1/1 passed

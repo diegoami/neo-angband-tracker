@@ -1,0 +1,157 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "e56b1dbb92c82d8bb01b24ed2a3a6255d2b34472",
+  "fixtures_ref": "9afa40b6b5bd79d2709eb5975c3316d2006b3a75",
+  "cases": {
+    "before": {
+      "plain": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 2400
+        }
+      },
+      "weak": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "stats_ok": 0,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 0,
+          "carry": 2400
+        }
+      },
+      "weak_clum": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "stats_ok": 0,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 0,
+          "carry": 2400
+        }
+      },
+      "sickly": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "stats_ok": 0,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 0,
+          "carry": 2400
+        }
+      },
+      "dull": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "stats_ok": 0,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 0,
+          "carry": 2400
+        }
+      }
+    },
+    "after": {
+      "plain": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 2400
+        }
+      },
+      "weak": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 1200,
+          "str_index": 7
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 1200
+        }
+      },
+      "weak_clum": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 1200,
+          "str_index": 7
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 1200
+        }
+      },
+      "sickly": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 1700,
+          "str_index": 12
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 1700
+        }
+      },
+      "dull": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 2400
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "plain"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "966/966",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "966/966",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-trait.c": "ffe741f281a3036c8fd052097281f85a08d8e7e263081f28341ec94da8e9fb28"
+  }
+}
