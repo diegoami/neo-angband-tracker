@@ -1,0 +1,72 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "d8d31359ec2ef9c73c9d9aa4b92579dc73a3b5fb",
+  "fixtures_ref": "3df4d5cc99fdf705e48cfb70ba3dfab7b9c78ad3",
+  "cases": {
+    "before": {
+      "forget": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "kills": 0,
+          "light": 1
+        },
+        "outcome": {
+          "kept": 0
+        }
+      },
+      "adjacent": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "kills": 1,
+          "light": 1
+        },
+        "outcome": {
+          "kept": 1
+        }
+      }
+    },
+    "after": {
+      "forget": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "kills": 1,
+          "light": 0
+        },
+        "outcome": {
+          "kept": 1
+        }
+      },
+      "adjacent": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "kills": 1,
+          "light": 1
+        },
+        "outcome": {
+          "kept": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "adjacent"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "966/966",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "966/966",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-cave-light.c": "59fec2a1e36040acd49d139ea82c73fe4e6cb7162edea36d69d9ede77129c241",
+    "src/borg/borg-light.c": "3b859ec65fbea3ea4888b2776fee692cd41a43de87d257e9991a174b6a0faddb"
+  }
+}
