@@ -1,0 +1,8 @@
+native-c/veinmode-280: starting...
+SETUP seed=280 mode=mixed class=Warrior clevel=23 dig=13 quartz_diggable=0 magma_diggable=1 veins=2 twitch=27 gold=140
+  the_committed_vein_must_be_diggable  DECISION rc=1 keys="8"
+TRACK # Flowing toward vein at cost 3
+OUTCOME flowed=1 keys="8" quartz_diggable=0 vein_note=1
+Failed
+    native-c/veinmode-280:195: requirement 'streq(keybuf, "6")' failed
+native-c/veinmode-280 finished: 0/1 passed
