@@ -14,8 +14,9 @@ light map, the missing-monster pass).
 
 | Save | Situation |
 | --- | --- |
-| `lightmap644-retreat.sav` | The ant holds the corridor's last floor, two grids east of the player, in the dark outside the torch's real light (the corridor was walked, so the level's memory covers that floor). |
-| `lightmap644-stay.sav` | Control: the ant stands one grid east, inside the real light, visible. |
+| `lightmap644-retreat.sav` | A soldier ant holds the corridor's last floor, two grids east of the player, in the dark outside the torch's real light (the corridor was walked, so the level's memory covers that floor). |
+| `lightmap644-lure.sav` | The corridor turns south at a white worm mass and ends in a down staircase; the worm (poison touch) holds the dark corner, the stairs lie one grid beyond it, and the borg wants them. |
+| `lightmap644-stay.sav` | Control: an ant stands one grid east, inside the real light, visible. |
 
 Load them in the game itself, or replay them with `saveplay.c`:
 
@@ -44,6 +45,26 @@ the caution a dark grid or a remembered monster would trigger.
 
 The control (`lightmap644-stay.sav`) keeps the record in both builds,
 prices the ant identically (`DANGER ant_grid=2`), and is byte-identical.
+
+## What the lure shows (the acted-out consequence)
+
+`lightmap644-lure.sav`: the corridor turns south at a **white worm mass**
+(poison touch, awake) holding the dark corner, and ends in a **down
+staircase** the borg knows about and wants. After the same
+step-east/step-back dance, the saveplay asks the production dive decision
+(`borg_flow_stair_more(GOAL_BORE, ...)`) what the borg does next:
+
+| Build | The worm | Danger on its grid | The borg's committed step |
+| --- | --- | --- | --- |
+| base `574b618c3` | forgotten (`kills=0`), its grid and the south leg marked `light=1` | 0 | key `6` (east) — the map shows `@*w`: the step lands **directly on the worm**, which the borg believes is a lit, empty floor |
+| fix `d8d31359e` | remembered (`?` on the worm's grid) | 13 (the poison touch priced) | key `6` (east) — the same step, but the worm is on the borg's map, in the flow's danger cost, and would be handled on arrival instead of surprising it |
+
+Both builds want the stairs and step east — that is the point: the
+defect does not change the goal, it changes what the borg believes about
+the path. On the original the borg commits its walk into a grid its own
+model prices at zero danger while a breeding, poison-touching worm
+stands on it; it re-learns the worm only when adjacency makes the game
+show it.
 
 ## Replay it
 

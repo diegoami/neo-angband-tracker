@@ -1,6 +1,6 @@
 native-c/lightmap-644-savegen: starting...
-  save_written      SAVED /tmp/opencode/lightmap644-save/out/profile/save/lightmap644-stay.sav mode=stay class=Warrior clevel=20 hp=226 depth=5 torch=1 corridor=1..12,12 player=(10,12) ant=(11,12)
-MAP The saved level: @ = the player, a = the soldier ant
+  save_written      SAVED /tmp/opencode/lightmap644-save/out/profile/save/lightmap644-stay.sav mode=stay class=Warrior clevel=20 hp=226 depth=5 torch=1 corridor=1..12,12 player=(10,12) monster=soldier ant(11,12)
+MAP The saved level: @ = the player, a = the monster
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################

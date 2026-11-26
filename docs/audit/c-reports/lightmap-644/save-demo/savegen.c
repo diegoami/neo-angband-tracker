@@ -54,11 +54,14 @@ static term screen;
 #define H 24
 #define W 40
 
-/* The corridor: floor on row 12 from x=1 to x=12 (dead end), rock
- * elsewhere.  The player walks in from the west. */
+/* The level by mode.  retreat/stay: floor on row 12 from x=1 to x=12
+ * (dead end).  lure: the corridor turns south at x=12 and ends in a down
+ * staircase, so something the borg wants lies beyond the monster. */
 #define CORR_Y 12
 #define CORR_X0 1
 #define CORR_X1 12
+#define LURE_STAIR_Y 15
+#define LURE_STAIR_X 12
 
 static char savepath[1024];
 static const char *mode;
@@ -110,11 +113,18 @@ int setup_tests(void **state)
     term_init(&screen, 198, 66, 256); Term_activate(&screen); angband_term[0] = &screen;
     textui_prefs_init();
     cave = t_build_arena(H, W);
-    /* A dark dead-end corridor: no SQUARE_GLOW anywhere. */
+    /* A dark corridor (no SQUARE_GLOW anywhere); lure adds the south leg
+     * and the down staircase at its end. */
     for (int y = 0; y < H; ++y)
-        for (int x = 0; x < W; ++x)
-            if (y != CORR_Y || x < CORR_X0 || x > CORR_X1)
-                square_set_feat(cave, loc(x, y), FEAT_GRANITE);
+        for (int x = 0; x < W; ++x) {
+            bool floor_grid =
+                (y == CORR_Y && x >= CORR_X0 && x <= CORR_X1)
+                || (streq(mode, "lure") && x == LURE_STAIR_X
+                    && y >= CORR_Y + 1 && y <= LURE_STAIR_Y - 1);
+            square_set_feat(cave, loc(x, y), floor_grid ? FEAT_FLOOR : FEAT_GRANITE);
+        }
+    if (streq(mode, "lure"))
+        square_set_feat(cave, loc(LURE_STAIR_X, LURE_STAIR_Y), FEAT_MORE);
     player->cave = cave_new(H, W);
     player->depth = player->max_depth = cave->depth = player->cave->depth = 5;
     player_exp_gain(player, player_exp[18] * player->expfact / 100);
@@ -123,26 +133,42 @@ int setup_tests(void **state)
     torch->timeout = 4000;
     inven_wield(torch, wield_slot(torch));
     known_item(TV_FOOD, "Ration of Food", 5);
-    /* The player walked the corridor: stand one grid from the end (the
-     * torch lights the last floor), then walk back west two grids. */
-    player_place(cave, player, loc(11, CORR_Y));
+    /* Compute the torch's radius once (and the HPs), then walk. */
     player->upkeep->update |= PU_BONUS | PU_HP | PU_TORCH | PU_INVEN | PU_UPDATE_VIEW | PU_MONSTERS;
     update_stuff(player);
-    memorize_view();
-    square_set_mon(cave, player->grid, 0);
-    player_place(cave, player, loc(10, CORR_Y));
-    player->upkeep->update |= PU_UPDATE_VIEW | PU_MONSTERS;
-    update_stuff(player);
-    memorize_view();
+    /* The player walked the corridor: stand on every lit step of it (so
+     * the whole floor and, in lure mode, the staircase are memorized),
+     * then walk back west. */
+    {
+        /* loc() takes (x, y): the corner is (12, 12), the south stand is
+         * (12, 14) - one grid west of the staircase at (12, 15). */
+        int walk_lure[][2] = {{12, CORR_Y}, {12, CORR_Y + 2}, {12, CORR_Y}, {10, CORR_Y}};
+        int walk_flat[][2] = {{11, CORR_Y}, {10, CORR_Y}};
+        int (*walk)[2] = streq(mode, "lure") ? walk_lure : walk_flat;
+        size_t nwalk = streq(mode, "lure")
+            ? sizeof(walk_lure) / sizeof(walk_lure[0])
+            : sizeof(walk_flat) / sizeof(walk_flat[0]);
+        for (size_t i = 0; i < nwalk; i++) {
+            square_set_mon(cave, player->grid, 0);
+            player_place(cave, player, loc(walk[i][0], walk[i][1]));
+            player->upkeep->update |= PU_UPDATE_VIEW | PU_MONSTERS;
+            update_stuff(player);
+            memorize_view();
+        }
+    }
     player->chp = player->mhp;
-    /* The soldier ant, awake: on the corridor's last floor (retreat) or
-     * one grid east of the player (stay control). */
+    /* The monster, awake: retreat/stay a soldier ant (on the corridor's
+     * last floor, or one grid east of the player for the control); lure
+     * a white worm mass holding the corner where the corridor turns
+     * south toward the staircase. */
     ant_x = streq(mode, "stay") ? 11 : 12;
-    struct monster *mon = t_add_monster(cave, loc(ant_x, CORR_Y), "Soldier ant");
+    const char *race = streq(mode, "lure") ? "White worm mass" : "Soldier ant";
+    struct monster *mon = t_add_monster(cave, loc(ant_x, CORR_Y), race);
     if (!mon) { printf("SETUPFAIL monster\n"); return 1; }
     mflag_on(mon->mflag, MFLAG_AWARE);
     update_mon(mon, cave, true);
-    if (mon->m_timed[MON_TMD_SLEEP] != 0) { printf("SETUPFAIL ant asleep\n"); return 1; }
+    if (rf_has(mon->race->flags, RF_NEVER_MOVE)) { printf("SETUPFAIL %s never moves\n", race); return 1; }
+    if (mon->m_timed[MON_TMD_SLEEP] != 0) { printf("SETUPFAIL monster asleep\n"); return 1; }
     if (mflag_has(mon->mflag, MFLAG_VISIBLE) != (ant_x == 11)) {
         printf("SETUPFAIL ant visible=%d expected=%d\n",
                mflag_has(mon->mflag, MFLAG_VISIBLE) ? 1 : 0, ant_x == 11 ? 1 : 0);
@@ -154,12 +180,14 @@ int setup_tests(void **state)
 
 static int scenario_save(void *state)
 {
+    struct monster *mon = square_monster(cave, loc(ant_x, CORR_Y));
+    const char *race = mon ? mon->race->name : "?";
     if (!savefile_save(savepath)) { printf("SETUPFAIL save\n"); return 1; }
-    printf("SAVED %s mode=%s class=%s clevel=%d hp=%d depth=%d torch=1 corridor=%d..%d,%d player=(%d,%d) ant=(%d,%d)\n",
+    printf("SAVED %s mode=%s class=%s clevel=%d hp=%d depth=%d torch=1 corridor=%d..%d,%d player=(%d,%d) monster=%s(%d,%d)\n",
            savepath, mode, player->class->name, player->lev, player->chp, player->depth,
            CORR_X0, CORR_X1, CORR_Y, player->grid.x, player->grid.y,
-           ant_x, CORR_Y);
-    printf("MAP The saved level: @ = the player, a = the soldier ant\n");
+           race, ant_x, CORR_Y);
+    printf("MAP The saved level: @ = the player, %c = the monster\n", mon ? (char)mon->race->d_char : '?');
     for (int y = 0; y < cave->height; ++y) {
         char row[256];
         int x;

@@ -165,43 +165,74 @@ static void light_info(int y, int x)
 static int scenario_light(void *state)
 {
     struct monster *mon = square_monster(cave, streq(mode, "stay") ? loc(11, CORR_Y) : loc(12, CORR_Y));
-    if (!mon) { printf("SETUPFAIL no ant\n"); return 1; }
+    if (!mon) { printf("SETUPFAIL no monster\n"); return 1; }
+    bool lure = streq(mode, "lure");
 
-    if (streq(mode, "retreat")) {
-        /* The borg steps one grid east: the torch lights the ant's grid,
-         * the game sees it, and the scan notes the record. */
+    if (streq(mode, "retreat") || lure) {
+        /* The borg steps one grid east: the torch lights the monster's
+         * grid, the game sees it, and the scan notes the record. */
         step_player(11);
-        printf("STEP1 player=(%d,%d) ant=(%d,%d) visible=%d\n",
+        printf("STEP1 player=(%d,%d) monster=(%d,%d) visible=%d\n",
                player->grid.x, player->grid.y, mon->grid.x, mon->grid.y,
                mflag_has(mon->mflag, MFLAG_VISIBLE) ? 1 : 0);
         borg_update();
-        printf("OBSERVED the ant while lit\n");
+        printf("OBSERVED the monster while lit\n");
         print_kills();
-        /* The borg steps back west, out of the light; the ant's grid goes
-         * dark again, and one turn passes. */
+        /* The borg steps back west, out of the light; the monster's grid
+         * goes dark again, and one turn passes. */
         step_player(10);
-        printf("STEP2 player=(%d,%d) ant=(%d,%d) visible=%d\n",
+        printf("STEP2 player=(%d,%d) monster=(%d,%d) visible=%d\n",
                player->grid.x, player->grid.y, mon->grid.x, mon->grid.y,
                mflag_has(mon->mflag, MFLAG_VISIBLE) ? 1 : 0);
         borg.time.now++;
     } else {
-        printf("OBSERVED the ant while lit\n");
+        printf("OBSERVED the monster while lit\n");
         print_kills();
         borg.time.now++;
     }
 
     /* The next production per-turn pass: the scan (which cannot see the
-     * ant in the dark), the view, the light map and the missing-monster
-     * pass that may delete the record. */
+     * monster in the dark), the view, the light map and the
+     * missing-monster pass that may delete the record. */
     borg_update();
 
     print_kills();
     light_info(CORR_Y, mon->grid.x);
-    printf("MAP After the pass: @ = the Borg, a = the ant, ? = the borg's record\n");
+    if (lure)
+        light_info(CORR_Y + 1, 12);
+    /* What the borg believes about the monster's grid after the pass: the
+     * danger it expects on the grid itself and one grid west of it. */
+    printf("DANGER monster_grid=%d west_of_monster=%d\n",
+           borg_danger(CORR_Y, mon->grid.x, 1, true, false),
+           borg_danger(CORR_Y, mon->grid.x - 1, 1, true, false));
+
+    /* What the borg does next, in lure mode: the production dive
+     * decision, flowing to the down staircase it knows lies beyond the
+     * monster.  The first queued step is the borg's committed move. */
+    bool flowed = false;
+    int step_key = 0;
+    if (lure) {
+        borg_flush();
+        memset(&borg.goal, 0, sizeof(borg.goal));
+        borg_notice(true);
+        flowed = borg_flow_stair_more(GOAL_BORE, false, false);
+        keycode_t key = borg_inkey(false);
+        step_key = (key >= '1' && key <= '9') ? (int)key : 0;
+        printf("DECISION flowed=%d key=%d\n", flowed ? 1 : 0, step_key);
+    }
+
+    printf("MAP After the pass: @ = the Borg, %c = the monster, ? = the borg's record%s\n",
+           (char)mon->race->d_char,
+           lure ? ", * = the borg's committed step" : "");
     {
         int kx = -1, ky = -1;
         for (int k = 1; k < borg_kills_nxt; ++k)
             if (borg_kills[k].r_idx) { kx = borg_kills[k].pos.x; ky = borg_kills[k].pos.y; }
+        int sx = -1, sy = -1;
+        if (step_key && step_key != '5') {
+            sx = player->grid.x + ddgrid[step_key - '0'].x;
+            sy = player->grid.y + ddgrid[step_key - '0'].y;
+        }
         for (int y = 0; y < cave->height; ++y) {
             char row[256];
             int x;
@@ -212,6 +243,7 @@ static int scenario_light(void *state)
                 if (m) c = m->race->d_char;
                 if (loc_eq(grid, player->grid)) c = L'@';
                 if (x == kx && y == ky) c = L'?';
+                if (x == sx && y == sy) c = L'*';
                 row[x] = (c > 31 && c < 127) ? (char)c : '?';
             }
             row[x] = 0;
@@ -222,7 +254,7 @@ static int scenario_light(void *state)
     int kills = 0, kx = -1;
     for (int k = 1; k < borg_kills_nxt; ++k)
         if (borg_kills[k].r_idx) { kills++; kx = borg_kills[k].pos.x; }
-    printf("STATE kills=%d record_x=%d ant_x=%d\n", kills, kx, mon->grid.x);
+    printf("STATE kills=%d record_x=%d monster_x=%d flowed=%d\n", kills, kx, mon->grid.x, flowed ? 1 : 0);
     int kept = kills > 0 ? 1 : 0;
     printf("OUTCOME kept=%d\n", kept);
     /* Corrected contract: a monster that was seen while lit and now

@@ -2,16 +2,16 @@ native-c/lightmap-644-saveplay: starting...
 LOADED mode=retreat save=/tmp/opencode/lightmap644-save/out/profile/save/lightmap644-retreat.sav class=Warrior clevel=20 hp=226/226 depth=5 player=(10,12)
 MON i=1 race=soldier ant pos=(12,12) visible=0 aware=1
 PREPARE infra=0 light=2
-  record_outside_the_light  STEP1 player=(11,12) ant=(12,12) visible=1
-OBSERVED the ant while lit
+  record_outside_the_light  STEP1 player=(11,12) monster=(12,12) visible=1
+OBSERVED the monster while lit
 KILL k=1 race=soldier ant pos=(12,12) awake=1
 KILLS kills=1
-STEP2 player=(10,12) ant=(12,12) visible=0
+STEP2 player=(10,12) monster=(12,12) visible=0
 KILL k=1 race=soldier ant pos=(12,12) awake=1
 KILLS kills=1
 LIGHTINFO grid=(12,12) light=0 glow=0 view=1 dark=0
-DANGER ant_grid=2 west_of_ant=2
-MAP After the pass: @ = the Borg, a = the ant, ? = the borg's record
+DANGER monster_grid=2 west_of_monster=2
+MAP After the pass: @ = the Borg, a = the monster, ? = the borg's record
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
@@ -37,7 +37,7 @@ MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
 MAPEND
-STATE kills=1 record_x=12 ant_x=12
+STATE kills=1 record_x=12 monster_x=12 flowed=0
 OUTCOME kept=1
 [01;32mPassed[00m
 native-c/lightmap-644-saveplay finished: 1/1 passed

@@ -29,11 +29,13 @@ from pathlib import Path
 DEFAULT_REPO = "/home/diego/projects/angband-workspace/neo-angband-tracker"
 BASE = "574b618c3bfec595f3503a58f8e488b1c4ae3a46"
 FIX = "d8d31359ec2ef9c73c9d9aa4b92579dc73a3b5fb"
-MODES = ["retreat", "stay"]
-SAVES = {"retreat": "lightmap644-retreat.sav", "stay": "lightmap644-stay.sav"}
+MODES = ["retreat", "lure", "stay"]
+SAVES = {"retreat": "lightmap644-retreat.sav", "lure": "lightmap644-lure.sav",
+         "stay": "lightmap644-stay.sav"}
 # kept expectation per build and mode
 EXPECT = {
     "retreat": {"base": 0, "fix": 1},
+    "lure": {"base": 0, "fix": 1},
     "stay": {"base": 1, "fix": 1},
 }
 
@@ -143,12 +145,16 @@ add_compile_definitions(PRIVATE_USER_PATH="{out / 'test-user'}")
                 cwd=str(binary.parent))
             text = log.read_text()
             kept = re.search(r"OUTCOME kept=(-?\d+)", text)
-            record = re.search(r"STATE kills=(-?\d+) record_x=(-?\d+) ant_x=(-?\d+)", text)
+            record = re.search(
+                r"STATE kills=(-?\d+) record_x=(-?\d+) monster_x=(-?\d+) flowed=(\d+)", text)
+            decision = re.search(r"DECISION flowed=(\d+) key=(-?\d+)", text)
             rows[(label, mode)] = {
                 "kept": int(kept.group(1)) if kept else None,
                 "kills": int(record.group(1)) if record else None,
                 "record_x": int(record.group(2)) if record else None,
-                "ant_x": int(record.group(3)) if record else None,
+                "monster_x": int(record.group(3)) if record else None,
+                "flowed": int(record.group(4)) if record else 0,
+                "step_key": int(decision.group(2)) if decision else None,
                 "passed": "native-c/lightmap-644-saveplay finished: 1/1 passed" in text,
             }
             print(label, mode, rows[(label, mode)])
