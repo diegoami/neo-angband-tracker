@@ -1,0 +1,80 @@
+{
+  "none": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "borg_speed": 110,
+      "engine_speed": 110
+    },
+    "outcome": {
+      "speed_ok": 1,
+      "borg": 110,
+      "engine": 110
+    }
+  },
+  "fast": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "borg_speed": 120,
+      "engine_speed": 120
+    },
+    "outcome": {
+      "speed_ok": 1,
+      "borg": 120,
+      "engine": 120
+    }
+  },
+  "slow": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "borg_speed": 110,
+      "engine_speed": 100
+    },
+    "outcome": {
+      "speed_ok": 0,
+      "borg": 110,
+      "engine": 100
+    }
+  },
+  "terror": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "borg_speed": 115,
+      "engine_speed": 120
+    },
+    "outcome": {
+      "speed_ok": 0,
+      "borg": 115,
+      "engine": 120
+    }
+  },
+  "fast_terror": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "borg_speed": 120,
+      "engine_speed": 130
+    },
+    "outcome": {
+      "speed_ok": 0,
+      "borg": 120,
+      "engine": 130
+    }
+  },
+  "slow_terror": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "borg_speed": 115,
+      "engine_speed": 110
+    },
+    "outcome": {
+      "speed_ok": 0,
+      "borg": 115,
+      "engine": 110
+    }
+  }
+}

@@ -1,0 +1,35 @@
+native-c/speedmodel-648: starting...
+SETUP seed=648 mode=slow_terror class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=slow_terror fast=0 slow=1 terror=1 borg_speed=115 engine_speed=110 match=0
+ENERGYINFO borg_energy=15 engine_energy=10
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=115 engine_speed=110
+OUTCOME speed_ok=0 borg=115 engine=110
+Failed
+    native-c/speedmodel-648:190: requirement 'speed_ok == 1' failed
+native-c/speedmodel-648 finished: 0/1 passed

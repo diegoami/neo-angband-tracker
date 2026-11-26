@@ -1,0 +1,689 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>The borg&#x27;s speed model misses Slow and under-rates Terror</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%}pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}.maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>The borg&#x27;s speed model misses Slow and under-rates Terror</h1><p>While a speed effect is active, the borg keeps a one-number model of how fast its character is (BI_SPEED, starting at the game&#x27;s normal 110) and compares it with every monster&#x27;s speed to decide when it can safely approach, wait, or trade blows. The model added +10 for haste or sprint and otherwise +5 for terror, and never applied the slow penalty at all - the engine applies +10 haste/sprint, -10 slow and +10 terror, independently. So a slowed character is planned at full speed, a terrified one at half the real bonus, and haste plus terror loses the terror bonus. The fixture sets each timed effect through the real engine function, recomputes the game&#x27;s own speed and one production borg_notice(), and requires the two numbers to match.</p><p><label>Scenario: <select id="scenario"><option value="none">No timed effect (control)</option><option value="fast">Haste only (control)</option><option value="slow">Slowed</option><option value="terror">Terrified</option><option value="fast_terror">Haste and terror together</option><option value="slow_terror">Slow and terror together</option></select></label></p><section class="scenario" data-mode="none"><p class="summary">No timed effect is active. Both variants report speed 110, the game&#x27;s own value, and the complete logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">110</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">110</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=none class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=none fast=0 slow=0 terror=0 borg_speed=110 engine_speed=110 match=1
+ENERGYINFO borg_energy=10 engine_energy=10
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=110 engine_speed=110
+OUTCOME speed_ok=1 borg=110 engine=110
+Passed
+native-c/speedmodel-648 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=none class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=none fast=0 slow=0 terror=0 borg_speed=110 engine_speed=110 match=1
+ENERGYINFO borg_energy=10 engine_energy=10
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=110 engine_speed=110
+OUTCOME speed_ok=1 borg=110 engine=110
+Passed
+native-c/speedmodel-648 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="fast"><p class="summary">Only haste is active. Both variants already add the engine&#x27;s +10 and report 120; the complete logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">120</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">120</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=fast class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=fast fast=1 slow=0 terror=0 borg_speed=120 engine_speed=120 match=1
+ENERGYINFO borg_energy=20 engine_energy=20
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=120 engine_speed=120
+OUTCOME speed_ok=1 borg=120 engine=120
+Passed
+native-c/speedmodel-648 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=fast class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=fast fast=1 slow=0 terror=0 borg_speed=120 engine_speed=120 match=1
+ENERGYINFO borg_energy=20 engine_energy=20
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=120 engine_speed=120
+OUTCOME speed_ok=1 borg=120 engine=120
+Passed
+native-c/speedmodel-648 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="slow"><p class="summary">The character is slowed. The game grants speed 100 (its -10 penalty); the original borg keeps planning at 110 - it believes it acts twice as fast as it does (energy 10 per turn budgeted where the game grants 5). The corrected borg reports 100.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">110</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">100</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=slow class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=slow fast=0 slow=1 terror=0 borg_speed=110 engine_speed=100 match=0
+ENERGYINFO borg_energy=10 engine_energy=5
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=110 engine_speed=100
+OUTCOME speed_ok=0 borg=110 engine=100
+Failed
+    native-c/speedmodel-648:190: requirement &#x27;speed_ok == 1&#x27; failed
+native-c/speedmodel-648 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=slow class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=slow fast=0 slow=1 terror=0 borg_speed=100 engine_speed=100 match=1
+ENERGYINFO borg_energy=5 engine_energy=5
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=100 engine_speed=100
+OUTCOME speed_ok=1 borg=100 engine=100
+Passed
+native-c/speedmodel-648 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="terror"><p class="summary">Only terror is active. The engine adds +10 (speed 120); the original borg adds only 5 (115), so it thinks a monster at 120 is not faster. The corrected borg reports 120.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">115</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">120</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=terror class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=terror fast=0 slow=0 terror=1 borg_speed=115 engine_speed=120 match=0
+ENERGYINFO borg_energy=15 engine_energy=20
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=115 engine_speed=120
+OUTCOME speed_ok=0 borg=115 engine=120
+Failed
+    native-c/speedmodel-648:190: requirement &#x27;speed_ok == 1&#x27; failed
+native-c/speedmodel-648 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=terror class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=terror fast=0 slow=0 terror=1 borg_speed=120 engine_speed=120 match=1
+ENERGYINFO borg_energy=20 engine_energy=20
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=120 engine_speed=120
+OUTCOME speed_ok=1 borg=120 engine=120
+Passed
+native-c/speedmodel-648 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="fast_terror"><p class="summary">Haste and terror are active at once. The engine adds +10 and +10 (130); the original borg&#x27;s else-if drops the terror bonus entirely and reports 120. The corrected borg reports 130.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">120</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">130</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=fast_terror class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=fast_terror fast=1 slow=0 terror=1 borg_speed=120 engine_speed=130 match=0
+ENERGYINFO borg_energy=20 engine_energy=30
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=120 engine_speed=130
+OUTCOME speed_ok=0 borg=120 engine=130
+Failed
+    native-c/speedmodel-648:190: requirement &#x27;speed_ok == 1&#x27; failed
+native-c/speedmodel-648 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=fast_terror class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=fast_terror fast=1 slow=0 terror=1 borg_speed=130 engine_speed=130 match=1
+ENERGYINFO borg_energy=30 engine_energy=30
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=130 engine_speed=130
+OUTCOME speed_ok=1 borg=130 engine=130
+Passed
+native-c/speedmodel-648 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="slow_terror"><p class="summary">Slow and terror are active at once. The engine nets -10 + 10 (110); the original borg ignores the slow penalty and adds a half terror bonus (115). The corrected borg reports 110.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>The arena: @ = the Borg, open lit floor, no monsters</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">115</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">110</div><p>the Borg&#x27;s modelled speed score (the game&#x27;s own speed is on the same log&#x27;s SPEEDINFO line)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=slow_terror class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=slow_terror fast=0 slow=1 terror=1 borg_speed=115 engine_speed=110 match=0
+ENERGYINFO borg_energy=15 engine_energy=10
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=115 engine_speed=110
+OUTCOME speed_ok=0 borg=115 engine=110
+Failed
+    native-c/speedmodel-648:190: requirement &#x27;speed_ok == 1&#x27; failed
+native-c/speedmodel-648 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/speedmodel-648: starting...
+SETUP seed=648 mode=slow_terror class=Warrior clevel=20 hp=245 depth=5
+  speed_model_matches_engine  SPEEDINFO mode=slow_terror fast=0 slow=1 terror=1 borg_speed=110 engine_speed=110 match=1
+ENERGYINFO borg_energy=10 engine_energy=10
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE borg_speed=110 engine_speed=110
+OUTCOME speed_ok=1 borg=110 engine=110
+Passed
+native-c/speedmodel-648 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, level 18 (experience forced), depth 5 in a synthetic open lit arena with no monsters, a wooden torch as the only light, infravision 0, unencumbered. The timed effects are set with the engine&#x27;s own player_set_timed() (no message), the game&#x27;s speed is recomputed with PU_BONUS, and one production borg_notice() derives the borg&#x27;s model. No combat, movement or random placement consumes the RNG (fixed seed 648), so a scenario log is fully determined by its mode. Limits: the fixture measures the speed model itself, not a specific fight; the consumers of BI_SPEED (monster-speed comparisons in approach/wait decisions, energy-per-turn danger math, power valuation) are quoted from the source and not separately exercised.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/648">issue 648</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

@@ -1,0 +1,6 @@
+none {'exit': 0, 'passed': True, 'state': {'borg_speed': 110, 'engine_speed': 110}, 'outcome': {'speed_ok': 1, 'borg': 110, 'engine': 110}}
+fast {'exit': 0, 'passed': True, 'state': {'borg_speed': 120, 'engine_speed': 120}, 'outcome': {'speed_ok': 1, 'borg': 120, 'engine': 120}}
+slow {'exit': 0, 'passed': True, 'state': {'borg_speed': 100, 'engine_speed': 100}, 'outcome': {'speed_ok': 1, 'borg': 100, 'engine': 100}}
+terror {'exit': 0, 'passed': True, 'state': {'borg_speed': 120, 'engine_speed': 120}, 'outcome': {'speed_ok': 1, 'borg': 120, 'engine': 120}}
+fast_terror {'exit': 0, 'passed': True, 'state': {'borg_speed': 130, 'engine_speed': 130}, 'outcome': {'speed_ok': 1, 'borg': 130, 'engine': 130}}
+slow_terror {'exit': 0, 'passed': True, 'state': {'borg_speed': 110, 'engine_speed': 110}, 'outcome': {'speed_ok': 1, 'borg': 110, 'engine': 110}}

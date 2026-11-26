@@ -1,0 +1,230 @@
+{
+  "issue": "diegoami/neo-angband-tracker#648",
+  "report": "speedmodel-648",
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "4a2f98f684393e81041144245cf233354535e804",
+  "fix_branch": "speedmodel-648",
+  "fixtures_ref": "28cc1003576881e4b56a2a9a1b1d0408563e78b0",
+  "cases": {
+    "none": {
+      "before": {
+        "passed": true,
+        "state": {
+          "borg_speed": 110,
+          "engine_speed": 110
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 110,
+          "engine": 110
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "borg_speed": 110,
+          "engine_speed": 110
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 110,
+          "engine": 110
+        }
+      }
+    },
+    "fast": {
+      "before": {
+        "passed": true,
+        "state": {
+          "borg_speed": 120,
+          "engine_speed": 120
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 120,
+          "engine": 120
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "borg_speed": 120,
+          "engine_speed": 120
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 120,
+          "engine": 120
+        }
+      }
+    },
+    "slow": {
+      "before": {
+        "passed": false,
+        "state": {
+          "borg_speed": 110,
+          "engine_speed": 100
+        },
+        "outcome": {
+          "speed_ok": 0,
+          "borg": 110,
+          "engine": 100
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "borg_speed": 100,
+          "engine_speed": 100
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 100,
+          "engine": 100
+        }
+      }
+    },
+    "terror": {
+      "before": {
+        "passed": false,
+        "state": {
+          "borg_speed": 115,
+          "engine_speed": 120
+        },
+        "outcome": {
+          "speed_ok": 0,
+          "borg": 115,
+          "engine": 120
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "borg_speed": 120,
+          "engine_speed": 120
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 120,
+          "engine": 120
+        }
+      }
+    },
+    "fast_terror": {
+      "before": {
+        "passed": false,
+        "state": {
+          "borg_speed": 120,
+          "engine_speed": 130
+        },
+        "outcome": {
+          "speed_ok": 0,
+          "borg": 120,
+          "engine": 130
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "borg_speed": 130,
+          "engine_speed": 130
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 130,
+          "engine": 130
+        }
+      }
+    },
+    "slow_terror": {
+      "before": {
+        "passed": false,
+        "state": {
+          "borg_speed": 115,
+          "engine_speed": 110
+        },
+        "outcome": {
+          "speed_ok": 0,
+          "borg": 115,
+          "engine": 110
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "borg_speed": 110,
+          "engine_speed": 110
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 110,
+          "engine": 110
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "none",
+    "fast"
+  ],
+  "claim": "The borg's one-number speed model diverges from the game's own speed exactly as described: unchanged with no effect (110) and with haste alone (120), wrong for slow (110 modelled where the game grants 100, with 10 energy budgeted per turn where the game grants 5), terror (115 modelled where the game grants 120), haste plus terror (120 where the game grants 130) and slow plus terror (115 where the game grants 110). With the correction every modelled value equals the game's, and the two unchanged controls are byte-identical. Both full native gates pass on both variants.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-trait.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-trait.c": "f9a59d17c6f9fd699543c3456ed2d2e9686343033a8f6c15532c979f6ca6a665"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 44,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "20a5e644385c12d56fd328a693c7521f08cac273efe93bcb9ab20ffe3a555ffa",
+    "after-fast.log": "71437f83d260afb48eb28ba86b5240ee95b989136f9ee735f32e1680f15badf9",
+    "after-fast_terror.log": "a94cd4145350c5144e595288889cdad53b1794f4cdfc12612351c830e46713ba",
+    "after-none.log": "790d2d55048b043ac8eb33c09b17b2dede3b0485bb52c7161b34f5c64113f5c9",
+    "after-results.json": "1f6fd6107889a14cbb8b2c1148962620e72052e1a99dc7cfe3f7aa86e3e1296c",
+    "after-slow.log": "3d1d5005212412ca285d1f14b1cc6028358a6fd6c407018dde3527184626eb28",
+    "after-slow_terror.log": "6da7d2206af02d1aed52e67463960d2e2ede6fadc5b26948390693e4b07b0a2c",
+    "after-terror.log": "6bfcee3f802399b4c08baceac02107add7fe65d1ee12ef5ed9f6f7892fafb444",
+    "before-fast.log": "71437f83d260afb48eb28ba86b5240ee95b989136f9ee735f32e1680f15badf9",
+    "before-fast_terror.log": "34d1aa6705d878648b91002ae3dbff6118f5c01c1dbbf2a97da724eb0db041b8",
+    "before-none.log": "790d2d55048b043ac8eb33c09b17b2dede3b0485bb52c7161b34f5c64113f5c9",
+    "before-results.json": "c8924fd29ef5c4c207478f3e78a2163017a55bd867bc88892d262b561058afb1",
+    "before-slow.log": "cd7056e77250a9e5c5a7a30dcb326729a439d4aba3ed56f4595f4d0b6b9ad420",
+    "before-slow_terror.log": "8ce82566a35a3e878cb064b4da5bccb8bdb469f44d9d9d8ec9024edbf28cc63d",
+    "before-terror.log": "0dca821773d6e33a1250833136b5ad3acd9111877d202ffbbe0bcfebd41727a0",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "9c1d39689ef4c1ed6409841a01be509c1f05e7f040bfa52d12346a7c12f89b78",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "f9f62f8fbaa7a49c8ba0db71a0d4580dcf871e3fd7a7a71fe69c5168be31bf4e",
+    "replay.html": "9f87c21a4aeb0b27997f5f7806643ba5f992979ee7000dc7221754025f3745fd",
+    "reproduce.py": "3e191ae3dcb82be8d9cffcbadd78f1d9d6828e8a065d531c4362460b6ec9ba18",
+    "result.json": "4456c29c65b7b40f8c9a068482ac0ff1b974617b7636aef3e322eca98109a1b3",
+    "run-after-alltests.log": "422ffc266102d10d38d05f429ab74ac438a567033ea30b898309adb0223e7ee1",
+    "run-after-build.log": "35dac29034b32143d0b5b25bd760c6c3060a4fa1e463496c5af414091cdbf276",
+    "run-after-scenarios.log": "f26a6827720a9ff7c0568da7fd8b9d61b5830788a5dbbd5f5bb42ccb05a73f16",
+    "run-before-alltests.log": "bbe9ab104af0b587cb4be2f531a8213cd80b215f6300bd75bc07b3cb7f939b74",
+    "run-before-build.log": "7e06bede58ad9fd38cc8c179bac2000b1978cf45566c327789db6d0baa82024a",
+    "run-before-scenarios.log": "f57c7f027f20f7943b13deba647c47a40b10369f3c81065de39327c8e8d920e1",
+    "run-cases.py": "48adddd872e721f819a421bb18b885893f05551af48024509ee33f2475ebbc05",
+    "run-configure.log": "dce10abf9580bdd3f31d18f236b3f84e05cdb77c3d8ac3b04d707942a7c059e7",
+    "scenario.c": "32f02140118067020d3a7001b9fb1fe86d1bbfa25fe28fea148f57062193fd8b"
+  }
+}

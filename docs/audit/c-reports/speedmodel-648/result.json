@@ -1,0 +1,184 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "4a2f98f684393e81041144245cf233354535e804",
+  "fixtures_ref": "28cc1003576881e4b56a2a9a1b1d0408563e78b0",
+  "cases": {
+    "before": {
+      "none": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "borg_speed": 110,
+          "engine_speed": 110
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 110,
+          "engine": 110
+        }
+      },
+      "fast": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "borg_speed": 120,
+          "engine_speed": 120
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 120,
+          "engine": 120
+        }
+      },
+      "slow": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "borg_speed": 110,
+          "engine_speed": 100
+        },
+        "outcome": {
+          "speed_ok": 0,
+          "borg": 110,
+          "engine": 100
+        }
+      },
+      "terror": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "borg_speed": 115,
+          "engine_speed": 120
+        },
+        "outcome": {
+          "speed_ok": 0,
+          "borg": 115,
+          "engine": 120
+        }
+      },
+      "fast_terror": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "borg_speed": 120,
+          "engine_speed": 130
+        },
+        "outcome": {
+          "speed_ok": 0,
+          "borg": 120,
+          "engine": 130
+        }
+      },
+      "slow_terror": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "borg_speed": 115,
+          "engine_speed": 110
+        },
+        "outcome": {
+          "speed_ok": 0,
+          "borg": 115,
+          "engine": 110
+        }
+      }
+    },
+    "after": {
+      "none": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "borg_speed": 110,
+          "engine_speed": 110
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 110,
+          "engine": 110
+        }
+      },
+      "fast": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "borg_speed": 120,
+          "engine_speed": 120
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 120,
+          "engine": 120
+        }
+      },
+      "slow": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "borg_speed": 100,
+          "engine_speed": 100
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 100,
+          "engine": 100
+        }
+      },
+      "terror": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "borg_speed": 120,
+          "engine_speed": 120
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 120,
+          "engine": 120
+        }
+      },
+      "fast_terror": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "borg_speed": 130,
+          "engine_speed": 130
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 130,
+          "engine": 130
+        }
+      },
+      "slow_terror": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "borg_speed": 110,
+          "engine_speed": 110
+        },
+        "outcome": {
+          "speed_ok": 1,
+          "borg": 110,
+          "engine": 110
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "none",
+    "fast"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "966/966",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "966/966",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-trait.c": "f9a59d17c6f9fd699543c3456ed2d2e9686343033a8f6c15532c979f6ca6a665"
+  }
+}
