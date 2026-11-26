@@ -57,3 +57,40 @@ sha256 of every log and save. Heavy steps hold
 - `lightmap644-retreat.sav` sha256
   `c1a6857a0d1663be`..., `lightmap644-stay.sav` sha256 `b3682099aa84b9d0`...
   (full digests in `demo-result.json`).
+
+## Load a save in the real game (manual play test)
+
+The games are built at `out/build-{base,fix}/game/angband` (X11 front
+end, auto-enabled on non-Windows; `lib/` is staged next to the binary).
+These builds keep their savefiles in **`<game dir>/lib/save/`** (the two
+saves are staged there as `lm644-retreat` and `lm644-stay`) and read the
+borg config from `out/test-user/Angband/` (staged with the same
+`borg.txt` as the fixture). Always run from the `game/` directory:
+
+```sh
+cd /tmp/opencode/lightmap644-save/out/build-base/game
+ANGBAND_X11_FONT=fixed ./angband -ulm644-retreat     # note: -u<name>, no space
+# and the fixed build:
+cd /tmp/opencode/lightmap644-save/out/build-fix/game
+ANGBAND_X11_FONT=fixed ./angband -ulm644-retreat
+```
+
+`ANGBAND_X11_FONT=fixed` is needed on WSLg/XWayland (the default
+`10x20` bitmap font is missing there; installing `xfonts-*` or building
+with `-DSUPPORT_GCU_FRONTEND=ON` plus `libncurses-dev` are alternatives).
+In the game: press a key at the startup banner, then **Ctrl+Z** (confirm
+the borg warning once), **`z`** to activate the borg — **`x`** steps one
+borg action at a time.
+
+What to watch on the retreat save: walk east one grid yourself (the
+torch lights the ant at the corridor's end), walk back west (the ant
+goes dark), then step the borg. On the **base** build the message log
+shows `# There was a monster 'Soldier ant' at (12,12)` — the borg judged
+the dark grid viewable and then expunged the record ("did not really
+move"). On the **fixed** build no such message appears: the grid is
+dark, the record is not viewable, and the ant stays in the borg's
+memory. The `stay` save loads identically in both. For the deterministic
+before/after comparison, use `saveplay.c` (the runner above): on a bare
+arena with no stairs or items the borg goes idle after its startup
+checks, so free-running play shows the divergence only around the
+single step that processes the aged record.
