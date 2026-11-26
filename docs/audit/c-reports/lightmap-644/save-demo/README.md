@@ -16,7 +16,7 @@ light map, the missing-monster pass).
 | --- | --- |
 | `lightmap644-retreat.sav` | A soldier ant holds the corridor's last floor, two grids east of the player, in the dark outside the torch's real light (the corridor was walked, so the level's memory covers that floor). |
 | `lightmap644-worm.sav` | The same dead end with a **white worm mass** (poison touch, slow, a random-mover): the monster that lingers in the dark ring — the live in-game forget. |
-| `lightmap644-lure.sav` | The corridor turns south at a **mind flayer** (INT/WIS drain, brain smash, paralysis — a caster that lingers in the dark ring) holding the dark corner and ends in a down staircase; the borg wants the stairs, and the flayer is something to retreat from. |
+| `lightmap644-lure.sav` | Played by a **level 1 Human Druid with a whip** (12 HP, 1d3 damage — too weak to out-damage a breeder): the corridor turns south at a **white worm mass** (poison touch, breeding) holding the dark corner and ends in a down staircase the borg wants. |
 | `lightmap644-stay.sav` | Control: an ant stands one grid east, inside the real light, visible. |
 
 Load them in the game itself, or replay them with `saveplay.c`:
@@ -49,24 +49,26 @@ prices the ant identically (`DANGER ant_grid=2`), and is byte-identical.
 
 ## What the lure shows (the acted-out consequence)
 
-`lightmap644-lure.sav`: the corridor turns south at a **mind flayer**
-(INT/WIS drain, brain smash, paralysis — a caster, so it lingers in the
-dark ring blasting you instead of closing, since monsters see without
-light) holding the dark corner, and ends in a **down staircase** the
-borg knows about and wants. After the same step-east/step-back dance,
-the saveplay runs the production per-turn brain (`borg_think()`) and
-reads the borg's own notes:
+`lightmap644-lure.sav`: a **level 1 Human Druid with a whip** (12 HP,
+1d3 damage) in a corridor that turns south at a **white worm mass**
+(poison touch, `MULTIPLY` — it breeds) holding the dark corner, and
+ends in a **down staircase** the borg knows about and wants. The Druid
+cannot out-damage the breeding: the worm mass is a real threat. After
+the same step-east/step-back dance, the saveplay runs the production
+per-turn brain (`borg_think()`) and reads the borg's own notes:
 
-| Build | The flayer after the pass | Danger on its grid | What the borg does next |
+| Build | The worm after the pass | Danger on its grid | What the borg does next |
 | --- | --- | --- | --- |
-| base `574b618c3` | forgotten: `# Forgetting a monster 'mind flayer' at (12,12)`, its grid and the south leg still marked `light=1` | **0** | `# Flowing toward dark-2` — a stroll west to light a dark corner (step key `4`). The borg has no idea the flayer is there. |
-| fix `d8d31359e` | remembered: the record sits on the flayer's grid | **568** | `# Fleeing (failed to teleport)` → `# Leaving (failed to teleport)` → `# Reading Scroll of Word of Recall.` → `# Fleeing the level (recall)`. It tries to escape, then evacuates. |
+| base `574b618c3` | forgotten: `# Forgetting a monster 'white worm mass' at (12,12)`, its grid and the south leg still marked `light=1` | **0** | `# Studying spell/prayer Detect Life.` — it calmly sits studying spells with a breeding poison mass two grids away. |
+| fix `d8d31359e` | remembered: the record sits on the worm's grid | **35** (vs 12 HP) | `# Scary guy on level.` → `# Leaving` → `# Fleeing` → `# Fleeing and leaving the level. (scaryguy)` → queues the Word of Recall. It evacuates. |
 
 That is the consequence in one turn: forgetting does not change the
 borg's goal, it deletes the fear. The same borg, the same level, the
-same stairs — one version strolls past a brain-eating caster because its
-light map swears the dark corner is lit; the other remembers the flayer
-and flees the level.
+same stairs — one version calmly studies spells next to a breeding worm
+mass because its light map swears the dark corner is a lit, empty
+floor; the other remembers the worm and flees the level. A level 20
+Warrior prices the same worm at 13 and shrugs; the level 1 Druid prices
+it at 35 against 12 hit points, and the forget zeroes exactly that.
 
 ## Replay it
 
@@ -129,17 +131,16 @@ What to watch in game:
   at (12,12)` and the record is expunged; on the **fixed** build the
   message never appears and the worm stays on the borg's map.
 - **`lightmap644-lure.sav` — the live forget *and* the decision.** The
-  mind flayer is a caster: it spends its turns casting from the dark
-  ring instead of closing (monsters see without light), so it lingers
-  exactly where the defect bites. Walk east one grid (see it), walk
-  back west (it stays in the dark, blasting you), then step the borg:
-  on the **base** build the message log shows the forget
-  (`# There was a monster 'mind flayer' at (12,12)` then the expunge)
-  and the borg keeps strolling — on the **fixed** build the message
-  never appears and the borg's next notes turn to fleeing. The
+  white worm mass is slow and moves at random, so it lingers in the
+  dark ring instead of chasing you into the light. Walk east one grid
+  (see it), walk back west (it goes dark), then step the borg: on the
+  **base** build the message log shows the forget (`# There was a
+  monster 'White worm mass' at (12,12)` then the expunge) and the
+  level 1 Druid calmly carries on studying — on the **fixed** build the
+  message never appears and the borg's next notes turn to fleeing. The
   `saveplay` matrix freezes the world after the step-back and shows the
-  same decision deterministically: stroll on the original, flee the
-  level with the fix.
+  same decision deterministically: study spells on the original, flee
+  the level with the fix.
 - **`lightmap644-retreat.sav` / `lightmap644-stay.sav`** — the ant pair;
   the ant is fast, so treat the retreat save the same way as any fast
   pursuer's (its divergence is the saveplay run).

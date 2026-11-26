@@ -100,6 +100,7 @@ int setup_tests(void **state)
     const char *savename = getenv("LM644S_SAVE");
     mode = getenv("LM644S_MODE");
     if (!profile || !savename || !mode) return 1;
+    bool weak = streq(mode, "lure");
     set_file_paths();
     string_free(ANGBAND_DIR_USER); ANGBAND_DIR_USER = string_make(profile);
     string_free(ANGBAND_DIR_SAVE); ANGBAND_DIR_SAVE = string_make(format("%s/save", profile));
@@ -109,7 +110,10 @@ int setup_tests(void **state)
     if (!init_angband()) { printf("SETUPFAIL init\n"); return 1; }
     create_needed_dirs();
     Rand_quick = false; Rand_state_init(644);
-    if (!player_make_simple("Human", "Warrior", "LightMap644")) { printf("SETUPFAIL birth\n"); return 1; }
+    /* The lure save is played by a level 1 Human Druid with a whip: too
+     * weak to out-damage a breeding white worm mass.  The other saves
+     * keep the level 20 Warrior of the in-memory fixture. */
+    if (!player_make_simple("Human", weak ? "Druid" : "Warrior", "LightMap644")) { printf("SETUPFAIL birth\n"); return 1; }
     term_init(&screen, 198, 66, 256); Term_activate(&screen); angband_term[0] = &screen;
     textui_prefs_init();
     cave = t_build_arena(H, W);
@@ -127,11 +131,16 @@ int setup_tests(void **state)
         square_set_feat(cave, loc(LURE_STAIR_X, LURE_STAIR_Y), FEAT_MORE);
     player->cave = cave_new(H, W);
     player->depth = player->max_depth = cave->depth = player->cave->depth = 5;
-    player_exp_gain(player, player_exp[18] * player->expfact / 100);
+    if (!weak)
+        player_exp_gain(player, player_exp[18] * player->expfact / 100);
     character_dungeon = true;
     struct object *torch = known_item(TV_LIGHT, "Wooden Torch", 1);
     torch->timeout = 4000;
     inven_wield(torch, wield_slot(torch));
+    if (weak) {
+        struct object *whip = known_item(TV_HAFTED, "Whip", 1);
+        inven_wield(whip, wield_slot(whip));
+    }
     known_item(TV_FOOD, "Ration of Food", 5);
     /* Compute the torch's radius once (and the HPs), then walk. */
     player->upkeep->update |= PU_BONUS | PU_HP | PU_TORCH | PU_INVEN | PU_UPDATE_VIEW | PU_MONSTERS;
@@ -159,17 +168,13 @@ int setup_tests(void **state)
     player->chp = player->mhp;
     /* The monster, awake: retreat/stay a soldier ant (on the corridor's
      * last floor, or one grid east of the player for the control); lure
-     * a mind flayer holding the corner where the corridor turns south
-     * toward the staircase - a caster that lingers in the dark ring
-     * (casting instead of closing, since monsters see without light)
-     * and eats brains (INT/WIS drain, brain smash, paralysis): the
-     * lingering hunter the borg flees from when it remembers it, and
-     * walks blindly past when it forgets it. */
+     * and worm a white worm mass holding the dark corner / the last
+     * floor - slow, random-moving, breeding, poison: the lingering
+     * hunter, and a real threat to the level 1 Druid with a whip that
+     * plays the lure save. */
     ant_x = streq(mode, "stay") ? 11 : 12;
     const char *race;
-    if (streq(mode, "lure"))
-        race = "Mind flayer";
-    else if (streq(mode, "worm"))
+    if (streq(mode, "lure") || streq(mode, "worm"))
         race = "White worm mass"; /* slow, random-mover: lingers in the dark */
     else
         race = "Soldier ant";

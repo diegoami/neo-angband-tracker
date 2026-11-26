@@ -1,19 +1,19 @@
 native-c/lightmap-644-saveplay: starting...
-LOADED mode=lure save=/tmp/opencode/lightmap644-save/out/profile/save/lightmap644-lure.sav class=Warrior clevel=20 hp=226/226 depth=5 player=(10,12)
-MON i=1 race=mind flayer pos=(12,12) visible=0 aware=1
+LOADED mode=lure save=/tmp/opencode/lightmap644-save/out/profile/save/lightmap644-lure.sav class=Druid clevel=1 hp=12/12 depth=5 player=(10,12)
+MON i=1 race=white worm mass pos=(12,12) visible=0 aware=1
 PREPARE infra=0 light=2
   record_outside_the_light  STEP1 player=(11,12) monster=(12,12) visible=1
 OBSERVED the monster while lit
-KILL k=1 race=mind flayer pos=(12,12) awake=1
+KILL k=1 race=white worm mass pos=(12,12) awake=1
 KILLS kills=1
 STEP2 player=(10,12) monster=(12,12) visible=0
 KILLS kills=0
 LIGHTINFO grid=(12,12) light=1 glow=0 view=1 dark=0
 LIGHTINFO grid=(12,13) light=1 glow=0 view=1 dark=0
 DANGER monster_grid=0 west_of_monster=0
-DECISION flowed=1 keys=[52] step=52
-NOTES | Initializing the Borg... (options) | Initializing the Borg... (various) | Initializing the Borg... done. | # Ready... | # Creating a monster 'mind flayer' at (12,12), HP: 142, Index: 315 | # There was a monster 'mind flayer' at (12,12) | # Forgetting a monster 'mind flayer' at (12,12) | # Flowing toward dark-2 at cost 3
-MAP After the pass: @ = the Borg, h = the monster, ? = the borg's record, * = the borg's committed step
+DECISION flowed=1 keys=[71,97,97] step=0
+NOTES | Initializing the Borg... (options) | Initializing the Borg... (various) | Initializing the Borg... done. | # Ready... | # Creating a monster 'white worm mass' at (12,12), HP: 11, Index: 26 | # There was a monster 'white worm mass' at (12,12) | # Forgetting a monster 'white worm mass' at (12,12) | # Studying spell/prayer Detect Life.
+MAP After the pass: @ = the Borg, w = the monster, ? = the borg's record, * = the borg's committed step
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
@@ -26,7 +26,7 @@ MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
-MAPROW #........*@.h###########################
+MAPROW #.........@.w###########################
 MAPROW ############.###########################
 MAPROW ############.###########################
 MAPROW ############>###########################
