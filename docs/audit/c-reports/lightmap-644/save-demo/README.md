@@ -19,7 +19,7 @@ light map, the missing-monster pass).
 | --- | --- |
 | `lightmap644-retreat.sav` | A soldier ant holds the corridor's last floor, two grids east of the player, in the dark outside the torch's real light (the corridor was walked, so the level's memory covers that floor). |
 | `lightmap644-worm.sav` | The same dead end with a **white worm mass** (poison touch, slow, a random-mover): the monster that lingers in the dark ring — the live in-game forget. |
-| `lightmap644-lure.sav` | Played by a **level 1 Human Druid with a whip** (12 HP, 1d3 damage — too weak to out-damage a breeder): the corridor runs east to an **up staircase** — the way home — and west of her a small room holds a **kobold**, a scary guy for her level, so she is heading back east for the stairs. A **white worm mass** (poison touch, breeding) has spawned on the corridor's middle grid, two grids east, in the dark. She carries **two Scrolls of Phase Door** (no Word of Recall), and two **sealed pockets** — floor caverns with no way in on foot — sit inside the scroll's reach on her map. |
+| `lightmap644-lure.sav` | Played by a **level 1 Human Druid with a whip** (12 HP, 1d3 damage — too weak to out-damage a breeder) and **no escape kit at all**: no spellbook, no recall, no phase door — whatever happens, happens on foot. The corridor runs east to an **up staircase** — the way home — past a wall of **three white worm masses** (poison touch, breeding) standing side by side in the dark; west of her a room holds an **awake kobold**, a scary guy for her level, and past a doorway a second room holds a second kobold, **asleep**. |
 | `lightmap644-stay.sav` | Control: an ant stands one grid east, inside the real light, visible. |
 
 Load them in the game itself, or replay them with `saveplay.c`:
@@ -52,75 +52,96 @@ prices the ant identically (`DANGER ant_grid=2`), and is byte-identical.
 
 ## What the lure shows (the acted-out consequence)
 
-`lightmap644-lure.sav`: a **level 1 Human Druid with a whip** (12 HP,
-1d3 damage — too weak to out-damage a breeder) who came down the **up
-staircase** east of the corridor and walked west into the room; the
-level memory covers the corridor, the room and the staircase. A
-**kobold** lurks in the dark of the west room — awake, mobile, and in
-the borg's own scary-guy list for characters of level 8 and under —
-and a **white worm mass** (poison touch, `MULTIPLY` — it breeds)
-spawned on the corridor's middle grid, two grids east, in the dark
-outside the torch's real light. Her escape kit is **two Scrolls of
-Phase Door** (the level has no Word of Recall for her), and two
-**sealed pockets** — 4x4 floor caverns with no walking route in or
-out, on her map inside the scroll's 5..10 grid landing ring. The
-saveplay does both glimpses — step west and see the kobold, retreat;
-step east and see the worms, retreat — then runs the production
-per-turn brain (`borg_think()`) and reads the borg's own notes:
+`lightmap644-lure.sav` (the level, west to east; `k` awake west,
+`s` asleep far west, `w` the worm wall, `<` the way home):
+
+```
+#...##......w.##########################
+#.k....k..@.w.<#########################
+#...##......w.##########################
+```
+
+A **level 1 Human Druid with a whip** (12 HP, 1d3 damage — too weak
+to out-damage a breeder) who came down the **up staircase** east of
+the corridor and walked west into the room; the level memory covers
+the corridor, the room and the staircase. In the dark of the first
+west room an **awake kobold** lurks — in the borg's own scary-guy
+list for characters of level 8 and under — past the doorway a second
+room continues the level with a second kobold **asleep** at its far
+end (asleep, so it is exempt from the missing-monster pass — "Don't
+'forget' certain ones"), and **three white worm masses** (poison
+touch, `MULTIPLY` — they breed) spawned abreast on the corridor's
+far corner, two grids east, in the dark outside the torch's real
+light. She carries **no escape kit**: no book, no recall, no phase
+door. The saveplay does both glimpses — step west and see the
+kobold, retreat; step east and see the worms, retreat — then runs
+the production per-turn brain (`borg_think()`) and reads the borg's
+own notes:
 
 | Build | The records after the passes | The flight from the kobold |
 | --- | --- | --- |
-| base `574b618c3` | kobold kept (3 grids west, dark and not viewable), worm **forgotten**: `# Forgetting a monster 'white worm mass' at (12,12)` — its grid still marked `light=1` | `# Scary guy on level.` → `# Fleeing and leaving the level. (scaryguy)` → `# Flowing toward up-stairs at cost 4` → `# Desperate for Stairs (three)` — its first key is `'6'`, **a step east**: the flight to the stairs, straight through the grid the forgotten worm stands on. |
-| fix `d8d31359e` | kobold kept, worm kept — the record sits on the worm's grid, priced at **35** against 12 HP | `# Scary guy on level.` → `# Fleeing and leaving the level. (scaryguy)` → the stairs east are refused (the flow through the corner is priced over the fear line) — its first key is `'1'`, **a step away** into the room's south edge. When pressed, its escape is the Phase Door: the sealed pockets make `borg_caution_phase()` approve the jump. |
+| base `574b618c3` | kobold kept, **all three worms forgotten**: `# Forgetting a monster 'white worm mass' at (12,12)` (x3) — their grids still marked `light=1` | `# Scary guy on level.` → `# Fleeing and leaving the level. (scaryguy)` → `# Flowing toward up-stairs at cost 4` → `# Desperate for Stairs (three)` — its first key is `'6'`, **a step east**: the flight to the stairs, straight into the forgotten wall. |
+| fix `d8d31359e` | kobold kept, **all three worms kept** — the corner priced at ~111 against 12 HP | `# Scary guy on level.` → the east route refused — its first key is `'2'`, **a step away** into the corridor's wide row. On foot, with no kit, what it can do is keep its distance. |
 
 Both builds are running from the same kobold; the forget does not
 touch what the borg wants, it deletes the *fear on the way*. The
-original's flight route east looks clear — the breeding poison mass
-that stands on it is a monster it just forgot — so its first movement
-key is a step east, and a 12 HP druid with a 1d3 whip walks into
-`MULTIPLY`. The corrected borg remembers the worm, cannot afford the
-path, and turns away — and with the Phase Door kit it has the escape
-the level was built for. A level 20 Warrior prices the same worm at
-13 and shrugs; the level 1 Druid prices it at 35 against 12 hit
-points, and the forget zeroes exactly that.
+original's flight route east looks clear — a wall of breeding poison
+stands on it that the borg just deleted from its own memory — so its
+first movement key is a step east, and a 12 HP druid with a 1d3 whip
+walks into `MULTIPLY`. A level 20 Warrior prices the same worm at 13
+and shrugs; the level 1 Druid prices three of them at 111 against 12
+hit points, and the forget zeroes exactly that.
 
-### The escape, verified in the real game
+### The forget driving a death, live in the real game
 
-The lure was also played live in the built game (Xvfb-driven, both
-builds, 40 borg steps each, then save-and-quit; `saveplay.c`'s
-`LM644S_DUMP` mode reads the message log back out of the savefile —
-see `live-lure-*.log` here). The message log, verbatim:
+The lure was played live in the built game (Xvfb-driven, 150 borg
+steps each; the borg's own map-and-notes dump at death is committed
+as `live-lure-{base,fix}-150.map`). The **base** build's log, verbatim
+highlights:
 
 ```
-# Stepping Borg 40 times
-# Needing to get back on correct depth
 # Flowing toward up-stairs at cost 4
-# Looking for stairs. Goal_less, Fleeing.
-# Creating a monster 'white worm mass' at (12,12), HP: 11, Index: 26
-# Scary guy on level.
-# Fleeing and leaving the level. (scaryguy)
-# Loc:12,11 Dep:5 Lev:1 HP:12/12 SP:2/2 Danger:p=32
-# Safe to Phase. scary squares: 0
-# Reading Scrolls of Phase Door.
-# Danger Level 1.
-You have a Scroll of Phase Door (b).
+# Creating a monster 'white worm mass' at (13,12)   <- the reveal: three at once
+# Creating a monster 'white worm mass' at (12,12)
+# Creating a monster 'white worm mass' at (11,12)
+# Loc:12,11 ... HP:12/12 ... Danger:p=111
+You hit the white worm mass.
+The white worm mass crawls on you.  You are poisoned!   (x3)
+# Creating a monster 'kobold' at (12,10)                <- the chaser arrives
+# There was a monster 'white worm mass' at (12,12)
+# Forgetting a monster 'white worm mass' at (12,12)     <- the forget, live
+# Loc:12,11 ... HP:8/12 ... Danger:p=80                 <- the fear collapses
+# Flowing toward up-stairs at cost 3                    <- east, again
+# There was a monster 'kobold' at (12,10)
+# Forgetting a monster 'kobold' at (12,10)
+# Flowing toward up-stairs at cost 2 ... cost 1
+You enter a maze of up staircases.
+You die.   (Killed on level 4 by poison, turn 100)
 ```
 
-The druid steps east toward the stairs, the torch reveals the worm at
-the corner (danger 32), and the borg reads the Phase Door — `# Safe to
-Phase. scary squares: 0`: the sealed pockets on its map are landing
-zones it can price as safe, so the scroll is approved. It lands inside
-one (`player=(4,6)`, 12/12 HP, turn 71) with the worm and the chasing
-kobold both stranded outside. An extended 120-step run shows the rest:
-bored in the sealed pocket (`# Bored but unable to flow to up stairs`),
-it burns the second scroll (`# Considering Phase (twitchy)` →
-`# Reading Scroll of Phase Door.`) and phases back out.
+The borg meets the wall, fights, and every time a worm goes dark
+behind it the light map bug deletes the record: `# There was a
+monster ...` → `# Forgetting ...`, the priced danger collapses
+(111 → 80), and the flight to the stairs resumes straight through
+the mass. Three poisonings later it climbs the stairs and dies of
+the accumulated poison one level up. That is the issue's consequence
+played out: the amnesia does not change the goal, it deletes the
+fear on the way.
 
-Both builds play this opening identically — the savefile carries no
-borg state, so the borg of either build starts blind and learns the
-worm at the same step. The forget itself is what the frozen matrix
-above pins down: the divergence needs the seen-then-dark window, which
-the saveplay's glimpses provide deterministically.
+The **fix** build's run in the same layout is filed beside it, and
+honestly: it also fights through and dies of the same poison. Two
+measured reasons. First, this borg *attacks* an adjacent killable
+monster rather than retreating — even at danger 111 against an
+attack value of 31 — and the scenario boxes the druid in by design
+(the kobold west closes within a handful of turns, the worm wall
+east), so cornered fighting is the least bad option on either
+build. Second, the worms are random movers, so the *legitimate*
+forget (a monster that genuinely moved away) also fires on the fix —
+its one `# Forgetting` line is that case, a worm that really had
+moved. The clean build-vs-build divergence — the base deleting a
+record of a monster that is still standing there — is what the
+frozen matrix above pins down deterministically, which is why it,
+not free play, is the evidence of record.
 
 ## Replay it
 
@@ -131,11 +152,10 @@ python3 demo/run-save-demo.py --skip-build   # reuse existing out/source-*/build
 
 The runner asserts the kept/deleted matrix (retreat/worm/lure: base 0,
 fix 1; stay: 1 and 1, logs byte-identical), and for the lure that the
-base borg keeps only the kobold (1 record, the worm forgotten) while
-the fix keeps both (2 records), that the base's first movement key is
-the step east (`'6'`, 54) while the fixed borg's is the step away
-(`'1'`, 49, into the room's south edge), and writes
-`demo-result.json` with the
+base borg keeps only the kobold (1 record, all three worms forgotten)
+while the fix keeps all four records, that the base's first movement
+key is the step east (`'6'`, 54) while the fixed borg's is the step
+away (`'2'`, 50), and writes `demo-result.json` with the
 sha256 of every log and save. Heavy steps hold
 `/tmp/angband-validation.lock`. This run:
 
@@ -144,15 +164,15 @@ sha256 of every log and save. Heavy steps hold
   PR #660).
 - `lightmap644-retreat.sav` sha256 `c1a6857a0d1663be`...,
   `lightmap644-worm.sav` sha256 `50cf6fba50bcef86`...,
-  `lightmap644-lure.sav` sha256 `dc9c58e2a42373c4`...,
+  `lightmap644-lure.sav` sha256 `e9ec1ebc376c2657`...,
   `lightmap644-stay.sav` sha256 `b3682099aa84b9d0`...
   (full digests in `demo-result.json`).
 
 `saveplay.c` also has a dump mode for reading back a save the real
 game wrote: `LM644S_DUMP=1 LM644S_SAVE=<file> ./LM644SP -v` (run from
 the game dir) prints the player, every monster, and the whole message
-log the savefile carries. The `live-lure-*.log` files here were
-produced that way from the live runs described below.
+log the savefile carries. The `live-lure-*.map` files here are the
+borg's own dumps from the live runs described below.
 
 ## Load a save in the real game (manual play test)
 
@@ -208,27 +228,27 @@ What to watch in game — the sequence, verified live on both builds:
    key) → `y` (confirm) → `z` to run it continuously, or `x` then a
    number + Return to step that many actions at a time.
 3. Both builds open identically (the savefile carries no borg state,
-   so the borg starts blind and the worm is news to either): the notes
-   show `# Needing to get back on correct depth`, `# Flowing toward
-   up-stairs at cost 4`, and the druid steps east for the stairs.
-4. One step in, the torch reveals the worm: `# Creating a monster
-   'white worm mass' at (12,12)` → `Danger:p=32` → `# Scary guy on
-   level.` → `# Fleeing and leaving the level. (scaryguy)`.
-5. The escape your kit was built for: `# Safe to Phase. scary
-   squares: 0` → `# Reading Scrolls of Phase Door.` — the sealed
-   pockets on the map are priced as safe landings, so the scroll is
-   approved — and the druid phases into one, with the worm and the
-   chasing kobold stranded outside (verified landing: `player=(4,6)`,
-   12/12 HP). Later, bored in the sealed pocket, it burns the second
-   scroll to phase back out.
-6. The **forget** lines are the base build's signature, and they
-   appear whenever the borg has seen the worm and then stands two
-   grids from it in the dark — `# There was a monster 'White worm
-   mass' at (12,12)` followed by `# Forgetting a monster 'White worm
-   mass' at (12,12)`, and the fear evaporates while the fixed build's
-   record holds. The saveplay matrix above pins that moment
-   deterministically; single-stepping (`x`, `1`) around the corner
-   after a reveal shows it live.
+   so the borg starts blind and the worm wall is news to either): the
+   notes show `# Needing to get back on correct depth`, `# Flowing
+   toward up-stairs at cost 4`, and the druid steps east for the
+   stairs.
+4. One step in, the torch reveals all three worms at once:
+   `# Creating a monster 'white worm mass'` x3 → `Danger:p=111` →
+   `# Scary guy on level.` With no escape kit, the borg fights — and
+   this is where the builds' logs start to differ: on **base**, every
+   time a worm goes dark two grids away, `# There was a monster
+   'white worm mass' at ...` → `# Forgetting a monster ...` fires and
+   the priced danger collapses (111 → 80), and the flight to the
+   stairs resumes straight through the wall — three poisonings later
+   it climbs the stairs and dies of the accumulated poison (verified:
+   `Killed on level 4 by poison`, turn 100, `live-lure-base-150.map`).
+   On **fix** the records of worms that are still standing there hold,
+   and only the genuine movers are forgotten.
+5. The clean single-turn divergence — the base deleting a record of a
+   monster that is still there, the fix keeping it — is what the
+   saveplay matrix above pins down deterministically; single-stepping
+   (`x`, `1`) around the corner after a reveal shows the same lines
+   live.
 
 The other saves: `lightmap644-worm.sav` / `lightmap644-retreat.sav`
 step the borg once while the monster is in your torch's light (its

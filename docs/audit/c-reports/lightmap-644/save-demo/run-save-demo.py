@@ -169,26 +169,25 @@ add_compile_definitions(PRIVATE_USER_PATH="{out / 'test-user'}")
                 ok = False
 
     # The lure is the acted-out consequence: after the two dances the
-    # base borg has forgotten the worm but kept the kobold (the scary
-    # guy that sends it back east for the stairs), and its first
-    # movement key is a step east (54 = '6') straight toward the
-    # forgotten mass; the fixed borg keeps both records, refuses the
-    # east route (the flow through the corner is priced at 35 against
-    # 12 HP), and steps away instead (49 = '1', deterministically into
-    # the room's south edge) - with two Phase Door scrolls and the
-    # sealed pockets, its escape when pressed is the scroll, not the
-    # walk into the mass.
+    # base borg has forgotten all three worm masses but kept the kobold
+    # (the scary guy that sends it back east for the stairs), and its
+    # first movement key is a step east (54 = '6') straight toward the
+    # forgotten masses; the fixed borg keeps all four records, refuses
+    # the east route (the flow through the corner is priced at some 100
+    # against 12 HP), and steps away instead (50 = '2', south into the
+    # corridor's wide row) - with no escape kit, what it does on foot
+    # is keep its distance.
     if rows[("base", "lure")]["step_key"] != 54:
         print(f"UNEXPECTED base/lure step: {rows[('base', 'lure')]['step_key']} (want 54, '6' east)")
         ok = False
-    if rows[("fix", "lure")]["step_key"] != 49:
-        print(f"UNEXPECTED fix/lure step: {rows[('fix', 'lure')]['step_key']} (want 49, '1': it turns away from the remembered corner)")
+    if rows[("fix", "lure")]["step_key"] != 50:
+        print(f"UNEXPECTED fix/lure step: {rows[('fix', 'lure')]['step_key']} (want 50, '2': it turns away from the remembered corner)")
         ok = False
     if rows[("base", "lure")]["kills"] != 1:
-        print(f"UNEXPECTED base/lure kills: {rows[('base', 'lure')]['kills']} (want 1: the kobold, the worm forgotten)")
+        print(f"UNEXPECTED base/lure kills: {rows[('base', 'lure')]['kills']} (want 1: the kobold, all three worms forgotten)")
         ok = False
-    if rows[("fix", "lure")]["kills"] != 2:
-        print(f"UNEXPECTED fix/lure kills: {rows[('fix', 'lure')]['kills']} (want 2: the kobold and the worm)")
+    if rows[("fix", "lure")]["kills"] != 4:
+        print(f"UNEXPECTED fix/lure kills: {rows[('fix', 'lure')]['kills']} (want 4: the kobold and all three worms)")
         ok = False
 
     if (out / "base-stay.log").read_bytes() != (out / "fix-stay.log").read_bytes():

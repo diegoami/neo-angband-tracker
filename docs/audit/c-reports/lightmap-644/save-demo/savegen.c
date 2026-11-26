@@ -22,17 +22,24 @@
  *  lure     a level 1 Human Druid with a whip, played by saveplay.c
  *           through borg_think().  She came down the up staircase east
  *           of the corridor and walked west into the room; the level
- *           memory covers the corridor, the room and the staircase.
- *           A kobold lurks in the dark of the west room - a scary guy
- *           for a character of her level, and the reason she is going
- *           back east to the stairs - and a white worm mass spawned on
- *           the corridor's middle grid, two grids east, in the dark:
- *           after the dances (glimpse the kobold, retreat, glimpse the
- *           worms, retreat) the base borg forgets the worm, keeps only
- *           the kobold's fear, and walks east toward the stairs
- *           straight past the breeding mass; the corrected borg keeps
- *           both records, prices the worm against its 12 HP, and
- *           leaves the level by recall instead.
+ *           memory covers the corridor, the room and the staircase,
+ *           and west of that room a second room continues the level.
+ *           A kobold lurks in the dark of the first west room - a
+ *           scary guy for a character of her level, and the reason she
+ *           is going back east to the stairs - and a second kobold
+ *           sleeps at the far end of the second west room, exempt
+ *           from the forget by being asleep.  A white worm mass
+ *           spawned on the corridor's middle grid, two grids east, in
+ *           the dark, and the druid carries no escape kit at all: on
+ *           foot, the only options are through the worm or away from
+ *           it.  After the dances (glimpse the kobold, retreat,
+ *           glimpse the worms, retreat) the base borg forgets the
+ *           worm, keeps only the kobold's fear, and walks east toward
+ *           the stairs straight past the breeding mass - and in live
+ *           play it ping-pongs: east to the reveal, west from the
+ *           fear, forget, east again, while the mass breeds; the
+ *           corrected borg keeps the record, refuses the east route,
+ *           and retreats west without ever going back.
  *  stay     control: the ant stands one grid east, inside the real
  *           light, visible in the save itself.
  *
@@ -90,17 +97,14 @@ static term screen;
 #define LURE_ROOM_Y1 13
 #define LURE_KOBOLD_X 7
 #define LURE_KOBOLD_Y 12
-/* Two sealed pockets (floor inside granite, no way in on foot) within
- * the phase door's 5..10 grid ring of the corridor: the only way in or
- * out is the scroll, and once there nothing can follow. */
-#define LURE_POCKET_A_X0 15
-#define LURE_POCKET_A_X1 18
-#define LURE_POCKET_A_Y0 5
-#define LURE_POCKET_A_Y1 8
-#define LURE_POCKET_B_X0 1
-#define LURE_POCKET_B_X1 4
-#define LURE_POCKET_B_Y0 5
-#define LURE_POCKET_B_Y1 8
+/* West of the first room a second room continues the level (a doorway
+ * pinches between them), and at its far end a second kobold sleeps:
+ * never seen, never woken, it never enters the borg's memory - but the
+ * level does not end at the druid's back. */
+#define LURE_ROOM2_X0 1
+#define LURE_ROOM2_X1 4
+#define LURE_SLEEPER_X 2
+#define LURE_SLEEPER_Y 12
 
 static char savepath[1024];
 static const char *mode;
@@ -156,42 +160,39 @@ int setup_tests(void **state)
     term_init(&screen, 198, 66, 256); Term_activate(&screen); angband_term[0] = &screen;
     textui_prefs_init();
     cave = t_build_arena(H, W);
-    /* A dark corridor (no SQUARE_GLOW anywhere); the lure corridor runs
-     * east from the player to the up staircase, west of the player a
-     * small room opens onto it, and two sealed pockets sit inside the
-     * phase door's reach. */
+    /* A dark corridor (no SQUARE_GLOW anywhere); the lure corridor is
+     * three grids wide (rows 11-13) from the player east to the up
+     * staircase, so the far corner holds three worm masses side by
+     * side - all revealed at once when the borg steps east, far too
+     * much for the whip to be worth fighting.  West of the player a
+     * small room opens onto the corridor and a second room continues
+     * west past a doorway pinch. */
     for (int y = 0; y < H; ++y)
         for (int x = 0; x < W; ++x) {
             bool floor_grid;
             if (streq(mode, "lure")) {
                 floor_grid =
-                    (y == LURE_STAIR_Y && x >= LURE_X0 && x <= LURE_X1)
+                    (y >= LURE_STAIR_Y - 1 && y <= LURE_STAIR_Y + 1
+                     && x >= LURE_X0 && x <= LURE_X1)
                     || (y >= LURE_ROOM_Y0 && y <= LURE_ROOM_Y1
                         && x >= LURE_ROOM_X0 && x <= LURE_ROOM_X1)
-                    || (y >= LURE_POCKET_A_Y0 && y <= LURE_POCKET_A_Y1
-                        && x >= LURE_POCKET_A_X0 && x <= LURE_POCKET_A_X1)
-                    || (y >= LURE_POCKET_B_Y0 && y <= LURE_POCKET_B_Y1
-                        && x >= LURE_POCKET_B_X0 && x <= LURE_POCKET_B_X1);
+                    || (y >= LURE_ROOM_Y0 && y <= LURE_ROOM_Y1
+                        && x >= LURE_ROOM2_X0 && x <= LURE_ROOM2_X1);
             } else {
                 floor_grid =
                     (y == CORR_Y && x >= CORR_X0 && x <= CORR_X1);
             }
             square_set_feat(cave, loc(x, y), floor_grid ? FEAT_FLOOR : FEAT_GRANITE);
         }
-    if (streq(mode, "lure"))
-        square_set_feat(cave, loc(LURE_STAIR_X, LURE_STAIR_Y), FEAT_LESS);
-    player->cave = cave_new(H, W);
     if (streq(mode, "lure")) {
-        /* The sealed pockets are on her map (the level memory the save
-         * keeps): phase door is the only way between the corridor and
-         * them, and once there nothing can follow. */
-        for (int y = LURE_POCKET_A_Y0; y <= LURE_POCKET_A_Y1; ++y)
-            for (int x = LURE_POCKET_A_X0; x <= LURE_POCKET_A_X1; ++x)
-                square_set_feat(player->cave, loc(x, y), FEAT_FLOOR);
-        for (int y = LURE_POCKET_B_Y0; y <= LURE_POCKET_B_Y1; ++y)
-            for (int x = LURE_POCKET_B_X0; x <= LURE_POCKET_B_X1; ++x)
-                square_set_feat(player->cave, loc(x, y), FEAT_FLOOR);
+        /* The doorway pinch between the two west rooms. */
+        square_set_feat(cave, loc(4, LURE_ROOM_Y0), FEAT_GRANITE);
+        square_set_feat(cave, loc(5, LURE_ROOM_Y0), FEAT_GRANITE);
+        square_set_feat(cave, loc(4, LURE_ROOM_Y1), FEAT_GRANITE);
+        square_set_feat(cave, loc(5, LURE_ROOM_Y1), FEAT_GRANITE);
+        square_set_feat(cave, loc(LURE_STAIR_X, LURE_STAIR_Y), FEAT_LESS);
     }
+    player->cave = cave_new(H, W);
     player->depth = player->max_depth = cave->depth = player->cave->depth = 5;
     if (!weak)
         player_exp_gain(player, player_exp[18] * player->expfact / 100);
@@ -220,8 +221,13 @@ int setup_tests(void **state)
                 player, books[i], books[i]->number, false, &none_left);
             object_delete(NULL, NULL, &book);
         }
-        /* ... and no Word of Recall either: her way out of trouble is
-         * the Phase Door.  A couple of them. */
+        /* ... and no escape kit either - no Word of Recall, no Phase
+         * Door: whatever happens, happens on foot.  With nothing to
+         * read, the escape ladder fails and the borg must back away,
+         * which is where the two builds part ways: the original forgets
+         * the worm once it is two grids away in the dark and walks back
+         * east into it, over and over, while the mass breeds; the fix
+         * keeps the record and keeps its distance. */
         {
             struct object *scrolls[8];
             int nscrolls = 0;
@@ -238,7 +244,6 @@ int setup_tests(void **state)
                 object_delete(NULL, NULL, &scroll);
             }
         }
-        known_item(TV_SCROLL, "Phase Door", 2);
     }
     /* Compute the torch's radius once (and the HPs), then walk. */
     player->upkeep->update |= PU_BONUS | PU_HP | PU_TORCH | PU_INVEN | PU_UPDATE_VIEW | PU_MONSTERS;
@@ -274,14 +279,15 @@ int setup_tests(void **state)
         }
     }
     player->chp = player->mhp;
-    /* The monster, awake: retreat/stay a soldier ant (on the corridor's
+    /* The monsters, awake: retreat/stay a soldier ant (on the corridor's
      * last floor, or one grid east of the player for the control); lure
-     * and worm a white worm mass holding the dark grid two grids east
-     * of the player (the lure's mid-corridor corner, the retreat/worm's
-     * last floor) - slow, random-moving, breeding, poison: the
-     * lingering hunter, spawned after the player walked past, and a
-     * real threat to the level 1 Druid with a whip that plays the lure
-     * save. */
+     * and worm white worm masses - slow, random-moving, breeding,
+     * poison: the lingering hunters, spawned after the player walked
+     * past, and a real threat to the level 1 Druid with a whip that
+     * plays the lure save.  The lure holds TWO of them side by side at
+     * the dark corner (12,12) and (12,11), both two grids from the
+     * player, both forgotten together on the base commit and kept
+     * together on the fix. */
     ant_x = streq(mode, "stay") ? 11 : 12;
     const char *race;
     if (streq(mode, "lure") || streq(mode, "worm"))
@@ -300,6 +306,20 @@ int setup_tests(void **state)
         return 1;
     }
     if (streq(mode, "lure")) {
+        /* The second and third worm masses beside the first: three
+         * abreast at the dark corner (12,11), (12,12), (12,13) - all
+         * two grids east of the player, all in the same forget ring. */
+        for (int dy = -1; dy <= 1; dy++) {
+            struct monster *worm2 =
+                t_add_monster(cave, loc(12, CORR_Y + dy), race);
+            if (!worm2) { printf("SETUPFAIL worm2\n"); return 1; }
+            mflag_on(worm2->mflag, MFLAG_AWARE);
+            update_mon(worm2, cave, true);
+            if (worm2->m_timed[MON_TMD_SLEEP] != 0) { printf("SETUPFAIL worm2 asleep\n"); return 1; }
+            if (mflag_has(worm2->mflag, MFLAG_VISIBLE)) { printf("SETUPFAIL worm2 visible\n"); return 1; }
+        }
+    }
+    if (streq(mode, "lure")) {
         /* The kobold in the west room: awake, mobile, three grids west
          * of the player and dark.  It is in the borg's scary-guy list
          * (BI_CLEVEL <= 8), so once the borg has seen it the borg
@@ -312,6 +332,18 @@ int setup_tests(void **state)
         if (rf_has(kob->race->flags, RF_NEVER_MOVE)) { printf("SETUPFAIL kobold never moves\n"); return 1; }
         if (kob->m_timed[MON_TMD_SLEEP] != 0) { printf("SETUPFAIL kobold asleep\n"); return 1; }
         if (mflag_has(kob->mflag, MFLAG_VISIBLE)) { printf("SETUPFAIL kobold visible\n"); return 1; }
+        /* And at the far west end of the second room a second kobold,
+         * sleeping: asleep and unaware, so it is exempt from the
+         * missing-monster pass ("Don't 'forget' certain ones") and
+         * prices as no danger at all until something wakes it. */
+        struct monster *sleeper =
+            t_add_monster(cave, loc(LURE_SLEEPER_X, LURE_SLEEPER_Y), "Kobold");
+        if (!sleeper) { printf("SETUPFAIL sleeper\n"); return 1; }
+        sleeper->m_timed[MON_TMD_SLEEP] = 1000;
+        update_mon(sleeper, cave, true);
+        if (sleeper->m_timed[MON_TMD_SLEEP] == 0) { printf("SETUPFAIL sleeper awake\n"); return 1; }
+        if (mflag_has(sleeper->mflag, MFLAG_AWARE)) { printf("SETUPFAIL sleeper aware\n"); return 1; }
+        if (mflag_has(sleeper->mflag, MFLAG_VISIBLE)) { printf("SETUPFAIL sleeper visible\n"); return 1; }
     }
     path_build(savepath, sizeof(savepath), ANGBAND_DIR_SAVE, savename);
     return 0;
