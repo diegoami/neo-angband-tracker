@@ -137,7 +137,10 @@ bool borg_check_light_only(void)
     if (borg.time.call_light != 0 && (borg_timer(borg.time.call_light) < 7))
         return false;
 
-    if (borg.trait[BI_LIGHT] == 1) {
+    /* The engine lights BI_LIGHT - 1 grids (see borg_update_light), so
+     * the radius-1 corner test below covers every light of strength 2
+     * or less, and the radius-2 5x5 scan covers stronger lights. */
+    if (borg.trait[BI_LIGHT] <= 2) {
         int i;
         int corners = 0;
 
@@ -178,7 +181,7 @@ bool borg_check_light_only(void)
         /* This is quite an arbitrary cutoff */
         if (corners > 2)
             return false;
-    } else if (borg.trait[BI_LIGHT] > 1) {
+    } else if (borg.trait[BI_LIGHT] > 2) {
         int x, y;
         int floors = 0;
 
