@@ -1,0 +1,451 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>A live monster can round down to 0 tracked power and lose its attack value</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%}pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}.maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>A live monster can round down to 0 tracked power and lose its attack value</h1><p>When the Borg tracks a monster it cheats the monster&#x27;s true hit points from the game and stores an estimate called power, which drives danger math and attack scoring; damage against ordinary monsters is capped at twice that value. Both tracking paths - the first observation of a monster and the refresh of a known one - estimate the hit points by first rounding them into a percentage (100 * hp / maxhp) and then rounding again when converting back (maxhp * pct / 100). Small remainders are lost twice: a floating eye at 1 of its hit points becomes 9% and then 0 tracked power, so the Borg reads a living monster as having no health worth attacking - the recorded level-1 mage stopped shooting a wounded floating eye, stepped next to it, and was paralysed to death. The fixture places a visible floating eye in a lit arena, sets its true hp, runs two production borg_update() passes (so both tracking paths run) and requires the tracked power to equal the monster&#x27;s true hp.</p><p><label>Scenario: <select id="scenario"><option value="full">Eye at full health (control)</option><option value="one_of_hp">The 1-hp boundary</option><option value="above_edge">Two hp, just above the edge</option><option value="zero_alive">Exactly 0 hp while alive (control)</option></select></label></p><section class="scenario" data-mode="full"><p class="summary">The floating eye at full health. Both variants track its power correctly; the complete log is byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After two update passes: @ = the Borg, o = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span><span class="mon">e</span>.................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After two update passes: @ = the Borg, o = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span><span class="mon">e</span>.................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; o = the floating eye; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">12</div><p>the Borg&#x27;s tracked power (hit points) for the living monster; the game&#x27;s true hp is on each log&#x27;s KILLINFO line</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">12</div><p>the Borg&#x27;s tracked power (hit points) for the living monster; the game&#x27;s true hp is on each log&#x27;s KILLINFO line</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killpower-662: starting...
+SETUP seed=662 mode=full class=Warrior clevel=20 hp=210 depth=5
+  kill_power_matches_hp  KILLINFO k=1 race=floating eye maxhp=12 game_hp=12 borg_power=12 injury=0 cap=24
+MAP After two update passes: @ = the Borg, o = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@e.................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE power_ok=1 borg_power=12 game_hp=12
+OUTCOME power_ok=1 borg_power=12
+Passed
+native-c/killpower-662 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killpower-662: starting...
+SETUP seed=662 mode=full class=Warrior clevel=20 hp=210 depth=5
+  kill_power_matches_hp  KILLINFO k=1 race=floating eye maxhp=12 game_hp=12 borg_power=12 injury=0 cap=24
+MAP After two update passes: @ = the Borg, o = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@e.................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE power_ok=1 borg_power=12 game_hp=12
+OUTCOME power_ok=1 borg_power=12
+Passed
+native-c/killpower-662 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="one_of_hp"><p class="summary">The eye at 1 of its hit points. The original borg rounds the percentage down (9%) and then rounds again, tracking power 0 - the eye reads as having no health worth attacking, and the attack-damage cap (twice the tracked power) drops to 0. The corrected borg tracks power 1 and a cap of 2.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After two update passes: @ = the Borg, o = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span><span class="mon">e</span>.................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After two update passes: @ = the Borg, o = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span><span class="mon">e</span>.................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; o = the floating eye; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg&#x27;s tracked power (hit points) for the living monster; the game&#x27;s true hp is on each log&#x27;s KILLINFO line</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>the Borg&#x27;s tracked power (hit points) for the living monster; the game&#x27;s true hp is on each log&#x27;s KILLINFO line</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killpower-662: starting...
+SETUP seed=662 mode=one_of_hp class=Warrior clevel=20 hp=210 depth=5
+  kill_power_matches_hp  KILLINFO k=1 race=floating eye maxhp=12 game_hp=1 borg_power=0 injury=92 cap=0
+MAP After two update passes: @ = the Borg, o = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@e.................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE power_ok=0 borg_power=0 game_hp=1
+OUTCOME power_ok=0 borg_power=0
+Failed
+    native-c/killpower-662:206: requirement &#x27;power_ok == 1&#x27; failed
+native-c/killpower-662 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killpower-662: starting...
+SETUP seed=662 mode=one_of_hp class=Warrior clevel=20 hp=210 depth=5
+  kill_power_matches_hp  KILLINFO k=1 race=floating eye maxhp=12 game_hp=1 borg_power=1 injury=92 cap=2
+MAP After two update passes: @ = the Borg, o = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@e.................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE power_ok=1 borg_power=1 game_hp=1
+OUTCOME power_ok=1 borg_power=1
+Passed
+native-c/killpower-662 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="above_edge"><p class="summary">The eye at 2 hp. The original borg tracks power 1 where the eye has 2; the corrected borg tracks 2 (cap 4).</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After two update passes: @ = the Borg, o = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span><span class="mon">e</span>.................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After two update passes: @ = the Borg, o = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span><span class="mon">e</span>.................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; o = the floating eye; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>the Borg&#x27;s tracked power (hit points) for the living monster; the game&#x27;s true hp is on each log&#x27;s KILLINFO line</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">2</div><p>the Borg&#x27;s tracked power (hit points) for the living monster; the game&#x27;s true hp is on each log&#x27;s KILLINFO line</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killpower-662: starting...
+SETUP seed=662 mode=above_edge class=Warrior clevel=20 hp=210 depth=5
+  kill_power_matches_hp  KILLINFO k=1 race=floating eye maxhp=12 game_hp=2 borg_power=1 injury=84 cap=2
+MAP After two update passes: @ = the Borg, o = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@e.................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE power_ok=0 borg_power=1 game_hp=2
+OUTCOME power_ok=0 borg_power=1
+Failed
+    native-c/killpower-662:206: requirement &#x27;power_ok == 1&#x27; failed
+native-c/killpower-662 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killpower-662: starting...
+SETUP seed=662 mode=above_edge class=Warrior clevel=20 hp=210 depth=5
+  kill_power_matches_hp  KILLINFO k=1 race=floating eye maxhp=12 game_hp=2 borg_power=2 injury=84 cap=4
+MAP After two update passes: @ = the Borg, o = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@e.................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE power_ok=1 borg_power=2 game_hp=2
+OUTCOME power_ok=1 borg_power=2
+Passed
+native-c/killpower-662 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="zero_alive"><p class="summary">The engine kills a monster only below 0 hp, so a monster standing at exactly 0 hp is alive and is tracked as 0 in both variants - the faithful reading. The complete log is byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After two update passes: @ = the Borg, o = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span><span class="mon">e</span>.................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After two update passes: @ = the Borg, o = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span><span class="mon">e</span>.................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; o = the floating eye; the terrain glyphs are the game&#x27;s own symbols</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg&#x27;s tracked power (hit points) for the living monster; the game&#x27;s true hp is on each log&#x27;s KILLINFO line</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg&#x27;s tracked power (hit points) for the living monster; the game&#x27;s true hp is on each log&#x27;s KILLINFO line</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killpower-662: starting...
+SETUP seed=662 mode=zero_alive class=Warrior clevel=20 hp=210 depth=5
+  kill_power_matches_hp  KILLINFO k=1 race=floating eye maxhp=12 game_hp=0 borg_power=0 injury=100 cap=0
+MAP After two update passes: @ = the Borg, o = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@e.................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE power_ok=1 borg_power=0 game_hp=0
+OUTCOME power_ok=1 borg_power=0
+Passed
+native-c/killpower-662 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killpower-662: starting...
+SETUP seed=662 mode=zero_alive class=Warrior clevel=20 hp=210 depth=5
+  kill_power_matches_hp  KILLINFO k=1 race=floating eye maxhp=12 game_hp=0 borg_power=0 injury=100 cap=0
+MAP After two update passes: @ = the Borg, o = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@e.................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE power_ok=1 borg_power=0 game_hp=0
+OUTCOME power_ok=1 borg_power=0
+Passed
+native-c/killpower-662 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, level 20 (experience forced), depth 5 in a synthetic open lit arena, a wooden torch as the only light, infravision 0. The floating eye is the stock race (maxhp rolled per instance) one grid east, awake and visible; its true hp is set by the mode before the first observation. Two production borg_update() passes run: the first creates the kill record (new-record path), the second refreshes it (existing-record path). No combat, movement or random placement consumes the RNG (fixed seed 662); a scenario log is fully determined by its mode. Limits: the fixture measures the tracked power on both tracking paths; the attack score, danger and the walk-closer decision that consume power are identified in the source and their inputs change with it, but no individual attack is replayed here (the recorded paralysis death is the Rust port&#x27;s motivating case, quoted on the issue).</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/662">issue 662</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

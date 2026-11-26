@@ -1,0 +1,174 @@
+{
+  "issue": "diegoami/neo-angband-tracker#662",
+  "report": "killpower-662",
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "f87b535af3f35649704641dee887a0f161bb34b7",
+  "fix_branch": "killpower-662",
+  "fixtures_ref": "a41612c45ab405962cad449984b962c6342ee196",
+  "cases": {
+    "full": {
+      "before": {
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 12,
+          "game_hp": 12
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 12
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 12,
+          "game_hp": 12
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 12
+        }
+      }
+    },
+    "one_of_hp": {
+      "before": {
+        "passed": false,
+        "state": {
+          "power_ok": 0,
+          "borg_power": 0,
+          "game_hp": 1
+        },
+        "outcome": {
+          "power_ok": 0,
+          "borg_power": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 1,
+          "game_hp": 1
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 1
+        }
+      }
+    },
+    "above_edge": {
+      "before": {
+        "passed": false,
+        "state": {
+          "power_ok": 0,
+          "borg_power": 1,
+          "game_hp": 2
+        },
+        "outcome": {
+          "power_ok": 0,
+          "borg_power": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 2,
+          "game_hp": 2
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 2
+        }
+      }
+    },
+    "zero_alive": {
+      "before": {
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 0,
+          "game_hp": 0
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "power_ok": 1,
+          "borg_power": 0,
+          "game_hp": 0
+        },
+        "outcome": {
+          "power_ok": 1,
+          "borg_power": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "full",
+    "zero_alive"
+  ],
+  "claim": "On both monster-tracking paths the borg's tracked power for a living monster no longer matches its true hp exactly when a small remainder is lost twice: at 1 hp the original tracks 0 (the attack-damage cap collapses to 0 - the eye reads as having no health worth attacking) and at 2 hp it tracks 1. With the correction the tracked power equals the true hp (1 and 2, attack caps 2 and 4), and the full-health and exactly-0-hp-alive controls are byte-identical - exactly 0 hp on a living monster stays 0, the faithful reading of the engine's hp < 0 death test. Both full native gates pass on both variants.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-kill.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "0be4d20caf37820a5fb8ae252a7044cbaea22051831bd89d66775d0680c96814"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 30,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "acb99a22f2d83ed2c689d85eaf56732eb4a544ed366559e0e38a8d80ad581699",
+    "after-above_edge.log": "3d703648a311259b7e920877feb776a998e57e580ea2d82af0b7108f8163a32d",
+    "after-full.log": "7a0ffbeeb7acf3b121c9f1ef721cf5bb958b67af351f44cb4f2f8a8d57ec06a7",
+    "after-one_of_hp.log": "dc2f2193e2f1dc3ba0cbff25a79751a3dafd341bd821c2b8d9d746ddf8256a5b",
+    "after-results.json": "305c244ca026314be62cafa5b39117e287c13a04f2e808121afa1ec6ecf068c0",
+    "after-zero_alive.log": "6ea165cfa27d2fd4930e6e7724007dfcf1b96678746763b167df1d2616fbe448",
+    "before-above_edge.log": "28cf070b06cac8e5a1aba6c31ead85bb2c25576d904c80f5569e1fbe19ee6ced",
+    "before-full.log": "7a0ffbeeb7acf3b121c9f1ef721cf5bb958b67af351f44cb4f2f8a8d57ec06a7",
+    "before-one_of_hp.log": "b06e0aede5cf85e4983438cbf85064c8586f4e807da43e83ba1216109d00c386",
+    "before-results.json": "77b09b67568363b0806048394e734a3e0de033637f2981c5c0cb47884af31e04",
+    "before-zero_alive.log": "6ea165cfa27d2fd4930e6e7724007dfcf1b96678746763b167df1d2616fbe448",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "b20719f603f431557ff102027267c74231d9ead2f64603e3b4eceeb28b9c0961",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "851e37b4c82cb3fa854a9c758d537005f7205ae0cac2b59db4bc8a7018beec85",
+    "replay.html": "ba9ce9572451c5de10faef137747a1f3bf6185b966dc00141a2e45d606bb0db4",
+    "reproduce.py": "2fd88209905424395586187710549cb30895efbd70aaae7a02168a2e8a1271bc",
+    "result.json": "f867e0bfe2af5f5221b8a8ebea03f5c243412e80f54039b354338aad7cd37de9",
+    "run-after-alltests.log": "b189696f3a637149dd414466fc5e3050df27b62c18a6647f8971261d7ead134f",
+    "run-after-build.log": "f7669d9496b1515c37bde28458fc90c8df0a98dedad965b3fbabaebea3aa934c",
+    "run-after-scenarios.log": "8337f4ff8879ad3b44bb6592c805f80b2fb6fbc5c87d6d1d41d5ef1c873de952",
+    "run-before-alltests.log": "61c442a7e9f7da87e219fcd551eef0183aaa90ac2fdd7c2602bc7e2f11c187fe",
+    "run-before-build.log": "18b85bc9f3f88a365ad8f0d6ddbfe2fafde7ca983dc7e285fbcbab59c8d11a92",
+    "run-before-scenarios.log": "385fd5cb4d9290c6f22dc6b5bc81c6e8849c85f96f0d7c4e277b0b2a2c28481b",
+    "run-cases.py": "8a3a50391b49c494c38ced845624b1aecb7194da0eb8f534b5dc6cec2d51ad4b",
+    "run-configure.log": "6da81eaa102f0e5b97cf40d9ff891506d7039846404b87cc71a2345062f990e8",
+    "scenario.c": "a37b97a1c1ee7fb397f84cb2278a0c71dce0bf414babf311832991316e65d5aa"
+  }
+}
