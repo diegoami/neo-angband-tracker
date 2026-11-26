@@ -1,6 +1,6 @@
 native-c/lightmap-644-savegen: starting...
-  save_written      SAVED /tmp/opencode/lightmap644-save/out/profile/save/lightmap644-lure.sav mode=lure class=Warrior clevel=20 hp=226 depth=5 torch=1 corridor=1..12,12 player=(10,12) monster=ancient green dragon(12,12)
-MAP The saved level: @ = the player, D = the monster
+  save_written      SAVED /tmp/opencode/lightmap644-save/out/profile/save/lightmap644-lure.sav mode=lure class=Warrior clevel=20 hp=226 depth=5 torch=1 corridor=1..12,12 player=(10,12) monster=mind flayer(12,12)
+MAP The saved level: @ = the player, h = the monster
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
@@ -13,7 +13,7 @@ MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################
-MAPROW #.........@.D###########################
+MAPROW #.........@.h###########################
 MAPROW ############.###########################
 MAPROW ############.###########################
 MAPROW ############>###########################

@@ -1,20 +1,20 @@
 native-c/lightmap-644-saveplay: starting...
 LOADED mode=lure save=/tmp/opencode/lightmap644-save/out/profile/save/lightmap644-lure.sav class=Warrior clevel=20 hp=226/226 depth=5 player=(10,12)
-MON i=1 race=ancient green dragon pos=(12,12) visible=0 aware=1
+MON i=1 race=mind flayer pos=(12,12) visible=0 aware=1
 PREPARE infra=0 light=2
   record_outside_the_light  STEP1 player=(11,12) monster=(12,12) visible=1
 OBSERVED the monster while lit
-KILL k=1 race=ancient green dragon pos=(12,12) awake=1
+KILL k=1 race=mind flayer pos=(12,12) awake=1
 KILLS kills=1
 STEP2 player=(10,12) monster=(12,12) visible=0
-KILL k=1 race=ancient green dragon pos=(12,12) awake=1
+KILL k=1 race=mind flayer pos=(12,12) awake=1
 KILLS kills=1
 LIGHTINFO grid=(12,12) light=0 glow=0 view=1 dark=0
 LIGHTINFO grid=(12,13) light=0 glow=0 view=1 dark=0
-DANGER monster_grid=2000 west_of_monster=2000
+DANGER monster_grid=568 west_of_monster=536
 DECISION flowed=1 keys=[57344,57344,114,99,57344] step=0
-NOTES | # Creating a monster 'ancient green dragon' at (12,12), HP: 1609, Index: 492 | # Scary guy on level. | # Leaving (Scary guy on level) | # Fleeing (Scary guy on level) | # Loc:12,10 Dep:5 Lev:20 HP:226/226 SP:0/0 Danger:p=2000 | # Fleeing and leaving the level. (scaryguy) | # Reading Scroll of Word of Recall. | # Fleeing the level (recall)
-MAP After the pass: @ = the Borg, D = the monster, ? = the borg's record, * = the borg's committed step
+NOTES | Initializing the Borg... done. | # Ready... | # Creating a monster 'mind flayer' at (12,12), HP: 142, Index: 315 | # Loc:12,10 Dep:5 Lev:20 HP:226/226 SP:0/0 Danger:p=520 | # Fleeing (failed to teleport) | # Leaving (failed to teleport) | # Reading Scroll of Word of Recall. | # Fleeing the level (recall)
+MAP After the pass: @ = the Borg, h = the monster, ? = the borg's record, * = the borg's committed step
 MAPROW ########################################
 MAPROW ########################################
 MAPROW ########################################

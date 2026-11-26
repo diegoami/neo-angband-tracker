@@ -159,14 +159,16 @@ int setup_tests(void **state)
     player->chp = player->mhp;
     /* The monster, awake: retreat/stay a soldier ant (on the corridor's
      * last floor, or one grid east of the player for the control); lure
-     * an ancient green dragon (poison breath, 1600+ HP) holding the
-     * corner where the corridor turns south toward the staircase - a
-     * guardian the borg flees the level from when it remembers it, and
+     * a mind flayer holding the corner where the corridor turns south
+     * toward the staircase - a caster that lingers in the dark ring
+     * (casting instead of closing, since monsters see without light)
+     * and eats brains (INT/WIS drain, brain smash, paralysis): the
+     * lingering hunter the borg flees from when it remembers it, and
      * walks blindly past when it forgets it. */
     ant_x = streq(mode, "stay") ? 11 : 12;
     const char *race;
     if (streq(mode, "lure"))
-        race = "Ancient green dragon";
+        race = "Mind flayer";
     else if (streq(mode, "worm"))
         race = "White worm mass"; /* slow, random-mover: lingers in the dark */
     else

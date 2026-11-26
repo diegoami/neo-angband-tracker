@@ -16,7 +16,7 @@ light map, the missing-monster pass).
 | --- | --- |
 | `lightmap644-retreat.sav` | A soldier ant holds the corridor's last floor, two grids east of the player, in the dark outside the torch's real light (the corridor was walked, so the level's memory covers that floor). |
 | `lightmap644-worm.sav` | The same dead end with a **white worm mass** (poison touch, slow, a random-mover): the monster that lingers in the dark ring — the live in-game forget. |
-| `lightmap644-lure.sav` | The corridor turns south at an ancient green dragon (poison breath, 1600+ HP) holding the dark corner and ends in a down staircase; the borg wants the stairs, and the dragon is something to retreat from. |
+| `lightmap644-lure.sav` | The corridor turns south at a **mind flayer** (INT/WIS drain, brain smash, paralysis — a caster that lingers in the dark ring) holding the dark corner and ends in a down staircase; the borg wants the stairs, and the flayer is something to retreat from. |
 | `lightmap644-stay.sav` | Control: an ant stands one grid east, inside the real light, visible. |
 
 Load them in the game itself, or replay them with `saveplay.c`:
@@ -49,22 +49,24 @@ prices the ant identically (`DANGER ant_grid=2`), and is byte-identical.
 
 ## What the lure shows (the acted-out consequence)
 
-`lightmap644-lure.sav`: the corridor turns south at an **ancient green
-dragon** (poison breath, 1600+ HP, awake) holding the dark corner, and
-ends in a **down staircase** the borg knows about and wants. After the
-same step-east/step-back dance, the saveplay runs the production
-per-turn brain (`borg_think()`) and reads the borg's own notes:
+`lightmap644-lure.sav`: the corridor turns south at a **mind flayer**
+(INT/WIS drain, brain smash, paralysis — a caster, so it lingers in the
+dark ring blasting you instead of closing, since monsters see without
+light) holding the dark corner, and ends in a **down staircase** the
+borg knows about and wants. After the same step-east/step-back dance,
+the saveplay runs the production per-turn brain (`borg_think()`) and
+reads the borg's own notes:
 
-| Build | The dragon after the pass | Danger on its grid | What the borg does next |
+| Build | The flayer after the pass | Danger on its grid | What the borg does next |
 | --- | --- | --- | --- |
-| base `574b618c3` | forgotten: `# Forgetting a monster 'ancient green dragon' at (12,12)`, its grid and the south leg still marked `light=1` | **0** | `# Flowing toward dark-2` — a stroll west to light a dark corner (step key `4`). The borg has no idea the dragon is there, and its next walks pass the corner it believes is a lit, empty floor. |
-| fix `d8d31359e` | remembered: the record sits on the dragon's grid | **2000** (the cap) | `# Scary guy on level.` → `# Leaving` → `# Fleeing` → `# Fleeing and leaving the level. (scaryguy)` → queues the Word of Recall. It evacuates. |
+| base `574b618c3` | forgotten: `# Forgetting a monster 'mind flayer' at (12,12)`, its grid and the south leg still marked `light=1` | **0** | `# Flowing toward dark-2` — a stroll west to light a dark corner (step key `4`). The borg has no idea the flayer is there. |
+| fix `d8d31359e` | remembered: the record sits on the flayer's grid | **568** | `# Fleeing (failed to teleport)` → `# Leaving (failed to teleport)` → `# Reading Scroll of Word of Recall.` → `# Fleeing the level (recall)`. It tries to escape, then evacuates. |
 
 That is the consequence in one turn: forgetting does not change the
 borg's goal, it deletes the fear. The same borg, the same level, the
-same stairs — one version strolls past a 1609-HP poison-breathing dragon
-because its light map swears the dark corner is lit; the other remembers
-the dragon and flees the level.
+same stairs — one version strolls past a brain-eating caster because its
+light map swears the dark corner is lit; the other remembers the flayer
+and flees the level.
 
 ## Replay it
 
@@ -126,16 +128,21 @@ What to watch in game:
   build the message log shows `# There was a monster 'White worm mass'
   at (12,12)` and the record is expunged; on the **fixed** build the
   message never appears and the worm stays on the borg's map.
-- **`lightmap644-lure.sav` — the decision, in saveplay only.** The
-  ancient green dragon is a fast pursuer: in free play it chases you
-  into the light and is re-observed, so the forget does not occur while
-  it hunts. Its save is for the `saveplay` matrix, which freezes the
-  world after the step-back (the issue's "monster waiting just outside
-  its light") and shows the decision: stroll on the original, flee the
+- **`lightmap644-lure.sav` — the live forget *and* the decision.** The
+  mind flayer is a caster: it spends its turns casting from the dark
+  ring instead of closing (monsters see without light), so it lingers
+  exactly where the defect bites. Walk east one grid (see it), walk
+  back west (it stays in the dark, blasting you), then step the borg:
+  on the **base** build the message log shows the forget
+  (`# There was a monster 'mind flayer' at (12,12)` then the expunge)
+  and the borg keeps strolling — on the **fixed** build the message
+  never appears and the borg's next notes turn to fleeing. The
+  `saveplay` matrix freezes the world after the step-back and shows the
+  same decision deterministically: stroll on the original, flee the
   level with the fix.
 - **`lightmap644-retreat.sav` / `lightmap644-stay.sav`** — the ant pair;
-  the ant is also fast, so treat the retreat save the same way as the
-  dragon's (its divergence is the saveplay run).
+  the ant is fast, so treat the retreat save the same way as any fast
+  pursuer's (its divergence is the saveplay run).
 
 For the deterministic before/after comparison, always use `saveplay.c`
 (the runner above): on a bare arena with no stairs or items the borg
