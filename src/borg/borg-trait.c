@@ -1383,11 +1383,15 @@ static void borg_notice_equipment(void)
     if (rf_has(f, OF_SUST_CON))
         borg.trait[BI_SCON] = true;
 
-    /* if hasting */
+    /* Timed speed effects, matching the engine's bonuses: haste and
+     * sprint add 10, slow subtracts 10, terror adds 10; the effects
+     * combine instead of standing in for each other. */
     if (player->timed[TMD_FAST] || player->timed[TMD_SPRINT])
         borg.trait[BI_SPEED] += 10;
-    else if (player->timed[TMD_TERROR])
-        borg.trait[BI_SPEED] += 5;
+    if (player->timed[TMD_SLOW])
+        borg.trait[BI_SPEED] -= 10;
+    if (player->timed[TMD_TERROR])
+        borg.trait[BI_SPEED] += 10;
 
     /* I am pretty sure the CF_flags will be caught by the
      * code above when the player flags are checked
