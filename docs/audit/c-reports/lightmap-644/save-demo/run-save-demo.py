@@ -147,14 +147,15 @@ add_compile_definitions(PRIVATE_USER_PATH="{out / 'test-user'}")
             kept = re.search(r"OUTCOME kept=(-?\d+)", text)
             record = re.search(
                 r"STATE kills=(-?\d+) record_x=(-?\d+) monster_x=(-?\d+) flowed=(\d+)", text)
-            decision = re.search(r"DECISION flowed=(\d+) key=(-?\d+)", text)
+            decision = re.search(r"DECISION flowed=(\d+) keys=\[([^\]]*)\] step=(-?\d+)", text)
             rows[(label, mode)] = {
                 "kept": int(kept.group(1)) if kept else None,
                 "kills": int(record.group(1)) if record else None,
                 "record_x": int(record.group(2)) if record else None,
                 "monster_x": int(record.group(3)) if record else None,
                 "flowed": int(record.group(4)) if record else 0,
-                "step_key": int(decision.group(2)) if decision else None,
+                "keys": decision.group(2) if decision else None,
+                "step_key": int(decision.group(3)) if decision else None,
                 "passed": "native-c/lightmap-644-saveplay finished: 1/1 passed" in text,
             }
             print(label, mode, rows[(label, mode)])

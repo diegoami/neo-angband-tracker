@@ -159,10 +159,12 @@ int setup_tests(void **state)
     player->chp = player->mhp;
     /* The monster, awake: retreat/stay a soldier ant (on the corridor's
      * last floor, or one grid east of the player for the control); lure
-     * a white worm mass holding the corner where the corridor turns
-     * south toward the staircase. */
+     * an ancient green dragon (poison breath, 1600+ HP) holding the
+     * corner where the corridor turns south toward the staircase - a
+     * guardian the borg flees the level from when it remembers it, and
+     * walks blindly past when it forgets it. */
     ant_x = streq(mode, "stay") ? 11 : 12;
-    const char *race = streq(mode, "lure") ? "White worm mass" : "Soldier ant";
+    const char *race = streq(mode, "lure") ? "Ancient green dragon" : "Soldier ant";
     struct monster *mon = t_add_monster(cave, loc(ant_x, CORR_Y), race);
     if (!mon) { printf("SETUPFAIL monster\n"); return 1; }
     mflag_on(mon->mflag, MFLAG_AWARE);

@@ -15,7 +15,7 @@ light map, the missing-monster pass).
 | Save | Situation |
 | --- | --- |
 | `lightmap644-retreat.sav` | A soldier ant holds the corridor's last floor, two grids east of the player, in the dark outside the torch's real light (the corridor was walked, so the level's memory covers that floor). |
-| `lightmap644-lure.sav` | The corridor turns south at a white worm mass and ends in a down staircase; the worm (poison touch) holds the dark corner, the stairs lie one grid beyond it, and the borg wants them. |
+| `lightmap644-lure.sav` | The corridor turns south at an ancient green dragon (poison breath, 1600+ HP) holding the dark corner and ends in a down staircase; the borg wants the stairs, and the dragon is something to retreat from. |
 | `lightmap644-stay.sav` | Control: an ant stands one grid east, inside the real light, visible. |
 
 Load them in the game itself, or replay them with `saveplay.c`:
@@ -48,23 +48,22 @@ prices the ant identically (`DANGER ant_grid=2`), and is byte-identical.
 
 ## What the lure shows (the acted-out consequence)
 
-`lightmap644-lure.sav`: the corridor turns south at a **white worm mass**
-(poison touch, awake) holding the dark corner, and ends in a **down
-staircase** the borg knows about and wants. After the same
-step-east/step-back dance, the saveplay asks the production dive decision
-(`borg_flow_stair_more(GOAL_BORE, ...)`) what the borg does next:
+`lightmap644-lure.sav`: the corridor turns south at an **ancient green
+dragon** (poison breath, 1600+ HP, awake) holding the dark corner, and
+ends in a **down staircase** the borg knows about and wants. After the
+same step-east/step-back dance, the saveplay runs the production
+per-turn brain (`borg_think()`) and reads the borg's own notes:
 
-| Build | The worm | Danger on its grid | The borg's committed step |
+| Build | The dragon after the pass | Danger on its grid | What the borg does next |
 | --- | --- | --- | --- |
-| base `574b618c3` | forgotten (`kills=0`), its grid and the south leg marked `light=1` | 0 | key `6` (east) — the map shows `@*w`: the step lands **directly on the worm**, which the borg believes is a lit, empty floor |
-| fix `d8d31359e` | remembered (`?` on the worm's grid) | 13 (the poison touch priced) | key `6` (east) — the same step, but the worm is on the borg's map, in the flow's danger cost, and would be handled on arrival instead of surprising it |
+| base `574b618c3` | forgotten: `# Forgetting a monster 'ancient green dragon' at (12,12)`, its grid and the south leg still marked `light=1` | **0** | `# Flowing toward dark-2` — a stroll west to light a dark corner (step key `4`). The borg has no idea the dragon is there, and its next walks pass the corner it believes is a lit, empty floor. |
+| fix `d8d31359e` | remembered: the record sits on the dragon's grid | **2000** (the cap) | `# Scary guy on level.` → `# Leaving` → `# Fleeing` → `# Fleeing and leaving the level. (scaryguy)` → queues the Word of Recall. It evacuates. |
 
-Both builds want the stairs and step east — that is the point: the
-defect does not change the goal, it changes what the borg believes about
-the path. On the original the borg commits its walk into a grid its own
-model prices at zero danger while a breeding, poison-touching worm
-stands on it; it re-learns the worm only when adjacency makes the game
-show it.
+That is the consequence in one turn: forgetting does not change the
+borg's goal, it deletes the fear. The same borg, the same level, the
+same stairs — one version strolls past a 1609-HP poison-breathing dragon
+because its light map swears the dark corner is lit; the other remembers
+the dragon and flees the level.
 
 ## Replay it
 

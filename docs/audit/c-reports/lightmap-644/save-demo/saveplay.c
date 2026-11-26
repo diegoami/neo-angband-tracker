@@ -62,6 +62,7 @@
 #include "borg/borg-inventory.h"
 #include "borg/borg-io.h"
 #include "borg/borg-item.h"
+#include "borg/borg-think.h"
 #include "borg/borg-trait.h"
 #include "borg/borg-update.h"
 #include "borg/borg.h"
@@ -206,19 +207,38 @@ static int scenario_light(void *state)
            borg_danger(CORR_Y, mon->grid.x, 1, true, false),
            borg_danger(CORR_Y, mon->grid.x - 1, 1, true, false));
 
-    /* What the borg does next, in lure mode: the production dive
-     * decision, flowing to the down staircase it knows lies beyond the
-     * monster.  The first queued step is the borg's committed move. */
+    /* What the borg does next, in lure mode: the production per-turn
+     * brain.  borg_think() weighs the down staircase it wants beyond
+     * the guardian against the danger it knows about, and queues its
+     * keys; the borg's own notes say what it decided. */
     bool flowed = false;
     int step_key = 0;
     if (lure) {
         borg_flush();
         memset(&borg.goal, 0, sizeof(borg.goal));
         borg_notice(true);
-        flowed = borg_flow_stair_more(GOAL_BORE, false, false);
-        keycode_t key = borg_inkey(false);
-        step_key = (key >= '1' && key <= '9') ? (int)key : 0;
-        printf("DECISION flowed=%d key=%d\n", flowed ? 1 : 0, step_key);
+        flowed = borg_think();
+        keycode_t keys[8];
+        int nkeys = 0;
+        keycode_t key;
+        while ((key = borg_inkey(true)) != 0 && nkeys < 8)
+            keys[nkeys++] = key;
+        for (int i = 0; i < nkeys; i++)
+            if (keys[i] >= '1' && keys[i] <= '9' && keys[i] != '5')
+                { step_key = (int)keys[i]; break; }
+        char keybuf[48];
+        int kpos = 0;
+        for (int i = 0; i < nkeys; i++)
+            kpos += snprintf(keybuf + kpos, sizeof(keybuf) - kpos, "%s%d",
+                i ? "," : "", (int)keys[i]);
+        printf("DECISION flowed=%d keys=[%s] step=%d\n", flowed ? 1 : 0, keybuf, step_key);
+        /* The borg's own notes for this decision (its reasoning). */
+        printf("NOTES");
+        for (int i = 7; i >= 0; i--) {
+            const char *note = message_str(i);
+            if (note && note[0]) printf(" | %s", note);
+        }
+        printf("\n");
     }
 
     printf("MAP After the pass: @ = the Borg, %c = the monster, ? = the borg's record%s\n",
