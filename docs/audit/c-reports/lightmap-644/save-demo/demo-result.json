@@ -1,0 +1,58 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "d8d31359ec2ef9c73c9d9aa4b92579dc73a3b5fb",
+  "saves": {
+    "retreat": "lightmap644-retreat.sav",
+    "stay": "lightmap644-stay.sav"
+  },
+  "modes": {
+    "retreat": {
+      "base": {
+        "kept": 0,
+        "kills": 0,
+        "record_x": -1,
+        "ant_x": 12,
+        "passed": false
+      },
+      "fix": {
+        "kept": 1,
+        "kills": 1,
+        "record_x": 12,
+        "ant_x": 12,
+        "passed": true
+      }
+    },
+    "stay": {
+      "base": {
+        "kept": 1,
+        "kills": 1,
+        "record_x": 11,
+        "ant_x": 11,
+        "passed": true
+      },
+      "fix": {
+        "kept": 1,
+        "kills": 1,
+        "record_x": 11,
+        "ant_x": 11,
+        "passed": true
+      }
+    }
+  },
+  "sha256": {
+    "base-retreat.log": "b026a4a1b592febea9bc3e718c70b8ff4adcb94cbfad6231ad9ecbb23bf1527c",
+    "base-stay.log": "0caaf0443c8f233caa697dd3c8144ad1c57cf884c012e8e91665b0d45cadf7c6",
+    "build-base.log": "48157bad0557c01650d0606f2eccd01506b1f57e8687b7047b83cdc36f76a01e",
+    "build-fix.log": "48157bad0557c01650d0606f2eccd01506b1f57e8687b7047b83cdc36f76a01e",
+    "configure-base.log": "edad7d1dbb4ce215e449a35412fa5c4666a44f0993003ac76a6d9b65abe1e7a5",
+    "configure-fix.log": "e2b8249d71626b192b7b2ab15dbe541b5aee99bd4a661ad58f217e03163e3696",
+    "fix-retreat.log": "82874e83f68baca1fabdacabe0ea3bdb7a83048a1103209d9c84be0dc49d6a44",
+    "fix-stay.log": "0caaf0443c8f233caa697dd3c8144ad1c57cf884c012e8e91665b0d45cadf7c6",
+    "savegen-retreat.log": "bad12ea0239970124d95c8b7c2f457e1084aa0487435eb71e4a0cc341c508102",
+    "savegen-stay.log": "9718fb798aa6f8d967ff70ccad19a7583c018c0ab6e2785e1dc20412ae047ce8",
+    "worktree-base.log": "c82a23fc0890d16435eb3b7939b79d65141cfb96295bbf83a0c0a3165e879bfa",
+    "worktree-fix.log": "0ab61b71bfcf0ad82dda3d4012a2164cb6e7e3d87deff6ddb6a42e296ce7729b",
+    "lightmap644-retreat.sav": "c1a6857a0d1663befa73ef10ef09a22a0650fde7a80793862bb1540c6a6cd105",
+    "lightmap644-stay.sav": "b3682099aa84b9d0a1aeedd3de0be95cee436a57a1094832adc302a9c797d1f4"
+  }
+}

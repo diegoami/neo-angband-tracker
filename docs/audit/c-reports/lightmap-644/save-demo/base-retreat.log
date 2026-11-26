@@ -1,0 +1,42 @@
+native-c/lightmap-644-saveplay: starting...
+LOADED mode=retreat save=/tmp/opencode/lightmap644-save/out/profile/save/lightmap644-retreat.sav class=Warrior clevel=20 hp=226/226 depth=5 player=(10,12)
+MON i=1 race=soldier ant pos=(12,12) visible=0 aware=1
+PREPARE infra=0 light=2
+  record_outside_the_light  STEP1 player=(11,12) ant=(12,12) visible=1
+OBSERVED the ant while lit
+KILL k=1 race=soldier ant pos=(12,12) awake=1
+KILLS kills=1
+STEP2 player=(10,12) ant=(12,12) visible=0
+KILLS kills=0
+LIGHTINFO grid=(12,12) light=1 glow=0 view=1 dark=0
+MAP After the pass: @ = the Borg, a = the ant, ? = the borg's record
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW #.........@.a###########################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPROW ########################################
+MAPEND
+STATE kills=0 record_x=-1 ant_x=12
+OUTCOME kept=0
+[01;31mFailed[00m
+    native-c/lightmap-644-saveplay:231: requirement 'kept == 1' failed
+native-c/lightmap-644-saveplay finished: 0/1 passed
