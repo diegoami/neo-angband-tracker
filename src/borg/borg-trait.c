@@ -1420,6 +1420,18 @@ static void borg_notice_equipment(void)
                 borg.trait[BI_FIRST_CURSED] = i + 1;
         }
 
+        /* The stat curses are tracked per worn item: a known-cursed
+         * non-artifact is skipped below, but its curses still act while
+         * it is worn, so read them before the skip. */
+        if (item->curses[BORG_CURSE_DULLNESS])
+            borg.trait[BI_CRSDULL] = true;
+        if (item->curses[BORG_CURSE_SICKLINESS])
+            borg.trait[BI_CRSSICK] = true;
+        if (item->curses[BORG_CURSE_WEAKNESS])
+            borg.trait[BI_CRSWEAK] = true;
+        if (item->curses[BORG_CURSE_CLUMSINESS])
+            borg.trait[BI_CRSCLUM] = true;
+
         /* skip cursed non-artifacts */
         if (cursed_nonartifact(item))
             continue;
@@ -1569,25 +1581,18 @@ static void borg_notice_equipment(void)
             borg.trait[BI_CRSDRAIN_XP] = true;
 
         /* curses that don't have flags or stat changes that are tracked
-         * elsewhere */
+         * elsewhere (the four stat curses are read before the
+         * cursed-non-artifact skip above) */
         if (item->curses[BORG_CURSE_VULNERABILITY])
             borg.trait[BI_CRSVULN] = true;
         if (item->curses[BORG_CURSE_TELEPORTATION])
             borg.trait[BI_CRSTELE] = true;
-        if (item->curses[BORG_CURSE_DULLNESS])
-            borg.trait[BI_CRSDULL] = true;
-        if (item->curses[BORG_CURSE_SICKLINESS])
-            borg.trait[BI_CRSSICK] = true;
         if (item->curses[BORG_CURSE_ENVELOPING])
             borg.trait[BI_CRSENVELOPING] = true;
         if (item->curses[BORG_CURSE_IRRITATION]) {
             borg.trait[BI_CRSAGRV]       = true;
             borg.trait[BI_CRSIRRITATION] = true;
         }
-        if (item->curses[BORG_CURSE_WEAKNESS])
-            borg.trait[BI_CRSWEAK] = true;
-        if (item->curses[BORG_CURSE_CLUMSINESS])
-            borg.trait[BI_CRSCLUM] = true;
         if (item->curses[BORG_CURSE_SLOWNESS])
             borg.trait[BI_CRSSLOW] = true;
         if (item->curses[BORG_CURSE_ANNOYANCE])
@@ -1786,19 +1791,23 @@ static void borg_notice_equipment(void)
         borg.trait[BI_CRSAGRV] = true;
         borg.trait[BI_ARMOR] -= 50;
     }
+    /* Stat curses lower the stats through the equipment bonuses, the
+     * way the engine adds the curse's own modifiers to stat_add; the
+     * derived stats, stat indexes, carry allowance and mana adjustments
+     * then include the penalties. */
     if (borg.trait[BI_CRSDULL]) {
-        borg.trait[BI_CINT] -= 5;
-        borg.trait[BI_CWIS] -= 5;
+        borg.trait[BI_AINT] -= 5;
+        borg.trait[BI_AWIS] -= 5;
     }
     if (borg.trait[BI_CRSSICK]) {
-        borg.trait[BI_CSTR] -= 5;
-        borg.trait[BI_CDEX] -= 5;
-        borg.trait[BI_CCON] -= 5;
+        borg.trait[BI_ASTR] -= 5;
+        borg.trait[BI_ADEX] -= 5;
+        borg.trait[BI_ACON] -= 5;
     }
     if (borg.trait[BI_CRSWEAK])
-        borg.trait[BI_CSTR] -= 10;
+        borg.trait[BI_ASTR] -= 10;
     if (borg.trait[BI_CRSCLUM])
-        borg.trait[BI_CDEX] -= 10;
+        borg.trait[BI_ADEX] -= 10;
     if (borg.trait[BI_CRSSLOW])
         borg.trait[BI_SPEED] -= 5;
     if (borg.trait[BI_CRSANNOY]) {
