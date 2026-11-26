@@ -25,6 +25,7 @@
 #include "borg-cave-util.h"
 #include "borg-cave-view.h"
 #include "borg-cave.h"
+#include "borg-projection.h"
 #include "borg-trait.h"
 
 /*
@@ -68,7 +69,7 @@ uint8_t borg_glow_y[AUTO_LIGHT_MAX];
  */
 void borg_update_light(void)
 {
-    int i, x, y, min_x, max_x, min_y, max_y;
+    int i, x, y, radius;
 
     /*** Clear old grids ***/
 
@@ -93,131 +94,49 @@ void borg_update_light(void)
     /* Player grid */
     borg_cave_light_hack(borg.c.y, borg.c.x);
 
-    /* Radius 1 -- torch radius */
-    if (borg.trait[BI_LIGHT] >= 1) {
-        /* Adjacent grid */
-        borg_cave_light_hack(borg.c.y + 1, borg.c.x);
-        borg_cave_light_hack(borg.c.y - 1, borg.c.x);
-        borg_cave_light_hack(borg.c.y, borg.c.x + 1);
-        borg_cave_light_hack(borg.c.y, borg.c.x - 1);
+    /* The engine lights one grid less than the light's strength:
+     * calc_lighting() uses radius = ABS(light) - 1 and add_light()
+     * lights every grid with distance() no greater than that radius
+     * which has line of sight from the player (see cave-view.c).
+     * Using the strength itself made the borg expect to see monsters
+     * standing in the dark ring just outside its real light, and
+     * forget them when they were not on screen.  A Necromancer
+     * standing in unlight sees by the unlight instead, so keep the
+     * radius the borg always used for that case.
+     */
+    radius = borg.trait[BI_LIGHT] - 1;
 
-        /* Diagonal grids */
-        borg_cave_light_hack(borg.c.y + 1, borg.c.x + 1);
-        borg_cave_light_hack(borg.c.y + 1, borg.c.x - 1);
-        borg_cave_light_hack(borg.c.y - 1, borg.c.x + 1);
-        borg_cave_light_hack(borg.c.y - 1, borg.c.x - 1);
+    /* Never below zero */
+    if (radius < 0)
+        radius = 0;
+
+    /* Necromancers see by unlight */
+    if (borg.trait[BI_CLASS] == CLASS_NECROMANCER
+        && borg.trait[BI_LIGHT] <= 1) {
+        radius = borg.trait[BI_LIGHT];
     }
 
-    /* Radius 2 -- lantern radius */
-    if (borg.trait[BI_LIGHT] >= 2 && borg.c.y + 2 < AUTO_MAX_Y
-        && borg.c.y - 2 > 0 && borg.c.x + 2 < AUTO_MAX_X && borg.c.x - 2 > 0) {
-        /* South of the player */
-        if (borg_cave_floor_bold(borg.c.y + 2, borg.c.x)) {
-            borg_cave_light_hack(borg.c.y + 2, borg.c.x);
-            borg_cave_light_hack(borg.c.y + 2, borg.c.x + 2);
-            borg_cave_light_hack(borg.c.y + 2, borg.c.x - 2);
-        }
+    /* Scan the box around the player, lighting what the engine lights */
+    for (y = borg.c.y - radius; y <= borg.c.y + radius; y++) {
+        for (x = borg.c.x - radius; x <= borg.c.x + radius; x++) {
+            /* Stay on the map */
+            if (y < 0 || y >= AUTO_MAX_Y || x < 0 || x >= AUTO_MAX_X)
+                continue;
 
-        /* North of the player */
-        if (borg_cave_floor_bold(borg.c.y - 2, borg.c.x)) {
-            borg_cave_light_hack(borg.c.y - 2, borg.c.x);
-            borg_cave_light_hack(borg.c.y - 2, borg.c.x + 2);
-            borg_cave_light_hack(borg.c.y - 2, borg.c.x - 2);
-        }
+            /* The player grid is already lit (and must stay first) */
+            if (y == borg.c.y && x == borg.c.x)
+                continue;
 
-        /* East of the player */
-        if (borg_cave_floor_bold(borg.c.y, borg.c.x + 2)) {
-            borg_cave_light_hack(borg.c.y, borg.c.x + 2);
-            borg_cave_light_hack(borg.c.y + 1, borg.c.x + 2);
-            borg_cave_light_hack(borg.c.y - 1, borg.c.x + 2);
-        }
+            /* The engine lights distance() <= radius */
+            if (distance(borg.c, loc(x, y)) > radius)
+                continue;
 
-        /* West of the player */
-        if (borg_cave_floor_bold(borg.c.y, borg.c.x - 2)) {
-            borg_cave_light_hack(borg.c.y, borg.c.x - 2);
-            borg_cave_light_hack(borg.c.y + 2, borg.c.x - 2);
-            borg_cave_light_hack(borg.c.y - 2, borg.c.x - 2);
-        }
-    }
+            /* Don't propagate the light through walls */
+            if (!borg_los(borg.c.y, borg.c.x, y, x))
+                continue;
 
-    /* Radius 3+ -- artifact radius */
-    if (borg.trait[BI_LIGHT] >= 3 && borg.c.y + 3 < AUTO_MAX_Y
-        && borg.c.y - 3 > 0 && borg.c.x + 3 < AUTO_MAX_X && borg.c.x - 3 > 0) {
-        int d, p;
-
-        /* Maximal radius */
-        p = borg.trait[BI_LIGHT];
-
-        /* Paranoia -- see "LITE_MAX" */
-        if (p > 5)
-            p = 5;
-
-        /* South-East of the player */
-        if (borg_cave_floor_bold(borg.c.y + 3, borg.c.x + 3)) {
-            borg_cave_light_hack(borg.c.y + 3, borg.c.x + 3);
-        }
-
-        /* South-West of the player */
-        if (borg_cave_floor_bold(borg.c.y + 3, borg.c.x - 3)) {
-            borg_cave_light_hack(borg.c.y + 3, borg.c.x - 3);
-        }
-
-        /* North-East of the player */
-        if (borg_cave_floor_bold(borg.c.y - 3, borg.c.x + 3)) {
-            borg_cave_light_hack(borg.c.y - 3, borg.c.x + 3);
-        }
-
-        /* North-West of the player */
-        if (borg_cave_floor_bold(borg.c.y - 3, borg.c.x - 3)) {
-            borg_cave_light_hack(borg.c.y - 3, borg.c.x - 3);
-        }
-
-        /* Maximal north */
-        min_y = borg.c.y - p;
-        if (min_y < 0)
-            min_y = 0;
-
-        /* Maximal south */
-        max_y = borg.c.y + p;
-        if (max_y > AUTO_MAX_Y - 1)
-            max_y = AUTO_MAX_Y - 1;
-
-        /* Maximal west */
-        min_x = borg.c.x - p;
-        if (min_x < 0)
-            min_x = 0;
-
-        /* Maximal east */
-        max_x = borg.c.x + p;
-        if (max_x > AUTO_MAX_X - 1)
-            max_x = AUTO_MAX_X - 1;
-
-        /* Scan the maximal box */
-        for (y = min_y; y <= max_y; y++) {
-            for (x = min_x; x <= max_x; x++) {
-                int dy = (borg.c.y > y) ? (borg.c.y - y) : (y - borg.c.y);
-                int dx = (borg.c.x > x) ? (borg.c.x - x) : (x - borg.c.x);
-
-                /* Skip the "central" grids (above) */
-                if ((dy <= 2) && (dx <= 2))
-                    continue;
-
-                /* Approximate the distance "as the bird flies" (straight-line).
-                 * Ignores obstacles and does not follow walkable paths like
-                 * pathfinding code elsewhere.
-                 */
-                d = (dy > dx) ? (dy + (dx >> 1)) : (dx + (dy >> 1));
-
-                /* Skip distant grids */
-                if (d > p)
-                    continue;
-
-                /* Viewable, nearby, grids get "torch lit" */
-                if (borg_grids[y][x].info & BORG_VIEW) {
-                    /* This grid is "torch lit" */
-                    borg_cave_light_hack(y, x);
-                }
-            }
+            /* This grid is "torch lit" */
+            borg_cave_light_hack(y, x);
         }
     }
 }
