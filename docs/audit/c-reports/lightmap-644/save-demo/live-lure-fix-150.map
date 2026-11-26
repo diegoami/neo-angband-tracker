@@ -9,58 +9,58 @@ Borg Compile Date: Nov 26 2026
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
-#                                                                                                                        &                                                                           #
-#                                                                                                                                                                                                    #
-#                                                                                                                                                                                                    #
-#                                                &                                                                                                                                                   #
-#                                                                                                                                                                                                    #
-#                                                                                                                                                                                                    #
-#                                                                                                                   &                                                                                #
-#                                                                                                                   &                         &                                                      #
-#                                                                                     &                             &&&                                                                              #
-#                                &  &                                                                              &&&&                                                                              #
-#                                &                                                              &                                                                                                    #
-#                                 &                                                                                                                                                                  #
-#                                                                                                                                                                                                    #
-#                                   &                                                                                                                                                                #
-#                                   &                                                                                                                                      &                         #
-#                                   &                                                                                                                                                                #
-#                                                                               &                                                                                                                    #
-#                                                                                                                                                                                                    #
-#                                                                                                                                                                                                    #
-#                                                     &                                                                                                                                              #
-#                                                                                                                                                                                                    #
-#                                                       &                                                                   &                                                                        #
-#                                                                                                                                                                                                    #
-#                                                                                                                                                             &                                      #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
-#                                                                                                                                                                           &                        #
-#                                                                                                                                                                           &                        #
 #                                                                                                                                                                                                    #
-#                                                                                                                                                                  &    &                            #
-#                                                                                                                                                                                                    #
-#                                                                                                                                                                                                    #
-#                                                                                                                                                  &                                                 #
-#                             ###                                                                                                                                                                    #
-#                             #>#                                                                                                                                                                    #
-#                             #@#                                                                                                                                                                    #
-#                             #.#                                                                                                                                                                    #
-#                             #.#                                                                                                                                                                    #
+#                                                                          &                                                                                                                         #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
+#                                                                &                                                                                                                                   #
 #                                                                                                                                                                                                    #
-#                                                                                                                             &                                                                      #
-#                                                                                                                             &                                                                      #
-#                              &                                                                                              &                                                                      #
-#                              &                                                                                              &                                                                      #
-#                              &                                                                                              &                                                                      #
-#                         &    &                                                                                              &&                                                                     #
+#                                                                                                                                                                                                    #
+#                                                                                                                                 &                                                                  #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                        &                                                                                                        &                                                                  #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                              &                                     #
+#                                                                                                                                                                                                    #
+#                                        & &                                                                                                                                                         #
+#                                                                                                              &                                                                                     #
+#                           #.#                                                                                                                                                                      #
+#                           #@#                                                                                                                                                                      #
+#                           #..                                                                                                                                                                      #
+#                           #.#                                                                            &                                                                                         #
+#                           #>#                                                                                                                                                                      #
+#                           ###                                                                                                                                                                      #
+#                                                                                                                                                                                                    #
+#                                                                                                   &                                                                                                #
+#                                                                                                                                                                &                                   #
+#                  &&                                                                                                                                                                                #
+#                &                                                                                  &                                                              &                                 #
+#                  & &                                                                                                                                                 &                             #
+#                      &        &                                                                                                                                                                    #
+#                      &        &                                                                                       &           &                                                                #
+#                                                                                                                                                                                 &                  #
+#              & &         &    &                                                              &                                                                                       &             #
+#                &       &                                                                                                                                                                           #
+#                                                                                               &                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                           &                                                                                                        #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
+#                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
 #                                                                                                                                                                                                    #
@@ -94,14 +94,17 @@ Initializing the Borg... done.
 # Ready...
 # Installing keypress hook
 # Stepping Borg 150 times
+# Creating a monster 'kobold' at (12,2), HP: 7, Index: 32
 # Needing to get back on correct depth
+# Scary guy on level.
+# Leaving (Scary guy on level)
+# Fleeing (Scary guy on level)
+# Fleeing and leaving the level. (scaryguy)
 # Flowing toward up-stairs at cost 4
-# Looking for stairs. Goal_less, Fleeing.
+# Desperate for Stairs (three)
 # Creating a monster 'white worm mass' at (13,12), HP: 10, Index: 26
 # Creating a monster 'white worm mass' at (12,12), HP: 11, Index: 26
 # Creating a monster 'white worm mass' at (11,12), HP: 10, Index: 26
-# Leaving (no recall)
-# Fleeing (no recall)
 # Scary guy on level.
 # Loc:12,11 Dep:5 Lev:1 HP:12/12 SP:2/2 Danger:p=111
 # Fleeing and leaving the level. (scaryguy)
@@ -123,12 +126,11 @@ You are more poisoned!
 # Attacking with weapon 'Whip (1d3) (+0,+0)'
 You hit the white worm mass.
 # HIT:the white worm mass (+)
-# Creating a monster 'kobold' at (12,10), HP: 7, Index: 32
 # HIT:the white worm mass (2)
 # There was a monster 'white worm mass' at (12,12)
 # Forgetting a monster 'white worm mass' at (12,12)
 # Scary guy on level.
-# Loc:12,11 Dep:5 Lev:1 HP:8/12 SP:2/2 Danger:p=80
+# Loc:12,11 Dep:5 Lev:1 HP:8/12 SP:2/2 Danger:p=64
 # Fleeing and leaving the level. (scaryguy)
 # Flowing toward up-stairs at cost 3
 # Desperate for Stairs (three)
@@ -138,16 +140,16 @@ You are more poisoned!
 # Close enough to Stair.
 # Needing to get back on correct depth
 # Scary guy on level.
-# Loc:12,12 Dep:5 Lev:1 HP:5/12 SP:2/2 Danger:p=115
+# Loc:12,12 Dep:5 Lev:1 HP:5/12 SP:2/2 Danger:p=104
 # Fleeing and leaving the level. (scaryguy)
 # Flowing toward up-stairs at cost 2
 # Desperate for Stairs (two)
 # Creating a monster 'white worm mass' at (12,12), HP: 9, Index: 26
 # Close enough to Stair.
 # Needing to get back on correct depth
-# Possibility of being surrounded (monsters/safegrids)(5/3)
+# Possibility of being surrounded (monsters/safegrids)(4/3)
 # Scary guy on level.
-# Loc:12,13 Dep:5 Lev:1 HP:4/12 SP:2/2 Danger:p=130
+# Loc:12,13 Dep:5 Lev:1 HP:4/12 SP:2/2 Danger:p=127
 # Fleeing and leaving the level. (scaryguy)
 # Flowing toward up-stairs at cost 1
 # Desperate for Stairs (two)
@@ -159,12 +161,6 @@ This seems a tame, sheltered place.
 # FEELING_DANGER:8 (1)
 # Standing on dn-stairs
 # Flowing toward dark-2 at cost 3
-# Leaving (bleeding/poison)
-# Fleeing (bleeding/poison)
-# Fleeing and leaving the level. (Looking for any stair)
-# Flowing toward down-stairs at cost 2
-# Flowing toward down-stairs at cost 1
-# Desperate for Stairs (four)
 You die.
 Score not registered for borgs.
 

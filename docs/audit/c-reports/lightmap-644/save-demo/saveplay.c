@@ -198,31 +198,6 @@ static int scenario_light(void *state)
     if (!mon) { printf("SETUPFAIL no monster\n"); return 1; }
     bool lure = streq(mode, "lure");
 
-    if (lure) {
-        /* The druid steps west to the room's edge and her torch lights
-         * the kobold one grid away: the scan records it - the scary guy
-         * that makes the borg want the stairs east. */
-        struct monster *kob = square_monster(cave, loc(7, CORR_Y));
-        if (!kob) { printf("SETUPFAIL no kobold\n"); return 1; }
-        step_player(9);
-        step_player(8);
-        printf("KSTEP1 player=(%d,%d) kobold=(%d,%d) visible=%d\n",
-               player->grid.x, player->grid.y, kob->grid.x, kob->grid.y,
-               mflag_has(kob->mflag, MFLAG_VISIBLE) ? 1 : 0);
-        borg_update();
-        print_kills();
-        /* Back east, away from the scary guy: the kobold goes dark, and
-         * standing three grids from it the borg cannot see its grid
-         * even with the base commit's light map, so both builds keep
-         * the record - the fear of it survives the light map. */
-        step_player(9);
-        step_player(10);
-        printf("KSTEP2 player=(%d,%d) kobold=(%d,%d) visible=%d\n",
-               player->grid.x, player->grid.y, kob->grid.x, kob->grid.y,
-               mflag_has(kob->mflag, MFLAG_VISIBLE) ? 1 : 0);
-        borg.time.now++;
-    }
-
     if (streq(mode, "retreat") || lure || streq(mode, "worm")) {
         /* The borg steps one grid east: the torch lights the monster's
          * grid, the game sees it, and the scan notes the record. */

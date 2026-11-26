@@ -52,8 +52,9 @@ prices the ant identically (`DANGER ant_grid=2`), and is byte-identical.
 
 ## What the lure shows (the acted-out consequence)
 
-`lightmap644-lure.sav` (the level, west to east; `k` awake west,
-`s` asleep far west, `w` the worm wall, `<` the way home):
+`lightmap644-lure.sav` (the level, west to east; `k` awake on watch
+in the lit far-west alcove, `k` asleep in the near room's dark, `w`
+the worm wall, `<` the way home):
 
 ```
 #...##......w.##########################
@@ -65,18 +66,21 @@ A **level 1 Human Druid with a whip** (12 HP, 1d3 damage — too weak
 to out-damage a breeder) who came down the **up staircase** east of
 the corridor and walked west into the room; the level memory covers
 the corridor, the room and the staircase. In the dark of the first
-west room an **awake kobold** lurks — in the borg's own scary-guy
-list for characters of level 8 and under — past the doorway a second
-room continues the level with a second kobold **asleep** at its far
-end (asleep, so it is exempt from the missing-monster pass — "Don't
-'forget' certain ones"), and **three white worm masses** (poison
-touch, `MULTIPLY` — they breed) spawned abreast on the corridor's
-far corner, two grids east, in the dark outside the torch's real
-light. She carries **no escape kit**: no book, no recall, no phase
-door. The saveplay does both glimpses — step west and see the
-kobold, retreat; step east and see the worms, retreat — then runs
-the production per-turn brain (`borg_think()`) and reads the borg's
-own notes:
+west room a kobold **sleeps** (asleep, so it is exempt from the
+missing-monster pass — "Don't 'forget' certain ones"), and past the
+doorway a second room continues west to a **lit watch-alcove** where
+an **awake kobold** stands: in the borg's own scary-guy list for
+characters of level 8 and under, **seen from the save itself** (lit
+plus line of sight down the rooms, `visible=1`), a scary guy on the
+level from turn one — but eight grids out, no physical threat for
+most of ten turns. Between her and the stairs, **three white worm
+masses** (poison touch, `MULTIPLY` — they breed) spawned abreast on
+the corridor's far corner, two grids east, in the dark outside the
+torch's real light. She carries **no escape kit**: no book, no
+recall, no phase door. The saveplay steps east once to glimpse the
+worms, steps back, then runs the production per-turn brain
+(`borg_think()`) and reads the borg's own notes (the kobold's
+record already exists: the borg saw it the moment it arrived):
 
 | Build | The records after the passes | The flight from the kobold |
 | --- | --- | --- |
@@ -128,20 +132,19 @@ the accumulated poison one level up. That is the issue's consequence
 played out: the amnesia does not change the goal, it deletes the
 fear on the way.
 
-The **fix** build's run in the same layout is filed beside it, and
-honestly: it also fights through and dies of the same poison. Two
-measured reasons. First, this borg *attacks* an adjacent killable
-monster rather than retreating — even at danger 111 against an
-attack value of 31 — and the scenario boxes the druid in by design
-(the kobold west closes within a handful of turns, the worm wall
-east), so cornered fighting is the least bad option on either
-build. Second, the worms are random movers, so the *legitimate*
-forget (a monster that genuinely moved away) also fires on the fix —
-its one `# Forgetting` line is that case, a worm that really had
-moved. The clean build-vs-build divergence — the base deleting a
-record of a monster that is still standing there — is what the
-frozen matrix above pins down deterministically, which is why it,
-not free play, is the evidence of record.
+The **fix** build's run in the same layout is filed beside it
+(`live-lure-fix-150.map`), and honestly: it plays the same fight and
+dies of the same poison. The far kobold removed the boxing — the
+druid is never cornered — and it changes nothing: this borg *attacks*
+an adjacent killable monster rather than retreating, on either
+build, even at danger 111 against an attack value of 31 (its
+backing-away branch is gated off on a fresh level), and the worms
+are random movers, so the *legitimate* forget (a monster that
+genuinely moved away) also fires on the fix. The clean build-vs-
+build divergence — the base deleting a record of a monster that is
+still standing there — is what the frozen matrix above pins down
+deterministically, which is why it, not free play, is the evidence
+of record.
 
 ## Replay it
 
@@ -164,7 +167,7 @@ sha256 of every log and save. Heavy steps hold
   PR #660).
 - `lightmap644-retreat.sav` sha256 `c1a6857a0d1663be`...,
   `lightmap644-worm.sav` sha256 `50cf6fba50bcef86`...,
-  `lightmap644-lure.sav` sha256 `e9ec1ebc376c2657`...,
+  `lightmap644-lure.sav` sha256 `4442536e6c7e1221`...,
   `lightmap644-stay.sav` sha256 `b3682099aa84b9d0`...
   (full digests in `demo-result.json`).
 

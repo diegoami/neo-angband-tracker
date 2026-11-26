@@ -95,15 +95,22 @@ static term screen;
 #define LURE_ROOM_X1 9
 #define LURE_ROOM_Y0 11
 #define LURE_ROOM_Y1 13
-#define LURE_KOBOLD_X 7
-#define LURE_KOBOLD_Y 12
 /* West of the first room a second room continues the level (a doorway
  * pinches between them), and at its far end a second kobold sleeps:
  * never seen, never woken, it never enters the borg's memory - but the
  * level does not end at the druid's back. */
 #define LURE_ROOM2_X0 1
 #define LURE_ROOM2_X1 4
-#define LURE_SLEEPER_X 2
+/* The far west of the second room is a lit watch-alcove (SQUARE_GLOW):
+ * the awake kobold stands in it, seen from the player's start by line
+ * of sight down the rooms - a scary guy on the level from turn one,
+ * but eight grids out, so it takes most of ten turns to close.  The
+ * sleeping kobold sits in the dark of the first room instead. */
+#define LURE_ALCOVE_X0 1
+#define LURE_ALCOVE_X1 2
+#define LURE_AWAKE_X 2
+#define LURE_AWAKE_Y 12
+#define LURE_SLEEPER_X 7
 #define LURE_SLEEPER_Y 12
 
 static char savepath[1024];
@@ -191,6 +198,11 @@ int setup_tests(void **state)
         square_set_feat(cave, loc(4, LURE_ROOM_Y1), FEAT_GRANITE);
         square_set_feat(cave, loc(5, LURE_ROOM_Y1), FEAT_GRANITE);
         square_set_feat(cave, loc(LURE_STAIR_X, LURE_STAIR_Y), FEAT_LESS);
+        /* The far-west watch-alcove is lit: whoever stands there is
+         * visible from the corridor by line of sight. */
+        for (int y = LURE_ROOM_Y0; y <= LURE_ROOM_Y1; ++y)
+            for (int x = LURE_ALCOVE_X0; x <= LURE_ALCOVE_X1; ++x)
+                sqinfo_on(square(cave, loc(x, y))->info, SQUARE_GLOW);
     }
     player->cave = cave_new(H, W);
     player->depth = player->max_depth = cave->depth = player->cave->depth = 5;
@@ -320,19 +332,21 @@ int setup_tests(void **state)
         }
     }
     if (streq(mode, "lure")) {
-        /* The kobold in the west room: awake, mobile, three grids west
-         * of the player and dark.  It is in the borg's scary-guy list
-         * (BI_CLEVEL <= 8), so once the borg has seen it the borg
-         * flees the level - back east, to the up staircase. */
+        /* The awake kobold on watch in the lit far-west alcove: seen
+         * from the player's start (lit + line of sight down the rooms),
+         * in the borg's scary-guy list for BI_CLEVEL <= 8 - so the borg
+         * knows from turn one that a scary guy is on the level and
+         * heads east for the up staircase - but eight grids away, no
+         * threat for most of ten turns. */
         struct monster *kob =
-            t_add_monster(cave, loc(LURE_KOBOLD_X, LURE_KOBOLD_Y), "Kobold");
+            t_add_monster(cave, loc(LURE_AWAKE_X, LURE_AWAKE_Y), "Kobold");
         if (!kob) { printf("SETUPFAIL kobold\n"); return 1; }
         mflag_on(kob->mflag, MFLAG_AWARE);
         update_mon(kob, cave, true);
         if (rf_has(kob->race->flags, RF_NEVER_MOVE)) { printf("SETUPFAIL kobold never moves\n"); return 1; }
         if (kob->m_timed[MON_TMD_SLEEP] != 0) { printf("SETUPFAIL kobold asleep\n"); return 1; }
-        if (mflag_has(kob->mflag, MFLAG_VISIBLE)) { printf("SETUPFAIL kobold visible\n"); return 1; }
-        /* And at the far west end of the second room a second kobold,
+        if (!mflag_has(kob->mflag, MFLAG_VISIBLE)) { printf("SETUPFAIL kobold not visible\n"); return 1; }
+        /* And in the dark of the first west room a second kobold,
          * sleeping: asleep and unaware, so it is exempt from the
          * missing-monster pass ("Don't 'forget' certain ones") and
          * prices as no danger at all until something wakes it. */
