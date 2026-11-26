@@ -8,6 +8,7 @@ KILLS kills=1
 KILL k=1 race=soldier ant pos=(11,12) awake=1
 KILLS kills=1
 LIGHTINFO grid=(11,12) light=1 glow=0 view=1 dark=0
+DANGER ant_grid=2 west_of_ant=2
 MAP After the pass: @ = the Borg, a = the ant, ? = the borg's record
 MAPROW ########################################
 MAPROW ########################################

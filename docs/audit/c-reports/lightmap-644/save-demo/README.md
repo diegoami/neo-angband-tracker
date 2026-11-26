@@ -31,13 +31,19 @@ grid, the game sees it, the scan notes its record), then steps back
 west; one turn passes. The next `borg_update()` runs the missing-monster
 pass on the record:
 
-| Build | The ant's grid after the pass | The record |
-| --- | --- | --- |
-| base `574b618c3` | `light=1` — the borg's light map still marks the dark grid lit from two grids away | deleted as one that "did not really move": `KILLS kills=0`, the map keeps only `@` and `a` |
-| fix `d8d31359e` (`task/lightmap-644`) | `light=0` — the grid is dark | kept at (12,12): `?` on the map, right at the ant |
+| Build | The ant's grid after the pass | The record | Danger the borg expects there |
+| --- | --- | --- | --- |
+| base `574b618c3` | `light=1` — the borg's light map still marks the dark grid lit from two grids away | deleted as one that "did not really move": `KILLS kills=0`, the map keeps only `@` and `a` | `DANGER ant_grid=0` — the grid looks known, torch-lit and safe |
+| fix `d8d31359e` (`task/lightmap-644`) | `light=0` — the grid is dark | kept at (12,12): `?` on the map, right at the ant | `DANGER ant_grid=2` — the kept record prices the ant in |
 
-The control (`lightmap644-stay.sav`) keeps the record in both builds with
-byte-identical logs.
+So on the original the borg's model of the grid one step east is "known
+floor, torch-lit, zero danger" while an awake soldier ant stands on it:
+any flow that heads east (exploring the corridor's continuation, an item
+or stairs beyond) walks straight into the ant it just forgot, without
+the caution a dark grid or a remembered monster would trigger.
+
+The control (`lightmap644-stay.sav`) keeps the record in both builds,
+prices the ant identically (`DANGER ant_grid=2`), and is byte-identical.
 
 ## Replay it
 
