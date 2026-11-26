@@ -1,0 +1,67 @@
+{
+  "plain": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "stats_ok": 1,
+      "carry": 2400,
+      "str_index": 17
+    },
+    "outcome": {
+      "stats_ok": 1,
+      "carry": 2400
+    }
+  },
+  "weak": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "stats_ok": 0,
+      "carry": 2400,
+      "str_index": 17
+    },
+    "outcome": {
+      "stats_ok": 0,
+      "carry": 2400
+    }
+  },
+  "weak_clum": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "stats_ok": 0,
+      "carry": 2400,
+      "str_index": 17
+    },
+    "outcome": {
+      "stats_ok": 0,
+      "carry": 2400
+    }
+  },
+  "sickly": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "stats_ok": 0,
+      "carry": 2400,
+      "str_index": 17
+    },
+    "outcome": {
+      "stats_ok": 0,
+      "carry": 2400
+    }
+  },
+  "dull": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "stats_ok": 0,
+      "carry": 2400,
+      "str_index": 17
+    },
+    "outcome": {
+      "stats_ok": 0,
+      "carry": 2400
+    }
+  }
+}

@@ -1,0 +1,39 @@
+native-c/statcurse-645: starting...
+SETUP seed=645 mode=dull class=Warrior clevel=20 hp=245 depth=5
+  stats_match_engine  STATINFO stat=STR borg=38 game=38 match=1
+STATINFO stat=INT borg=8 game=3 match=0
+STATINFO stat=WIS borg=8 game=3 match=0
+STATINFO stat=DEX borg=18 game=18 match=1
+STATINFO stat=CON borg=18 game=18 match=1
+CURSEINFO weak=0 clum=0 sick=0 dull=0 str_index=17 carry=2400
+MAP The arena: @ = the Borg, open lit floor, no monsters
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+STATE stats_ok=0 carry=2400 str_index=17
+OUTCOME stats_ok=0 carry=2400
+Failed
+    native-c/statcurse-645:215: requirement 'stats_ok == 1' failed
+native-c/statcurse-645 finished: 0/1 passed

@@ -1,0 +1,201 @@
+{
+  "issue": "diegoami/neo-angband-tracker#645",
+  "report": "statcurse-645",
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "e56b1dbb92c82d8bb01b24ed2a3a6255d2b34472",
+  "fix_branch": "statcurse-645",
+  "fixtures_ref": "9afa40b6b5bd79d2709eb5975c3316d2006b3a75",
+  "cases": {
+    "plain": {
+      "before": {
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 2400
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 2400
+        }
+      }
+    },
+    "weak": {
+      "before": {
+        "passed": false,
+        "state": {
+          "stats_ok": 0,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 0,
+          "carry": 2400
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 1200,
+          "str_index": 7
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 1200
+        }
+      }
+    },
+    "weak_clum": {
+      "before": {
+        "passed": false,
+        "state": {
+          "stats_ok": 0,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 0,
+          "carry": 2400
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 1200,
+          "str_index": 7
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 1200
+        }
+      }
+    },
+    "sickly": {
+      "before": {
+        "passed": false,
+        "state": {
+          "stats_ok": 0,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 0,
+          "carry": 2400
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 1700,
+          "str_index": 12
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 1700
+        }
+      }
+    },
+    "dull": {
+      "before": {
+        "passed": false,
+        "state": {
+          "stats_ok": 0,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 0,
+          "carry": 2400
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "stats_ok": 1,
+          "carry": 2400,
+          "str_index": 17
+        },
+        "outcome": {
+          "stats_ok": 1,
+          "carry": 2400
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "plain"
+  ],
+  "claim": "With a known-cursed item worn, the borg's derived stats diverge from the game's effective stats exactly as described and the curse traits never fire: weakness gloves read STR 38 against the game's 10 with a carry allowance of 2400 where the game allows 1200; weakness+clumsiness reads STR/DEX 38/18 against 10/8; a sickliness helm reads STR/DEX/CON 38/18/18 against 15/13/13; a dullness helm reads INT/WIS 8/8 against 3/3. With the correction every derived stat, the stat index and the carry allowance equal the game's, and the uncursed control is byte-identical. Both full native gates pass on both variants.",
+  "full_tests": {
+    "before": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-trait.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-trait.c": "ffe741f281a3036c8fd052097281f85a08d8e7e263081f28341ec94da8e9fb28"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 37,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "cd32508916e1d788a613655d2c27a52a8301685eec512417032996fb5c5785ef",
+    "after-dull.log": "eb12a4c271165ca87a3b8948f9e2f8cc290c04d8af7ec3e00c91d1b3670bb3c8",
+    "after-plain.log": "88458eafd36a2a630f225d79ab4d40c5607c223b5095563c8f3078d0bcaf53f4",
+    "after-results.json": "76149bcb8e330ae0c5dc21380003d83a511b5216c5b1a89da337e2bce6ae6975",
+    "after-sickly.log": "4fedab28f88e2b4ab251e433270fda8c383c7be06b2df8a67f6eb38c0ffa5ec2",
+    "after-weak.log": "3fb1ecea99160124ab13ebb2b6e234aa877a8ebaee5f40649e0ae0a3df1c24a1",
+    "after-weak_clum.log": "ce539a0368eae3848ad98867f85e44753782fe9a3098d0e5211b6af228eab5f0",
+    "before-dull.log": "34a97e9cd35085dcd9756aa34ca2d409adf6db6d69f964c2a8e45ec79c2f7281",
+    "before-plain.log": "88458eafd36a2a630f225d79ab4d40c5607c223b5095563c8f3078d0bcaf53f4",
+    "before-results.json": "10b043bd9cd94bcae779ea2f3c81ce86d9b3a0f0b772eb26db54f13d309fc5be",
+    "before-sickly.log": "1de74a9875f38128584a40c4cf24018f030a8229e7e78e302e1efa290888d1b7",
+    "before-weak.log": "93ab180ff476fe74b394c112da90e4cbbb1cd221ab3d1c05143b41d6b2847238",
+    "before-weak_clum.log": "43c60ed336c9ecff2a79e9a67ca7903123022efe1781b38fc9e9b4efac4ba700",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "cfc8b01e6bec9c8bdddd2a9bf87bf12e52862ac1af49cc64d8e2fa12ffaab520",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "5adcb807b93e16edfe640ecb07e6ac30f5cbef48267ed483817c069816a68818",
+    "replay.html": "06303c21a43344775c5cadada484be723ec4932d07ec4e4f3c63035d3492a0e3",
+    "reproduce.py": "0d48cc07d777068c8fba9241ced30012202b7a2b423bcda2c64036fdd5e6aa4f",
+    "result.json": "60b6a9a3159baa4568ce8bb8ac735264650710b75626163c54af874f2e1a6629",
+    "run-after-alltests.log": "74b54bcf8d3388a642b53676deb8e815963f598093eb62d57a3d461bb172c9b4",
+    "run-after-build.log": "9f7610075fa19ab5eb1da92acf06740d82b5f0a69668d49e6cfa69c9336af11b",
+    "run-after-scenarios.log": "e1ba62efb1e44d24b60786b4a69f5634696db7034913d70818a759c5933e2474",
+    "run-before-alltests.log": "3bb77fc5c41dea4ab6f6ea4b42e316c958c9f86a2ebb60a68752e816b59ef30f",
+    "run-before-build.log": "8572c13e7c3d779499e116aea4bfb7f3937adcf38b66290b5e0f577737fb305d",
+    "run-before-scenarios.log": "c975b36608511c94782701ee4f0ed9bbd3e9bf8d29aa9439850cee0350ffcf9f",
+    "run-cases.py": "c374dbf0816d32de43ccd7395a0fd348dfbb29ce39311379969a577fe4cd1584",
+    "run-configure.log": "c70a76037db99855684add0d8a54b8b6adc688db506348fe5b8e1fb85d12eef8",
+    "scenario.c": "52344216a20707f94d80712e950b2addce8e13fd65909c5ae751c3d69bf7cfcc"
+  }
+}
