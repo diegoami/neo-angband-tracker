@@ -1,0 +1,6 @@
+hasted_new {'exit': 0, 'passed': True, 'state': {'tracked': 120, 'net': 120, 'player': 110, 'faster_than_me': 1}, 'outcome': {'tracked': 120, 'net': 120}}
+hasted_refresh {'exit': 0, 'passed': True, 'state': {'tracked': 120, 'net': 120, 'player': 110, 'faster_than_me': 1}, 'outcome': {'tracked': 120, 'net': 120}}
+slowed {'exit': 0, 'passed': True, 'state': {'tracked': 106, 'net': 106, 'player': 110, 'faster_than_me': 0}, 'outcome': {'tracked': 106, 'net': 106}}
+persists_offscreen {'exit': 0, 'passed': True, 'state': {'tracked': 120, 'net': 120, 'player': 110, 'faster_than_me': 1}, 'outcome': {'tracked': 120, 'net': 120}}
+plain {'exit': 0, 'passed': True, 'state': {'tracked': 110, 'net': 110, 'player': 110, 'faster_than_me': 0}, 'outcome': {'tracked': 110, 'net': 110}}
+expired {'exit': 0, 'passed': True, 'state': {'tracked': 110, 'net': 110, 'player': 110, 'faster_than_me': 0}, 'outcome': {'tracked': 110, 'net': 110}}

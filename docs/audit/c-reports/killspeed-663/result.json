@@ -1,0 +1,196 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "91285793b7bc08d866c71884a223635ef28ce473",
+  "fixtures_ref": "a7360ad8248eb7a6ad89bd224fc3b976ecc77a34",
+  "cases": {
+    "before": {
+      "hasted_new": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "tracked": 110,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 120
+        }
+      },
+      "hasted_refresh": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "tracked": 110,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 120
+        }
+      },
+      "slowed": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "tracked": 110,
+          "net": 106,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 106
+        }
+      },
+      "persists_offscreen": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "tracked": 110,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 120
+        }
+      },
+      "plain": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "tracked": 110,
+          "net": 110,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 110
+        }
+      },
+      "expired": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "tracked": 110,
+          "net": 110,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 110
+        }
+      }
+    },
+    "after": {
+      "hasted_new": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "tracked": 120,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 1
+        },
+        "outcome": {
+          "tracked": 120,
+          "net": 120
+        }
+      },
+      "hasted_refresh": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "tracked": 120,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 1
+        },
+        "outcome": {
+          "tracked": 120,
+          "net": 120
+        }
+      },
+      "slowed": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "tracked": 106,
+          "net": 106,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 106,
+          "net": 106
+        }
+      },
+      "persists_offscreen": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "tracked": 120,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 1
+        },
+        "outcome": {
+          "tracked": 120,
+          "net": 120
+        }
+      },
+      "plain": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "tracked": 110,
+          "net": 110,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 110
+        }
+      },
+      "expired": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "tracked": 110,
+          "net": 110,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 110
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "plain",
+    "expired"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "966/966",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "966/966",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "7d977e04952b97e60d63580c39391e7cc7f5d2433ad98bfde370e08d9d89680f"
+  }
+}
