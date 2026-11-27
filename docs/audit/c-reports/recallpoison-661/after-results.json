@@ -1,0 +1,82 @@
+{
+  "lethal_cure": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "hp": 7,
+      "poison": 40,
+      "recall": 20,
+      "pending": 14,
+      "rested": 0,
+      "cured": 1
+    },
+    "outcome": {
+      "rested": 0,
+      "cured": 1
+    }
+  },
+  "lethal_no_cure": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "hp": 7,
+      "poison": 40,
+      "recall": 20,
+      "pending": 14,
+      "rested": 0,
+      "cured": 0
+    },
+    "outcome": {
+      "rested": 0,
+      "cured": 0
+    }
+  },
+  "boundary": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "hp": 8,
+      "poison": 24,
+      "recall": 20,
+      "pending": 8,
+      "rested": 0,
+      "cured": 1
+    },
+    "outcome": {
+      "rested": 0,
+      "cured": 1
+    }
+  },
+  "survivable": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "hp": 20,
+      "poison": 8,
+      "recall": 20,
+      "pending": 3,
+      "rested": 1,
+      "cured": 0
+    },
+    "outcome": {
+      "rested": 1,
+      "cured": 0
+    }
+  },
+  "unpoisoned": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "hp": 7,
+      "poison": 0,
+      "recall": 20,
+      "pending": 0,
+      "rested": 1,
+      "cured": 0
+    },
+    "outcome": {
+      "rested": 1,
+      "cured": 0
+    }
+  }
+}

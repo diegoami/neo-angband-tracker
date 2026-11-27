@@ -1,0 +1,232 @@
+{
+  "issue": "diegoami/neo-angband-tracker#661",
+  "report": "recallpoison-661",
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "1128bd316f0a62a840e08134cdb8112464f849a8",
+  "fix_branch": "recallpoison-661",
+  "fixtures_ref": "1f68d122337bab4bd78a5d43cf529f188cf34480",
+  "cases": {
+    "lethal_cure": {
+      "before": {
+        "passed": false,
+        "state": {
+          "hp": 7,
+          "poison": 40,
+          "recall": 20,
+          "pending": 14,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 7,
+          "poison": 40,
+          "recall": 20,
+          "pending": 14,
+          "rested": 0,
+          "cured": 1
+        },
+        "outcome": {
+          "rested": 0,
+          "cured": 1
+        }
+      }
+    },
+    "lethal_no_cure": {
+      "before": {
+        "passed": false,
+        "state": {
+          "hp": 7,
+          "poison": 40,
+          "recall": 20,
+          "pending": 14,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 7,
+          "poison": 40,
+          "recall": 20,
+          "pending": 14,
+          "rested": 0,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 0,
+          "cured": 0
+        }
+      }
+    },
+    "boundary": {
+      "before": {
+        "passed": false,
+        "state": {
+          "hp": 8,
+          "poison": 24,
+          "recall": 20,
+          "pending": 8,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 8,
+          "poison": 24,
+          "recall": 20,
+          "pending": 8,
+          "rested": 0,
+          "cured": 1
+        },
+        "outcome": {
+          "rested": 0,
+          "cured": 1
+        }
+      }
+    },
+    "survivable": {
+      "before": {
+        "passed": true,
+        "state": {
+          "hp": 20,
+          "poison": 8,
+          "recall": 20,
+          "pending": 3,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 20,
+          "poison": 8,
+          "recall": 20,
+          "pending": 3,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      }
+    },
+    "unpoisoned": {
+      "before": {
+        "passed": true,
+        "state": {
+          "hp": 7,
+          "poison": 0,
+          "recall": 20,
+          "pending": 0,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "hp": 7,
+          "poison": 0,
+          "recall": 20,
+          "pending": 0,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "survivable",
+    "unpoisoned"
+  ],
+  "claim": "Waiting for Recall no longer rests into a poison that can kill before lift-off: the rest-for-Recall branch now requires the pending poison damage (engine math: one point per world turn, timer lowered by adj_con_fix(CON)+1, lift-off after word_recall turns) to stay below the current HP, and when it does not, the production heal cascade spends the turn curing instead - with nine Cure Critical Wounds potions in reach, the recorded D0017 death now quaffs instead of resting. Waiting with a survivable poison, or with no poison, still rests exactly as before (byte-identical controls).",
+  "full_tests": {
+    "before": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-caution.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "7242a8f8e48f5eab8aa88736b1bbab15b09256b90a78f9b8f947d8dfe23b7846"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 27,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "ec8f412c9c39772ffef7e6e3bb97dbe755e2f6cda94f061a60f0f84d5a364a0b",
+    "after-boundary.log": "6a1b279f73da64e435352bab6874d169b4256c260404ea961b30374379cbd778",
+    "after-lethal_cure.log": "b6b9756ff21c30df1220a51209f51cae5215fa64b1616e3dae23ad953c400c35",
+    "after-lethal_no_cure.log": "2d00259b7dd6b2b95e28f4930e2779e3cf20f2c27d4c8e65b60dd02782389c4c",
+    "after-results.json": "9ad0184eb97c8304ddc8b42e6c17d0a63950be8d2706a8baa9ef304ed949753e",
+    "after-survivable.log": "03449d159cac592e271e3d5c2fb6b1a373930fbb43d63b97286954bae294bf40",
+    "after-unpoisoned.log": "1d9e4388c0a841a79b0623e5405d91abab64fd5de8feae5a2ac9b22758d2ee37",
+    "before-boundary.log": "4569f556bc9d213cd033c898f9aa112b197780c935fd5fd824b7ed0b8c0ec77e",
+    "before-lethal_cure.log": "82b04beade23b34ce0063ebbbeb8f1a9c85d5d6d91ce7c1b44b69292482650f5",
+    "before-lethal_no_cure.log": "eee0ea91a480a6a2de540e2ace7e5ba4cb10f5e61288f699ce312b58f32eebbd",
+    "before-results.json": "f5cf8db4c1551c64588b3c4fac9a0d72746871b8635ff094fc03370c6bc7f09b",
+    "before-survivable.log": "03449d159cac592e271e3d5c2fb6b1a373930fbb43d63b97286954bae294bf40",
+    "before-unpoisoned.log": "1d9e4388c0a841a79b0623e5405d91abab64fd5de8feae5a2ac9b22758d2ee37",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "25a473fbedd48978e96a0c75a7b6a389f5c4c0727ca9640de29ff8ab29405045",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "0dfc47420812f46bcf8dce282fb89aaeda5fc1ad305c9ef3e0c437b800652d1f",
+    "replay.html": "6e86c33c8b69cdbd043f1bc1fffeb4c7795d48cdbb8fbfa0a28c3ac0388885f8",
+    "reproduce.py": "98c36668b293b5dfaa3b93976b6e65a22530417f81e20acc9af288676d7c811a",
+    "result.json": "52a1a1bf169b8d6005eb23736b8b585f943c97ea6f925c2e7b3d7574061385ee",
+    "run-after-alltests.log": "087d614e9e2779d467622d0c92fe6f9846271b08501da342b079767322a5a6db",
+    "run-after-build.log": "8e174b3293afdc2f4ef735ebaf67da5468215e7d78b201360ddc6492936166e7",
+    "run-after-scenarios.log": "64672952b735e434fa813796895b16e17d684356b64ed52297e7cc837150d917",
+    "run-before-alltests.log": "9fde15e58ac248080158363f5f1425775b4c9f4f3969261428f7b66d776285b2",
+    "run-before-build.log": "dc00d0aef44f2164c22839de829ea054fa9d4c55631af655022eca2c71746e20",
+    "run-before-scenarios.log": "f4cee417de933ad9009f1cf5fe6e5541682a86e3976f383d041528625738e850",
+    "run-cases.py": "85eabac2421ad4557e949daba09b5e53d6dd22c1890cdee5fddea8ba5ccd10c7",
+    "run-configure.log": "41406288d97de5874ae819523d0c3b12cfe3484aa73ba0325cb98275b9c3b037",
+    "scenario.c": "f7db9ef568b3c263148f16c944fc415f43a5bb1003de9951ca28907d987553c6"
+  }
+}

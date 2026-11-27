@@ -1,0 +1,217 @@
+{
+  "lethal_cure": {
+    "label": "Lethal poison with a cure in reach (the recorded shape)",
+    "explanation": "7 HP, a 40-turn poison timer, Recall pending (word_recall 20), one Cure Critical Wounds potion, a quiet square. The original rests for Recall ('R 500') - a poison tick every turn, dead before lift-off. The corrected borg weighs the pending poison (one damage point per world turn, timer lowered by adj_con_fix(CON)+1, lift-off after word_recall turns) and spends the turn curing ('q') instead.",
+    "control": false,
+    "before": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=lethal_cure class=Warrior clevel=20 hp=7 poison=40 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500<Enter>\nSTATE hp=7 poison=40 recall=20 pending=14 rested=1 cured=0\nOUTCOME rested=1 cured=0\nFailed\n    native-c/recallpoison-661:248: requirement 'rested == 0' failed\nnative-c/recallpoison-661 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "hp": 7,
+        "poison": 40,
+        "recall": 20,
+        "pending": 14,
+        "rested": 1,
+        "cured": 0
+      },
+      "outcome": {
+        "rested": 1,
+        "cured": 0
+      },
+      "notes": [],
+      "maps": [],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=lethal_cure class=Warrior clevel=20 hp=7 poison=40 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=2 sequence=qc\nSTATE hp=7 poison=40 recall=20 pending=14 rested=0 cured=1\nOUTCOME rested=0 cured=1\nPassed\nnative-c/recallpoison-661 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 7,
+        "poison": 40,
+        "recall": 20,
+        "pending": 14,
+        "rested": 0,
+        "cured": 1
+      },
+      "outcome": {
+        "rested": 0,
+        "cured": 1
+      },
+      "notes": [],
+      "maps": [],
+      "value": 0
+    }
+  },
+  "lethal_no_cure": {
+    "label": "Lethal poison with no cure at all",
+    "explanation": "The same lethal state with nothing that cures. The original still rests into the poison; the corrected borg does not rest - no cure to quaff, so the regular flows keep it moving instead of waiting for the poison to kill it.",
+    "control": false,
+    "before": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=lethal_no_cure class=Warrior clevel=20 hp=7 poison=40 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500<Enter>\nSTATE hp=7 poison=40 recall=20 pending=14 rested=1 cured=0\nOUTCOME rested=1 cured=0\nFailed\n    native-c/recallpoison-661:248: requirement 'rested == 0' failed\nnative-c/recallpoison-661 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "hp": 7,
+        "poison": 40,
+        "recall": 20,
+        "pending": 14,
+        "rested": 1,
+        "cured": 0
+      },
+      "outcome": {
+        "rested": 1,
+        "cured": 0
+      },
+      "notes": [],
+      "maps": [],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=lethal_no_cure class=Warrior clevel=20 hp=7 poison=40 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=0 keys=0 sequence=\nSTATE hp=7 poison=40 recall=20 pending=14 rested=0 cured=0\nOUTCOME rested=0 cured=0\nPassed\nnative-c/recallpoison-661 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 7,
+        "poison": 40,
+        "recall": 20,
+        "pending": 14,
+        "rested": 0,
+        "cured": 0
+      },
+      "outcome": {
+        "rested": 0,
+        "cured": 0
+      },
+      "notes": [],
+      "maps": [],
+      "value": 0
+    }
+  },
+  "boundary": {
+    "label": "The exact edge: pending damage reaches HP on the last tick",
+    "explanation": "8 HP, an 8-turn effective poison, Recall pending: the pending poison reaches the current HP on the last tick before lift-off, and the engine processes poison before the Recall countdown. The original rests; the corrected borg cures.",
+    "control": false,
+    "before": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=boundary class=Warrior clevel=20 hp=8 poison=24 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500<Enter>\nSTATE hp=8 poison=24 recall=20 pending=8 rested=1 cured=0\nOUTCOME rested=1 cured=0\nFailed\n    native-c/recallpoison-661:248: requirement 'rested == 0' failed\nnative-c/recallpoison-661 finished: 0/1 passed\n",
+      "passed": false,
+      "state": {
+        "hp": 8,
+        "poison": 24,
+        "recall": 20,
+        "pending": 8,
+        "rested": 1,
+        "cured": 0
+      },
+      "outcome": {
+        "rested": 1,
+        "cured": 0
+      },
+      "notes": [],
+      "maps": [],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=boundary class=Warrior clevel=20 hp=8 poison=24 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=2 sequence=qc\nSTATE hp=8 poison=24 recall=20 pending=8 rested=0 cured=1\nOUTCOME rested=0 cured=1\nPassed\nnative-c/recallpoison-661 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 8,
+        "poison": 24,
+        "recall": 20,
+        "pending": 8,
+        "rested": 0,
+        "cured": 1
+      },
+      "outcome": {
+        "rested": 0,
+        "cured": 1
+      },
+      "notes": [],
+      "maps": [],
+      "value": 0
+    }
+  },
+  "survivable": {
+    "label": "Control: the poison cannot kill before lift-off",
+    "explanation": "20 HP, an 8-turn effective poison, Recall pending: the pending damage stays below the current HP, so resting for Recall is the right decision. Byte-identical before/after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=survivable class=Warrior clevel=20 hp=20 poison=8 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500<Enter>\nSTATE hp=20 poison=8 recall=20 pending=3 rested=1 cured=0\nOUTCOME rested=1 cured=0\nPassed\nnative-c/recallpoison-661 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 20,
+        "poison": 8,
+        "recall": 20,
+        "pending": 3,
+        "rested": 1,
+        "cured": 0
+      },
+      "outcome": {
+        "rested": 1,
+        "cured": 0
+      },
+      "notes": [],
+      "maps": [],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=survivable class=Warrior clevel=20 hp=20 poison=8 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500<Enter>\nSTATE hp=20 poison=8 recall=20 pending=3 rested=1 cured=0\nOUTCOME rested=1 cured=0\nPassed\nnative-c/recallpoison-661 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 20,
+        "poison": 8,
+        "recall": 20,
+        "pending": 3,
+        "rested": 1,
+        "cured": 0
+      },
+      "outcome": {
+        "rested": 1,
+        "cured": 0
+      },
+      "notes": [],
+      "maps": [],
+      "value": 1
+    }
+  },
+  "unpoisoned": {
+    "label": "Control: no poison at all",
+    "explanation": "7 HP, no poison, Recall pending: the plain wait-for-Recall rest. Byte-identical before/after.",
+    "control": true,
+    "before": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=unpoisoned class=Warrior clevel=20 hp=7 poison=0 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500<Enter>\nSTATE hp=7 poison=0 recall=20 pending=0 rested=1 cured=0\nOUTCOME rested=1 cured=0\nPassed\nnative-c/recallpoison-661 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 7,
+        "poison": 0,
+        "recall": 20,
+        "pending": 0,
+        "rested": 1,
+        "cured": 0
+      },
+      "outcome": {
+        "rested": 1,
+        "cured": 0
+      },
+      "notes": [],
+      "maps": [],
+      "value": 1
+    },
+    "after": {
+      "raw": "native-c/recallpoison-661: starting...\nSETUP seed=661 mode=unpoisoned class=Warrior clevel=20 hp=7 poison=0 recall=20 depth=5\n  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500<Enter>\nSTATE hp=7 poison=0 recall=20 pending=0 rested=1 cured=0\nOUTCOME rested=1 cured=0\nPassed\nnative-c/recallpoison-661 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "hp": 7,
+        "poison": 0,
+        "recall": 20,
+        "pending": 0,
+        "rested": 1,
+        "cured": 0
+      },
+      "outcome": {
+        "rested": 1,
+        "cured": 0
+      },
+      "notes": [],
+      "maps": [],
+      "value": 1
+    }
+  }
+}
