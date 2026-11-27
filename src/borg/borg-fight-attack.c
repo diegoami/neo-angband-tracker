@@ -193,8 +193,8 @@ static int borg_thrust_damage_one(int i)
         dam = 1;
 
     /* Limit damage to twice maximal hitpoints */
-    if (dam > kill->power * 2 && !rf_has(r_ptr->flags, RF_UNIQUE))
-        dam = kill->power * 2;
+    if (dam > (kill->power + 1) * 2 && !rf_has(r_ptr->flags, RF_UNIQUE))
+        dam = (kill->power + 1) * 2;
 
     /*
      * Reduce the damage if a mage, they should not melee if they can avoid it
@@ -1142,8 +1142,8 @@ static int borg_launch_damage_one(int i, int dam, int typ, int ammo_location)
         return dam;
 
     /* Limit damage to twice maximal hitpoints */
-    if (dam > kill->power * 2 && !rf_has(r_ptr->flags, RF_UNIQUE))
-        dam = kill->power * 2;
+    if (dam > (kill->power + 1) * 2 && !rf_has(r_ptr->flags, RF_UNIQUE))
+        dam = (kill->power + 1) * 2;
 
     /* give a small bonus for whacking a unique */
     /* this should be just enough to give preference to whacking uniques */
