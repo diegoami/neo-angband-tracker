@@ -23,6 +23,7 @@
 
 #include "../game-world.h"
 #include "../monster.h"
+#include "../mon-timed.h"
 #include "../ui-term.h"
 
 #include "borg-cave-util.h"
@@ -120,6 +121,17 @@ static void borg_update_kill_new(int i)
 
     /* Extract the monster speed */
     kill->speed = (m_ptr->mspeed);
+
+    /* #663: the engine grants a hasted monster +10 speed and takes
+     * 2 x effect level from a slowed one before giving energy; track the
+     * observed net speed so danger and retreat compare like with like. */
+    if (m_ptr->m_timed[MON_TMD_FAST])
+        kill->speed += 10;
+    if (m_ptr->m_timed[MON_TMD_SLOW]) {
+        int net = (int)kill->speed
+            - 2 * monster_effect_level(m_ptr, MON_TMD_SLOW);
+        kill->speed = (net > 0) ? (uint8_t)net : 0;
+    }
 
     /* Extract max hitpoints */
     /* This is a cheat.  Borg does not look
@@ -313,6 +325,18 @@ static void borg_update_kill_old(int i)
 
     /* Extract the monster speed */
     kill->speed = (m_ptr->mspeed);
+
+    /* #663: the engine grants a hasted monster +10 speed and takes
+     * 2 x effect level from a slowed one before giving energy; track the
+     * observed net speed so danger and retreat compare like with like.
+     * Off-screen monsters keep the last observed value. */
+    if (m_ptr->m_timed[MON_TMD_FAST])
+        kill->speed += 10;
+    if (m_ptr->m_timed[MON_TMD_SLOW]) {
+        int net = (int)kill->speed
+            - 2 * monster_effect_level(m_ptr, MON_TMD_SLOW);
+        kill->speed = (net > 0) ? (uint8_t)net : 0;
+    }
 
     /* Player energy per game turn */
     e = extract_energy[borg.trait[BI_SPEED]];
