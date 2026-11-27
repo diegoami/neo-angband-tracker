@@ -1,0 +1,121 @@
+{
+  "issue": "diegoami/neo-angband-tracker#656",
+  "report": "killslot-656",
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "2939fb2d914cc31595a568fd52f9236982676081",
+  "fix_branch": "killslot-656",
+  "fixtures_ref": "c0f33f9e5d523d0e2caca60a05cf38351f1050f8",
+  "cases": {
+    "upper_edge": {
+      "before": {
+        "passed": false,
+        "state": {
+          "slot": 255,
+          "count": 255,
+          "in_scan": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "slot": 254,
+          "count": 254,
+          "in_scan": 1
+        }
+      }
+    },
+    "slot_one": {
+      "before": {
+        "passed": false,
+        "state": {
+          "slot": 2,
+          "count": 254,
+          "in_scan": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "slot": 1,
+          "count": 254,
+          "in_scan": 1
+        }
+      }
+    },
+    "ordinary": {
+      "before": {
+        "passed": true,
+        "state": {
+          "slot": 1,
+          "count": 1,
+          "in_scan": 1
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "slot": 1,
+          "count": 1,
+          "in_scan": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "ordinary"
+  ],
+  "claim": "A full-table steal now picks its victim inside the active range 1..borg_kills_nxt-1: the new monster always lands in a slot the tracking scans visit, its map link resolves, the active count stays at capacity, and slot 1 is eligible as a victim. On the base commit the pinned upper-endpoint draw allocated slot 255 - a record no scan ever refreshes or forgets, with the count overstated at 255 - and the pinned lower-endpoint draw could never steal slot 1. Ordinary non-full allocation is unchanged (byte-identical control).",
+  "full_tests": {
+    "before": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-kill.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "ddf3896e4bc66ed702e50bdf9434142adbba64f1109e70c71206558c877f1e33"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 23,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "51aca335c746b62b01710a87cfdc4639d0f330df48ed04560d7c19ef7a72d1a1",
+    "after-ordinary.log": "3c4d8af1a98c8e40001f7441ce567d9830967c2cf8710525259bdb9d05028b49",
+    "after-results.json": "2cfde6f13e0d15428385c103e27e1a3f2903f3c11b2861795d6e8ea763561758",
+    "after-slot_one.log": "450b3358a0cab14f972e28604787487cb057660d73eb807f0055d72aa5a2663a",
+    "after-upper_edge.log": "5cc5633277b8aa852c103bbb8bf8ec63f9437c70b188828cb57d6cebb4002c4e",
+    "before-ordinary.log": "3c4d8af1a98c8e40001f7441ce567d9830967c2cf8710525259bdb9d05028b49",
+    "before-results.json": "b12d16d14727ccbc1b47e32bcff0d9cdef52d462cba79ba6f8d29f901e27bd3b",
+    "before-slot_one.log": "f53dc5921f9d168d14c6ba64d3980a91b64c3a07ddd711d2dca99fa9b0f1a97d",
+    "before-upper_edge.log": "2d743aa8f1b960528ef1604d49d9e972fdb0db1d0aa3068e3336195048dc1afe",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "f7f74dc05ae711d64c7e6373cf38dbefce7e702986c98a38931011902f2cea38",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "121d959f58bb566ea39c10b7b75597c4f5b221da8983578f874bc28d9d00253d",
+    "replay.html": "ced809ec5a5c707c9e95c561a058e7d6bd6130872922e5731a1337dc0836312a",
+    "reproduce.py": "2c2783cf24afdacb3d3c0095e58f4ae0a7a79641606d1ba0e83acc1658f7d65e",
+    "result.json": "12348a07d2a5f4cfb9e24caf18d55aeb7e19a9a5e4fcaa9845c9660ae9ca037b",
+    "run-after-alltests.log": "80af53a15743e0c14687c69d850b05efb2d182287a16cc892742f4e5b3708038",
+    "run-after-build.log": "2ac6445ad7792494013e19ebb92b439c8f7e55df98d77fa9855fb359c2b35985",
+    "run-after-scenarios.log": "14408dc6c477d789ddf0d682823e86d141df74fe3e60e770848d1fd7c15f8d7d",
+    "run-before-alltests.log": "521aa39e12daa7ee5637d2aa9adbc12986fb729f642fb06e81019577115de01a",
+    "run-before-build.log": "df8cb6c9e31eca79dfa3ce06538a33a08e9f86d2371c2b7f2b543df402feea13",
+    "run-before-scenarios.log": "4038b5d24ac07de938352b6196e523aa9a3c8a03764dc550f6c0e3aabe8302f7",
+    "run-cases.py": "73fdf0a9153125424a2d7b406a5e81d381e96546298ace67844916be0b08aff8",
+    "run-configure.log": "45e209ac5e9cc22552668a85ef922d6a76a7def6fe7440227b69d2ad2ec7fac5",
+    "scenario.c": "970fdfd50f908c190e49de50eb890e073df3bce6835e6b7d706e179d644e2a91"
+  }
+}
