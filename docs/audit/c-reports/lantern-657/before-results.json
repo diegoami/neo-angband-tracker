@@ -1,0 +1,52 @@
+{
+  "torchpref": {
+    "exit": 0,
+    "passed": false
+  },
+  "no_false_need": {
+    "exit": 0,
+    "passed": false
+  },
+  "fueledlantern": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "need": 1,
+      "bi_light": 3,
+      "worn_torch": 0,
+      "worn_lantern": 1
+    },
+    "outcome": {
+      "need": 1,
+      "bi_light": 3
+    }
+  },
+  "spentlantern_oil": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "need": 1,
+      "bi_light": 0,
+      "worn_torch": 0,
+      "worn_lantern": 1
+    },
+    "outcome": {
+      "need": 1,
+      "bi_light": 0
+    }
+  },
+  "torchonly": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "need": 1,
+      "bi_light": 2,
+      "worn_torch": 1,
+      "worn_lantern": 0
+    },
+    "outcome": {
+      "need": 1,
+      "bi_light": 2
+    }
+  }
+}

@@ -1,0 +1,448 @@
+{
+  "torchpref": {
+    "label": "The reported defect: spent lantern + burning torch, no oil",
+    "explanation": "The light slot is empty; the pack holds a spent lantern (0 turns), a burning wooden torch and no oil. The original borg wields the lantern - BI_LIGHT stays 0, the borg is dark - and next faces an equipped-lantern refuel with no fuel. The corrected borg wields the torch (BI_LIGHT 2).",
+    "control": false,
+    "before": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=torchpref class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000\nPACK slot=5 letter=f name=Lantern (0 turns) tval=19 sval=2 timeout=0\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf\nWEAR slot=5 name=& Lantern~ timeout=0\nDECISION MAINTAIN need=1 keys=2 sequence=wf\nDECISION WEAR slot=5 name=& Lantern~ timeout=0\nLIGHT bi_light=0\nFailed\n    native-c/lantern-657:286: requirement 'borg.trait[BI_LIGHT] >= 1' failed\nnative-c/lantern-657 finished: 0/1 passed\n",
+      "passed": false,
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=wf",
+        "DECISION WEAR slot=5 name=& Lantern~ timeout=0"
+      ],
+      "maps": [],
+      "value": "n/a"
+    },
+    "after": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=torchpref class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000\nPACK slot=5 letter=f name=Lantern (0 turns) tval=19 sval=2 timeout=0\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we\nWEAR slot=4 name=& Wooden Torch~ timeout=4000\nDECISION MAINTAIN need=1 keys=2 sequence=we\nDECISION WEAR slot=4 name=& Wooden Torch~ timeout=4000\nLIGHT bi_light=2\nWORN name=& Wooden Torch~ timeout=4000\nSTATE need=1 bi_light=2 worn_torch=1 worn_lantern=0\nOUTCOME need=1 bi_light=2\nMAP After the light-maintenance decision: @ = the Borg\nMAPROW ########################################\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #...................@..................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW ########################################\nMAPEND\nPassed\nnative-c/lantern-657 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "need": 1,
+        "bi_light": 2,
+        "worn_torch": 1,
+        "worn_lantern": 0
+      },
+      "outcome": {
+        "need": 1,
+        "bi_light": 2
+      },
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=we",
+        "DECISION WEAR slot=4 name=& Wooden Torch~ timeout=4000"
+      ],
+      "maps": [
+        {
+          "caption": "After the light-maintenance decision: @ = the Borg",
+          "rows": [
+            "########################################",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#...................@..................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "########################################"
+          ]
+        }
+      ],
+      "value": 2
+    }
+  },
+  "no_false_need": {
+    "label": "Only a spent lantern, no fuel of any kind",
+    "explanation": "The only light is a spent lantern; nothing can produce light. The original wields it and reports the need met (a false success); the corrected borg reports the need unmet and presses nothing, so other flows (buy a torch, refuel elsewhere) can react.",
+    "control": false,
+    "before": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=no_false_need class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=4 letter=e name=Lantern (0 turns) tval=19 sval=2 timeout=0\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we\nWEAR slot=4 name=& Lantern~ timeout=0\nDECISION MAINTAIN need=1 keys=2 sequence=we\nDECISION WEAR slot=4 name=& Lantern~ timeout=0\nLIGHT bi_light=0\nFailed\n    native-c/lantern-657:286: requirement 'borg.trait[BI_LIGHT] >= 1' failed\nnative-c/lantern-657 finished: 0/1 passed\n",
+      "passed": false,
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=we",
+        "DECISION WEAR slot=4 name=& Lantern~ timeout=0"
+      ],
+      "maps": [],
+      "value": "n/a"
+    },
+    "after": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=no_false_need class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=4 letter=e name=Lantern (0 turns) tval=19 sval=2 timeout=0\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=2 keys=0 sequence=\nDECISION MAINTAIN need=2 keys=0 sequence=none\nLIGHT bi_light=0\nSTATE need=2 bi_light=0 worn_torch=0 worn_lantern=0\nOUTCOME need=2 bi_light=0\nMAP After the light-maintenance decision: @ = the Borg\nMAPROW ########################################\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #...................@..................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW ########################################\nMAPEND\nPassed\nnative-c/lantern-657 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "need": 2,
+        "bi_light": 0,
+        "worn_torch": 0,
+        "worn_lantern": 0
+      },
+      "outcome": {
+        "need": 2,
+        "bi_light": 0
+      },
+      "notes": [
+        "DECISION MAINTAIN need=2 keys=0 sequence=none"
+      ],
+      "maps": [
+        {
+          "caption": "After the light-maintenance decision: @ = the Borg",
+          "rows": [
+            "########################################",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#...................@..................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "########################################"
+          ]
+        }
+      ],
+      "value": 0
+    }
+  },
+  "fueledlantern": {
+    "label": "Control: fueled lantern + torch",
+    "explanation": "A fueled lantern and a torch. Both variants wield the lantern - the correction only changes which lanterns qualify, not the lantern-over-torch preference for producing lights. The complete logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=fueledlantern class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000\nPACK slot=5 letter=f name=Lantern (3000 turns) tval=19 sval=2 timeout=3000\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf\nWEAR slot=5 name=& Lantern~ timeout=3000\nDECISION MAINTAIN need=1 keys=2 sequence=wf\nDECISION WEAR slot=5 name=& Lantern~ timeout=3000\nLIGHT bi_light=3\nSTATE need=1 bi_light=3 worn_torch=0 worn_lantern=1\nOUTCOME need=1 bi_light=3\nMAP After the light-maintenance decision: @ = the Borg\nMAPROW ########################################\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #...................@..................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW ########################################\nMAPEND\nPassed\nnative-c/lantern-657 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "need": 1,
+        "bi_light": 3,
+        "worn_torch": 0,
+        "worn_lantern": 1
+      },
+      "outcome": {
+        "need": 1,
+        "bi_light": 3
+      },
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=wf",
+        "DECISION WEAR slot=5 name=& Lantern~ timeout=3000"
+      ],
+      "maps": [
+        {
+          "caption": "After the light-maintenance decision: @ = the Borg",
+          "rows": [
+            "########################################",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#...................@..................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "########################################"
+          ]
+        }
+      ],
+      "value": 3
+    },
+    "after": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=fueledlantern class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000\nPACK slot=5 letter=f name=Lantern (3000 turns) tval=19 sval=2 timeout=3000\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf\nWEAR slot=5 name=& Lantern~ timeout=3000\nDECISION MAINTAIN need=1 keys=2 sequence=wf\nDECISION WEAR slot=5 name=& Lantern~ timeout=3000\nLIGHT bi_light=3\nSTATE need=1 bi_light=3 worn_torch=0 worn_lantern=1\nOUTCOME need=1 bi_light=3\nMAP After the light-maintenance decision: @ = the Borg\nMAPROW ########################################\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #...................@..................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW ########################################\nMAPEND\nPassed\nnative-c/lantern-657 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "need": 1,
+        "bi_light": 3,
+        "worn_torch": 0,
+        "worn_lantern": 1
+      },
+      "outcome": {
+        "need": 1,
+        "bi_light": 3
+      },
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=wf",
+        "DECISION WEAR slot=5 name=& Lantern~ timeout=3000"
+      ],
+      "maps": [
+        {
+          "caption": "After the light-maintenance decision: @ = the Borg",
+          "rows": [
+            "########################################",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#...................@..................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "########################################"
+          ]
+        }
+      ],
+      "value": 3
+    }
+  },
+  "spentlantern_oil": {
+    "label": "Control: spent lantern + flask of oil",
+    "explanation": "Only an empty lantern and usable fuel: wielding it is correct because oil can light it, and the next maintenance call queues the refuel ('F'). Both variants do exactly this; the complete logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=spentlantern_oil class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Flask of oil tval=27 sval=1 timeout=0\nPACK slot=3 letter=d name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=4 letter=e name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=5 letter=f name=Lantern (0 turns) tval=19 sval=2 timeout=0\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf\nWEAR slot=5 name=& Lantern~ timeout=0\nDECISION MAINTAIN need=1 keys=2 sequence=wf\nDECISION WEAR slot=5 name=& Lantern~ timeout=0\nLIGHT bi_light=0\nWORN name=& Lantern~ timeout=0\nREFUEL need=1 keys=2 sequence=Fb\nDECISION REFUEL need=1 keys=2 sequence=Fb\nSTATE need=1 bi_light=0 worn_torch=0 worn_lantern=1\nOUTCOME need=1 bi_light=0\nMAP After the light-maintenance decision: @ = the Borg\nMAPROW ########################################\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #...................@..................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW ########################################\nMAPEND\nPassed\nnative-c/lantern-657 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "need": 1,
+        "bi_light": 0,
+        "worn_torch": 0,
+        "worn_lantern": 1
+      },
+      "outcome": {
+        "need": 1,
+        "bi_light": 0
+      },
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=wf",
+        "DECISION WEAR slot=5 name=& Lantern~ timeout=0",
+        "DECISION REFUEL need=1 keys=2 sequence=Fb"
+      ],
+      "maps": [
+        {
+          "caption": "After the light-maintenance decision: @ = the Borg",
+          "rows": [
+            "########################################",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#...................@..................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "########################################"
+          ]
+        }
+      ],
+      "value": 0
+    },
+    "after": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=spentlantern_oil class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Flask of oil tval=27 sval=1 timeout=0\nPACK slot=3 letter=d name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=4 letter=e name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=5 letter=f name=Lantern (0 turns) tval=19 sval=2 timeout=0\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf\nWEAR slot=5 name=& Lantern~ timeout=0\nDECISION MAINTAIN need=1 keys=2 sequence=wf\nDECISION WEAR slot=5 name=& Lantern~ timeout=0\nLIGHT bi_light=0\nWORN name=& Lantern~ timeout=0\nREFUEL need=1 keys=2 sequence=Fb\nDECISION REFUEL need=1 keys=2 sequence=Fb\nSTATE need=1 bi_light=0 worn_torch=0 worn_lantern=1\nOUTCOME need=1 bi_light=0\nMAP After the light-maintenance decision: @ = the Borg\nMAPROW ########################################\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #...................@..................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW ########################################\nMAPEND\nPassed\nnative-c/lantern-657 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "need": 1,
+        "bi_light": 0,
+        "worn_torch": 0,
+        "worn_lantern": 1
+      },
+      "outcome": {
+        "need": 1,
+        "bi_light": 0
+      },
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=wf",
+        "DECISION WEAR slot=5 name=& Lantern~ timeout=0",
+        "DECISION REFUEL need=1 keys=2 sequence=Fb"
+      ],
+      "maps": [
+        {
+          "caption": "After the light-maintenance decision: @ = the Borg",
+          "rows": [
+            "########################################",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#...................@..................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "########################################"
+          ]
+        }
+      ],
+      "value": 0
+    }
+  },
+  "torchonly": {
+    "label": "Control: only a burning torch",
+    "explanation": "No lantern at all: both variants wield the torch. The complete logs are byte-identical.",
+    "control": true,
+    "before": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=torchonly class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we\nWEAR slot=4 name=& Wooden Torch~ timeout=4000\nDECISION MAINTAIN need=1 keys=2 sequence=we\nDECISION WEAR slot=4 name=& Wooden Torch~ timeout=4000\nLIGHT bi_light=2\nSTATE need=1 bi_light=2 worn_torch=1 worn_lantern=0\nOUTCOME need=1 bi_light=2\nMAP After the light-maintenance decision: @ = the Borg\nMAPROW ########################################\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #...................@..................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW ########################################\nMAPEND\nPassed\nnative-c/lantern-657 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "need": 1,
+        "bi_light": 2,
+        "worn_torch": 1,
+        "worn_lantern": 0
+      },
+      "outcome": {
+        "need": 1,
+        "bi_light": 2
+      },
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=we",
+        "DECISION WEAR slot=4 name=& Wooden Torch~ timeout=4000"
+      ],
+      "maps": [
+        {
+          "caption": "After the light-maintenance decision: @ = the Borg",
+          "rows": [
+            "########################################",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#...................@..................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "########################################"
+          ]
+        }
+      ],
+      "value": 2
+    },
+    "after": {
+      "raw": "native-c/lantern-657: starting...\nSETUP seed=657 mode=torchonly class=Warrior clevel=20 hp=216 depth=5\nPACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0\nPACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0\nPACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0\nPACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000\nPACK light_slot name= timeout=0\n  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we\nWEAR slot=4 name=& Wooden Torch~ timeout=4000\nDECISION MAINTAIN need=1 keys=2 sequence=we\nDECISION WEAR slot=4 name=& Wooden Torch~ timeout=4000\nLIGHT bi_light=2\nSTATE need=1 bi_light=2 worn_torch=1 worn_lantern=0\nOUTCOME need=1 bi_light=2\nMAP After the light-maintenance decision: @ = the Borg\nMAPROW ########################################\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #...................@..................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW #......................................#\nMAPROW ########################################\nMAPEND\nPassed\nnative-c/lantern-657 finished: 1/1 passed\n",
+      "passed": true,
+      "state": {
+        "need": 1,
+        "bi_light": 2,
+        "worn_torch": 1,
+        "worn_lantern": 0
+      },
+      "outcome": {
+        "need": 1,
+        "bi_light": 2
+      },
+      "notes": [
+        "DECISION MAINTAIN need=1 keys=2 sequence=we",
+        "DECISION WEAR slot=4 name=& Wooden Torch~ timeout=4000"
+      ],
+      "maps": [
+        {
+          "caption": "After the light-maintenance decision: @ = the Borg",
+          "rows": [
+            "########################################",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#...................@..................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "#......................................#",
+            "########################################"
+          ]
+        }
+      ],
+      "value": 2
+    }
+  }
+}

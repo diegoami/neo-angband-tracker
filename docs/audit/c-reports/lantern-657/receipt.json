@@ -1,0 +1,193 @@
+{
+  "issue": "diegoami/neo-angband-tracker#657",
+  "report": "lantern-657",
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "d149c192c0e8aeb9b2375f161fb81d964940bc79",
+  "fix_branch": "lantern-657",
+  "fixtures_ref": "470528286648c592955ee61866315840647deace",
+  "cases": {
+    "torchpref": {
+      "before": {
+        "passed": false
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 2,
+          "worn_torch": 1,
+          "worn_lantern": 0
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 2
+        }
+      }
+    },
+    "no_false_need": {
+      "before": {
+        "passed": false
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "need": 2,
+          "bi_light": 0,
+          "worn_torch": 0,
+          "worn_lantern": 0
+        },
+        "outcome": {
+          "need": 2,
+          "bi_light": 0
+        }
+      }
+    },
+    "fueledlantern": {
+      "before": {
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 3,
+          "worn_torch": 0,
+          "worn_lantern": 1
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 3
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 3,
+          "worn_torch": 0,
+          "worn_lantern": 1
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 3
+        }
+      }
+    },
+    "spentlantern_oil": {
+      "before": {
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 0,
+          "worn_torch": 0,
+          "worn_lantern": 1
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 0
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 0,
+          "worn_torch": 0,
+          "worn_lantern": 1
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 0
+        }
+      }
+    },
+    "torchonly": {
+      "before": {
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 2,
+          "worn_torch": 1,
+          "worn_lantern": 0
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 2
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 2,
+          "worn_torch": 1,
+          "worn_lantern": 0
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 2
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "fueledlantern",
+    "spentlantern_oil",
+    "torchonly"
+  ],
+  "claim": "With an empty light slot the borg now wields a light source that actually produces light: a fueled (or everburning) lantern first, then a torch - which never arrives spent - and a spent lantern only when a flask of oil exists to light it. On the base commit it wielded the spent lantern, stayed dark (BI_LIGHT 0), and was then locked in the equipped-lantern refuel branch with no fuel while the torch sat in its pack; with no fuel anywhere it wielded the dark lantern and reported the need met. The lantern-over-torch preference for producing lights and the wear-then-refuel sequence with oil are unchanged (byte-identical controls).",
+  "full_tests": {
+    "before": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-light.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-light.c": "da87e337beb6e8a2519b21d944e957897478526990f9266110aac599e3f2c2b8"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 37,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "ad6413fdbcefd0c203e79ef37ecc5e996a0d4c85862b093f465cc38efbe93d44",
+    "after-fueledlantern.log": "4f5d2517af6b3888c8bd9e0e08156551a2c34b94560b583f2e995ea467e95e7d",
+    "after-no_false_need.log": "6d69cd9b8885334e4a50fefad85deef73a85b0ce08680d4ff5451ce8158ffe37",
+    "after-results.json": "69462706db78d9704b0cf53a57925283da81ac7f306043ea16293be8170d41eb",
+    "after-spentlantern_oil.log": "626ffa507855661ec6dca14ec662616169b93a90d70ad9a01ed66a8ca578f587",
+    "after-torchonly.log": "eef552cdeb83a5b2da61dd54182b638a4d0683e6037bbfd7c0fe860b0f4fd2b3",
+    "after-torchpref.log": "f71dc228fb4a00b92e142c64eb6074342f898308036f3ce2412782b7f0cf3a8b",
+    "before-fueledlantern.log": "4f5d2517af6b3888c8bd9e0e08156551a2c34b94560b583f2e995ea467e95e7d",
+    "before-no_false_need.log": "49d5ef74d97a55714f0c6688a591d186d1afb73c66f7e9b3788e4ae5043e964a",
+    "before-results.json": "ab5de735f162bcfe3f856ec4a773e15e305e2b5ccd1b719498654fed3eabf76d",
+    "before-spentlantern_oil.log": "626ffa507855661ec6dca14ec662616169b93a90d70ad9a01ed66a8ca578f587",
+    "before-torchonly.log": "eef552cdeb83a5b2da61dd54182b638a4d0683e6037bbfd7c0fe860b0f4fd2b3",
+    "before-torchpref.log": "983ced42d382aac77dae544e2cc051898a8a70de8327a379adb1fc9a85e043a8",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "35cb1e9454ac1f6d761d6e2400472cc266e8ca256f2b793125a22e8e94bbfea0",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "248ee4c3817c37705cc839b9cf2ce252461aa3023ba5ec49cf80691da2fd72cd",
+    "replay.html": "b73d717f7ec2b6bedbcd03d552b20a148a8d35e2f966b6142c4143ad28ef6aa6",
+    "reproduce.py": "aa34849c4bb3207753b8b250b739024eaeb4bacc5d4809ce6eb58e69578f0918",
+    "result.json": "e86e8e7c8e598d95ec46f40749931a79f89dc74a0aa031ee322f6dd9e986b5e0",
+    "run-after-alltests.log": "5adcec86abe33d8a5447ba26aaf6391beba8c9ad28ae1c2e7177871c43f54bdb",
+    "run-after-build.log": "be04879890028d7a26d792be39afb5f5475a16b417425f2ee09f9a8bb9e3f5be",
+    "run-after-scenarios.log": "433668b22d3baa2d6fe15f130eed733b11f685fe9dbd5e0d9b80c88ead219707",
+    "run-before-alltests.log": "db1f5e30a4c518eae24f18f8b3c49281160992807446df05c491d5ee7c77a36a",
+    "run-before-build.log": "dae65a778e26e7be44e26ad1bf11fd0dd7b8168ad7815712ce489c9822cf7f98",
+    "run-before-scenarios.log": "d7d7b7a1c9bde85b661f5dd78bd5cfb94bf6f05638d52deee1dcfd7f7b2f53f3",
+    "run-cases.py": "2d32e44522571cc4e6ab49fa36c927ca7cbef6d32b146f1017414d0d4216b918",
+    "run-configure.log": "3d66031ee1a92ac28e7c0a13af2e39ba264da6751089a7241b7364c170838441",
+    "scenario.c": "71059d3c37704bf93af4e7576933f3cc8d9ae4d504a5034de6d64613529bdfd3"
+  }
+}
