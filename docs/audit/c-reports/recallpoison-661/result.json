@@ -1,0 +1,188 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "1128bd316f0a62a840e08134cdb8112464f849a8",
+  "fixtures_ref": "1f68d122337bab4bd78a5d43cf529f188cf34480",
+  "cases": {
+    "before": {
+      "lethal_cure": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "hp": 7,
+          "poison": 40,
+          "recall": 20,
+          "pending": 14,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "lethal_no_cure": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "hp": 7,
+          "poison": 40,
+          "recall": 20,
+          "pending": 14,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "boundary": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "hp": 8,
+          "poison": 24,
+          "recall": 20,
+          "pending": 8,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "survivable": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "hp": 20,
+          "poison": 8,
+          "recall": 20,
+          "pending": 3,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "unpoisoned": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "hp": 7,
+          "poison": 0,
+          "recall": 20,
+          "pending": 0,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      }
+    },
+    "after": {
+      "lethal_cure": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "hp": 7,
+          "poison": 40,
+          "recall": 20,
+          "pending": 14,
+          "rested": 0,
+          "cured": 1
+        },
+        "outcome": {
+          "rested": 0,
+          "cured": 1
+        }
+      },
+      "lethal_no_cure": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "hp": 7,
+          "poison": 40,
+          "recall": 20,
+          "pending": 14,
+          "rested": 0,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 0,
+          "cured": 0
+        }
+      },
+      "boundary": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "hp": 8,
+          "poison": 24,
+          "recall": 20,
+          "pending": 8,
+          "rested": 0,
+          "cured": 1
+        },
+        "outcome": {
+          "rested": 0,
+          "cured": 1
+        }
+      },
+      "survivable": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "hp": 20,
+          "poison": 8,
+          "recall": 20,
+          "pending": 3,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      },
+      "unpoisoned": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "hp": 7,
+          "poison": 0,
+          "recall": 20,
+          "pending": 0,
+          "rested": 1,
+          "cured": 0
+        },
+        "outcome": {
+          "rested": 1,
+          "cured": 0
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "survivable",
+    "unpoisoned"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "966/966",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "966/966",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-caution.c": "7242a8f8e48f5eab8aa88736b1bbab15b09256b90a78f9b8f947d8dfe23b7846"
+  }
+}

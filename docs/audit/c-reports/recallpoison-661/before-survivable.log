@@ -1,0 +1,7 @@
+native-c/recallpoison-661: starting...
+SETUP seed=661 mode=survivable class=Warrior clevel=20 hp=20 poison=8 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500<Enter>
+STATE hp=20 poison=8 recall=20 pending=3 rested=1 cured=0
+OUTCOME rested=1 cured=0
+Passed
+native-c/recallpoison-661 finished: 1/1 passed

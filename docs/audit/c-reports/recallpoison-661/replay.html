@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Active poison damage is omitted from the Word of Recall decision</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%}pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}.maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Active poison damage is omitted from the Word of Recall decision</h1><p>A poisoned Borg can start Word of Recall or keep resting for it even when the poison already in its system can kill it before Recall activates. The borg keeps the poison timer only as a boolean; the rest-for-Recall branch checks the location but never compares the poison timer with the hit points; and the engine deals one point of poison damage per world turn, before the Recall countdown. While fleeing - exactly the Recall-wait situation - the heal cascade is skipped, so the rest branch won every turn: the recorded native case died at 7 HP with nine Cure Critical Wounds potions and Herbal Curing available.</p><p><label>Scenario: <select id="scenario"><option value="lethal_cure">Lethal poison with a cure in reach (the recorded shape)</option><option value="lethal_no_cure">Lethal poison with no cure at all</option><option value="boundary">The exact edge: pending damage reaches HP on the last tick</option><option value="survivable">Control: the poison cannot kill before lift-off</option><option value="unpoisoned">Control: no poison at all</option></select></label></p><section class="scenario" data-mode="lethal_cure"><p class="summary">7 HP, a 40-turn poison timer, Recall pending (word_recall 20), one Cure Critical Wounds potion, a quiet square. The original rests for Recall (&#x27;R 500&#x27;) - a poison tick every turn, dead before lift-off. The corrected borg weighs the pending poison (one damage point per world turn, timer lowered by adj_con_fix(CON)+1, lift-off after word_recall turns) and spends the turn curing (&#x27;q&#x27;) instead.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=lethal_cure class=Warrior clevel=20 hp=7 poison=40 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500&lt;Enter&gt;
+STATE hp=7 poison=40 recall=20 pending=14 rested=1 cured=0
+OUTCOME rested=1 cured=0
+Failed
+    native-c/recallpoison-661:248: requirement &#x27;rested == 0&#x27; failed
+native-c/recallpoison-661 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=lethal_cure class=Warrior clevel=20 hp=7 poison=40 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=2 sequence=qc
+STATE hp=7 poison=40 recall=20 pending=14 rested=0 cured=1
+OUTCOME rested=0 cured=1
+Passed
+native-c/recallpoison-661 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="lethal_no_cure"><p class="summary">The same lethal state with nothing that cures. The original still rests into the poison; the corrected borg does not rest - no cure to quaff, so the regular flows keep it moving instead of waiting for the poison to kill it.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=lethal_no_cure class=Warrior clevel=20 hp=7 poison=40 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500&lt;Enter&gt;
+STATE hp=7 poison=40 recall=20 pending=14 rested=1 cured=0
+OUTCOME rested=1 cured=0
+Failed
+    native-c/recallpoison-661:248: requirement &#x27;rested == 0&#x27; failed
+native-c/recallpoison-661 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=lethal_no_cure class=Warrior clevel=20 hp=7 poison=40 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=0 keys=0 sequence=
+STATE hp=7 poison=40 recall=20 pending=14 rested=0 cured=0
+OUTCOME rested=0 cured=0
+Passed
+native-c/recallpoison-661 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="boundary"><p class="summary">8 HP, an 8-turn effective poison, Recall pending: the pending poison reaches the current HP on the last tick before lift-off, and the engine processes poison before the Recall countdown. The original rests; the corrected borg cures.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=boundary class=Warrior clevel=20 hp=8 poison=24 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500&lt;Enter&gt;
+STATE hp=8 poison=24 recall=20 pending=8 rested=1 cured=0
+OUTCOME rested=1 cured=0
+Failed
+    native-c/recallpoison-661:248: requirement &#x27;rested == 0&#x27; failed
+native-c/recallpoison-661 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=boundary class=Warrior clevel=20 hp=8 poison=24 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=2 sequence=qc
+STATE hp=8 poison=24 recall=20 pending=8 rested=0 cured=1
+OUTCOME rested=0 cured=1
+Passed
+native-c/recallpoison-661 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="survivable"><p class="summary">20 HP, an 8-turn effective poison, Recall pending: the pending damage stays below the current HP, so resting for Recall is the right decision. Byte-identical before/after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=survivable class=Warrior clevel=20 hp=20 poison=8 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500&lt;Enter&gt;
+STATE hp=20 poison=8 recall=20 pending=3 rested=1 cured=0
+OUTCOME rested=1 cured=0
+Passed
+native-c/recallpoison-661 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=survivable class=Warrior clevel=20 hp=20 poison=8 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500&lt;Enter&gt;
+STATE hp=20 poison=8 recall=20 pending=3 rested=1 cured=0
+OUTCOME rested=1 cured=0
+Passed
+native-c/recallpoison-661 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="unpoisoned"><p class="summary">7 HP, no poison, Recall pending: the plain wait-for-Recall rest. Byte-identical before/after.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">1</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">1</div><p>1 = the borg rested for Recall (a poison tick every turn while it waits), 0 = it spent the turn otherwise</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=unpoisoned class=Warrior clevel=20 hp=7 poison=0 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500&lt;Enter&gt;
+STATE hp=7 poison=0 recall=20 pending=0 rested=1 cured=0
+OUTCOME rested=1 cured=0
+Passed
+native-c/recallpoison-661 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/recallpoison-661: starting...
+SETUP seed=661 mode=unpoisoned class=Warrior clevel=20 hp=7 poison=0 recall=20 depth=5
+  recall_wait_respects_pending_poison  DECISION caution=1 keys=5 sequence=R500&lt;Enter&gt;
+STATE hp=7 poison=0 recall=20 pending=0 rested=1 cured=0
+OUTCOME rested=1 cured=0
+Passed
+native-c/recallpoison-661 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, level 20 (experience forced), depth 5 in a synthetic open lit arena, a wooden torch as the only light, no monsters: a quiet square (danger 0). The recorded state per mode: fixed low HP, an active poison timer set through the production player_set_timed(), a Recall already counting down (player-&gt;word_recall 20, borg.goal.recalling populated by the production update), and borg.goal.fleeing set - the fleeing state is what skips the standing heal cascade and makes the rest-for-Recall branch the winning decision, exactly the recorded death path. The measured decision is the production borg_caution() itself, observed from the keys it queues (&#x27;R 500&#x27; = resting for Recall, &#x27;q&#x27; = quaffing the cure). The paranoia roll inside the heal cascade is pinned by seeding before the decision.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/661">issue 661</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
