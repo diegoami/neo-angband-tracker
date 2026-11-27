@@ -733,8 +733,11 @@ static int borg_new_kill(unsigned int r_idx, int y, int x)
         /* Note */
         borg_note("# Too many monsters");
 
-        /* Pick a random monster */
-        n = randint1(borg_kills_nxt - 1) + 1;
+        /* Pick a random victim among the active slots 1..borg_kills_nxt-1.
+         * Slot 255 is allocated storage but outside the active range: the
+         * tracking scans stop before it, so a record placed there is
+         * never refreshed or forgotten (#656). */
+        n = randint0(borg_kills_nxt - 1) + 1;
 
         /* Kill it */
         borg_delete_kill(n);
