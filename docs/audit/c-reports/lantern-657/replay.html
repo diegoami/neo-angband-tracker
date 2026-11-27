@@ -1,0 +1,583 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Light maintenance can wield an empty lantern over a burning torch</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%}pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}.maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Light maintenance can wield an empty lantern over a burning torch</h1><p>When the light slot is empty, borg_maintain_light() picks the replacement light. It took any matching lantern from the pack before any torch, with no fuel check: a spent lantern was wielded, and a fuel-dependent light with no fuel produces no light - the borg then faces an equipped-lantern refuel it cannot satisfy while a working torch sits in its pack.</p><p><label>Scenario: <select id="scenario"><option value="torchpref">The reported defect: spent lantern + burning torch, no oil</option><option value="no_false_need">Only a spent lantern, no fuel of any kind</option><option value="fueledlantern">Control: fueled lantern + torch</option><option value="spentlantern_oil">Control: spent lantern + flask of oil</option><option value="torchonly">Control: only a burning torch</option></select></label></p><section class="scenario" data-mode="torchpref"><p class="summary">The light slot is empty; the pack holds a spent lantern (0 turns), a burning wooden torch and no oil. The original borg wields the lantern - BI_LIGHT stays 0, the borg is dark - and next faces an equipped-lantern refuel with no fuel. The corrected borg wields the torch (BI_LIGHT 2).</p><div class="cards maps"><section class="card original"><h2>Original</h2></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the light-maintenance decision: @ = the Borg</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">2</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=torchpref class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000
+PACK slot=5 letter=f name=Lantern (0 turns) tval=19 sval=2 timeout=0
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf
+WEAR slot=5 name=&amp; Lantern~ timeout=0
+DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=0
+LIGHT bi_light=0
+Failed
+    native-c/lantern-657:286: requirement &#x27;borg.trait[BI_LIGHT] &gt;= 1&#x27; failed
+native-c/lantern-657 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=torchpref class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000
+PACK slot=5 letter=f name=Lantern (0 turns) tval=19 sval=2 timeout=0
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we
+WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000
+DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000
+LIGHT bi_light=2
+WORN name=&amp; Wooden Torch~ timeout=4000
+STATE need=1 bi_light=2 worn_torch=1 worn_lantern=0
+OUTCOME need=1 bi_light=2
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="no_false_need"><p class="summary">The only light is a spent lantern; nothing can produce light. The original wields it and reports the need met (a false success); the corrected borg reports the need unmet and presses nothing, so other flows (buy a torch, refuel elsewhere) can react.</p><div class="cards maps"><section class="card original"><h2>Original</h2></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the light-maintenance decision: @ = the Borg</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">n/a</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>failed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=&amp; Lantern~ timeout=0</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION MAINTAIN need=2 keys=0 sequence=none</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=no_false_need class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Lantern (0 turns) tval=19 sval=2 timeout=0
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we
+WEAR slot=4 name=&amp; Lantern~ timeout=0
+DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=&amp; Lantern~ timeout=0
+LIGHT bi_light=0
+Failed
+    native-c/lantern-657:286: requirement &#x27;borg.trait[BI_LIGHT] &gt;= 1&#x27; failed
+native-c/lantern-657 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=no_false_need class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Lantern (0 turns) tval=19 sval=2 timeout=0
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=2 keys=0 sequence=
+DECISION MAINTAIN need=2 keys=0 sequence=none
+LIGHT bi_light=0
+STATE need=2 bi_light=0 worn_torch=0 worn_lantern=0
+OUTCOME need=2 bi_light=0
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="fueledlantern"><p class="summary">A fueled lantern and a torch. Both variants wield the lantern - the correction only changes which lanterns qualify, not the lantern-over-torch preference for producing lights. The complete logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the light-maintenance decision: @ = the Borg</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the light-maintenance decision: @ = the Borg</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">3</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=3000</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">3</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=3000</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=fueledlantern class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000
+PACK slot=5 letter=f name=Lantern (3000 turns) tval=19 sval=2 timeout=3000
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf
+WEAR slot=5 name=&amp; Lantern~ timeout=3000
+DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=3000
+LIGHT bi_light=3
+STATE need=1 bi_light=3 worn_torch=0 worn_lantern=1
+OUTCOME need=1 bi_light=3
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=fueledlantern class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000
+PACK slot=5 letter=f name=Lantern (3000 turns) tval=19 sval=2 timeout=3000
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf
+WEAR slot=5 name=&amp; Lantern~ timeout=3000
+DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=3000
+LIGHT bi_light=3
+STATE need=1 bi_light=3 worn_torch=0 worn_lantern=1
+OUTCOME need=1 bi_light=3
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="spentlantern_oil"><p class="summary">Only an empty lantern and usable fuel: wielding it is correct because oil can light it, and the next maintenance call queues the refuel (&#x27;F&#x27;). Both variants do exactly this; the complete logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the light-maintenance decision: @ = the Borg</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the light-maintenance decision: @ = the Borg</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">0</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=0
+DECISION REFUEL need=1 keys=2 sequence=Fb</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">0</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=0
+DECISION REFUEL need=1 keys=2 sequence=Fb</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=spentlantern_oil class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Flask of oil tval=27 sval=1 timeout=0
+PACK slot=3 letter=d name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=4 letter=e name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=5 letter=f name=Lantern (0 turns) tval=19 sval=2 timeout=0
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf
+WEAR slot=5 name=&amp; Lantern~ timeout=0
+DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=0
+LIGHT bi_light=0
+WORN name=&amp; Lantern~ timeout=0
+REFUEL need=1 keys=2 sequence=Fb
+DECISION REFUEL need=1 keys=2 sequence=Fb
+STATE need=1 bi_light=0 worn_torch=0 worn_lantern=1
+OUTCOME need=1 bi_light=0
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=spentlantern_oil class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Flask of oil tval=27 sval=1 timeout=0
+PACK slot=3 letter=d name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=4 letter=e name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=5 letter=f name=Lantern (0 turns) tval=19 sval=2 timeout=0
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=wf
+WEAR slot=5 name=&amp; Lantern~ timeout=0
+DECISION MAINTAIN need=1 keys=2 sequence=wf
+DECISION WEAR slot=5 name=&amp; Lantern~ timeout=0
+LIGHT bi_light=0
+WORN name=&amp; Lantern~ timeout=0
+REFUEL need=1 keys=2 sequence=Fb
+DECISION REFUEL need=1 keys=2 sequence=Fb
+STATE need=1 bi_light=0 worn_torch=0 worn_lantern=1
+OUTCOME need=1 bi_light=0
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="torchonly"><p class="summary">No lantern at all: both variants wield the torch. The complete logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the light-maintenance decision: @ = the Borg</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the light-maintenance decision: @ = the Borg</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">2</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000</pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">2</div><p>the Borg&#x27;s fuel-aware light radius after the maintenance action (BI_LIGHT)</p><p>Scenario check: <strong>passed</strong></p><pre>DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000</pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=torchonly class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we
+WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000
+DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000
+LIGHT bi_light=2
+STATE need=1 bi_light=2 worn_torch=1 worn_lantern=0
+OUTCOME need=1 bi_light=2
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/lantern-657: starting...
+SETUP seed=657 mode=torchonly class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we
+WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000
+DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=&amp; Wooden Torch~ timeout=4000
+LIGHT bi_light=2
+STATE need=1 bi_light=2 worn_torch=1 worn_lantern=0
+OUTCOME need=1 bi_light=2
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, level 20 (experience forced), depth 5 in a synthetic open lit arena (SQUARE_GLOW everywhere, so sight is not light-limited). The birth kit&#x27;s torches are dropped: the light slot starts empty in every mode, which is the recorded situation. Pack contents per mode; a torch in the pack always burns (the engine destroys torches at zero turns). The borg is initialized with the production borg_init()/borg_equipment()/borg_inventory()/borg_notice() sequence and the arrival borg_update() pass. The measured decision is borg_maintain_light() itself; the queued wield is then performed through the production inven_wield() so BI_LIGHT - the borg&#x27;s fuel-aware light radius, which credits a fuel-dependent light only when its timeout is non-zero - reflects the action.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/657">issue 657</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>

@@ -1,0 +1,43 @@
+native-c/lantern-657: starting...
+SETUP seed=657 mode=torchonly class=Warrior clevel=20 hp=216 depth=5
+PACK slot=0 letter=a name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=1 letter=b name=Rations of Food tval=28 sval=5 timeout=0
+PACK slot=2 letter=c name=Potion of Berserk Strength tval=26 sval=26 timeout=0
+PACK slot=3 letter=d name=Scroll of Word of Recall tval=25 sval=24 timeout=0
+PACK slot=4 letter=e name=Wooden Torch (4000 turns) tval=19 sval=1 timeout=4000
+PACK light_slot name= timeout=0
+  light_maintenance_wields_a_producing_light  MAINTAIN need=1 keys=2 sequence=we
+WEAR slot=4 name=& Wooden Torch~ timeout=4000
+DECISION MAINTAIN need=1 keys=2 sequence=we
+DECISION WEAR slot=4 name=& Wooden Torch~ timeout=4000
+LIGHT bi_light=2
+STATE need=1 bi_light=2 worn_torch=1 worn_lantern=0
+OUTCOME need=1 bi_light=2
+MAP After the light-maintenance decision: @ = the Borg
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/lantern-657 finished: 1/1 passed

@@ -1,0 +1,149 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "d149c192c0e8aeb9b2375f161fb81d964940bc79",
+  "fixtures_ref": "470528286648c592955ee61866315840647deace",
+  "cases": {
+    "before": {
+      "torchpref": {
+        "exit": 0,
+        "passed": false
+      },
+      "no_false_need": {
+        "exit": 0,
+        "passed": false
+      },
+      "fueledlantern": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 3,
+          "worn_torch": 0,
+          "worn_lantern": 1
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 3
+        }
+      },
+      "spentlantern_oil": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 0,
+          "worn_torch": 0,
+          "worn_lantern": 1
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 0
+        }
+      },
+      "torchonly": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 2,
+          "worn_torch": 1,
+          "worn_lantern": 0
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 2
+        }
+      }
+    },
+    "after": {
+      "torchpref": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 2,
+          "worn_torch": 1,
+          "worn_lantern": 0
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 2
+        }
+      },
+      "no_false_need": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "need": 2,
+          "bi_light": 0,
+          "worn_torch": 0,
+          "worn_lantern": 0
+        },
+        "outcome": {
+          "need": 2,
+          "bi_light": 0
+        }
+      },
+      "fueledlantern": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 3,
+          "worn_torch": 0,
+          "worn_lantern": 1
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 3
+        }
+      },
+      "spentlantern_oil": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 0,
+          "worn_torch": 0,
+          "worn_lantern": 1
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 0
+        }
+      },
+      "torchonly": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "need": 1,
+          "bi_light": 2,
+          "worn_torch": 1,
+          "worn_lantern": 0
+        },
+        "outcome": {
+          "need": 1,
+          "bi_light": 2
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "fueledlantern",
+    "spentlantern_oil",
+    "torchonly"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "966/966",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "966/966",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-light.c": "da87e337beb6e8a2519b21d944e957897478526990f9266110aac599e3f2c2b8"
+  }
+}
