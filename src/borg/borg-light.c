@@ -651,9 +651,32 @@ enum borg_need borg_maintain_light(void)
         }
         return BORG_NO_NEED;
     } else {
-        i = borg_slot(TV_LIGHT, sv_light_lantern);
-        if (i < 0) {
+        /* Prefer a light source that is actually producing light.
+         * A spent lantern gives no light, and once it is worn the
+         * refuel branch above has no fuel left to offer, which
+         * locks out a perfectly good torch. */
+        for (i = 0; i < z_info->pack_size; i++) {
+            borg_item *item = &borg_items[i];
+
+            if (!item->iqty || !item->aware)
+                continue;
+            if (item->tval != TV_LIGHT
+                || item->sval != sv_light_lantern)
+                continue;
+            if (of_has(item->flags, OF_NO_FUEL) || item->timeout > 0)
+                break;
+        }
+        if (i >= z_info->pack_size) {
+            /* No producing lantern: torches never arrive spent. */
             i = borg_slot(TV_LIGHT, sv_light_torch);
+            if (i < 0) {
+                /* A spent lantern is only worth wearing if oil can
+                 * light it.  A fueled lantern would already have
+                 * been taken above. */
+                i = borg_slot(TV_LIGHT, sv_light_lantern);
+                if (i >= 0 && borg_slot(TV_FLASK, sv_flask_oil) < 0)
+                    i = -1;
+            }
         }
 
         if (i < 0) {
