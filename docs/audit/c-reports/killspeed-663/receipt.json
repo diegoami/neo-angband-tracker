@@ -1,0 +1,242 @@
+{
+  "issue": "diegoami/neo-angband-tracker#663",
+  "report": "killspeed-663",
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "91285793b7bc08d866c71884a223635ef28ce473",
+  "fix_branch": "killspeed-663",
+  "fixtures_ref": "a7360ad8248eb7a6ad89bd224fc3b976ecc77a34",
+  "cases": {
+    "hasted_new": {
+      "before": {
+        "passed": false,
+        "state": {
+          "tracked": 110,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 120
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "tracked": 120,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 1
+        },
+        "outcome": {
+          "tracked": 120,
+          "net": 120
+        }
+      }
+    },
+    "hasted_refresh": {
+      "before": {
+        "passed": false,
+        "state": {
+          "tracked": 110,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 120
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "tracked": 120,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 1
+        },
+        "outcome": {
+          "tracked": 120,
+          "net": 120
+        }
+      }
+    },
+    "slowed": {
+      "before": {
+        "passed": false,
+        "state": {
+          "tracked": 110,
+          "net": 106,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 106
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "tracked": 106,
+          "net": 106,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 106,
+          "net": 106
+        }
+      }
+    },
+    "persists_offscreen": {
+      "before": {
+        "passed": false,
+        "state": {
+          "tracked": 110,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 120
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "tracked": 120,
+          "net": 120,
+          "player": 110,
+          "faster_than_me": 1
+        },
+        "outcome": {
+          "tracked": 120,
+          "net": 120
+        }
+      }
+    },
+    "plain": {
+      "before": {
+        "passed": true,
+        "state": {
+          "tracked": 110,
+          "net": 110,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 110
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "tracked": 110,
+          "net": 110,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 110
+        }
+      }
+    },
+    "expired": {
+      "before": {
+        "passed": true,
+        "state": {
+          "tracked": 110,
+          "net": 110,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 110
+        }
+      },
+      "after": {
+        "passed": true,
+        "state": {
+          "tracked": 110,
+          "net": 110,
+          "player": 110,
+          "faster_than_me": 0
+        },
+        "outcome": {
+          "tracked": 110,
+          "net": 110
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "plain",
+    "expired"
+  ],
+  "claim": "The tracked monster speed is now the observed net speed the engine actually grants energy on: +10 under a visible Haste, -2 x effect level under a visible Slow, on both the new-record and the existing-record path, persisting as the last defensible observation when the monster goes out of sight. On the base commit the tracked speed stayed at the base mspeed in every one of those cases, so the danger energy and the kill->speed > BI_SPEED retreat and chooser gates priced a hasted pursuer as slower than it is. The no-timed-state and expired-haste readings are unchanged (byte-identical controls).",
+  "full_tests": {
+    "before": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    },
+    "after": {
+      "unit_checks": "966/966",
+      "frontend_tests": "5/5"
+    }
+  },
+  "fixed_sources": [
+    "src/borg/borg-flow-kill.c"
+  ],
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "7d977e04952b97e60d63580c39391e7cc7f5d2433ad98bfde370e08d9d89680f"
+  },
+  "runner_asserts": "Each corrected file must equal the base file with exactly the expected hunk; the source scope must be exactly those files; every case must match its expected before/after pass state and every control log must be byte-identical.",
+  "compiler": "cc (Ubuntu 15.2.0-16ubuntu1) 15.2.0",
+  "cmake": "cmake version 4.2.3",
+  "browser_verification": {
+    "tool": "Playwright Chromium headless on the committed replay.html",
+    "checks": 44,
+    "console_errors": 0,
+    "node_check": "generated replay script passes node --check"
+  },
+  "run_log": "matrix exit 0; VERIFIED line in reproduce output",
+  "sha256": {
+    "README.md": "94dcc922c9a04b3b651db430860e642313ffcaaa925a38abe67292968d9f9c72",
+    "after-expired.log": "6f87e96c483364d4c8bedd829f61996d1973eb2df402c63859a5ff1d8d58fc74",
+    "after-hasted_new.log": "8d09be0c60965d3fd9eabb3e1cdc1216c53f4cb4b5ff4ad9d48cc53dd3301f00",
+    "after-hasted_refresh.log": "ba5f29cf1daa16fe353bbb49e873cd7cbb48bd9eb34eb1601888a339d71a6795",
+    "after-persists_offscreen.log": "caea1528d0dc94a59669e2bcd9c2e243108cb21cc3b398bc0567087021dc5464",
+    "after-plain.log": "28d188127323bbef7ba0f9a926d1b674a8b75b86ce043a70ded5019a0af0abec",
+    "after-results.json": "ee03df54af47789f3350b64d1a323813e37abdde30541224512e4df95fdf480b",
+    "after-slowed.log": "e9265252a7f74782b9e645b509786e7dab900e0bfcd7574be27f8c870b4b496b",
+    "before-expired.log": "6f87e96c483364d4c8bedd829f61996d1973eb2df402c63859a5ff1d8d58fc74",
+    "before-hasted_new.log": "b7f1677e509af1133ee2849aefcd605c54749de67f3e2e07ac3fef6536317915",
+    "before-hasted_refresh.log": "55c3dda71c189100a727a02fe1174710c6ddbc5cf2b56b77f7eef81528f9f139",
+    "before-persists_offscreen.log": "9ef2366be1b5a94dea705e287ad02e6143a30531f897c6ad184c926fef74e425",
+    "before-plain.log": "28d188127323bbef7ba0f9a926d1b674a8b75b86ce043a70ded5019a0af0abec",
+    "before-results.json": "580e7d63852ccac0484691108b32d0482f6263f4f3e1e6b2a7c8e4ee710a0276",
+    "before-slowed.log": "fc1481b22b68796188a5799770ba667bf18187dafdb9853830973ee5250534e4",
+    "borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "make_replay.py": "b21d3d6eaaa2495b21733697e4cbd85c376fac8efd81ecafe42d82a53199a4c8",
+    "profile/borg.txt": "ffd2a2dc635bd7afd08e5cfa4dcaf5c039eb01774ba83ce462ceac846477c57c",
+    "replay-data.json": "6a9228aba0bed98cf4c57863e3692d4015aead6624257c6674e9693dbab32528",
+    "replay.html": "8548f41433b625f66640033a10d3ccd04e8b6ab02779e3d4153a269817ca3e50",
+    "reproduce.py": "d0dc59afea503c42bff4586d54603a521bb8341ffb8ac220dee077ab6404d83c",
+    "result.json": "49697c4330c85ea4931f99bfde3dfb5f5dbed32ee7b42a24106b0c6c4a4b949a",
+    "run-after-alltests.log": "d98315c34991e4377d0a00eb1671b07bb1a4cc12322fd209491eeb358056b735",
+    "run-after-build.log": "b19007a5d7af5382b225387aa126fb72fe54d4982545ed7b69e8773762c9f2ac",
+    "run-after-scenarios.log": "2c238e71f3616b8f0faf8f06ccc31e81c0c1094abf368479731472517c6a03bb",
+    "run-before-alltests.log": "7495e026924494fbbdfceb6b80c2b33eec34c00fbef26cf513287ea0d9400704",
+    "run-before-build.log": "4b9dd82306db93ff8e2fbec03a79c342d78e535d9ad982b49d471258e083b137",
+    "run-before-scenarios.log": "d35a563e497274d55a3fdf4f7dc493378e3cc9a7be747d55fc9eb2b0b4e054c8",
+    "run-cases.py": "f12615e1d65e4e0ac2510d01ba50148e6bba283b91d8914de07225193608917e",
+    "run-configure.log": "ef2dc74e3598be9a9d56e1474552280bb94ca06930408a2f5a6a1221f43524a6",
+    "scenario.c": "3e8774f38fb3d90e97112e996502db5b39afe64580bdbe8dd569651950a03ccb"
+  }
+}

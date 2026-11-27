@@ -1,0 +1,86 @@
+{
+  "hasted_new": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "tracked": 110,
+      "net": 120,
+      "player": 110,
+      "faster_than_me": 0
+    },
+    "outcome": {
+      "tracked": 110,
+      "net": 120
+    }
+  },
+  "hasted_refresh": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "tracked": 110,
+      "net": 120,
+      "player": 110,
+      "faster_than_me": 0
+    },
+    "outcome": {
+      "tracked": 110,
+      "net": 120
+    }
+  },
+  "slowed": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "tracked": 110,
+      "net": 106,
+      "player": 110,
+      "faster_than_me": 0
+    },
+    "outcome": {
+      "tracked": 110,
+      "net": 106
+    }
+  },
+  "persists_offscreen": {
+    "exit": 0,
+    "passed": false,
+    "state": {
+      "tracked": 110,
+      "net": 120,
+      "player": 110,
+      "faster_than_me": 0
+    },
+    "outcome": {
+      "tracked": 110,
+      "net": 120
+    }
+  },
+  "plain": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "tracked": 110,
+      "net": 110,
+      "player": 110,
+      "faster_than_me": 0
+    },
+    "outcome": {
+      "tracked": 110,
+      "net": 110
+    }
+  },
+  "expired": {
+    "exit": 0,
+    "passed": true,
+    "state": {
+      "tracked": 110,
+      "net": 110,
+      "player": 110,
+      "faster_than_me": 0
+    },
+    "outcome": {
+      "tracked": 110,
+      "net": 110
+    }
+  }
+}

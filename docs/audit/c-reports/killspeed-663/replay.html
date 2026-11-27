@@ -1,0 +1,689 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Danger and retreat comparisons use monster speed before Haste and Slow</title><style>body{margin:0;background:#f4f1ea;color:#253a3c;font:18px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:32px 24px}h1{font-size:38px;line-height:1.2}h2{font-size:24px}.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}.card{background:white;border:1px solid #cbd6d0;border-radius:12px;padding:24px;margin:18px 0}.cards .card{border-top:6px solid #648e80}.num{font-size:34px;font-weight:750}.summary{background:#e6eee6;padding:20px;border-left:5px solid #377367}.hidden{display:none}button,select{font:inherit;padding:6px 14px;margin:4px 8px 4px 0}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:13px/1.5 monospace;max-height:330px;overflow:auto}details{background:white;padding:20px;margin:20px 0}summary{font-weight:700;cursor:pointer}figure{margin:0}figcaption{font-size:15px;color:#4a5d5f;margin:6px 0}pre.map{white-space:pre;overflow:auto;max-height:none;font:15px/1.15 ui-monospace,Consolas,monospace;background:#11181c;color:#c9d3d6;padding:12px;border-radius:8px;width:max-content;max-width:100%}pre.map .me{color:#ffd54a;font-weight:700}pre.map .mon{color:#ff7b6b;font-weight:700}pre.map .mark{color:#5ee08a;font-weight:700}pre.map .wall{color:#7d8b90}.maps .card{padding:16px}.legend{font-size:15px;color:#4a5d5f}@media(max-width:650px){.cards{grid-template-columns:1fr}h1{font-size:28px}}</style><main><p>Recorded native C runs, original and corrected source</p><h1>Danger and retreat comparisons use monster speed before Haste and Slow</h1><p>The C tracker copies the monster&#x27;s base mspeed into kill-&gt;speed on both tracking paths, and the danger calculation turns that value into an energy rate while the retreat logic compares it with the player&#x27;s speed. The engine, before giving a monster energy, adds 10 for a hasted monster and subtracts twice the Slow effect level from a slowed one - so a visibly hasted monster outran the borg sooner than the danger and retreat comparisons predict, and the borg&#x27;s own Slow spell bought no credit.</p><p><label>Scenario: <select id="scenario"><option value="hasted_new">A monster hasted when first seen (new-record path)</option><option value="hasted_refresh">Haste arriving after the first sighting (existing-record path)</option><option value="slowed">A slowed monster</option><option value="persists_offscreen">The hasted eye goes out of sight</option><option value="plain">Control: no timed effect</option><option value="expired">Control: the haste expires before the sighting</option></select></label></p><section class="scenario" data-mode="hasted_new"><p class="summary">A visible floating eye under Monster Haste stands three grids east; the production screen scan creates its record. The original tracks the base speed (110) although the engine grants the hasted eye 120 - the energy input for the danger math and the retreat gate is wrong from birth. The corrected borg tracks 120, and the eye&#x27;s own-grid danger rises accordingly (200 to 400).</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; e = the floating eye; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">110</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">120</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=hasted_new class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=1 slow=0 net=120 tracked=110 passes=1
+STATE tracked=110 net=120 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=110
+OUTCOME tracked=110 net=120
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Failed
+    native-c/killspeed-663:265: requirement &#x27;kill-&gt;speed == net&#x27; failed
+native-c/killspeed-663 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=hasted_new class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=1 slow=0 net=120 tracked=120 passes=1
+STATE tracked=120 net=120 player=110 faster_than_me=1
+DANGER at_eye=400 tracked_speed=120
+OUTCOME tracked=120 net=120
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/killspeed-663 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="hasted_refresh"><p class="summary">The eye is first seen plain (both track 110), then hasted; the refresh pass must pick the timed state up. The original keeps 110; the corrected borg tracks 120 on the existing-record path.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; e = the floating eye; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">110</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">120</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=hasted_refresh class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=1 slow=0 net=120 tracked=110 passes=2
+STATE tracked=110 net=120 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=110
+OUTCOME tracked=110 net=120
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Failed
+    native-c/killspeed-663:265: requirement &#x27;kill-&gt;speed == net&#x27; failed
+native-c/killspeed-663 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=hasted_refresh class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=1 slow=0 net=120 tracked=120 passes=2
+STATE tracked=120 net=120 player=110 faster_than_me=1
+DANGER at_eye=400 tracked_speed=120
+OUTCOME tracked=120 net=120
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/killspeed-663 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="slowed"><p class="summary">The eye under Monster Slow (one effect level): the engine takes 2 x level from its 110 base, net 106. The original tracks 110 - the borg&#x27;s own Slow spell bought no credit. The corrected borg tracks 106.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; e = the floating eye; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">110</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">106</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=slowed class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=0 slow=1 net=106 tracked=110 passes=1
+STATE tracked=110 net=106 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=110
+OUTCOME tracked=110 net=106
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Failed
+    native-c/killspeed-663:265: requirement &#x27;kill-&gt;speed == net&#x27; failed
+native-c/killspeed-663 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=slowed class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=0 slow=1 net=106 tracked=106 passes=1
+STATE tracked=106 net=106 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=106
+OUTCOME tracked=106 net=106
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/killspeed-663 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="persists_offscreen"><p class="summary">The hasted eye is observed once (net 120) and then leaves sight. The corrected borg keeps the last defensible observation (120) instead of falling back to the base speed; the original never had it (110).</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; e = the floating eye; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">110</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>failed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">120</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=persists_offscreen class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=1 slow=0 net=120 tracked=110 passes=2
+STATE tracked=110 net=120 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=110
+OUTCOME tracked=110 net=120
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Failed
+    native-c/killspeed-663:265: requirement &#x27;kill-&gt;speed == net&#x27; failed
+native-c/killspeed-663 finished: 0/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=persists_offscreen class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=1 slow=0 net=120 tracked=120 passes=2
+STATE tracked=120 net=120 player=110 faster_than_me=1
+DANGER at_eye=400 tracked_speed=120
+OUTCOME tracked=120 net=120
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/killspeed-663 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="plain"><p class="summary">The eye at its base speed with no timed state: both variants track 110. The complete logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; e = the floating eye; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">110</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">110</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=plain class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=0 slow=0 net=110 tracked=110 passes=1
+STATE tracked=110 net=110 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=110
+OUTCOME tracked=110 net=110
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/killspeed-663 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=plain class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=0 slow=0 net=110 tracked=110 passes=1
+STATE tracked=110 net=110 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=110
+OUTCOME tracked=110 net=110
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/killspeed-663 finished: 1/1 passed
+</pre></div></section><section class="scenario hidden" data-mode="expired"><p class="summary">The eye is seen with no timed effect (an expired haste reads exactly like none): both variants track 110. The complete logs are byte-identical.<br><strong>Unchanged control:</strong> both logs are byte-identical.</p><div class="cards maps"><section class="card original"><h2>Original</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section><section class="card corrected"><h2>Corrected</h2><figure><figcaption>After the tracking passes: @ = the Borg, e = the floating eye</figcaption><pre class="map"><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>...................<span class="me">@</span>..<span class="mon">e</span>...............<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span>......................................<span class="wall">#</span>
+<span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span><span class="wall">#</span></pre></figure></section></div><p class="legend">@ = the Borg; e = the floating eye; # granite; . lit floor</p><button class="show-decision">Show decision</button><button class="show-log">Show raw logs</button><div class="cards decision hidden"><section class="card original"><h2>Original</h2><div class="num">110</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section><section class="card corrected"><h2>Corrected</h2><div class="num">110</div><p>the monster speed the borg tracks (kill-&gt;speed, the energy input for the danger math and the retreat comparisons)</p><p>Scenario check: <strong>passed</strong></p><pre></pre></section></div><div class="logs hidden"><h3>Original</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=expired class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=0 slow=0 net=110 tracked=110 passes=1
+STATE tracked=110 net=110 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=110
+OUTCOME tracked=110 net=110
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/killspeed-663 finished: 1/1 passed
+</pre><h3>Corrected</h3><pre>native-c/killspeed-663: starting...
+SETUP seed=663 mode=expired class=Warrior clevel=20 hp=238 p_speed=110 depth=5
+  tracked_speed_matches_observed_timed_state  SPEED race=floating eye base=110 fast=0 slow=0 net=110 tracked=110 passes=1
+STATE tracked=110 net=110 player=110 faster_than_me=0
+DANGER at_eye=200 tracked_speed=110
+OUTCOME tracked=110 net=110
+MAP After the tracking passes: @ = the Borg, e = the floating eye
+MAPROW ########################################
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #...................@..e...............#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW #......................................#
+MAPROW ########################################
+MAPEND
+Passed
+native-c/killspeed-663 finished: 1/1 passed
+</pre></div></section><details><summary>Experiment conditions and limits</summary><p>Native Human Warrior, level 20 (experience forced), depth 5 in a synthetic open lit arena, a wooden torch as the only light, infravision 0. A visible stock floating eye (base mspeed 110) three grids east, awake and out of melee reach. The timed states are applied through the production mon_inc_timed(); the eye is observed by real production borg_update() passes - the first creates the kill record (borg_update_kill_new), a later pass refreshes it (borg_update_kill_old). The expected net speed is computed in the fixture from the live monster with the engine&#x27;s own formula (mspeed + 10 hasted; mspeed - 2 x monster_effect_level(MON_TMD_SLOW) slowed), so the assertion does not hardcode numbers. The off-screen mode clears MFLAG_VISIBLE so the production scan can no longer read the monster.</p></details><p>Canonical report: <a href="https://github.com/diegoami/neo-angband-tracker/issues/663">issue 663</a>.</p></main><script>var sel=document.getElementById("scenario");function show(){var m=sel.value;document.querySelectorAll(".scenario").forEach(function(s){s.classList.toggle("hidden",s.getAttribute("data-mode")!==m);});}sel.addEventListener("change",show);document.querySelectorAll(".show-decision").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".decision").classList.remove("hidden");});});document.querySelectorAll(".show-log").forEach(function(b){b.addEventListener("click",function(){b.parentNode.querySelector(".logs").classList.remove("hidden");});});show();</script></html>
