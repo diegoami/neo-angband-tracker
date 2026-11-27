@@ -1,0 +1,9 @@
+native-c/killslot-656: starting...
+SETUP seed=656 mode=upper_edge class=Warrior clevel=20 hp=218 depth=5
+  full_table_steal_stays_in_active_range  TABLE full=1 nxt=255 cnt=254
+NEWSLOT slot=255 next=255 count=255 visited=254 max_active=254
+STATE slot=255 count=255 in_scan=0
+LINK grid_kill=255 resolves=1
+Failed
+    native-c/killslot-656:306: requirement 'eye_slot >= 1 && eye_slot <= 254' failed
+native-c/killslot-656 finished: 0/1 passed

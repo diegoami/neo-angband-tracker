@@ -1,0 +1,81 @@
+{
+  "base": "574b618c3bfec595f3503a58f8e488b1c4ae3a46",
+  "fix": "2939fb2d914cc31595a568fd52f9236982676081",
+  "fixtures_ref": "c0f33f9e5d523d0e2caca60a05cf38351f1050f8",
+  "cases": {
+    "before": {
+      "upper_edge": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "slot": 255,
+          "count": 255,
+          "in_scan": 0
+        }
+      },
+      "slot_one": {
+        "exit": 0,
+        "passed": false,
+        "state": {
+          "slot": 2,
+          "count": 254,
+          "in_scan": 1
+        }
+      },
+      "ordinary": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "slot": 1,
+          "count": 1,
+          "in_scan": 1
+        }
+      }
+    },
+    "after": {
+      "upper_edge": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "slot": 254,
+          "count": 254,
+          "in_scan": 1
+        }
+      },
+      "slot_one": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "slot": 1,
+          "count": 254,
+          "in_scan": 1
+        }
+      },
+      "ordinary": {
+        "exit": 0,
+        "passed": true,
+        "state": {
+          "slot": 1,
+          "count": 1,
+          "in_scan": 1
+        }
+      }
+    }
+  },
+  "identical_controls": [
+    "ordinary"
+  ],
+  "full_tests": {
+    "before": {
+      "units": "966/966",
+      "frontends": "5/5"
+    },
+    "after": {
+      "units": "966/966",
+      "frontends": "5/5"
+    }
+  },
+  "fixed_source_sha256": {
+    "src/borg/borg-flow-kill.c": "ddf3896e4bc66ed702e50bdf9434142adbba64f1109e70c71206558c877f1e33"
+  }
+}
