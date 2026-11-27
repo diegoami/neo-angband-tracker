@@ -101,9 +101,9 @@ static int mode_poison(void)
 {
     if (streq(mode, "lethal_cure") || streq(mode, "lethal_no_cure"))
         return 40;
-    if (streq(mode, "boundary") || streq(mode, "survivable"))
+    if (streq(mode, "survivable"))
         return 8;
-    return 0; /* unpoisoned */
+    return 0; /* unpoisoned; the boundary mode computes its timer */
 }
 
 int setup_tests(void **state)
@@ -148,8 +148,16 @@ int setup_tests(void **state)
     /* The recorded state: low HP, an active poison timer, and a Recall
      * already counting down (15..35 world turns in the engine). */
     player->chp = mode_hp();
-    if (mode_poison())
+    if (streq(mode, "boundary")) {
+        /* The exact edge: the pending damage (hp / decr turns of
+         * poison, decr = adj_con_fix(CON) + 1 like the engine) reaches
+         * the current HP on the last tick before lift-off. */
+        int decr = adj_con_fix[player->state.stat_ind[STAT_CON]] + 1;
+        player_set_timed(player, TMD_POISONED,
+                         mode_hp() * decr, false, false);
+    } else if (mode_poison()) {
         player_set_timed(player, TMD_POISONED, mode_poison(), false, false);
+    }
     player->word_recall = 20;
 
     borg_init();
@@ -159,11 +167,6 @@ int setup_tests(void **state)
     borg.ready_morgoth = 0;
     borg.time.level = borg.time.town = borg.time.now;
     borg_do_spell = true;
-    /* The recorded situation: the borg is fleeing the level and waiting
-     * for the Recall it started.  While fleeing, borg_caution skips the
-     * standing heal cascade and reaches the rest-for-Recall branch -
-     * exactly the path the recorded death took. */
-    borg.goal.fleeing = true;
     borg_equipment(); borg_inventory(); borg_notice(true);
     borg_alloc_detection();
     borg.avoidance = player->chp;
@@ -197,6 +200,13 @@ static int scenario_recall_wait(void *state)
     const char *seedenv = getenv("RP661_SEED");
 
     if (!borg.goal.recalling) { printf("SETUPFAIL recalling=%d\n", borg.goal.recalling); return 1; }
+
+    /* The recorded situation: the borg is fleeing the level and waiting
+     * for the Recall it started.  While fleeing, borg_caution skips the
+     * standing heal cascade and reaches the rest-for-Recall branch -
+     * exactly the path the recorded death took.  (The arrival update
+     * resets the fleeing goal, so it is staged here, after that pass.) */
+    borg.goal.fleeing = true;
 
     /* Pin the paranoia roll inside the heal cascade so the cure
      * decision is deterministic (the roll is a production behaviour:
