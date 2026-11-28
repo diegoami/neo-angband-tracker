@@ -192,9 +192,10 @@ static int borg_thrust_damage_one(int i)
     if (dam <= 0)
         dam = 1;
 
-    /* Limit damage to twice maximal hitpoints */
-    if (dam > kill->power * 2 && !rf_has(r_ptr->flags, RF_UNIQUE))
-        dam = kill->power * 2;
+    /* Limit damage to twice maximal hitpoints; a monster at 0 hp is
+     * still alive */
+    if (dam > MAX(kill->power, 1) * 2 && !rf_has(r_ptr->flags, RF_UNIQUE))
+        dam = MAX(kill->power, 1) * 2;
 
     /*
      * Reduce the damage if a mage, they should not melee if they can avoid it
@@ -1141,9 +1142,10 @@ static int borg_launch_damage_one(int i, int dam, int typ, int ammo_location)
         || typ == BORG_ATTACK_AWAY_ALL_MORGOTH)
         return dam;
 
-    /* Limit damage to twice maximal hitpoints */
-    if (dam > kill->power * 2 && !rf_has(r_ptr->flags, RF_UNIQUE))
-        dam = kill->power * 2;
+    /* Limit damage to twice maximal hitpoints; a monster at 0 hp is
+     * still alive */
+    if (dam > MAX(kill->power, 1) * 2 && !rf_has(r_ptr->flags, RF_UNIQUE))
+        dam = MAX(kill->power, 1) * 2;
 
     /* give a small bonus for whacking a unique */
     /* this should be just enough to give preference to whacking uniques */
@@ -1308,7 +1310,7 @@ static int borg_launch_bolt_aux_hack(int i, int dam, int typ, int ammo_location)
     /* Avoid waking most "hard" sleeping monsters
      * !FIX !TODO: Combine similar checks in one place
      */
-    if (!kill->awake && (p2 > borg.avoidance / 2) && (d < kill->power)
+    if (!kill->awake && (p2 > borg.avoidance / 2) && (d <= kill->power)
         && !borg.munchkin_mode) {
         return (-999);
     }
@@ -1327,8 +1329,8 @@ static int borg_launch_bolt_aux_hack(int i, int dam, int typ, int ammo_location)
     /* Calculate "danger" to player */
     p1 = borg_danger_one_kill(borg.c.y, borg.c.x, 1, i, true, false);
 
-    /* Extra "bonus" if attack kills */
-    if (d >= kill->power)
+    /* Extra "bonus" if attack kills (a monster dies below 0 hp) */
+    if (d > kill->power)
         d = 2 * d;
 
     /* Add in dangers */
